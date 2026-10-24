@@ -10,8 +10,15 @@ Elle vise à remplacer la gestion du parc informatique sous Excel par un outil c
 
 ## Documentation
 
+Le sujet et les réponses du client constituent les sources de référence pour l’analyse et la conception du projet. Pour chaque sujet, la dernière réponse remplace les précédentes ; les comptes rendus d’entretiens en conservent l’historique et le cadrage présente les réponses en vigueur. La documentation suit cet ordre : consignes du sujet, questions de cadrage, comptes rendus des entretiens, puis diagrammes.
+
 - [Consignes du projet](docs/01-CONSIGNES.md) : besoin, périmètre fonctionnel, livrables et critères d’évaluation.
-- [Questions de cadrage](docs/02-CADRAGE.md) : questions à traiter avec le commanditaire avant de définir l’architecture et le backlog.
-- [Diagramme de contexte](docs/03-DIAGRAMME-CONTEXTE.md) : acteurs, systèmes externes et principaux échanges autour d’ASTER.
-- [Diagramme d’activité](docs/04-DIAGRAMME-ACTIVITE.md) : parcours métier principal, de la connexion à la restitution des résultats.
+- [Questions de cadrage](docs/02-CADRAGE.md) : réponses en vigueur et questions encore ouvertes pour préparer l’architecture et le backlog.
+- [Compte rendu des entretiens de cadrage](docs/03-COMPTE-RENDU-ENTRETIENS.md) : trace historique des échanges des 22 et 23 octobre.
+- [Diagramme de contexte](docs/04-DIAGRAMME-CONTEXTE.md) : acteurs, systèmes externes et principaux échanges autour d’ASTER.
+- [Diagrammes d’activité](docs/05-DIAGRAMME-ACTIVITE.md) : parcours général selon les droits, signalement avec génération du PDF et supervision simulée des processus.
 - [Direction artistique](da/apercu.html) : identité visuelle, palette, icônes métier et animation de chargement.
+
+## Documents temporaires
+
+- [MCD Merise — brouillon v1](docs/temporaire/MCD-MERISE-BROUILLON-V1.png) : modèle de travail non finalisé.
