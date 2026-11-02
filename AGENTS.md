@@ -23,6 +23,8 @@ Ces instructions s'appliquent à l'ensemble du dépôt.
 
 ## Diagrammes et brouillons
 
+- Les fichiers Markdown consacrés aux diagrammes contiennent les diagrammes (blocs de code ou images intégrées) et les titres Markdown nécessaires pour les identifier et les organiser, sans paragraphe, liste, tableau, légende explicative ni note annexe. Les libellés nécessaires à la lecture restent dans le diagramme lui-même ; ne pas y déplacer les explications sous forme de commentaires ou de notes.
+- Conserver les définitions dans le glossaire, les réponses et questions dans le cadrage, les contraintes confirmées dans les règles de gestion et les consignes de représentation dans les instructions de travail. Avant de retirer un texte d'un fichier de diagramme, vérifier que son information est couverte par le document de référence approprié et y transférer les précisions encore pertinentes qui manquent.
 - Consigne actuelle : ne pas modifier le contenu des premiers diagrammes de contexte et d'activité tant que l'utilisateur n'en demande pas la mise à jour. Leur renommage pour corriger l'ordre documentaire doit préserver leur contenu.
 - Les diagrammes devront suivre les dernières réponses du client lors de leur mise à jour autorisée. Le maintien provisoire des premiers diagrammes ne remet pas en question les réponses en vigueur dans le cadrage.
 - Placer les documents de travail non finalisés dans `docs/temporaire/`, avec un nom indiquant clairement leur statut de brouillon et leur version si elle est connue.
@@ -30,6 +32,8 @@ Ces instructions s'appliquent à l'ensemble du dépôt.
 
 ## Vérifications avant livraison
 
+- Pour le recueil du besoin, la rédaction, la synchronisation ou l'audit documentaire, utiliser le skill local [aster-documentation](.agents/skills/aster-documentation/SKILL.md). Ses modèles sont des aides de rédaction, pas des exigences validées.
+- Exécuter le vérificateur structurel décrit dans le README pour les changements documentaires concernés. Compléter ce contrôle par une relecture des sources et du sens métier ; signaler séparément les défauts préexistants.
 - Vérifier la cohérence du classement, de la numérotation et du sommaire.
 - Vérifier les liens locaux des documents modifiés et rechercher les références aux anciens noms après un renommage.
 - Vérifier que les documents hors du périmètre demandé et les modifications préexistantes de l'utilisateur sont préservés.

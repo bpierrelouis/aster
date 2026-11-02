@@ -1,0 +1,4 @@
+interface:
+  display_name: "Documentation ASTER"
+  short_description: "Rédiger et vérifier la documentation ASTER"
+  default_prompt: "Utilise $aster-documentation pour traiter ma demande documentaire à partir des sources du projet."
