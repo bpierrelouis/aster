@@ -2,7 +2,7 @@
 
 ## 1. Présentation générale
 
-La DHRAT/PFORM souhaite disposer d’une application destinée aux écoles de formation afin de faciliter la gestion de leur matériel informatique et de leurs salles de formation.
+La DRHAT/PFORM souhaite disposer d’une application destinée aux écoles de formation afin de faciliter la gestion de leur matériel informatique et de leurs salles de formation.
 
 L’objectif principal est de remplacer une gestion actuellement réalisée à l’aide de fichiers Excel par un outil centralisé, fiable et adapté aux différents acteurs de la formation.
 
@@ -206,12 +206,12 @@ Les éléments ci-dessous proviennent uniquement du document d’organisation.
 
 ## 8. Répartition des coefficients
 
-| Domaine | Coefficient |
-|---|---:|
-| Analyse et gestion de projet | 5 |
-| Technique | 5 |
-| Présentation finale | 2 |
-| **Total** | **12** |
+| Domaine                      | Coefficient |
+| ---------------------------- | ----------: |
+| Analyse et gestion de projet |           5 |
+| Technique                    |           5 |
+| Présentation finale          |           2 |
+| **Total**                    |      **12** |
 
 ---
 

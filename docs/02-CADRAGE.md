@@ -1,6 +1,6 @@
 # Questions de cadrage du projet ASTER
 
-Ce document présente les questions de cadrage et les réponses en vigueur, issues des [entretiens des 22 et 23 octobre](03-COMPTE-RENDU-ENTRETIENS.md) et des précisions apportées ensuite par l’utilisateur. Pour chaque sujet, la dernière réponse remplace les précédentes. Les réponses antérieures restent applicables lorsqu’elles n’ont pas été remplacées ; les comptes rendus conservent uniquement la trace historique des échanges. Les questions marquées **P0** conditionnent directement la faisabilité ou l’estimation des développements.
+Ce document présente les questions de cadrage et les réponses en vigueur, issues des [entretiens des 22 et 23 octobre](03-COMPTE-RENDU-ENTRETIENS.md) et des réponses apportées ensuite directement par l’utilisateur. Les réponses datées du 2 novembre ont été fournies par l’utilisateur dans les échanges de cadrage et ne font pas partie des comptes rendus d’entretien. Pour chaque sujet, la dernière réponse remplace les précédentes. Les réponses antérieures restent applicables lorsqu’elles n’ont pas été remplacées ; les comptes rendus conservent uniquement la trace historique des entretiens. Les questions marquées **P0** conditionnent directement la faisabilité ou l’estimation des développements.
 
 **Légende :**
 
@@ -23,7 +23,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 - [x] **P0** ASTER doit-il couvrir une seule école ou plusieurs établissements ? — Précision de l’utilisateur du 24 octobre : ASTER doit pouvoir gérer plusieurs écoles à terme, mais cette capacité ne fait pas partie des attendus de la V1. La démonstration de la V1 porte sur une seule école.
 - [ ] Une administration centrale doit-elle avoir une vue sur l’ensemble des écoles ?
-- [x] Quelles entités doivent être représentées : organisme, école, site, bâtiment, étage, salle ou autre ? — Précision de l’utilisateur du 24 octobre : école, bâtiment et salle. Aucun niveau « étage » distinct n’est nécessaire : le code de la salle contient souvent le numéro de l’étage.
+- [x] Quelles entités doivent être représentées : organisme, école, site, bâtiment, étage, salle ou autre ? — **Réponse de l'utilisateur du 2 novembre :** les niveaux retenus sont l'école, le bâtiment et la salle. Aucun niveau « étage » distinct n'est nécessaire : le code de la salle contient souvent le numéro de l'étage. L'école, le bâtiment et la salle possèdent chacun un nom.
 - [ ] Une salle peut-elle dépendre de plusieurs services ou formations ?
 - [x] Faut-il gérer des salles temporaires, fermées ou indisponibles ? — 22 octobre, § 2.2 : pas de gestion des salles temporaires ou hors service.
 - [ ] Combien d’écoles, de salles, de postes et d’autres matériels sont concernés aujourd’hui ? — **Réponse partielle :** précision de l’utilisateur du 24 octobre : démonstration pour une école, deux bâtiments et six à huit salles par bâtiment. La possibilité d’ajout est prévue (22 octobre, § 2.1). Les volumes réels et les nombres de postes et matériels ne sont pas précisés.
@@ -31,6 +31,8 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 ## 3. Utilisateurs, rôles et responsabilités
 
 - [x] **P0** Quelles catégories d’utilisateurs utiliseront réellement l’application ? — Précision de l’utilisateur du 24 octobre : exactement trois types d’utilisateurs, administrateur, gestionnaire et formateur ; aucun compte stagiaire.
+- [x] À quelle organisation un utilisateur est-il rattaché ? — **Réponse de l'utilisateur du 2 novembre :** chaque utilisateur ASTER est rattaché à une école.
+- [ ] Le rattachement à une école limite-t-il les droits et les données accessibles ? — **Réponse partielle de l'utilisateur du 2 novembre :** le rattachement de chaque utilisateur à une école est confirmé ; son effet éventuel sur le périmètre des droits n'est pas précisé.
 - [x] Que recouvre précisément le terme « acteurs de la formation » ? — Précision de l’utilisateur du 24 octobre : expression générale issue du sujet, sans rôle supplémentaire dans ASTER. Seuls les profils administrateur, gestionnaire et formateur existent. ASTER ne gère pas les formations.
 - [x] Quelles actions un gestionnaire de matériel peut-il consulter, créer, modifier ou supprimer ? — 22 octobre, § 2.2 et 2.3 : gestion globale des stocks, affectation, création, consultation et modification des matériels ; pas de suppression.
 - [x] Quelles actions un administrateur de salle technique peut-il réaliser ? — 23 octobre, § 1.2 : l’administrateur dispose de tous les droits et peut réaliser toutes les actions.
@@ -48,15 +50,17 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 ## 4. Modèle du parc informatique
 
 - [x] **P0** Qu’est-ce qu’un « matériel » dans ASTER ? — Précision de l’utilisateur du 24 octobre : tout équipement informatique. Il n’existe pas de liste exhaustive des types à ce jour.
-- [ ] **P0** Quelle différence faut-il faire entre matériel, machine, unité centrale et poste ?
-- [ ] Un poste correspond-il à une unité centrale seule ou à un ensemble comprenant écran et périphériques ?
+- [x] **P0** Quelle différence faut-il faire entre matériel, machine, unité centrale et poste ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** dans le modèle conceptuel d'ASTER, le poste est une entité autonome de supervision des processus. Il est distinct du matériel d'inventaire et ne le spécialise pas. Cette réponse remplace la qualification précédente du poste comme matériel de type PC.
+- [ ] Un poste correspond-il à une unité centrale seule ou à un ensemble comprenant écran et périphériques ? — **Réponse partielle de l'utilisateur du 2 novembre :** cette composition n'intervient pas dans la supervision des processus et ne crée aucun lien conceptuel entre `POSTE` et `MATERIEL`. La granularité propre à l'inventaire reste à préciser.
 - [x] Quels types de matériels doivent être gérés dans la première version ? — Précision de l’utilisateur du 24 octobre : tous les équipements informatiques ; aucune liste exhaustive n’existe à ce jour. Les exemples cités lors des entretiens ne limitent pas le périmètre.
 - [x] Faut-il gérer les écrans, imprimantes, vidéoprojecteurs, commutateurs, bornes Wi-Fi et périphériques ? — Précision de l’utilisateur du 24 octobre : tous les équipements informatiques sont concernés, sans exclusion de type ; aucune liste exhaustive n’existe à ce jour.
 - [ ] Les équipements réseau font-ils partie de l’inventaire ou de la topologie technique ?
 - [ ] Peut-on créer de nouveaux types de matériels sans modifier l’application ?
 - [x] Quelles informations sont obligatoires pour chaque type de matériel ? — Précisions de l’utilisateur du 24 octobre : modèle, date de réception et statut obligatoires. L’identifiant interne est attribué et géré automatiquement par ASTER ; il est consultable, sans saisie par l’utilisateur. Le numéro de série est renseigné lorsqu’il existe et peut rester vide pour un matériel qui n’en possède pas. Le modèle est obligatoire et peut être une simple désignation du matériel, notamment pour un câble ; il ne désigne pas nécessairement une référence constructeur. La marque peut ne pas être renseignée, notamment pour un câble. Le statut est limité à « hors service : oui/non », avec « hors service : non » comme valeur par défaut à la création. La gestion de la garantie reste un bonus (23 octobre, § 1.1) ; seule sa date de fin est renseignée, sans date de début ni durée (précision de l’utilisateur du 24 octobre).
+- [ ] **P0** Comment représenter l'état « hors service » dans le MCD tout en excluant les attributs booléens : par une entité d'état, une association ou une autre valeur persistante ?
 - [x] Quel identifiant fait foi : numéro d’inventaire, numéro de série, étiquette interne ou autre ? — Précision de l’utilisateur du 24 octobre : identifiant interne unique attribué et géré automatiquement par ASTER, consultable mais non saisi par l’utilisateur. Le numéro de série constitue une information distincte, renseignée lorsqu’il existe.
 - [x] Un matériel peut-il posséder plusieurs identifiants ? — Précision de l’utilisateur du 24 octobre : chaque matériel possède un identifiant interne géré par l’application et peut aussi avoir un numéro de série lorsqu’il en possède un.
+- [ ] **P0** Les identifiants ajoutés à `ECOLE`, `BATIMENT`, `SALLE`, `UTILISATEUR`, `SIGNALEMENT` et `REGLE_PROCESSUS` sont-ils obligatoires, internes et uniques ?
 - [x] Faut-il gérer la marque, le modèle, le fournisseur, la date d’achat, la garantie et la valeur ? — Précisions de l’utilisateur du 24 octobre : modèle obligatoire, pouvant simplement désigner le matériel ; marque pouvant rester non renseignée, notamment pour un câble. Aucun fournisseur, aucune valeur et aucune date d’achat. La gestion de la garantie reste un bonus (23 octobre, § 1.1) ; seule sa date de fin est renseignée, sans date de début ni durée (précision de l’utilisateur du 24 octobre).
 - [ ] Faut-il gérer les caractéristiques techniques des machines ?
 - [x] Faut-il joindre des documents, photographies ou factures à une fiche matériel ? — 22 octobre, § 2.4 : aucun document associé à la fiche matériel.
@@ -65,9 +69,9 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 5. Localisation, affectation et cycle de vie
 
-- [x] **P0** Quel niveau de précision est attendu pour localiser un matériel ? — 22 octobre, § 2.2 : affectation à la salle, sans plan de salle.
-- [x] Faut-il représenter le site, le bâtiment, l’étage, la salle, le bureau, la baie ou le port réseau ? — Précision de l’utilisateur du 24 octobre : école, bâtiment et salle, sans niveau « étage » distinct ; le code de la salle contient souvent le numéro de l’étage. Le matériel est localisé à la salle, sans plan de salle (22 octobre, § 2.2).
-- [x] Un matériel peut-il être affecté à une personne plutôt qu’à une salle ? — Non. Le matériel est affecté à une salle, pas à une personne (réponse du client, rappelée par l’utilisateur le 24 octobre). Un matériel peut également être en stock sans localisation (22 octobre, § 2.4).
+- [x] **P0** Quel niveau de précision est attendu pour localiser un matériel ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** un matériel peut être rattaché directement à une école, un bâtiment ou une salle.
+- [x] Faut-il représenter le site, le bâtiment, l’étage, la salle, le bureau, la baie ou le port réseau ? — **Réponse de l'utilisateur du 2 novembre :** les niveaux retenus sont l'école, le bâtiment et la salle, sans niveau « étage » distinct ; le code de la salle contient souvent le numéro de l'étage. Un matériel peut être localisé à chacun de ces trois niveaux.
+- [x] Un matériel peut-il être affecté à une personne plutôt qu’à une salle ? — **Réponse de l'utilisateur du 2 novembre :** non. Un matériel est rattaché à une école, un bâtiment ou une salle, mais pas à une personne. Il peut également être en stock sans localisation.
 - [x] Un matériel peut-il appartenir à un stock sans localisation précise ? — 22 octobre, § 2.4 : un matériel peut être en stock sans localisation.
 - [x] Une affectation peut-elle être temporaire et comporter des dates de début et de fin ? — Non. Réponse du client du 22 octobre, rappelée par l’utilisateur le 24 octobre : « pas d’autres dates ». Aucune période d’affectation avec dates de début et de fin n’est à gérer.
 - [x] Qui peut déplacer un matériel ? — 22 octobre, § 2.3 : le gestionnaire affecte les matériels ; l’administrateur dispose de tous les droits.
@@ -113,7 +117,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Existe-t-il un référentiel officiel des applications métier ?
 - [ ] Faut-il relever le nom, la version, l’éditeur, la date d’installation et la licence ?
 - [ ] Faut-il distinguer les applications obligatoires, autorisées, tolérées et interdites ?
-- [ ] Les règles dépendent-elles de l’école, de la salle, du poste ou de la formation en cours ?
+- [x] Les règles dépendent-elles de l’école, de la salle, du poste ou de la formation en cours ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** les règles de processus peuvent être globales ou portées par une école, un bâtiment ou une salle. Elles ne sont portées ni par un poste ni par une formation.
 - [ ] Faut-il détecter les versions absentes, obsolètes ou non conformes ?
 - [ ] Faut-il conserver l’historique des logiciels installés ?
 - [ ] Qui peut modifier le référentiel des applications ?
@@ -144,44 +148,47 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 10. Supervision des postes
 
-- [x] **P0** Que signifie « superviser un poste » pour le commanditaire ? — 23 octobre, § 1.2 : consulter les processus lancés sur les postes d’une salle et permettre au formateur d’arrêter les processus utilisateur, hors processus système. La gestion des processus est simulée pour la démonstration (22 octobre, § 2.1).
-- [ ] **P0** La supervision doit-elle être en temps réel ou périodique ?
-- [ ] Quelles données doivent remonter depuis chaque poste ? — **Réponse partielle :** précision de l’utilisateur du 24 octobre : pour le moment, le nom de la session utilisateur et les processus lancés, hors processus internes. La question reste ouverte à la demande de l’utilisateur.
-- [ ] Faut-il connaître l’état en ligne ou hors ligne des machines ?
+- [x] **P0** Que signifie « superviser un poste » pour le commanditaire ? — **Réponse du 23 octobre, § 1.2, complétée par l'utilisateur le 2 novembre :** consulter les processus utilisateur des postes d'une salle, permettre leur arrêt manuel et appliquer automatiquement les règles de blacklist. Le formateur peut entrer dans toutes les salles, mais ne dispose pas d'une vue globale de supervision. La gestion des processus est simulée pour la démonstration (22 octobre, § 2.1).
+- [x] **P0** La supervision doit-elle être en temps réel ou périodique ? — **Réponse de l'utilisateur du 2 novembre :** supervision périodique actualisée toutes les cinq secondes.
+- [x] Quelles données doivent remonter depuis chaque poste ? — **Réponse de l'utilisateur du 2 novembre :** les processus internes sont exclus. Dans le MCD, `PROCESSUS` conserve uniquement un identifiant et un nom ; `POSTE` et `UTILISATEUR_SESSION` sont des entités distinctes reliées au processus par l'association ternaire `exécuter`. Cette association porte les dates de démarrage, de détection et d'arrêt. Les autres informations de supervision relèvent des traitements.
+- [ ] **P0** Quels identifiants et attributs persistants définissent `POSTE` et `UTILISATEUR_SESSION` ?
+- [ ] **P0** Un même processus peut-il être exécuté plusieurs fois par le même utilisateur de session sur le même poste ? Si oui, faut-il transformer `exécuter` en entité d'exécution identifiée afin de distinguer ces occurrences ?
+- [x] Faut-il connaître l’état en ligne ou hors ligne des machines ? — **Réponse de l'utilisateur du 2 novembre :** oui. Après trois remontées manquées, soit environ quinze secondes, le poste est considéré comme déconnecté ; il reste affiché dans sa salle sans processus.
 - [ ] Faut-il remonter les performances telles que CPU, mémoire, disque et réseau ?
 - [ ] Faut-il remonter l’état des services, applications ou périphériques ?
-- [ ] Quelle fréquence de collecte est nécessaire ?
-- [ ] Quelle ancienneté maximale d’une donnée est acceptable à l’écran ?
-- [ ] Faut-il conserver un historique des mesures ?
-- [ ] Pendant combien de temps cet historique doit-il être conservé ?
+- [x] Quelle fréquence de collecte est nécessaire ? — **Réponse de l'utilisateur du 2 novembre :** toutes les cinq secondes. Un léger décalage entre les postes et un recul progressif en cas d'erreur sont recommandés pour éviter des pics de charge simultanés.
+- [x] Quelle ancienneté maximale d’une donnée est acceptable à l’écran ? — **Réponse de l'utilisateur du 2 novembre :** cinq secondes pour un poste connecté ; après environ quinze secondes sans remontée, le poste passe à l'état déconnecté et ses processus ne sont plus affichés.
+- [x] Faut-il conserver un historique des mesures ? — **Réponse de l'utilisateur du 2 novembre :** oui pour les détections de processus blacklistés et non référencés. Les exécutions des processus de la whitelist ne sont pas historisées.
+- [ ] Pendant combien de temps cet historique doit-il être conservé ? — **Réponse partielle de l'utilisateur du 2 novembre :** l'historique des processus blacklistés et non référencés doit être conservé ; sa durée de conservation reste à confirmer.
+- [ ] **P0** Parmi les données exigées par RG-56, lesquelles doivent rester persistantes dans le MCD malgré l'exclusion des valeurs temporaires et calculées ?
 - [ ] ~~Un agent doit-il être installé sur les postes ?~~ — Sans objet pour la démonstration avec processus simulés (22 octobre, § 2.1). Le besoin d’un agent pour une supervision réelle reste à étudier au-delà de cette simulation.
 - [ ] ~~Si oui, qui déploie, configure et met à jour cet agent ?~~ — Sans objet pour la démonstration avec processus simulés (22 octobre, § 2.1) ; à rouvrir si un agent réel est prévu.
 - [ ] ~~Les postes peuvent-ils joindre le serveur ou le serveur doit-il contacter les postes ?~~ — Sans objet pour la collecte réelle des processus pendant la démonstration simulée (22 octobre, § 2.1) ; à rouvrir pour une supervision réelle.
-- [ ] Comment gérer un poste temporairement déconnecté ?
+- [x] Comment gérer un poste temporairement déconnecté ? — **Réponse de l'utilisateur du 2 novembre :** il reste visible dans sa salle, sans liste de processus.
 - [ ] La supervision doit-elle fonctionner sur plusieurs segments réseau isolés ?
 
 ## 11. Processus autorisés, interdits et arrêtés
 
-- [ ] **P0** Quels processus doivent être surveillés et pour quelle raison métier ? — **Réponse partielle :** précision de l’utilisateur du 24 octobre : surveiller les processus utilisateur afin que le formateur puisse vérifier que les stagiaires utilisent les logiciels attendus et fermer les applications indésirables. Les processus internes ne font pas partie des remontées. La question reste ouverte à la demande de l’utilisateur pour d’éventuels compléments.
-- [ ] Comment un processus métier est-il identifié de manière fiable ?
-- [ ] Les règles sont-elles globales ou propres à une école, une salle, un poste ou une formation ?
-- [ ] « Autoriser » signifie-t-il simplement ne pas alerter ou permettre explicitement l’exécution ?
-- [ ] « Interdire » signifie-t-il signaler, bloquer le lancement ou arrêter automatiquement ?
-- [ ] Qui crée et valide les listes de processus autorisés ou interdits ?
+- [x] **P0** Quels processus doivent être surveillés et pour quelle raison métier ? — **Réponse de l'utilisateur du 2 novembre :** surveiller les processus utilisateur afin de distinguer les processus reconnus, interdits et non référencés, vérifier l'utilisation des logiciels attendus et arrêter automatiquement les applications interdites. Les processus internes ne font pas partie des remontées.
+- [x] Comment un processus métier est-il identifié de manière fiable ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** chaque processus possède un identifiant et un nom. Le PID, temporaire et réutilisable par la machine, n'est pas conservé dans le MCD.
+- [x] Les règles sont-elles globales ou propres à une école, une salle, un poste ou une formation ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** elles peuvent être globales ou définies pour une école, un bâtiment ou une salle. Un poste ne porte pas de règle de processus. Les règles applicables se cumulent jusqu'à la salle ; une interdiction héritée ne peut pas être annulée à un niveau inférieur.
+- [x] « Autoriser » signifie-t-il simplement ne pas alerter ou permettre explicitement l’exécution ? — **Réponse de l'utilisateur du 2 novembre :** tout processus absent de la blacklist est autorisé. La whitelist identifie explicitement les processus reconnus comme autorisés ; les autres processus autorisés sont classés « non référencés ».
+- [x] « Interdire » signifie-t-il signaler, bloquer le lancement ou arrêter automatiquement ? — **Réponse de l'utilisateur du 2 novembre :** un processus blacklisté est arrêté automatiquement et génère une alerte. La blacklist est prioritaire sur la whitelist.
+- [x] Qui crée et valide les listes de processus autorisés ou interdits ? — **Réponse de l'utilisateur du 2 novembre :** pour la version actuelle, seul l'administrateur gère les listes.
 - [ ] Comment gérer les changements de nom ou de version d’un programme ?
 - [x] Quels rôles peuvent arrêter un processus à distance ? — 23 octobre, § 1.2 : l’administrateur, qui dispose de tous les droits, et le formateur pour les processus utilisateur uniquement, hors processus du système d’exploitation.
-- [ ] Dans quelles situations l’arrêt d’un processus est-il autorisé ?
-- [ ] L’utilisateur du poste doit-il être averti avant l’arrêt ?
-- [ ] Une justification doit-elle être saisie avant une action distante ?
+- [x] Dans quelles situations l’arrêt d’un processus est-il autorisé ? — **Réponse du 23 octobre, § 1.2, complétée par l'utilisateur le 2 novembre :** le formateur ou l'administrateur peut arrêter manuellement un processus utilisateur remonté ; un processus blacklisté est arrêté automatiquement.
+- [x] L’utilisateur du poste doit-il être averti avant l’arrêt ? — **Réponse de l'utilisateur du 2 novembre :** non.
+- [x] Une justification doit-elle être saisie avant une action distante ? — **Réponse de l'utilisateur du 2 novembre :** non. L'arrêt automatique ne demande pas non plus de confirmation.
 - [x] Quelles protections empêchent l’arrêt d’un processus système critique ? — Précision de l’utilisateur du 24 octobre : les processus internes ne font pas partie des remontées ; ils ne sont donc pas proposés au formateur pour consultation ou arrêt.
-- [ ] Faut-il journaliser l’auteur, la date, le motif et le résultat de chaque action ? — **Réponse partielle :** 22 octobre, § 2.8 : journaux en bonus, contenu laissé libre à l’équipe ; les champs à tracer ne sont pas définis.
+- [x] Faut-il journaliser l’auteur, la date, le motif et le résultat de chaque action ? — **Réponse de l'utilisateur du 2 novembre :** les détections blacklistées et non référencées sont historisées avec le poste, la salle, l'utilisateur, le nom, le PID, la date de démarrage, la date de détection et le classement. Pour un processus blacklisté, les données conservent également la règle déclenchée, la date de l'arrêt automatique et son résultat. Les processus de la whitelist ne possèdent pas de données d'historisation. La durée de conservation reste ouverte.
 - [ ] Existe-t-il des contraintes juridiques ou internes concernant la surveillance de l’activité des utilisateurs ?
 
 ## 12. Alertes
 
-- [ ] **P0** Quels événements doivent générer une alerte ? — **Réponse partielle :** précision de l’utilisateur du 24 octobre : garanties proches de leur échéance et garanties arrivées à échéance, dans le cadre du bonus de gestion de la garantie. L’administrateur ne reçoit pas d’alerte ticket (22 octobre, § 2.3). La question reste ouverte à la demande de l’utilisateur pour d’éventuels compléments.
+- [ ] **P0** Quels événements doivent générer une alerte ? — **Réponse partielle de l'utilisateur, apportée les 24 octobre et 2 novembre :** garanties proches de leur échéance et garanties arrivées à échéance dans le cadre du bonus, ainsi que détection d'un processus blacklisté. L’administrateur ne reçoit pas d’alerte ticket (22 octobre, § 2.3). D'éventuels autres événements restent à définir.
 - [ ] Quels niveaux de gravité doivent être utilisés ?
-- [ ] Qui reçoit chaque type d’alerte ? — **Réponse partielle :** précision de l’utilisateur du 24 octobre : le gestionnaire reçoit les alertes de garantie. Le gestionnaire et l’administrateur disposent chacun, sur leur tableau de bord, d’un indicateur pour les garanties proches de l’échéance et d’un indicateur pour les garanties arrivées à échéance. L’administrateur ne reçoit pas d’alerte ticket (22 octobre, § 2.3). Les destinataires d’éventuels autres types d’alertes restent à définir.
+- [ ] Qui reçoit chaque type d’alerte ? — **Réponse partielle de l'utilisateur du 2 novembre :** le gestionnaire reçoit les alertes de garantie ; le gestionnaire et l’administrateur disposent des indicateurs correspondants. Une alerte de processus blacklisté est destinée à l'administrateur et au formateur qui supervise la salle concernée. L’administrateur ne reçoit pas d’alerte ticket (22 octobre, § 2.3). Les destinataires d’éventuels autres types d’alertes restent à définir.
 - [ ] Les destinataires dépendent-ils de l’école, de la salle ou du matériel concerné ?
 - [x] Par quels canaux les alertes doivent-elles être transmises ? — 23 octobre, § 1.4 : uniquement dans l’application, par fenêtre contextuelle à la connexion ; aucun courriel.
 - [ ] Quels seuils déclenchent une alerte ? — **Réponse partielle :** six mois avant la fin de garantie (22 octobre, § 2.6) et à l’échéance de la garantie (précision de l’utilisateur du 24 octobre), dans le cadre du bonus de gestion de la garantie. Les autres seuils ne sont pas précisés.
@@ -198,11 +205,11 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 ## 13. Remontées utilisateur
 
 - [x] **P0** Qu’est-ce qu’une remontée utilisateur : incident, demande, suggestion, questionnaire ou autre ? — 23 octobre, § 1.3 : signalement d’un problème sur un périphérique, via un formulaire générant un PDF d’état des lieux.
-- [x] Qui peut créer une remontée ? — 22 octobre, § 2.3 et 23 octobre, § 1.3 : le formateur crée les signalements ; seul ce profil est explicitement autorisé à créer des tickets.
-- [ ] L’utilisateur doit-il être authentifié ?
+- [x] Qui peut créer une remontée ? — **Réponse du 22 octobre et réponse de l'utilisateur du 2 novembre :** le formateur crée les signalements ; seul ce profil est explicitement autorisé à créer des tickets. Chaque signalement conserve le lien vers l'utilisateur ASTER qui le déclare.
+- [x] L’utilisateur doit-il être authentifié ? — **Réponse de l'utilisateur du 2 novembre :** oui. Chaque utilisateur ASTER possède un login et un mot de passe.
 - [ ] Une remontée anonyme est-elle autorisée ?
-- [x] Quelles informations doivent obligatoirement être fournies ? — Périphérique concerné et description du problème (23 octobre, § 1.3). Précision de l’utilisateur du 24 octobre : la salle est retrouvée automatiquement à partir du matériel sélectionné lorsqu’elle est connue ; sinon, elle peut être renseignée manuellement ou laissée vide. La salle n’est donc pas obligatoire.
-- [ ] La salle et le poste doivent-ils être détectés automatiquement ? — **Réponse partielle :** précision de l’utilisateur du 24 octobre : la salle est retrouvée automatiquement à partir du matériel sélectionné lorsqu’elle est connue ; sinon, elle peut être renseignée manuellement ou laissée vide. La détection automatique du poste n’est pas précisée.
+- [x] Quelles informations doivent obligatoirement être fournies ? — **Réponse de l'utilisateur du 2 novembre :** le ou les matériels concernés et la description du problème sont obligatoires. Le signalement ne possède pas de lien direct avec une salle ; la localisation présentée provient de chaque matériel concerné.
+- [x] La salle et le poste doivent-ils être détectés automatiquement ? — **Réponse de l'utilisateur du 2 novembre :** aucun rattachement direct du signalement à une salle ou à un poste n'est conservé. La localisation affichée est celle du matériel concerné lorsqu'elle est renseignée.
 - [ ] Quelles catégories et priorités doivent être proposées ?
 - [ ] L’utilisateur peut-il joindre une capture d’écran ou un document ?
 - [ ] Quels formats et tailles de pièces jointes sont autorisés ?
@@ -235,11 +242,11 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 15. Documents d’état des lieux
 
-- [x] **P0** Que doit contenir un document d’état des lieux ? — PDF de signalement indiquant notamment le périphérique ou type de matériel, le type de problème et une description (23 octobre, § 1.3). La salle ou l’emplacement figure lorsqu’il est renseigné ; la salle peut rester vide (précision de l’utilisateur du 24 octobre).
+- [x] **P0** Que doit contenir un document d’état des lieux ? — **Réponse de l'utilisateur du 2 novembre :** le PDF indique notamment le matériel ou son type, le type de problème et une description. La localisation de chaque matériel concerné peut y figurer lorsqu'elle est renseignée ; elle peut correspondre à une école, un bâtiment ou une salle.
 - [x] À quel moment et dans quel but ce document est-il produit ? — 23 octobre, § 1.3 : produit lors du signalement d’un problème par le formateur, à partir du formulaire de remontée.
-- [x] Le document concerne-t-il une salle, une école, une période ou un ensemble de matériels ? — 23 octobre, § 1.3 : le document est un signalement de problème concernant un périphérique, avec sa salle ou son emplacement.
+- [x] Le document concerne-t-il une salle, une école, une période ou un ensemble de matériels ? — **Réponse de l'utilisateur du 2 novembre :** le document concerne le ou les matériels du signalement. Il n'est pas rattaché directement à une salle ; les localisations éventuelles proviennent des matériels concernés.
 - [ ] Existe-t-il un modèle officiel à respecter ?
-- [x] Quels champs, tableaux et indicateurs doivent y figurer ? — Périphérique ou type de matériel, type de problème et description ; aucun tableau ou indicateur supplémentaire n’est mentionné (23 octobre, § 1.3). La salle ou l’emplacement figure lorsqu’il est renseigné ; la salle peut rester vide (précision de l’utilisateur du 24 octobre).
+- [x] Quels champs, tableaux et indicateurs doivent y figurer ? — **Réponse de l'utilisateur du 2 novembre :** matériel ou type de matériel, type de problème et description ; aucun tableau ou indicateur supplémentaire n'est mentionné. La localisation de chaque matériel peut figurer lorsqu'elle est renseignée.
 - [ ] Le document doit-il inclure des photographies ou des observations ? — **Réponse partielle :** 23 octobre, § 1.3 : une description du problème est prévue ; photographies non précisées.
 - [x] Quels formats sont nécessaires : PDF, Word, Excel ou impression papier ? — 23 octobre, § 1.3 : PDF généré à partir du formulaire de problème.
 - [ ] Le document doit-il être signé ou validé ?
@@ -279,10 +286,11 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 18. Authentification et sécurité
 
-- [ ] **P0** Quel système d’authentification doit être utilisé ? — **Réponse partielle :** 22 octobre, § 2.8 : système non défini ; LDAP évoqué sans confirmation (« je ne sais pas »).
+- [ ] **P0** Quel système d’authentification doit être utilisé ? — **Réponse partielle de l'utilisateur du 2 novembre :** chaque utilisateur ASTER possède un login et un mot de passe. Le mécanisme technique d'authentification et l'éventuelle utilisation de LDAP restent à préciser.
 - [ ] Une intégration à Active Directory, LDAP ou un SSO est-elle disponible ? — **Réponse partielle :** 22 octobre, § 2.8 : LDAP évoqué, disponibilité et intégration non confirmées.
 - [ ] L’authentification multifacteur est-elle requise ?
 - [ ] Quelles règles de mot de passe s’appliquent si des comptes locaux sont utilisés ?
+- [ ] Le MCD doit-il représenter un secret d'authentification ou une empreinte de mot de passe plutôt que le mot de passe lui-même ?
 - [ ] Comment les comptes quittant l’organisation sont-ils désactivés ?
 - [ ] Comment les droits sont-ils attribués et revus ?
 - [ ] Faut-il limiter l’accès selon le réseau, le site ou le type de terminal ?
