@@ -168,10 +168,17 @@ def audit(root):
         if len(files) > 1:
             for path in files:
                 report("avertissement", "NUMERO_DUPLIQUE", path, 1, f"Préfixe {number:02} partagé par plusieurs documents Markdown.")
-    if numbers:
-        missing = sorted(set(range(min(numbers), max(numbers) + 1)) - numbers.keys())
+    # Un diagramme SVG lié directement depuis le sommaire est un livrable
+    # numéroté à part entière ; il ne nécessite pas de page Markdown.
+    occupied = set(numbers)
+    for path in (root / "docs").glob("*.svg"):
+        match = re.fullmatch(r"(\d{2})-([\w-]+)\.svg", path.name)
+        if match and path.resolve() in local_links[readme]:
+            occupied.add(int(match[1]))
+    if occupied:
+        missing = sorted(set(range(min(occupied), max(occupied) + 1)) - occupied)
         if missing:
-            report("avertissement", "NUMEROTATION", root / "docs", 1, "Numéros sans document Markdown : " + ", ".join(f"{n:02}" for n in missing) + ". Vérifier avant toute renumérotation.")
+            report("avertissement", "NUMEROTATION", root / "docs", 1, "Numéros sans document Markdown ou diagramme SVG référencé au sommaire : " + ", ".join(f"{n:02}" for n in missing) + ". Vérifier avant toute renumérotation.")
 
     for source in sorted((root / "docs").rglob("*-MOCODO.url")):
         svg = source.with_name(source.name.replace("-MOCODO.url", ".svg"))
