@@ -18,7 +18,7 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-10 — Destination de l'affectation.** Un matériel ne peut pas être affecté à une personne.
 - **RG-11 — Contenu d'une remontée.** Une remontée concerne un ou plusieurs matériels et comporte obligatoirement une description du problème.
 - **RG-12 — Localisation d'une remontée.** La localisation présentée pour une remontée provient du ou des matériels concernés.
-- **RG-13 — Statut de la remontée.** Le statut d'une remontée est « en attente », « remplacé » ou « corrigé ».
+- **RG-13 — Statut de la remontée.** Le statut d'une remontée est « en attente », « remplacé » ou « corrigé ». Il est commun à la remontée entière, quel que soit le nombre de matériels concernés ; aucun statut de traitement distinct n’est porté par chaque matériel de cette remontée.
 - **RG-14 — Contenu de l'état des lieux.** Le PDF d'état des lieux contient le matériel ou son type, le type de problème, sa description et la localisation du ou des matériels lorsqu'elle est renseignée.
 
 ## 2. Règles relatives aux droits
@@ -55,9 +55,9 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 ## 4. Règles spécifiques à la supervision des processus
 
 - **RG-40 — Séparation des domaines.** Les postes de supervision des processus et les matériels d'inventaire constituent deux ensembles de données indépendants. Un poste est géré dans le domaine de la supervision et un matériel dans celui du parc.
-- **RG-41 — Identification d'un processus.** Chaque processus possède un identifiant et un nom.
-- **RG-42 — Contexte d'exécution.** Une exécution associe un processus, un utilisateur de session et un poste. Elle porte les dates de démarrage, de détection et d'arrêt.
-- **RG-43 — Utilisateur de session.** L'utilisateur qui exécute un processus est représenté par une entité `UTILISATEUR_SESSION`.
+- **RG-41 — Identification d'un processus.** Un processus désigne un programme identifiable, distinct d'une exécution particulière. Il possède un identifiant et un nom (précision de l'utilisateur du 2 novembre).
+- **RG-42 — Contexte d'exécution.** Une exécution associe un programme identifiable (`PROCESSUS`), un compte Windows (`COMPTE_WINDOWS`) et un poste. Elle porte les dates de démarrage, de détection et d'arrêt.
+- **RG-43 — Compte Windows supervisé.** Le compte Windows associé à l'exécution d'un programme est représenté par l'entité `COMPTE_WINDOWS`, qui possède un identifiant interne et le champ `identifiant`. Le MCD conserve temporairement l'ancien nom `SESSION` et l'attribut `Id_session`, dans l'attente de sa mise à jour ultérieure par l'utilisateur. Cette entité est distincte de l'utilisateur authentifié dans ASTER. Le champ `identifiant` correspond au nom du compte Windows utilisé sur le poste. Un même nom de compte Windows utilisé sur plusieurs postes représente une seule et même entité, et non une connexion particulière à un poste (confirmations de l'utilisateur du 2 novembre).
 - **RG-44 — Informations affichées.** Pour chaque processus, ASTER affiche le nom, l'utilisateur, le poste, la salle, la date de démarrage et son classement. Lorsqu'une action est réalisée, son résultat est également affiché.
 - **RG-45 — Classement d'un processus.** Un processus utilisateur est classé « whitelist », « blacklist » ou « non référencé ».
 - **RG-46 — Processus autorisé.** Tout processus qui n'appartient pas à la blacklist est autorisé. La whitelist désigne les processus explicitement reconnus comme autorisés ; un processus absent des deux listes est autorisé et classé « non référencé ».
