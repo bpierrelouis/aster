@@ -7,14 +7,14 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 ## 1. Règles relatives aux données
 
 - **RG-01 — Profils utilisateurs.** Le profil d'un utilisateur est obligatoirement l'une des trois valeurs suivantes : administrateur, gestionnaire ou formateur.
-- **RG-02 — Organisation géographique.** L'organisation géographique comprend les niveaux école, bâtiment et salle. Une salle appartient à un bâtiment et un bâtiment appartient à une école.
+- **RG-02 — Organisation géographique.** Une salle appartient à une école et porte l'information de son bâtiment. Le bâtiment ne constitue pas une entité autonome (décision de l'utilisateur du 2 novembre).
 - **RG-03 — Identifiant du matériel.** Chaque matériel possède un identifiant interne unique, attribué et géré automatiquement par ASTER, consultable mais non saisi par l'utilisateur.
 - **RG-04 — Numéro de série.** Le numéro de série est distinct de l'identifiant interne. Il est facultatif lorsqu'un matériel n'en possède pas.
 - **RG-05 — Données obligatoires du matériel.** Le modèle, la date de réception et l'indication « hors service : oui/non » sont obligatoires.
 - **RG-06 — Désignation du modèle.** Le modèle peut être une simple désignation du matériel lorsqu'aucune référence constructeur n'est disponible.
 - **RG-07 — Marque du matériel.** La marque est facultative.
 - **RG-08 — État du matériel.** L'état est une valeur binaire « hors service : oui/non ». Sa valeur par défaut à la création est « non ».
-- **RG-09 — Localisation du matériel.** Un matériel est rattaché au maximum à une localisation : une école, un bâtiment ou une salle. Il reste sans localisation lorsqu'il est en stock.
+- **RG-09 — Localisation du matériel.** Un matériel est affecté au maximum à une salle. L'école et le bâtiment sont connus par cette salle ; ils ne constituent pas des destinations d'affectation directes du matériel. Un matériel en stock reste sans localisation.
 - **RG-10 — Destination de l'affectation.** Un matériel ne peut pas être affecté à une personne.
 - **RG-11 — Contenu d'une remontée.** Une remontée concerne un ou plusieurs matériels et comporte obligatoirement une description du problème.
 - **RG-12 — Localisation d'une remontée.** La localisation présentée pour une remontée provient du ou des matériels concernés.
@@ -61,7 +61,7 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-44 — Informations affichées.** Pour chaque processus, ASTER affiche le nom, l'utilisateur, le poste, la salle, la date de démarrage et son classement. Lorsqu'une action est réalisée, son résultat est également affiché.
 - **RG-45 — Classement d'un processus.** Un processus utilisateur est classé « whitelist », « blacklist » ou « non référencé ».
 - **RG-46 — Processus autorisé.** Tout processus qui n'appartient pas à la blacklist est autorisé. La whitelist désigne les processus explicitement reconnus comme autorisés ; un processus absent des deux listes est autorisé et classé « non référencé ».
-- **RG-47 — Portée des listes.** Une entrée de whitelist ou de blacklist s'applique globalement ou à une école, un bâtiment ou une salle.
+- **RG-47 — Portée des listes.** Une entrée de whitelist ou de blacklist s'applique globalement ou à une école, un bâtiment ou une salle. La portée bâtiment concerne les salles identifiées par leur information de bâtiment, sans entité bâtiment autonome.
 - **RG-48 — Cumul des règles.** Les règles applicables aux postes d'une salle se cumulent depuis le niveau global jusqu'à cette salle. Une interdiction héritée ne peut pas être annulée à un niveau inférieur.
 - **RG-49 — Priorité de la blacklist.** Lorsqu'un processus correspond simultanément à la whitelist et à la blacklist, il est considéré comme blacklisté.
 - **RG-50 — Gestion des listes.** Seul l'administrateur peut ajouter, modifier ou supprimer une entrée de whitelist ou de blacklist.
@@ -75,7 +75,7 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-58 — Poste déconnecté.** Après trois remontées manquées, soit environ quinze secondes, le poste est considéré comme déconnecté. Il reste visible dans sa salle, sans processus affiché.
 - **RG-59 — Périmètre du formateur.** Le formateur peut superviser toutes les salles, mais doit entrer dans une salle pour consulter et gérer ses postes ; il ne dispose pas d'une vue globale de supervision.
 - **RG-60 — Rattachement d'un utilisateur.** Chaque utilisateur ASTER est rattaché à une et une seule école.
-- **RG-61 — Nom des niveaux géographiques.** Une école, un bâtiment et une salle possèdent chacun un nom.
+- **RG-61 — Noms et information de bâtiment.** Une école et une salle possèdent chacune un nom. Le bâtiment est une information de la salle, sans identité autonome.
 - **RG-62 — Identifiants de connexion.** Chaque utilisateur ASTER possède un login et un mot de passe.
 - **RG-63 — Auteur d'une remontée.** Chaque remontée est déclarée par un et un seul utilisateur ASTER. Un utilisateur ASTER peut déclarer plusieurs remontées.
 - **RG-64 — Agent ASTER.** Un agent appartenant à la suite ASTER est installé sur chaque machine cible.

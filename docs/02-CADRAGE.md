@@ -2,7 +2,7 @@
 
 Ce document présente les questions de cadrage et les réponses en vigueur, issues des [entretiens des 22 et 23 octobre](03-COMPTE-RENDU-ENTRETIENS.md) et des réponses apportées ensuite directement par l’utilisateur. Les réponses datées du 2 novembre ont été fournies par l’utilisateur dans les échanges de cadrage et ne font pas partie des comptes rendus d’entretien. Pour chaque sujet, la dernière réponse remplace les précédentes. Les réponses antérieures restent applicables lorsqu’elles n’ont pas été remplacées ; les comptes rendus conservent uniquement la trace historique des entretiens. Les questions marquées **P0** conditionnent directement la faisabilité ou l’estimation des développements.
 
-Le [MCD Merise](05-MCD-MERISE.md) a été validé par l'utilisateur le 2 novembre. Sa structure et ses cardinalités constituent la référence conceptuelle ; ses libellés ont été harmonisés avec la terminologie de la documentation.
+Le [MCD Merise](05-MCD-MERISE.svg) a été validé par l'utilisateur le 2 novembre. Sa structure et ses cardinalités constituent la référence conceptuelle ; ses libellés ont été harmonisés avec la terminologie de la documentation.
 
 **Légende :**
 
@@ -25,7 +25,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 - [x] **P0** ASTER doit-il couvrir une seule école ou plusieurs établissements ? — Précision de l’utilisateur du 24 octobre : ASTER doit pouvoir gérer plusieurs écoles à terme, mais cette capacité ne fait pas partie des attendus de la V1. La démonstration de la V1 porte sur une seule école.
 - [ ] Une administration centrale doit-elle avoir une vue sur l’ensemble des écoles ?
-- [x] Quelles entités doivent être représentées : organisme, école, site, bâtiment, étage, salle ou autre ? — **Réponse de l'utilisateur du 2 novembre :** les niveaux retenus sont l'école, le bâtiment et la salle. Aucun niveau « étage » distinct n'est nécessaire : le code de la salle contient souvent le numéro de l'étage. L'école, le bâtiment et la salle possèdent chacun un nom.
+- [x] Quelles entités doivent être représentées : organisme, école, site, bâtiment, étage, salle ou autre ? — **Décision de l'utilisateur du 2 novembre, précisée dans le présent échange :** l'école et la salle sont des entités ; la salle est rattachée à une école et porte l'information de son bâtiment. Aucune entité `BATIMENT` autonome n'est nécessaire. L'école et la salle possèdent chacune un nom. Aucun niveau « étage » distinct n'est nécessaire : le code de la salle contient souvent le numéro de l'étage.
 - [ ] Une salle peut-elle dépendre de plusieurs services ou formations ?
 - [x] Faut-il gérer des salles temporaires, fermées ou indisponibles ? — 22 octobre, § 2.2 : pas de gestion des salles temporaires ou hors service.
 - [ ] Combien d’écoles, de salles, de postes et d’autres matériels sont concernés aujourd’hui ? — **Réponse partielle :** précision de l’utilisateur du 24 octobre : démonstration pour une école, deux bâtiments et six à huit salles par bâtiment. La possibilité d’ajout est prévue (22 octobre, § 2.1). Les volumes réels et les nombres de postes et matériels ne sont pas précisés.
@@ -39,7 +39,8 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] Quelles actions un gestionnaire de matériel peut-il consulter, créer, modifier ou supprimer ? — 22 octobre, § 2.2 et 2.3 : gestion globale des stocks, affectation, création, consultation et modification des matériels ; pas de suppression.
 - [x] Quelles actions un administrateur de salle technique peut-il réaliser ? — 23 octobre, § 1.2 : l’administrateur dispose de tous les droits et peut réaliser toutes les actions.
 - [x] Quelles actions un formateur peut-il réaliser sur les postes de sa salle ? — 23 octobre, § 1.2 et 1.3 : accéder à une salle, consulter et arrêter les processus utilisateur (IDE, navigateur, etc.), sans arrêter les processus système, et créer une remontée pour un problème.
-- [ ] Les droits d’un formateur sont-ils limités à ses salles et à ses périodes de formation ?
+- [x] Les droits d’un formateur sont-ils limités à certaines salles ? — Précision de l’utilisateur du 27 octobre : le formateur peut accéder à toutes les salles, car il peut intervenir dans plusieurs salles. Ses actions restent limitées aux droits de son profil.
+- [ ] Les droits d’un formateur sont-ils limités à certaines périodes d’utilisation ?
 - [x] Existe-t-il un rôle de consultation seule ? — 22 octobre, § 2.3 : aucun profil de consultation seule parmi les trois profils identifiés.
 - [x] Existe-t-il un rôle d’administrateur fonctionnel chargé du paramétrage ? — Un seul profil administrateur dispose de tous les droits (23 octobre, § 1.2). La confirmation des trois seuls types d’utilisateurs le 24 octobre exclut un profil fonctionnel distinct.
 - [x] Existe-t-il un rôle d’administrateur technique chargé de l’exploitation ? — Un seul profil administrateur dispose de tous les droits (23 octobre, § 1.2). La confirmation des trois seuls types d’utilisateurs le 24 octobre exclut un profil technique distinct.
@@ -62,7 +63,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] **P0** Comment représenter l'état « hors service » dans le MCD tout en excluant les attributs booléens : par une entité d'état, une association ou une autre valeur persistante ?
 - [x] Quel identifiant fait foi : numéro d’inventaire, numéro de série, étiquette interne ou autre ? — Précision de l’utilisateur du 24 octobre : identifiant interne unique attribué et géré automatiquement par ASTER, consultable mais non saisi par l’utilisateur. Le numéro de série constitue une information distincte, renseignée lorsqu’il existe.
 - [x] Un matériel peut-il posséder plusieurs identifiants ? — Précision de l’utilisateur du 24 octobre : chaque matériel possède un identifiant interne géré par l’application et peut aussi avoir un numéro de série lorsqu’il en possède un.
-- [ ] **P0** Les identifiants ajoutés à `ECOLE`, `BATIMENT`, `SALLE`, `UTILISATEUR`, `REMONTEE` et `REGLE_PROCESSUS` sont-ils obligatoires, internes et uniques ?
+- [ ] **P0** Les identifiants ajoutés à `ECOLE`, `SALLE`, `UTILISATEUR`, `REMONTEE` et `REGLE_PROCESSUS` sont-ils obligatoires, internes et uniques ?
 - [x] Faut-il gérer la marque, le modèle, le fournisseur, la date d’achat, la garantie et la valeur ? — Précisions de l’utilisateur du 24 octobre : modèle obligatoire, pouvant simplement désigner le matériel ; marque pouvant rester non renseignée, notamment pour un câble. Aucun fournisseur, aucune valeur et aucune date d’achat. La gestion de la garantie reste un bonus (23 octobre, § 1.1) ; seule sa date de fin est renseignée, sans date de début ni durée (précision de l’utilisateur du 24 octobre).
 - [ ] Faut-il gérer les caractéristiques techniques des machines ?
 - [x] Faut-il joindre des documents, photographies ou factures à une fiche matériel ? — 22 octobre, § 2.4 : aucun document associé à la fiche matériel.
@@ -71,9 +72,9 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 5. Localisation, affectation et cycle de vie
 
-- [x] **P0** Quel niveau de précision est attendu pour localiser un matériel ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** un matériel peut être rattaché directement une salle.
-- [x] Faut-il représenter le site, le bâtiment, l’étage, la salle, le bureau, la baie ou le port réseau ? — **Réponse de l'utilisateur du 2 novembre :** les niveaux retenus sont l'école, le bâtiment et la salle, sans niveau « étage » distinct ; le code de la salle contient souvent le numéro de l'étage. Un matériel peut être localisé à chacun de ces trois niveaux.
-- [x] Un matériel peut-il être affecté à une personne plutôt qu’à une salle ? — **Réponse de l'utilisateur du 2 novembre :** non. Un matériel est rattaché à une école, un bâtiment ou une salle, mais pas à une personne. Il peut également être en stock sans localisation.
+- [x] **P0** Quel niveau de précision est attendu pour localiser un matériel ? — **Réponse en vigueur, précisée par l'utilisateur le 2 novembre dans le présent échange :** un matériel est affecté à une salle ou reste en stock sans localisation. Le bâtiment est connu par l'information portée par la salle ; il ne constitue pas une destination d'affectation autonome.
+- [x] Faut-il représenter le site, le bâtiment, l’étage, la salle, le bureau, la baie ou le port réseau ? — **Décision de l'utilisateur du 2 novembre, précisée dans le présent échange :** la salle est rattachée à une école et renseigne son bâtiment, sans entité `BATIMENT` distincte. La localisation d'un matériel provient de la salle à laquelle il est affecté ; il n'est pas affecté directement à une école ou à un bâtiment. Aucun niveau « étage » distinct n'est prévu ; le code de la salle contient souvent le numéro de l'étage.
+- [x] Un matériel peut-il être affecté à une personne plutôt qu’à une salle ? — **Réponse en vigueur, précisée par l'utilisateur le 2 novembre dans le présent échange :** non. Un matériel est affecté à une salle, jamais à une personne ; il peut également être en stock sans localisation.
 - [x] Un matériel peut-il appartenir à un stock sans localisation précise ? — 22 octobre, § 2.4 : un matériel peut être en stock sans localisation.
 - [x] Une affectation peut-elle être temporaire et comporter des dates de début et de fin ? — Non. Réponse du client du 22 octobre, rappelée par l’utilisateur le 24 octobre : « pas d’autres dates ». Aucune période d’affectation avec dates de début et de fin n’est à gérer.
 - [x] Qui peut déplacer un matériel ? — 22 octobre, § 2.3 : le gestionnaire affecte les matériels ; l’administrateur dispose de tous les droits.
@@ -114,12 +115,12 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 ## 8. Applications installées
 
 - [ ] **P0** La liste des applications doit-elle être déclarée manuellement ou détectée automatiquement sur les postes ?
-- [ ] Si elle est détectée, quel mécanisme ou outil existant fournit ces informations ?
+- [ ] Si elle est détectée, quel mécanisme ou outil existant fournit ces informations ? — **Réponse partielle :** les échanges fonctionnels relatifs aux applications installées passent par l'agent ASTER de la machine cible ; le mécanisme de collecte, le format et le protocole restent à définir.
 - [ ] Qu’est-ce qui distingue une application métier d’une autre application ? — **Réponse partielle :** 23 octobre, § 1.1 : application « de base » présente sur un poste ; le caractère natif et la distinction exacte restent à préciser.
 - [ ] Existe-t-il un référentiel officiel des applications métier ?
 - [ ] Faut-il relever le nom, la version, l’éditeur, la date d’installation et la licence ?
 - [ ] Faut-il distinguer les applications obligatoires, autorisées, tolérées et interdites ?
-- [x] Les règles dépendent-elles de l’école, de la salle, du poste ou de la formation en cours ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** les règles de processus peuvent être globales ou portées par une école, un bâtiment ou une salle. Elles ne sont portées ni par un poste ni par une formation.
+- [x] Les règles dépendent-elles de l’école, de la salle, du poste ou de la formation en cours ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** les règles de processus peuvent être globales ou concerner une école, un bâtiment ou une salle. La portée bâtiment désigne les salles dont l'information de bâtiment correspond ; elle ne suppose pas une entité `BATIMENT` autonome (décision de l'utilisateur du 2 novembre dans le présent échange). Les règles ne sont portées ni par un poste ni par une formation.
 - [ ] Faut-il détecter les versions absentes, obsolètes ou non conformes ?
 - [ ] Faut-il conserver l’historique des logiciels installés ?
 - [ ] Qui peut modifier le référentiel des applications ?
@@ -173,7 +174,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 - [x] **P0** Quels processus doivent être surveillés et pour quelle raison métier ? — **Réponse de l'utilisateur du 2 novembre :** surveiller les processus utilisateur afin de distinguer les processus reconnus, interdits et non référencés, vérifier l'utilisation des logiciels attendus et arrêter automatiquement les applications interdites. Les processus internes ne font pas partie des remontées.
 - [x] Comment un processus métier est-il identifié de manière fiable ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** chaque processus possède un identifiant et un nom. Le PID, temporaire et réutilisable par la machine, n'est pas conservé dans le MCD.
-- [x] Les règles sont-elles globales ou propres à une école, une salle, un poste ou une formation ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** elles peuvent être globales ou définies pour une école, un bâtiment ou une salle. Un poste ne porte pas de règle de processus. Les règles applicables se cumulent jusqu'à la salle ; une interdiction héritée ne peut pas être annulée à un niveau inférieur.
+- [x] Les règles sont-elles globales ou propres à une école, une salle, un poste ou une formation ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** elles peuvent être globales ou définies pour une école, un bâtiment ou une salle. La portée bâtiment concerne les salles identifiées par leur information de bâtiment, sans entité `BATIMENT` autonome (décision de l'utilisateur du 2 novembre dans le présent échange). Un poste ne porte pas de règle de processus. Les règles applicables se cumulent jusqu'à la salle ; une interdiction héritée ne peut pas être annulée à un niveau inférieur.
 - [x] « Autoriser » signifie-t-il simplement ne pas alerter ou permettre explicitement l’exécution ? — **Réponse de l'utilisateur du 2 novembre :** tout processus absent de la blacklist est autorisé. La whitelist identifie explicitement les processus reconnus comme autorisés ; les autres processus autorisés sont classés « non référencés ».
 - [x] « Interdire » signifie-t-il signaler, bloquer le lancement ou arrêter automatiquement ? — **Réponse de l'utilisateur du 2 novembre :** un processus blacklisté est arrêté automatiquement et génère une alerte. La blacklist est prioritaire sur la whitelist.
 - [x] Qui crée et valide les listes de processus autorisés ou interdits ? — **Réponse de l'utilisateur du 2 novembre :** pour la version actuelle, seul l'administrateur gère les listes.
@@ -215,10 +216,12 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Quelles catégories et priorités doivent être proposées ?
 - [ ] L’utilisateur peut-il joindre une capture d’écran ou un document ?
 - [ ] Quels formats et tailles de pièces jointes sont autorisés ?
-- [x] Quels statuts composent le cycle de traitement d’une remontée ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** « en attente », « remplacé » et « corrigé ». Cette réponse complète les statuts « en attente » et « remplacé » recueillis le 22 octobre (§ 2.5). Les transitions ne sont pas détaillées.
-- [ ] Qui reçoit et qualifie une nouvelle remontée ?
+- [x] Quels statuts composent le cycle de traitement d’une remontée ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** « en attente », « remplacé » et « corrigé ». Cette réponse complète les statuts « en attente » et « remplacé » recueillis le 22 octobre (§ 2.5). Précision compatible de l’utilisateur du 27 octobre : le gestionnaire peut faire passer une remontée de « en attente » à « remplacé » ; l’administrateur le peut également puisqu’il dispose de tous les droits. Les autres transitions éventuelles ne sont pas définies.
+- [x] Qui est chargé du traitement des signalements ? — Précision de l’utilisateur du 27 octobre : le traitement des tickets relève du travail du gestionnaire. L’administrateur peut également intervenir puisqu’il dispose de tous les droits.
+- [ ] Qui reçoit et qualifie une nouvelle remontée ? — **Réponse partielle :** le traitement relève du gestionnaire, avec intervention possible de l’administrateur (précision du 27 octobre) ; les modalités de réception et de qualification restent à préciser.
 - [ ] Comment une remontée est-elle affectée à un intervenant ?
-- [ ] L’utilisateur peut-il suivre son traitement et compléter sa demande ?
+- [x] Le formateur peut-il suivre le traitement de ses signalements ? — Précision de l’utilisateur du 27 octobre : oui, le formateur peut consulter l’avancement des signalements qu’il a créés.
+- [ ] Le formateur peut-il compléter un signalement après sa création ?
 - [ ] Doit-il recevoir des notifications lors des changements de statut ?
 - [ ] Une remontée peut-elle être transformée en alerte ou liée à une alerte existante ?
 - [ ] Comment traiter les doublons concernant le même incident ?
@@ -229,7 +232,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] **P0** À quelles décisions les tableaux de bord doivent-ils aider ? — **Réponse partielle, complétée par l'utilisateur le 2 novembre :** plusieurs tableaux de bord spécialisés sont prévus. Le tableau de bord du parc présente notamment l'état des stocks et, dans le cadre du bonus, les expirations de garantie. Un tableau de bord distinct est consacré aux remontées. Les décisions et les indicateurs détaillés restent à préciser.
 - [ ] Quels indicateurs sont attendus par les gestionnaires de matériel ? — **Réponse partielle :** état des stocks (22 octobre, § 2.6) et, dans le cadre du bonus de gestion de la garantie, deux indicateurs distincts : garanties proches de l’échéance et garanties arrivées à échéance (précision de l’utilisateur du 24 octobre). Les calculs des indicateurs restent à définir.
 - [ ] Quels indicateurs sont attendus par les administrateurs techniques ? — **Réponse partielle :** l'administrateur accède aux tableaux de bord spécialisés du parc et des remontées. Il est proposé qu'il puisse également consulter des statistiques d'utilisation, mais cette fonctionnalité et ses indicateurs sont **à valider**. Pour le parc, les éléments déjà recueillis sont l'état des stocks et, dans le cadre du bonus, les garanties proches de l'échéance et arrivées à échéance. Les calculs restent à définir.
-- [ ] Quels indicateurs sont attendus par les formateurs ?
+- [ ] Quels indicateurs sont attendus par les formateurs ? — Aucun tableau de bord formateur n'est défini à ce stade ; ses éventuels indicateurs restent à préciser.
 - [ ] Quels indicateurs sont attendus au niveau central ?
 - [ ] Les données doivent-elles être instantanées, quotidiennes, hebdomadaires ou mensuelles ?
 - [ ] Quels filtres doivent être disponibles ? — **Réponse partielle :** le tableau de bord du parc propose une vue globale filtrable par salle (22 octobre, § 2.6). Les filtres des autres tableaux de bord spécialisés restent à préciser.
@@ -244,7 +247,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 15. Documents d’état des lieux
 
-- [x] **P0** Que doit contenir un document d’état des lieux ? — **Réponse de l'utilisateur du 2 novembre :** le PDF indique notamment le matériel ou son type, le type de problème et une description. La localisation de chaque matériel concerné peut y figurer lorsqu'elle est renseignée ; elle peut correspondre à une école, un bâtiment ou une salle.
+- [x] **P0** Que doit contenir un document d’état des lieux ? — **Réponse de l'utilisateur du 2 novembre :** le PDF indique notamment le matériel ou son type, le type de problème et une description. La localisation de chaque matériel concerné peut y figurer lorsqu'il est affecté à une salle ; l'école et le bâtiment sont connus par cette salle, et non par une affectation directe du matériel à ces niveaux (décision de l'utilisateur du 2 novembre dans le présent échange).
 - [x] À quel moment et dans quel but ce document est-il produit ? — produit lors de la création d’une remontée par le formateur ou l'administrateur, à partir du formulaire de la remontée.
 - [x] Le document concerne-t-il une salle, une école, une période ou un ensemble de matériels ? — **Réponse de l'utilisateur du 2 novembre :** le document concerne le ou les matériels de la remontée. Il n'est pas rattaché directement à une salle ; les localisations éventuelles proviennent des matériels concernés.
 - [ ] Existe-t-il un modèle officiel à respecter ?
