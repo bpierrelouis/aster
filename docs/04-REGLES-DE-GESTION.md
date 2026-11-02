@@ -16,9 +16,9 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-08 — État du matériel.** L'état est une valeur binaire « hors service : oui/non ». Sa valeur par défaut à la création est « non ».
 - **RG-09 — Localisation du matériel.** Un matériel est rattaché au maximum à une localisation : une école, un bâtiment ou une salle. Il reste sans localisation lorsqu'il est en stock.
 - **RG-10 — Destination de l'affectation.** Un matériel ne peut pas être affecté à une personne.
-- **RG-11 — Contenu d'un signalement.** Un signalement concerne un ou plusieurs matériels et comporte obligatoirement une description du problème.
-- **RG-12 — Localisation d'un signalement.** La localisation présentée pour un signalement provient du ou des matériels concernés.
-- **RG-13 — Statut du signalement.** Le statut d'un signalement est « en attente » ou « remplacé ».
+- **RG-11 — Contenu d'une remontée.** Une remontée concerne un ou plusieurs matériels et comporte obligatoirement une description du problème.
+- **RG-12 — Localisation d'une remontée.** La localisation présentée pour une remontée provient du ou des matériels concernés.
+- **RG-13 — Statut de la remontée.** Le statut d'une remontée est « en attente », « remplacé » ou « corrigé ».
 - **RG-14 — Contenu de l'état des lieux.** Le PDF d'état des lieux contient le matériel ou son type, le type de problème, sa description et la localisation du ou des matériels lorsqu'elle est renseignée.
 
 ## 2. Règles relatives aux droits
@@ -29,28 +29,28 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-18 — Stocks et affectations.** Le gestionnaire peut gérer les stocks, affecter les matériels et les déplacer.
 - **RG-19 — Supervision par le formateur.** Le formateur peut accéder à une salle, consulter les processus utilisateur qui y sont remontés et arrêter ces processus.
 - **RG-20 — Protection des processus système.** Le formateur ne peut ni consulter ni arrêter les processus du système d'exploitation.
-- **RG-21 — Création d'un signalement.** Le formateur peut créer un signalement concernant un ou plusieurs matériels.
+- **RG-21 — Création d'une remontée.** Le formateur et l'administrateur peuvent créer une remontée concernant un ou plusieurs matériels.
 - **RG-22 — Masterisation.** L'administrateur réalise la masterisation d'un poste ou d'une salle.
 - **RG-23 — Consultation des états des lieux.** Le gestionnaire et l'administrateur peuvent consulter les PDF d'état des lieux.
-- **RG-24 — Accès au tableau de bord.** Le gestionnaire et l'administrateur peuvent consulter le tableau de bord global.
+- **RG-24 — Accès aux tableaux de bord.** Le gestionnaire et l'administrateur peuvent consulter les tableaux de bord spécialisés du parc et des remontées.
 
 ## 3. Règles relatives aux traitements
 
 - **RG-25 — Exécution d'une action autorisée.** Une action autorisée est exécutée sans validation préalable d'une seconde personne.
 - **RG-26 — Prise d'effet d'une affectation.** Une affectation ou un déplacement de matériel prend effet immédiatement.
 - **RG-27 — Affectation groupée.** Une même opération d'affectation peut concerner plusieurs matériels.
-- **RG-28 — Enregistrement d'un matériel.** Chaque matériel est enregistré individuellement par saisie manuelle ou par import JSON.
+- **RG-28 — Enregistrement d'un matériel.** Chaque matériel est enregistré individuellement par saisie manuelle ou par import JSON. L'import JSON est accessible au gestionnaire et à l'administrateur.
 - **RG-29 — Traitement d'un import JSON.** Les données d'un import JSON sont appliquées immédiatement, sans étape de validation métier préalable.
 - **RG-30 — Masterisation d'un poste.** La masterisation réapplique une image système sur le poste Windows concerné.
 - **RG-31 — Données de supervision.** La supervision remonte les processus utilisateur lancés sur le poste et l'utilisateur associé à chacun d'eux.
-- **RG-32 — Filtrage des processus.** Les processus internes du système d'exploitation sont exclus des remontées présentées au formateur.
+- **RG-32 — Filtrage des processus.** Les processus internes du système d'exploitation sont exclus des données de supervision présentées au formateur.
 - **RG-33 — Arrêt d'un processus.** L'arrêt demandé par un utilisateur autorisé porte uniquement sur un processus utilisateur remonté par ASTER.
-- **RG-34 — Détermination de la localisation du signalement.** ASTER présente la localisation de chaque matériel concerné lorsqu'elle est renseignée.
-- **RG-35 — Génération de l'état des lieux.** La transmission d'un signalement génère automatiquement son document d'état des lieux au format PDF.
-- **RG-36 — Tableau de bord.** Le tableau de bord présente l'état des stocks et permet un filtrage par salle.
+- **RG-34 — Détermination de la localisation de la remontée.** ASTER présente la localisation de chaque matériel concerné lorsqu'elle est renseignée.
+- **RG-35 — Génération de l'état des lieux.** La transmission d'une remontée génère automatiquement son document d'état des lieux au format PDF.
+- **RG-36 — Tableaux de bord spécialisés.** ASTER propose plusieurs tableaux de bord spécialisés, dont un tableau de bord du parc et un tableau de bord des remontées. Le tableau de bord du parc présente l'état des stocks et permet un filtrage par salle.
 - **RG-37 — Affichage des notifications.** Une notification est affichée dans ASTER sous la forme d'une fenêtre contextuelle lors de la connexion de son destinataire.
 - **RG-38 — Canal de notification.** ASTER n'envoie pas les notifications par courriel.
-- **RG-39 — Alertes de ticket.** Aucune alerte relative à un ticket n'est envoyée à l'administrateur.
+- **RG-39 — Alertes de remontée.** Aucune alerte relative à une remontée n'est envoyée à l'administrateur.
 
 ## 4. Règles spécifiques à la supervision des processus
 
@@ -77,4 +77,5 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-60 — Rattachement d'un utilisateur.** Chaque utilisateur ASTER est rattaché à une et une seule école.
 - **RG-61 — Nom des niveaux géographiques.** Une école, un bâtiment et une salle possèdent chacun un nom.
 - **RG-62 — Identifiants de connexion.** Chaque utilisateur ASTER possède un login et un mot de passe.
-- **RG-63 — Auteur d'un signalement.** Chaque signalement est déclaré par un et un seul utilisateur ASTER. Un utilisateur ASTER peut déclarer plusieurs signalements.
+- **RG-63 — Auteur d'une remontée.** Chaque remontée est déclarée par un et un seul utilisateur ASTER. Un utilisateur ASTER peut déclarer plusieurs remontées.
+- **RG-64 — Agent ASTER.** Un agent appartenant à la suite ASTER est installé sur chaque machine cible.

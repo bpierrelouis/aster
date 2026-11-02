@@ -2,6 +2,8 @@
 
 Ce document présente les questions de cadrage et les réponses en vigueur, issues des [entretiens des 22 et 23 octobre](03-COMPTE-RENDU-ENTRETIENS.md) et des réponses apportées ensuite directement par l’utilisateur. Les réponses datées du 2 novembre ont été fournies par l’utilisateur dans les échanges de cadrage et ne font pas partie des comptes rendus d’entretien. Pour chaque sujet, la dernière réponse remplace les précédentes. Les réponses antérieures restent applicables lorsqu’elles n’ont pas été remplacées ; les comptes rendus conservent uniquement la trace historique des entretiens. Les questions marquées **P0** conditionnent directement la faisabilité ou l’estimation des développements.
 
+Le [MCD Merise](05-MCD-MERISE.md) a été validé par l'utilisateur le 2 novembre. Sa structure et ses cardinalités constituent la référence conceptuelle ; ses libellés ont été harmonisés avec la terminologie de la documentation.
+
 **Légende :**
 
 - `[x]` : une réponse a été recueillie, y compris lorsqu’elle est négative ; cela ne vaut pas validation globale du besoin.
@@ -36,7 +38,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] Que recouvre précisément le terme « acteurs de la formation » ? — Précision de l’utilisateur du 24 octobre : expression générale issue du sujet, sans rôle supplémentaire dans ASTER. Seuls les profils administrateur, gestionnaire et formateur existent. ASTER ne gère pas les formations.
 - [x] Quelles actions un gestionnaire de matériel peut-il consulter, créer, modifier ou supprimer ? — 22 octobre, § 2.2 et 2.3 : gestion globale des stocks, affectation, création, consultation et modification des matériels ; pas de suppression.
 - [x] Quelles actions un administrateur de salle technique peut-il réaliser ? — 23 octobre, § 1.2 : l’administrateur dispose de tous les droits et peut réaliser toutes les actions.
-- [x] Quelles actions un formateur peut-il réaliser sur les postes de sa salle ? — 23 octobre, § 1.2 et 1.3 : accéder à une salle, consulter et arrêter les processus utilisateur (IDE, navigateur, etc.), sans arrêter les processus système, et signaler un problème.
+- [x] Quelles actions un formateur peut-il réaliser sur les postes de sa salle ? — 23 octobre, § 1.2 et 1.3 : accéder à une salle, consulter et arrêter les processus utilisateur (IDE, navigateur, etc.), sans arrêter les processus système, et créer une remontée pour un problème.
 - [ ] Les droits d’un formateur sont-ils limités à ses salles et à ses périodes de formation ?
 - [x] Existe-t-il un rôle de consultation seule ? — 22 octobre, § 2.3 : aucun profil de consultation seule parmi les trois profils identifiés.
 - [x] Existe-t-il un rôle d’administrateur fonctionnel chargé du paramétrage ? — Un seul profil administrateur dispose de tous les droits (23 octobre, § 1.2). La confirmation des trois seuls types d’utilisateurs le 24 octobre exclut un profil fonctionnel distinct.
@@ -60,7 +62,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] **P0** Comment représenter l'état « hors service » dans le MCD tout en excluant les attributs booléens : par une entité d'état, une association ou une autre valeur persistante ?
 - [x] Quel identifiant fait foi : numéro d’inventaire, numéro de série, étiquette interne ou autre ? — Précision de l’utilisateur du 24 octobre : identifiant interne unique attribué et géré automatiquement par ASTER, consultable mais non saisi par l’utilisateur. Le numéro de série constitue une information distincte, renseignée lorsqu’il existe.
 - [x] Un matériel peut-il posséder plusieurs identifiants ? — Précision de l’utilisateur du 24 octobre : chaque matériel possède un identifiant interne géré par l’application et peut aussi avoir un numéro de série lorsqu’il en possède un.
-- [ ] **P0** Les identifiants ajoutés à `ECOLE`, `BATIMENT`, `SALLE`, `UTILISATEUR`, `SIGNALEMENT` et `REGLE_PROCESSUS` sont-ils obligatoires, internes et uniques ?
+- [ ] **P0** Les identifiants ajoutés à `ECOLE`, `BATIMENT`, `SALLE`, `UTILISATEUR`, `REMONTEE` et `REGLE_PROCESSUS` sont-ils obligatoires, internes et uniques ?
 - [x] Faut-il gérer la marque, le modèle, le fournisseur, la date d’achat, la garantie et la valeur ? — Précisions de l’utilisateur du 24 octobre : modèle obligatoire, pouvant simplement désigner le matériel ; marque pouvant rester non renseignée, notamment pour un câble. Aucun fournisseur, aucune valeur et aucune date d’achat. La gestion de la garantie reste un bonus (23 octobre, § 1.1) ; seule sa date de fin est renseignée, sans date de début ni durée (précision de l’utilisateur du 24 octobre).
 - [ ] Faut-il gérer les caractéristiques techniques des machines ?
 - [x] Faut-il joindre des documents, photographies ou factures à une fiche matériel ? — 22 octobre, § 2.4 : aucun document associé à la fiche matériel.
@@ -69,7 +71,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 5. Localisation, affectation et cycle de vie
 
-- [x] **P0** Quel niveau de précision est attendu pour localiser un matériel ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** un matériel peut être rattaché directement à une école, un bâtiment ou une salle.
+- [x] **P0** Quel niveau de précision est attendu pour localiser un matériel ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** un matériel peut être rattaché directement une salle.
 - [x] Faut-il représenter le site, le bâtiment, l’étage, la salle, le bureau, la baie ou le port réseau ? — **Réponse de l'utilisateur du 2 novembre :** les niveaux retenus sont l'école, le bâtiment et la salle, sans niveau « étage » distinct ; le code de la salle contient souvent le numéro de l'étage. Un matériel peut être localisé à chacun de ces trois niveaux.
 - [x] Un matériel peut-il être affecté à une personne plutôt qu’à une salle ? — **Réponse de l'utilisateur du 2 novembre :** non. Un matériel est rattaché à une école, un bâtiment ou une salle, mais pas à une personne. Il peut également être en stock sans localisation.
 - [x] Un matériel peut-il appartenir à un stock sans localisation précise ? — 22 octobre, § 2.4 : un matériel peut être en stock sans localisation.
@@ -101,7 +103,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] L’aptitude concerne-t-elle un matériel, un utilisateur, une salle ou une formation ? — 23 octobre, § 1.1 : elle concerne le matériel, puisqu’elle est assimilée à sa garantie.
 - [x] Comment la date de début et la durée d’une aptitude sont-elles déterminées ? — Précision de l’utilisateur du 24 octobre : seule la date de fin de garantie est renseignée ; aucune date de début ni durée de garantie à gérer.
 - [x] Que doit-il se passer lorsqu’une aptitude arrive à expiration ? — Précision de l’utilisateur du 24 octobre : à l’expiration de sa garantie, le matériel doit être signalé comme « hors garantie ».
-- [x] Faut-il produire une alerte avant l’expiration ? — 23 octobre, § 1.1 : gestion de la garantie en bonus. Si ce bonus est réalisé, le signalement et la notification sont prévus six mois avant la fin de garantie (22 octobre, § 2.6, seuil non remplacé).
+- [x] Faut-il produire une alerte avant l’expiration ? — 23 octobre, § 1.1 : gestion de la garantie en bonus. Si ce bonus est réalisé, l'indication et la notification sont prévues six mois avant la fin de garantie (22 octobre, § 2.6, seuil non remplacé).
 - [x] Qui peut créer, modifier ou renouveler une aptitude ? — Précision de l’utilisateur du 24 octobre : le gestionnaire et l’administrateur peuvent renseigner et modifier la date de fin de garantie. À l’expiration, le matériel est signalé comme « hors garantie » ; aucun mécanisme distinct de renouvellement n’est prévu.
 - [ ] ~~**P0** Qu’est-ce qu’une « formation induite » ?~~ — Précision de l’utilisateur du 24 octobre : ASTER ne gère pas les formations ; cette notion issue du sujet n’est pas à modéliser comme une formation à gérer.
 - [ ] ~~La formation induite concerne-t-elle l’utilisation, la maintenance ou l’administration d’un matériel ?~~ — Précision de l’utilisateur du 24 octobre : aucune gestion des formations dans ASTER.
@@ -161,9 +163,9 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] Faut-il conserver un historique des mesures ? — **Réponse de l'utilisateur du 2 novembre :** oui pour les détections de processus blacklistés et non référencés. Les exécutions des processus de la whitelist ne sont pas historisées.
 - [ ] Pendant combien de temps cet historique doit-il être conservé ? — **Réponse partielle de l'utilisateur du 2 novembre :** l'historique des processus blacklistés et non référencés doit être conservé ; sa durée de conservation reste à confirmer.
 - [ ] **P0** Parmi les données exigées par RG-56, lesquelles doivent rester persistantes dans le MCD malgré l'exclusion des valeurs temporaires et calculées ?
-- [ ] ~~Un agent doit-il être installé sur les postes ?~~ — Sans objet pour la démonstration avec processus simulés (22 octobre, § 2.1). Le besoin d’un agent pour une supervision réelle reste à étudier au-delà de cette simulation.
-- [ ] ~~Si oui, qui déploie, configure et met à jour cet agent ?~~ — Sans objet pour la démonstration avec processus simulés (22 octobre, § 2.1) ; à rouvrir si un agent réel est prévu.
-- [ ] ~~Les postes peuvent-ils joindre le serveur ou le serveur doit-il contacter les postes ?~~ — Sans objet pour la collecte réelle des processus pendant la démonstration simulée (22 octobre, § 2.1) ; à rouvrir pour une supervision réelle.
+- [x] Un agent doit-il être installé sur les postes ? — **Réponse de l'utilisateur du 2 novembre :** oui. Un agent appartenant à la suite ASTER est installé sur chaque machine cible. La simulation des processus pour la démonstration porte sur les données et les actions, pas sur l'existence de ce composant dans l'architecture retenue.
+- [ ] Si oui, qui déploie, configure et met à jour cet agent ? — **Réponse partielle de l'utilisateur du 2 novembre :** l'agent appartient à la suite ASTER et est installé sur chaque machine cible. Les responsabilités et modalités de déploiement, de configuration et de mise à jour restent à préciser.
+- [ ] Les postes peuvent-ils joindre le serveur ou le serveur doit-il contacter les postes ? — **Réponse partielle de l'utilisateur du 2 novembre :** les échanges avec la machine cible passent par l'agent ASTER qui y est installé. Le sens des connexions et le protocole restent à définir.
 - [x] Comment gérer un poste temporairement déconnecté ? — **Réponse de l'utilisateur du 2 novembre :** il reste visible dans sa salle, sans liste de processus.
 - [ ] La supervision doit-elle fonctionner sur plusieurs segments réseau isolés ?
 
@@ -186,9 +188,9 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 12. Alertes
 
-- [ ] **P0** Quels événements doivent générer une alerte ? — **Réponse partielle de l'utilisateur, apportée les 24 octobre et 2 novembre :** garanties proches de leur échéance et garanties arrivées à échéance dans le cadre du bonus, ainsi que détection d'un processus blacklisté. L’administrateur ne reçoit pas d’alerte ticket (22 octobre, § 2.3). D'éventuels autres événements restent à définir.
+- [ ] **P0** Quels événements doivent générer une alerte ? — **Réponse partielle de l'utilisateur, apportée les 24 octobre et 2 novembre :** garanties proches de leur échéance et garanties arrivées à échéance dans le cadre du bonus, ainsi que détection d'un processus blacklisté. L’administrateur ne reçoit pas d’alerte concernant une remontée (22 octobre, § 2.3). D'éventuels autres événements restent à définir.
 - [ ] Quels niveaux de gravité doivent être utilisés ?
-- [ ] Qui reçoit chaque type d’alerte ? — **Réponse partielle de l'utilisateur du 2 novembre :** le gestionnaire reçoit les alertes de garantie ; le gestionnaire et l’administrateur disposent des indicateurs correspondants. Une alerte de processus blacklisté est destinée à l'administrateur et au formateur qui supervise la salle concernée. L’administrateur ne reçoit pas d’alerte ticket (22 octobre, § 2.3). Les destinataires d’éventuels autres types d’alertes restent à définir.
+- [ ] Qui reçoit chaque type d’alerte ? — **Réponse partielle de l'utilisateur du 2 novembre :** le gestionnaire reçoit les alertes de garantie ; le gestionnaire et l’administrateur disposent des indicateurs correspondants. Une alerte de processus blacklisté est destinée à l'administrateur et au formateur qui supervise la salle concernée. L’administrateur ne reçoit pas d’alerte concernant une remontée (22 octobre, § 2.3). Les destinataires d’éventuels autres types d’alertes restent à définir.
 - [ ] Les destinataires dépendent-ils de l’école, de la salle ou du matériel concerné ?
 - [x] Par quels canaux les alertes doivent-elles être transmises ? — 23 octobre, § 1.4 : uniquement dans l’application, par fenêtre contextuelle à la connexion ; aucun courriel.
 - [ ] Quels seuils déclenchent une alerte ? — **Réponse partielle :** six mois avant la fin de garantie (22 octobre, § 2.6) et à l’échéance de la garantie (précision de l’utilisateur du 24 octobre), dans le cadre du bonus de gestion de la garantie. Les autres seuils ne sont pas précisés.
@@ -204,16 +206,16 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 13. Remontées utilisateur
 
-- [x] **P0** Qu’est-ce qu’une remontée utilisateur : incident, demande, suggestion, questionnaire ou autre ? — 23 octobre, § 1.3 : signalement d’un problème sur un périphérique, via un formulaire générant un PDF d’état des lieux.
-- [x] Qui peut créer une remontée ? — **Réponse du 22 octobre et réponse de l'utilisateur du 2 novembre :** le formateur crée les signalements ; seul ce profil est explicitement autorisé à créer des tickets. Chaque signalement conserve le lien vers l'utilisateur ASTER qui le déclare.
+- [x] **P0** Qu’est-ce qu’une remontée utilisateur : incident, demande, suggestion, questionnaire ou autre ? — 23 octobre, § 1.3 : déclaration d’un problème sur un périphérique, via un formulaire générant un PDF d’état des lieux.
+- [x] Qui peut créer une remontée ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** le formateur et l'administrateur peuvent créer des remontées, puisque l'administrateur peut réaliser toutes les actions. Cette réponse complète les propos du 22 octobre qui réservaient explicitement leur création au formateur. Chaque remontée conserve le lien vers l'utilisateur ASTER qui la déclare.
 - [x] L’utilisateur doit-il être authentifié ? — **Réponse de l'utilisateur du 2 novembre :** oui. Chaque utilisateur ASTER possède un login et un mot de passe.
 - [ ] Une remontée anonyme est-elle autorisée ?
-- [x] Quelles informations doivent obligatoirement être fournies ? — **Réponse de l'utilisateur du 2 novembre :** le ou les matériels concernés et la description du problème sont obligatoires. Le signalement ne possède pas de lien direct avec une salle ; la localisation présentée provient de chaque matériel concerné.
-- [x] La salle et le poste doivent-ils être détectés automatiquement ? — **Réponse de l'utilisateur du 2 novembre :** aucun rattachement direct du signalement à une salle ou à un poste n'est conservé. La localisation affichée est celle du matériel concerné lorsqu'elle est renseignée.
+- [x] Quelles informations doivent obligatoirement être fournies ? — **Réponse de l'utilisateur du 2 novembre :** le ou les matériels concernés et la description du problème sont obligatoires. La remontée ne possède pas de lien direct avec une salle ; la localisation présentée provient de chaque matériel concerné.
+- [x] La salle et le poste doivent-ils être détectés automatiquement ? — **Réponse de l'utilisateur du 2 novembre :** aucun rattachement direct de la remontée à une salle ou à un poste n'est conservé. La localisation affichée est celle du matériel concerné lorsqu'elle est renseignée.
 - [ ] Quelles catégories et priorités doivent être proposées ?
 - [ ] L’utilisateur peut-il joindre une capture d’écran ou un document ?
 - [ ] Quels formats et tailles de pièces jointes sont autorisés ?
-- [x] Quels statuts composent le cycle de traitement d’une remontée ? — 22 octobre, § 2.5 : « en attente » et « remplacé » sont les statuts mentionnés ; les transitions ne sont pas détaillées.
+- [x] Quels statuts composent le cycle de traitement d’une remontée ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** « en attente », « remplacé » et « corrigé ». Cette réponse complète les statuts « en attente » et « remplacé » recueillis le 22 octobre (§ 2.5). Les transitions ne sont pas détaillées.
 - [ ] Qui reçoit et qualifie une nouvelle remontée ?
 - [ ] Comment une remontée est-elle affectée à un intervenant ?
 - [ ] L’utilisateur peut-il suivre son traitement et compléter sa demande ?
@@ -222,15 +224,15 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Comment traiter les doublons concernant le même incident ?
 - [ ] Faut-il mesurer les délais de prise en charge et de résolution ?
 
-## 14. Tableau de bord et statistiques
+## 14. Tableaux de bord et statistiques
 
-- [ ] **P0** À quelles décisions le tableau de bord doit-il aider ? — **Réponse partielle :** 22 octobre, § 2.6 : visualisation de l’état des stocks et des expirations ; les décisions à prendre à partir de ces indicateurs ne sont pas détaillées.
+- [ ] **P0** À quelles décisions les tableaux de bord doivent-ils aider ? — **Réponse partielle, complétée par l'utilisateur le 2 novembre :** plusieurs tableaux de bord spécialisés sont prévus. Le tableau de bord du parc présente notamment l'état des stocks et, dans le cadre du bonus, les expirations de garantie. Un tableau de bord distinct est consacré aux remontées. Les décisions et les indicateurs détaillés restent à préciser.
 - [ ] Quels indicateurs sont attendus par les gestionnaires de matériel ? — **Réponse partielle :** état des stocks (22 octobre, § 2.6) et, dans le cadre du bonus de gestion de la garantie, deux indicateurs distincts : garanties proches de l’échéance et garanties arrivées à échéance (précision de l’utilisateur du 24 octobre). Les calculs des indicateurs restent à définir.
-- [ ] Quels indicateurs sont attendus par les administrateurs techniques ? — **Réponse partielle :** état des stocks (22 octobre, § 2.6) et, comme pour le gestionnaire, deux indicateurs distincts dans le cadre du bonus de gestion de la garantie : garanties proches de l’échéance et garanties arrivées à échéance (précision de l’utilisateur du 24 octobre). Les calculs des indicateurs restent à définir.
+- [ ] Quels indicateurs sont attendus par les administrateurs techniques ? — **Réponse partielle :** l'administrateur accède aux tableaux de bord spécialisés du parc et des remontées. Il est proposé qu'il puisse également consulter des statistiques d'utilisation, mais cette fonctionnalité et ses indicateurs sont **à valider**. Pour le parc, les éléments déjà recueillis sont l'état des stocks et, dans le cadre du bonus, les garanties proches de l'échéance et arrivées à échéance. Les calculs restent à définir.
 - [ ] Quels indicateurs sont attendus par les formateurs ?
 - [ ] Quels indicateurs sont attendus au niveau central ?
 - [ ] Les données doivent-elles être instantanées, quotidiennes, hebdomadaires ou mensuelles ?
-- [x] Quels filtres doivent être disponibles ? — 22 octobre, § 2.6 : vue globale avec filtrage par salle.
+- [ ] Quels filtres doivent être disponibles ? — **Réponse partielle :** le tableau de bord du parc propose une vue globale filtrable par salle (22 octobre, § 2.6). Les filtres des autres tableaux de bord spécialisés restent à préciser.
 - [ ] Faut-il comparer des périodes, des écoles ou des salles ?
 - [ ] Faut-il afficher des tendances et des historiques ?
 - [ ] Les utilisateurs peuvent-ils personnaliser leur tableau de bord ?
@@ -243,8 +245,8 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 ## 15. Documents d’état des lieux
 
 - [x] **P0** Que doit contenir un document d’état des lieux ? — **Réponse de l'utilisateur du 2 novembre :** le PDF indique notamment le matériel ou son type, le type de problème et une description. La localisation de chaque matériel concerné peut y figurer lorsqu'elle est renseignée ; elle peut correspondre à une école, un bâtiment ou une salle.
-- [x] À quel moment et dans quel but ce document est-il produit ? — 23 octobre, § 1.3 : produit lors du signalement d’un problème par le formateur, à partir du formulaire de remontée.
-- [x] Le document concerne-t-il une salle, une école, une période ou un ensemble de matériels ? — **Réponse de l'utilisateur du 2 novembre :** le document concerne le ou les matériels du signalement. Il n'est pas rattaché directement à une salle ; les localisations éventuelles proviennent des matériels concernés.
+- [x] À quel moment et dans quel but ce document est-il produit ? — produit lors de la création d’une remontée par le formateur ou l'administrateur, à partir du formulaire de la remontée.
+- [x] Le document concerne-t-il une salle, une école, une période ou un ensemble de matériels ? — **Réponse de l'utilisateur du 2 novembre :** le document concerne le ou les matériels de la remontée. Il n'est pas rattaché directement à une salle ; les localisations éventuelles proviennent des matériels concernés.
 - [ ] Existe-t-il un modèle officiel à respecter ?
 - [x] Quels champs, tableaux et indicateurs doivent y figurer ? — **Réponse de l'utilisateur du 2 novembre :** matériel ou type de matériel, type de problème et description ; aucun tableau ou indicateur supplémentaire n'est mentionné. La localisation de chaque matériel peut figurer lorsqu'elle est renseignée.
 - [ ] Le document doit-il inclure des photographies ou des observations ? — **Réponse partielle :** 23 octobre, § 1.3 : une description du problème est prévue ; photographies non précisées.
@@ -253,7 +255,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Une numérotation officielle est-elle requise ?
 - [ ] Faut-il archiver chaque version générée ?
 - [ ] Un document déjà produit doit-il rester identique même si les données changent ensuite ?
-- [ ] Qui peut générer, consulter et télécharger ces documents ? — **Réponse partielle :** 23 octobre, § 1.2 et 1.3 : génération par le formateur et consultation par le gestionnaire ; l’administrateur dispose de tous les droits. Les modalités de téléchargement ne sont pas précisées.
+- [ ] Qui peut générer, consulter et télécharger ces documents ? — **Réponse partielle :** génération par le formateur ou l'administrateur et consultation par le gestionnaire ou l'administrateur. Les modalités de téléchargement ne sont pas précisées.
 
 ## 16. Recherche, consultation et ergonomie
 
@@ -280,7 +282,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] ~~Comment détecter et traiter les doublons ?~~ — Sans objet pour la reprise non fournie (23 octobre, § 1.6). La prévention des doublons de matériel reste ouverte en section 4.
 - [ ] ~~Faut-il conserver les identifiants historiques ?~~ — Sans objet pour les données de reprise non fournies (23 octobre, § 1.6). À rouvrir si une reprise est demandée.
 - [ ] ~~L’import Excel est-il limité à la migration initiale ?~~ — Sans objet à ce stade : 23 octobre, § 1.6 : aucun fichier Excel ni donnée de reprise fourni ; pas de reprise Excel à traiter actuellement. L’import JSON de nouveaux périphériques reste un sujet distinct.
-- [ ] Les utilisateurs doivent-ils pouvoir effectuer eux-mêmes de nouveaux imports ? — **Réponse partielle :** précision de l’utilisateur du 24 octobre : saisie manuelle et import JSON prévus pour les nouveaux matériels, sans connexion directe au CND. La mise à jour par import est immédiate, sans vérification (22 octobre, § 2.7). Les rôles autorisés à importer restent à préciser.
+- [x] Les utilisateurs doivent-ils pouvoir effectuer eux-mêmes de nouveaux imports ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** le gestionnaire et l'administrateur peuvent importer en JSON de nouveaux matériels, sans connexion directe au CND. La mise à jour par import est immédiate, sans vérification (22 octobre, § 2.7).
 - [ ] Faut-il conserver un export Excel pour les échanges ou le mode dégradé ?
 - [ ] ~~Comment vérifier et valider le résultat d’une migration ?~~ — Sans objet pour la reprise actuellement documentée : aucune donnée fournie le 23 octobre (§ 1.6). À rouvrir si une migration est demandée.
 
@@ -301,7 +303,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Quelles actions doivent être tracées dans un journal d’audit ? — **Réponse partielle :** 22 octobre, § 2.8 : journaux en bonus et proposition libre ; actions à tracer non définies.
 - [ ] Qui peut consulter les journaux d’audit ?
 - [ ] Les journaux doivent-ils être protégés contre la modification ?
-- [ ] ~~Comment les éventuels agents installés sur les postes s’authentifient-ils auprès du serveur ?~~ — Sans objet pour la démonstration des processus simulés (22 octobre, § 2.1), sans agent réel prévu pour cette simulation. À rouvrir si un agent est retenu.
+- [ ] Comment les agents ASTER installés sur les postes s’authentifient-ils auprès du serveur ? — **Réponse partielle de l'utilisateur du 2 novembre :** l'agent appartient à la suite ASTER et est installé sur chaque machine cible. Son mécanisme d'authentification reste à définir.
 - [ ] Comment les secrets, certificats et clés techniques sont-ils distribués et renouvelés ?
 
 ## 19. Architecture, réseau et intégrations
@@ -311,7 +313,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Quels flux réseau entrants et sortants sont autorisés ?
 - [ ] Les écoles sont-elles reliées au même réseau ?
 - [ ] Existe-t-il des réseaux ou zones de sécurité séparés ?
-- [ ] Les postes supervisés peuvent-ils communiquer directement avec le serveur ?
+- [ ] Les agents ASTER installés sur les postes supervisés peuvent-ils communiquer directement avec le serveur ?
 - [ ] Un fonctionnement partiel hors connexion est-il nécessaire ?
 - [ ] Quels systèmes existants doivent être intégrés à ASTER ?
 - [ ] Quelles API, documentations et plateformes de test sont disponibles ?
@@ -338,12 +340,12 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 21. Sauvegarde, exploitation et maintenance
 
-- [ ] Qui surveillera le bon fonctionnement du serveur et des éventuels agents ?
+- [ ] Qui surveillera le bon fonctionnement du serveur et des agents ASTER ?
 - [ ] À quelle fréquence les sauvegardes doivent-elles être réalisées ?
 - [ ] Où les sauvegardes doivent-elles être stockées ?
 - [ ] À quelle fréquence une restauration doit-elle être testée ?
 - [ ] Comment les mises à jour de l’application seront-elles déployées ?
-- [ ] ~~Comment les mises à jour des agents seront-elles déployées ?~~ — Sans objet pour la démonstration des processus simulés (22 octobre, § 2.1). À rouvrir si un agent réel est retenu.
+- [ ] Comment les mises à jour des agents ASTER seront-elles déployées ? — **Réponse partielle de l'utilisateur du 2 novembre :** les agents appartiennent à la suite ASTER et sont installés sur les machines cibles ; leur mécanisme de mise à jour reste à définir.
 - [ ] Une procédure de retour à la version précédente est-elle nécessaire ?
 - [ ] Quels journaux techniques doivent être collectés ? — **Réponse partielle :** 22 octobre, § 2.8 : journaux en bonus, proposition libre de l’équipe ; contenu technique non précisé.
 - [ ] Qui reçoit les alertes concernant le fonctionnement d’ASTER lui-même ?

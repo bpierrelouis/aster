@@ -18,12 +18,12 @@ Ce document conserve la trace historique des entretiens des 22 et 23 octobre. Le
 - Le gestionnaire peut consulter les états des lieux. La possibilité pour l'administrateur de les consulter reste une question ouverte dans les notes de cet entretien.
 - La nécessité d'un rôle « stagiaire » n'est pas établie. La piste évoquée consiste plutôt à récupérer le nom de la session des utilisateurs pour identifier l'utilisateur associé aux processus.
 
-### 1.3. Remontées de problèmes et documents d'état des lieux
+### 1.3. Remontées et documents d'état des lieux
 
-- Pour signaler un problème, le formateur crée un rapport précisant le périphérique concerné, la salle si elle n'est pas connue et une description du problème.
-- Le formulaire de remontée de problème génère un document d'état des lieux au format PDF.
+- Pour déclarer un problème, le formateur crée une remontée précisant le périphérique concerné, la salle si elle n'est pas connue et une description du problème.
+- Le formulaire de la remontée génère un document d'état des lieux au format PDF.
 - Le document doit notamment indiquer le type de matériel, le type de problème et l'emplacement. Une simple fenêtre contextuelle ne suffit pas.
-- Dans les termes de cet entretien, le « document d'état des lieux » correspond au formulaire de signalement d'un problème et au PDF qui en résulte.
+- Dans les termes de cet entretien, le « document d'état des lieux » correspond au formulaire d'une remontée et au PDF qui en résulte.
 
 ### 1.4. Notifications
 
@@ -60,10 +60,10 @@ Ce document conserve la trace historique des entretiens des 22 et 23 octobre. Le
 - Trois profils sont identifiés : administrateur, gestionnaire et formateur.
 - L'administrateur peut réaliser toutes les actions.
 - Le gestionnaire gère les stocks et affecte les matériels. Les opérations de création, de consultation et de modification lui sont accessibles, mais pas la suppression.
-- Le formateur peut uniquement effectuer des remontées de problèmes.
+- Le formateur peut uniquement créer des remontées pour déclarer des problèmes.
 - Seul l'administrateur peut gérer les processus.
-- Seul le formateur peut créer des tickets.
-- L'administrateur ne reçoit pas d'alerte concernant les tickets.
+- Seul le formateur peut créer des remontées.
+- L'administrateur ne reçoit pas d'alerte concernant les remontées.
 
 ### 2.4. Matériels et inventaire
 
@@ -76,10 +76,10 @@ Ce document conserve la trace historique des entretiens des 22 et 23 octobre. Le
 - Une solution doit être trouvée pour réaliser des affectations et des opérations de gestion sur plusieurs matériels à la fois ; les notes évoquent un « CRUD multiple ».
 - Aucune campagne d'inventaire n'est prévue.
 
-### 2.5. Tickets et remontées de problèmes
+### 2.5. Remontées
 
-- Un ticket peut concerner plusieurs périphériques.
-- Les statuts mentionnés pour un ticket sont « en attente » et « remplacé ».
+- Une remontée peut concerner plusieurs périphériques.
+- Les statuts mentionnés pour une remontée sont « en attente » et « remplacé ».
 
 ### 2.6. Tableau de bord, garanties et notifications
 
