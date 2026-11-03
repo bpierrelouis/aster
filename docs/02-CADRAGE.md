@@ -32,23 +32,23 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 3. Utilisateurs, rôles et responsabilités
 
-- [x] **P0** Quelles catégories d’utilisateurs utiliseront réellement l’application ? — Précision de l’utilisateur du 24 octobre : exactement trois types d’utilisateurs, administrateur, gestionnaire et formateur ; aucun compte stagiaire.
-- [x] À quelle organisation un utilisateur est-il rattaché ? — **Réponse de l'utilisateur du 2 novembre :** chaque utilisateur ASTER est rattaché à une école.
-- [ ] Le rattachement à une école limite-t-il les droits et les données accessibles ? — **Réponse partielle de l'utilisateur du 2 novembre :** le rattachement de chaque utilisateur à une école est confirmé ; son effet éventuel sur le périmètre des droits n'est pas précisé.
-- [x] Que recouvre précisément le terme « acteurs de la formation » ? — Précision de l’utilisateur du 24 octobre : expression générale issue du sujet, sans rôle supplémentaire dans ASTER. Seuls les profils administrateur, gestionnaire et formateur existent. ASTER ne gère pas les formations.
-- [x] Quelles actions un gestionnaire de matériel peut-il consulter, créer, modifier ou supprimer ? — 22 octobre, § 2.2 et 2.3 : gestion globale des stocks, affectation, création, consultation et modification des matériels ; pas de suppression.
-- [x] Quelles actions un administrateur de salle technique peut-il réaliser ? — 23 octobre, § 1.2 : l’administrateur dispose de tous les droits et peut réaliser toutes les actions.
+- [x] **P0** Quelles catégories d’utilisateurs utiliseront réellement l’application ? — **Décision de l’utilisateur du 3 novembre, remplaçant la liste du 24 octobre :** quatre profils existent dans ASTER : administrateur, gestionnaire, formateur et super administrateur. Aucun compte stagiaire n’est prévu.
+- [x] À quelle organisation un utilisateur est-il rattaché ? — **Décision de l’utilisateur du 3 novembre :** l’administrateur, le gestionnaire et le formateur sont chacun rattachés à une école. Le super administrateur n’est rattaché à aucune école.
+- [x] Le rattachement à une école limite-t-il les droits et les données accessibles ? — **Décision de l’utilisateur du 3 novembre :** l’administrateur, le gestionnaire et le formateur accèdent uniquement aux données de leur école de rattachement. Le super administrateur accède aux données de toutes les écoles.
+- [x] Que recouvre précisément le terme « acteurs de la formation » ? — Précision de l’utilisateur du 24 octobre, complétée le 3 novembre : expression générale issue du sujet, sans rôle supplémentaire dans ASTER. Les profils sont administrateur, gestionnaire, formateur et super administrateur. ASTER ne gère pas les formations.
+- [x] Quelles actions un gestionnaire de matériel peut-il consulter, créer, modifier ou supprimer ? — 22 octobre, § 2.2 et 2.3, complété par l’utilisateur le 3 novembre : gestion de l’ensemble des stocks de son école, affectation, création, consultation et modification des matériels ; pas de suppression.
+- [x] Quelles actions un administrateur de salle technique peut-il réaliser ? — 23 octobre, § 1.2, complété par l’utilisateur le 3 novembre : l’administrateur dispose de tous les droits dans son école de rattachement. Le super administrateur dispose des mêmes droits sur l’ensemble des écoles.
 - [x] Quelles actions un formateur peut-il réaliser sur les postes de sa salle ? — 23 octobre, § 1.2 et 1.3 : accéder à une salle, consulter et arrêter les processus utilisateur (IDE, navigateur, etc.), sans arrêter les processus système, et créer une remontée pour un problème.
-- [x] Les droits d’un formateur sont-ils limités à certaines salles ? — Précision de l’utilisateur du 27 octobre : le formateur peut accéder à toutes les salles, car il peut intervenir dans plusieurs salles. Ses actions restent limitées aux droits de son profil.
-- [ ] Les droits d’un formateur sont-ils limités à certaines périodes d’utilisation ?
-- [x] Existe-t-il un rôle de consultation seule ? — 22 octobre, § 2.3 : aucun profil de consultation seule parmi les trois profils identifiés.
-- [x] Existe-t-il un rôle d’administrateur fonctionnel chargé du paramétrage ? — Un seul profil administrateur dispose de tous les droits (23 octobre, § 1.2). La confirmation des trois seuls types d’utilisateurs le 24 octobre exclut un profil fonctionnel distinct.
-- [x] Existe-t-il un rôle d’administrateur technique chargé de l’exploitation ? — Un seul profil administrateur dispose de tous les droits (23 octobre, § 1.2). La confirmation des trois seuls types d’utilisateurs le 24 octobre exclut un profil technique distinct.
-- [ ] Un utilisateur peut-il cumuler plusieurs rôles ?
-- [ ] Qui crée, modifie, désactive et réactive les comptes ?
-- [x] Qui autorise les opérations sensibles sur les postes ? — Précision de l’utilisateur du 24 octobre : chaque utilisateur autorisé peut agir directement, dans la limite de ses droits, sans accord préalable d’une autre personne. L’administrateur dispose de tous les droits et réalise la masterisation ; le formateur peut arrêter les processus utilisateur, hors processus système (23 octobre, § 1.2 et 1.5).
+- [x] Les droits d’un formateur sont-ils limités à certaines salles ? — Précision de l’utilisateur du 27 octobre, complétée le 3 novembre : le formateur peut accéder à toutes les salles de son école de rattachement, car il peut intervenir dans plusieurs salles. Ses actions restent limitées aux droits de son profil.
+- [ ] ~~Les droits d’un formateur sont-ils limités à certaines périodes d’utilisation ?~~ — **Sans objet, décision de l’utilisateur du 3 novembre :** aucune limitation temporelle des droits du formateur n’est demandée.
+- [x] Existe-t-il un rôle de consultation seule ? — 22 octobre, § 2.3, complété par l’utilisateur le 3 novembre : aucun profil de consultation seule parmi les quatre profils identifiés.
+- [x] Existe-t-il un rôle d’administrateur fonctionnel chargé du paramétrage ? — **Décision de l’utilisateur du 3 novembre :** l’administrateur et le super administrateur possèdent les mêmes droits fonctionnels ; ils se distinguent par leur périmètre d’accès aux écoles. Aucun profil fonctionnel distinct n’est prévu.
+- [x] Existe-t-il un rôle d’administrateur technique chargé de l’exploitation ? — **Décision de l’utilisateur du 3 novembre :** l’administrateur et le super administrateur possèdent les mêmes droits applicatifs ; ils se distinguent par leur périmètre d’accès aux écoles. Aucun profil technique distinct n’est prévu.
+- [x] Un utilisateur peut-il cumuler plusieurs rôles ? — **Décision de l’utilisateur du 3 novembre :** non. Chaque utilisateur ASTER possède exactement un profil parmi administrateur, gestionnaire, formateur et super administrateur.
+- [x] Qui crée, modifie, désactive et réactive les comptes ? — **Décision de l’utilisateur du 3 novembre :** l’administrateur gère les comptes rattachés à son école. Le super administrateur gère les comptes de toutes les écoles. Le gestionnaire et le formateur ne gèrent pas les comptes ASTER.
+- [x] Qui autorise les opérations sensibles sur les postes ? — Précision de l’utilisateur du 24 octobre, complétée le 3 novembre : chaque utilisateur autorisé peut agir directement, dans la limite de ses droits, sans accord préalable d’une autre personne. L’administrateur et le super administrateur disposent de tous les droits sur leur périmètre et réalisent la masterisation ; le formateur peut arrêter les processus utilisateur, hors processus système (23 octobre, § 1.2 et 1.5).
 - [x] Certaines opérations nécessitent-elles une validation par une seconde personne ? — Précision de l’utilisateur du 24 octobre : non, l’utilisateur autorisé peut agir directement dans la limite de ses droits.
-- [ ] Faut-il déléguer temporairement des droits en cas d’absence ?
+- [ ] ~~Faut-il déléguer temporairement des droits en cas d’absence ?~~ — **Sans objet, décision de l’utilisateur du 3 novembre :** aucun mécanisme de délégation temporaire des droits n’est demandé.
 
 ## 4. Modèle du parc informatique
 
@@ -124,7 +124,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Faut-il détecter les versions absentes, obsolètes ou non conformes ?
 - [ ] Faut-il conserver l’historique des logiciels installés ?
 - [ ] Qui peut modifier le référentiel des applications ?
-- [ ] ASTER doit-il installer ou désinstaller une application, ou seulement signaler sa présence ? — **Réponse partielle de l'utilisateur du 3 novembre :** ASTER doit utiliser les mécanismes d'administration Windows, sans agent propre, pour déclencher les opérations prises en charge. Les actions proposées dans l'application web et leur mécanisme précis restent à définir.
+- [x] ASTER doit-il installer ou désinstaller une application, ou seulement signaler sa présence ? — **Décision de l'utilisateur du 3 novembre :** l’administrateur peut déclencher à distance l’installation et la désinstallation d’une application depuis l’application web ASTER, pour un poste individuel ou l’ensemble des postes d’une salle. L’opération utilise les mécanismes d’administration Windows existants, sans agent ASTER ; le mécanisme précis reste à identifier.
 
 ## 9. Réinstallation des postes et des salles
 
@@ -140,7 +140,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Comment les données à préserver sont-elles sauvegardées et restaurées ?
 - [ ] Une opération doit-elle être immédiate ou planifiée ?
 - [ ] Faut-il vérifier que la salle est libre avant de démarrer ?
-- [ ] Qui peut autoriser, annuler ou interrompre une réinstallation ? — **Réponse partielle :** 23 octobre, § 1.5 : l’administrateur réalise la masterisation ; les droits d’annulation et d’interruption ne sont pas détaillés.
+- [ ] ~~Qui peut annuler ou interrompre une réinstallation ?~~ — **Sans objet, décision de l’utilisateur du 3 novembre :** ces actions ne sont pas demandées dans ASTER. L’administrateur reste le seul profil autorisé à déclencher la réinstallation.
 - [ ] Faut-il demander une confirmation renforcée pour une salle complète ?
 - [ ] Peut-on réinstaller seulement une partie des postes d’une salle ?
 - [ ] Comment suivre la progression de l’opération ?
@@ -151,7 +151,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 10. Supervision des postes
 
-- [x] **P0** Que signifie « superviser un poste » pour le commanditaire ? — **Réponse du 23 octobre, § 1.2, complétée par l'utilisateur le 2 novembre :** consulter les processus utilisateur des postes d'une salle, permettre leur arrêt manuel et appliquer automatiquement les règles de blacklist. Le formateur peut entrer dans toutes les salles, mais ne dispose pas d'une vue globale de supervision. La gestion des processus est simulée pour la démonstration (22 octobre, § 2.1).
+- [x] **P0** Que signifie « superviser un poste » pour le commanditaire ? — **Réponse du 23 octobre, § 1.2, complétée par l'utilisateur les 2 et 3 novembre :** consulter les processus utilisateur des postes d'une salle, permettre leur arrêt manuel et appliquer automatiquement les règles de blacklist. Le formateur peut entrer dans toutes les salles de son école de rattachement, mais ne dispose pas d'une vue globale de supervision. La gestion des processus est simulée pour la démonstration (22 octobre, § 2.1).
 - [x] **P0** La supervision doit-elle être en temps réel ou périodique ? — **Réponse de l'utilisateur du 2 novembre :** supervision périodique actualisée toutes les cinq secondes.
 - [x] Quelles données doivent remonter depuis chaque poste ? — **Réponse de l'utilisateur du 2 novembre :** les processus internes sont exclus. Dans le MCD, `PROCESSUS` conserve uniquement un identifiant et un nom ; `POSTE` et `COMPTE_WINDOWS` sont des entités distinctes reliées au processus par l'association ternaire `exécuter`. Cette association porte les dates de démarrage, de détection et d'arrêt. Les autres informations de supervision relèvent des traitements.
 - [x] **P0** Quels identifiants et attributs persistants définissent `POSTE` et `COMPTE_WINDOWS` ? — **Réponse vérifiée dans la source du MCD et complétée par l’utilisateur le 2 novembre :** `POSTE` porte `Id_poste`, `nom_réseau`, `adresse_ip` et `adresse_mac`. `COMPTE_WINDOWS` porte l'identifiant interne `Id_compte` et le champ `nom_utilisateur`, qui correspond au nom du compte Windows utilisé sur le poste.
@@ -191,9 +191,9 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 12. Alertes
 
-- [ ] **P0** Quels événements doivent générer une alerte ? — **Réponse partielle de l'utilisateur, apportée les 24 octobre et 2 novembre :** garanties proches de leur échéance et garanties arrivées à échéance dans le cadre du bonus, ainsi que détection d'un processus blacklisté. L’administrateur ne reçoit pas d’alerte concernant une remontée (22 octobre, § 2.3). D'éventuels autres événements restent à définir.
+- [ ] **P0** Quels événements doivent générer une alerte ? — **Réponse partielle de l'utilisateur, complétée le 3 novembre :** garanties proches de leur échéance et garanties arrivées à échéance dans le cadre du bonus, détection d'un processus blacklisté, création d’une remontée pour le gestionnaire et changement de statut d’une remontée pour son auteur formateur. L’administrateur ne reçoit pas d’alerte concernant une remontée (22 octobre, § 2.3). D'éventuels autres événements restent à définir.
 - [ ] Quels niveaux de gravité doivent être utilisés ?
-- [ ] Qui reçoit chaque type d’alerte ? — **Réponse partielle de l'utilisateur du 2 novembre :** le gestionnaire reçoit les alertes de garantie ; le gestionnaire et l’administrateur disposent des indicateurs correspondants. Une alerte de processus blacklisté est destinée à l'administrateur et au formateur qui supervise la salle concernée. L’administrateur ne reçoit pas d’alerte concernant une remontée (22 octobre, § 2.3). Les destinataires d’éventuels autres types d’alertes restent à définir.
+- [ ] Qui reçoit chaque type d’alerte ? — **Réponse partielle de l'utilisateur, complétée le 3 novembre :** le gestionnaire reçoit les alertes de garantie et une notification à la création de chaque nouvelle remontée ; le gestionnaire et l’administrateur disposent des indicateurs de garantie correspondants. Une alerte de processus blacklisté est destinée à l'administrateur et au formateur qui supervise la salle concernée. Le formateur reçoit une notification lorsque le statut de l’une de ses propres remontées change. L’administrateur ne reçoit pas d’alerte concernant une remontée (22 octobre, § 2.3). Les destinataires d’éventuels autres types d’alertes restent à définir.
 - [ ] Les destinataires dépendent-ils de l’école, de la salle ou du matériel concerné ?
 - [x] Par quels canaux les alertes doivent-elles être transmises ? — 23 octobre, § 1.4 : uniquement dans l’application, par fenêtre contextuelle à la connexion ; aucun courriel.
 - [ ] Quels seuils déclenchent une alerte ? — **Réponse partielle :** six mois avant la fin de garantie (22 octobre, § 2.6) et à l’échéance de la garantie (précision de l’utilisateur du 24 octobre), dans le cadre du bonus de gestion de la garantie. Les autres seuils ne sont pas précisés.
@@ -220,11 +220,11 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Quels formats et tailles de pièces jointes sont autorisés ?
 - [x] Quels statuts composent le cycle de traitement d’une remontée ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** « en attente », « remplacé » et « corrigé ». Cette réponse complète les statuts « en attente » et « remplacé » recueillis le 22 octobre (§ 2.5). Précision de l’utilisateur du 2 novembre dans le présent échange : le statut porte sur la remontée entière, même lorsqu’elle concerne plusieurs matériels ; aucun statut de traitement par matériel n’est prévu. Précision compatible de l’utilisateur du 27 octobre : le gestionnaire peut faire passer une remontée de « en attente » à « remplacé » ; l’administrateur le peut également puisqu’il dispose de tous les droits. Les autres transitions éventuelles ne sont pas définies.
 - [x] Qui est chargé du traitement des signalements ? — Précision de l’utilisateur du 27 octobre : le traitement des tickets relève du travail du gestionnaire. L’administrateur peut également intervenir puisqu’il dispose de tous les droits.
-- [ ] Qui reçoit et qualifie une nouvelle remontée ? — **Réponse partielle :** le traitement relève du gestionnaire, avec intervention possible de l’administrateur (précision du 27 octobre) ; les modalités de réception et de qualification restent à préciser.
+- [ ] Qui reçoit et qualifie une nouvelle remontée ? — **Réponse partielle, complétée par l’utilisateur le 3 novembre :** le gestionnaire reçoit dans ASTER une notification à la création de chaque nouvelle remontée. Le traitement relève du gestionnaire, avec intervention possible de l’administrateur (précision du 27 octobre) ; les modalités de qualification restent à préciser.
 - [ ] Comment une remontée est-elle affectée à un intervenant ?
 - [x] Le formateur peut-il suivre le traitement de ses signalements ? — Précision de l’utilisateur du 27 octobre : oui, le formateur peut consulter l’avancement des signalements qu’il a créés.
 - [ ] Le formateur peut-il compléter un signalement après sa création ?
-- [ ] Doit-il recevoir des notifications lors des changements de statut ?
+- [x] Doit-il recevoir des notifications lors des changements de statut ? — **Décision de l’utilisateur du 3 novembre :** le formateur reçoit dans ASTER une notification lorsque le statut d’une remontée qu’il a lui-même créée change. Aucun courriel n’est envoyé.
 - [ ] Une remontée peut-elle être transformée en alerte ou liée à une alerte existante ?
 - [ ] Comment traiter les doublons concernant le même incident ?
 - [ ] Faut-il mesurer les délais de prise en charge et de résolution ?
@@ -233,7 +233,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 - [ ] **P0** À quelles décisions les tableaux de bord doivent-ils aider ? — **Réponse partielle, complétée par l'utilisateur le 2 novembre :** plusieurs tableaux de bord spécialisés sont prévus. Le tableau de bord du parc présente notamment l'état des stocks et, dans le cadre du bonus, les expirations de garantie. Un tableau de bord distinct est consacré aux remontées. Les décisions et les indicateurs détaillés restent à préciser.
 - [ ] Quels indicateurs sont attendus par les gestionnaires de matériel ? — **Réponse partielle :** état des stocks (22 octobre, § 2.6) et, dans le cadre du bonus de gestion de la garantie, deux indicateurs distincts : garanties proches de l’échéance et garanties arrivées à échéance (précision de l’utilisateur du 24 octobre). Les calculs des indicateurs restent à définir.
-- [ ] Quels indicateurs sont attendus par les administrateurs techniques ? — **Réponse partielle :** l'administrateur accède aux tableaux de bord spécialisés du parc et des remontées. Il est proposé qu'il puisse également consulter des statistiques d'utilisation, mais cette fonctionnalité et ses indicateurs sont **à valider**. Pour le parc, les éléments déjà recueillis sont l'état des stocks et, dans le cadre du bonus, les garanties proches de l'échéance et arrivées à échéance. Les calculs restent à définir.
+- [ ] Quels indicateurs sont attendus par les administrateurs techniques ? — **Réponse partielle, complétée par l’utilisateur le 3 novembre :** l'administrateur accède aux tableaux de bord spécialisés du parc et des remontées et peut consulter des statistiques d’utilisation des postes et des processus. Les indicateurs et leurs règles de calcul restent à définir. Pour le parc, les éléments déjà recueillis sont l'état des stocks et, dans le cadre du bonus, les garanties proches de l'échéance et arrivées à échéance.
 - [ ] Quels indicateurs sont attendus par les formateurs ? — Aucun tableau de bord formateur n'est défini à ce stade ; ses éventuels indicateurs restent à préciser.
 - [ ] Quels indicateurs sont attendus au niveau central ?
 - [ ] Les données doivent-elles être instantanées, quotidiennes, hebdomadaires ou mensuelles ?
@@ -260,7 +260,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Une numérotation officielle est-elle requise ?
 - [ ] Faut-il archiver chaque version générée ?
 - [ ] Un document déjà produit doit-il rester identique même si les données changent ensuite ?
-- [ ] Qui peut générer, consulter et télécharger ces documents ? — **Réponse partielle :** génération par le formateur ou l'administrateur et consultation par le gestionnaire ou l'administrateur. Les modalités de téléchargement ne sont pas précisées.
+- [x] Qui peut générer, consulter et télécharger ces documents ? — **Décision de l’utilisateur du 3 novembre :** le formateur et l’administrateur génèrent les documents en créant une remontée. Le gestionnaire et l’administrateur peuvent consulter et télécharger tous les PDF d’état des lieux. Le formateur peut consulter et télécharger uniquement le PDF d’une remontée qu’il a lui-même créée.
 
 ## 16. Recherche, consultation et ergonomie
 

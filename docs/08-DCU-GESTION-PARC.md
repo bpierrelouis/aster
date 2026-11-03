@@ -5,9 +5,11 @@ flowchart LR
     acteurGestion(["Acteur de gestion du parc"])
     gestionnaire(["Gestionnaire"])
     administrateur(["Administrateur"])
+    superAdministrateur(["Super administrateur"])
 
     gestionnaire -->|« hérite de »| acteurGestion
     administrateur -->|« hérite de »| acteurGestion
+    superAdministrateur -->|« hérite de »| acteurGestion
 
     subgraph aster["Application web ASTER — Gestion du parc"]
         direction TB
@@ -35,6 +37,7 @@ flowchart LR
     acteurGestion --- consulterTableau
     acteurGestion --- renseignerGarantie
     administrateur --- supprimer
+    superAdministrateur --- supprimer
 
     consulter -.->|« include »| rechercher
     modifier -.->|« include »| consulter
@@ -46,7 +49,7 @@ flowchart LR
     classDef acteur fill:#C2E5FF,stroke:#3DADFF,color:#17243B
     classDef acteurGeneral fill:#E8F5E9,stroke:#3E9B4B,color:#17243B
     classDef cas fill:#F6F4FB,stroke:#6954C0,color:#17243B
-    class gestionnaire,administrateur acteur
+    class gestionnaire,administrateur,superAdministrateur acteur
     class acteurGestion acteurGeneral
     class rechercher,enregistrer,consulter,modifier,supprimer,affecter,deplacer,affecterGroupe,consulterParc,consulterTableau,renseignerGarantie cas
 ```

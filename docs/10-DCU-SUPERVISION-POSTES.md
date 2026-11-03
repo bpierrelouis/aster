@@ -5,9 +5,11 @@ flowchart LR
     acteurSupervision(["Acteur de supervision"])
     formateur(["Formateur"])
     administrateur(["Administrateur"])
+    superAdministrateur(["Super administrateur"])
 
     formateur -->|« hérite de »| acteurSupervision
     administrateur -->|« hérite de »| acteurSupervision
+    superAdministrateur -->|« hérite de »| acteurSupervision
 
     subgraph aster["Application web ASTER — Supervision des postes"]
         direction TB
@@ -19,7 +21,7 @@ flowchart LR
         appliquerRegles(["Classer les processus et<br/>appliquer les règles"])
         arreterInterdit(["Arrêter automatiquement<br/>un processus blacklisté"])
         consulterAlertes(["Recevoir et consulter une alerte<br/>de processus blacklisté"])
-        consulterStatistiques(["Consulter les statistiques d'utilisation<br/>(à valider)"])
+        consulterStatistiques(["Consulter les statistiques d'utilisation"])
     end
 
     servicesWindows(["Services Windows<br/>d'administration à distance"])
@@ -30,7 +32,9 @@ flowchart LR
     acteurSupervision --- arreterProcessus
     acteurSupervision --- consulterAlertes
     administrateur --- gererListes
-    administrateur -.->|« proposition »| consulterStatistiques
+    administrateur --- consulterStatistiques
+    superAdministrateur --- gererListes
+    superAdministrateur --- consulterStatistiques
 
     consulterEtat -.->|« include »| accederSalle
     consulterProcessus -.->|« include »| accederSalle
@@ -46,10 +50,8 @@ flowchart LR
     classDef acteurGeneral fill:#E8F5E9,stroke:#3E9B4B,color:#17243B
     classDef acteurSecondaire fill:#FFECBD,stroke:#E8B84E,color:#17243B
     classDef cas fill:#F6F4FB,stroke:#6954C0,color:#17243B
-    classDef casAValider fill:#FFF8E1,stroke:#D39E00,color:#17243B,stroke-dasharray: 5 5
-    class formateur,administrateur acteur
+    class formateur,administrateur,superAdministrateur acteur
     class acteurSupervision acteurGeneral
     class servicesWindows acteurSecondaire
-    class accederSalle,consulterEtat,consulterProcessus,arreterProcessus,gererListes,appliquerRegles,arreterInterdit,consulterAlertes cas
-    class consulterStatistiques casAValider
+    class accederSalle,consulterEtat,consulterProcessus,arreterProcessus,gererListes,appliquerRegles,arreterInterdit,consulterAlertes,consulterStatistiques cas
 ```

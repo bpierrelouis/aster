@@ -6,7 +6,7 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 
 ## 1. Règles relatives aux données
 
-- **RG-01 — Profils utilisateurs.** Le profil d'un utilisateur est obligatoirement l'une des trois valeurs suivantes : administrateur, gestionnaire ou formateur.
+- **RG-01 — Profils utilisateurs.** Le profil d'un utilisateur est obligatoirement l'une des quatre valeurs suivantes : administrateur, gestionnaire, formateur ou super administrateur (décision de l’utilisateur du 3 novembre).
 - **RG-02 — Organisation géographique.** Une salle appartient à une école et porte l'information de son bâtiment. Le bâtiment ne constitue pas une entité autonome (décision de l'utilisateur du 2 novembre).
 - **RG-03 — Identifiant du matériel.** Chaque matériel possède un identifiant interne unique, attribué et géré automatiquement par ASTER, consultable mais non saisi par l'utilisateur.
 - **RG-04 — Numéro de série.** Le numéro de série est distinct de l'identifiant interne. Il est facultatif lorsqu'un matériel n'en possède pas.
@@ -23,15 +23,15 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 
 ## 2. Règles relatives aux droits
 
-- **RG-15 — Droits de l'administrateur.** L'administrateur peut réaliser toutes les actions proposées par ASTER.
-- **RG-16 — Périmètre du gestionnaire.** Le gestionnaire intervient sur l'ensemble du parc, sans restriction à un bâtiment.
+- **RG-15 — Droits des administrateurs.** L'administrateur peut réaliser toutes les actions proposées par ASTER dans son école de rattachement. Le super administrateur dispose des mêmes droits sur l’ensemble des écoles (décision de l’utilisateur du 3 novembre).
+- **RG-16 — Périmètre du gestionnaire.** Le gestionnaire intervient sur l'ensemble du parc de son école de rattachement, sans restriction à un bâtiment (décision de l’utilisateur du 3 novembre).
 - **RG-17 — Gestion des matériels.** Le gestionnaire peut créer, consulter et modifier les matériels, mais ne peut pas les supprimer.
 - **RG-18 — Stocks et affectations.** Le gestionnaire peut gérer les stocks, affecter les matériels et les déplacer.
 - **RG-19 — Supervision par le formateur.** Le formateur peut accéder à une salle, consulter les processus utilisateur qui y sont remontés et arrêter ces processus.
 - **RG-20 — Protection des processus système.** Le formateur ne peut ni consulter ni arrêter les processus du système d'exploitation.
 - **RG-21 — Création d'une remontée.** Le formateur et l'administrateur peuvent créer une remontée concernant un ou plusieurs matériels.
 - **RG-22 — Masterisation.** L'administrateur demande depuis ASTER la masterisation d'un poste ou d'une salle ; l'opération s'appuie sur des mécanismes de déploiement Windows qui restent à identifier.
-- **RG-23 — Consultation des états des lieux.** Le gestionnaire et l'administrateur peuvent consulter les PDF d'état des lieux.
+- **RG-23 — Consultation des états des lieux.** Le gestionnaire et l'administrateur peuvent consulter et télécharger tous les PDF d'état des lieux. Le formateur peut consulter et télécharger uniquement le PDF d’une remontée qu’il a lui-même créée (décision de l’utilisateur du 3 novembre).
 - **RG-24 — Accès aux tableaux de bord.** Le gestionnaire et l'administrateur peuvent consulter les tableaux de bord spécialisés du parc et des remontées.
 
 ## 3. Règles relatives aux traitements
@@ -73,9 +73,19 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-56 — Contenu de l'historique.** L'historique d'une détection blacklistée ou non référencée conserve le poste, la salle, l'utilisateur, le nom, le PID, la date de démarrage, la date de détection et le classement. Pour un processus blacklisté, il conserve également la règle déclenchée, la date de l'arrêt automatique et son résultat.
 - **RG-57 — Fréquence de supervision.** Les données de supervision d'un poste sont actualisées toutes les cinq secondes.
 - **RG-58 — Poste déconnecté.** Après trois remontées manquées, soit environ quinze secondes, le poste est considéré comme déconnecté. Il reste visible dans sa salle, sans processus affiché.
-- **RG-59 — Périmètre du formateur.** Le formateur peut superviser toutes les salles, mais doit entrer dans une salle pour consulter et gérer ses postes ; il ne dispose pas d'une vue globale de supervision.
-- **RG-60 — Rattachement d'un utilisateur.** Chaque utilisateur ASTER est rattaché à une et une seule école.
+- **RG-59 — Périmètre du formateur.** Le formateur peut superviser toutes les salles de son école de rattachement, mais doit entrer dans une salle pour consulter et gérer ses postes ; il ne dispose pas d'une vue globale de supervision (décision de l’utilisateur du 3 novembre).
+- **RG-60 — Rattachement d'un utilisateur.** L’administrateur, le gestionnaire et le formateur sont rattachés à une et une seule école. Le super administrateur n’est rattaché à aucune école (décision de l’utilisateur du 3 novembre).
 - **RG-61 — Noms et information de bâtiment.** Une école et une salle possèdent chacune un nom. Le bâtiment est une information de la salle, sans identité autonome.
 - **RG-62 — Identifiants de connexion.** Chaque utilisateur ASTER possède un login et un mot de passe.
 - **RG-63 — Auteur d'une remontée.** Chaque remontée est déclarée par un et un seul utilisateur ASTER. Un utilisateur ASTER peut déclarer plusieurs remontées.
 - **RG-64 — Absence d'agent ASTER.** Aucun agent ASTER ne peut être installé sur les machines cibles. L'application web conserve la gestion des fonctions distantes et utilise les mécanismes d'administration et de déploiement fournis par Windows (décision de l'utilisateur du 3 novembre).
+
+## 5. Règles complémentaires relatives aux droits et traitements
+
+- **RG-65 — Administration des applications.** L’administrateur peut déclencher à distance l’installation et la désinstallation d’une application depuis ASTER, pour un poste individuel ou l’ensemble des postes d’une salle. L’opération utilise les mécanismes d’administration Windows existants, sans agent ASTER (décision de l’utilisateur du 3 novembre).
+- **RG-66 — Notification de l’auteur d’une remontée.** Le formateur reçoit dans ASTER une notification lorsque le statut d’une remontée qu’il a lui-même créée change. Cette notification n’est pas envoyée par courriel (décision de l’utilisateur du 3 novembre).
+- **RG-67 — Notification d’une nouvelle remontée.** Le gestionnaire reçoit dans ASTER une notification à la création de chaque nouvelle remontée. Cette notification n’est pas envoyée par courriel (décision de l’utilisateur du 3 novembre).
+- **RG-68 — Statistiques de supervision.** L’administrateur peut consulter dans ASTER des statistiques d’utilisation des postes et des processus. Les indicateurs et leurs règles de calcul restent à définir (décision de l’utilisateur du 3 novembre).
+- **RG-69 — Périmètre par école.** L’administrateur, le gestionnaire et le formateur accèdent uniquement aux données de leur école de rattachement. Le super administrateur accède aux données de toutes les écoles (décision de l’utilisateur du 3 novembre).
+- **RG-70 — Gestion des comptes ASTER.** L’administrateur peut créer, modifier, désactiver et réactiver les comptes rattachés à son école. Le super administrateur réalise ces actions pour les comptes de toutes les écoles. Le gestionnaire et le formateur ne gèrent pas les comptes ASTER (décision de l’utilisateur du 3 novembre).
+- **RG-71 — Profil unique.** Chaque utilisateur ASTER possède exactement un profil. Le cumul des profils administrateur, gestionnaire, formateur et super administrateur n’est pas autorisé (décision de l’utilisateur du 3 novembre).
