@@ -2,6 +2,12 @@
 
 Cette présentation web fonctionne sans dépendance externe et sans installation.
 
+## Préparer la prise de parole
+
+Le [script oral pour cinq intervenants](SCRIPT-ORAL.md) suit les 15 diapositives : 20 minutes d’exposé, soit 4 minutes par personne, puis 8 minutes d’échange et 2 minutes de marge pour respecter un entretien de 30 minutes maximum. Il comprend les transitions, les gestes de démonstration et les questions prioritaires.
+
+Pour cette séance, suivre le minutage du script : les durées indicatives des notes intégrées au diaporama totalisent 26 min 30 s et n’incluent pas les échanges avec le client.
+
 ## Lancer la présentation
 
 Ouvrir `index.html` dans Firefox ou un autre navigateur récent.
