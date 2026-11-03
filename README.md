@@ -24,9 +24,13 @@ Les fichiers Markdown de diagrammes contiennent les diagrammes et les titres né
 - [Diagrammes d’activité](docs/07-DIAGRAMMES-ACTIVITE.md) : parcours général selon les droits et les tableaux de bord spécialisés, création d'une remontée avec génération du PDF, supervision simulée des processus et notifications de garantie.
 - [DCU — Gestion du parc](docs/08-DCU-GESTION-PARC.md) : recherche, inventaire, affectations et tableau de bord du parc.
 - [DCU — Administration des postes](docs/09-DCU-ADMINISTRATION-POSTES.md) : consultation des applications et réinstallation des postes ou des salles par l'intermédiaire des mécanismes d'administration Windows.
-- [DCU — Supervision des postes](docs/10-DCU-SUPERVISION-POSTES.md) : état des postes, processus, alertes et proposition de statistiques à valider.
+- [DCU — Supervision des postes](docs/10-DCU-SUPERVISION-POSTES.md) : état des postes, processus, alertes et statistiques d'utilisation dont les indicateurs restent à définir.
 - [DCU — Remontées utilisateur](docs/11-DCU-REMONTEES-UTILISATEUR.md) : création des remontées, consultation des PDF d'état des lieux et tableau de bord spécialisé.
 - [Matrice des droits applicatifs](docs/12-MATRICE-DROITS.md) : droits confirmés et conditions d’application pour chaque profil.
+- [Fiche descriptive — Gestionnaire](docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) : périmètre, parcours, interface et questions ouvertes du gestionnaire.
+- [Fiche descriptive — Formateur](docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md) : supervision, alertes et remontées accessibles au formateur.
+- [Fiche descriptive — Administrateur](docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) : parc, postes, supervision, remontées et comptes de son école.
+- [Fiche descriptive — Super administrateur](docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) : adaptation globale des capacités de l'administrateur à toutes les écoles.
 - [Design](design/README.md) : charte graphique, ressources visuelles et maquettes d’interface.
 
 ## Outillage documentaire
