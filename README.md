@@ -2,6 +2,8 @@
 
 **ASTER** (_Administration, Supervision et Traçabilité des Équipements et Ressources_) est une application web destinée aux écoles de formation. Elle s'appuie sur les mécanismes d'administration à distance fournis par Windows pour administrer et superviser les postes, sans installer d'agent ASTER sur les machines cibles.
 
+L’architecture cible distingue un serveur front pour l’interface et un serveur back pour les fonctions métier. La connexion utilise Keycloak relié à LDAP et les PDF d’état des lieux sont conservés dans un stockage S3. La présence d’une instance Keycloak sur le réseau cible reste à vérifier ; les modalités d’hébergement et d’intégration restent à préciser dans le cadrage.
+
 Elle vise à remplacer la gestion du parc informatique sous Excel par un outil centralisé couvrant trois besoins principaux :
 
 - gérer les équipements et leur affectation aux salles, dont le bâtiment est renseigné ;

@@ -293,8 +293,8 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 18. Authentification et sécurité
 
-- [ ] **P0** Quel système d’authentification doit être utilisé ? — **Réponse partielle de l'utilisateur du 2 novembre, confirmée comme non résolue le 3 novembre :** chaque utilisateur ASTER possède un login et un mot de passe. Le mécanisme technique d'authentification et l'éventuelle utilisation de LDAP restent à préciser.
-- [ ] Une intégration à Active Directory, LDAP ou un SSO est-elle disponible ? — **Réponse partielle :** 22 octobre, § 2.8 : LDAP évoqué, disponibilité et intégration non confirmées.
+- [x] **P0** Quel système d’authentification doit être utilisé ? — **Décision de l'utilisateur du 3 novembre, précisée lors de la revue de l'architecture cible :** la connexion à ASTER passe par Keycloak relié à un annuaire LDAP. Keycloak fait partie de l'architecture dans tous les cas. Chaque utilisateur dispose d'un login et d'un mot de passe ; les modalités de déploiement et d'intégration restent à préciser.
+- [ ] Keycloak relié à LDAP est-il déjà disponible sur le réseau cible ou faut-il le mettre en place ? — **Réponse partielle de l'utilisateur du 3 novembre :** le recours à Keycloak avec LDAP est décidé ; la présence d'une instance Keycloak préexistante sur le réseau cible n'est pas connue. Cette disponibilité doit être vérifiée pour déterminer la mise en place nécessaire.
 - [ ] L’authentification multifacteur est-elle requise ?
 - [ ] Quelles règles de mot de passe s’appliquent si des comptes locaux sont utilisés ?
 - [ ] Le MCD doit-il représenter un secret d'authentification ou une empreinte de mot de passe plutôt que le mot de passe lui-même ?
@@ -314,6 +314,8 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 ## 19. Architecture, réseau et intégrations
 
 - [ ] **P0** Où l’application doit-elle être hébergée ?
+- [x] Quels composants applicatifs distinguer dans l'architecture cible ? — **Décision de l'utilisateur du 3 novembre lors de la revue de la présentation :** distinguer un serveur front et un serveur back. Le front porte l'interface web ; le back porte les fonctions métier, les droits et les accès aux données et services. Leurs technologies et leurs modalités d'hébergement restent à préciser.
+- [x] Où sont stockés les PDF d'état des lieux ? — **Décision de l'utilisateur du 3 novembre lors de la revue de l'architecture cible :** utiliser un stockage S3. La solution, son hébergement et sa configuration restent à préciser.
 - [x] L’environnement cible dispose-t-il d’un accès à Internet ? — **Réponse de l'utilisateur du 3 novembre :** ASTER sera utilisé sur un réseau interne NP disposant d'un accès à Internet.
 - [ ] Quels flux réseau entrants et sortants sont autorisés ?
 - [ ] Les écoles sont-elles reliées au même réseau ?
@@ -322,7 +324,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Un fonctionnement partiel hors connexion est-il nécessaire ?
 - [ ] **P0** Quels mécanismes d'administration Windows peuvent être utilisés par ASTER ? — **Réponse partielle de l'utilisateur du 3 novembre :** l'application web doit permettre de consulter et d'arrêter les processus à distance au moyen des mécanismes fournis par Windows. Les services autorisés, leur configuration et les mécanismes utilisables pour l'installation d'applications et la masterisation restent à confirmer avec le client.
 - [ ] Quelles API, documentations et plateformes de test sont disponibles ?
-- [ ] Quelles technologies sont imposées, recommandées ou interdites ? — **Réponse partielle :** 22 octobre, § 2.1 et 2.8 : cible Windows et navigateur Firefox ; autres choix techniques non précisés.
+- [ ] Quelles technologies sont imposées, recommandées ou interdites ? — **Réponse partielle, complétée par l'utilisateur du 3 novembre lors de la revue de l'architecture cible :** cible Windows et navigateur Firefox ; connexion via Keycloak relié à LDAP et stockage S3 pour les PDF d'état des lieux. Les autres choix techniques restent à préciser.
 - [ ] Les composants open source sont-ils autorisés ?
 - [ ] Existe-t-il des contraintes de licences logicielles ?
 - [ ] L’utilisation de conteneurs est-elle autorisée dans l’environnement cible ?

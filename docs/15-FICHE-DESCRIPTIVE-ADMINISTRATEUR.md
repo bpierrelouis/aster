@@ -199,7 +199,7 @@ RG-11 à RG-15, RG-21, RG-23 à RG-25, RG-34 à RG-39 et RG-69.
 ### Questions ouvertes
 
 - Données d'identité obligatoires.
-- Mécanisme d'authentification, création et gestion du mot de passe.
+- Disponibilité et paramétrage de Keycloak relié à LDAP, création et gestion du mot de passe.
 - Changement de profil ou d'école, sessions actives et revue des droits.
 - Traçabilité des opérations sur les comptes.
 
@@ -236,7 +236,7 @@ Les autres écrans disponibles sont présentés dans la [fiche Gestionnaire](13-
 - Application web utilisée avec les versions de Firefox installées sur les postes de l'équipe.
 - Réseau interne NP disposant d'un accès à Internet.
 - Aucun agent ASTER ; utilisation des mécanismes Windows existants.
-- Authentification par login et mot de passe ; mécanisme technique encore ouvert.
+- Authentification par login et mot de passe via Keycloak relié à LDAP ; disponibilité de l’instance et modalités d’intégration à préciser (cadrage § 18).
 - Un seul profil par utilisateur.
 
 ## Sources

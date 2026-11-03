@@ -818,10 +818,10 @@ button { font: inherit; }
 
 .target-map {
   display: grid;
-  grid-template-columns: 1fr .22fr 1.1fr .22fr 1.1fr .22fr 1fr;
-  grid-template-rows: 1fr auto;
-  align-items: center;
-  gap: 6% 1.5%;
+  grid-template-columns: 1fr .18fr 1fr .18fr 1fr .18fr 1fr .18fr 1fr;
+  grid-template-rows: .9fr .22fr 1.15fr .22fr .8fr;
+  align-items: stretch;
+  column-gap: 1%;
   min-height: 0;
 }
 
@@ -829,34 +829,51 @@ button { font: inherit; }
   display: grid;
   place-items: center;
   align-content: center;
-  min-height: 70%;
-  padding: 8%;
+  min-width: 0;
+  padding: 6%;
   text-align: center;
   background: var(--white);
-  border-top: 6px solid var(--iris);
-  box-shadow: 0 16px 44px rgb(23 36 59 / 9%);
+  border-top: 4px solid var(--iris);
+  box-shadow: 0 12px 32px rgb(23 36 59 / 8%);
 }
 
-.target-node img { width: 25%; min-width: 42px; margin-bottom: 7%; }
-.target-node img[src*="aster-horizontal"] { width: 58%; }
-.target-node h3 { margin-bottom: 4%; font-size: clamp(14px, 1.4vw, 23px); }
-.target-node p { margin: 0; color: var(--ink-soft); font-size: clamp(10px, 1vw, 16px); }
-.windows-node { border-top-color: var(--heart); }
-.posts-node { border-top-color: var(--green); }
+.target-node img { width: 25%; max-width: 42px; margin-bottom: 6%; }
+.target-node img[src*="aster-horizontal"] { width: 76%; max-width: 125px; }
+.target-node h3 { margin: 0 0 5%; font-size: clamp(12px, 1.2vw, 21px); }
+.target-node p { margin: 0; color: var(--ink-soft); font-size: clamp(9px, .95vw, 16px); }
+.target-node small { margin-top: 6%; color: var(--iris-dark); font-size: clamp(8px, .8vw, 13px); }
+.auth-node { grid-area: 1 / 5; }
+.directory-node { grid-area: 1 / 7; }
+.browser-node { grid-area: 3 / 1; }
+.front-node { grid-area: 3 / 3; }
+.back-node { grid-area: 3 / 5; }
+.windows-node { grid-area: 3 / 7; border-top-color: var(--heart); }
+.posts-node { grid-area: 3 / 9; border-top-color: var(--green); }
 
-.target-link { position: relative; border-top: 3px solid var(--lilac); }
-.target-link::after { content: ""; position: absolute; right: 0; top: 50%; width: 9px; height: 9px; border-top: 3px solid var(--lilac); border-right: 3px solid var(--lilac); transform: translateY(-50%) rotate(45deg); }
+.target-link { position: relative; align-self: center; border-top: 3px solid var(--lilac); }
+.target-link::after { content: ""; position: absolute; right: 0; top: -1.5px; width: 8px; height: 8px; border-top: 3px solid var(--lilac); border-right: 3px solid var(--lilac); transform: translateY(-50%) rotate(45deg); }
+.directory-link { grid-area: 1 / 6; }
+.browser-link { grid-area: 3 / 2; }
+.front-link { grid-area: 3 / 4; }
+.back-link { grid-area: 3 / 6; }
+.posts-link { grid-area: 3 / 8; }
+.auth-branch { grid-area: 2 / 5; justify-self: center; border-left: 3px solid var(--lilac); }
+.storage-branch { grid-area: 4 / 5; justify-self: center; border-left: 3px solid var(--lilac); }
 
-.data-branch {
-  grid-column: 3;
+.target-stores {
+  grid-area: 5 / 3 / 6 / 8;
+  position: relative;
   display: grid;
-  justify-items: center;
+  grid-template-columns: 1fr 1fr;
+  gap: 6%;
+  padding-top: 12px;
   text-align: center;
 }
-.data-branch > span { height: 24px; border-left: 3px solid var(--lilac); }
-.data-branch div { width: 92%; padding: 5%; border: 1px solid var(--lilac); background: rgb(255 255 255 / 72%); }
-.data-branch h3 { margin: 0 0 2%; font-size: clamp(12px, 1.2vw, 20px); }
-.data-branch p { margin: 0; color: var(--ink-soft); font-size: clamp(9px, .85vw, 14px); }
+.target-stores::before { content: ""; position: absolute; top: 0; left: 23.5%; width: 53%; border-top: 3px solid var(--lilac); }
+.target-store { position: relative; padding: 5%; border: 1px solid var(--lilac); background: rgb(255 255 255 / 80%); }
+.target-store::before { content: ""; position: absolute; bottom: 100%; left: 50%; height: 12px; border-left: 3px solid var(--lilac); }
+.target-store h3 { margin: 0 0 3%; font-size: clamp(11px, 1.1vw, 19px); }
+.target-store p { margin: 0; color: var(--ink-soft); font-size: clamp(9px, .9vw, 15px); }
 
 .readiness {
   grid-template-rows: auto 1fr;

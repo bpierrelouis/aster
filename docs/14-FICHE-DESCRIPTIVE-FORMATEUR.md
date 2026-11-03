@@ -155,7 +155,7 @@ La maquette actuelle porte uniquement sur la gestion des matériels, à laquelle
 - Réseau interne NP disposant d'un accès à Internet.
 - Aucun agent ASTER installé sur les postes ; utilisation des mécanismes Windows existants.
 - Gestion des processus simulée pour la démonstration.
-- Authentification par login et mot de passe ; mécanisme technique encore ouvert.
+- Authentification par login et mot de passe via Keycloak relié à LDAP ; disponibilité de l’instance et modalités d’intégration à préciser (cadrage § 18).
 - Un seul profil par utilisateur.
 
 ## Sources

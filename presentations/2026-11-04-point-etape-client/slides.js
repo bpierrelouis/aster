@@ -228,7 +228,7 @@ const slides = [
     className: "mcd-review-slide",
     title: "MCD proposé",
     duration: 160,
-    notes: "Le MCD n'est pas validé. Présenter les principaux choix et recueillir les corrections. Le système d'authentification reste ouvert, donc la représentation des identifiants devra suivre cette décision.",
+    notes: "Le MCD n'est pas validé. Présenter les principaux choix et recueillir les corrections. La connexion s'appuie sur Keycloak relié à LDAP ; la représentation des comptes dans le MCD reste à articuler avec cette architecture.",
     html: `
       <div class="mcd-visual">
         <img src="../../docs/05-MCD-MERISE.svg" alt="Proposition de modèle conceptuel de données ASTER">
@@ -247,18 +247,28 @@ const slides = [
     className: "target-architecture-slide",
     title: "Architecture cible initiale",
     duration: 150,
-    notes: "Présenter cette architecture comme un point de départ. Aucun agent ASTER ne peut être installé. Les services Windows, les flux et l'authentification restent à choisir avec le client.",
+    notes: "Distinguer serveur front (interface) et serveur back (API, métier et droits). La connexion passe par Keycloak relié à LDAP ; Keycloak est prévu dans tous les cas, mais sa présence sur le réseau cible reste à vérifier. Le back utilise la base de données, le stockage S3 des PDF et les services Windows. Aucun agent ASTER sur les postes. Les services Windows, les flux, les hébergements et les modalités d'intégration restent à préciser.",
     html: `
       <div class="slide-heading"><h2>Architecture cible initiale</h2></div>
-      <div class="target-map" aria-label="Architecture cible initiale ASTER">
-        <div class="target-node browser-node"><img src="../../design/assets/icons/recherche.svg" alt=""><h3>Utilisateurs</h3><p>Firefox sur le réseau interne NP</p></div>
-        <span class="target-link" aria-hidden="true"></span>
-        <div class="target-node app-node"><img src="../../design/assets/logos/aster-horizontal.svg" alt="ASTER"><h3>Application web ASTER</h3><p>Fonctions métier et droits</p></div>
-        <span class="target-link" aria-hidden="true"></span>
+      <div class="target-map" aria-label="Architecture ASTER : serveurs front et back distincts, Keycloak relié à LDAP, base de données, stockage S3 des PDF et services Windows">
+        <div class="target-node auth-node"><h3>Keycloak</h3><p>Connexion des utilisateurs</p><small>Existant ou à mettre en place</small></div>
+        <span class="target-link directory-link" aria-hidden="true"></span>
+        <div class="target-node directory-node"><h3>LDAP</h3><p>Annuaire des utilisateurs</p></div>
+        <span class="auth-branch" aria-hidden="true"></span>
+        <div class="target-node browser-node"><img src="../../design/assets/icons/recherche.svg" alt=""><h3>Utilisateurs</h3><p>Firefox · réseau interne NP</p></div>
+        <span class="target-link browser-link" aria-hidden="true"></span>
+        <div class="target-node front-node"><img src="../../design/assets/logos/aster-horizontal.svg" alt="ASTER"><h3>Serveur front</h3><p>Interface web</p></div>
+        <span class="target-link front-link" aria-hidden="true"></span>
+        <div class="target-node back-node"><h3>Serveur back</h3><p>API, fonctions métier et droits</p></div>
+        <span class="target-link back-link" aria-hidden="true"></span>
         <div class="target-node windows-node"><img src="../../design/assets/icons/administration.svg" alt=""><h3>Services Windows</h3><p>Administration et déploiement</p></div>
-        <span class="target-link" aria-hidden="true"></span>
+        <span class="target-link posts-link" aria-hidden="true"></span>
         <div class="target-node posts-node"><img src="../../design/assets/icons/salles.svg" alt=""><h3>Postes Windows</h3><p>Aucun agent ASTER</p></div>
-        <div class="data-branch"><span aria-hidden="true"></span><div><h3>Base de données ASTER</h3><p>Parc, utilisateurs, remontées et historique</p></div></div>
+        <span class="storage-branch" aria-hidden="true"></span>
+        <div class="target-stores">
+          <div class="target-store"><h3>Base de données ASTER</h3><p>Parc, profils et remontées</p></div>
+          <div class="target-store"><h3>Stockage S3</h3><p>PDF d’état des lieux</p></div>
+        </div>
       </div>`
   }
 ];

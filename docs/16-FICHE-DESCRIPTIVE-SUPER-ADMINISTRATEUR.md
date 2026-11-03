@@ -77,7 +77,7 @@ Le parcours complet du parc est présenté dans la [fiche Gestionnaire](13-FICHE
 - Application web utilisée avec les versions de Firefox installées sur les postes de l'équipe.
 - Réseau interne NP disposant d'un accès à Internet.
 - Aucun agent ASTER ; utilisation des mécanismes Windows existants.
-- Authentification par login et mot de passe ; mécanisme technique encore ouvert.
+- Authentification par login et mot de passe via Keycloak relié à LDAP ; disponibilité de l’instance et modalités d’intégration à préciser (cadrage § 18).
 - Un seul profil par utilisateur.
 
 ## Règles applicables
