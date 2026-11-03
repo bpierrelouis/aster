@@ -1,55 +1,36 @@
 # Instructions de travail — ASTER
 
-Ces instructions s'appliquent à l'ensemble du dépôt.
+Ces instructions s'appliquent à tout le dépôt.
 
-## Sources et ordre documentaire
+## Sources et lectures ciblées
 
-- Lire le `README.md`, les consignes du sujet et les comptes rendus des entretiens avant de travailler sur l'analyse ou la conception.
-- Toute analyse, règle fonctionnelle ou représentation doit s'appuyer sur les informations du sujet et des entretiens. Ne pas déduire le besoin des seuls diagrammes existants.
-- Organiser la documentation selon ses dépendances : sujet et consignes, questions de cadrage, comptes rendus des entretiens, puis analyse et diagrammes.
-- Les entretiens doivent toujours précéder les documents de conception qu'ils alimentent, dans la numérotation des fichiers comme dans le sommaire du README.
-- Respecter la convention existante dans `docs/` : préfixe numérique, titre explicite en majuscules et mots séparés par des tirets. Choisir la position logique avant d'attribuer un numéro ; ne pas simplement ajouter le prochain numéro disponible.
-- Lors d'un ajout, d'un déplacement ou d'un renommage, vérifier l'ordre global et mettre à jour les liens et références concernés.
+- Pour l'analyse et la conception, utiliser le sommaire et les parcours du `README.md`, puis lire les passages utiles des consignes, des entretiens et du cadrage. Ne pas déduire le besoin du seul code ou des diagrammes.
+- Commencer par les noms de fichiers, titres et recherches ciblées (`rg`). Élargir si une dépendance, une incertitude ou le périmètre demandé le justifie ; ne pas relire intégralement la documentation à chaque tâche. Réutiliser les passages déjà lus dans le chat tant qu'ils sont disponibles et inchangés.
+- Le cadrage présente les réponses en vigueur : la plus récente remplace les précédentes sur le même sujet ; les précisions compatibles restent applicables. Conserver les entretiens datés comme historique, sans modifier leur sens ni présenter les anciennes réponses comme des contradictions à arbitrer.
+- Distinguer réponses recueillies, décisions validées, hypothèses, propositions et questions réellement ouvertes. Ne pas inventer de règle, de fonctionnalité ou de validation ; ne pas laisser ouverte une question déjà résolue.
+- Pour le recueil, la rédaction, la synchronisation ou l'audit documentaire, utiliser le skill [aster-documentation](.agents/skills/aster-documentation/SKILL.md). Ses modèles sont des aides, pas des exigences.
 
-## Fidélité aux entretiens
+## Classement et représentations
 
-- Conserver tous les éléments recueillis, leur date et leur sens. La reformulation et la mise en page peuvent améliorer la lisibilité sans modifier le fond.
-- Pour chaque sujet, la dernière réponse du client remplace les précédentes. Appliquer cette réponse dans le cadrage et les documents qui en dépendent ; ne pas laisser une question ouverte au motif qu’une ancienne réponse était différente.
-- Les comptes rendus d’entretiens servent de trace historique : conserver les propos datés, même lorsqu’ils sont remplacés. Le document de cadrage présente les réponses en vigueur, sans juxtaposer les anciennes réponses comme des contradictions à arbitrer.
-- Une réponse antérieure reste applicable si elle n’a pas été remplacée. Une précision récente complète les informations compatibles ; elle ne supprime pas les réponses sur d’autres sujets.
-- Garder ouvertes uniquement les questions auxquelles aucune réponse suffisante n’a été apportée. Ne pas inventer de réponse à une question réellement non résolue.
-- Distinguer les propos recueillis, les décisions validées, les hypothèses et les propositions. Ne pas transformer une question ou une possibilité en exigence acquise.
-- Ne pas ajouter de règle métier ou de fonctionnalité qui ne provient pas des sources ou d'une demande explicite de l'utilisateur.
+- Conserver l'ordre : consignes du sujet, cadrage, entretiens, puis analyse et diagrammes ; le glossaire est transversal. Les entretiens précèdent la conception dans les noms et le sommaire.
+- Dans `docs/`, utiliser un préfixe numérique, un titre explicite en majuscules et des tirets. Choisir la position logique avant le numéro ; actualiser sommaire, liens et références après ajout, déplacement ou renommage.
+- Les fichiers Markdown de diagrammes contiennent uniquement les diagrammes (blocs ou images) et leurs titres Markdown. Aucune prose, liste, légende annexe ni explication déplacée dans une note ou un commentaire du diagramme.
+- Répartir l'information : définitions dans le glossaire, réponses et questions dans le cadrage, contraintes confirmées dans les règles de gestion, conventions de représentation ici. Avant de retirer une explication d'un diagramme, transférer toute précision pertinente manquante au document de référence.
+- Ne pas modifier le contenu des premiers diagrammes de contexte et d'activité sans demande de mise à jour de l'utilisateur. Un renommage préserve leur contenu. Lors d'une mise à jour autorisée, appliquer les réponses en vigueur ; leur protection provisoire ne remet pas ces réponses en question.
+- Placer les travaux non finalisés dans `docs/temporaire/`, avec un nom indiquant le statut de brouillon et la version connue. Ne pas présenter le MCD Merise proposé comme validé.
 
-## Diagrammes et brouillons
+## Vérifications
 
-- Les fichiers Markdown consacrés aux diagrammes contiennent les diagrammes (blocs de code ou images intégrées) et les titres Markdown nécessaires pour les identifier et les organiser, sans paragraphe, liste, tableau, légende explicative ni note annexe. Les libellés nécessaires à la lecture restent dans le diagramme lui-même ; ne pas y déplacer les explications sous forme de commentaires ou de notes.
-- Conserver les définitions dans le glossaire, les réponses et questions dans le cadrage, les contraintes confirmées dans les règles de gestion et les consignes de représentation dans les instructions de travail. Avant de retirer un texte d'un fichier de diagramme, vérifier que son information est couverte par le document de référence approprié et y transférer les précisions encore pertinentes qui manquent.
-- Consigne actuelle : ne pas modifier le contenu des premiers diagrammes de contexte et d'activité tant que l'utilisateur n'en demande pas la mise à jour. Leur renommage pour corriger l'ordre documentaire doit préserver leur contenu.
-- Les diagrammes devront suivre les dernières réponses du client lors de leur mise à jour autorisée. Le maintien provisoire des premiers diagrammes ne remet pas en question les réponses en vigueur dans le cadrage.
-- Placer les documents de travail non finalisés dans `docs/temporaire/`, avec un nom indiquant clairement leur statut de brouillon et leur version si elle est connue.
-- Ne pas présenter le MCD Merise provisoire comme un modèle validé.
+- Pour les changements documentaires et audits concernés, exécuter le vérificateur décrit dans le README. Il contrôle la structure ; compléter par la relecture des sources et du sens métier.
+- Vérifier classement, numérotation, sommaire, liens locaux et références aux anciens noms. Préserver les fichiers hors périmètre et le travail préexistant ; signaler séparément les défauts préexistants.
+- Relire les changements et exécuter `git diff --check` avant livraison. Ne rapporter que les vérifications réellement effectuées.
 
-## Vérifications avant livraison
+## Git
 
-- Pour le recueil du besoin, la rédaction, la synchronisation ou l'audit documentaire, utiliser le skill local [aster-documentation](.agents/skills/aster-documentation/SKILL.md). Ses modèles sont des aides de rédaction, pas des exigences validées.
-- Exécuter le vérificateur structurel décrit dans le README pour les changements documentaires concernés. Compléter ce contrôle par une relecture des sources et du sens métier ; signaler séparément les défauts préexistants.
-- Vérifier la cohérence du classement, de la numérotation et du sommaire.
-- Vérifier les liens locaux des documents modifiés et rechercher les références aux anciens noms après un renommage.
-- Vérifier que les documents hors du périmètre demandé et les modifications préexistantes de l'utilisateur sont préservés.
-- Exécuter `git diff --check` et relire les changements avant de rendre compte du travail.
-
-## Git et messages de commit
-
-- Créer des commits uniquement sur demande de l'utilisateur. Une demande de commit autorise l'enregistrement local des changements concernés, pas leur publication distante.
-- Avant toute opération, consulter `git status` et les différences indexées et non indexées pour identifier le périmètre et préserver le travail préexistant.
-- Construire des commits cohérents et aussi petits que possible : une intention par commit, avec les documents, liens et renommages nécessaires à sa cohérence. Séparer les changements indépendants.
-- Sélectionner explicitement les fichiers ou portions à indexer ; éviter `git add .` et `git add -A` sans périmètre. Ne pas embarquer des changements sans rapport avec la demande.
-- Utiliser le format `type(portee): description`, avec une portée facultative et un type adapté : `docs`, `feat`, `fix`, `refactor`, `test`, `chore` ou `style`. Réserver `style` aux changements de forme sans effet fonctionnel.
-- Rédiger le titre en français, avec un verbe à l'infinitif et un résultat concret ; viser 72 caractères maximum, sans point final. Éviter les messages vagues comme « mise à jour », « corrections » ou « divers ».
-- Si nécessaire, ajouter un corps après une ligne vide pour expliquer le pourquoi, les changements importants et les vérifications réellement effectuées. Ne pas annoncer de validation non exécutée.
-- Avant le commit, relire `git diff --cached`, exécuter `git diff --cached --check` et les vérifications adaptées au changement. Pour la documentation, contrôler les liens, les références et la numérotation.
-- Ne pas versionner de secrets, fichiers locaux d'environnement, caches, dépendances installées ou sorties temporaires. Conserver les livrables et brouillons explicitement attendus aux emplacements prévus ; compléter les exclusions Git seulement si nécessaire.
-- Ne pas effacer, annuler, remiser ou inclure du travail sans rapport pour obtenir artificiellement un dépôt propre. Ne pas réécrire l'historique, amender un commit ou forcer une publication sans demande explicite.
-- Pour une nouvelle branche de travail, utiliser un nom court et descriptif avec le préfixe `codex/`, sauf convention explicitement demandée par l'utilisateur.
-- Après le commit, vérifier `git status` et le dernier commit ; communiquer son identifiant, son titre et les éventuels changements restants. Viser un état propre dans le périmètre autorisé, sans supprimer le travail d'autrui.
+- Consulter `git status` et les différences indexées et non indexées avant d'intervenir. Ne jamais effacer, annuler, remiser ou inclure du travail sans rapport pour obtenir un dépôt propre.
+- Créer des commits uniquement sur demande ; cela autorise un enregistrement local, pas une publication. Ne pas amender, réécrire l'historique ou forcer une publication sans demande explicite.
+- Faire de petits commits cohérents, une intention par commit, avec les liens et renommages nécessaires. Indexer explicitement les fichiers ou portions concernés ; éviter `git add .` et `git add -A` sans périmètre.
+- Format : `type(portee): description`, portée facultative ; types `docs`, `feat`, `fix`, `refactor`, `test`, `chore`, `style` (forme seule). Titre français à l'infinitif, résultat concret, 72 caractères visés, sans point final ni formule vague. Corps facultatif : pourquoi, changements importants, contrôles effectués.
+- Avant commit, relire `git diff --cached`, exécuter `git diff --cached --check` et les contrôles adaptés. Après commit, vérifier statut et dernier commit ; communiquer identifiant, titre et changements restants.
+- Ne pas versionner secrets, environnements locaux, caches, dépendances installées ou sorties temporaires. Conserver les livrables et brouillons attendus aux emplacements prévus ; compléter les exclusions seulement si nécessaire.
+- Pour une nouvelle branche, utiliser un nom court avec le préfixe `codex/`, sauf demande contraire.
