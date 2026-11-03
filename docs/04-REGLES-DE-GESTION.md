@@ -30,7 +30,7 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-19 — Supervision par le formateur.** Le formateur peut accéder à une salle, consulter les processus utilisateur qui y sont remontés et arrêter ces processus.
 - **RG-20 — Protection des processus système.** Le formateur ne peut ni consulter ni arrêter les processus du système d'exploitation.
 - **RG-21 — Création d'une remontée.** Le formateur et l'administrateur peuvent créer une remontée concernant un ou plusieurs matériels.
-- **RG-22 — Masterisation.** L'administrateur réalise la masterisation d'un poste ou d'une salle.
+- **RG-22 — Masterisation.** L'administrateur demande depuis ASTER la masterisation d'un poste ou d'une salle ; l'opération s'appuie sur des mécanismes de déploiement Windows qui restent à identifier.
 - **RG-23 — Consultation des états des lieux.** Le gestionnaire et l'administrateur peuvent consulter les PDF d'état des lieux.
 - **RG-24 — Accès aux tableaux de bord.** Le gestionnaire et l'administrateur peuvent consulter les tableaux de bord spécialisés du parc et des remontées.
 
@@ -41,10 +41,10 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-27 — Affectation groupée.** Une même opération d'affectation peut concerner plusieurs matériels.
 - **RG-28 — Enregistrement d'un matériel.** Chaque matériel est enregistré individuellement par saisie manuelle ou par import JSON. L'import JSON est accessible au gestionnaire et à l'administrateur.
 - **RG-29 — Traitement d'un import JSON.** Les données d'un import JSON sont appliquées immédiatement, sans étape de validation métier préalable.
-- **RG-30 — Masterisation d'un poste.** La masterisation réapplique une image système sur le poste Windows concerné.
-- **RG-31 — Données de supervision.** La supervision remonte les processus utilisateur lancés sur le poste et l'utilisateur associé à chacun d'eux.
+- **RG-30 — Masterisation d'un poste.** La masterisation réapplique une image système sur le poste concerné par l'intermédiaire des mécanismes de déploiement Windows retenus pour ASTER.
+- **RG-31 — Données de supervision.** ASTER utilise les mécanismes d'administration à distance fournis par Windows pour obtenir les processus utilisateur lancés sur le poste et l'utilisateur associé à chacun d'eux.
 - **RG-32 — Filtrage des processus.** Les processus internes du système d'exploitation sont exclus des données de supervision présentées au formateur.
-- **RG-33 — Arrêt d'un processus.** L'arrêt demandé par un utilisateur autorisé porte uniquement sur un processus utilisateur remonté par ASTER.
+- **RG-33 — Arrêt d'un processus.** L'arrêt demandé depuis l'application web par un utilisateur autorisé porte uniquement sur un processus utilisateur présenté par ASTER et est exécuté à distance au moyen des mécanismes d'administration Windows.
 - **RG-34 — Détermination de la localisation de la remontée.** ASTER présente la localisation de chaque matériel concerné lorsqu'elle est renseignée.
 - **RG-35 — Génération de l'état des lieux.** La transmission d'une remontée génère automatiquement son document d'état des lieux au format PDF.
 - **RG-36 — Tableaux de bord spécialisés.** ASTER propose plusieurs tableaux de bord spécialisés, dont un tableau de bord du parc et un tableau de bord des remontées. Le tableau de bord du parc présente l'état des stocks et permet un filtrage par salle.
@@ -67,8 +67,8 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-50 — Gestion des listes.** Seul l'administrateur peut ajouter, modifier ou supprimer une entrée de whitelist ou de blacklist.
 - **RG-51 — Traitement d'un processus whitelisté.** Un processus whitelisté est visible dans la supervision en temps réel, sans conservation de son historique d'exécution.
 - **RG-52 — Traitement d'un processus non référencé.** Un processus non référencé reste autorisé, est visible dans la supervision en temps réel et fait l'objet d'un historique de détection.
-- **RG-53 — Traitement d'un processus blacklisté.** Un processus blacklisté est arrêté automatiquement et fait l'objet d'une alerte et d'un historique.
-- **RG-54 — Arrêt automatique.** L'arrêt automatique d'un processus blacklisté ne demande ni confirmation ni justification et ne prévient pas l'utilisateur du poste.
+- **RG-53 — Traitement d'un processus blacklisté.** Un processus blacklisté est arrêté automatiquement au moyen des mécanismes d'administration Windows et fait l'objet d'une alerte et d'un historique dans ASTER.
+- **RG-54 — Arrêt automatique.** ASTER déclenche l'arrêt automatique d'un processus blacklisté sans demander de confirmation ni de justification et sans prévenir l'utilisateur du poste.
 - **RG-55 — Destinataires de l'alerte.** L'alerte provoquée par un processus blacklisté est destinée à l'administrateur et au formateur qui supervise la salle concernée.
 - **RG-56 — Contenu de l'historique.** L'historique d'une détection blacklistée ou non référencée conserve le poste, la salle, l'utilisateur, le nom, le PID, la date de démarrage, la date de détection et le classement. Pour un processus blacklisté, il conserve également la règle déclenchée, la date de l'arrêt automatique et son résultat.
 - **RG-57 — Fréquence de supervision.** Les données de supervision d'un poste sont actualisées toutes les cinq secondes.
@@ -78,4 +78,4 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-61 — Noms et information de bâtiment.** Une école et une salle possèdent chacune un nom. Le bâtiment est une information de la salle, sans identité autonome.
 - **RG-62 — Identifiants de connexion.** Chaque utilisateur ASTER possède un login et un mot de passe.
 - **RG-63 — Auteur d'une remontée.** Chaque remontée est déclarée par un et un seul utilisateur ASTER. Un utilisateur ASTER peut déclarer plusieurs remontées.
-- **RG-64 — Agent ASTER.** Un agent appartenant à la suite ASTER est installé sur chaque machine cible.
+- **RG-64 — Absence d'agent ASTER.** Aucun agent ASTER ne peut être installé sur les machines cibles. L'application web conserve la gestion des fonctions distantes et utilise les mécanismes d'administration et de déploiement fournis par Windows (décision de l'utilisateur du 3 novembre).

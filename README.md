@@ -1,6 +1,6 @@
 # ASTER
 
-**ASTER** (_Administration, Supervision et Traçabilité des Équipements et Ressources_) est une suite destinée aux écoles de formation. Elle comprend une application web et un agent installé sur chaque machine cible.
+**ASTER** (_Administration, Supervision et Traçabilité des Équipements et Ressources_) est une application web destinée aux écoles de formation. Elle s'appuie sur les mécanismes d'administration à distance fournis par Windows pour administrer et superviser les postes, sans installer d'agent ASTER sur les machines cibles.
 
 Elle vise à remplacer la gestion du parc informatique sous Excel par un outil centralisé couvrant trois besoins principaux :
 
@@ -23,7 +23,7 @@ Les fichiers Markdown de diagrammes contiennent les diagrammes et les titres né
 - [Diagramme de contexte](docs/06-DIAGRAMME-CONTEXTE.md) : acteurs, composants de la suite et principaux échanges autour d’ASTER.
 - [Diagrammes d’activité](docs/07-DIAGRAMMES-ACTIVITE.md) : parcours général selon les droits et les tableaux de bord spécialisés, création d'une remontée avec génération du PDF, supervision simulée des processus et notifications de garantie.
 - [DCU — Gestion du parc](docs/08-DCU-GESTION-PARC.md) : recherche, inventaire, affectations et tableau de bord du parc.
-- [DCU — Administration des postes](docs/09-DCU-ADMINISTRATION-POSTES.md) : consultation des applications et réinstallation des postes ou des salles par l'intermédiaire de l'agent ASTER.
+- [DCU — Administration des postes](docs/09-DCU-ADMINISTRATION-POSTES.md) : consultation des applications et réinstallation des postes ou des salles par l'intermédiaire des mécanismes d'administration Windows.
 - [DCU — Supervision des postes](docs/10-DCU-SUPERVISION-POSTES.md) : état des postes, processus, alertes et proposition de statistiques à valider.
 - [DCU — Remontées utilisateur](docs/11-DCU-REMONTEES-UTILISATEUR.md) : création des remontées, consultation des PDF d'état des lieux et tableau de bord spécialisé.
 - [Direction artistique](da/apercu.html) : identité visuelle, palette, icônes métier et animation de chargement.

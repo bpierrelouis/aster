@@ -22,7 +22,7 @@ flowchart LR
         consulterStatistiques(["Consulter les statistiques d'utilisation<br/>(à valider)"])
     end
 
-    agentAster(["Agent ASTER installé<br/>sur la machine cible"])
+    servicesWindows(["Services Windows<br/>d'administration à distance"])
 
     acteurSupervision --- accederSalle
     acteurSupervision --- consulterEtat
@@ -37,10 +37,10 @@ flowchart LR
     arreterProcessus -.->|« include »| consulterProcessus
     arreterInterdit -.->|« extend »| appliquerRegles
 
-    consulterEtat --- agentAster
-    consulterProcessus --- agentAster
-    arreterProcessus --- agentAster
-    appliquerRegles --- agentAster
+    consulterEtat --- servicesWindows
+    consulterProcessus --- servicesWindows
+    arreterProcessus --- servicesWindows
+    appliquerRegles --- servicesWindows
 
     classDef acteur fill:#C2E5FF,stroke:#3DADFF,color:#17243B
     classDef acteurGeneral fill:#E8F5E9,stroke:#3E9B4B,color:#17243B
@@ -49,7 +49,7 @@ flowchart LR
     classDef casAValider fill:#FFF8E1,stroke:#D39E00,color:#17243B,stroke-dasharray: 5 5
     class formateur,administrateur acteur
     class acteurSupervision acteurGeneral
-    class agentAster acteurSecondaire
+    class servicesWindows acteurSecondaire
     class accederSalle,consulterEtat,consulterProcessus,arreterProcessus,gererListes,appliquerRegles,arreterInterdit,consulterAlertes cas
     class consulterStatistiques casAValider
 ```

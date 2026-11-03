@@ -15,7 +15,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 ## 1. Vision et objectifs
 
 - [x] **P0** Quel problème doit être résolu en priorité par ASTER ? — 22 octobre, § 2.1 : gestion des périphériques en priorité, puis supervision des processus.
-- [ ] **P0** Quel résultat concret permettra de considérer le projet comme réussi ? — **Réponse partielle :** 22 octobre, § 2.1 : faciliter la mise à jour, la recherche, la consultation et la visualisation. Les critères concrets de réussite restent à définir.
+- [ ] **P0** Quel résultat concret permettra de considérer le projet comme réussi ? — **Réponse partielle, complétée par l'utilisateur le 3 novembre :** la gestion des matériels constitue le premier critère de réussite. Les actions ou scénarios précis permettant de vérifier ce critère restent à définir. Le 22 octobre (§ 2.1), le client demandait de faciliter la mise à jour, la recherche, la consultation et la visualisation.
 - [x] **P0** Quel est le périmètre attendu pour la première version utilisable ? — Précision de l’utilisateur du 24 octobre : gestion complète des matériels, avec une démonstration pour une école, deux bâtiments et six à huit salles par bâtiment ; gestion des processus simulée. La gestion de plusieurs écoles est prévue à terme, hors des attendus de la V1. ASTER ne gère pas les formations (précision de l’utilisateur du 24 octobre).
 - [ ] Quels défauts du fonctionnement actuel sous Excel faut-il corriger en priorité ?
 - [x] Quelles fonctionnalités peuvent être simulées, maquettées ou reportées ? — 22 octobre, § 2.1 et 2.8 : gestion des processus simulée et journaux en bonus. 23 octobre, § 1.1 : gestion de la garantie en bonus.
@@ -115,7 +115,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 ## 8. Applications installées
 
 - [ ] **P0** La liste des applications doit-elle être déclarée manuellement ou détectée automatiquement sur les postes ?
-- [ ] Si elle est détectée, quel mécanisme ou outil existant fournit ces informations ? — **Réponse partielle :** les échanges fonctionnels relatifs aux applications installées passent par l'agent ASTER de la machine cible ; le mécanisme de collecte, le format et le protocole restent à définir.
+- [ ] Si elle est détectée, quel mécanisme ou outil existant fournit ces informations ? — **Réponse partielle de l'utilisateur du 3 novembre :** l'application web ASTER doit utiliser les mécanismes d'administration à distance déjà fournis par Windows, sans installer d'agent sur les machines cibles. Le mécanisme de collecte, le format et le protocole restent à définir.
 - [ ] Qu’est-ce qui distingue une application métier d’une autre application ? — **Réponse partielle :** 23 octobre, § 1.1 : application « de base » présente sur un poste ; le caractère natif et la distinction exacte restent à préciser.
 - [ ] Existe-t-il un référentiel officiel des applications métier ?
 - [ ] Faut-il relever le nom, la version, l’éditeur, la date d’installation et la licence ?
@@ -124,12 +124,12 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Faut-il détecter les versions absentes, obsolètes ou non conformes ?
 - [ ] Faut-il conserver l’historique des logiciels installés ?
 - [ ] Qui peut modifier le référentiel des applications ?
-- [ ] ASTER doit-il installer ou désinstaller une application, ou seulement signaler sa présence ?
+- [ ] ASTER doit-il installer ou désinstaller une application, ou seulement signaler sa présence ? — **Réponse partielle de l'utilisateur du 3 novembre :** ASTER doit utiliser les mécanismes d'administration Windows, sans agent propre, pour déclencher les opérations prises en charge. Les actions proposées dans l'application web et leur mécanisme précis restent à définir.
 
 ## 9. Réinstallation des postes et des salles
 
 - [x] **P0** Que signifie précisément « réinstaller » ou « replaquer » un poste ? — 23 octobre, § 1.5 : la masterisation consiste à réappliquer une image sur un poste, par l’administrateur.
-- [ ] **P0** ASTER doit-il exécuter la réinstallation, la déclencher dans un outil tiers ou seulement créer une demande ?
+- [x] **P0** ASTER doit-il exécuter la réinstallation, la déclencher dans un outil tiers ou seulement créer une demande ? — **Réponse de l'utilisateur du 3 novembre :** l'administrateur lance la demande depuis l'application web ASTER, qui doit s'appuyer sur les mécanismes de déploiement Windows sans installer d'agent ASTER ni développer son propre moteur d'image. L'infrastructure et l'interface de déclenchement restent à identifier.
 - [ ] Existe-t-il déjà un outil de déploiement d’images système ?
 - [ ] Une API ou une interface d’automatisation de cet outil est-elle disponible ?
 - [x] Quels systèmes d’exploitation doivent être pris en charge ? — 22 octobre, § 2.1 : Windows est la cible de l’application.
@@ -166,9 +166,9 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] Faut-il conserver un historique des mesures ? — **Réponse de l'utilisateur du 2 novembre :** oui pour les détections de processus blacklistés et non référencés. Les exécutions des processus de la whitelist ne sont pas historisées.
 - [ ] Pendant combien de temps cet historique doit-il être conservé ? — **Réponse partielle de l'utilisateur du 2 novembre :** l'historique des processus blacklistés et non référencés doit être conservé ; sa durée de conservation reste à confirmer.
 - [ ] **P0** Parmi les données exigées par RG-56, lesquelles doivent rester persistantes dans le MCD malgré l'exclusion des valeurs temporaires et calculées ?
-- [x] Un agent doit-il être installé sur les postes ? — **Réponse de l'utilisateur du 2 novembre :** oui. Un agent appartenant à la suite ASTER est installé sur chaque machine cible. La simulation des processus pour la démonstration porte sur les données et les actions, pas sur l'existence de ce composant dans l'architecture retenue.
-- [ ] Si oui, qui déploie, configure et met à jour cet agent ? — **Réponse partielle de l'utilisateur du 2 novembre :** l'agent appartient à la suite ASTER et est installé sur chaque machine cible. Les responsabilités et modalités de déploiement, de configuration et de mise à jour restent à préciser.
-- [ ] Les postes peuvent-ils joindre le serveur ou le serveur doit-il contacter les postes ? — **Réponse partielle de l'utilisateur du 2 novembre :** les échanges avec la machine cible passent par l'agent ASTER qui y est installé. Le sens des connexions et le protocole restent à définir.
+- [x] Un agent doit-il être installé sur les postes ? — **Réponse en vigueur de l'utilisateur du 3 novembre :** non. L'installation d'un agent ASTER sur les machines cibles est interdite. Cette décision remplace la réponse du 2 novembre qui prévoyait un agent.
+- [ ] ~~Si oui, qui déploie, configure et met à jour cet agent ?~~ — Sans objet depuis la décision du 3 novembre interdisant l'installation d'un agent ASTER.
+- [ ] Comment ASTER échange-t-il avec les postes au moyen des mécanismes Windows ? — **Réponse partielle de l'utilisateur du 3 novembre :** l'application web ASTER conserve la gestion des processus et utilise les mécanismes d'administration à distance fournis par Windows. Le sens des connexions, les services activés et les protocoles restent à définir.
 - [x] Comment gérer un poste temporairement déconnecté ? — **Réponse de l'utilisateur du 2 novembre :** il reste visible dans sa salle, sans liste de processus.
 - [ ] La supervision doit-elle fonctionner sur plusieurs segments réseau isolés ?
 
@@ -293,7 +293,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 18. Authentification et sécurité
 
-- [ ] **P0** Quel système d’authentification doit être utilisé ? — **Réponse partielle de l'utilisateur du 2 novembre :** chaque utilisateur ASTER possède un login et un mot de passe. Le mécanisme technique d'authentification et l'éventuelle utilisation de LDAP restent à préciser.
+- [ ] **P0** Quel système d’authentification doit être utilisé ? — **Réponse partielle de l'utilisateur du 2 novembre, confirmée comme non résolue le 3 novembre :** chaque utilisateur ASTER possède un login et un mot de passe. Le mécanisme technique d'authentification et l'éventuelle utilisation de LDAP restent à préciser.
 - [ ] Une intégration à Active Directory, LDAP ou un SSO est-elle disponible ? — **Réponse partielle :** 22 octobre, § 2.8 : LDAP évoqué, disponibilité et intégration non confirmées.
 - [ ] L’authentification multifacteur est-elle requise ?
 - [ ] Quelles règles de mot de passe s’appliquent si des comptes locaux sont utilisés ?
@@ -308,19 +308,19 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Quelles actions doivent être tracées dans un journal d’audit ? — **Réponse partielle :** 22 octobre, § 2.8 : journaux en bonus et proposition libre ; actions à tracer non définies.
 - [ ] Qui peut consulter les journaux d’audit ?
 - [ ] Les journaux doivent-ils être protégés contre la modification ?
-- [ ] Comment les agents ASTER installés sur les postes s’authentifient-ils auprès du serveur ? — **Réponse partielle de l'utilisateur du 2 novembre :** l'agent appartient à la suite ASTER et est installé sur chaque machine cible. Son mécanisme d'authentification reste à définir.
+- [ ] Comment ASTER s'authentifie-t-il auprès des services Windows d'administration à distance ? — **Réponse partielle de l'utilisateur du 3 novembre :** aucun agent ASTER ne peut être installé ; l'application web doit utiliser les mécanismes Windows existants. Le compte technique, le protocole d'authentification et la gestion des secrets restent à définir.
 - [ ] Comment les secrets, certificats et clés techniques sont-ils distribués et renouvelés ?
 
 ## 19. Architecture, réseau et intégrations
 
 - [ ] **P0** Où l’application doit-elle être hébergée ?
-- [ ] L’environnement cible dispose-t-il d’un accès à Internet ? — **Réponse partielle :** 22 octobre, § 2.8 : note « réseau NP interne internet », dont le sens reste à préciser ; accès à Internet non confirmé.
+- [x] L’environnement cible dispose-t-il d’un accès à Internet ? — **Réponse de l'utilisateur du 3 novembre :** ASTER sera utilisé sur un réseau interne NP disposant d'un accès à Internet.
 - [ ] Quels flux réseau entrants et sortants sont autorisés ?
 - [ ] Les écoles sont-elles reliées au même réseau ?
 - [ ] Existe-t-il des réseaux ou zones de sécurité séparés ?
-- [ ] Les agents ASTER installés sur les postes supervisés peuvent-ils communiquer directement avec le serveur ?
+- [ ] Quels services Windows peuvent être utilisés par ASTER et selon quels flux ? — **Réponse partielle de l'utilisateur du 3 novembre :** aucun agent ASTER ne peut être installé sur les postes ; les fonctions distantes doivent utiliser les mécanismes d'administration à distance fournis par Windows.
 - [ ] Un fonctionnement partiel hors connexion est-il nécessaire ?
-- [ ] Quels systèmes existants doivent être intégrés à ASTER ?
+- [ ] **P0** Quels mécanismes d'administration Windows peuvent être utilisés par ASTER ? — **Réponse partielle de l'utilisateur du 3 novembre :** l'application web doit permettre de consulter et d'arrêter les processus à distance au moyen des mécanismes fournis par Windows. Les services autorisés, leur configuration et les mécanismes utilisables pour l'installation d'applications et la masterisation restent à confirmer avec le client.
 - [ ] Quelles API, documentations et plateformes de test sont disponibles ?
 - [ ] Quelles technologies sont imposées, recommandées ou interdites ? — **Réponse partielle :** 22 octobre, § 2.1 et 2.8 : cible Windows et navigateur Firefox ; autres choix techniques non précisés.
 - [ ] Les composants open source sont-ils autorisés ?
@@ -345,12 +345,12 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 21. Sauvegarde, exploitation et maintenance
 
-- [ ] Qui surveillera le bon fonctionnement du serveur et des agents ASTER ?
+- [ ] Qui surveillera le bon fonctionnement du serveur ASTER et de ses échanges avec les services Windows d'administration à distance ?
 - [ ] À quelle fréquence les sauvegardes doivent-elles être réalisées ?
 - [ ] Où les sauvegardes doivent-elles être stockées ?
 - [ ] À quelle fréquence une restauration doit-elle être testée ?
 - [ ] Comment les mises à jour de l’application seront-elles déployées ?
-- [ ] Comment les mises à jour des agents ASTER seront-elles déployées ? — **Réponse partielle de l'utilisateur du 2 novembre :** les agents appartiennent à la suite ASTER et sont installés sur les machines cibles ; leur mécanisme de mise à jour reste à définir.
+- [ ] ~~Comment les mises à jour des agents ASTER seront-elles déployées ?~~ — Sans objet depuis la décision du 3 novembre interdisant l'installation d'un agent ASTER.
 - [ ] Une procédure de retour à la version précédente est-elle nécessaire ?
 - [ ] Quels journaux techniques doivent être collectés ? — **Réponse partielle :** 22 octobre, § 2.8 : journaux en bonus, proposition libre de l’équipe ; contenu technique non précisé.
 - [ ] Qui reçoit les alertes concernant le fonctionnement d’ASTER lui-même ?

@@ -11,20 +11,20 @@ flowchart LR
         demanderSalle(["Demander la réinstallation d'une salle"])
     end
 
-    agentAster(["Agent ASTER installé<br/>sur la machine cible"])
+    servicesWindows(["Services Windows d'administration<br/>et de déploiement"])
 
     administrateur --- consulterApplications
     administrateur --- demanderPoste
     administrateur --- demanderSalle
 
-    consulterApplications --- agentAster
-    demanderPoste --- agentAster
-    demanderSalle --- agentAster
+    consulterApplications --- servicesWindows
+    demanderPoste --- servicesWindows
+    demanderSalle --- servicesWindows
 
     classDef acteur fill:#C2E5FF,stroke:#3DADFF,color:#17243B
     classDef acteurSecondaire fill:#FFECBD,stroke:#E8B84E,color:#17243B
     classDef cas fill:#F6F4FB,stroke:#6954C0,color:#17243B
     class administrateur acteur
-    class agentAster acteurSecondaire
+    class servicesWindows acteurSecondaire
     class consulterApplications,demanderPoste,demanderSalle cas
 ```
