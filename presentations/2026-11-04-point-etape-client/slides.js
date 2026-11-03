@@ -5,7 +5,7 @@ const slides = [
     duration: 45,
     notes: "Introduire le support comme une proposition de cadrage. Le déroulé suit les priorités fonctionnelles : matériels, remontées, puis processus et applications.",
     html: `
-      <img class="cover-logo" src="../../da/logos/aster-horizontal-inverse.svg" alt="ASTER">
+      <img class="cover-logo" src="../../design/assets/logos/aster-horizontal-inverse.svg" alt="ASTER">
       <div>
         <p class="eyebrow">Présentation client · 4 novembre 2026</p>
         <h1>ASTER, proposition de cadrage</h1>
@@ -49,8 +49,8 @@ const slides = [
       <h2>Direction artistique proposée</h2>
       <div class="brand-layout">
         <div class="brand-signatures">
-          <div class="signature-light"><img src="../../da/logos/aster-horizontal.svg" alt="Logo ASTER sur fond clair"></div>
-          <div class="signature-dark"><img src="../../da/logos/aster-horizontal-inverse.svg" alt="Logo ASTER sur fond sombre"></div>
+          <div class="signature-light"><img src="../../design/assets/logos/aster-horizontal.svg" alt="Logo ASTER sur fond clair"></div>
+          <div class="signature-dark"><img src="../../design/assets/logos/aster-horizontal-inverse.svg" alt="Logo ASTER sur fond sombre"></div>
         </div>
         <div class="palette-line" aria-label="Palette de couleurs">
           <div style="--swatch:#17243B"><span></span><b>Encre</b><small>#17243B</small></div>
@@ -60,10 +60,10 @@ const slides = [
           <div style="--swatch:#E8B84E"><span></span><b>Cœur</b><small>#E8B84E</small></div>
         </div>
         <div class="brand-icons">
-          <div><img src="../../da/icons/materiel.svg" alt=""><span>Matériels</span></div>
-          <div><img src="../../da/icons/documents.svg" alt=""><span>Remontées</span></div>
-          <div><img src="../../da/icons/supervision.svg" alt=""><span>Processus</span></div>
-          <div><img src="../../da/icons/administration.svg" alt=""><span>Applications</span></div>
+          <div><img src="../../design/assets/icons/materiel.svg" alt=""><span>Matériels</span></div>
+          <div><img src="../../design/assets/icons/documents.svg" alt=""><span>Remontées</span></div>
+          <div><img src="../../design/assets/icons/supervision.svg" alt=""><span>Processus</span></div>
+          <div><img src="../../design/assets/icons/administration.svg" alt=""><span>Applications</span></div>
         </div>
       </div>`
   },
@@ -77,19 +77,19 @@ const slides = [
       <div class="understanding-sequence">
         <div>
           <b>01</b>
-          <img src="../../da/icons/materiel.svg" alt="">
+          <img src="../../design/assets/icons/materiel.svg" alt="">
           <h3>Gestion des matériels</h3>
           <p>Remplacer le suivi sous Excel par un inventaire centralisé et relié aux salles.</p>
         </div>
         <div>
           <b>02</b>
-          <img src="../../da/icons/documents.svg" alt="">
+          <img src="../../design/assets/icons/documents.svg" alt="">
           <h3>Remontées utilisateur</h3>
           <p>Déclarer un problème sur un ou plusieurs matériels et produire un état des lieux.</p>
         </div>
         <div>
           <b>03</b>
-          <img src="../../da/icons/supervision.svg" alt="">
+          <img src="../../design/assets/icons/supervision.svg" alt="">
           <h3>Processus et applications</h3>
           <p>Superviser l'utilisation des postes et déclencher les opérations d'administration.</p>
         </div>
@@ -120,61 +120,68 @@ const slides = [
         <p class="lead">Le premier incrément utile couvre le cycle quotidien d'un matériel, de son arrivée à son affectation.</p>
       </div>
       <div class="mvp-path">
-        <div><span>1</span><img src="../../da/icons/materiel.svg" alt=""><p>Enregistrer ou importer</p></div>
+        <div><span>1</span><img src="../../design/assets/icons/materiel.svg" alt=""><p>Enregistrer ou importer</p></div>
         <i aria-hidden="true"></i>
-        <div><span>2</span><img src="../../da/icons/recherche.svg" alt=""><p>Rechercher et consulter</p></div>
+        <div><span>2</span><img src="../../design/assets/icons/recherche.svg" alt=""><p>Rechercher et consulter</p></div>
         <i aria-hidden="true"></i>
-        <div><span>3</span><img src="../../da/icons/salles.svg" alt=""><p>Affecter à une salle</p></div>
+        <div><span>3</span><img src="../../design/assets/icons/salles.svg" alt=""><p>Affecter à une salle</p></div>
         <i aria-hidden="true"></i>
-        <div><span>4</span><img src="../../da/icons/deplacement.svg" alt=""><p>Déplacer et suivre l'état</p></div>
+        <div><span>4</span><img src="../../design/assets/icons/deplacement.svg" alt=""><p>Déplacer et suivre l'état</p></div>
       </div>`
   },
   {
     className: "ui-slide",
-    title: "IHM proposée pour le parc",
+    title: "Tableau de bord du parc",
+    duration: 100,
+    notes: "Les valeurs affichées sont fictives. Demander si les indicateurs donnent une vue suffisante de l'état du parc et des matériels à traiter.",
+    html: `
+      <div class="slide-heading"><h2>Tableau de bord du parc</h2></div>
+      <div class="ui-embed" aria-label="Interface ASTER, tableau de bord du parc">
+        <iframe src="../../design/maquettes/gestion-materiels.html?screen=dashboard" title="Tableau de bord du parc dans ASTER" tabindex="-1"></iframe>
+      </div>`
+  },
+  {
+    className: "ui-slide",
+    title: "Liste des matériels",
     duration: 130,
     notes: "Les valeurs affichées sont fictives. Faire réagir le client sur les informations visibles, les filtres et l'action d'ajout.",
     html: `
-      <div class="slide-heading"><h2>IHM proposée pour le parc</h2></div>
-      <div class="app-window" aria-label="Maquette de la liste des matériels">
-        <aside class="app-sidebar">
-          <img src="../../da/logos/aster-horizontal-inverse.svg" alt="ASTER">
-          <span class="active">Parc informatique</span>
-          <span>Salles</span>
-          <span>Remontées</span>
-          <span>Administration</span>
-        </aside>
-        <div class="app-main">
-          <div class="app-top"><div><small>Gestion du parc</small><h3>Matériels</h3></div><button>Ajouter un matériel</button></div>
-          <div class="mock-stats"><div><small>Matériels</small><b>248</b></div><div><small>En stock</small><b>63</b></div><div><small>Hors service</small><b>14</b></div></div>
-          <div class="mock-toolbar"><span>Rechercher un matériel</span><span>Toutes les salles</span><span>Tous les états</span></div>
-          <div class="mock-table">
-            <div class="table-head"><span>Matériel</span><span>N° de série</span><span>Localisation</span><span>État</span></div>
-            <div><span>Écran 24 pouces</span><span>SN-00482</span><span>Salle B203</span><span class="status-ok">En service</span></div>
-            <div><span>Clavier USB</span><span>Non renseigné</span><span>Stock</span><span class="status-ok">En service</span></div>
-            <div><span>Câble Ethernet</span><span>Non renseigné</span><span>Salle A112</span><span class="status-off">Hors service</span></div>
-          </div>
-        </div>
+      <div class="slide-heading"><h2>Liste des matériels</h2></div>
+      <div class="ui-embed" aria-label="Interface ASTER, liste des matériels">
+        <iframe src="../../design/maquettes/gestion-materiels.html?screen=materiels" title="Liste des matériels dans ASTER" tabindex="-1"></iframe>
       </div>`
   },
   {
     className: "ui-slide form-slide",
-    title: "IHM proposée pour la fiche matériel",
+    title: "Ajout d'un matériel",
     duration: 110,
     notes: "Faire valider les champs et leur caractère obligatoire. Le modèle, la date de réception et l'état sont obligatoires. Le numéro de série et la marque restent facultatifs.",
     html: `
-      <div class="slide-heading"><h2>IHM proposée pour la fiche matériel</h2></div>
-      <div class="form-mockup">
-        <div class="form-title"><div><small>Matériel</small><h3>Ajouter un matériel</h3></div><img src="../../da/icons/materiel.svg" alt=""></div>
-        <div class="mock-form">
-          <label><span>Modèle *</span><b>Écran 24 pouces</b></label>
-          <label><span>Marque</span><b>Facultative</b></label>
-          <label><span>Date de réception *</span><b>04/11/2026</b></label>
-          <label><span>Numéro de série</span><b>Facultatif</b></label>
-          <label class="wide"><span>Affectation</span><b>Salle B203</b></label>
-          <label><span>Hors service *</span><b>Non</b></label>
-        </div>
-        <div class="mock-actions"><button class="secondary">Annuler</button><button>Enregistrer</button></div>
+      <div class="slide-heading"><h2>Ajout d'un matériel</h2></div>
+      <div class="ui-embed" aria-label="Interface ASTER, ajout d'un matériel">
+        <iframe src="../../design/maquettes/gestion-materiels.html?screen=ajouter" title="Ajout d'un matériel dans ASTER" tabindex="-1"></iframe>
+      </div>`
+  },
+  {
+    className: "ui-slide",
+    title: "Fiche matériel",
+    duration: 90,
+    notes: "Présenter les informations conservées sur un matériel et les deux actions disponibles : modifier la fiche ou changer son affectation.",
+    html: `
+      <div class="slide-heading"><h2>Fiche matériel</h2></div>
+      <div class="ui-embed" aria-label="Interface ASTER, fiche d'un matériel">
+        <iframe src="../../design/maquettes/gestion-materiels.html?screen=fiche" title="Fiche d'un matériel dans ASTER" tabindex="-1"></iframe>
+      </div>`
+  },
+  {
+    className: "ui-slide",
+    title: "Affectation des matériels",
+    duration: 100,
+    notes: "Présenter la sélection par ligne et l'affectation immédiate de plusieurs matériels vers une salle ou le stock.",
+    html: `
+      <div class="slide-heading"><h2>Affectation des matériels</h2></div>
+      <div class="ui-embed" aria-label="Interface ASTER, affectation des matériels">
+        <iframe src="../../design/maquettes/gestion-materiels.html?screen=groupe" title="Affectation des matériels dans ASTER" tabindex="-1"></iframe>
       </div>`
   },
   {
@@ -185,13 +192,13 @@ const slides = [
     html: `
       <h2>Parcours proposé pour les remontées</h2>
       <div class="simple-flow">
-        <div><b>01</b><img src="../../da/icons/materiel.svg" alt=""><h3>Matériels concernés</h3><p>Un ou plusieurs matériels</p></div>
+        <div><b>01</b><img src="../../design/assets/icons/materiel.svg" alt=""><h3>Matériels concernés</h3><p>Un ou plusieurs matériels</p></div>
         <i aria-hidden="true"></i>
-        <div><b>02</b><img src="../../da/icons/alertes.svg" alt=""><h3>Problème décrit</h3><p>Type et description</p></div>
+        <div><b>02</b><img src="../../design/assets/icons/alertes.svg" alt=""><h3>Problème décrit</h3><p>Type et description</p></div>
         <i aria-hidden="true"></i>
-        <div><b>03</b><img src="../../da/icons/documents.svg" alt=""><h3>PDF généré</h3><p>État des lieux</p></div>
+        <div><b>03</b><img src="../../design/assets/icons/documents.svg" alt=""><h3>PDF généré</h3><p>État des lieux</p></div>
         <i aria-hidden="true"></i>
-        <div><b>04</b><img src="../../da/icons/recherche.svg" alt=""><h3>Traitement suivi</h3><p>En attente, remplacé ou corrigé</p></div>
+        <div><b>04</b><img src="../../design/assets/icons/recherche.svg" alt=""><h3>Traitement suivi</h3><p>En attente, remplacé ou corrigé</p></div>
       </div>`
   },
   {
@@ -203,13 +210,13 @@ const slides = [
       <h2>Gestion proposée des processus et applications</h2>
       <div class="process-columns">
         <div>
-          <img src="../../da/icons/supervision.svg" alt="">
+          <img src="../../design/assets/icons/supervision.svg" alt="">
           <h3>Processus</h3>
           <p>Consulter les processus utilisateur d'une salle.</p>
           <p>Arrêter un processus autorisé manuellement ou appliquer une règle de blacklist.</p>
         </div>
         <div>
-          <img src="../../da/icons/administration.svg" alt="">
+          <img src="../../design/assets/icons/administration.svg" alt="">
           <h3>Applications</h3>
           <p>Consulter les applications installées sur un poste.</p>
           <p>Déclencher l'installation prévue ou la réapplication d'une image Windows.</p>
@@ -244,13 +251,13 @@ const slides = [
     html: `
       <div class="slide-heading"><h2>Architecture cible initiale</h2></div>
       <div class="target-map" aria-label="Architecture cible initiale ASTER">
-        <div class="target-node browser-node"><img src="../../da/icons/recherche.svg" alt=""><h3>Utilisateurs</h3><p>Firefox sur le réseau interne NP</p></div>
+        <div class="target-node browser-node"><img src="../../design/assets/icons/recherche.svg" alt=""><h3>Utilisateurs</h3><p>Firefox sur le réseau interne NP</p></div>
         <span class="target-link" aria-hidden="true"></span>
-        <div class="target-node app-node"><img src="../../da/logos/aster-horizontal.svg" alt="ASTER"><h3>Application web ASTER</h3><p>Fonctions métier et droits</p></div>
+        <div class="target-node app-node"><img src="../../design/assets/logos/aster-horizontal.svg" alt="ASTER"><h3>Application web ASTER</h3><p>Fonctions métier et droits</p></div>
         <span class="target-link" aria-hidden="true"></span>
-        <div class="target-node windows-node"><img src="../../da/icons/administration.svg" alt=""><h3>Services Windows</h3><p>Administration et déploiement</p></div>
+        <div class="target-node windows-node"><img src="../../design/assets/icons/administration.svg" alt=""><h3>Services Windows</h3><p>Administration et déploiement</p></div>
         <span class="target-link" aria-hidden="true"></span>
-        <div class="target-node posts-node"><img src="../../da/icons/salles.svg" alt=""><h3>Postes Windows</h3><p>Aucun agent ASTER</p></div>
+        <div class="target-node posts-node"><img src="../../design/assets/icons/salles.svg" alt=""><h3>Postes Windows</h3><p>Aucun agent ASTER</p></div>
         <div class="data-branch"><span aria-hidden="true"></span><div><h3>Base de données ASTER</h3><p>Parc, utilisateurs, remontées et historique</p></div></div>
       </div>`
   }

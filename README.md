@@ -26,7 +26,7 @@ Les fichiers Markdown de diagrammes contiennent les diagrammes et les titres né
 - [DCU — Administration des postes](docs/09-DCU-ADMINISTRATION-POSTES.md) : consultation des applications et réinstallation des postes ou des salles par l'intermédiaire des mécanismes d'administration Windows.
 - [DCU — Supervision des postes](docs/10-DCU-SUPERVISION-POSTES.md) : état des postes, processus, alertes et proposition de statistiques à valider.
 - [DCU — Remontées utilisateur](docs/11-DCU-REMONTEES-UTILISATEUR.md) : création des remontées, consultation des PDF d'état des lieux et tableau de bord spécialisé.
-- [Direction artistique](da/apercu.html) : identité visuelle, palette, icônes métier et animation de chargement.
+- [Design](design/README.md) : charte graphique, ressources visuelles et maquettes d’interface.
 
 ## Outillage documentaire
 
