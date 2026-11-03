@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>ASTER — Point d'étape client</title>
+  <link rel="icon" href="../da/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="slides.js" defer></script>
+</head>
+<body>
+  <main class="stage" aria-label="Présentation ASTER">
+    <div id="slides" class="slides" aria-live="polite"></div>
+
+    <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+
+    <nav class="controls" aria-label="Navigation de la présentation">
+      <button id="previous" type="button" aria-label="Diapositive précédente">←</button>
+      <span id="counter" aria-label="Numéro de diapositive">1 / 1</span>
+      <button id="next" type="button" aria-label="Diapositive suivante">→</button>
+      <button id="notes-toggle" type="button" aria-pressed="false">Notes</button>
+      <button id="fullscreen" type="button">Plein écran</button>
+    </nav>
+
+  </main>
+
+  <aside id="speaker-notes" class="speaker-notes" aria-label="Notes de présentation" hidden>
+    <div>
+      <strong id="notes-title"></strong>
+      <span id="slide-duration"></span>
+    </div>
+    <p id="notes-content"></p>
+  </aside>
+
+  <div id="help" class="help" hidden>
+    <strong>Raccourcis</strong>
+    <span>← → ou espace : naviguer</span>
+    <span>F : plein écran</span>
+    <span>N : notes</span>
+    <span>? : aide</span>
+  </div>
+</body>
+</html>

@@ -19,7 +19,7 @@ Les fichiers Markdown de diagrammes contiennent les diagrammes et les titres né
 - [Questions de cadrage](docs/02-CADRAGE.md) : réponses en vigueur et questions encore ouvertes pour préparer l’architecture et le backlog.
 - [Compte rendu des entretiens de cadrage](docs/03-COMPTE-RENDU-ENTRETIENS.md) : trace historique des échanges des 22 et 23 octobre.
 - [Règles de gestion](docs/04-REGLES-DE-GESTION.md) : contraintes confirmées sur les données, les droits et les traitements.
-- [MCD Merise validé](docs/05-MCD-MERISE.svg) : rendu SVG du modèle conceptuel de données et [source Mocodo éditable](docs/05-MCD-MERISE-MOCODO.url).
+- [MCD Merise proposé](docs/05-MCD-MERISE.svg) : modèle de travail à présenter au client pour validation, avec son [source Mocodo éditable](docs/05-MCD-MERISE-MOCODO.url).
 - [Diagramme de contexte](docs/06-DIAGRAMME-CONTEXTE.md) : acteurs, composants de la suite et principaux échanges autour d’ASTER.
 - [Diagrammes d’activité](docs/07-DIAGRAMMES-ACTIVITE.md) : parcours général selon les droits et les tableaux de bord spécialisés, création d'une remontée avec génération du PDF, supervision simulée des processus et notifications de garantie.
 - [DCU — Gestion du parc](docs/08-DCU-GESTION-PARC.md) : recherche, inventaire, affectations et tableau de bord du parc.
