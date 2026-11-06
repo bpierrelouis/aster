@@ -17,7 +17,6 @@ function MinDefSymbol() {
 function Login({ unavailable }) {
   const error = new URLSearchParams(window.location.search).get('error');
   return <main className="login-page">
-    <header className="login-heading"><h1>Connectez-vous à votre compte</h1></header>
     <div className="login-action">
       <a className="mindef-button" href="/auth/login">
         <MinDefSymbol />

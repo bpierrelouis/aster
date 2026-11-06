@@ -6,7 +6,7 @@ Document interne de réalisation et d’exploitation, exclu des productions remi
 
 Cette première version fournit le parcours de connexion et de déconnexion, quatre comptes de démonstration et un accueil affichant le profil reconnu par le serveur. Elle ne réalise pas encore les fonctions métier, le rattachement effectif aux écoles, LDAP, S3 ou les échanges Windows.
 
-PostgreSQL et JavaScript répondent à la demande de l’utilisateur du 6 novembre 2026. React, Vite, Express et OpenID Connect sont les choix d’implémentation de cette initialisation. Les icônes de l’accueil proviennent de Lucide. Le thème Keycloak reprend les deux captures fournies dans [design/MinDefConnect/](../design/MinDefConnect/) ; le symbole du bouton a été redessiné en SVG.
+PostgreSQL et JavaScript répondent à la demande de l’utilisateur du 6 novembre 2026. React, Vite, Express et OpenID Connect sont les choix d’implémentation de cette initialisation. Les icônes de l’accueil proviennent de Lucide. Le thème Keycloak reprend les captures de référence du [bouton d’accès](../design/MinDefConnect/reference-bouton-acces-mindefconnect.png) et du [formulaire de connexion](../design/MinDefConnect/reference-formulaire-connexion-mindefconnect.png) ; le symbole du bouton a été redessiné en SVG.
 
 La connexion est réellement effectuée par Keycloak : le serveur échange le code OpenID Connect, vérifie le jeton signé, le state, le nonce et PKCE, puis conserve la session dans PostgreSQL. Le navigateur ne reçoit qu’un cookie de session HttpOnly. Le serveur accepte exactement un des quatre rôles ASTER transmis par le fournisseur ; aucun rôle n’est choisi dans le navigateur.
 
