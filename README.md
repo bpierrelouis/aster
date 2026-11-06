@@ -2,7 +2,7 @@
 
 **ASTER** (_Administration, Supervision et Traçabilité des Équipements et Ressources_) est une application web destinée aux écoles de formation. Elle s'appuie sur les mécanismes d'administration à distance fournis par Windows pour administrer et superviser les postes, sans installer d'agent ASTER sur les machines cibles.
 
-L’architecture cible distingue un serveur front pour l’interface et un serveur back pour les fonctions métier. La connexion utilise Keycloak relié à LDAP et les PDF d’état des lieux sont conservés dans un stockage S3. La présence d’une instance Keycloak sur le réseau cible reste à vérifier ; les modalités d’hébergement et d’intégration restent à préciser dans le cadrage.
+L’architecture cible distingue un serveur front pour l’interface et un serveur back pour les fonctions métier. La connexion utilise MindefConnect et les PDF d’état des lieux sont destinés à un stockage S3. Les modalités d’intégration restent à préciser dans le cadrage.
 
 Elle vise à remplacer la gestion du parc informatique sous Excel par un outil centralisé couvrant trois besoins principaux :
 
@@ -31,6 +31,23 @@ Le sujet et les réponses du client constituent les sources de référence pour 
 
 Les conventions de travail, les protections des diagrammes et les règles de contribution sont définies dans [AGENTS.md](AGENTS.md).
 
+### Destination des documents
+
+Les productions remises aux cadres évaluateurs décrivent l’application cible en production. Les choix propres au démonstrateur restent dans les documents internes. Cette distinction, fixée par l’utilisateur le 6 novembre, concerne également les textes et captures d’interface intégrés aux livrables.
+
+| Destination | Fichiers concernés | Règle de contenu |
+| --- | --- | --- |
+| Productions destinées à la remise | Glossaire `docs/00-*`, règles et productions `docs/04-*` à `docs/16-*`, avec leurs images nécessaires dans `docs/assets/` | Fonctionnement cible, droits, données et contraintes de production ; aucune modalité propre au démonstrateur |
+| Sources de travail internes | Cadrage `docs/02-*` et entretiens `docs/03-*` | Réponses en vigueur et historique des échanges ; ne pas les joindre automatiquement à une remise |
+| Source fournie par l’encadrement | Consignes `docs/01-*` | Sujet et critères d’évaluation, distincts des productions de l’équipe |
+| Réalisation et exploitation internes | `application/`, son README et ses configurations ; README général et `AGENTS.md` | Implémentation, démarrage, comptes de test et limites du démonstrateur |
+| Brouillons et ressources de préparation | `docs/temporaire/`, `design/` et sources éditables des modèles | Travaux et ressources à sélectionner avant inclusion dans un livrable |
+| Supports datés | `presentations/` | Conserver le contexte historique ; sélectionner et adapter le support destiné à chaque nouvelle remise |
+
+La destination d’une production ne vaut pas validation de son contenu : le MCD reste proposé et les questions réellement ouvertes ne deviennent pas des décisions. Avant une remise, sélectionner les documents et leurs ressources ; ne pas remettre indistinctement l’ensemble du dépôt ou du dossier `docs/`.
+
+### Sommaire
+
 - [Glossaire](docs/00-GLOSSAIRE.md) : abréviations et définitions des termes employés dans le projet.
 - [Consignes du projet](docs/01-CONSIGNES.md) : besoin, périmètre fonctionnel, livrables et critères d’évaluation.
 - [Questions de cadrage](docs/02-CADRAGE.md) : réponses en vigueur et questions encore ouvertes pour préparer l’architecture et le backlog.
@@ -38,7 +55,7 @@ Les conventions de travail, les protections des diagrammes et les règles de con
 - [Règles de gestion](docs/04-REGLES-DE-GESTION.md) : contraintes confirmées sur les données, les droits et les traitements.
 - [MCD Merise proposé](docs/05-MCD-MERISE.svg) : modèle de travail à présenter au client pour validation, avec son [source Mocodo éditable](docs/05-MCD-MERISE-MOCODO.url).
 - [Diagramme de contexte](docs/06-DIAGRAMME-CONTEXTE.md) : acteurs, composants de la suite et principaux échanges autour d’ASTER.
-- [Diagrammes d’activité](docs/07-DIAGRAMMES-ACTIVITE.md) : parcours général selon les droits et les tableaux de bord spécialisés, création d'une remontée avec génération du PDF, supervision simulée des processus et notifications de garantie.
+- [Diagrammes d’activité](docs/07-DIAGRAMMES-ACTIVITE.md) : parcours général selon les droits et les tableaux de bord spécialisés, création d'une remontée avec génération du PDF, supervision des processus et notifications de garantie.
 - [DCU — Gestion du parc](docs/08-DCU-GESTION-PARC.md) : recherche, inventaire, affectations et tableau de bord du parc.
 - [DCU — Administration des postes](docs/09-DCU-ADMINISTRATION-POSTES.md) : consultation des applications et réinstallation des postes ou des salles par l'intermédiaire des mécanismes d'administration Windows.
 - [DCU — Supervision des postes](docs/10-DCU-SUPERVISION-POSTES.md) : état des postes, processus, alertes et statistiques d'utilisation dont les indicateurs restent à définir.

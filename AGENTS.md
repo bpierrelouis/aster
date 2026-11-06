@@ -2,6 +2,10 @@
 
 Ces instructions s'appliquent à tout le dépôt.
 
+## Sous-agents
+
+- L'utilisateur autorise le recours autonome à autant de sous-agents que nécessaire, dans les limites techniques disponibles, sans demander de confirmation supplémentaire. Déléguer et paralléliser les tâches lorsque cela aide à les mener à bien ; les mêmes consignes et limites d'autorisation s'appliquent à tous les sous-agents.
+
 ## Sources et lectures ciblées
 
 - Pour l'analyse et la conception, utiliser le sommaire et les parcours du `README.md`, puis lire les passages utiles des consignes, des entretiens et du cadrage. Ne pas déduire le besoin du seul code ou des diagrammes.
@@ -18,6 +22,15 @@ Ces instructions s'appliquent à tout le dépôt.
 - Répartir l'information : définitions dans le glossaire, réponses et questions dans le cadrage, contraintes confirmées dans les règles de gestion, conventions de représentation ici. Avant de retirer une explication d'un diagramme, transférer toute précision pertinente manquante au document de référence.
 - Ne pas modifier le contenu des premiers diagrammes de contexte et d'activité sans demande de mise à jour de l'utilisateur. Un renommage préserve leur contenu. Lors d'une mise à jour autorisée, appliquer les réponses en vigueur ; leur protection provisoire ne remet pas ces réponses en question.
 - Placer les travaux non finalisés dans `docs/temporaire/`, avec un nom indiquant le statut de brouillon et la version connue. Ne pas présenter le MCD Merise proposé comme validé.
+
+## Livrables remis et documents internes
+
+- Distinguer systématiquement la destination du document et son statut de validation. Le classement des fichiers destinés à la remise aux cadres évaluateurs, des sources et des documents internes est défini dans le README. Un document destiné à être remis n’est pas pour autant validé.
+- Les productions destinées à la remise (glossaire, règles de gestion, modèles, diagrammes, matrice des droits et fiches descriptives) décrivent le fonctionnement cible en production. Ne pas y intégrer les décisions de réalisation du démonstrateur : comptes de test, mots de passe vides, Keycloak local de substitution, simulations, limitations du prototype ou consignes de lancement.
+- Décrire la connexion cible via MindefConnect. Ne pas transformer une facilité de démonstration en règle métier, en contrainte de sécurité ou en élément de l’architecture de production. Ne pas affirmer qu’une fonctionnalité est déjà implémentée ni qu’une décision encore ouverte est validée.
+- Conserver les modalités du démonstrateur, ses comptes et sa configuration dans `application/README.md` et dans le code/configuration de développement. Le cadrage et les entretiens sont des sources de travail internes ; préserver l’historique des entretiens. Ne pas recopier les identifiants de démonstration dans les livrables ni dans le README général.
+- L’interface présentée aux utilisateurs suit le parcours cible : aucun badge de démonstrateur, liste de comptes de test, message de simulation ou indication de mot de passe vide. Les limites de réalisation sont documentées en interne ; les messages d’interface restent exacts et ne prétendent pas réaliser une opération indisponible.
+- Avant une remise, sélectionner les productions prévues dans le README et leurs ressources nécessaires. Ne pas exporter tout le dépôt ou tout `docs/` comme si chaque fichier était un livrable. Relire les textes, titres, diagrammes, captures et aides pour vérifier l’absence d’informations propres au démonstrateur.
 
 ## Vérifications
 

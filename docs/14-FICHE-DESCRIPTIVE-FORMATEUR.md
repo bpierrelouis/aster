@@ -22,7 +22,7 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 
 - **Objectif :** connaître l'état des postes d'une salle et intervenir sur les processus utilisateur.
 - **Déclencheur :** le formateur sélectionne une salle de son école dans l'espace de supervision.
-- **Préconditions :** le formateur est authentifié ; la salle appartient à son école ; les mécanismes Windows sont disponibles ou la simulation de démonstration est active.
+- **Préconditions :** le formateur est authentifié ; la salle appartient à son école ; les mécanismes Windows sont disponibles.
 
 ### Scénario nominal
 
@@ -134,10 +134,6 @@ RG-37, RG-38, RG-53 à RG-56 et RG-69.
 
 RG-11 à RG-14, RG-21, RG-23, RG-34 à RG-38, RG-63, RG-66 et RG-69.
 
-## Couverture IHM actuelle
-
-La maquette actuelle porte uniquement sur la gestion des matériels, à laquelle le formateur n'a pas accès. Les écrans de supervision, d'alerte et de remontée décrits dans cette fiche restent à ajouter au démonstrateur.
-
 ## Besoins en interface
 
 - Sélection d'une salle avant l'affichage des postes.
@@ -154,8 +150,7 @@ La maquette actuelle porte uniquement sur la gestion des matériels, à laquelle
 - Application web utilisée avec les versions de Firefox installées sur les postes de l'équipe.
 - Réseau interne NP disposant d'un accès à Internet.
 - Aucun agent ASTER installé sur les postes ; utilisation des mécanismes Windows existants.
-- Gestion des processus simulée pour la démonstration.
-- Authentification par login et mot de passe via Keycloak relié à LDAP ; disponibilité de l’instance et modalités d’intégration à préciser (cadrage § 18).
+- Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
 - Un seul profil par utilisateur.
 
 ## Sources

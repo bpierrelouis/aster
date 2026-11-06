@@ -76,7 +76,7 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-59 — Périmètre du formateur.** Le formateur peut superviser toutes les salles de son école de rattachement, mais doit entrer dans une salle pour consulter et gérer ses postes ; il ne dispose pas d'une vue globale de supervision (décision de l’utilisateur du 3 novembre).
 - **RG-60 — Rattachement d'un utilisateur.** L’administrateur, le gestionnaire et le formateur sont rattachés à une et une seule école. Le super administrateur n’est rattaché à aucune école (décision de l’utilisateur du 3 novembre).
 - **RG-61 — Noms et information de bâtiment.** Une école et une salle possèdent chacune un nom. Le bâtiment est une information de la salle, sans identité autonome.
-- **RG-62 — Identifiants de connexion.** Chaque utilisateur ASTER possède un login et un mot de passe.
+- **RG-62 — Identifiants de connexion.** Chaque utilisateur ASTER s’authentifie via MindefConnect avant d’accéder à l’application (cadrage § 18).
 - **RG-63 — Auteur d'une remontée.** Chaque remontée est déclarée par un et un seul utilisateur ASTER. Un utilisateur ASTER peut déclarer plusieurs remontées.
 - **RG-64 — Absence d'agent ASTER.** Aucun agent ASTER ne peut être installé sur les machines cibles. L'application web conserve la gestion des fonctions distantes et utilise les mécanismes d'administration et de déploiement fournis par Windows (décision de l'utilisateur du 3 novembre).
 

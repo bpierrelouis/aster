@@ -116,7 +116,7 @@ RG-15, RG-22, RG-30, RG-64 et RG-69.
 
 - **Objectif :** superviser les postes de l'école, intervenir sur les processus utilisateur et définir les règles de classement.
 - **Déclencheur :** l'administrateur ouvre une salle, la gestion des listes ou les statistiques.
-- **Préconditions :** les postes sont connus dans ASTER ; les mécanismes Windows sont disponibles ou la simulation est active.
+- **Préconditions :** les postes sont connus dans ASTER ; les mécanismes Windows sont disponibles.
 
 ### Scénario nominal
 
@@ -199,7 +199,7 @@ RG-11 à RG-15, RG-21, RG-23 à RG-25, RG-34 à RG-39 et RG-69.
 ### Questions ouvertes
 
 - Données d'identité obligatoires.
-- Disponibilité et paramétrage de Keycloak relié à LDAP, création et gestion du mot de passe.
+- Modalités d’intégration à MindefConnect et articulation avec la gestion des comptes ASTER (cadrage § 18).
 - Changement de profil ou d'école, sessions actives et revue des droits.
 - Traçabilité des opérations sur les comptes.
 
@@ -209,7 +209,7 @@ RG-01, RG-15, RG-60, RG-62 et RG-69 à RG-71.
 
 ## IHM issues de la maquette
 
-La maquette couvre actuellement le volet de gestion du parc partagé avec le gestionnaire. Les écrans propres à l'administration des applications, à la réinstallation, à la supervision et aux comptes restent à ajouter au démonstrateur.
+Les maquettes ci-dessous illustrent le volet de gestion du parc commun à l’administrateur et au gestionnaire.
 
 ### Tableau de bord du parc
 
@@ -236,7 +236,7 @@ Les autres écrans disponibles sont présentés dans la [fiche Gestionnaire](13-
 - Application web utilisée avec les versions de Firefox installées sur les postes de l'équipe.
 - Réseau interne NP disposant d'un accès à Internet.
 - Aucun agent ASTER ; utilisation des mécanismes Windows existants.
-- Authentification par login et mot de passe via Keycloak relié à LDAP ; disponibilité de l’instance et modalités d’intégration à préciser (cadrage § 18).
+- Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
 - Un seul profil par utilisateur.
 
 ## Sources

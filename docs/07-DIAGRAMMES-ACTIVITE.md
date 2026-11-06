@@ -40,14 +40,14 @@ flowchart TD
     pdf --> fin(["Remontée créée et PDF généré"])
 ```
 
-## Supervision des processus — simulation de démonstration
+## Supervision des processus
 
 ```mermaid
 flowchart TD
-    debut(["Formateur ou administrateur :<br/>accéder à une salle"]) --> consulter["Consulter les noms de session et<br/>les processus utilisateur simulés"]
+    debut(["Formateur ou administrateur :<br/>accéder à une salle"]) --> consulter["Consulter les noms de session et<br/>les processus utilisateur"]
     consulter --> arret{"Arrêter un processus utilisateur ?"}
     arret -->|"Non"| fin(["Fin de consultation"])
     arret -->|"Oui"| selection["Sélectionner un processus utilisateur"]
-    selection --> action["Simuler l'arrêt du processus sélectionné"]
+    selection --> action["Arrêter le processus sélectionné"]
     action --> consulter
 ```
