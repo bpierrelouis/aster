@@ -34,3 +34,11 @@ Ces instructions s'appliquent à tout le dépôt.
 - Avant commit, relire `git diff --cached`, exécuter `git diff --cached --check` et les contrôles adaptés. Après commit, vérifier statut et dernier commit ; communiquer identifiant, titre et changements restants.
 - Ne pas versionner secrets, environnements locaux, caches, dépendances installées ou sorties temporaires. Conserver les livrables et brouillons attendus aux emplacements prévus ; compléter les exclusions seulement si nécessaire.
 - Pour une nouvelle branche, utiliser un nom court avec le préfixe `codex/`, sauf demande contraire.
+
+## Graphify
+
+- Le skill `$graphify` est regroupé dans `.agents/skills/graphify/`. L’outil est installé hors du dépôt par le script multiplateforme `.agents/skills/graphify/scripts/graphify.py --install` (avec `py -3` sous Windows, `python3` sous Linux/macOS). Transmettre ses commandes à ce script sans activer d’environnement.
+- Pour explorer le code, si `graphify-out/graph.json` existe et est à jour, commencer par une requête ciblée (`query`, `path`, `explain`) lorsque cela aide à localiser les dépendances. Vérifier les conclusions dans les fichiers sources ; compléter par `rg` si le graphe est incomplet, obsolète ou insuffisant.
+- Sans graphe, conserver les recherches ciblées ordinaires. Construire le graphe lorsque le volume de code ou les explorations répétées le justifient ; après une modification de code indexé, le mettre à jour avec le script et les arguments `update .`.
+- Le graphe est un outil de navigation, pas une source de validation métier. Les règles de lecture, de chronologie et de protection documentaire ci-dessus restent prioritaires sur les consignes génériques du skill.
+- `graphify-out/` reste local et exclu de Git. L'analyse sémantique des documents utilise un modèle ; elle ne fait pas partie de l'installation et ne doit pas être lancée automatiquement pour une simple recherche.
