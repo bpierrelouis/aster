@@ -1,0 +1,45 @@
+:root { font-family: Arial, Helvetica, sans-serif; color: #161616; background: #fff; font-synthesis: none; text-rendering: optimizeLegibility; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input { font: inherit; }
+a { color: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid #0a76f6; outline-offset: 5px; }
+.login-page { padding: 33px 35px 24px; min-height: 100vh; }
+.login-heading { background: #f0f0f0; text-align: center; padding: 48px 20px 42px; }
+.login-heading h1 { margin: 0; font-size: clamp(26px, 2.2vw, 44px); line-height: 1.25; color: #363635; font-weight: 700; }
+.login-action { display: flex; justify-content: center; padding: 92px 0 88px; }
+.mindef-button { display: flex; align-items: center; justify-content: center; gap: 40px; width: 535px; min-height: 143px; border-radius: 5px; padding: 24px 40px; background: #000091; color: white; text-decoration: none; font-size: 34px; line-height: 1.25; }
+.mindef-button:hover { background: #1212a9; }
+.mindef-button strong { font-weight: 700; letter-spacing: .4px; }
+.mindef-symbol { flex: 0 0 96px; width: 96px; height: 96px; }
+.login-error { margin: 0 auto 24px; max-width: 600px; border-left: 4px solid #ce0500; padding: 15px; background: #fff1f0; line-height: 1.5; }
+.loading { min-height: 100vh; display: grid; place-items: center; color: #666; }
+.app-shell { min-height: 100vh; background: #f6f7fb; display: flex; flex-direction: column; }
+.app-header { background: white; border-bottom: 1px solid #e5e6ee; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 20px 5vw; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font-size: 24px; font-weight: 700; letter-spacing: 2px; color: #17243b; }
+.brand-mark { background: #000091; color: white; border-radius: 10px; padding: 9px; display: flex; }
+.logout { display: flex; align-items: center; gap: 9px; border: 1px solid #dddfe8; background: white; padding: 10px 15px; cursor: pointer; border-radius: 6px; font-size: 14px; }
+.logout:hover { background: #f0f0ff; }
+.home { width: min(100% - 48px, 1000px); margin: 80px auto; flex: 1; }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #686b86; }
+.home h1 { margin: 22px 0 12px; font-size: clamp(28px, 4vw, 44px); letter-spacing: -1px; color: #17243b; }
+.home-intro { color: #666b7f; font-size: 18px; }
+.identity-card { background: white; border: 1px solid #e1e3ef; border-radius: 14px; padding: 30px; max-width: 520px; margin-top: 40px; box-shadow: 0 5px 20px #17243b05; }
+.identity-top { display: flex; align-items: center; justify-content: space-between; }
+.identity-icon { display: flex; padding: 13px; background: #f0f0ff; color: #000091; border-radius: 12px; }
+.connected { display: inline-flex; align-items: center; gap: 6px; color: #207554; font-size: 12px; }
+.identity-card h2 { font-size: 25px; margin: 25px 0 10px; color: #17243b; }
+.identity-email { color: #666b7f; margin: 0 0 28px; overflow-wrap: anywhere; }
+.scope { display: flex; align-items: center; gap: 10px; color: #484e65; padding-top: 22px; border-top: 1px solid #eeeff5; font-size: 14px; }
+.app-footer { text-align: center; font-size: 11px; color: #81859a; padding: 24px; }
+@media (max-width: 600px) {
+  .login-page { padding: 20px 16px; }
+  .login-heading { padding: 32px 16px; }
+  .login-action { padding: 64px 0; }
+  .mindef-button { width: 100%; min-height: 110px; gap: 20px; padding: 20px; font-size: 23px; }
+  .mindef-symbol { flex-basis: 72px; width: 72px; height: 72px; }
+  .app-header { padding: 16px; }
+  .logout { font-size: 12px; padding: 9px; }
+  .home { margin-top: 48px; }
+}
