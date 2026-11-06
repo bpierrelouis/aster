@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ORION — Inventory</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Michroma&display=swap">
+<style>
+:root{--bg1:#0B2A6B;--t1:#FFFFFF;--inset:#071229;--bar:#12214A;--kic:#0E2150;--hov:#0C1B3D;--appbg:rgba(4,11,30,.92);--g1:rgba(11,42,107,.95);--g2:rgba(37,99,235,.22);--nuit:#040B1E;--pan:#0A1630;--ct:#1B2E5C;--bleu:#2563EB;--lum:#3B82F6;--ok:#22C55E;--warn:#F59E0B;--crit:#EF4444;--t2:#9FB0D0}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 10% 90%,var(--bg1) 0,var(--nuit) 55%);color:var(--t1);font:14px/1.4 'Inter',system-ui,sans-serif;min-height:100vh;padding:24px}
+.app{max-width:1400px;margin:0 auto;border:1px solid var(--ct);border-radius:24px;background:var(--appbg);box-shadow:0 0 40px var(--g2);overflow:hidden}
+svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.top{display:flex;align-items:center;gap:20px;padding:14px 28px;border-bottom:1px solid var(--ct)}
+.logo{display:flex;gap:.5em;font:400 15px/1 'Michroma',sans-serif;position:relative;margin-top:14px}
+.i{position:relative}.star{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + .35em);width:.8em;height:.8em;filter:drop-shadow(0 0 .25em var(--lum))}
+.sp{flex:1}.ib{background:none;border:0;color:var(--t1);cursor:pointer;position:relative;min-width:44px;min-height:44px;display:grid;place-items:center}
+.badge{position:absolute;top:4px;right:4px;background:var(--crit);border-radius:50%;width:16px;height:16px;font-size:10px;display:grid;place-items:center}
+.body{display:flex}
+nav{width:80px;padding:16px 0;display:flex;flex-direction:column;align-items:center;gap:8px;border-right:1px solid var(--ct)}
+nav button{width:48px;height:48px;border:0;border-radius:10px;background:none;color:var(--t2);cursor:pointer}
+nav button.on{background:var(--bleu);color:var(--t1)}
+main{flex:1;padding:20px 24px;min-width:0}
+.head{display:flex;align-items:center;gap:12px;margin-bottom:18px}.head h1{font-size:24px;font-weight:500;margin:0;flex:1}
+.btn{background:var(--pan);color:var(--t1);border:1px solid var(--ct);border-radius:8px;padding:10px 18px;font:500 14px 'Inter';cursor:pointer;min-height:44px;display:flex;gap:8px;align-items:center}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}
+.card{background:var(--pan);border:1px solid var(--ct);border-radius:14px}
+.kpi{padding:16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.kic{width:52px;height:52px;border-radius:12px;background:var(--kic);display:grid;place-items:center;color:var(--lum)}
+.kpi small{color:var(--t2);font-size:14px;display:block}.kpi b{font-size:28px;font-weight:600}
+.spark{width:100%;height:24px}
+.cols{display:flex;gap:18px;align-items:flex-start}
+.tbl{flex:1;min-width:0;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th{text-align:left;font-weight:500;padding:14px 16px;border-bottom:1px solid var(--ct)}
+td{padding:12px 16px;border-bottom:1px solid var(--bar);vertical-align:middle}
+.dev{display:flex;gap:10px;align-items:flex-start}.dot{width:9px;height:9px;border-radius:50%;margin-top:6px}
+.dev small,.os small{display:block;color:var(--t2);font-size:12px}
+.m{width:90px}.m .bar{height:5px;border-radius:3px;background:var(--bar);margin-top:5px;overflow:hidden}.m .bar i{display:block;height:100%}
+.os{display:flex;gap:10px;align-items:center}
+.tools{display:flex;gap:16px;align-items:center;padding:14px 16px;flex-wrap:wrap}
+.pg button{min-width:36px;min-height:36px;border:0;border-radius:6px;background:none;color:var(--t1);cursor:pointer}.pg .on{background:var(--bleu)}
+.search{display:flex;align-items:center;gap:8px;background:var(--inset);border:1px solid var(--ct);border-radius:8px;padding:0 12px;min-height:44px;flex:1;min-width:200px;max-width:340px;color:var(--t2)}
+.search input{background:none;border:0;color:var(--t1);font:14px 'Inter';outline:0;width:100%}
+.snap{width:300px;padding:18px;flex:none}
+.snap h2{font-size:16px;font-weight:500;margin:0 0 16px;display:flex;gap:10px;align-items:center}
+.tl{position:relative;padding-left:26px;display:flex;flex-direction:column;gap:10px}
+.tl:before{content:"";position:absolute;left:5px;top:12px;bottom:12px;width:2px;background:var(--lum)}
+.s{position:relative;border:1px solid var(--ct);border-radius:10px;padding:12px;background:var(--inset)}
+.s:before{content:"";position:absolute;left:-26px;top:16px;width:11px;height:11px;border-radius:50%;background:var(--lum)}
+.s small{color:var(--t2);display:block}.tag{background:var(--bleu);border-radius:5px;padding:2px 8px;font-size:12px;font-weight:600;float:right}
+.snap .btn{margin:16px auto 0}
+.app{position:relative}.top{position:relative}
+.ov{position:fixed;inset:0;background:rgba(2,6,18,.75);display:grid;place-items:center;padding:16px;z-index:50}
+.ov[hidden],.pop[hidden],#alt[hidden],#inv[hidden]{display:none}
+.mod{background:var(--pan);border:1px solid var(--ct);border-radius:16px;padding:24px;max-width:640px;width:100%;max-height:85vh;overflow:auto;box-shadow:0 0 40px rgba(37,99,235,.3)}
+.mod h2{margin:0 0 14px;font-size:20px;font-weight:600}.mod .x{float:right;min-height:36px;padding:6px 12px}
+.pop{position:fixed;z-index:40;background:var(--pan);border:1px solid var(--ct);border-radius:12px;padding:8px;min-width:250px;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.pop button,.pop label{display:block;width:100%;text-align:left;background:none;border:0;color:var(--t1);font:14px 'Inter';padding:10px 12px;border-radius:8px;cursor:pointer;min-height:44px}
+.pop button:hover{background:var(--bar)}.pop label span{display:block;color:var(--t2);font-size:12px;margin-bottom:4px}
+select,input[type=number]{background:var(--inset);color:var(--t1);border:1px solid var(--ct);border-radius:8px;padding:10px;font:14px 'Inter';min-height:44px;width:100%}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--bleu);padding:12px 20px;border-radius:10px;z-index:60}
+th[data-a=sort]{cursor:pointer;user-select:none}
+.pg button:disabled{opacity:.35;cursor:default}
+.s{cursor:pointer}.s.sel{border-color:var(--lum);box-shadow:0 0 12px rgba(59,130,246,.4)}
+.app.nc nav{display:none}.pad{padding:20px}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.lr{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bar)}
+.lr .bar{flex:1;height:6px;background:var(--bar);border-radius:3px;overflow:hidden}.lr .bar i{display:block;height:100%}
+.lnk{background:none;border:1px solid var(--ct);color:var(--t1);border-radius:8px;padding:6px 12px;cursor:pointer;min-height:36px;font:13px 'Inter'}
+.card h3{margin:0 0 8px;font-size:16px;font-weight:500}
+.tbl tr:hover td{background:var(--hov)}
+@media(max-width:1100px){.cols{flex-direction:column}.snap{width:100%}.kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){nav{display:none}.kpis{grid-template-columns:1fr}}
+
+/* Dégradé bleu du fond repris à l'extérieur, tout autour de chaque cadre */
+.card,.mod,.pop{box-shadow:0 0 14px 2px var(--g1),0 0 34px 8px var(--g2)}
+.top{box-shadow:0 7px 14px -3px var(--g1),0 12px 34px -8px var(--g2),inset 0 -7px 14px -3px var(--g1),inset 0 -12px 34px -8px var(--g2)}
+nav{box-shadow:7px 0 14px -3px var(--g1),12px 0 34px -8px var(--g2),inset -7px 0 14px -3px var(--g1),inset -12px 0 34px -8px var(--g2)}
+
+/* Plein écran */
+body{padding:0}
+.app{max-width:none;margin:0;width:100%;min-height:100vh;min-height:100dvh;border:0;border-radius:0;display:flex;flex-direction:column}
+.body{flex:1;min-height:0}
+
+/* Dégradé bleu sur tout le tour de l'écran */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:30;box-shadow:inset 0 0 14px 2px var(--g1),inset 0 0 34px 8px var(--g2)}
+
+/* Écran de connexion */
+#login{position:fixed;inset:0;display:grid;place-items:center;padding:16px;background:radial-gradient(ellipse at 10% 90%,var(--bg1) 0,var(--nuit) 55%);z-index:20;overflow:auto}
+.lcard{width:100%;max-width:420px;border:1px solid var(--ct);border-radius:20px;background:var(--appbg);padding:44px 32px 32px;box-shadow:0 0 14px 2px var(--g1),0 0 34px 8px var(--g2);display:flex;flex-direction:column;gap:18px}
+.lcard .logo{font-size:28px;margin:22px auto 4px}
+.lcard .sub{text-align:center;color:var(--t2);font-size:13px;margin:0 0 8px}
+.lcard h1{font-size:22px;font-weight:600;text-align:center;margin:0}
+.lcard label{display:block;color:var(--t2);font-size:13px}
+.lin{display:flex;align-items:center;gap:10px;background:var(--inset);border:1px solid var(--ct);border-radius:10px;padding:0 14px;min-height:48px;margin-top:6px;color:var(--t2)}
+.lin:focus-within{border-color:var(--lum)}
+.lin input{background:none;border:0;outline:0;color:var(--t1);font:15px 'Inter';width:100%;min-height:44px}
+.lcard .go{background:var(--bleu);color:var(--t1);border:0;border-radius:10px;min-height:48px;font:600 15px 'Inter';cursor:pointer;margin-top:6px;box-shadow:0 0 16px rgba(37,99,235,.6)}
+.lcard .go:hover{background:#2F6BFF}
+.lcard a{color:var(--lum);font-size:13px;text-align:center;cursor:pointer;background:none;border:0;font-family:'Inter';min-height:36px}
+
+/* Mode nuit / jour */
+html{color-scheme:dark}
+html[data-theme=light]{color-scheme:light;--nuit:#FFFFFF;--pan:#FFFFFF;--ct:rgba(27,46,92,.28);--t1:#040B1E;--t2:#1B2E5C;--lum:#2563EB;--bg1:rgba(59,130,246,.22);--inset:rgba(59,130,246,.08);--bar:rgba(27,46,92,.12);--kic:rgba(37,99,235,.12);--hov:rgba(37,99,235,.07);--appbg:rgba(255,255,255,.92);--g1:rgba(37,99,235,.28);--g2:rgba(59,130,246,.15)}
+.star{fill:var(--t1)}
+nav button.on,.pg .on,.tag,.badge,.toast,.lcard .go{color:#fff}
+html[data-theme=light] .m span{color:var(--t1)!important}
+html[data-theme=light] nav button{color:var(--t2)}html[data-theme=light] nav button.on{color:#fff}
+html[data-theme=light] .mod,html[data-theme=light] .pop{background:#fff}
+html[data-theme=light] #login{background:#FFFFFF}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+<symbol id="pc" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+<symbol id="srv" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01"/></symbol>
+<symbol id="shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/></symbol>
+<symbol id="chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-7"/></symbol>
+<symbol id="gear" viewBox="0 0 24 24"><path d="M10.03 4.66 L10.44 2.12 L13.56 2.12 L13.97 4.66 A7.6 7.6 0 0 1 15.80 5.42 L17.88 3.91 L20.09 6.12 L18.58 8.20 A7.6 7.6 0 0 1 19.34 10.03 L21.88 10.44 L21.88 13.56 L19.34 13.97 A7.6 7.6 0 0 1 18.58 15.80 L20.09 17.88 L17.88 20.09 L15.80 18.58 A7.6 7.6 0 0 1 13.97 19.34 L13.56 21.88 L10.44 21.88 L10.03 19.34 A7.6 7.6 0 0 1 8.20 18.58 L6.12 20.09 L3.91 17.88 L5.42 15.80 A7.6 7.6 0 0 1 4.66 13.97 L2.12 13.56 L2.12 10.44 L4.66 10.03 A7.6 7.6 0 0 1 5.42 8.20 L3.91 6.12 L6.12 3.91 L8.20 5.42 A7.6 7.6 0 0 1 10.03 4.66Z"/><circle cx="12" cy="12" r="2.8"/></symbol>
+<symbol id="bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></symbol>
+<symbol id="help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .9-1 1.700M12 17h.01"/></symbol>
+<symbol id="user" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6 19c1.500-3 10.500-3 12 0"/></symbol>
+<symbol id="menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="dl" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></symbol>
+<symbol id="cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></symbol>
+<symbol id="ram" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 11v2M10 11v2M14 11v2M18 11v2"/></symbol>
+<symbol id="db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.700 3.600 3 8 3s8-1.300 8-3V6M4 12c0 1.700 3.600 3 8 3s8-1.300 8-3"/></symbol>
+<symbol id="hist" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.700L3 8M3 3v5h5M12 7v5l3 2"/></symbol>
+<symbol id="filter" viewBox="0 0 24 24"><path d="M3 4h18l-7 9v6l-4 2v-8z"/></symbol>
+<symbol id="find" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+<symbol id="win" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M3 5l8-1v7H3zM12 4l9-1.500V11h-9zM3 13h8v7l-8-1zM12 13h9v8.500L12 20z"/></symbol>
+<symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M19.100 4.900l-1.400 1.400M6.300 17.700l-1.400 1.400"/></symbol>
+<symbol id="moon" viewBox="0 0 24 24"><path d="M21 12.800A9 9 0 1 1 11.200 3a7 7 0 0 0 9.800 9.800z"/></symbol>
+<symbol id="starp" viewBox="0 0 40 40"><path d="M20 0C21.500 13 27 18.500 40 20C27 21.500 21.500 27 20 40C18.500 27 13 21.500 0 20C13 18.500 18.500 13 20 0Z"/></symbol>
+</defs></svg>
+
+<div id="login">
+<button class="ib" onclick="toggleTheme()" aria-label="Basculer entre mode jour et mode nuit" title="Mode jour / nuit" style="position:absolute;top:16px;right:16px"><svg class="ic"><use class="thic" href="#sun"/></svg></button>
+<div class="lcard" id="lf" onkeydown="if(event.key==='Enter')enterApp()">
+<div class="logo" aria-label="ORION"><span>O</span><span>R</span><span class="i">I<svg class="star" fill="#fff"><use href="#starp"/></svg></span><span>O</span><span>N</span></div>
+<p class="sub">Outil de Recensement, d’Intervention et d’Observation Numérique</p>
+<h1>Connexion</h1>
+<label>Identifiant<div class="lin"><svg class="ic"><use href="#user"/></svg><input type="text" placeholder="Votre identifiant" aria-label="Identifiant"></div></label>
+<label>Mot de passe<div class="lin"><svg class="ic"><use href="#shield"/></svg><input type="password" placeholder="••••••••" aria-label="Mot de passe"></div></label>
+<button class="go" type="button" onclick="enterApp()">Se connecter</button>
+<button class="a" type="button" id="fg" style="background:none;border:0;color:var(--lum);font:13px 'Inter';cursor:pointer;min-height:36px">Mot de passe oublié ?</button>
+</div>
+</div>
+<div class="app" id="app" style="display:none">
+<header class="top">
+<div class="logo" aria-label="ORION"><span>O</span><span>R</span><span class="i">I<svg class="star" fill="#fff"><use href="#starp"/></svg></span><span>O</span><span>N</span></div>
+<button class="ib" data-a="menu" aria-label="Menu"><svg class="ic"><use href="#menu"/></svg></button>
+<span class="sp"></span>
+<button class="ib" onclick="toggleTheme()" aria-label="Basculer entre mode jour et mode nuit" title="Mode jour / nuit"><svg class="ic"><use class="thic" href="#sun"/></svg></button>
+<button class="ib" data-a="bell" aria-label="Notifications"><svg class="ic"><use href="#bell"/></svg><span class="badge" id="badge">3</span></button>
+<button class="ib" data-a="help" aria-label="Aide"><svg class="ic"><use href="#help"/></svg></button>
+<button class="ib" data-a="user" aria-label="Profil"><svg class="ic" style="width:32px;height:32px"><use href="#user"/></svg></button>
+</header>
+<div class="body">
+<nav aria-label="Navigation principale">
+<button class="on" data-a="view" data-v="inv" aria-label="Inventory"><svg class="ic"><use href="#home"/></svg></button>
+<button data-a="view" data-v="pc" aria-label="Postes"><svg class="ic"><use href="#pc"/></svg></button>
+<button data-a="view" data-v="srv" aria-label="Serveurs"><svg class="ic"><use href="#srv"/></svg></button>
+<button data-a="view" data-v="shield" aria-label="Sécurité"><svg class="ic"><use href="#shield"/></svg></button>
+<button data-a="view" data-v="chart" aria-label="Statistiques"><svg class="ic"><use href="#chart"/></svg></button>
+<button data-a="view" data-v="gear" aria-label="Paramètres"><svg class="ic"><use href="#gear"/></svg></button>
+</nav>
+<main>
+<div class="head"><svg class="ic" style="width:30px;height:30px"><use id="tic" href="#srv"/></svg><h1 id="ttl">Inventory</h1><button class="btn" data-a="export"><svg class="ic"><use href="#dl"/></svg>Export</button></div>
+
+<div id="inv"><div class="kpis" id="kpis"></div>
+
+<div class="cols">
+<section class="card tbl" aria-label="Liste des appareils">
+<table><thead><tr id="th"></tr></thead><tbody id="rows"></tbody></table>
+<div class="tools">
+<span style="color:var(--t2)" id="count">Showing 1 to 6 of 128 devices</span><span class="sp"></span>
+<div class="pg" id="pg"></div>
+<button class="btn" data-a="filter"><svg class="ic"><use href="#filter"/></svg>Filter</button>
+<label class="search"><svg class="ic"><use href="#find"/></svg><input id="q" placeholder="Search devices..." aria-label="Rechercher un appareil"></label>
+</div>
+</section>
+
+<aside class="card snap" aria-label="Snapshots">
+<h2><svg class="ic"><use href="#hist"/></svg>Snapshots</h2>
+<div class="tl" id="snaps"></div>
+<button class="btn" data-a="allsn">View all snapshots</button>
+</aside>
+</div></div><div id="alt" hidden></div>
+</main>
+</div>
+</div>
+
+<div class="pop" id="pp" hidden></div><div class="ov" id="ov" hidden><div class="mod" id="md" role="dialog" aria-modal="true"></div></div>
+<script>function toggleTheme(){var d=document.documentElement,l=d.getAttribute('data-theme')!=='light';d.setAttribute('data-theme',l?'light':'dark');try{localStorage.setItem('orion-theme',l?'light':'dark')}catch(e){}document.querySelectorAll('.thic').forEach(function(u){u.setAttribute('href',l?'#moon':'#sun')})}
+try{if(localStorage.getItem('orion-theme')==='light')toggleTheme()}catch(e){}
+function enterApp(){document.getElementById('login').style.display='none';document.getElementById('app').style.display='flex';try{go('inv')}catch(e){}}</script>
+<script>
+const $=s=>document.querySelector(s);
+const T={w:60,c:80};
+const lvl=v=>v>=T.c?'var(--crit)':v>=T.w?'var(--warn)':'var(--lum)';
+let seed=11;const rnd=()=>(seed=seed*16807%2147483647)/2147483647;
+const pick=a=>a[Math.floor(rnd()*a.length)],ri=(a,b)=>Math.round(a+rnd()*(b-a));
+const D=[['SRV-APP-01','10.0.0.10',18,32,62,'Windows Server 2022','Datacenter'],['SRV-FILES-02','10.0.0.12',21,48,87,'Windows Server 2019','Standard'],['WS-CLIENT-07','10.0.1.45',16,28,39,'Windows 11','Pro'],['WS-DEV-11','10.0.1.67',27,66,71,'Windows 11','Pro'],['LAPTOP-OPS-03','10.0.2.19',33,61,82,'Windows 10','Pro'],['SRV-DB-01','10.0.3.20',37,53,68,'Windows Server 2022','Datacenter']]
+ .map(x=>({n:x[0],ip:x[1],c:x[2],r:x[3],d:x[4],os:x[5],ed:x[6],t:x[0][0]=='S'?'srv':x[0][0]=='L'?'lap':'ws'}));
+for(let i=7;i<=128;i++){const t=i%6==0?'srv':i%9==0?'lap':'ws';
+ const n=(t=='srv'?'SRV-'+pick(['APP','FILES','DB','WEB','BCK'])+'-':t=='lap'?'LAPTOP-OPS-':'WS-CLIENT-')+String(i).padStart(2,'0');
+ const o=t=='srv'?pick([['Windows Server 2022','Datacenter'],['Windows Server 2019','Standard'],['Windows Server 2016','Standard']]):pick([['Windows 11','Pro'],['Windows 11','Pro'],['Windows 10','Pro']]);
+ D.push({n,ip:`10.0.${Math.floor(i/40)}.${10+i%200}`,c:ri(8,60),r:ri(20,85),d:ri(25,92),os:o[0],ed:o[1],t});}
+D.forEach((x,i)=>x.off=i>6&&rnd()<.04);
+const status=x=>x.off?'crit':Math.max(x.c,x.r,x.d)>=T.c?'warn':'ok';
+const SL={ok:'En ligne',warn:'À surveiller',crit:'Hors ligne'};
+const S={p:1,q:'',v:'inv',t:'all',st:'all',k:null,dir:1,sel:0},PER=6;
+const SN=[['Apr 26, 2025 · 10:24 AM',128,1],['Apr 25, 2025 · 09:00 AM',129],['Apr 24, 2025 · 11:00 AM',127],['Apr 23, 2025 · 09:30 AM',128],['Apr 22, 2025 · 11:30 AM',130],['Apr 21, 2025 · 10:00 AM',126],['Apr 20, 2025 · 10:00 AM',126],['Apr 19, 2025 · 10:00 AM',125],['Apr 18, 2025 · 10:00 AM',125]].map(s=>({d:s[0],n:s[1],auto:!!s[2]}));
+const avg=(a,k)=>a.length?Math.round(a.reduce((s,x)=>s+x[k],0)/a.length):0;
+function toast(t){$('.toast')?.remove();const e=document.createElement('div');e.className='toast';e.setAttribute('role','status');e.textContent=t;document.body.append(e);setTimeout(()=>e.remove(),2600)}
+const sp='<svg class="spark" viewBox="0 0 120 24" preserveAspectRatio="none"><polyline fill="none" stroke="#3B82F6" stroke-width="1.5" points="0,16 10,12 20,15 30,8 40,13 50,9 60,14 70,7 80,12 90,6 100,11 110,8 120,12"/></svg>';
+function kpis(){const k=[['pc','Postes',D.length,'<small style="font-size:13px"><span style="color:var(--ok)">●</span> +1 vs hier</small>'],['cpu','Avg CPU',avg(D,'c')+'%'],['ram','Avg RAM',avg(D,'r')+'%'],['db','Avg Disk',avg(D,'d')+'%']];
+ $('#kpis').innerHTML=k.map(k=>`<div class="card kpi"><div class="kic"><svg class="ic" style="width:30px;height:30px"><use href="#${k[0]}"/></svg></div><div><small>${k[1]}</small><b>${k[2]}</b>${k[3]||''}</div>${k[3]?'':sp}</div>`).join('')}
+function list(){let a=D.filter(x=>(!S.q||(x.n+x.ip+x.os).toLowerCase().includes(S.q.toLowerCase()))&&(S.t=='all'||(S.t=='pc'?x.t!='srv':x.t==S.t))&&(S.st=='all'||status(x)==S.st));
+ if(S.k)a=[...a].sort((x,y)=>(typeof x[S.k]=='string'?x[S.k].localeCompare(y[S.k]):x[S.k]-y[S.k])*S.dir);return a}
+const m=v=>`<td><div class="m"><span style="color:${v>=T.w?lvl(v):'var(--t1)'}">${v}%</span><div class="bar"><i style="width:${v}%;background:${lvl(v)}"></i></div></div></td>`;
+function draw(){const a=list(),n=Math.max(1,Math.ceil(a.length/PER));S.p=Math.min(S.p,n);const s=(S.p-1)*PER,pg=a.slice(s,s+PER);
+ $('#th').innerHTML=[['n','Device'],['c','CPU'],['r','RAM'],['d','Disk'],['os','OS']].map(h=>`<th data-a="sort" data-v="${h[0]}">${h[1]}${S.k==h[0]?(S.dir>0?' ▲':' ▼'):''}</th>`).join('')+'<th>Support History</th>';
+ $('#rows').innerHTML=pg.length?pg.map(r=>`<tr><td><div class="dev"><span class="dot" title="${SL[status(r)]}" style="background:var(--${status(r)=='crit'?'crit':status(r)})"></span><div>${r.n}<small>${r.ip}</small></div></div></td>${m(r.c)}${m(r.r)}${m(r.d)}<td><div class="os"><svg class="ic"><use href="#win"/></svg><div>${r.os}<small>(${r.ed})</small></div></div></td><td><button class="ib" data-a="hist" data-v="${r.n}" aria-label="Historique de ${r.n}" style="color:var(--lum)"><svg class="ic"><use href="#chart"/></svg></button></td></tr>`).join(''):'<tr><td colspan="6" style="text-align:center;color:var(--t2);padding:32px">Aucun appareil trouvé</td></tr>';
+ $('#count').textContent=a.length?`Showing ${s+1} to ${s+pg.length} of ${a.length} devices`:'No devices found';
+ const set=new Set([1,n,S.p-1,S.p,S.p+1,3].filter(x=>x>=1&&x<=n)),ps=[...set].sort((x,y)=>x-y),o=[];ps.forEach((x,i)=>{if(i&&x-ps[i-1]>1)o.push('…');o.push(x)});
+ $('#pg').innerHTML=`<button data-a="page" data-v="${S.p-1}" ${S.p<2?'disabled':''} aria-label="Précédent">‹</button>`+o.map(x=>x=='…'?'<button disabled>…</button>':`<button data-a="page" data-v="${x}" class="${x==S.p?'on':''}">${x}</button>`).join('')+`<button data-a="page" data-v="${S.p+1}" ${S.p>=n?'disabled':''} aria-label="Suivant">›</button>`}
+function snaps(){$('#snaps').innerHTML=SN.slice(0,5).map((s,i)=>`<div class="s ${S.sel==i?'sel':''}" data-a="snap" data-v="${i}" role="button" tabindex="0">${s.auto?'<span class="tag">Auto</span>':''}${s.d}<small>${s.n} devices</small></div>`).join('')}
+const TT={inv:['srv','Inventory'],pc:['pc','Postes'],srv:['srv','Serveurs'],shield:['shield','Sécurité'],chart:['chart','Statistiques'],gear:['gear','Paramètres']};
+const bar=(l,v,c,max)=>`<div class="lr"><span style="width:170px">${l}</span><div class="bar"><i style="width:${v/(max||100)*100}%;background:${c}"></i></div><span style="width:46px;text-align:right">${v}${max?'':'%'}</span></div>`;
+function alt(v){let h='';
+ if(v=='shield'){const r=D.map(x=>({x,w:x.off?'Hors ligne':x.d>=T.c?'Disque à '+x.d+'%':x.os=='Windows 10'?'Windows 10 (fin de support)':''})).filter(o=>o.w);
+  h=`<div class="card pad"><h3>${r.length} appareils à traiter</h3><p style="color:var(--t2);margin:0 0 8px">Hors ligne, disque presque plein ou système en fin de support.</p>`+r.slice(0,12).map(o=>`<div class="lr"><span style="flex:1">${o.x.n}<small style="display:block;color:var(--t2)">${o.w}</small></span><button class="lnk" data-a="find" data-v="${o.x.n}">Voir</button></div>`).join('')+(r.length>12?`<p style="margin-top:10px">… et ${r.length-12} autres</p>`:'')+'</div>'}
+ if(v=='chart'){const g=[['Serveurs','srv'],['Postes','ws'],['Portables','lap']],os={};D.forEach(x=>os[x.os]=(os[x.os]||0)+1);const st={ok:0,warn:0,crit:0};D.forEach(x=>st[status(x)]++);
+  h='<div class="g2">'+g.map(([l,t])=>{const a=D.filter(x=>x.t==t);return `<div class="card pad"><h3>${l} (${a.length})</h3>${bar('CPU moyen',avg(a,'c'),lvl(avg(a,'c')))}${bar('RAM moyenne',avg(a,'r'),lvl(avg(a,'r')))}${bar('Disque moyen',avg(a,'d'),lvl(avg(a,'d')))}</div>`}).join('')+`<div class="card pad"><h3>Systèmes</h3>${Object.entries(os).map(([k,v])=>bar(k,v,'var(--lum)',D.length)).join('')}</div><div class="card pad"><h3>États</h3>${bar('En ligne',st.ok,'var(--ok)',D.length)}${bar('À surveiller',st.warn,'var(--warn)',D.length)}${bar('Hors ligne',st.crit,'var(--crit)',D.length)}</div></div>`}
+ if(v=='gear')h=`<div class="card pad" style="max-width:520px"><h3>Seuils d’alerte (%)</h3><p style="color:var(--t2)">Couleur des barres CPU, RAM et disque.</p><label><span style="color:var(--t2)">Orange à partir de</span><input type="number" min="1" max="99" data-f="tw" value="${T.w}"></label><br><label><span style="color:var(--t2)">Rouge à partir de</span><input type="number" min="1" max="100" data-f="tc" value="${T.c}"></label><br><button class="btn" data-a="reset">Réinitialiser</button></div>`;
+ $('#alt').innerHTML=h}
+function go(v){S.v=v;S.p=1;if(v=='pc'||v=='srv')S.t=v;else if(v=='inv')S.t='all';
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v==v));
+ $('#tic').setAttribute('href','#'+TT[v][0]);$('#ttl').textContent=TT[v][1];
+ const i=v=='inv'||v=='pc'||v=='srv';$('#inv').hidden=!i;$('#alt').hidden=i;i?draw():alt(v)}
+const pp=$('#pp'),ov=$('#ov');
+function closePop(){pp.hidden=true;pp.dataset.o=''}
+function openPop(o,el,h,up){const r=el.getBoundingClientRect();pp.innerHTML=h;pp.dataset.o=o;pp.hidden=false;pp.style.cssText=(up?`bottom:${innerHeight-r.top+6}px`:`top:${r.bottom+6}px`)+`;right:${Math.max(8,innerWidth-r.right)}px`}
+function modal(h){$('#md').innerHTML='<button class="btn x" data-a="close">Fermer</button>'+h;ov.hidden=false}
+function closeM(){ov.hidden=true}
+function hist(n){const x=D.find(d=>d.n==n),W=300,ser=k=>Array.from({length:24},(_,i)=>i==23?x[k]:Math.max(3,Math.min(97,x[k]+Math.round(Math.sin(i*1.3+k.charCodeAt(0))*9))));
+ const ln=(k,c)=>`<polyline fill="none" stroke="${c}" stroke-width="2" points="${ser(k).map((v,i)=>`${(i*W/23).toFixed(1)},${(70-v*.66).toFixed(1)}`).join(' ')}"/>`;
+ const T0=['Mise à jour Windows','Remplacement du disque','Lenteurs signalées','Réinstallation d’un logiciel','Nettoyage du disque','Ajout de RAM'],h=[...n].reduce((s,c)=>s+c.charCodeAt(0),0);
+ modal(`<h2>${n} <small style="color:var(--t2);font-weight:400">${x.ip} · ${SL[status(x)]}</small></h2><svg viewBox="0 0 ${W} 72" style="width:100%;height:160px;background:#071229;border-radius:10px">${ln('c','#3B82F6')}${ln('r','#F59E0B')}${ln('d','#EF4444')}</svg><p style="color:var(--t2);font-size:13px;margin:6px 0 14px"><span style="color:#3B82F6">■</span> CPU ${x.c}% &nbsp;<span style="color:#F59E0B">■</span> RAM ${x.r}% &nbsp;<span style="color:#EF4444">■</span> Disque ${x.d}% — dernières 24 h</p><h3 style="margin:0">Interventions (exemples)</h3>`+[0,1,2].map(i=>`<div class="lr"><span style="flex:1">${T0[(h+i*2)%6]}</span><span style="color:var(--t2)">${12+i*9} oct. 2026</span></div>`).join(''))}
+function allSnaps(){modal(`<h2>Snapshots (${SN.length})</h2><button class="btn" data-a="mk" style="margin-bottom:12px">Créer un snapshot maintenant</button>`+SN.map((s,i)=>{const dl=i<SN.length-1?s.n-SN[i+1].n:0;return `<div class="lr"><span style="flex:1">${s.d}${s.auto?' <span class="tag" style="float:none">Auto</span>':''}</span><span>${s.n} devices</span><span style="width:44px;text-align:right;color:${dl>0?'var(--ok)':dl<0?'var(--warn)':'var(--t2)'}">${dl>0?'+':''}${dl||'='}</span></div>`}).join(''))}
+function help(){modal('<h2>Aide</h2><p style="color:var(--t2)">• Cliquez sur un en-tête de colonne pour trier.<br>• La barre de recherche filtre par nom, IP ou système.<br>• « Filter » filtre par état et par type.<br>• L’icône graphique d’une ligne ouvre l’historique de support.<br>• « Export » télécharge la liste filtrée en CSV.<br>• Les snapshots se consultent et se créent depuis le panneau de droite.</p>')}
+function csv(){const a=list(),q=v=>`"${v}"`,t=['Device;IP;CPU;RAM;Disk;OS;Edition;Etat',...a.map(x=>[x.n,x.ip,x.c,x.r,x.d,x.os,x.ed,SL[status(x)]].join(';'))].join('\n');
+ const l=document.createElement('a');l.href=URL.createObjectURL(new Blob(['\ufeff'+t],{type:'text/csv'}));l.download='orion-inventory-'+new Date().toISOString().slice(0,10)+'.csv';l.click();toast(a.length+' appareils exportés')}
+const A={view:v=>go(v),page:v=>{S.p=+v;draw()},sort:v=>{S.dir=S.k==v?-S.dir:1;S.k=v;draw()},hist,close:closeM,help,export:csv,allsn:allSnaps,
+ find:v=>{closePop();closeM();S.q=v;$('#q').value=v;S.st='all';go('inv')},
+ snap:v=>{S.sel=+v;snaps();toast(SN[v].d+' : '+SN[v].n+' devices')},
+ mk:()=>{SN.unshift({d:new Date().toLocaleString('fr-FR'),n:D.length,auto:false});S.sel=0;snaps();allSnaps();toast('Snapshot créé')},
+ reset:()=>{T.w=60;T.c=80;S.q='';S.t='all';S.st='all';S.k=null;$('#q').value='';alt('gear');toast('Réinitialisé')},
+ menu:()=>$('.app').classList.toggle('nc'),
+ logout:()=>{closePop();closeM();$('#app').style.display='none';$('#login').style.display='grid'},
+ settings:()=>{closePop();go('gear')},
+ bell:(v,el,was)=>{if(was=='bell')return;const r=D.filter(x=>x.d>=T.c||x.off).slice(0,3);$('#badge').hidden=true;openPop('bell',el,r.map(x=>`<button data-a="find" data-v="${x.n}">${x.n}<small style="display:block;color:var(--t2)">${x.off?'Hors ligne':'Disque à '+x.d+'%'}</small></button>`).join('')+'<button data-a="allsn">Dernier snapshot automatique terminé</button>')},
+ user:(v,el,was)=>{if(was!='user')openPop('user',el,'<button data-a="settings">Paramètres</button><button data-a="help">Aide</button><button data-a="logout">Déconnexion</button>')},
+ filter:(v,el,was)=>{if(was=='filter')return;const o=(k,l,a)=>`<label><span>${l}</span><select data-f="${k}">${a.map(([v,t])=>`<option value="${v}" ${S[k]==v?'selected':''}>${t}</option>`).join('')}</select></label>`;
+  openPop('filter',el,o('st','État',[['all','Tous'],['ok','En ligne'],['warn','À surveiller'],['crit','Hors ligne']])+o('t','Type',[['all','Tous'],['srv','Serveurs'],['ws','Postes fixes'],['lap','Portables'],['pc','Postes + portables']]),true)}};
+document.addEventListener('click',e=>{const was=pp.hidden?'':pp.dataset.o;if(!e.target.closest('#pp'))closePop();
+ if(e.target===ov)closeM();const a=e.target.closest('[data-a]');if(a)A[a.dataset.a]?.(a.dataset.v,a,was)});
+document.addEventListener('keydown',e=>{if(e.key=='Escape'){closeM();closePop()}if((e.key=='Enter'||e.key==' ')&&e.target.matches('.s')){e.preventDefault();e.target.click()}});
+document.addEventListener('change',e=>{const f=e.target.dataset.f;if(!f)return;if(f=='tw'||f=='tc'){T[f=='tw'?'w':'c']=+e.target.value;toast('Seuils mis à jour')}else{S[f]=e.target.value;S.p=1;draw()}});
+$('#q').addEventListener('input',e=>{S.q=e.target.value;S.p=1;if(S.v=='shield'||S.v=='chart'||S.v=='gear')go('inv');else draw()});
+kpis();snaps();go('inv');
+$('#fg').addEventListener('click',()=>toast('Maquette : réinitialisation non disponible'));
+</script>
+
+</body>
+</html>

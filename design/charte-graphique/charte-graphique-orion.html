@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Charte graphique ORION</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Michroma&display=swap">
+<style>
+:root{--nuit:#040B1E;--panneau:#0A1630;--contour:#1B2E5C;--bleu:#2563EB;--lumiere:#3B82F6;--ok:#22C55E;--warn:#F59E0B;--crit:#EF4444;--txt:#fff;--txt2:#9FB0D0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--nuit);color:var(--txt);font-family:'Inter',system-ui,sans-serif;line-height:1.6}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.cover{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;min-height:480px;text-align:center;background:radial-gradient(ellipse at 50% 30%,#0B2A6B 0%,var(--nuit) 70%)}
+.logo{display:flex;gap:.5em;font-family:'Michroma',system-ui,sans-serif;color:#fff;line-height:1}
+.i{position:relative}
+.star{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + .35em);width:.7em;height:.7em;filter:drop-shadow(0 0 .25em var(--lumiere))}
+.kick{font-family:'Michroma',system-ui,sans-serif;font-size:12px;letter-spacing:.3em;color:var(--lumiere);margin:0}
+section{padding:64px 0 0;display:flex;flex-direction:column;gap:24px}
+h2{font-size:32px;font-weight:600;margin:0}
+p{margin:0;color:var(--txt2);max-width:720px}
+p b{color:#fff}
+.row{display:flex;gap:20px;flex-wrap:wrap}
+.card{background:var(--panneau);border:1px solid var(--contour);border-radius:14px;padding:24px;flex:1 1 260px}
+.sw{flex:1 1 180px;border:1px solid var(--contour);border-radius:14px;overflow:hidden;background:var(--panneau)}
+.chip{height:96px}
+.sw b{display:block;padding:14px 16px 2px;font-size:14px}
+.sw span{display:block;padding:0 16px 14px;font-size:13px;color:var(--txt2)}
+.bar{height:6px;border-radius:3px;background:#12214A;overflow:hidden;flex:1}
+.bar i{display:block;height:100%}
+.line{display:flex;align-items:center;gap:16px;font-size:14px}.line span{width:96px}
+.btn{border-radius:8px;padding:12px 20px;font:600 14px 'Inter',sans-serif;min-height:44px;cursor:pointer}
+footer{padding:64px 0}
+</style>
+</head>
+<body>
+
+<header class="cover">
+<div class="logo" style="font-size:clamp(36px,7vw,64px);margin-top:40px" aria-label="ORION"><span>O</span><span>R</span><span class="i">I<svg class="star" viewBox="0 0 40 40" aria-hidden="true"><path fill="#fff" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/></svg></span><span>O</span><span>N</span></div>
+<p class="kick" style="margin-top:12px">CHARTE GRAPHIQUE · V1.0</p>
+<p>Outil de Recensement, d’Intervention et d’Observation Numérique</p>
+</header>
+
+<main class="wrap">
+
+<section>
+<p class="kick">01 — IDENTITÉ</p>
+<h2>Ce que signifie ORION</h2>
+<div class="row">
+<div class="card"><p><b>Outil de Recensement</b> : inventorier les postes, serveurs et équipements du parc.</p></div>
+<div class="card"><p><b>d’Intervention</b> : tracer l’historique de support et agir sur les machines.</p></div>
+<div class="card"><p><b>et d’Observation Numérique</b> : superviser CPU, RAM, disque et snapshots en continu.</p></div>
+</div>
+<p>Univers : l’espace et la nuit. L’étoile guide, comme la constellation d’Orion : une interface sombre, précise, où la lumière signale l’essentiel.</p>
+</section>
+
+<section>
+<p class="kick">02 — LOGO</p>
+<h2>Le logotype</h2>
+<p>Le mot ORION en capitales larges, espacées. L’étoile à quatre branches se place toujours au-dessus du « I », jamais à côté du texte.</p>
+<div class="row">
+<div class="card" style="flex:2 1 300px;height:200px;display:flex;align-items:center;justify-content:center;background:var(--nuit)"><div class="logo" style="font-size:40px;margin-top:30px"><span>O</span><span>R</span><span class="i">I<svg class="star" viewBox="0 0 40 40" aria-hidden="true"><path fill="#fff" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/></svg></span><span>O</span><span>N</span></div></div>
+<div class="card" style="flex:2 1 300px;height:200px;display:flex;align-items:center;justify-content:center;background:#fff"><div class="logo" style="font-size:40px;margin-top:30px;color:var(--nuit)"><span>O</span><span>R</span><span class="i">I<svg class="star" style="filter:none" viewBox="0 0 40 40" aria-hidden="true"><path fill="#040B1E" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/></svg></span><span>O</span><span>N</span></div></div>
+</div>
+<p>Zone de protection : au moins la hauteur du « O » autour du logo. Largeur minimale : 90 px (écran). Fond sombre par défaut, version nuit sur blanc pour l’impression (texte et étoile dans le bleu nuit du fond).</p>
+</section>
+
+<section>
+<p class="kick">03 — COULEURS</p>
+<h2>Palette</h2>
+<div class="row">
+<div class="sw"><div class="chip" style="background:#040B1E"></div><b>Nuit profonde</b><span>#040B1E · fond de page</span></div>
+<div class="sw"><div class="chip" style="background:#0A1630"></div><b>Panneau</b><span>#0A1630 · cartes, tableaux</span></div>
+<div class="sw"><div class="chip" style="background:#2563EB"></div><b>Bleu Orion</b><span>#2563EB · actions, menu actif</span></div>
+<div class="sw"><div class="chip" style="background:#3B82F6"></div><b>Bleu lumière</b><span>#3B82F6 · lueurs, graphes</span></div>
+<div class="sw"><div class="chip" style="background:#1B2E5C"></div><b>Contour</b><span>#1B2E5C · bordures</span></div>
+</div>
+<div class="row">
+<div class="sw"><div class="chip" style="background:#22C55E"></div><b>Succès · en ligne</b><span>#22C55E</span></div>
+<div class="sw"><div class="chip" style="background:#F59E0B"></div><b>Attention</b><span>#F59E0B</span></div>
+<div class="sw"><div class="chip" style="background:#EF4444"></div><b>Critique</b><span>#EF4444</span></div>
+<div class="sw"><div class="chip" style="background:#FFFFFF"></div><b>Texte principal</b><span>#FFFFFF</span></div>
+<div class="sw"><div class="chip" style="background:#9FB0D0"></div><b>Texte secondaire</b><span>#9FB0D0</span></div>
+</div>
+<p>Le bleu sert à l’interaction, le vert, l’orange et le rouge uniquement à l’état des machines. Ne jamais indiquer un état par la couleur seule : ajouter un libellé ou une valeur.</p>
+</section>
+
+<section>
+<p class="kick">04 — TYPOGRAPHIE</p>
+<h2>Deux familles</h2>
+<div class="row">
+<div class="card"><p class="kick">LOGO &amp; TITRES COURTS</p><div style="font-family:'Michroma',sans-serif;font-size:40px;margin:16px 0 8px">Michroma</div><p>Capitales espacées, utilisée avec parcimonie : logo, intitulés courts, étiquettes.</p></div>
+<div class="card"><p class="kick">INTERFACE &amp; DONNÉES</p><div style="font-size:40px;font-weight:600;margin:16px 0 8px">Inter</div><p>Titres en 600, texte en 400, chiffres clés en 600 à 28–32 px. Libellés de colonnes en 500.</p></div>
+</div>
+</section>
+
+<section>
+<p class="kick">05 — COMPOSANTS</p>
+<h2>Interface du dashboard</h2>
+<div class="row">
+<div class="card" style="flex:0 1 260px;display:flex;flex-direction:column;gap:10px"><span style="font-size:14px;color:var(--txt2)">Postes</span><span style="font-size:32px;font-weight:600">128</span><span style="font-size:13px;color:var(--txt2)"><span style="color:var(--ok)">●</span> +1 vs hier</span></div>
+<div class="card" style="flex:2 1 320px;display:flex;flex-direction:column;gap:16px;justify-content:center">
+<div class="line"><span>18% CPU</span><div class="bar"><i style="width:18%;background:var(--lumiere)"></i></div></div>
+<div class="line"><span>61% RAM</span><div class="bar"><i style="width:61%;background:var(--warn)"></i></div></div>
+<div class="line"><span>82% Disque</span><div class="bar"><i style="width:82%;background:var(--crit)"></i></div></div>
+</div>
+<div class="card" style="flex:0 1 260px;display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+<button class="btn" style="background:var(--bleu);color:#fff;border:0">Action principale</button>
+<button class="btn" style="background:transparent;color:#fff;border:1px solid #2F4A8C;font-weight:500">Exporter</button>
+<span style="background:var(--bleu);border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600">Auto</span>
+</div>
+</div>
+<p>Cartes à coins arrondis (14 px) sur fond Panneau avec bordure Contour fine. Les lueurs bleues restent discrètes ; les barres d’usage font 6 px de haut. Icônes au trait fin, en bleu ou blanc.</p>
+</section>
+
+</main>
+<footer></footer>
+</body>
+</html>
