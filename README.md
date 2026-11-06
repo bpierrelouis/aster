@@ -72,6 +72,37 @@ Ces skills sont installés dans `.agents/skills/`. Utiliser celui qui correspond
 
 Sources installées : [github/awesome-copilot](https://github.com/github/awesome-copilot/tree/8178d1939a203f691067073dcab2a3f1e14072d3/skills), révision `8178d1939a203f691067073dcab2a3f1e14072d3`, pour les deux modèles documentaires ; [Data-System-School/agent-skills](https://github.com/Data-System-School/agent-skills/tree/a117418ab3596c59d641cab4cb89bdbe560fb277/investigate-codebase), révision `a117418ab3596c59d641cab4cb89bdbe560fb277`, pour l’analyse. Les licences MIT sont conservées dans les dossiers des skills. Les adaptations ASTER sont signalées dans les deux modèles ; l’investigateur conserve sa méthode d’origine. Aucun skill ne valide une décision métier à la place du client ni ne lève les protections d’`AGENTS.md`.
 
+### Explorer le code avec Graphify
+
+Le [skill Graphify](.agents/skills/graphify/SKILL.md), issu du [projet officiel](https://github.com/Graphify-Labs/graphify), aide à explorer les relations dans le code. Il complète les recherches ciblées et les sources ASTER selon les règles d’`AGENTS.md`. Le skill est regroupé avec les autres dans `.agents/skills/` ; l’outil Python est installé hors du dépôt.
+
+Le script partagé installe la version prévue dans le compte utilisateur, hors du dépôt. Il nécessite Python 3.10 ou supérieur et un accès Internet pour télécharger les dépendances.
+
+Windows (PowerShell, depuis la racine du dépôt) :
+
+```powershell
+py -3 .agents/skills/graphify/scripts/graphify.py --install
+py -3 .agents/skills/graphify/scripts/graphify.py --version
+```
+
+Linux et macOS :
+
+```sh
+python3 .agents/skills/graphify/scripts/graphify.py --install
+python3 .agents/skills/graphify/scripts/graphify.py --version
+```
+
+Le même script transmet les commandes à Graphify, sans activation d’environnement ni modification du PATH. Par exemple, sous Windows :
+
+```powershell
+py -3 .agents/skills/graphify/scripts/graphify.py query "Quelles sont les dépendances de ce module ?"
+py -3 .agents/skills/graphify/scripts/graphify.py update .
+```
+
+Sous Linux et macOS, remplacer `py -3` par `python3`. Sur certaines distributions Linux, le paquet système `python3-venv` est nécessaire. L’environnement est stocké dans `%LOCALAPPDATA%/graphify/venv` sous Windows, `${XDG_DATA_HOME:-~/.local/share}/graphify/venv` sous Linux et `~/Library/Application Support/graphify/venv` sous macOS.
+
+Dans Codex, demander `$graphify` pour construire le graphe lorsque le code et les besoins d’exploration le justifient. Utiliser ensuite le script ci-dessus pour interroger le graphe et le mettre à jour après modification du code indexé. Aucun graphe n’est fourni initialement. `graphify-out/` est exclu de Git. L’analyse du code est locale ; l’analyse sémantique des documents consomme des tokens du modèle utilisé.
+
 ### Utiliser le skill ASTER
 
 Exemples de demandes :
