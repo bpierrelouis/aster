@@ -58,7 +58,7 @@ Le parcours [UC-ADMIN-06](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-06--g�
 
 ## IHM issues de la maquette
 
-La maquette couvre le parcours de gestion du parc à l'échelle d'une école. Ce socle est commun au super administrateur, mais le sélecteur d'école et la vue globale décrits dans cette fiche ne sont pas encore représentés.
+La maquette ci-dessous illustre le parcours de gestion du parc d’une école, commun à l’administrateur et au super administrateur. Le super administrateur sélectionne l’école sur laquelle il intervient et dispose d’un périmètre global.
 
 ![Liste des matériels dans la maquette ASTER](assets/fiches-descriptives/IHM-MAQUETTE-LISTE-MATERIELS.png)
 
@@ -77,7 +77,7 @@ Le parcours complet du parc est présenté dans la [fiche Gestionnaire](13-FICHE
 - Application web utilisée avec les versions de Firefox installées sur les postes de l'équipe.
 - Réseau interne NP disposant d'un accès à Internet.
 - Aucun agent ASTER ; utilisation des mécanismes Windows existants.
-- Authentification par login et mot de passe via Keycloak relié à LDAP ; disponibilité de l’instance et modalités d’intégration à préciser (cadrage § 18).
+- Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
 - Un seul profil par utilisateur.
 
 ## Règles applicables

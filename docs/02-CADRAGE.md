@@ -1,5 +1,7 @@
 # Questions de cadrage du projet ASTER
 
+**Document de travail interne, non destiné à la remise aux cadres évaluateurs.** Il conserve les réponses et leurs périmètres pour préparer les productions. Les documents remis décrivent la cible en production ; les modalités de réalisation et les comptes du démonstrateur sont réservés au [guide interne de développement](../application/README.md). Cette distinction a été fixée par l’utilisateur le 6 novembre.
+
 Ce document présente les questions de cadrage et les réponses en vigueur, issues des [entretiens des 22 et 23 octobre](03-COMPTE-RENDU-ENTRETIENS.md) et des réponses apportées ensuite directement par l’utilisateur. Les réponses datées du 2 novembre ont été fournies par l’utilisateur dans les échanges de cadrage et ne font pas partie des comptes rendus d’entretien. Pour chaque sujet, la dernière réponse remplace les précédentes. Les réponses antérieures restent applicables lorsqu’elles n’ont pas été remplacées ; les comptes rendus conservent uniquement la trace historique des entretiens. Les questions marquées **P0** conditionnent directement la faisabilité ou l’estimation des développements.
 
 Le [MCD Merise](05-MCD-MERISE.svg) constitue un modèle de travail proposé. Il n'a pas encore été validé par le client et doit lui être présenté. Les décisions fonctionnelles déjà recueillies restent documentées dans le présent cadrage ; le modèle et ses cardinalités devront être confirmés avant de devenir la référence conceptuelle.
@@ -211,7 +213,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 - [x] **P0** Qu’est-ce qu’une remontée utilisateur : incident, demande, suggestion, questionnaire ou autre ? — 23 octobre, § 1.3 : déclaration d’un problème sur un périphérique, via un formulaire générant un PDF d’état des lieux.
 - [x] Qui peut créer une remontée ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** le formateur et l'administrateur peuvent créer des remontées, puisque l'administrateur peut réaliser toutes les actions. Cette réponse complète les propos du 22 octobre qui réservaient explicitement leur création au formateur. Chaque remontée conserve le lien vers l'utilisateur ASTER qui la déclare.
-- [x] L’utilisateur doit-il être authentifié ? — **Réponse de l'utilisateur du 2 novembre :** oui. Chaque utilisateur ASTER possède un login et un mot de passe.
+- [x] L’utilisateur doit-il être authentifié ? — **Réponse de l’utilisateur du 2 novembre, précisée le 6 novembre :** oui. L’authentification est obligatoire et la cible utilise MindefConnect (§ 18).
 - [ ] Une remontée anonyme est-elle autorisée ?
 - [x] Quelles informations doivent obligatoirement être fournies ? — **Réponse de l'utilisateur du 2 novembre :** le ou les matériels concernés et la description du problème sont obligatoires. La remontée ne possède pas de lien direct avec une salle ; la localisation présentée provient de chaque matériel concerné.
 - [x] La salle et le poste doivent-ils être détectés automatiquement ? — **Réponse de l'utilisateur du 2 novembre :** aucun rattachement direct de la remontée à une salle ou à un poste n'est conservé. La localisation affichée est celle du matériel concerné lorsqu'elle est renseignée.
@@ -293,10 +295,10 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 18. Authentification et sécurité
 
-- [x] **P0** Quel système d’authentification doit être utilisé ? — **Décision de l'utilisateur du 3 novembre, précisée lors de la revue de l'architecture cible :** la connexion à ASTER passe par Keycloak relié à un annuaire LDAP. Keycloak fait partie de l'architecture dans tous les cas. Chaque utilisateur dispose d'un login et d'un mot de passe ; les modalités de déploiement et d'intégration restent à préciser.
-- [ ] Keycloak relié à LDAP est-il déjà disponible sur le réseau cible ou faut-il le mettre en place ? — **Réponse partielle de l'utilisateur du 3 novembre :** le recours à Keycloak avec LDAP est décidé ; la présence d'une instance Keycloak préexistante sur le réseau cible n'est pas connue. Cette disponibilité doit être vérifiée pour déterminer la mise en place nécessaire.
+- [x] **P0** Quel système d’authentification doit être utilisé ? — **Décision de l’utilisateur du 6 novembre :** utiliser MindefConnect en production. Cette décision remplace le choix du 3 novembre d’un Keycloak relié à LDAP dans tous les environnements ; elle ne précise pas l’architecture interne de MindefConnect. Le montage de substitution et les comptes utilisés pour le démonstrateur sont documentés uniquement dans le [guide interne de développement](../application/README.md), sans valeur d’exigence de production.
+- [ ] Quelles modalités d’intégration sont fournies par MindefConnect pour la production ? — **Décision du 6 novembre :** le service cible est fixé ; les accès, le contrat d’intégration, les attributs d’identité et de profil et les contraintes de déploiement restent à obtenir.
 - [ ] L’authentification multifacteur est-elle requise ?
-- [ ] Quelles règles de mot de passe s’appliquent si des comptes locaux sont utilisés ?
+- [ ] Quelles règles de mot de passe s’appliquent en production si des comptes locaux sont nécessaires ?
 - [ ] Le MCD doit-il représenter un secret d'authentification ou une empreinte de mot de passe plutôt que le mot de passe lui-même ?
 - [ ] Comment les comptes quittant l’organisation sont-ils désactivés ?
 - [ ] Comment les droits sont-ils attribués et revus ?
@@ -314,7 +316,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 ## 19. Architecture, réseau et intégrations
 
 - [ ] **P0** Où l’application doit-elle être hébergée ?
-- [x] Quels composants applicatifs distinguer dans l'architecture cible ? — **Décision de l'utilisateur du 3 novembre lors de la revue de la présentation :** distinguer un serveur front et un serveur back. Le front porte l'interface web ; le back porte les fonctions métier, les droits et les accès aux données et services. Leurs technologies et leurs modalités d'hébergement restent à préciser.
+- [x] Quels composants applicatifs distinguer dans l'architecture cible ? — **Décision de l'utilisateur du 3 novembre lors de la revue de la présentation :** distinguer un serveur front et un serveur back. Le front porte l'interface web ; le back porte les fonctions métier, les droits et les accès aux données et services. **Précision du 6 novembre :** PostgreSQL et préférence pour JavaScript ; l’initialisation utilise React/Vite et Express comme choix d’implémentation. Les modalités d’hébergement restent à préciser.
 - [x] Où sont stockés les PDF d'état des lieux ? — **Décision de l'utilisateur du 3 novembre lors de la revue de l'architecture cible :** utiliser un stockage S3. La solution, son hébergement et sa configuration restent à préciser.
 - [x] L’environnement cible dispose-t-il d’un accès à Internet ? — **Réponse de l'utilisateur du 3 novembre :** ASTER sera utilisé sur un réseau interne NP disposant d'un accès à Internet.
 - [ ] Quels flux réseau entrants et sortants sont autorisés ?
@@ -324,7 +326,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Un fonctionnement partiel hors connexion est-il nécessaire ?
 - [ ] **P0** Quels mécanismes d'administration Windows peuvent être utilisés par ASTER ? — **Réponse partielle de l'utilisateur du 3 novembre :** l'application web doit permettre de consulter et d'arrêter les processus à distance au moyen des mécanismes fournis par Windows. Les services autorisés, leur configuration et les mécanismes utilisables pour l'installation d'applications et la masterisation restent à confirmer avec le client.
 - [ ] Quelles API, documentations et plateformes de test sont disponibles ?
-- [ ] Quelles technologies sont imposées, recommandées ou interdites ? — **Réponse partielle, complétée par l'utilisateur du 3 novembre lors de la revue de l'architecture cible :** cible Windows et navigateur Firefox ; connexion via Keycloak relié à LDAP et stockage S3 pour les PDF d'état des lieux. Les autres choix techniques restent à préciser.
+- [ ] Quelles technologies sont imposées, recommandées ou interdites ? — **Réponse partielle, complétée par l’utilisateur du 6 novembre :** cible Windows et navigateur Firefox ; base PostgreSQL, préférence pour JavaScript et icônes Lucide si nécessaire. Connexion via MindefConnect (§ 18) et stockage S3 pour les PDF d’état des lieux. Les autres contraintes techniques restent à préciser.
 - [ ] Les composants open source sont-ils autorisés ?
 - [ ] Existe-t-il des contraintes de licences logicielles ?
 - [ ] L’utilisation de conteneurs est-elle autorisée dans l’environnement cible ?

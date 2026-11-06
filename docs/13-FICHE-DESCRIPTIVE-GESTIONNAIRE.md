@@ -104,7 +104,7 @@ RG-11 à RG-14, RG-23 à RG-25, RG-34 à RG-38, RG-66, RG-67 et RG-69.
 
 ## IHM issues de la maquette
 
-Les écrans ci-dessous sont ceux du [démonstrateur de gestion des matériels](../design/maquettes/gestion-materiels.html).
+Les maquettes ci-dessous illustrent les écrans de gestion des matériels.
 
 ### Tableau de bord du parc
 
@@ -140,7 +140,7 @@ Les écrans ci-dessous sont ceux du [démonstrateur de gestion des matériels](.
 
 - Application web utilisée avec les versions de Firefox installées sur les postes de l'équipe.
 - Réseau interne NP disposant d'un accès à Internet.
-- Authentification par login et mot de passe via Keycloak relié à LDAP ; disponibilité de l’instance et modalités d’intégration à préciser (cadrage § 18).
+- Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
 - Un seul profil par utilisateur.
 
 ## Sources
