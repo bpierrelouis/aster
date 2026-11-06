@@ -10,6 +10,21 @@ Elle vise à remplacer la gestion du parc informatique sous Excel par un outil c
 - administrer et réinstaller les postes ;
 - superviser leur utilisation et centraliser les remontées utilisateur.
 
+## Développement
+
+Le dossier [application/](application/README.md) regroupe le front React/Vite (`frontend/`), le back Express (`backend/`) et l’infrastructure PostgreSQL/Keycloak (`infra/`). Le code applicatif est écrit en JavaScript ; les icônes de l’interface utilisent Lucide.
+
+Avec Node.js 22.12 ou supérieur et Docker Desktop démarré :
+
+```sh
+cd application
+npm ci
+npm run infra:up
+npm run dev
+```
+
+Ouvrir [ASTER en local](http://localhost:5173). Le [guide interne de développement](application/README.md) contient les modalités d’utilisation du démonstrateur, les comptes de test, les contrôles et la configuration.
+
 ## Documentation
 
 Le sujet et les réponses du client constituent les sources de référence pour l’analyse et la conception du projet. Pour chaque sujet, la dernière réponse remplace les précédentes ; les comptes rendus d’entretiens en conservent l’historique et le cadrage présente les réponses en vigueur. Le glossaire sert de référence transversale ; les autres documents suivent cet ordre : consignes du sujet, questions de cadrage, comptes rendus des entretiens, puis analyse et diagrammes.
