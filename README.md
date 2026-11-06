@@ -36,6 +36,10 @@ Les conventions de travail, les protections des diagrammes et les règles de con
 - [Design](design/README.md) : charte graphique, ressources visuelles et maquettes d’interface.
 - [Présentations](presentations/README.md) : supports datés et instructions pour les consulter.
 
+Les [diagrammes d’activité détaillés des cas d’utilisation — brouillon V2](docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) complètent les DCU par des parcours acteur/ASTER, représentés en Mermaid comme approximations de diagrammes d’activité UML. Ils couvrent l’import JSON, la modification d’un matériel, la création d’une remontée, le changement de profil, l’ajout d’une règle de processus et les propositions de création de salle et d’école.
+
+Leurs sources sont le [cadrage](docs/02-CADRAGE.md) (§§ 4, 6 et 17 pour les matériels ; §§ 13 et 15 pour les remontées ; § 11 pour les règles ; §§ 2 et 3 pour les écoles, salles et profils), les [règles de gestion](docs/04-REGLES-DE-GESTION.md) et les fiches [Administrateur](docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) (UC-ADMIN-06) et [Super administrateur](docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md). L’import décrit uniquement le succès avec un fichier exploitable et des données conformes, sans validation métier préalable ; les contrôles techniques, doublons et échecs partiels restent à préciser. Le scénario de remontée se limite aux matériels d’une même école ; les remontées multi-écoles et leurs destinataires restent ouverts. Les transitions de profil et la gestion des comptes super administrateur, les droits de création des salles et les modalités de création des écoles restent à préciser ; la création d’école est une proposition hors V1. Ces parcours n’ajoutent aucune règle validée et ne modifient pas les premiers diagrammes d’activité.
+
 ## Retrouver une information
 
 Utiliser le sommaire ci-dessus, puis les sections indiquées ci-dessous. Ces parcours orientent la recherche ; ils ne recopient pas les décisions et ne remplacent pas leurs sources. Les numéros de section se rapportent au cadrage actuel.
