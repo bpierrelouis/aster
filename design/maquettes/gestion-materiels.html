@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ASTER — Démonstrateur de gestion du parc</title>
+  <title>ASTER — Gestion du parc</title>
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <style>
     :root {
@@ -188,14 +188,14 @@
           <button type="button" data-screen="groupe"><img src="../assets/icons/salles.svg" alt=""><span>Affectation</span></button>
         </nav>
       </div>
-      <div class="profile"><div class="avatar">GB</div><div><strong>Gestionnaire</strong><small>École de démonstration</small></div></div>
+      <div class="profile"><div class="avatar">GB</div><div><strong>Gestionnaire</strong><small>École de formation</small></div></div>
     </aside>
 
     <main>
       <header class="topbar"><div class="breadcrumb">Gestion des matériels <span aria-hidden="true">/</span> <b id="breadcrumb">Tableau de bord</b></div></header>
       <div class="content">
         <section id="dashboard" class="screen">
-          <div class="page-head"><div><div class="eyebrow">École de démonstration</div><h1>Gestion du parc</h1><p class="sub">Localisation et état des matériels informatiques.</p></div><button class="btn primary" type="button" onclick="show('ajouter')"><span aria-hidden="true">＋</span> Ajouter un matériel</button></div>
+          <div class="page-head"><div><div class="eyebrow">École de formation</div><h1>Gestion du parc</h1><p class="sub">Localisation et état des matériels informatiques.</p></div><button class="btn primary" type="button" onclick="show('ajouter')"><span aria-hidden="true">＋</span> Ajouter un matériel</button></div>
           <div class="grid stats">
             <div class="card stat-card"><div class="stat-top">Matériels <span class="stat-icon"><img src="../assets/icons/materiel.svg" alt=""></span></div><div class="stat-number">248</div><div class="stat-foot">Référencés dans ASTER</div></div>
             <div class="card stat-card"><div class="stat-top">Affectés en salle <span class="stat-icon"><img src="../assets/icons/salles.svg" alt=""></span></div><div class="stat-number">185</div><div class="stat-foot">Sur 14 salles</div></div>
@@ -354,7 +354,7 @@
       current = { id: `MAT-${String(nextNumber).padStart(4, "0")}`, ...data, out: data.out === "true" };
       assets.unshift(current);
       event.target.reset();
-      toast("Matériel ajouté à la démonstration.");
+      toast("Matériel ajouté.");
       show("fiche");
     });
     document.getElementById("editForm").addEventListener("submit", event => {
