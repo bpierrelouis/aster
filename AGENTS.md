@@ -32,8 +32,21 @@ Ces instructions s'appliquent à tout le dépôt.
 - L’interface présentée aux utilisateurs suit le parcours cible : aucun badge de démonstrateur, liste de comptes de test, message de simulation ou indication de mot de passe vide. Les limites de réalisation sont documentées en interne ; les messages d’interface restent exacts et ne prétendent pas réaliser une opération indisponible.
 - Avant une remise, sélectionner les productions prévues dans le README et leurs ressources nécessaires. Ne pas exporter tout le dépôt ou tout `docs/` comme si chaque fichier était un livrable. Relire les textes, titres, diagrammes, captures et aides pour vérifier l’absence d’informations propres au démonstrateur.
 
+## Application
+
+- Le guide de référence du code est [application/README.md](application/README.md) : modes de lancement, comptes de démonstration, tables, API des postes, tests. Le tenir à jour à chaque évolution du code ; sauf demande contraire, ne pas modifier la documentation hors de `application/` pour une tâche de code.
+- Deux modes partagent les mêmes règles serveur (`backend/workspace.js`) : application connectée (`npm run infra:up` puis `npm run dev`) et interface seule (`npm run dev:ui`, sans Docker). Toute règle métier s’écrit côté serveur et doit fonctionner dans les deux modes. Les deux utilisent le port 5173 : ne jamais arrêter un processus lancé par l’utilisateur pour libérer un port ; demander ou utiliser un autre port.
+- Avec l’infrastructure, aucune simulation dans le parcours des données : PostgreSQL pour les données métier, stockage S3 pour les états des lieux, Keycloak pour l’identité. Seuls les postes Windows sont émulés (`backend/agents.js`), et uniquement au travers de l’API réelle `/api/agent`.
+- Identité : pas de LDAP. Keycloak tient lieu de MindefConnect (décision du 6 novembre) et ne fait qu’authentifier. Le profil, l’école et l’état actif sont portés par le compte ASTER (`aster_compte`) ; les rôles Keycloak ne sont pas lus. La création d’identités dans Keycloak (`backend/identity-provisioning.js`) est une facilité du démonstrateur, désactivée en production.
+- Valeurs d’autorité fixées par le serveur, jamais par le navigateur : identifiant ASTER, numéro de remontée, auteur, dates, historique, suivi des interventions. Un navigateur ne voit qu’une partie des données : ne jamais calculer côté client une valeur unique à partir de ce qu’il voit.
+- Processus, détections et installations ne sont alimentés que par les postes ; un utilisateur demande une intervention (opération), le poste l’exécute et renvoie le résultat. Les écritures concurrentes sont fusionnées élément par élément (`rebase`) : ne pas réintroduire de contrôle global de révision qui bloquerait les utilisateurs pendant l’activité des postes.
+- Changer la forme des données de départ impose d’incrémenter `SEED_VERSION` (`frontend/workspace/core/seed.js`) : la base et le fichier du mode interface seule sont alors régénérés.
+- Stockage S3 local : SeaweedFS (les images MinIO ne sont plus distribuées publiquement). Épingler toute image ou dépendance sur une version exacte.
+- Interface : pas de doublon d’action (une action à un seul endroit par écran), conformément aux principes Apple appliqués au projet ; noms des salles toujours lisibles dans la vue éclatée, salles en ordre alphabétique et de hauteur fixe. Aucun libellé de démonstration ou domaine `.local` dans l’interface.
+
 ## Vérifications
 
+- Pour le code de `application/` : `npm test`, `npm run build`, `npm run test:ui`, `npm run test:workspace` ; avec l’infrastructure et `npm run dev` démarrés, `npm run test:e2e`. Contrôler les écrans modifiés par des captures. Les tests créant des données doivent pouvoir être rejoués ; supprimer les artefacts de test créés (schémas, compartiments) une fois inutiles.
 - Pour les changements documentaires et audits concernés, exécuter le vérificateur décrit dans le README. Il contrôle la structure ; compléter par la relecture des sources et du sens métier.
 - Vérifier classement, numérotation, sommaire, liens locaux et références aux anciens noms. Préserver les fichiers hors périmètre et le travail préexistant ; signaler séparément les défauts préexistants.
 - Relire les changements et exécuter `git diff --check` avant livraison. Ne rapporter que les vérifications réellement effectuées.
