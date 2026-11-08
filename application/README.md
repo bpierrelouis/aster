@@ -2,15 +2,22 @@
 
 Document interne de réalisation et d’exploitation, exclu des productions remises aux cadres évaluateurs. Les comptes, facilités et limites décrits ici concernent uniquement le démonstrateur ; ils ne constituent pas des règles de production et ne doivent pas être affichés dans l’interface ni recopiés dans les livrables.
 
-## Périmètre initial
+## Périmètre
 
-Cette première version fournit le parcours de connexion et de déconnexion, quatre comptes de démonstration et un accueil affichant le profil reconnu par le serveur. Elle ne réalise pas encore les fonctions métier, le rattachement effectif aux écoles, LDAP, S3 ou les échanges Windows.
+L’application couvre l’ensemble des écrans : tableaux de bord personnalisables, salles par bâtiment et par étage (vue éclatée), inventaire et import JSON des matériels, remontées et états des lieux, supervision des postes (processus, détections, règles, statistiques) et administration (postes, applications, comptes).
 
-PostgreSQL et JavaScript répondent à la demande de l’utilisateur du 6 novembre 2026. React, Vite, Express et OpenID Connect sont les choix d’implémentation de cette initialisation. Les icônes de l’accueil proviennent de Lucide. Le thème Keycloak reprend les captures de référence du [bouton d’accès](../design/MinDefConnect/reference-bouton-acces-mindefconnect.png) et du [formulaire de connexion](../design/MinDefConnect/reference-formulaire-connexion-mindefconnect.png) ; le symbole du bouton a été redessiné en SVG.
+PostgreSQL et JavaScript répondent à la demande de l’utilisateur du 6 novembre 2026. React, React Router, Vite, Express et OpenID Connect sont des choix d’implémentation. L’interface est une seule application React : la page de connexion, puis l’espace de travail, chargé seulement après la connexion, avec une adresse par écran (`/accueil`, `/salles/batiment/A`, `/remontees/attente`…). Le thème Keycloak reprend les captures de référence du [bouton d’accès](../design/MinDefConnect/reference-bouton-acces-mindefconnect.png) et du [formulaire de connexion](../design/MinDefConnect/reference-formulaire-connexion-mindefconnect.png).
 
-La connexion est réellement effectuée par Keycloak : le serveur échange le code OpenID Connect, vérifie le jeton signé, le state, le nonce et PKCE, puis conserve la session dans PostgreSQL. Le navigateur ne reçoit qu’un cookie de session HttpOnly. Le serveur accepte exactement un des quatre rôles ASTER transmis par le fournisseur ; aucun rôle n’est choisi dans le navigateur.
+## Deux modes de lancement
 
-## Démarrage local
+| Mode | Commande | Ce qui est réel |
+| --- | --- | --- |
+| Application connectée | `npm run infra:up` puis `npm run dev` | Connexion OIDC, comptes ASTER, données dans PostgreSQL, états des lieux dans S3, API des postes |
+| Interface seule | `npm run dev:ui` | Mêmes règles et même API, sans Docker : données dans un fichier temporaire, utilisateur fixé par `ASTER_UI_ROLE` |
+
+Les deux modes ne peuvent pas tourner en même temps : ils utilisent le port 5173.
+
+### Application connectée
 
 Prérequis : Node.js 22.12 ou supérieur, npm, Docker avec Docker Compose. Depuis la racine du dépôt :
 
@@ -21,78 +28,148 @@ npm run infra:up
 npm run dev
 ```
 
+`npm run dev` lance le serveur Express, l’interface Vite et l’émulateur de postes (`npm run dev:postes`).
+
 | Service | Adresse | Usage |
 | --- | --- | --- |
-| Interface ASTER | http://localhost:5173 | Point d’entrée du démonstrateur |
-| Serveur Express | http://localhost:3001 | API et parcours OIDC ; accessible par le proxy Vite |
-| Keycloak | http://localhost:8081 | Fournisseur d’identité local et thème de connexion |
+| Interface ASTER | http://localhost:5173 | Point d’entrée |
+| Serveur Express | http://localhost:3001 | API, parcours OIDC, API des postes ; accessible par le proxy Vite |
+| Keycloak | http://localhost:8081 | Fournisseur d’identité local, substitut de MindefConnect |
 | Console Keycloak | http://localhost:8081/admin | Administration technique du fournisseur |
-| PostgreSQL | localhost:5432 | Bases `aster` (sessions) et `keycloak` (identités) |
+| PostgreSQL | localhost:5432 | Bases `aster` (données et sessions) et `keycloak` (identités) |
+| Stockage S3 (SeaweedFS 4.50) | http://localhost:8333 | Compartiment `aster-etats-des-lieux` |
 
-Utiliser le nom d’hôte `localhost`, qui correspond aux redirections OIDC déclarées. Le port 8081 évite le port 8080 déjà utilisé sur la machine. Les conteneurs exposent leurs ports uniquement sur la boucle locale.
+Utiliser le nom d’hôte `localhost`, qui correspond aux redirections OIDC déclarées. Le port 8081 évite le port 8080 déjà utilisé sur la machine. Les conteneurs exposent leurs ports uniquement sur la boucle locale. Les images MinIO n’étant plus distribuées publiquement, le stockage compatible S3 local est SeaweedFS (licence Apache 2.0), avec authentification par clés ([infra/seaweedfs/s3.json](infra/seaweedfs/s3.json)).
 
-Toutes les commandes npm s’exécutent depuis `application/`. Un seul manifeste et un seul fichier de dépendances verrouillées sont partagés par le front, le back et les tests. `npm run dev:frontend` et `npm run dev:backend` permettent de lancer les deux composants séparément.
+Les valeurs de développement sont fournies par défaut. Pour les modifier, copier `.env.example` vers `.env` dans `application/` et adapter la configuration. Les secrets de démonstration sont publics et destinés exclusivement au démarrage local.
 
-Les valeurs de développement sont fournies par défaut. Pour les modifier, copier `.env.example` vers `.env` dans `application/` et adapter la configuration. Si les adresses ou le client OIDC changent, adapter également `infra/compose.yaml` et les redirections du client dans le realm Keycloak. Les secrets de démonstration sont publics et destinés exclusivement au démarrage local.
+### Interface seule
 
-## Comptes du démonstrateur
+```sh
+cd application
+npm ci
+npm run dev:ui
+```
 
-| Email | Identifiant court également accepté | Profil ASTER |
-| --- | --- | --- |
-| superadmin@aster.demo | superadmin | Super administrateur |
-| admin@aster.demo | admin | Administrateur |
-| gestionnaire@aster.demo | gestionnaire | Gestionnaire |
-| formateur@aster.demo | formateur | Formateur |
+L’utilisateur est le premier compte actif du profil `ASTER_UI_ROLE` (`admin` par défaut ; `superadmin`, `gestionnaire`, `formateur`), par exemple `ASTER_UI_ROLE=formateur npm run dev:ui`. Les postes sont émulés en mémoire (désactivables avec `ASTER_UI_AGENTS=0`). Les données sont conservées dans un fichier du dossier temporaire et régénérées quand la version du jeu de données change. Ce mode se limite à la boucle locale et n’est pas inclus dans le build de production.
 
-Laisser le mot de passe vide. Le realm `aster-demo` utilise délibérément un flux qui identifie un utilisateur local existant sans lui demander de secret. Le champ mot de passe du thème est en lecture seule et n’est pas transmis. Ce mécanisme est limité au démonstrateur. L’inscription et la récupération du mot de passe ne sont pas implémentées ; les boutons correspondants renvoient vers l’administrateur, sans annoncer de création de compte ou d’envoi de courriel.
+## Identité et comptes
 
-La consigne de présentation du 6 novembre impose de conserver ces modalités dans ce guide interne : aucune liste de comptes, indication de mot de passe vide, étiquette de démonstration ou aide technique de démarrage ne doit apparaître dans l’interface ou dans les productions remises aux cadres. Les captures des fiches sont des illustrations de la cible en production. Les comptes du realm conservent leurs identifiants techniques ; leur nom affiché ne mentionne pas la démonstration.
+Aucun annuaire LDAP n’est utilisé. Le 6 novembre, l’utilisateur a retenu MindefConnect pour la production, en remplacement du Keycloak relié à LDAP choisi le 3 novembre. Le Keycloak local tient lieu de MindefConnect.
 
-Le compte technique de la console Keycloak est `keycloak-admin` avec le mot de passe local `keycloak-admin-demo-local`. Il est distinct du super administrateur ASTER.
+- Le fournisseur authentifie et transmet une identité (sujet OIDC, adresse électronique). Le serveur échange le code, vérifie le jeton signé, le state, le nonce et PKCE, puis conserve la session dans PostgreSQL. Le navigateur ne reçoit qu’un cookie HttpOnly.
+- Le profil, l’école de rattachement et l’état actif sont portés par le compte ASTER (table `aster_compte`), géré dans Administration › Comptes par l’administrateur de l’école ou le super administrateur. Les rôles du realm Keycloak ne sont plus lus.
+- À la connexion, l’identité est rapprochée du compte par son sujet, sinon par son adresse ; le sujet est alors enregistré. Une identité sans compte actif est refusée avec un message explicite.
+- Le compte est relu à chaque requête : une désactivation ferme les sessions en cours et un changement de profil s’applique immédiatement.
+- Le nom, l’auteur et la date des remontées, l’auteur des interventions et les numéros (remontées, identifiants ASTER) sont fixés par le serveur à partir du compte connecté.
+- Préférences d’affichage, dispositions des tableaux de bord, dernière consultation des notifications et école affichée par le super administrateur sont enregistrées par compte (table `aster_preference`).
 
-Les sessions ASTER expirent au plus tard à l’expiration du jeton d’identité, ou après une heure. Il n’y a pas encore de renouvellement automatique ni de synchronisation immédiate des changements de rôles en cours de session. Une déconnexion détruit la session ASTER puis termine la session Keycloak.
+**Démonstrateur uniquement :** comme le Keycloak local remplace MindefConnect, le serveur y crée l’identité de chaque compte ASTER actif qui n’en a pas (au démarrage et après chaque modification des comptes), avec le compte technique `keycloak-admin`. Un compte créé dans ASTER permet donc de se connecter aussitôt. En production, ce provisionnement est désactivé : les identités existent chez le fournisseur.
+
+### Comptes du démonstrateur
+
+| Adresse | Nom ASTER | Profil | École |
+| --- | --- | --- | --- |
+| superadmin@aster.demo | S. Lefèvre | Super administrateur | Toutes |
+| admin@aster.demo | C. Durand | Administrateur | École du numérique |
+| gestionnaire@aster.demo | G. Bernard | Gestionnaire | École du numérique |
+| formateur@aster.demo | L. Martin | Formateur | École du numérique |
+| n.petit@aster.demo, r.garcia@aster.demo, m.robert@aster.demo | N. Petit, R. Garcia, M. Robert | Formateur | École du numérique |
+| a.moreau@aster.demo | A. Moreau | Administrateur | École des réseaux |
+| e.dubois@aster.demo | E. Dubois | Gestionnaire | École des réseaux |
+| j.lambert@aster.demo | J. Lambert | Formateur | École des réseaux |
+
+Les quatre premiers acceptent aussi l’identifiant court (`superadmin`, `admin`, `gestionnaire`, `formateur`). Laisser le mot de passe vide : le realm `aster-demo` utilise délibérément un flux qui identifie un utilisateur existant sans secret ; le champ mot de passe du thème est en lecture seule et n’est pas transmis. L’inscription et la récupération du mot de passe renvoient vers l’administrateur.
+
+Les tests de bout en bout utilisent aussi `nouveau.formateur@aster.demo` (créé puis désactivé par le test) et `sans.compte@aster.demo` (identité sans compte ASTER).
+
+La consigne de présentation du 6 novembre impose de conserver ces modalités dans ce guide interne : aucune liste de comptes, indication de mot de passe vide, étiquette de démonstration ou aide technique de démarrage ne doit apparaître dans l’interface ou dans les productions remises aux cadres.
+
+Le compte technique de la console Keycloak est `keycloak-admin` avec le mot de passe local `keycloak-admin-demo-local`. Il est distinct du super administrateur ASTER. Les sessions ASTER expirent au plus tard à l’expiration du jeton d’identité, ou après une heure ; une déconnexion détruit la session ASTER puis termine la session Keycloak.
+
+## Données
+
+Le serveur applique les droits à chaque écriture ([backend/workspace.js](backend/workspace.js)), puis l’enregistre en une transaction ([backend/workspace-postgres.js](backend/workspace-postgres.js)) :
+
+| Table | Contenu |
+| --- | --- |
+| `aster_ecole`, `aster_etage`, `aster_salle` | Écoles, étages par bâtiment, salles |
+| `aster_materiel` | Matériels ; identifiant ASTER unique, salle facultative (stock) |
+| `aster_remontee`, `aster_remontee_materiel` | Remontées, auteur, historique, clé de l’état des lieux S3 ; matériels concernés |
+| `aster_compte`, `aster_preference` | Comptes ASTER (profil, école, actif, sujet OIDC) ; préférences par compte |
+| `aster_donnee` | Postes, processus, détections, applications, installations, règles, interventions (JSONB) |
+| `aster_espace` | Version du jeu de données et numéro de révision |
+
+Au premier démarrage, ou quand la version du jeu de données change, les tables sont initialisées avec une école de quatre bâtiments (1 à 5 niveaux, jusqu’à 8 salles par étage), une seconde école, l’inventaire, les remontées passées et les comptes ci-dessus. L’activité des postes (processus, détections, installations) part de zéro et n’est alimentée que par les postes.
+
+L’état des lieux PDF d’une remontée est produit à la transmission, avec les informations de cet instant, puis déposé dans S3 (`etats-des-lieux/<école>/<remontée>.pdf`). L’API le sert depuis S3 ; s’il manque, il est produit puis déposé. Le contrat d’intégration avec le S3 cible reste à établir : seules les opérations de dépôt et de lecture sont utilisées.
+
+Les écritures concurrentes sont fusionnées élément par élément à partir d’un journal des dernières révisions : une écriture préparée sur une révision antérieure n’échoue que si le même élément a été modifié entre-temps. Le navigateur reprend toutes les quatre secondes les modifications des autres utilisateurs et des postes (requête conditionnelle par ETag).
+
+## Postes
+
+Les postes communiquent par l’API `/api/agent` du serveur, authentifiée par un jeton porteur (`AGENT_TOKEN`) :
+
+| Route | Rôle |
+| --- | --- |
+| `GET /api/agent/postes` | Postes connus d’ASTER |
+| `POST /api/agent/rapports` | Processus utilisateur en cours et applications installées ; réponse : interventions à exécuter |
+| `POST /api/agent/resultats` | Résultat de chaque intervention (`reussie` ou `echec`) |
+
+À chaque rapport, ASTER met à jour l’état des postes, ouvre ou clôt les processus, classe les nouveaux processus selon les règles (globales, école, bâtiment, salle) et enregistre une détection pour un processus non référencé ou interdit. Un processus interdit déclenche automatiquement une demande d’arrêt. Un poste sans rapport depuis 30 secondes est considéré déconnecté. Les arrêts demandés par un formateur, les installations, désinstallations et réinstallations demandées par un administrateur suivent le même circuit : demande enregistrée, exécution par le poste, résultat par poste, puis statut « Terminée » ou « Échec ».
+
+**Démonstrateur uniquement :** les postes Windows sont émulés par [backend/agents.js](backend/agents.js), qui utilise l’API réelle (programmes utilisateur, déconnexions, programmes interdits occasionnels, exécution des interventions avec un faible taux d’échec). Le protocole, l’authentification par poste et le déploiement d’un agent réel sur Windows restent à définir.
 
 ## Structure
 
 ```text
 application/
-├── frontend/             # Interface React, styles, entrée HTML et configuration Vite
-│   └── src/
-├── backend/              # Serveur Express, configuration, profils et tests unitaires
+├── frontend/
+│   ├── index.html           # Point d'entrée unique
+│   ├── src/                 # Application React : connexion, puis chargement de l'espace
+│   ├── workspace/           # Espace de travail : routes, écrans React, données, styles
+│   └── ui-development.js    # Mode interface seule (Vite)
+├── backend/
+│   ├── index.js             # Serveur Express, OIDC, sessions
+│   ├── workspace.js         # Règles, fusion, API de l'espace et des postes
+│   ├── workspace-postgres.js
+│   ├── storage.js           # Stockage S3
+│   ├── identity-provisioning.js  # Démonstrateur : identités Keycloak
+│   └── agents.js            # Démonstrateur : postes émulés
 ├── infra/
-│   ├── compose.yaml      # Services PostgreSQL et Keycloak
-│   ├── keycloak/         # Realm, comptes, rôles et thème de connexion
-│   └── postgres/         # Initialisation de la base Keycloak
-├── tests/               # Tests d’interface et d’intégration
-├── .env.example         # Configuration locale du serveur
-├── package.json         # Commandes et dépendances partagées
-└── playwright.config.js
+│   ├── compose.yaml         # PostgreSQL, Keycloak, stockage S3
+│   ├── keycloak/            # Realm, comptes et thème de connexion
+│   ├── postgres/            # Initialisation de la base Keycloak
+│   └── seaweedfs/           # Clés d'accès S3 locales
+├── tests/                   # Tests d’interface et de bout en bout
+└── .env.example
 ```
 
-PostgreSQL conserve les données dans le volume Docker nommé par le projet Compose `aster-demo`. `npm run infra:down` arrête les services sans supprimer les données. L’import Keycloak n’écrase pas un realm déjà existant : après une modification du fichier d’import, répercuter les changements dans la console ou réimporter explicitement le realm concerné. Ne pas supprimer un volume pour contourner un problème sans vérifier les données qu’il contient.
+Les volumes Docker du projet Compose `aster-demo` conservent les données PostgreSQL et S3. `npm run infra:down` arrête les services sans supprimer les données. L’import Keycloak n’écrase pas un realm existant : les identités nécessaires sont créées par le serveur au démarrage. Ne pas supprimer un volume sans vérifier les données qu’il contient.
 
 ## Vérifications
 
 ```sh
-npm test
+npm test               # Règles, API, identité ; intégration PostgreSQL et S3 si l'infrastructure est démarrée
 npm run build
-npm run test:ui
+npm run test:ui        # Page de connexion
+npm run test:workspace # Écrans de l'espace de travail en mode interface seule (port 5174)
 ```
 
-Les tests d’interface utilisent Chrome installé sur la machine et vérifient la page publique sur ordinateur et mobile, avec une réponse anonyme simulée. Ils ne valident pas l’authentification.
+Les tests d’intégration utilisent un schéma PostgreSQL temporaire, supprimé à la fin, et le compartiment S3 `aster-tests` ; ils sont ignorés si l’infrastructure est absente.
 
-Après le démarrage de PostgreSQL, Keycloak et du serveur Express (`npm run dev` dans un autre terminal) :
+Avec l’infrastructure et `npm run dev` démarrés :
 
 ```sh
 npm run test:e2e
 ```
 
-Ces tests passent réellement par Keycloak pour chaque profil, rechargent la session et se déconnectent. Ils vérifient aussi le refus d’un utilisateur inconnu, d’un retour de connexion sans demande préalable, d’un state incorrect et d’une déconnexion d’origine externe. `GET /api/health` contrôle activement PostgreSQL et la disponibilité des métadonnées du fournisseur OIDC.
+Ces tests passent réellement par Keycloak pour chaque profil et vérifient : l’identité et les modules par profil, la session persistante et la déconnexion ; la création d’un compte puis la connexion de ce nouvel utilisateur, la coupure de session à sa désactivation ; le refus d’une identité sans compte ASTER ; l’enregistrement d’un matériel en base ; une remontée transmise avec son PDF dans S3 ; un arrêt de processus exécuté par un poste ; le refus des écritures d’une autre origine, d’un state incorrect et d’un retour sans demande préalable.
 
 ## Production
 
-La cible demandée est le véritable MindefConnect. Son contrat d’intégration, ses accès, ses claims de profil et les redirections doivent être obtenus avant de finaliser cette connexion. La présence d’un adaptateur OIDC configurable dans le code ne constitue pas une intégration MindefConnect validée. Aucun déploiement de production n’est effectué ici.
+La cible est le véritable MindefConnect. Son contrat d’intégration, ses accès, les attributs d’identité transmis et les redirections doivent être obtenus. L’adaptateur OIDC configurable ne constitue pas une intégration MindefConnect validée. Aucun déploiement de production n’est effectué ici.
 
-`npm run build` produit l’interface dans `frontend/dist/`. `npm start` démarre le serveur en mode production et sert cette interface ; il exige `APP_URL`, `DATABASE_URL`, `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET` et un `SESSION_SECRET` d’au moins 32 caractères. HTTPS est obligatoire et le realm de démonstration ainsi que le secret client local sont refusés. Le serveur écoute sur la boucle locale et attend un proxy HTTPS de confiance devant lui.
+`npm run build` produit l’interface dans `frontend/dist/`. `npm start` démarre le serveur en mode production et sert cette interface ; il exige `APP_URL`, `DATABASE_URL`, `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`, un `SESSION_SECRET` d’au moins 32 caractères, la configuration S3 (`S3_ENDPOINT` en HTTPS, `S3_BUCKET`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`) et un `AGENT_TOKEN` d’au moins 32 caractères. Les valeurs de démonstration sont refusées et le provisionnement des identités est désactivé. Le serveur écoute sur la boucle locale et attend un proxy HTTPS de confiance devant lui.
 
-Ne pas utiliser `infra/compose.yaml` en production : il contient le flux sans mot de passe, les comptes locaux et leurs secrets publics. Les paramètres d’hébergement et les exigences complémentaires restent à définir dans le cadrage.
+Ne pas utiliser `infra/compose.yaml` en production : il contient le flux sans mot de passe, les comptes locaux, l’émulateur de postes et des secrets publics. Les paramètres d’hébergement et les exigences complémentaires restent à définir dans le cadrage.
