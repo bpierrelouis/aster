@@ -5,15 +5,16 @@ import { expectPublicPresentation } from './presentation.js';
 test('la page publique affiche le bouton et reste utilisable sur mobile', async ({ page }) => {
   await page.route('**/api/me', (route) => route.fulfill({ status: 401, contentType: 'application/json', body: '{"error":"Connexion nécessaire."}' }));
   await page.goto('/');
-  await expect(page.getByRole('heading')).toHaveCount(0);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('ASTER');
   await expect(page.getByRole('link', { name: "S'identifier avec MinDefConnect" })).toHaveAttribute('href', '/auth/login');
   await expectPublicPresentation(page);
   const button = page.getByRole('link', { name: "S'identifier avec MinDefConnect" });
+  // Bouton centré horizontalement et visible sans défilement
   const expectCenteredButton = async () => {
     const box = await button.boundingBox();
     const viewport = page.viewportSize();
     expect(Math.abs(box.x + box.width / 2 - viewport.width / 2)).toBeLessThanOrEqual(1);
-    expect(Math.abs(box.y + box.height / 2 - viewport.height / 2)).toBeLessThanOrEqual(1);
+    expect(box.y + box.height).toBeLessThanOrEqual(viewport.height);
   };
   await expectCenteredButton();
   await page.screenshot({ path: 'test-results/connexion-desktop.png', fullPage: true });
