@@ -1,0 +1,141 @@
+/* ==========================================================================
+   ASTER · Shell : menu principal à gauche, menu secondaire en haut
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Menu principal : rail vertical flottant
+   -------------------------------------------------------------------------- */
+.rail {
+  position: fixed; z-index: 45;
+  left: var(--rail-gap); top: var(--rail-gap); bottom: var(--rail-gap);
+  width: var(--rail-w);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 16px 8px 12px; --radius: 32px;
+}
+.rail-brand { display: grid; place-items: center; width: 54px; height: 54px; margin-bottom: 14px; border-radius: 18px; transition: transform var(--dur-2) var(--ease-spring); }
+.rail-brand:hover { transform: rotate(-12deg) scale(1.05); }
+.rail-brand .flower { filter: drop-shadow(0 4px 10px rgb(105 84 192 / .35)); }
+.rail-items { position: relative; display: flex; flex-direction: column; gap: 4px; width: 100%; }
+.rail-lens {
+  position: absolute; left: 0; top: 0; z-index: 0; opacity: 0;
+  border-radius: 20px;
+  background: var(--lens-bg);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .55), inset 0 1px 0 rgb(255 255 255 / .9), 0 8px 20px -8px rgb(52 36 110 / .35);
+  transition: transform .62s var(--ease-spring), width .4s var(--ease-out), height .4s var(--ease-out), opacity .2s;
+}
+:root[data-ambiance="encre"] .rail-lens { box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14), inset 0 1px 0 rgb(255 255 255 / .22), 0 8px 20px -8px rgb(0 0 0 / .6); }
+.rail-item {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  padding: 11px 2px 9px; border-radius: 20px;
+  color: var(--ink-2);
+  transition: color var(--dur-2), transform var(--dur-1) var(--ease-out);
+}
+.rail-item:hover { color: var(--ink-1); }
+.rail-item:active { transform: scale(.94); }
+.rail-item.is-active { color: var(--nav-active); }
+.rail-item.is-active .ico .d { fill-opacity: .3; }
+.rail-ico { position: relative; display: grid; place-items: center; }
+.rail-ico .badge { top: -6px; right: -12px; }
+.rail-label { font-size: 11px; font-weight: 650; letter-spacing: .005em; line-height: 1.1; text-align: center; }
+.rail-item.is-active .rail-label { font-weight: 750; }
+
+/* --------------------------------------------------------------------------
+   Barre haute : menu secondaire + actions
+   -------------------------------------------------------------------------- */
+.topbar {
+  position: fixed; z-index: 40; top: 0; left: 0; right: 0;
+  max-width: calc(1320px + var(--rail-w) + var(--rail-gap) * 2 + 24px);
+  margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: var(--rail-gap) clamp(20px, 3vw, 40px) 0 calc(var(--rail-w) + var(--rail-gap) * 2 + 4px);
+  pointer-events: none;
+}
+.topbar > * { pointer-events: auto; }
+.subnav { flex: 0 1 auto; min-width: 0; max-width: 100%; overflow-x: auto; scrollbar-width: none; padding: 5px; }
+.subnav::-webkit-scrollbar { display: none; }
+.subnav .seg-btn { height: 38px; padding: 0 16px 0 12px; gap: 8px; }
+.subnav .seg-btn .code-badge { min-width: 22px; height: 22px; font-size: 11.5px; }
+.subnav.is-compact .seg-btn.has-badge { padding: 0 9px; }
+.subnav.is-compact .seg-btn.has-badge > span:not(.code-badge) { display: none; }
+.seg-count {
+  display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; margin-left: 2px;
+  border-radius: var(--r-pill); font-size: 11.5px; font-weight: 750; font-variant-numeric: tabular-nums;
+  color: #5a3d00; background: color-mix(in srgb, var(--wait) 55%, transparent);
+}
+:root[data-ambiance="encre"] .seg-count { color: #fff2d6; background: color-mix(in srgb, var(--wait) 40%, transparent); }
+
+.topbar-actions { display: flex; align-items: center; gap: 2px; padding: 4px; --radius: var(--r-pill); flex: none; margin-left: auto; }
+.topbar-actions .icon-btn { width: 40px; height: 40px; color: var(--ink-1); }
+.ecole-chip {
+  display: inline-flex; align-items: center; gap: 7px; height: 40px; padding: 0 12px 0 10px; margin-right: 4px;
+  border-radius: var(--r-pill); font-size: 13px; font-weight: 650; white-space: nowrap;
+  color: var(--ink-1); background: var(--tint-1);
+  transition: background var(--dur-1);
+}
+.ecole-chip .ico { color: var(--iris); }
+:root[data-ambiance="encre"] .ecole-chip .ico { color: var(--nav-active); }
+.ecole-chip:not(.is-static):hover { background: var(--tint-2); }
+.ecole-chip.is-static { cursor: default; }
+
+.badge {
+  position: absolute; top: 1px; right: 0;
+  display: grid; place-items: center;
+  min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px;
+  background: var(--crit); color: #fff;
+  font-size: 10.5px; font-weight: 750; font-variant-numeric: tabular-nums; line-height: 1;
+  box-shadow: 0 0 0 2px rgb(255 255 255 / .9);
+}
+:root[data-ambiance="encre"] .badge { box-shadow: 0 0 0 2px rgb(19 28 48); }
+
+.avatar { position: relative; width: 40px; height: 40px; margin-left: 2px; border-radius: 50%; }
+.avatar-face {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  font-weight: 750; font-size: 16px; color: #fff;
+  background: radial-gradient(120% 90% at 30% 0%, rgb(255 255 255 / .45), transparent 55%), linear-gradient(150deg, var(--iris-2), var(--iris));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .5);
+}
+.avatar-face--l { width: 48px; height: 48px; font-size: 20px; flex: none; }
+.avatar-role {
+  position: absolute; right: -3px; bottom: -3px;
+  display: grid; place-items: center; width: 19px; height: 19px; border-radius: 50%;
+  background: var(--c); color: #fff;
+  box-shadow: 0 0 0 2px rgb(255 255 255 / .9);
+}
+
+/* --------------------------------------------------------------------------
+   Zone de contenu
+   -------------------------------------------------------------------------- */
+.view {
+  position: relative;
+  max-width: calc(1320px + var(--rail-w) + var(--rail-gap) * 2 + 24px);
+  min-height: 100vh; margin: 0 auto;
+  padding: 92px clamp(20px, 3vw, 40px) var(--rail-gap) calc(var(--rail-w) + var(--rail-gap) * 2 + 4px);
+  outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile : le rail devient une barre basse
+   -------------------------------------------------------------------------- */
+@media (max-width: 760px) {
+  .rail {
+    top: auto; left: 10px; right: 10px; bottom: max(10px, env(safe-area-inset-bottom));
+    width: auto; flex-direction: row; padding: 6px; gap: 6px; --radius: 28px;
+  }
+  .rail-brand { display: none; }
+  .rail-items { flex-direction: row; gap: 0; flex: 1; }
+  .rail-item { flex: 1; padding: 8px 0 6px; gap: 3px; }
+  .rail-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .rail-item { padding: 12px 0; }
+    .topbar { padding: 10px 12px 0; gap: 8px; }
+  .ecole-chip span { display: none; }
+  .ecole-chip { padding: 0 10px; margin-right: 0; }
+  .view { padding: 72px 14px calc(max(10px, env(safe-area-inset-bottom)) + 70px); }
+  .page-title { font-size: 30px; }
+  .page-sub { display: none; }
+  .subnav .seg-btn span:not(.seg-count):not(.code-badge) { display: none; }
+  .subnav .seg-btn { padding: 0 12px; }
+}
+@media (max-width: 760px) and (min-width: 520px) {
+  .subnav .seg-btn span:not(.seg-count):not(.code-badge) { display: inline; }
+}
