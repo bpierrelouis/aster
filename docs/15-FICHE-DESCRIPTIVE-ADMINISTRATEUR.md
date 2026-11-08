@@ -55,38 +55,37 @@ RG-03 à RG-10, RG-15, RG-25 à RG-29 et RG-69.
 
 - **Objectif :** consulter les applications installées et déclencher leur installation ou leur désinstallation.
 - **Déclencheur :** l'administrateur sélectionne un poste ou une salle de son école.
-- **Préconditions :** la cible appartient à son école ; les mécanismes Windows nécessaires sont disponibles et autorisés.
+- **Préconditions :** la cible appartient à son école ; la solution d’administration à distance est disponible et autorisée.
 
 ### Scénario nominal
 
 1. L'administrateur sélectionne un poste.
-2. ASTER obtient la liste de ses applications au moyen des mécanismes Windows qui seront retenus.
+2. ASTER obtient la liste de ses applications au moyen de la solution d’administration à distance retenue.
 3. ASTER présente les informations retournées.
 4. L'administrateur choisit une application et une opération d'installation ou de désinstallation.
-5. ASTER transmet la demande au mécanisme Windows retenu.
+5. ASTER transmet la demande à la solution d’administration à distance retenue.
 
 ### Variantes et limites
 
 - La cible peut être un poste ou l'ensemble des postes d'une salle.
-- Aucun agent ASTER n'est installé sur les postes.
 - La réussite, le suivi et les échecs partiels ne sont pas encore définis.
 
 ### Questions ouvertes
 
-- Services Windows, protocole, compte technique et gestion des secrets.
+- Solution d’administration à distance, protocole, compte technique et gestion des secrets.
 - Informations à afficher pour une application.
 - Origine, validation et version des paquets.
 - Confirmation, suivi, reprise et journalisation des opérations.
 
 ### Règles applicables
 
-RG-15, RG-64, RG-65 et RG-69.
+RG-15, RG-65 et RG-69.
 
 ## UC-ADMIN-03 — Réinstaller un poste ou une salle
 
 - **Objectif :** demander depuis ASTER la réapplication d'une image système.
 - **Déclencheur :** l'administrateur sélectionne un poste ou une salle à replaquer.
-- **Préconditions :** la cible appartient à son école ; un mécanisme de déploiement Windows reste à identifier.
+- **Préconditions :** la cible appartient à son école ; un mécanisme de déploiement est disponible et autorisé.
 
 ### Scénario nominal
 
@@ -110,13 +109,13 @@ RG-15, RG-64, RG-65 et RG-69.
 
 ### Règles applicables
 
-RG-15, RG-22, RG-30, RG-64 et RG-69.
+RG-15, RG-22, RG-30 et RG-69.
 
 ## UC-ADMIN-04 — Superviser les postes et gérer les règles de processus
 
 - **Objectif :** superviser les postes de l'école, intervenir sur les processus utilisateur et définir les règles de classement.
 - **Déclencheur :** l'administrateur ouvre une salle, la gestion des listes ou les statistiques.
-- **Préconditions :** les postes sont connus dans ASTER ; les mécanismes Windows sont disponibles.
+- **Préconditions :** les postes sont connus dans ASTER ; la solution d’administration à distance est disponible.
 
 ### Scénario nominal
 
@@ -138,7 +137,7 @@ RG-15, RG-22, RG-30, RG-64 et RG-69.
 ### Questions ouvertes
 
 - Articulation entre les règles de portée globale et le périmètre d'une école.
-- Mécanismes Windows, flux et sécurisation.
+- Solution d’administration à distance, flux et sécurisation.
 - Indicateurs, périodes, calculs, filtres et exports statistiques.
 - Statuts, traitement et durée de conservation des alertes et historiques.
 
@@ -235,7 +234,6 @@ Les autres écrans disponibles sont présentés dans la [fiche Gestionnaire](13-
 
 - Application web utilisée avec les versions de Firefox installées sur les postes de l'équipe.
 - Réseau interne NP disposant d'un accès à Internet.
-- Aucun agent ASTER ; utilisation des mécanismes Windows existants.
 - Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
 - Un seul profil par utilisateur.
 

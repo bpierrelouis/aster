@@ -2,7 +2,7 @@
 
 **Source historique de travail interne, non destinée à la remise aux cadres évaluateurs.** Les propos datés sont conservés tels quels, y compris lorsqu’ils concernent la démonstration ; ils ne doivent pas être recopiés comme exigences de production dans les livrables. Voir le [classement documentaire](../README.md#destination-des-documents).
 
-Ce document conserve la trace historique des entretiens des 22 et 23 octobre. Les propos restent rattachés à leur date, y compris lorsqu’une réponse ultérieure les remplace. Pour chaque sujet, la dernière réponse fait foi ; les [questions de cadrage](02-CADRAGE.md) présentent les réponses en vigueur et les questions encore ouvertes.
+Ce document conserve la trace historique des entretiens des 22 et 23 octobre et du 4 novembre 2026. Les propos restent rattachés à leur date, y compris lorsqu’une réponse ultérieure les remplace. Pour chaque sujet, la dernière réponse fait foi ; les [questions de cadrage](02-CADRAGE.md) présentent les réponses en vigueur et les questions encore ouvertes.
 
 ## 1. Entretien du 23 octobre
 
@@ -105,3 +105,30 @@ Ce document conserve la trace historique des entretiens des 22 et 23 octobre. Le
 ### 2.9. Terminologie restant à préciser
 
 - La notion de « formation induite » n'a pas été explicitée. Le client a répondu : « Ce n'est pas moi qui fais le sujet. »
+
+## 3. Entretien du 4 novembre 2026 — Retour après la présentation
+
+L’échange a suivi la [présentation du point d’étape client](../presentations/2026-11-04-point-etape-client/).
+
+### 3.1. Présentation et nom du projet
+
+- Présenter le projet sous l’angle des usages et des bénéfices pour les écoles. Le client attend une présentation qui donne envie et permette de se projeter. Les diagrammes et les explications techniques risquent de faire perdre le fil au public.
+- Faire intervenir chaque membre de l’équipe. Les temps de parole peuvent varier, pourvu que chacun prenne la parole.
+- Montrer la maquette directement pendant la présentation, sans intégrer de captures d’écran au support. Une maquette limitée à son interface convient à ce stade.
+- Le nom ASTER plaît au client. Présenter un second nom pour lui laisser le choix.
+
+### 3.2. Salles, simulation et accès des formateurs
+
+- Prévoir une salle de 40 postes dans la simulation.
+- Permettre de repérer rapidement les salles par bâtiment et de voir le matériel présent dans chaque salle. Un plan de salle n’est pas nécessaire.
+- Pour l’instant, les formations ne conditionnent pas l’accès aux salles. Présenter comme piste d’évolution un accès du formateur qui dépendrait des formations organisées dans les salles. La gestion des formations reste hors du périmètre actuel.
+
+### 3.3. Vérifications et propositions techniques
+
+- Vérifier les technologies et les langages utilisés au regard du cadre de cohérence technique.
+- Simuler MindefConnect dans le démonstrateur.
+- Vérifier si un système d’administration à distance des postes Windows est déjà disponible dans l’environnement cible. Préparer une proposition avec un agent et examiner les logiciels existants qui pourraient répondre au besoin. Indiquer le coût des solutions payantes proposées. Le choix de la solution reste ouvert.
+
+### 3.4. Prochain rendez-vous
+
+Le prochain rendez-vous est annoncé pour jeudi. La date retenue dans ce compte rendu est le 12 novembre 2026.

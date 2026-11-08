@@ -1,6 +1,6 @@
 # ASTER
 
-**ASTER** (_Administration, Supervision et Traçabilité des Équipements et Ressources_) est une application web destinée aux écoles de formation. Elle s'appuie sur les mécanismes d'administration à distance fournis par Windows pour administrer et superviser les postes, sans installer d'agent ASTER sur les machines cibles.
+**ASTER** (_Administration, Supervision et Traçabilité des Équipements et Ressources_) est une application web destinée aux écoles de formation. Elle vise à administrer et superviser les postes Windows à distance. La solution d’administration reste à déterminer.
 
 L’architecture cible distingue un serveur front pour l’interface et un serveur back pour les fonctions métier. La connexion utilise MindefConnect et les PDF d’état des lieux sont destinés à un stockage S3. Les modalités d’intégration restent à préciser dans le cadrage.
 
@@ -51,13 +51,13 @@ La destination d’une production ne vaut pas validation de son contenu : le MCD
 - [Glossaire](docs/00-GLOSSAIRE.md) : abréviations et définitions des termes employés dans le projet.
 - [Consignes du projet](docs/01-CONSIGNES.md) : besoin, périmètre fonctionnel, livrables et critères d’évaluation.
 - [Questions de cadrage](docs/02-CADRAGE.md) : réponses en vigueur et questions encore ouvertes pour préparer l’architecture et le backlog.
-- [Compte rendu des entretiens de cadrage](docs/03-COMPTE-RENDU-ENTRETIENS.md) : trace historique des échanges des 22 et 23 octobre.
+- [Compte rendu des entretiens de cadrage](docs/03-COMPTE-RENDU-ENTRETIENS.md) : trace historique des échanges des 22 et 23 octobre et du 4 novembre.
 - [Règles de gestion](docs/04-REGLES-DE-GESTION.md) : contraintes confirmées sur les données, les droits et les traitements.
 - [MCD Merise proposé](docs/05-MCD-MERISE.svg) : modèle de travail à présenter au client pour validation, avec son [source Mocodo éditable](docs/05-MCD-MERISE-MOCODO.url).
 - [Diagramme de contexte](docs/06-DIAGRAMME-CONTEXTE.md) : acteurs, composants de la suite et principaux échanges autour d’ASTER.
 - [Diagrammes d’activité](docs/07-DIAGRAMMES-ACTIVITE.md) : parcours général selon les droits et les tableaux de bord spécialisés, création d'une remontée avec génération du PDF, supervision des processus et notifications de garantie.
 - [DCU — Gestion du parc](docs/08-DCU-GESTION-PARC.md) : recherche, inventaire, affectations et tableau de bord du parc.
-- [DCU — Administration des postes](docs/09-DCU-ADMINISTRATION-POSTES.md) : consultation des applications et réinstallation des postes ou des salles par l'intermédiaire des mécanismes d'administration Windows.
+- [DCU — Administration des postes](docs/09-DCU-ADMINISTRATION-POSTES.md) : consultation des applications et installation et désinstallation d’applications, réinstallation des postes ou des salles.
 - [DCU — Supervision des postes](docs/10-DCU-SUPERVISION-POSTES.md) : état des postes, processus, alertes et statistiques d'utilisation dont les indicateurs restent à définir.
 - [DCU — Remontées utilisateur](docs/11-DCU-REMONTEES-UTILISATEUR.md) : création des remontées, consultation des PDF d'état des lieux et tableau de bord spécialisé.
 - [Matrice des droits applicatifs](docs/12-MATRICE-DROITS.md) : droits confirmés et conditions d’application pour chaque profil.
@@ -87,6 +87,7 @@ Utiliser le sommaire ci-dessus, puis les sections indiquées ci-dessous. Ces par
 | Remontées et PDF d’état des lieux | §§ 13 et 15 | Règles, DCU remontées, matrice, fiches concernées |
 | Tableaux de bord et ergonomie | §§ 14 et 16 | DCU concernés, fiches descriptives, maquettes |
 | Architecture et exploitation | §§ 18 à 21 | Sources citées et questions encore ouvertes |
+| Présentations client et nom du projet | § 22 | Entretien du 4 novembre et dossier des présentations |
 
 Pour la charte, une maquette ou un support client, commencer directement par le README de `design/` ou de `presentations/`. Les propositions présentées ne valent pas validation du client. Le dépôt contient actuellement surtout l’analyse, les modèles et les démonstrateurs ; ajouter les références aux composants métier et aux contrats API lorsqu’ils existeront.
 
