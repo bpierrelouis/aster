@@ -16,7 +16,8 @@
     "infra:down": "docker compose -f infra/compose.yaml down",
     "test": "node --test backend/*.test.js",
     "test:ui": "playwright test tests/login-ui.spec.js",
-    "test:e2e": "playwright test tests/auth.e2e.spec.js"
+    "test:e2e": "playwright test tests/auth.e2e.spec.js",
+    "dev:ui": "vite --config frontend/vite.config.js --mode ui --host 127.0.0.1"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1164.0",
