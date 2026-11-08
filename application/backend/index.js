@@ -6,7 +6,11 @@ import pg from 'pg';
 import * as oidc from 'openid-client';
 import { fileURLToPath } from 'node:url';
 import { readConfig } from './config.js';
-import { userFromClaims } from './profiles.js';
+import { identityFromClaims, userFromAccount } from './profiles.js';
+import { createWorkspaceRouter, createAgentRouter } from './workspace.js';
+import { createKeycloakProvisioning } from './identity-provisioning.js';
+import { createPostgresWorkspaceRepository } from './workspace-postgres.js';
+import { createS3Storage } from './storage.js';
 
 const config = readConfig();
 const pool = new pg.Pool({ connectionString: config.databaseUrl });
@@ -53,12 +57,30 @@ app.get('/api/health', async (_req, res) => {
   }
 });
 
+// Espace de travail : données métier dans PostgreSQL, états des lieux PDF dans le stockage S3.
+const storage = createS3Storage(config.s3);
+const workspaceRepository = await createPostgresWorkspaceRepository({ pool, storage });
+
+// Identités du fournisseur local (démonstrateur) : créées pour les comptes ASTER actifs
+const provisioning = config.production ? null : createKeycloakProvisioning({ issuer: config.issuer, ...config.keycloakAdmin });
+const provision = (accounts) => provisioning?.ensure(accounts).catch((error) => console.error('Provisionnement des identités :', error.message));
+provision(workspaceRepository.state.comptes);
+workspaceRepository.onCommit((before, after) => { if (JSON.stringify(before.comptes) !== JSON.stringify(after.comptes)) provision(after.comptes); });
+setInterval(() => workspaceRepository.agent.sweep().catch(() => {}), 10_000).unref();
+
+/** Compte ASTER actif de la session ; une session dont le compte est désactivé est fermée. */
+async function sessionActor(req) {
+  if (!req.session.accountId) return null;
+  const actor = req.session.expiresAt > Date.now() ? workspaceRepository.actor(req.session.accountId) : null;
+  if (!actor) await destroySession(req);
+  return actor;
+}
+
 app.get('/api/me', async (req, res) => {
-  if (!req.session.user || req.session.expiresAt <= Date.now()) {
-    if (req.session.user) await destroySession(req);
-    return res.status(401).json({ error: 'Connexion nécessaire.' });
-  }
-  res.json({ user: req.session.user });
+  const actor = await sessionActor(req);
+  if (!actor) return res.status(401).json({ error: 'Connexion nécessaire.' });
+  const ecole = workspaceRepository.state.ecoles.find((e) => e.id === actor.ecoleId);
+  res.json({ user: userFromAccount(actor, ecole?.nom) });
 });
 
 app.get('/auth/login', async (req, res) => {
@@ -89,9 +111,17 @@ app.get('/auth/callback', async (req, res) => {
       pkceCodeVerifier: login.verifier, expectedState: login.state, expectedNonce: login.nonce, idTokenExpected: true,
     });
     const claims = tokens.claims();
-    const user = userFromClaims(claims);
+    const identity = identityFromClaims(claims);
+    // Rapprochement avec le compte ASTER : profil et école sont attribués dans ASTER
+    const account = workspaceRepository.findAccount(identity);
+    if (!account || !account.actif) {
+      await destroySession(req);
+      res.clearCookie('aster.sid');
+      return res.redirect('/?error=compte');
+    }
+    if (account.sujet !== identity.sub) await workspaceRepository.bindIdentity(account.id, identity.sub);
     await regenerateSession(req);
-    req.session.user = user;
+    req.session.accountId = account.id;
     req.session.idToken = tokens.id_token;
     req.session.expiresAt = Math.min(claims.exp * 1000, Date.now() + 60 * 60 * 1000);
     await saveSession(req);
@@ -116,6 +146,16 @@ app.post('/auth/logout', async (req, res) => {
   });
   res.redirect(303, url.href);
 });
+
+app.use('/api/workspace', (req, res, next) => {
+  if (!['GET', 'HEAD'].includes(req.method) && req.get('origin') !== config.appUrl) return res.status(403).json({ error: 'Origine refusée.' });
+  next();
+}, createWorkspaceRouter({
+  repository: workspaceRepository,
+  actor: sessionActor,
+}));
+// Postes : rapports d'activité et résultats d'intervention
+app.use('/api/agent', createAgentRouter({ repository: workspaceRepository, token: config.agentToken }));
 
 app.use(['/api', '/auth'], (_req, res) => res.status(404).json({ error: 'Adresse inconnue.' }));
 if (config.production) {
