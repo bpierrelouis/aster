@@ -44,6 +44,16 @@ Ces instructions s'appliquent à tout le dépôt.
 - Stockage S3 local : SeaweedFS (les images MinIO ne sont plus distribuées publiquement). Épingler toute image ou dépendance sur une version exacte.
 - Interface : pas de doublon d’action (une action à un seul endroit par écran), conformément aux principes Apple appliqués au projet ; noms des salles toujours lisibles dans la vue éclatée, salles en ordre alphabétique et de hauteur fixe. Aucun libellé de démonstration ou domaine `.local` dans l’interface.
 
+## Conception du code
+
+- Appliquer le skill [karpathy-guidelines](.agents/skills/karpathy-guidelines/SKILL.md) : hypothèses explicites, solution la plus simple, changements limités à la demande, critères de réussite vérifiés.
+- KISS : la solution la plus simple qui répond au besoin réel ; pas de configuration, d'abstraction ni de cas imaginaires non demandés.
+- DRY : une règle, un format ou un élément d'interface n'existe qu'à un endroit. Dates et nombres dans `core/format.js` ; éléments d'affichage partagés dans `widgets/parts.jsx` ; fenêtres, confirmations et notifications dans `ui/overlays.jsx`. Factoriser à partir de la deuxième occurrence d'une même intention ; deux rendus qui se ressemblent mais n'ont pas le même rôle restent séparés (une petite répétition vaut mieux qu'une abstraction fausse).
+- SOLID, appliqué aux composants : une responsabilité par module (données et règles dans `core/`, affichage dans `views/`, `widgets/` et `ui/`) ; un écran qui dépasse environ 300 lignes est découpé par sous-partie (scène, liste, panneau, formulaires) ; on étend par ajout (catalogue de widgets, routes) plutôt qu'en modifiant les modules communs.
+- Arbitrage : dans une tâche, factoriser le code qu'on écrit ou modifie ; signaler, sans le corriger, un défaut de conception hors du périmètre demandé. Un nettoyage plus large fait l'objet d'une demande ou d'une proposition explicite, vérifiée par les mêmes tests.
+- Cohérence de l'interface React : rendu en JSX uniquement (pas de HTML en chaîne) ; formulaires en `<form onSubmit>` avec bouton `submit` (Entrée enregistre partout) ; attributs `data-*` réservés à ce qu'utilisent le CSS, les tests ou les infobulles ; navigation par `react-router`, une adresse par écran.
+- Un travail réparti entre sous-agents suit les mêmes conventions ; l'agent principal harmonise les écarts avant livraison.
+
 ## Vérifications
 
 - Pour le code de `application/` : `npm test`, `npm run build`, `npm run test:ui`, `npm run test:workspace` ; avec l’infrastructure et `npm run dev` démarrés, `npm run test:e2e`. Contrôler les écrans modifiés par des captures. Les tests créant des données doivent pouvoir être rejoués ; supprimer les artefacts de test créés (schémas, compartiments) une fois inutiles.
