@@ -2,9 +2,9 @@
 
 **Document de travail interne, non destiné à la remise aux cadres évaluateurs.** Il conserve les réponses et leurs périmètres pour préparer les productions. Les documents remis décrivent la cible en production ; les modalités de réalisation et les comptes du démonstrateur sont réservés au [guide interne de développement](../application/README.md). Cette distinction a été fixée par l’utilisateur le 6 novembre.
 
-Ce document présente les questions de cadrage et les réponses en vigueur, issues des [entretiens des 22 et 23 octobre](03-COMPTE-RENDU-ENTRETIENS.md) et des réponses apportées ensuite directement par l’utilisateur. Les réponses datées du 2 novembre ont été fournies par l’utilisateur dans les échanges de cadrage et ne font pas partie des comptes rendus d’entretien. Pour chaque sujet, la dernière réponse remplace les précédentes. Les réponses antérieures restent applicables lorsqu’elles n’ont pas été remplacées ; les comptes rendus conservent uniquement la trace historique des entretiens. Les questions marquées **P0** conditionnent directement la faisabilité ou l’estimation des développements.
+Ce document présente les questions de cadrage et les réponses en vigueur, issues des [entretiens des 22 et 23 octobre et du 4 novembre](03-COMPTE-RENDU-ENTRETIENS.md) et des réponses apportées ensuite directement par l’utilisateur. Les réponses datées du 2 novembre ont été fournies par l’utilisateur dans les échanges de cadrage et ne font pas partie des comptes rendus d’entretien. Pour chaque sujet, la dernière réponse remplace les précédentes. Les réponses antérieures restent applicables lorsqu’elles n’ont pas été remplacées ; les comptes rendus conservent uniquement la trace historique des entretiens. Les questions marquées **P0** conditionnent directement la faisabilité ou l’estimation des développements.
 
-Le [MCD Merise](05-MCD-MERISE.svg) constitue un modèle de travail proposé. Il n'a pas encore été validé par le client et doit lui être présenté. Les décisions fonctionnelles déjà recueillies restent documentées dans le présent cadrage ; le modèle et ses cardinalités devront être confirmés avant de devenir la référence conceptuelle.
+Le [MCD Merise](05-MCD-MERISE.svg) constitue un modèle de travail proposé. Sa validation par le client reste à organiser séparément de la présentation centrée sur les usages (§ 22). Les décisions fonctionnelles déjà recueillies restent documentées dans le présent cadrage ; le modèle et ses cardinalités devront être confirmés avant de devenir la référence conceptuelle.
 
 **Légende :**
 
@@ -18,9 +18,9 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 - [x] **P0** Quel problème doit être résolu en priorité par ASTER ? — 22 octobre, § 2.1 : gestion des périphériques en priorité, puis supervision des processus.
 - [ ] **P0** Quel résultat concret permettra de considérer le projet comme réussi ? — **Réponse partielle, complétée par l'utilisateur le 3 novembre :** la gestion des matériels constitue le premier critère de réussite. Les actions ou scénarios précis permettant de vérifier ce critère restent à définir. Le 22 octobre (§ 2.1), le client demandait de faciliter la mise à jour, la recherche, la consultation et la visualisation.
-- [x] **P0** Quel est le périmètre attendu pour la première version utilisable ? — Précision de l’utilisateur du 24 octobre : gestion complète des matériels, avec une démonstration pour une école, deux bâtiments et six à huit salles par bâtiment ; gestion des processus simulée. La gestion de plusieurs écoles est prévue à terme, hors des attendus de la V1. ASTER ne gère pas les formations (précision de l’utilisateur du 24 octobre).
+- [x] **P0** Quel est le périmètre attendu pour la première version utilisable ? — Précision de l’utilisateur du 24 octobre : gestion complète des matériels, avec une démonstration pour une école, deux bâtiments et six à huit salles par bâtiment ; gestion des processus simulée. Le 4 novembre (§ 3.2), le client a rappelé de prévoir une salle de 40 postes dans la simulation. La gestion de plusieurs écoles est prévue à terme, hors des attendus de la V1. ASTER ne gère pas les formations (précision de l’utilisateur du 24 octobre).
 - [ ] Quels défauts du fonctionnement actuel sous Excel faut-il corriger en priorité ?
-- [x] Quelles fonctionnalités peuvent être simulées, maquettées ou reportées ? — 22 octobre, § 2.1 et 2.8 : gestion des processus simulée et journaux en bonus. 23 octobre, § 1.1 : gestion de la garantie en bonus.
+- [x] Quelles fonctionnalités peuvent être simulées, maquettées ou reportées ? — 22 octobre, § 2.1 et 2.8 : gestion des processus simulée et journaux en bonus. 4 novembre, § 3.3 : connexion MindefConnect simulée dans le démonstrateur. 23 octobre, § 1.1 : gestion de la garantie en bonus.
 - [ ] Qui valide le besoin, les priorités et le résultat final ?
 
 ## 2. Périmètre organisationnel
@@ -28,9 +28,9 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] **P0** ASTER doit-il couvrir une seule école ou plusieurs établissements ? — Précision de l’utilisateur du 24 octobre : ASTER doit pouvoir gérer plusieurs écoles à terme, mais cette capacité ne fait pas partie des attendus de la V1. La démonstration de la V1 porte sur une seule école.
 - [ ] Une administration centrale doit-elle avoir une vue sur l’ensemble des écoles ?
 - [x] Quelles entités doivent être représentées : organisme, école, site, bâtiment, étage, salle ou autre ? — **Décision de l'utilisateur du 2 novembre, précisée dans le présent échange :** l'école et la salle sont des entités ; la salle est rattachée à une école et porte l'information de son bâtiment. Aucune entité `BATIMENT` autonome n'est nécessaire. L'école et la salle possèdent chacune un nom. Aucun niveau « étage » distinct n'est nécessaire : le code de la salle contient souvent le numéro de l'étage.
-- [ ] Une salle peut-elle dépendre de plusieurs services ou formations ?
+- [ ] Une salle peut-elle dépendre de plusieurs services ? Le rattachement à des formations relève de la piste d’évolution décrite au § 3 (4 novembre, § 3.2).
 - [x] Faut-il gérer des salles temporaires, fermées ou indisponibles ? — 22 octobre, § 2.2 : pas de gestion des salles temporaires ou hors service.
-- [ ] Combien d’écoles, de salles, de postes et d’autres matériels sont concernés aujourd’hui ? — **Réponse partielle :** précision de l’utilisateur du 24 octobre : démonstration pour une école, deux bâtiments et six à huit salles par bâtiment. La possibilité d’ajout est prévue (22 octobre, § 2.1). Les volumes réels et les nombres de postes et matériels ne sont pas précisés.
+- [ ] Combien d’écoles, de salles, de postes et d’autres matériels sont concernés aujourd’hui ? — **Réponse partielle :** précision de l’utilisateur du 24 octobre : démonstration pour une école, deux bâtiments et six à huit salles par bâtiment. La possibilité d’ajout est prévue (22 octobre, § 2.1). Le scénario de simulation comporte une salle de 40 postes (4 novembre, § 3.2). Les volumes réels ne sont pas précisés.
 
 ## 3. Utilisateurs, rôles et responsabilités
 
@@ -41,7 +41,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] Quelles actions un gestionnaire de matériel peut-il consulter, créer, modifier ou supprimer ? — 22 octobre, § 2.2 et 2.3, complété par l’utilisateur le 3 novembre : gestion de l’ensemble des stocks de son école, affectation, création, consultation et modification des matériels ; pas de suppression.
 - [x] Quelles actions un administrateur de salle technique peut-il réaliser ? — 23 octobre, § 1.2, complété par l’utilisateur le 3 novembre : l’administrateur dispose de tous les droits dans son école de rattachement. Le super administrateur dispose des mêmes droits sur l’ensemble des écoles.
 - [x] Quelles actions un formateur peut-il réaliser sur les postes de sa salle ? — 23 octobre, § 1.2 et 1.3 : accéder à une salle, consulter et arrêter les processus utilisateur (IDE, navigateur, etc.), sans arrêter les processus système, et créer une remontée pour un problème.
-- [x] Les droits d’un formateur sont-ils limités à certaines salles ? — Précision de l’utilisateur du 27 octobre, complétée le 3 novembre : le formateur peut accéder à toutes les salles de son école de rattachement, car il peut intervenir dans plusieurs salles. Ses actions restent limitées aux droits de son profil.
+- [x] Les droits d’un formateur sont-ils limités à certaines salles ? — Précision de l’utilisateur du 27 octobre, complétée le 3 novembre : le formateur peut accéder à toutes les salles de son école de rattachement, car il peut intervenir dans plusieurs salles. Ses actions restent limitées aux droits de son profil. Le 4 novembre (§ 3.2), le client a rappelé que les formations ne restreignent pas l’accès aux salles dans le périmètre actuel. Pour les présentations, mentionner comme évolution possible un accès aux salles selon les formations qui s’y déroulent.
 - [ ] ~~Les droits d’un formateur sont-ils limités à certaines périodes d’utilisation ?~~ — **Sans objet, décision de l’utilisateur du 3 novembre :** aucune limitation temporelle des droits du formateur n’est demandée.
 - [x] Existe-t-il un rôle de consultation seule ? — 22 octobre, § 2.3, complété par l’utilisateur le 3 novembre : aucun profil de consultation seule parmi les quatre profils identifiés.
 - [x] Existe-t-il un rôle d’administrateur fonctionnel chargé du paramétrage ? — **Décision de l’utilisateur du 3 novembre :** l’administrateur et le super administrateur possèdent les mêmes droits fonctionnels ; ils se distinguent par leur périmètre d’accès aux écoles. Aucun profil fonctionnel distinct n’est prévu.
@@ -117,7 +117,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 ## 8. Applications installées
 
 - [ ] **P0** La liste des applications doit-elle être déclarée manuellement ou détectée automatiquement sur les postes ?
-- [ ] Si elle est détectée, quel mécanisme ou outil existant fournit ces informations ? — **Réponse partielle de l'utilisateur du 3 novembre :** l'application web ASTER doit utiliser les mécanismes d'administration à distance déjà fournis par Windows, sans installer d'agent sur les machines cibles. Le mécanisme de collecte, le format et le protocole restent à définir.
+- [ ] Si elle est détectée, quel mécanisme ou outil existant fournit ces informations ? — Le mécanisme de collecte, le format et le protocole restent à définir dans le cadre de l’étude du § 19.
 - [ ] Qu’est-ce qui distingue une application métier d’une autre application ? — **Réponse partielle :** 23 octobre, § 1.1 : application « de base » présente sur un poste ; le caractère natif et la distinction exacte restent à préciser.
 - [ ] Existe-t-il un référentiel officiel des applications métier ?
 - [ ] Faut-il relever le nom, la version, l’éditeur, la date d’installation et la licence ?
@@ -126,12 +126,12 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Faut-il détecter les versions absentes, obsolètes ou non conformes ?
 - [ ] Faut-il conserver l’historique des logiciels installés ?
 - [ ] Qui peut modifier le référentiel des applications ?
-- [x] ASTER doit-il installer ou désinstaller une application, ou seulement signaler sa présence ? — **Décision de l'utilisateur du 3 novembre :** l’administrateur peut déclencher à distance l’installation et la désinstallation d’une application depuis l’application web ASTER, pour un poste individuel ou l’ensemble des postes d’une salle. L’opération utilise les mécanismes d’administration Windows existants, sans agent ASTER ; le mécanisme précis reste à identifier.
+- [x] ASTER doit-il installer ou désinstaller une application, ou seulement signaler sa présence ? — **Décision de l’utilisateur du 3 novembre :** l’administrateur peut déclencher à distance l’installation et la désinstallation d’une application depuis ASTER, pour un poste individuel ou l’ensemble des postes d’une salle. Le mécanisme reste à déterminer (§ 19).
 
 ## 9. Réinstallation des postes et des salles
 
 - [x] **P0** Que signifie précisément « réinstaller » ou « replaquer » un poste ? — 23 octobre, § 1.5 : la masterisation consiste à réappliquer une image sur un poste, par l’administrateur.
-- [x] **P0** ASTER doit-il exécuter la réinstallation, la déclencher dans un outil tiers ou seulement créer une demande ? — **Réponse de l'utilisateur du 3 novembre :** l'administrateur lance la demande depuis l'application web ASTER, qui doit s'appuyer sur les mécanismes de déploiement Windows sans installer d'agent ASTER ni développer son propre moteur d'image. L'infrastructure et l'interface de déclenchement restent à identifier.
+- [x] **P0** ASTER doit-il exécuter la réinstallation, la déclencher dans un outil tiers ou seulement créer une demande ? — **Réponse de l’utilisateur du 3 novembre :** l’administrateur déclenche depuis ASTER la réapplication d’une image Windows au moyen d’un mécanisme de déploiement externe. L’infrastructure et l’interface de déclenchement restent à identifier.
 - [ ] Existe-t-il déjà un outil de déploiement d’images système ?
 - [ ] Une API ou une interface d’automatisation de cet outil est-elle disponible ?
 - [x] Quels systèmes d’exploitation doivent être pris en charge ? — 22 octobre, § 2.1 : Windows est la cible de l’application.
@@ -168,9 +168,9 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] Faut-il conserver un historique des mesures ? — **Réponse de l'utilisateur du 2 novembre :** oui pour les détections de processus blacklistés et non référencés. Les exécutions des processus de la whitelist ne sont pas historisées.
 - [ ] Pendant combien de temps cet historique doit-il être conservé ? — **Réponse partielle de l'utilisateur du 2 novembre :** l'historique des processus blacklistés et non référencés doit être conservé ; sa durée de conservation reste à confirmer.
 - [ ] **P0** Parmi les données exigées par RG-56, lesquelles doivent rester persistantes dans le MCD malgré l'exclusion des valeurs temporaires et calculées ?
-- [x] Un agent doit-il être installé sur les postes ? — **Réponse en vigueur de l'utilisateur du 3 novembre :** non. L'installation d'un agent ASTER sur les machines cibles est interdite. Cette décision remplace la réponse du 2 novembre qui prévoyait un agent.
-- [ ] ~~Si oui, qui déploie, configure et met à jour cet agent ?~~ — Sans objet depuis la décision du 3 novembre interdisant l'installation d'un agent ASTER.
-- [ ] Comment ASTER échange-t-il avec les postes au moyen des mécanismes Windows ? — **Réponse partielle de l'utilisateur du 3 novembre :** l'application web ASTER conserve la gestion des processus et utilise les mécanismes d'administration à distance fournis par Windows. Le sens des connexions, les services activés et les protocoles restent à définir.
+- [ ] Un agent doit-il être installé sur les postes ? — **Étude demandée le 4 novembre (§ 3.3) :** préparer une proposition avec un agent et examiner les solutions existantes (§ 19). La décision du 3 novembre écartait l’agent. Le choix de la solution et l’autorisation de déployer un agent restent à confirmer.
+- [ ] Si un agent est retenu, qui le déploie, le configure et le met à jour ? — À préciser dans la proposition.
+- [ ] Comment ASTER échange-t-il avec les postes ? — ASTER porte les fonctions de supervision. Le sens des connexions, les services activés et les protocoles restent à définir selon la solution d’administration retenue (§ 19).
 - [x] Comment gérer un poste temporairement déconnecté ? — **Réponse de l'utilisateur du 2 novembre :** il reste visible dans sa salle, sans liste de processus.
 - [ ] La supervision doit-elle fonctionner sur plusieurs segments réseau isolés ?
 
@@ -266,7 +266,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 16. Recherche, consultation et ergonomie
 
-- [ ] Quelles informations les utilisateurs rechercheront-ils le plus souvent ? — **Réponse partielle :** 22 octobre, § 2.1 : recherche, consultation et visualisation du matériel ; les informations les plus recherchées ne sont pas hiérarchisées.
+- [ ] Quelles informations les utilisateurs rechercheront-ils le plus souvent ? — **Réponse partielle :** 22 octobre, § 2.1 : recherche, consultation et visualisation du matériel. Le 4 novembre (§ 3.2), le client a précisé le parcours attendu : repérer rapidement les salles par bâtiment, puis consulter le matériel présent dans une salle. Un plan de salle n’est pas nécessaire.
 - [ ] Quels critères de recherche et filtres sont nécessaires ? — **Réponse partielle :** 22 octobre, § 2.6 : filtre par salle pour le tableau de bord ; critères de recherche des matériels non détaillés.
 - [ ] Faut-il permettre une recherche globale dans toute l’application ?
 - [ ] Quels volumes de résultats doivent être affichés ou exportés ?
@@ -295,7 +295,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 18. Authentification et sécurité
 
-- [x] **P0** Quel système d’authentification doit être utilisé ? — **Décision de l’utilisateur du 6 novembre :** utiliser MindefConnect en production. Cette décision remplace le choix du 3 novembre d’un Keycloak relié à LDAP dans tous les environnements ; elle ne précise pas l’architecture interne de MindefConnect. Le montage de substitution et les comptes utilisés pour le démonstrateur sont documentés uniquement dans le [guide interne de développement](../application/README.md), sans valeur d’exigence de production.
+- [x] **P0** Quel système d’authentification doit être utilisé ? — **Décision de l’utilisateur du 6 novembre :** utiliser MindefConnect en production. Cette décision remplace le choix du 3 novembre d’un Keycloak relié à LDAP dans tous les environnements ; elle ne précise pas l’architecture interne de MindefConnect. La simulation de MindefConnect demandée le 4 novembre (§ 3.3) concerne le démonstrateur. Le montage de substitution et les comptes utilisés pour le démonstrateur sont documentés uniquement dans le [guide interne de développement](../application/README.md), sans valeur d’exigence de production.
 - [ ] Quelles modalités d’intégration sont fournies par MindefConnect pour la production ? — **Décision du 6 novembre :** le service cible est fixé ; les accès, le contrat d’intégration, les attributs d’identité et de profil et les contraintes de déploiement restent à obtenir.
 - [ ] L’authentification multifacteur est-elle requise ?
 - [ ] Quelles règles de mot de passe s’appliquent en production si des comptes locaux sont nécessaires ?
@@ -310,7 +310,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Quelles actions doivent être tracées dans un journal d’audit ? — **Réponse partielle :** 22 octobre, § 2.8 : journaux en bonus et proposition libre ; actions à tracer non définies.
 - [ ] Qui peut consulter les journaux d’audit ?
 - [ ] Les journaux doivent-ils être protégés contre la modification ?
-- [ ] Comment ASTER s'authentifie-t-il auprès des services Windows d'administration à distance ? — **Réponse partielle de l'utilisateur du 3 novembre :** aucun agent ASTER ne peut être installé ; l'application web doit utiliser les mécanismes Windows existants. Le compte technique, le protocole d'authentification et la gestion des secrets restent à définir.
+- [ ] Comment ASTER s’authentifie-t-il auprès de la solution d’administration à distance ? — Le compte technique, le protocole d’authentification et la gestion des secrets restent à définir.
 - [ ] Comment les secrets, certificats et clés techniques sont-ils distribués et renouvelés ?
 
 ## 19. Architecture, réseau et intégrations
@@ -322,11 +322,11 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Quels flux réseau entrants et sortants sont autorisés ?
 - [ ] Les écoles sont-elles reliées au même réseau ?
 - [ ] Existe-t-il des réseaux ou zones de sécurité séparés ?
-- [ ] Quels services Windows peuvent être utilisés par ASTER et selon quels flux ? — **Réponse partielle de l'utilisateur du 3 novembre :** aucun agent ASTER ne peut être installé sur les postes ; les fonctions distantes doivent utiliser les mécanismes d'administration à distance fournis par Windows.
+- [ ] Quels services et flux réseau la solution d’administration à distance nécessite-t-elle ? — À préciser après identification des options utilisables.
 - [ ] Un fonctionnement partiel hors connexion est-il nécessaire ?
-- [ ] **P0** Quels mécanismes d'administration Windows peuvent être utilisés par ASTER ? — **Réponse partielle de l'utilisateur du 3 novembre :** l'application web doit permettre de consulter et d'arrêter les processus à distance au moyen des mécanismes fournis par Windows. Les services autorisés, leur configuration et les mécanismes utilisables pour l'installation d'applications et la masterisation restent à confirmer avec le client.
+- [ ] **P0** Quelle solution d’administration des postes Windows peut être utilisée par ASTER ? — **Étude demandée le 4 novembre (§ 3.3) :** vérifier si un système existe déjà dans l’environnement cible, préparer une proposition avec un agent et examiner les logiciels existants. Indiquer le coût des solutions payantes proposées. Comparer la couverture des besoins de supervision et d’administration, dont la consultation et l’arrêt de processus, l’installation d’applications et la réinstallation des postes. Les outils disponibles et autorisés, leur couverture et le choix de la solution restent à confirmer.
 - [ ] Quelles API, documentations et plateformes de test sont disponibles ?
-- [ ] Quelles technologies sont imposées, recommandées ou interdites ? — **Réponse partielle, complétée par l’utilisateur du 6 novembre :** cible Windows et navigateur Firefox ; base PostgreSQL, préférence pour JavaScript et icônes Lucide si nécessaire. Connexion via MindefConnect (§ 18) et stockage S3 pour les PDF d’état des lieux. Les autres contraintes techniques restent à préciser.
+- [ ] Quelles technologies sont imposées, recommandées ou interdites ? — **Réponse partielle, complétée par l’utilisateur du 6 novembre :** cible Windows et navigateur Firefox ; base PostgreSQL, préférence pour JavaScript et icônes Lucide si nécessaire. Connexion via MindefConnect (§ 18) et stockage S3 pour les PDF d’état des lieux. Le 4 novembre (§ 3.3), le client a demandé de vérifier les technologies et les langages utilisés au regard du cadre de cohérence technique. La version de référence du cadre et le résultat de la vérification restent à établir.
 - [ ] Les composants open source sont-ils autorisés ?
 - [ ] Existe-t-il des contraintes de licences logicielles ?
 - [ ] L’utilisation de conteneurs est-elle autorisée dans l’environnement cible ?
@@ -349,14 +349,20 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 21. Sauvegarde, exploitation et maintenance
 
-- [ ] Qui surveillera le bon fonctionnement du serveur ASTER et de ses échanges avec les services Windows d'administration à distance ?
+- [ ] Qui surveillera le bon fonctionnement du serveur ASTER et de ses échanges avec la solution d’administration des postes ?
 - [ ] À quelle fréquence les sauvegardes doivent-elles être réalisées ?
 - [ ] Où les sauvegardes doivent-elles être stockées ?
 - [ ] À quelle fréquence une restauration doit-elle être testée ?
 - [ ] Comment les mises à jour de l’application seront-elles déployées ?
-- [ ] ~~Comment les mises à jour des agents ASTER seront-elles déployées ?~~ — Sans objet depuis la décision du 3 novembre interdisant l'installation d'un agent ASTER.
+- [ ] Comment déployer les mises à jour d’un agent s’il est retenu ? — À préciser dans la proposition (§ 19).
 - [ ] Une procédure de retour à la version précédente est-elle nécessaire ?
 - [ ] Quels journaux techniques doivent être collectés ? — **Réponse partielle :** 22 octobre, § 2.8 : journaux en bonus, proposition libre de l’équipe ; contenu technique non précisé.
 - [ ] Qui reçoit les alertes concernant le fonctionnement d’ASTER lui-même ?
 - [ ] Quels outils de supervision technique sont déjà disponibles ?
 - [ ] Quel niveau de documentation technique et d’exploitation est attendu ? — **Réponse partielle :** 23 octobre, § 1.6 : dossier d’architecture technique demandé ; niveau attendu pour les procédures d’exploitation non précisé.
+
+## 22. Présentations client et nom du projet
+
+- [x] Quel format adopter ? — 4 novembre, § 3.1 : montrer les usages et leurs bénéfices, présenter la maquette directement, même si elle se limite à l’interface, et garder les diagrammes, les détails techniques et les captures d’écran hors du support client. Chaque membre de l’équipe prend la parole, avec un temps de parole libre.
+- [ ] Quel nom retenir ? — **Retour du 4 novembre (§ 3.1) :** ASTER plaît au client. Préparer un second nom et soumettre les deux propositions à son choix.
+- [x] Quand aura lieu le prochain rendez-vous ? — Jeudi 12 novembre 2026 (4 novembre, § 3.4).

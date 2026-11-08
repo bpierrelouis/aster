@@ -27,7 +27,7 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 
 ### Scénario nominal
 
-1. Le gestionnaire recherche un matériel ou ouvre la liste du parc.
+1. Le gestionnaire recherche un matériel, ouvre la liste du parc ou consulte les salles par bâtiment pour voir le matériel présent dans une salle.
 2. ASTER limite les résultats à son école.
 3. Le gestionnaire consulte une fiche, crée un matériel ou modifie ses informations.
 4. Pour une création, il renseigne le modèle, la date de réception et l'état hors service ; la marque et le numéro de série restent facultatifs.

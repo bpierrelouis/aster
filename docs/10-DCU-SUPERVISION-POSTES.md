@@ -24,7 +24,7 @@ flowchart LR
         consulterStatistiques(["Consulter les statistiques d'utilisation"])
     end
 
-    servicesWindows(["Services Windows<br/>d'administration à distance"])
+    administrationDistante(["Solution d’administration<br/>à distance des postes"])
 
     acteurSupervision --- accederSalle
     acteurSupervision --- consulterEtat
@@ -41,10 +41,10 @@ flowchart LR
     arreterProcessus -.->|« include »| consulterProcessus
     arreterInterdit -.->|« extend »| appliquerRegles
 
-    consulterEtat --- servicesWindows
-    consulterProcessus --- servicesWindows
-    arreterProcessus --- servicesWindows
-    appliquerRegles --- servicesWindows
+    consulterEtat --- administrationDistante
+    consulterProcessus --- administrationDistante
+    arreterProcessus --- administrationDistante
+    appliquerRegles --- administrationDistante
 
     classDef acteur fill:#C2E5FF,stroke:#3DADFF,color:#17243B
     classDef acteurGeneral fill:#E8F5E9,stroke:#3E9B4B,color:#17243B
@@ -52,6 +52,6 @@ flowchart LR
     classDef cas fill:#F6F4FB,stroke:#6954C0,color:#17243B
     class formateur,administrateur,superAdministrateur acteur
     class acteurSupervision acteurGeneral
-    class servicesWindows acteurSecondaire
+    class administrationDistante acteurSecondaire
     class accederSalle,consulterEtat,consulterProcessus,arreterProcessus,gererListes,appliquerRegles,arreterInterdit,consulterAlertes,consulterStatistiques cas
 ```

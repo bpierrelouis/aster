@@ -22,7 +22,7 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 
 - **Objectif :** connaître l'état des postes d'une salle et intervenir sur les processus utilisateur.
 - **Déclencheur :** le formateur sélectionne une salle de son école dans l'espace de supervision.
-- **Préconditions :** le formateur est authentifié ; la salle appartient à son école ; les mécanismes Windows sont disponibles.
+- **Préconditions :** le formateur est authentifié ; la salle appartient à son école ; la solution d’administration à distance est disponible.
 
 ### Scénario nominal
 
@@ -32,7 +32,7 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 4. Le formateur sélectionne un poste connecté.
 5. ASTER présente uniquement ses processus utilisateur avec leur nom, compte Windows, poste, salle, date de démarrage et classement.
 6. Le formateur sélectionne un processus utilisateur et demande son arrêt.
-7. ASTER transmet l'ordre au moyen des mécanismes Windows retenus et affiche le résultat.
+7. ASTER transmet l'ordre à la solution d’administration à distance retenue et affiche le résultat.
 
 ### Variantes et limites
 
@@ -51,7 +51,7 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 
 ### Questions ouvertes
 
-- Mécanismes Windows, flux, comptes techniques et sécurisation des échanges.
+- Solution d’administration à distance, flux, comptes techniques et sécurisation des échanges.
 - Gestion des échecs d'arrêt manuel et journalisation de cette action.
 - Données supplémentaires à remonter et fonctionnement sur des segments réseau isolés.
 - Contraintes internes ou juridiques liées à la surveillance de l'activité.
@@ -149,7 +149,6 @@ RG-11 à RG-14, RG-21, RG-23, RG-34 à RG-38, RG-63, RG-66 et RG-69.
 
 - Application web utilisée avec les versions de Firefox installées sur les postes de l'équipe.
 - Réseau interne NP disposant d'un accès à Internet.
-- Aucun agent ASTER installé sur les postes ; utilisation des mécanismes Windows existants.
 - Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
 - Un seul profil par utilisateur.
 

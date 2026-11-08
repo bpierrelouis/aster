@@ -57,9 +57,9 @@ La transmission d’une remontée génère automatiquement son PDF d’état des
 
 | Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
 | --- | --- | --- | --- | --- | --- | --- |
-| Consulter les applications installées sur un poste | — | — | Oui | Oui | Le mécanisme Windows de collecte reste à identifier. | RG-15, cadrage § 8, DCU 09 |
-| Déclencher l’installation ou la désinstallation d’une application | — | — | Oui | Oui | L’action cible un poste individuel ou l’ensemble des postes d’une salle. ASTER utilise les mécanismes Windows existants, sans agent ASTER. | RG-65, cadrage § 8, DCU 09 |
-| Demander la réinstallation d’un poste ou d’une salle | — | — | Oui | Oui | ASTER déclenche la demande au moyen des mécanismes de déploiement Windows existants. | RG-22 et RG-30, cadrage § 9, DCU 09 |
+| Consulter les applications installées sur un poste | — | — | Oui | Oui | Le mécanisme de collecte reste à identifier. | RG-15, cadrage § 8, DCU 09 |
+| Déclencher l’installation ou la désinstallation d’une application | — | — | Oui | Oui | L’action cible un poste individuel ou l’ensemble des postes d’une salle. | RG-65, cadrage § 8, DCU 09 |
+| Demander la réinstallation d’un poste ou d’une salle | — | — | Oui | Oui | Le mécanisme de déploiement reste à identifier. | RG-22 et RG-30, cadrage § 9, DCU 09 |
 
 ## Administration des comptes
 

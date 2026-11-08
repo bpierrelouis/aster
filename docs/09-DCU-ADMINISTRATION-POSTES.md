@@ -14,7 +14,7 @@ flowchart LR
         demanderSalle(["Demander la réinstallation d'une salle"])
     end
 
-    servicesWindows(["Services Windows d'administration<br/>et de déploiement"])
+    administrationDistante(["Solution d’administration<br/>et de déploiement des postes"])
 
     administrateur --- consulterApplications
     administrateur --- installerApplication
@@ -27,16 +27,16 @@ flowchart LR
     superAdministrateur --- demanderPoste
     superAdministrateur --- demanderSalle
 
-    consulterApplications --- servicesWindows
-    installerApplication --- servicesWindows
-    desinstallerApplication --- servicesWindows
-    demanderPoste --- servicesWindows
-    demanderSalle --- servicesWindows
+    consulterApplications --- administrationDistante
+    installerApplication --- administrationDistante
+    desinstallerApplication --- administrationDistante
+    demanderPoste --- administrationDistante
+    demanderSalle --- administrationDistante
 
     classDef acteur fill:#C2E5FF,stroke:#3DADFF,color:#17243B
     classDef acteurSecondaire fill:#FFECBD,stroke:#E8B84E,color:#17243B
     classDef cas fill:#F6F4FB,stroke:#6954C0,color:#17243B
     class administrateur,superAdministrateur acteur
-    class servicesWindows acteurSecondaire
+    class administrationDistante acteurSecondaire
     class consulterApplications,installerApplication,desinstallerApplication,demanderPoste,demanderSalle cas
 ```

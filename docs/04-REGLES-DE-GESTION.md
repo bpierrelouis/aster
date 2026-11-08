@@ -1,6 +1,6 @@
 # Règles de gestion de l'application ASTER
 
-Ce document formalise uniquement les règles confirmées qui imposent une contrainte sur les données, les droits des utilisateurs ou les traitements réalisés par ASTER. Il s'appuie sur les [consignes du projet](01-CONSIGNES.md), le [cadrage consolidé](02-CADRAGE.md) et les [entretiens des 22 et 23 octobre](03-COMPTE-RENDU-ENTRETIENS.md).
+Ce document formalise uniquement les règles confirmées qui imposent une contrainte sur les données, les droits des utilisateurs ou les traitements réalisés par ASTER. Il s'appuie sur les [consignes du projet](01-CONSIGNES.md), le [cadrage consolidé](02-CADRAGE.md) et les [entretiens des 22 et 23 octobre et du 4 novembre](03-COMPTE-RENDU-ENTRETIENS.md).
 
 Les limites du périmètre, les fonctionnalités optionnelles, les questions ouvertes et les réponses historiques remplacées restent documentées dans le cadrage et les comptes rendus, mais ne sont pas considérées ici comme des règles de gestion.
 
@@ -30,7 +30,7 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-19 — Supervision par le formateur.** Le formateur peut accéder à une salle, consulter les processus utilisateur qui y sont remontés et arrêter ces processus.
 - **RG-20 — Protection des processus système.** Le formateur ne peut ni consulter ni arrêter les processus du système d'exploitation.
 - **RG-21 — Création d'une remontée.** Le formateur et l'administrateur peuvent créer une remontée concernant un ou plusieurs matériels.
-- **RG-22 — Masterisation.** L'administrateur demande depuis ASTER la masterisation d'un poste ou d'une salle ; l'opération s'appuie sur des mécanismes de déploiement Windows qui restent à identifier.
+- **RG-22 — Masterisation.** L’administrateur déclenche depuis ASTER la masterisation d’un poste ou d’une salle.
 - **RG-23 — Consultation des états des lieux.** Le gestionnaire et l'administrateur peuvent consulter et télécharger tous les PDF d'état des lieux. Le formateur peut consulter et télécharger uniquement le PDF d’une remontée qu’il a lui-même créée (décision de l’utilisateur du 3 novembre).
 - **RG-24 — Accès aux tableaux de bord.** Le gestionnaire et l'administrateur peuvent consulter les tableaux de bord spécialisés du parc et des remontées.
 
@@ -41,10 +41,10 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-27 — Affectation groupée.** Une même opération d'affectation peut concerner plusieurs matériels.
 - **RG-28 — Enregistrement d'un matériel.** Chaque matériel est enregistré individuellement par saisie manuelle ou par import JSON. L'import JSON est accessible au gestionnaire et à l'administrateur.
 - **RG-29 — Traitement d'un import JSON.** Les données d'un import JSON sont appliquées immédiatement, sans étape de validation métier préalable.
-- **RG-30 — Masterisation d'un poste.** La masterisation réapplique une image système sur le poste concerné par l'intermédiaire des mécanismes de déploiement Windows retenus pour ASTER.
-- **RG-31 — Données de supervision.** ASTER utilise les mécanismes d'administration à distance fournis par Windows pour obtenir les processus utilisateur lancés sur le poste et l'utilisateur associé à chacun d'eux.
+- **RG-30 — Masterisation d'un poste.** La masterisation réapplique une image système sur le poste concerné au moyen du mécanisme de déploiement retenu.
+- **RG-31 — Données de supervision.** ASTER obtient à distance les processus utilisateur lancés sur le poste et l’utilisateur associé à chacun d’eux.
 - **RG-32 — Filtrage des processus.** Les processus internes du système d'exploitation sont exclus des données de supervision présentées au formateur.
-- **RG-33 — Arrêt d'un processus.** L'arrêt demandé depuis l'application web par un utilisateur autorisé porte uniquement sur un processus utilisateur présenté par ASTER et est exécuté à distance au moyen des mécanismes d'administration Windows.
+- **RG-33 — Arrêt d'un processus.** L'arrêt demandé depuis l'application web par un utilisateur autorisé porte uniquement sur un processus utilisateur présenté par ASTER et est exécuté à distance sur le poste concerné.
 - **RG-34 — Détermination de la localisation de la remontée.** ASTER présente la localisation de chaque matériel concerné lorsqu'elle est renseignée.
 - **RG-35 — Génération de l'état des lieux.** La transmission d'une remontée génère automatiquement son document d'état des lieux au format PDF.
 - **RG-36 — Tableaux de bord spécialisés.** ASTER propose plusieurs tableaux de bord spécialisés, dont un tableau de bord du parc et un tableau de bord des remontées. Le tableau de bord du parc présente l'état des stocks et permet un filtrage par salle.
@@ -67,7 +67,7 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-50 — Gestion des listes.** Seul l'administrateur peut ajouter, modifier ou supprimer une entrée de whitelist ou de blacklist.
 - **RG-51 — Traitement d'un processus whitelisté.** Un processus whitelisté est visible dans la supervision en temps réel, sans conservation de son historique d'exécution.
 - **RG-52 — Traitement d'un processus non référencé.** Un processus non référencé reste autorisé, est visible dans la supervision en temps réel et fait l'objet d'un historique de détection.
-- **RG-53 — Traitement d'un processus blacklisté.** Un processus blacklisté est arrêté automatiquement au moyen des mécanismes d'administration Windows et fait l'objet d'une alerte et d'un historique dans ASTER.
+- **RG-53 — Traitement d'un processus blacklisté.** Un processus blacklisté est arrêté automatiquement sur le poste concerné et fait l'objet d'une alerte et d'un historique dans ASTER.
 - **RG-54 — Arrêt automatique.** ASTER déclenche l'arrêt automatique d'un processus blacklisté sans demander de confirmation ni de justification et sans prévenir l'utilisateur du poste.
 - **RG-55 — Destinataires de l'alerte.** L'alerte provoquée par un processus blacklisté est destinée à l'administrateur et au formateur qui supervise la salle concernée.
 - **RG-56 — Contenu de l'historique.** L'historique d'une détection blacklistée ou non référencée conserve le poste, la salle, l'utilisateur, le nom, le PID, la date de démarrage, la date de détection et le classement. Pour un processus blacklisté, il conserve également la règle déclenchée, la date de l'arrêt automatique et son résultat.
@@ -78,11 +78,10 @@ Les limites du périmètre, les fonctionnalités optionnelles, les questions ouv
 - **RG-61 — Noms et information de bâtiment.** Une école et une salle possèdent chacune un nom. Le bâtiment est une information de la salle, sans identité autonome.
 - **RG-62 — Identifiants de connexion.** Chaque utilisateur ASTER s’authentifie via MindefConnect avant d’accéder à l’application (cadrage § 18).
 - **RG-63 — Auteur d'une remontée.** Chaque remontée est déclarée par un et un seul utilisateur ASTER. Un utilisateur ASTER peut déclarer plusieurs remontées.
-- **RG-64 — Absence d'agent ASTER.** Aucun agent ASTER ne peut être installé sur les machines cibles. L'application web conserve la gestion des fonctions distantes et utilise les mécanismes d'administration et de déploiement fournis par Windows (décision de l'utilisateur du 3 novembre).
 
 ## 5. Règles complémentaires relatives aux droits et traitements
 
-- **RG-65 — Administration des applications.** L’administrateur peut déclencher à distance l’installation et la désinstallation d’une application depuis ASTER, pour un poste individuel ou l’ensemble des postes d’une salle. L’opération utilise les mécanismes d’administration Windows existants, sans agent ASTER (décision de l’utilisateur du 3 novembre).
+- **RG-65 — Administration des applications.** L’administrateur peut déclencher à distance l’installation et la désinstallation d’une application depuis ASTER, pour un poste individuel ou l’ensemble des postes d’une salle (décision de l’utilisateur du 3 novembre).
 - **RG-66 — Notification de l’auteur d’une remontée.** Le formateur reçoit dans ASTER une notification lorsque le statut d’une remontée qu’il a lui-même créée change. Cette notification n’est pas envoyée par courriel (décision de l’utilisateur du 3 novembre).
 - **RG-67 — Notification d’une nouvelle remontée.** Le gestionnaire reçoit dans ASTER une notification à la création de chaque nouvelle remontée. Cette notification n’est pas envoyée par courriel (décision de l’utilisateur du 3 novembre).
 - **RG-68 — Statistiques de supervision.** L’administrateur peut consulter dans ASTER des statistiques d’utilisation des postes et des processus. Les indicateurs et leurs règles de calcul restent à définir (décision de l’utilisateur du 3 novembre).
