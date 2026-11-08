@@ -1,0 +1,149 @@
+/* ==========================================================================
+   ASTER · Le matériau verre
+   Trois niveaux, pilotés par <html data-glass="…"> :
+   - liquid : réfraction réelle des bords (filtre SVG, Chromium) + flou
+   - frost  : verre dépoli (flou + saturation), tous navigateurs
+   - solid  : surfaces opaques (performance, accessibilité)
+   La lumière (--la angle, --lx/--ly position, --li intensité) est pilotée
+   par core/glass.js et suit le pointeur.
+   ========================================================================== */
+
+.glass {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--radius, var(--r-l));
+  background: var(--glass-tint);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  box-shadow: var(--glass-shadow);
+}
+
+/* Liseré lumineux : plus intense du côté de la lumière, reflet faible à l'opposé */
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: conic-gradient(
+    from calc(var(--la, 320deg) - 180deg),
+    var(--rim-mid) 0deg,
+    var(--rim-lo) 75deg,
+    var(--rim-hi) 180deg,
+    var(--rim-lo) 285deg,
+    var(--rim-mid) 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* Reflet spéculaire : une tache douce qui suit le pointeur + voile haut */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(var(--spot, 280px) circle at var(--lx, 18%) var(--ly, -10%),
+      rgb(255 255 255 / calc(var(--li, .35) * .30)), transparent 72%),
+    linear-gradient(180deg, var(--sheen), transparent 42%);
+}
+
+/* Variantes de densité */
+.glass--strong { background: var(--glass-tint-strong); }
+.glass--clear { background: transparent; }
+.glass--flat { box-shadow: none; }
+
+/* Niveau "solid" ou transparence réduite : pas de flou */
+:root[data-glass="solid"] .glass {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background: var(--glass-tint-solid);
+}
+:root[data-glass="solid"] .glass::after { background: linear-gradient(180deg, var(--sheen), transparent 30%); }
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: var(--glass-tint-solid);
+  }
+}
+
+@media (forced-colors: active) {
+  .glass { border: 1px solid CanvasText; }
+  .glass::before, .glass::after { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   LED : le vocabulaire des façades de matériel
+   -------------------------------------------------------------------------- */
+.led {
+  --led: var(--ok);
+  display: inline-block;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgb(255 255 255 / .9) 0 14%, transparent 42%),
+    var(--led);
+  box-shadow: 0 0 0 1.5px rgb(255 255 255 / .55), 0 0 8px 1px color-mix(in srgb, var(--led) 70%, transparent);
+}
+.led--ok { --led: var(--ok); }
+.led--wait { --led: var(--wait); }
+.led--stock { --led: var(--stock); }
+.led--hs { --led: var(--crit); }
+.led--off { --led: rgb(var(--ink) / .25); box-shadow: 0 0 0 1.5px rgb(255 255 255 / .4); }
+.led--lg { width: 10px; height: 10px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .led--pulse { animation: led-pulse 2.4s var(--ease-soft) infinite; }
+}
+@keyframes led-pulse {
+  0%, 100% { box-shadow: 0 0 0 1.5px rgb(255 255 255 / .55), 0 0 6px 1px color-mix(in srgb, var(--led) 60%, transparent); }
+  50% { box-shadow: 0 0 0 1.5px rgb(255 255 255 / .55), 0 0 14px 4px color-mix(in srgb, var(--led) 80%, transparent); }
+}
+
+/* --------------------------------------------------------------------------
+   Tuiles d'icônes (couches façon icônes iOS : fond coloré + verre + glyphe)
+   -------------------------------------------------------------------------- */
+.tile {
+  --c: var(--c8);
+  --size: 40px;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) * .3);
+  color: #fff;
+  background:
+    radial-gradient(120% 90% at 30% 0%, rgb(255 255 255 / .45), transparent 55%),
+    linear-gradient(160deg, color-mix(in oklab, var(--c) 72%, white) 0%, var(--c) 55%, color-mix(in oklab, var(--c) 82%, black) 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / .55),
+    inset 0 -1px 0 rgb(0 0 0 / .12),
+    0 4px 12px -4px color-mix(in srgb, var(--c) 60%, transparent);
+}
+.tile svg { width: 58%; height: 58%; filter: drop-shadow(0 1px 1px rgb(0 0 0 / .18)); }
+.tile .d { fill: rgb(255 255 255 / .38); }
+.tile--s { --size: 28px; }
+.tile--m { --size: 36px; }
+.tile--l { --size: 52px; }
+.tile--xl { --size: 72px; }
+
+/* Variante « verre teinté » : pour les surfaces secondaires */
+.tile--tint {
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 22%, transparent);
+}
+.tile--tint svg { filter: none; }
+.tile--tint .d { fill: color-mix(in srgb, var(--c) 24%, transparent); }

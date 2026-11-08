@@ -1,0 +1,120 @@
+/* ==========================================================================
+   ASTER · Dashboard : grille de widgets, mode édition, galerie
+   ========================================================================== */
+
+.board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--board-cols), minmax(0, 1fr));
+  grid-auto-rows: var(--board-row);
+  grid-auto-flow: row dense;
+  gap: var(--board-gap);
+}
+
+.widget { position: relative; min-width: 0; }
+.widget[data-size="S"] { grid-column: span 1; grid-row: span 1; }
+.widget[data-size="M"] { grid-column: span 2; grid-row: span 1; }
+.widget[data-size="L"] { grid-column: span 2; grid-row: span 2; }
+.widget[data-size="XL"] { grid-column: span 4; grid-row: span 2; }
+
+.widget-inner { position: relative; height: 100%; --amp: .5deg; }
+.widget[data-size="L"] .widget-inner { --amp: .3deg; }
+.widget[data-size="XL"] .widget-inner { --amp: .14deg; }
+.widget-card { height: 100%; --radius: var(--r-l); overflow: hidden; }
+.widget--action .widget-card { cursor: pointer; }
+
+/* --------------------------------------------------------------------------
+   Mode édition : les widgets respirent (comme l'écran d'accueil iOS)
+   -------------------------------------------------------------------------- */
+.is-editing .widget { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
+.is-editing .w-content { pointer-events: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .is-editing .widget-inner { animation: jiggle .3s ease-in-out infinite alternate; animation-delay: var(--jd, 0s); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .is-editing .widget-card { outline: 2px dashed rgb(var(--ink) / .25); outline-offset: 3px; }
+}
+@keyframes jiggle {
+  from { transform: rotate(calc(var(--amp) * -1)); }
+  to { transform: rotate(var(--amp)); }
+}
+
+.w-remove {
+  position: absolute; top: -9px; left: -9px; z-index: 6;
+  display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  color: var(--ink-1);
+  background: var(--glass-tint-solid);
+  box-shadow: 0 0 0 .5px rgb(var(--ink) / .12), 0 4px 10px -2px rgb(52 36 110 / .35);
+  opacity: 0; transform: scale(.4); pointer-events: none;
+  transition: opacity var(--dur-2), transform var(--dur-2) var(--ease-spring);
+}
+.w-remove:hover { color: var(--crit); }
+.is-editing .w-remove { opacity: 1; transform: none; pointer-events: auto; }
+
+.w-sizes {
+  position: absolute; left: 50%; bottom: -15px; z-index: 6;
+  display: flex; gap: 2px; padding: 3px; --radius: var(--r-pill);
+  opacity: 0; transform: translate(-50%, 0) scale(.9); pointer-events: none;
+  transition: opacity var(--dur-2), transform var(--dur-2) var(--ease-spring);
+}
+.is-editing .w-sizes { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.w-sizes button, .gal-sizes button {
+  display: grid; place-items: center; width: 36px; height: 28px; border-radius: var(--r-pill);
+  color: var(--ink-3); transition: background var(--dur-1), color var(--dur-1);
+}
+.w-sizes button:hover, .gal-sizes button:hover { color: var(--ink-1); }
+.w-sizes button[aria-pressed="true"], .gal-sizes button[aria-checked="true"] { color: var(--ink-1); background: var(--glass-tint-solid); box-shadow: 0 1px 3px rgb(var(--ink) / .15); }
+:root[data-ambiance="encre"] .w-sizes button[aria-pressed="true"], :root[data-ambiance="encre"] .gal-sizes button[aria-checked="true"] { background: rgb(255 255 255 / .16); }
+
+.widget.is-dragging { z-index: 30; cursor: grabbing; }
+.widget.is-dragging .widget-inner { animation: none; }
+.widget.is-dragging .widget-card { box-shadow: var(--glass-shadow-lift); }
+
+.widget-add {
+  display: none;
+  grid-column: span 1;
+  border-radius: var(--r-l);
+  color: var(--ink-3);
+  border: 2px dashed rgb(var(--ink) / .18);
+  background: rgb(255 255 255 / .1);
+  transition: color var(--dur-1), border-color var(--dur-1), background var(--dur-1);
+}
+.widget-add:hover { color: var(--ink-1); border-color: rgb(var(--ink) / .32); background: rgb(255 255 255 / .2); }
+.is-editing .widget-add { display: grid; place-items: center; }
+
+/* --------------------------------------------------------------------------
+   Galerie d'ajout : aperçus réels, réduits
+   -------------------------------------------------------------------------- */
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
+.gal-item { display: flex; flex-direction: column; gap: 12px; padding: 12px; border-radius: 24px; background: var(--fill-1); }
+.gal-stage {
+  position: relative; height: 190px; overflow: hidden; border-radius: 16px;
+  background:
+    radial-gradient(60% 80% at 15% 20%, var(--wp-a1), transparent 70%),
+    radial-gradient(60% 80% at 90% 80%, var(--wp-b1), transparent 70%),
+    radial-gradient(50% 60% at 80% 10%, var(--wp-c2), transparent 70%),
+    var(--base);
+}
+.gal-scale { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(var(--s)); }
+.gal-stage .widget { pointer-events: none; }
+.gal-stage--S .gal-scale { --s: .92; } .gal-stage--S .widget { width: 290px; height: 172px; }
+.gal-stage--M .gal-scale { --s: .52; } .gal-stage--M .widget { width: 598px; height: 172px; }
+.gal-stage--L .gal-scale { --s: .48; } .gal-stage--L .widget { width: 598px; height: 362px; }
+.gal-stage--XL .gal-scale { --s: .26; } .gal-stage--XL .widget { width: 1214px; height: 362px; }
+.gal-meta { display: flex; align-items: center; gap: 10px; }
+.gal-meta b { flex: 1; font-size: 15px; }
+.gal-sizes { display: flex; gap: 2px; padding: 3px; border-radius: var(--r-pill); background: var(--fill-1); }
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 1100px) { :root { --board-row: 162px; } }
+@media (max-width: 880px) {
+  .board { --board-cols: 2; }
+  .widget[data-size="XL"] { grid-column: span 2; }
+}
+@media (max-width: 520px) {
+  :root { --board-row: 150px; --board-gap: 12px; }
+  .page-actions .btn span { display: none; }
+  .page-actions .btn { width: 42px; padding: 0; }
+}
