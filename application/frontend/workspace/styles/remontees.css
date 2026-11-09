@@ -95,7 +95,6 @@
 
 @media print {
   .is-printing-edl body > *:not(dialog) { display: none !important; }
-  .is-printing-edl .wallpaper { display: none !important; }
   .is-printing-edl dialog::backdrop { background: #fff !important; }
   .is-printing-edl .sheet { position: static; padding: 0; }
   .is-printing-edl .sheet-panel { box-shadow: none !important; background: #fff !important; backdrop-filter: none !important; max-height: none; width: 100%; }

@@ -2,7 +2,7 @@
    ASTER · espace de travail (chargé après la connexion)
    ========================================================================== */
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useParams } from 'react-router';
 import './styles/tokens.css';
 import './styles/glass.css';
@@ -17,7 +17,6 @@ import './styles/inventaire.css';
 import './styles/operations.css';
 import { store, ready } from './core/store.js';
 import { initGlass } from './core/glass.js';
-import { mountWallpaper } from './core/wallpaper.js';
 import { initTooltips } from './ui/tooltips.js';
 import { OverlayHost, notify } from './ui/overlays.jsx';
 import { Shell } from './views/shell.jsx';
@@ -34,12 +33,6 @@ window.aster = { store };
 function DashboardRoute() {
   const { board = 'perso' } = useParams();
   return <Dashboard key={board} />;
-}
-
-function Wallpaper() {
-  const ref = useRef(null);
-  useEffect(() => { mountWallpaper(ref.current); }, []);
-  return <div ref={ref} className="wallpaper" aria-hidden="true" />;
 }
 
 export default function Workspace({ loading }) {
@@ -65,7 +58,6 @@ export default function Workspace({ loading }) {
     </main>;
   }
   return <>
-    <Wallpaper />
     <Routes>
       <Route element={<Shell />}>
         <Route path="accueil" element={<DashboardRoute />} />

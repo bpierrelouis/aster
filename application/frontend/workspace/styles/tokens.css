@@ -101,11 +101,6 @@
   --tint-2: rgb(105 84 192 / .14);
 
   --base: #f3f0fa;
-  --wp-a1: #b8a3ea;  --wp-a2: #e6defa;   /* lilas */
-  --wp-b1: #8e7ad6;  --wp-b2: #d9d0f5;   /* iris clair */
-  --wp-c1: #f2c76b;  --wp-c2: #fbecc8;   /* cœur */
-  --wp-d1: #f1a9cb;  --wp-d2: #fbe4ef;   /* rosé */
-  --wp-line: rgb(255 255 255 / .9);
 
   --glass-tint: rgb(255 255 255 / .38);
   --glass-tint-strong: rgb(252 251 255 / .7);
@@ -138,14 +133,10 @@
 }
 
 /* --------------------------------------------------------------------------
-   Ambiance « Aube » (claire, lilas et rosé plus présents)
+   Ambiance « Aube » (claire, lilas plus présent)
    -------------------------------------------------------------------------- */
 :root[data-ambiance="aube"] {
   --base: #efe7f8;
-  --wp-a1: #a58fe6;  --wp-a2: #ddd1fa;
-  --wp-b1: #ef9cc4;  --wp-b2: #fadbe9;
-  --wp-c1: #ecb64a;  --wp-c2: #f9e3b4;
-  --wp-d1: #7f69d3;  --wp-d2: #cfc3f4;
   --glass-tint: rgb(255 255 255 / .34);
 }
 
@@ -164,11 +155,6 @@
   --tint-2: rgb(162 138 220 / .2);
 
   --base: #0c1222;
-  --wp-a1: #5a44b8;  --wp-a2: #1f1650;
-  --wp-b1: #8670cd;  --wp-b2: #251c55;
-  --wp-c1: #c99634;  --wp-c2: #3a2a0c;
-  --wp-d1: #a3407a;  --wp-d2: #3a1230;
-  --wp-line: rgb(255 255 255 / .32);
 
   --glass-tint: rgb(23 36 59 / .44);
   --glass-tint-strong: rgb(20 30 52 / .78);
