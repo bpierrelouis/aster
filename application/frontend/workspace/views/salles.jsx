@@ -241,7 +241,7 @@ export function Salles() {
               </div>
             : <div className="bat-grid">{batiments().map((b) => <BatCard key={b} b={b} scene={scene} />)}</div>}
         </div>
-        {can('materiel.move') && <div className={`stock-tray glass${dropId === 'stock' ? ' is-drop' : ''}`} data-lens="" aria-hidden="true">
+        {can('materiel.move') && <div className={`stock-tray glass glass--strong${dropId === 'stock' ? ' is-drop' : ''}`} aria-hidden="true">
           <Tile name="stockage" color="var(--c8)" size="m" /><span><b>Remettre en stock</b><small>{num(stock.total)} matériels en stock</small></span></div>}
         <div className="iso-legend">
           <span><span className="lg-key lg-key--ok" />Salle</span>
@@ -249,7 +249,7 @@ export function Salles() {
           <span><span className="lg-key lg-key--wait" />Remontée en attente</span>
         </div>
       </section>
-      <aside className="spanel glass" data-lens="">
+      <aside className="spanel glass">
         {mode === 'salle' && x ? <SalleDetail x={x} stageBat={stageBat} selected={selected} devs={devs} act={act} />
           : mode === 'stock' ? <Stock selected={selected} devs={devs} act={act} />
             : <Overview mode={mode} stageBat={stageBat} stageFloor={stageFloor} hoverId={hoverId} />}

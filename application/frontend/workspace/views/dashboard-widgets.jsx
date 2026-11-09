@@ -26,7 +26,7 @@ export function Widget({ w, editing, onRemove, onSize, onKeyDown }) {
   return <article className={`widget widget--${def.kind}`} data-id={w.id} data-type={w.type} data-size={size}
     aria-label={`${def.title}, ${SIZES[size].label.toLowerCase()}`} tabIndex={editing ? 0 : undefined} onKeyDown={onKeyDown}>
     <div className="widget-inner" style={{ '--jd': jd }}>
-      <div className="widget-card glass" data-lens="">
+      <div className="widget-card glass">
         <div className="w-content"><def.Body size={size} /></div>
       </div>
       <button type="button" className="w-remove" aria-label={`Retirer ${def.title}`} tabIndex={editing ? 0 : -1} onClick={onRemove}>

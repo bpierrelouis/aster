@@ -107,11 +107,26 @@
    Zone de contenu
    -------------------------------------------------------------------------- */
 .view {
+  --tuck: 80px; /* ligne sous la barre haute où les cartes se replient */
   position: relative;
   max-width: calc(1320px + var(--rail-w) + var(--rail-gap) * 2 + 24px);
   min-height: 100vh; margin: 0 auto;
   padding: 92px clamp(20px, 3vw, 40px) var(--rail-gap) calc(var(--rail-w) + var(--rail-gap) * 2 + 4px);
   outline: none;
+}
+
+/* Défilement façon Météo : arrivée sous la barre haute, une carte se replie par
+   le haut, coins arrondis conservés, au lieu de passer derrière les menus. */
+@supports (animation-timeline: view()) {
+  .view .glass {
+    animation: tuck linear forwards;
+    animation-timeline: view(block var(--tuck) 0px);
+    animation-range: exit-crossing 0% exit-crossing 100%;
+  }
+}
+@keyframes tuck {
+  from { clip-path: inset(0 0 -80px 0 round var(--radius, var(--r-l)) var(--radius, var(--r-l)) 0 0); }
+  to { clip-path: inset(100% 0 -80px 0 round var(--radius, var(--r-l)) var(--radius, var(--r-l)) 0 0); }
 }
 
 /* --------------------------------------------------------------------------
@@ -130,7 +145,7 @@
     .topbar { padding: 10px 12px 0; gap: 8px; }
   .ecole-chip span { display: none; }
   .ecole-chip { padding: 0 10px; margin-right: 0; }
-  .view { padding: 72px 14px calc(max(10px, env(safe-area-inset-bottom)) + 70px); }
+  .view { --tuck: 64px; padding: 72px 14px calc(max(10px, env(safe-area-inset-bottom)) + 70px); }
   .subnav .seg-btn span:not(.seg-count):not(.code-badge) { display: none; }
   .subnav .seg-btn { padding: 0 12px; }
 }

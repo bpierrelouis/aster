@@ -157,7 +157,7 @@ export function Remontees() {
       {can('remontee.create') && <button className="btn btn--primary" onClick={() => openNewRemontee()}><Icon name="alertes" size={18} /><span>Signaler un problème</span></button>}
     </PageHead>
     <div className={`rm-layout ${selId ? 'has-selection' : ''}`}>
-      <section className="rm-panel glass" data-lens="" aria-label="Liste des remontées">
+      <section className="rm-panel glass" aria-label="Liste des remontées">
         <div className="rm-toolbar">
           <label className="field field--search field--compact"><Icon name="recherche" size={20} /><input type="search" placeholder="Matériel, identifiant, description, auteur…" value={query} onChange={(e) => setQuery(e.target.value)} aria-label="Filtrer les remontées" /></label>
           <div className="seg" role="radiogroup" aria-label="Bâtiment">
@@ -174,7 +174,7 @@ export function Remontees() {
             : <div className="w-empty w-empty--l"><Icon name={query || bat ? 'recherche' : EMPTIES[tab][0]} size={32} /><span>{query || bat ? 'Aucune remontée ne correspond à ces filtres.' : EMPTIES[tab][1]}</span></div>}
         </div>
       </section>
-      <aside className="rm-detail glass" data-lens="" aria-live="polite"><RemonteeDetail selId={selId} tab={tab} /></aside>
+      <aside className="rm-detail glass" aria-live="polite"><RemonteeDetail selId={selId} tab={tab} /></aside>
     </div>
   </div>;
 }

@@ -59,6 +59,9 @@
 .glass--clear { background: transparent; }
 .glass--flat { box-shadow: none; }
 
+/* Dans le contenu, le verre repose sur le fond uni : aucun flou à recalculer pendant le défilement */
+.view .glass { -webkit-backdrop-filter: none; backdrop-filter: none; }
+
 /* Ambiance Encre : pas de lumière qui suit le pointeur, un liseré régulier */
 :root[data-ambiance="encre"] .glass::before { background: var(--rim-mid); }
 :root[data-ambiance="encre"] .glass::after { background: linear-gradient(180deg, var(--sheen), transparent 42%); }

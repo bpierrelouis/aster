@@ -3,8 +3,9 @@
    1. Lentille : pour chaque élément .glass[data-lens], génère une carte de
       déplacement (SDF d'un rectangle arrondi) et un filtre SVG appliqué en
       backdrop-filter. Les bords réfractent réellement ce qui est derrière.
-   2. Lumière : un point lumineux suit le pointeur ; chaque surface reçoit
-      --la (angle), --lx/--ly (position locale) et --li (intensité).
+   2. Lumière (ambiances claires) : un point lumineux suit le pointeur ;
+      chaque surface reçoit --la (angle), --lx/--ly (position locale) et
+      --li (intensité). Rien n'est recalculé pendant le défilement.
    3. Niveaux : liquid | frost | solid, avec repli automatique hors Chromium.
    ========================================================================== */
 
@@ -268,6 +269,5 @@ export function initGlass(initialLevel = 'liquid') {
   });
   mo.observe(document.body, { childList: true, subtree: true });
   addEventListener('pointermove', onPointer, { passive: true });
-  addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(updateLight); }, { passive: true, capture: true });
   scan(document);
 }
