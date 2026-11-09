@@ -77,7 +77,8 @@ a.w-count:hover { background: var(--fill-2); color: var(--ink-1); }
 /* --------------------------------------------------------------------------
    Graphiques
    -------------------------------------------------------------------------- */
-.chart-host { position: relative; flex: 1; min-height: 0; margin: 0 -4px -4px; cursor: crosshair; }
+/* contain: size : le graphique prend la place disponible sans agrandir le widget */
+.chart-host { position: relative; flex: 1; min-height: 0; margin: 0 -4px -4px; cursor: crosshair; contain: size; }
 .chart-svg { display: block; overflow: visible; }
 .ch-grid { stroke: var(--chart-grid); stroke-width: 1; shape-rendering: crispEdges; }
 .ch-tick { font-size: 11px; fill: var(--ink-3); font-variant-numeric: tabular-nums; }
@@ -161,8 +162,9 @@ button.row:hover { background: var(--fill-1); }
 /* ===== ASTER : compléments ===== */
 .kpi--link { color: inherit; border-radius: var(--r-m); }
 .kpi-label--top { margin-top: 0; font-size: 15px; font-weight: 700; color: var(--ink-1); }
-.kpi-pair { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: end; }
+.kpi-pair { flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: end; }
 .kpi-pair > div { display: flex; flex-direction: column; padding: 12px 14px; border-radius: 16px; background: var(--fill-1); }
+.kpi-pair .kpi-label { white-space: normal; }
 .kpi-pair .kpi-value { font-size: 30px; }
 .w-link { font-size: 13px; font-weight: 650; color: var(--iris); }
 .w-link:hover { text-decoration: underline; text-underline-offset: 3px; }

@@ -6,7 +6,7 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(var(--board-cols), minmax(0, 1fr));
-  grid-auto-rows: var(--board-row);
+  grid-auto-rows: minmax(var(--board-row), auto); /* une ligne s'agrandit si un widget a plus d'éléments à afficher */
   grid-auto-flow: row dense;
   gap: var(--board-gap);
 }
