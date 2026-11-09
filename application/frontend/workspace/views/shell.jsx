@@ -17,7 +17,7 @@ import { setGlassLevel } from '../core/glass.js';
 import { role as roleOf } from '../core/catalog.js';
 import { remontees, batiments, batimentLabel, index } from '../core/selectors.js';
 import { num } from '../core/format.js';
-import { reduceMotion } from '../core/dom.js';
+import { reveal } from '../ui/reveal.js';
 import { AccountPopover, EcolePopover, AlertsPopover, Spotlight, ecoleNom, weekNotifications } from './shell-menus.jsx';
 
 /* Modules du menu principal */
@@ -106,14 +106,12 @@ export function Shell() {
     return () => document.removeEventListener('keydown', onKey);
   }, [spotlight]);
 
-  // Changement d'écran : popover fermé ; changement de module : retour en haut et entrée du contenu
+  // Changement d'écran : popover fermé ; changement de module : retour en haut
   useEffect(() => { setPop(null); }, [path]);
   const firstModule = useRef(true);
   useEffect(() => {
     if (firstModule.current) { firstModule.current = false; return; }
     scrollTo({ top: 0, behavior: 'instant' });
-    // Transformation seule : une opacité sur un ancêtre couperait le verre de son arrière-plan
-    if (!reduceMotion()) viewRef.current?.animate([{ transform: 'translateY(10px)' }, { transform: 'none' }], { duration: 320, easing: 'cubic-bezier(.2,.8,.2,1)' });
   }, [navId]);
 
   // Lentille du menu principal sur le module actif
@@ -140,9 +138,6 @@ export function Shell() {
   useLayoutEffect(fitSub);
   useEffect(() => { addEventListener('resize', fitSub); return () => removeEventListener('resize', fitSub); }, [fitSub]);
 
-  // Module non accessible au profil : retour à l'accueil
-  if (nav && !allowed(nav)) return <Navigate to="/accueil" replace />;
-
   const items = subnav(navId);
   // Une salle ouverte active l'onglet de son bâtiment
   const roomId = path.match(/^\/salles\/salle\/([^/]+)/)?.[1];
@@ -150,6 +145,13 @@ export function Shell() {
   const activePath = room ? `/salles/batiment/${room.batiment}` : path;
   const activeItem = items.slice().sort((a, b) => b.path.length - a.path.length)
     .find((i) => activePath === i.path || activePath.startsWith(`${i.path}/`)) ?? items[0];
+
+  // Entrée de chaque écran (onglet du menu secondaire) : cartes et textes glissent de gauche à droite
+  const screen = activeItem?.path ?? path;
+  useLayoutEffect(() => { reveal(viewRef.current); }, [screen]);
+
+  // Module non accessible au profil : retour à l'accueil
+  if (nav && !allowed(nav)) return <Navigate to="/accueil" replace />;
 
   const attente = remontees().attente.length;
   const notifs = weekNotifications().length;
