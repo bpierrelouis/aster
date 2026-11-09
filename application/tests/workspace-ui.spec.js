@@ -105,6 +105,34 @@ test('cliquer une ligne de l’inventaire la sélectionne', async ({ page }) => 
   await expect(row.locator('input[type=checkbox]')).not.toBeChecked();
 });
 
+test('un tableau de bord personnalisé se crée, se renomme et se supprime depuis l’accueil', async ({ page }) => {
+  const name = `Tableau ${Date.now()}`;
+  await open(page, '/accueil');
+  await page.getByRole('button', { name: 'Nouveau tableau de bord', exact: true }).click();
+  let dialog = page.getByRole('dialog', { name: 'Nouveau tableau de bord' });
+  await dialog.getByLabel('Nom').fill(name);
+  await dialog.getByLabel('Nom').press('Enter');
+  await expect(page).toHaveURL(/\/accueil\/tb-/);
+  await expect(page.locator('.subnav .is-on')).toHaveText(name);
+  await page.getByRole('button', { name: 'Ajouter un widget', exact: true }).click();
+  await page.getByRole('dialog', { name: 'Ajouter un widget' }).getByRole('button', { name: 'Ajouter', exact: true }).first().click();
+  await expect(page.locator('.widget')).toHaveCount(1);
+  await page.reload();
+  await expect(page.locator('.subnav .is-on')).toHaveText(name);
+  await expect(page.locator('.widget')).toHaveCount(1);
+  await page.getByRole('button', { name: 'Personnaliser' }).click();
+  await page.getByRole('button', { name: 'Renommer le tableau de bord' }).click();
+  dialog = page.getByRole('dialog', { name: 'Renommer le tableau de bord' });
+  await dialog.getByLabel('Nom').fill(`${name} bis`);
+  await dialog.getByRole('button', { name: 'Renommer', exact: true }).click();
+  await expect(page.locator('.subnav .is-on')).toHaveText(`${name} bis`);
+  await page.getByRole('button', { name: 'Personnaliser' }).click();
+  await page.getByRole('button', { name: 'Supprimer le tableau de bord' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Supprimer', exact: true }).click();
+  await expect(page).toHaveURL(/\/accueil$/);
+  await expect(page.locator('.subnav')).not.toContainText(name);
+});
+
 test('quitter une salle de la vue éclatée retire son état survolé', async ({ page }) => {
   await open(page, '/salles/batiment/C');
   const room = page.locator('.blk').first();

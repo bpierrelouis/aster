@@ -1,6 +1,7 @@
 /* ==========================================================================
    Accueil : tableaux de bord personnalisables
-   - « Mon tableau de bord », et les tableaux spécialisés Parc et Remontées (RG-36)
+   - « Mon tableau de bord », les tableaux spécialisés Parc et Remontées (RG-36)
+     et les tableaux ajoutés par le compte (dashboard-boards.jsx)
    - Mode édition (bouton ou appui long) : les widgets « respirent »
    - Glisser pour réordonner (FLIP), tailles S/M/L/XL, retrait, galerie d'ajout
    - Clavier en mode édition : ←/→ déplacer, Entrée taille suivante, Suppr retirer
@@ -9,7 +10,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { flip, uid, reduceMotion, $$ } from '../core/dom.js';
 import { store } from '../core/store.js';
 import { useStore } from '../core/useStore.js';
@@ -18,6 +19,7 @@ import { can } from '../core/permissions.js';
 import { SIZES, widgetDef } from '../widgets/catalog.jsx';
 import { PageHead } from '../widgets/parts.jsx';
 import { Widget, Gallery } from './dashboard-widgets.jsx';
+import { customBoards, openBoardForm, deleteBoard } from './dashboard-boards.jsx';
 import { Icon, Tile } from '../ui/icons.jsx';
 import { Sheet, openSheet, notify } from '../ui/overlays.jsx';
 import { useTitle } from '../ui/useTitle.js';
@@ -31,11 +33,15 @@ const move = (list, from, to) => { const next = [...list]; next.splice(to, 0, ..
 
 export function Dashboard() {
   const state = useStore();
+  const navigate = useNavigate();
   const { board: requested = 'perso' } = useParams();
+  const custom = customBoards().find((b) => b.id === requested) ?? null;
   let boardId = requested;
-  if (boardId !== 'perso' && !can(`dashboard.${boardId}`)) boardId = 'perso';
+  if (!custom && boardId !== 'perso' && !can(`dashboard.${boardId}`)) boardId = 'perso';
   if (!state.layouts[state.role]?.[boardId]) boardId = 'perso';
-  useTitle(TITLES[boardId]);
+  const board = boardId === requested ? custom : null; // tableau personnalisé affiché
+  const title = board?.nom ?? TITLES[boardId];
+  useTitle(title);
 
   const [editing, setEditingState] = useState(false);
   const [order, setOrder] = useState(null); // ordre provisoire (identifiants) pendant un glisser
@@ -264,12 +270,20 @@ export function Dashboard() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return <div className={`view-dashboard${editing ? ' is-editing' : ''}`}>
-    <PageHead title={TITLES[boardId]}>
-      <button type="button" className="btn btn--glass btn--icon" data-tip="Disposition par défaut" aria-label="Revenir à la disposition par défaut" hidden={!editing}
+    <PageHead title={title}>
+      {board ? <>
+        <button type="button" className="btn btn--glass btn--icon" data-tip="Renommer" aria-label="Renommer le tableau de bord" hidden={!editing} onClick={() => openBoardForm(board)}>
+          <Icon name="pencil" size={20} />
+        </button>
+        <button type="button" className="btn btn--glass btn--icon" data-tip="Supprimer le tableau de bord" aria-label="Supprimer le tableau de bord" hidden={!editing}
+          onClick={async () => { if (await deleteBoard(board)) navigate('/accueil'); }}>
+          <Icon name="trash" size={20} />
+        </button>
+      </> : <button type="button" className="btn btn--glass btn--icon" data-tip="Disposition par défaut" aria-label="Revenir à la disposition par défaut" hidden={!editing}
         onClick={() => { store.resetLayout(boardId); notify('Disposition par défaut', { icon: 'refresh', tone: 'info' }); }}>
         <Icon name="refresh" size={20} />
-      </button>
-      <button type="button" className="btn btn--glass btn--icon" data-tip="Ajouter un widget" aria-label="Ajouter un widget" hidden={!editing} onClick={openGallery}>
+      </button>}
+      <button type="button" className="btn btn--glass btn--icon" data-tip="Ajouter un widget" aria-label="Ajouter un widget" hidden={!editing || !items.length} onClick={openGallery}>
         <Icon name="widgets" size={20} />
       </button>
       <button type="button" className={`btn ${editing ? 'btn--primary' : 'btn--glass'}`} aria-pressed={editing} onClick={() => setEditing(!editing)}>
@@ -286,6 +300,11 @@ export function Dashboard() {
         onSize={(e, s) => setSize(e.currentTarget.closest('.widget'), s)}
         onKeyDown={onWidgetKey} />)}
     </section>
+    {!items.length && <div className="empty-state glass">
+      <Tile name="widgets" color="var(--iris)" size="xl" />
+      <p>Ce tableau de bord est vide. Choisissez les indicateurs, graphiques et listes à y afficher.</p>
+      <button type="button" className="btn btn--primary" onClick={openGallery}><Icon name="plus" size={18} /><span>Ajouter un widget</span></button>
+    </div>}
     <div className="sr-only" aria-live="polite">{live}</div>
   </div>;
 }

@@ -19,6 +19,7 @@ import { remontees, batiments, batimentLabel, index } from '../core/selectors.js
 import { num } from '../core/format.js';
 import { reveal } from '../ui/reveal.js';
 import { AccountPopover, EcolePopover, AlertsPopover, Spotlight, ecoleNom, weekNotifications } from './shell-menus.jsx';
+import { customBoards, openBoardForm } from './dashboard-boards.jsx';
 
 /* Modules du menu principal */
 export const NAV = [
@@ -38,6 +39,7 @@ function subnav(navId) {
       { path: '/accueil', label: 'Mon tableau de bord', icon: 'home' },
       can('dashboard.parc') && { path: '/accueil/parc', label: 'Parc', icon: 'materiel' },
       can('dashboard.remontees') && { path: '/accueil/remontees', label: 'Remontées', icon: 'ticket' },
+      ...customBoards().map((b) => ({ path: `/accueil/${b.id}`, label: b.nom, icon: 'gauge' })),
     ].filter(Boolean);
     case 'salles': return [
       { path: '/salles', label: 'Tous les bâtiments', icon: 'salles' },
@@ -158,6 +160,7 @@ export function Shell() {
   const r = roleOf(s.role);
   const ecole = ecoleNom(currentEcole());
   const switchable = can('ecole.switch');
+  const boards = navId === 'accueil' && can('dashboard.customize'); // tableaux de bord personnalisés
 
   return <>
     <a className="skip" href="#view">Aller au contenu</a>
@@ -173,7 +176,7 @@ export function Shell() {
       </div>
     </nav>
     <header className="topbar">
-      {items.length >= 2 && <nav ref={subRef} className="subnav seg seg--glass glass" data-lens="strong" aria-label="Menu secondaire">
+      {(items.length >= 2 || boards) && <nav ref={subRef} className="subnav seg seg--glass glass" data-lens="strong" aria-label="Menu secondaire">
         {items.map((i) => {
           const on = i === activeItem;
           return <Link key={i.path} to={i.path} className={`seg-btn${on ? ' is-on' : ''}${i.badge ? ' has-badge' : ''}`} aria-current={on ? 'page' : undefined}
@@ -183,6 +186,8 @@ export function Shell() {
             {i.count ? <span className="seg-count">{num(i.count)}</span> : null}
           </Link>;
         })}
+        {boards && <button type="button" className="seg-btn seg-btn--add" aria-label="Nouveau tableau de bord" data-tip="Nouveau tableau de bord" data-tip-pos="bottom"
+          onClick={() => openBoardForm()}><Icon name="plus" size={17} /></button>}
       </nav>}
       <div className="topbar-actions glass" data-lens="strong">
         <button type="button" className={`ecole-chip${switchable ? '' : ' is-static'}`} aria-label={`École affichée : ${ecole}`}
