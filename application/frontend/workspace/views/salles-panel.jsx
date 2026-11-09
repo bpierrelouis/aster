@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Salles · panneau latéral : vue d'ensemble, fiche de salle, stock et
-   cartes de matériel (sélection, glisser-déposer, affectation).
+   Salles · panneau latéral : vue d'ensemble, fiche de salle, stock (seul à
+   l'écran Stock) et cartes de matériel (sélection, glisser-déposer, affectation).
    ========================================================================== */
 
 import { useRef } from 'react';
@@ -161,7 +161,6 @@ export function Stock({ selected, devs, act }) {
     <div className="insp-head">
       <Tile name="stockage" color="var(--c8)" size="l" />
       <div className="insp-title"><h2>Stock</h2><span>Matériels sans localisation</span></div>
-      <div className="insp-actions"><Link className="icon-btn" to="/salles" aria-label="Fermer"><Icon name="close" size={18} /></Link></div>
     </div>
     <ul className="stat-row">
       <li data-tip="En stock"><Icon name="stockage" size={20} /><b>{num(s.total)}</b></li>
@@ -171,8 +170,8 @@ export function Stock({ selected, devs, act }) {
       <span className="insp-section-title"><Icon name="materiel" size={18} />Matériels</span>
       {can('materiel.create') && <button className="icon-btn icon-btn--glass" aria-label="Ajouter un matériel" data-tip="Ajouter un matériel" onClick={() => openMaterielForm(null, { salleId: null })}><Icon name="plus" size={18} /></button>}
     </div>
-    <DevGroups list={list} draggable={can('materiel.move')} mode="stock" selected={selected} {...devs} />
-    {can('materiel.move') && list.length && !selected.size ? <p className="hint-s"><Icon name="deplacement" size={16} />Glissez une pastille sur une salle pour l’affecter. Ctrl ou Maj pour en sélectionner plusieurs.</p> : null}
+    <DevGroups list={list} draggable={false} mode="stock" selected={selected} {...devs} />
+    {list.length && !selected.size ? <p className="hint-s"><Icon name="deplacement" size={16} />Sélectionnez une pastille pour l’affecter à une salle. Ctrl ou Maj pour en sélectionner plusieurs.</p> : null}
     <DevCard ids={[...selected]} mode="stock" salleId={null} act={act} />
   </>;
 }

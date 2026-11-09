@@ -70,17 +70,18 @@ test('les noms de toutes les salles sont visibles dans la vue d’ensemble', asy
   expect(await sub.evaluate((n) => n.scrollWidth <= n.clientWidth + 1)).toBe(true);
 });
 
-test('le stock affiche tous les bâtiments, même après un bâtiment', async ({ page }) => {
+test('le stock n’affiche que le stock', async ({ page }) => {
   await open(page, '/salles/batiment/C');
   await expect(page.locator('#view h1')).toHaveText('Bâtiment C');
   await page.locator('.subnav').getByRole('link', { name: 'Stock' }).click();
   await expect(page).toHaveURL(/salles\/stock/);
   await expect(page.locator('#view h1')).toHaveText('Stock');
-  await expect(page.locator('.bat-card')).toHaveCount(4);
   await expect(page.locator('.spanel .insp-title h2')).toHaveText('Stock');
+  await expect(page.locator('.bat-card, .iso, .floor-slab')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Nouvelle salle', exact: true })).toHaveCount(0);
   await page.locator('.subnav').getByRole('link', { name: /Bâtiment B/ }).click();
   await expect(page.locator('#view h1')).toHaveText('Bâtiment B');
-  await expect(page.locator('.bat-card')).toHaveCount(0);
+  await expect(page.locator('.floor-slab').first()).toBeVisible();
 });
 
 test('les titres d’écran ne sont pas affichés', async ({ page }) => {

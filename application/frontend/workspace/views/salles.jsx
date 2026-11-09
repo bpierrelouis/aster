@@ -7,6 +7,7 @@
    balise dorée une remontée en attente.
    - Glisser un matériel (ou une sélection) sur une salle ou sur le stock :
      affectation immédiate (RG-26, RG-27). Alternative clavier dans la fiche.
+   - L'écran Stock ne montre que le stock ; l'affectation passe par la fiche.
    - Créer, renommer ou changer le bâtiment d'une salle : administrateurs.
    ========================================================================== */
 
@@ -35,7 +36,7 @@ function routeState(params, query) {
   const x = params.mode === 'salle' && params.id ? ix.salle.get(params.id) : null;
   if (x) return { mode: 'salle', salleId: x.id, stageBat: x.batiment, stageFloor: floorLevel(x) };
   if (params.mode === 'batiment' && params.id && batiments().includes(params.id)) return { mode: 'batiment', salleId: null, stageBat: params.id, stageFloor: floor };
-  if (params.mode === 'stock' && can('materiel.move')) return { mode: 'stock', salleId: null, stageBat: null, stageFloor: null }; // tous les bâtiments, cibles du glisser-déposer
+  if (params.mode === 'stock' && can('materiel.move')) return { mode: 'stock', salleId: null, stageBat: null, stageFloor: null };
   return { mode: 'all', salleId: null, stageBat: null, stageFloor: floor };
 }
 
@@ -94,12 +95,13 @@ export function Salles() {
   const sig = useMemo(() => signature(state), [store.version]); // eslint-disable-line react-hooks/exhaustive-deps
   useLayoutEffect(() => {
     const host = sceneRef.current;
+    if (!host) return undefined; // écran Stock : pas de scène
     host.classList.add('is-placing');
     sizeIso();
     void host.offsetWidth; // styles finaux appliqués avant de réactiver les transitions
     const raf = requestAnimationFrame(() => host.classList.remove('is-placing'));
     return () => cancelAnimationFrame(raf);
-  }, [sig, state.role, stageBat]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [sig, state.role, stageBat, mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const ro = new ResizeObserver(() => sizeIso());
@@ -225,15 +227,14 @@ export function Salles() {
 
   const stageModel = stageBat ? modelOf(stageBat, .88) : null;
   const x = salleId ? ix.salle.get(salleId) : null;
-  const canManage = can('salle.manage');
   const title = mode === 'stock' ? 'Stock' : stageBat ? `${batimentLabel(stageBat)}${stageFloor === null ? '' : ` · ${floorLabel(stageFloor)}`}` : 'Salles';
 
   return <div ref={rootRef} className={`view-salles${ghost ? ' is-dragging-mat' : ''}`} onPointerOver={onOver} onPointerLeave={() => { if (hoverId) setHoverId(null); }}>
     <PageHead title={title}>
-      {canManage && <button className="btn btn--glass" onClick={() => openSalleForm(null, { batiment: stageBat, etage: stageFloor ?? 0 })}><Icon name="plus" size={18} /><span>Nouvelle salle</span></button>}
+      {can('salle.manage') && mode !== 'stock' && <button className="btn btn--glass" onClick={() => openSalleForm(null, { batiment: stageBat, etage: stageFloor ?? 0 })}><Icon name="plus" size={18} /><span>Nouvelle salle</span></button>}
     </PageHead>
-    <div className="salles">
-      <section className={`iso-stage${stageBat ? '' : ' is-overview'}`} aria-label="Bâtiments et étages">
+    <div className={`salles${mode === 'stock' ? ' is-stock' : ''}`}>
+      {mode !== 'stock' && <section className={`iso-stage${stageBat ? '' : ' is-overview'}`} aria-label="Bâtiments et étages">
         <div className="scene" ref={sceneRef}>
           {stageModel
             ? <div className="iso is-exploded" ref={scene.register(stageModel, { tagW: 190 })}>
@@ -248,7 +249,7 @@ export function Salles() {
           <span><span className="lg-key lg-key--hs" />Matériel hors service</span>
           <span><span className="lg-key lg-key--wait" />Remontée en attente</span>
         </div>
-      </section>
+      </section>}
       <aside className="spanel glass">
         {mode === 'salle' && x ? <SalleDetail x={x} stageBat={stageBat} selected={selected} devs={devs} act={act} />
           : mode === 'stock' ? <Stock selected={selected} devs={devs} act={act} />

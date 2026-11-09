@@ -21,6 +21,13 @@
 
 .salles { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: var(--sp-6); align-items: start; }
 
+/* Écran Stock : le stock seul, sur toute la largeur */
+.salles.is-stock { grid-template-columns: minmax(0, 1fr); }
+.salles.is-stock .spanel { position: static; max-height: none; overflow: visible; }
+.salles.is-stock .dev-grid { grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); }
+.salles.is-stock .dev-card { bottom: var(--rail-gap); max-width: 560px; }
+@media (max-width: 760px) { .salles.is-stock .dev-card { bottom: calc(max(10px, env(safe-area-inset-bottom)) + 76px); } } /* au-dessus de la barre basse */
+
 /* --------------------------------------------------------------------------
    Scène isométrique
    -------------------------------------------------------------------------- */
