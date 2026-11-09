@@ -231,7 +231,7 @@ function updateLight() {
 }
 
 function onPointer(e) {
-  if (e.pointerType === 'touch') return;
+  if (e.pointerType === 'touch' || document.documentElement.dataset.ambiance === 'encre') return;
   px = e.clientX; py = e.clientY;
   if (!raf) raf = requestAnimationFrame(updateLight);
 }

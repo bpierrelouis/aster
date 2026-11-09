@@ -59,6 +59,10 @@
 .glass--clear { background: transparent; }
 .glass--flat { box-shadow: none; }
 
+/* Ambiance Encre : pas de lumière qui suit le pointeur, un liseré régulier */
+:root[data-ambiance="encre"] .glass::before { background: var(--rim-mid); }
+:root[data-ambiance="encre"] .glass::after { background: linear-gradient(180deg, var(--sheen), transparent 42%); }
+
 /* Niveau "solid" ou transparence réduite : pas de flou */
 :root[data-glass="solid"] .glass {
   -webkit-backdrop-filter: none !important;
