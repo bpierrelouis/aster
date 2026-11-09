@@ -32,21 +32,30 @@ test('tous les écrans se chargent sans erreur JavaScript', async ({ page }) => 
   expect(errors).toEqual([]);
 });
 
-test('les étages filtrent les salles, ordonnées par nom et de hauteur fixe', async ({ page, request }) => {
+test('un étage choisi est mis en évidence parmi tous les étages, salles ordonnées par nom et de hauteur fixe', async ({ page, request }) => {
   await open(page, '/salles/batiment/C');
   const data = await state(request);
-  const levels = [...new Set(data.salles.filter((s) => s.batiment === 'C').map((s) => s.etage))];
+  const rooms = data.salles.filter((s) => s.batiment === 'C');
+  const levels = [...new Set(rooms.map((s) => s.etage))];
   await expect(page.locator('.floor-slab')).toHaveCount(levels.length);
+  await expect(page.getByRole('button', { name: /Ajouter un étage|Modifier l’étage/ })).toHaveCount(0);
   await page.getByRole('link', { name: /^1er étage, \d+ salles$/ }).click();
   await expect(page).toHaveURL(/etage=1/);
-  const expected = data.salles.filter((s) => s.batiment === 'C' && s.etage === 1)
-    .sort((a, b) => a.nom.localeCompare(b.nom, 'fr', { numeric: true }));
+  const expected = rooms.filter((s) => s.etage === 1).sort((a, b) => a.nom.localeCompare(b.nom, 'fr', { numeric: true }));
   expect(expected.length).toBe(8);
-  await expect(page.locator('.blk')).toHaveCount(expected.length);
-  expect(await page.locator('.blk .blk-label b').allTextContents()).toEqual(expected.map((s) => s.nom));
+  // Tous les étages restent affichés ; celui choisi est mis en évidence et filtre la liste
+  await expect(page.locator('.floor-slab')).toHaveCount(levels.length);
+  await expect(page.locator('.blk')).toHaveCount(rooms.length);
+  expect(await page.locator('.floor-slab.is-active .blk .blk-label b').allTextContents()).toEqual(expected.map((s) => s.nom));
+  expect(await page.locator('.salle-row > b').allTextContents()).toEqual(expected.map((s) => s.nom));
   expect(await page.locator('.blk').evaluateAll((nodes) => new Set(nodes.map((n) => getComputedStyle(n).height + getComputedStyle(n).getPropertyValue('--h3'))).size)).toBe(1);
+  // Huit salles : grille de trois colonnes sur trois rangées, la plus proche d'un carré
+  const cells = await page.locator('.floor-slab.is-active .blk').evaluateAll((nodes) => nodes.map((n) => [n.style.getPropertyValue('--bx'), n.style.getPropertyValue('--by')]));
+  expect(new Set(cells.map(([x]) => x)).size).toBe(3);
+  expect(new Set(cells.map(([, y]) => y)).size).toBe(3);
   await page.locator('.salle-row').first().click();
   await expect(page.locator('.insp-title')).toContainText(expected[0].nom);
+  await expect(page.locator('.floor-slab')).toHaveCount(levels.length);
 });
 
 test('les noms de toutes les salles sont visibles dans la vue d’ensemble', async ({ page, request }) => {

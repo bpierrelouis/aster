@@ -1,5 +1,6 @@
 /* ==========================================================================
-   Salles · formulaires : salle (création, modification) et étage.
+   Salles · formulaire de salle (création, modification). L'étage est celui
+   indiqué sur la salle : les étages d'un bâtiment sont ceux de ses salles.
    ========================================================================== */
 
 import { useEffect, useRef, useState } from 'react';
@@ -9,10 +10,9 @@ import { Icon, Tile } from '../ui/icons.jsx';
 import { uid } from '../core/dom.js';
 import { store, currentEcole } from '../core/store.js';
 import { can } from '../core/permissions.js';
-import { scope, batimentLabel } from '../core/selectors.js';
-import { Sheet, openSheet, notify, useSheetClose } from '../ui/overlays.jsx';
+import { batimentLabel } from '../core/selectors.js';
+import { Sheet, openSheet, notify } from '../ui/overlays.jsx';
 import { SheetForm, SheetFormActions } from '../ui/forms.jsx';
-import { floorLevel, floorsOf } from './salles-scene.jsx';
 
 export function openSalleForm(salle = null, defaults = {}) {
   if (!can('salle.manage')) return;
@@ -68,68 +68,4 @@ function SalleSheet({ salle, defaults }) {
       </div>
     </SheetForm>
   </Sheet>;
-}
-
-/** Un étage reste visible même avant l'ajout de sa première salle. */
-export function openFloorForm(batiment, previous = null) {
-  if (!can('salle.manage') || !batiment) return;
-  const ecoleId = currentEcole() === 'all' ? scope().salles.find((s) => s.batiment === batiment)?.ecoleId : currentEcole();
-  if (!ecoleId) return;
-  openSheet(<FloorSheet batiment={batiment} previous={previous} ecoleId={ecoleId} />);
-}
-
-const sameFloor = (ecoleId, batiment, niveau) => (f) => f.ecoleId === ecoleId && f.batiment === batiment && f.niveau === niveau;
-
-function FloorSheet({ batiment, previous, ecoleId }) {
-  const navigate = useNavigate();
-  const [levels] = useState(() => floorsOf(batiment));
-  const [empty] = useState(() => previous !== null && !scope().salles.some((r) => r.ecoleId === ecoleId && r.batiment === batiment && floorLevel(r) === previous));
-
-  async function save(form) {
-    const value = form.get('niveau');
-    const niveau = Number(value);
-    if (!value || !Number.isInteger(niveau) || niveau < -5 || niveau > 30 || (niveau !== previous && levels.includes(niveau))) throw Error('Choisissez un étage libre entre −5 et 30.');
-    store.update('data', (state) => {
-      state.etages ??= [];
-      const old = state.etages.find(sameFloor(ecoleId, batiment, previous));
-      if (old) old.niveau = niveau;
-      else state.etages.push({ id: uid('etage'), ecoleId, batiment, niveau });
-      if (previous !== null) state.salles.filter((r) => r.ecoleId === ecoleId && r.batiment === batiment && floorLevel(r) === previous).forEach((r) => { r.etage = niveau; });
-    });
-    await store.flush();
-    navigate(`/salles/batiment/${encodeURIComponent(batiment)}?etage=${niveau}`);
-    notify('Étage enregistré', { icon: 'layers' });
-  }
-
-  return <Sheet title={previous === null ? 'Ajouter un étage' : 'Modifier l’étage'} size="s" lead={<Tile name="layers" color="var(--iris)" size="m" />}
-    footer={<>
-      {empty && <RemoveFloorButton batiment={batiment} ecoleId={ecoleId} previous={previous} />}
-      <SheetFormActions form="floor-form" />
-    </>}>
-    <SheetForm id="floor-form" onSave={save}>
-      <p>{batimentLabel(batiment)}</p>
-      <label className="field"><span className="field-label">Numéro de l’étage</span><input name="niveau" type="number" min="-5" max="30" step="1" defaultValue={previous ?? Math.max(0, ...levels) + 1} required /><span className="field-hint">0 : rez-de-chaussée. Les salles conservent leur ordre alphabétique.</span></label>
-    </SheetForm>
-  </Sheet>;
-}
-
-/** Suppression d'un étage sans salle : action distincte de l'enregistrement. */
-function RemoveFloorButton({ batiment, ecoleId, previous }) {
-  const close = useSheetClose();
-  const navigate = useNavigate();
-  const [pending, setPending] = useState(false);
-  async function remove() {
-    setPending(true);
-    try {
-      store.update('data', (state) => { state.etages = (state.etages ?? []).filter((f) => !sameFloor(ecoleId, batiment, previous)(f)); });
-      await store.flush();
-      close();
-      navigate(`/salles/batiment/${encodeURIComponent(batiment)}`);
-      notify('Étage supprimé', { icon: 'layers' });
-    } catch (error) {
-      notify(error.message, { tone: 'danger' });
-      setPending(false);
-    }
-  }
-  return <button className="btn btn--ghost" type="button" disabled={pending} onClick={remove}>Supprimer l’étage vide</button>;
 }

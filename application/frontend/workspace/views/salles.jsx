@@ -1,7 +1,8 @@
 /* ==========================================================================
    Salles
    Les salles sont rattachées à une école et portent leur bâtiment (RG-02) :
-   les étages sont des dalles de verre. Les salles sont ordonnées par nom,
+   les étages sont des dalles de verre, toujours tous affichés ; un étage ou
+   une salle choisi est mis en évidence. Les salles sont ordonnées par nom,
    avec des blocs de hauteur constante, sans coordonnées physiques. Une balise rouge signale du matériel hors service, une
    balise dorée une remontée en attente.
    - Glisser un matériel (ou une sélection) sur une salle ou sur le stock :
@@ -24,7 +25,7 @@ import { useTitle } from '../ui/useTitle.js';
 import { PageHead } from '../widgets/parts.jsx';
 import { floorLabel, floorLevel, floorHref, modelOf, signature, BatCard, Building, fitIso } from './salles-scene.jsx';
 import { Overview, SalleDetail, Stock } from './salles-panel.jsx';
-import { openSalleForm, openFloorForm } from './salles-forms.jsx';
+import { openSalleForm } from './salles-forms.jsx';
 
 /** Mode affiché d'après l'adresse : all | batiment | salle | stock */
 function routeState(params, query) {
@@ -98,7 +99,7 @@ export function Salles() {
     void host.offsetWidth; // styles finaux appliqués avant de réactiver les transitions
     const raf = requestAnimationFrame(() => host.classList.remove('is-placing'));
     return () => cancelAnimationFrame(raf);
-  }, [sig, state.role, stageBat, stageFloor]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [sig, state.role, stageBat]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const ro = new ResizeObserver(() => sizeIso());
@@ -222,21 +223,20 @@ export function Salles() {
     if (id !== hoverId) setHoverId(id);
   };
 
-  const stageModel = stageBat ? modelOf(stageBat, stageFloor, .88) : null;
+  const stageModel = stageBat ? modelOf(stageBat, .88) : null;
   const x = salleId ? ix.salle.get(salleId) : null;
   const canManage = can('salle.manage');
   const title = mode === 'stock' ? 'Stock' : stageBat ? `${batimentLabel(stageBat)}${stageFloor === null ? '' : ` · ${floorLabel(stageFloor)}`}` : 'Salles';
 
   return <div ref={rootRef} className={`view-salles${ghost ? ' is-dragging-mat' : ''}`} onPointerOver={onOver} onPointerLeave={() => { if (hoverId) setHoverId(null); }}>
     <PageHead title={title}>
-      {canManage && stageBat && <button className="btn btn--glass" onClick={() => openFloorForm(stageBat, stageFloor)}><Icon name="layers" size={18} /><span>{stageFloor === null ? 'Ajouter un étage' : 'Modifier l’étage'}</span></button>}
       {canManage && <button className="btn btn--glass" onClick={() => openSalleForm(null, { batiment: stageBat, etage: stageFloor ?? 0 })}><Icon name="plus" size={18} /><span>Nouvelle salle</span></button>}
     </PageHead>
     <div className="salles">
       <section className={`iso-stage${stageBat ? '' : ' is-overview'}`} aria-label="Bâtiments et étages">
         <div className="scene" ref={sceneRef}>
           {stageModel
-            ? <div className={`iso ${stageFloor === null ? 'is-exploded' : 'is-floor'}`} ref={scene.register(stageModel, { tagW: 190 })}>
+            ? <div className="iso is-exploded" ref={scene.register(stageModel, { tagW: 190 })}>
                 <Building model={stageModel} {...scene.props} floorHref={floorHref(stageBat)} activeLevel={stageFloor} />
               </div>
             : <div className="bat-grid">{batiments().map((b) => <BatCard key={b} b={b} scene={scene} />)}</div>}
