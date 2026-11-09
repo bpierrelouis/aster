@@ -245,6 +245,25 @@ Au regard du sujet et des critères d’évaluation, l’équipe devra au minimu
 - une justification des contraintes applicatives ;
 - une démonstration de la couverture du besoin client.
 
+### Dossier d’architecture technique
+
+Le client demande un dossier d’architecture technique (entretien du 23 octobre, § 1.6). Les consignes ci-dessous ont été précisées par l’utilisateur le 9 novembre.
+
+Contenu attendu :
+
+- **contexte** : besoins et contraintes structurantes, présentés au plus près de l’architecture cible ;
+- **justification des briques** : rôle et choix de chaque composant, également au plus près de l’architecture cible ;
+- **architecture réelle** : celle effectivement mise en place pour la démonstration, réalisée le plus proprement possible avec les capacités et le savoir-faire de l’équipe ;
+- **versions des technologies** utilisées ;
+- **architecture cible**.
+
+Contraintes de l’architecture cible :
+
+- une application non protégée (NP) du ministère des Armées est hébergée sur le C1NP (cloud maîtrisé non protégé) ;
+- le système dispose d’un puits de logs ;
+- le système expose les points d’accès `/api/health` et `/api/info` ;
+- le système peut accéder à MindefConnect sur Internet, à Medusa (dépôt de paquets) et à Sismel (plateforme de messagerie).
+
 ### Soutenance
 
 - une présentation claire de l’organisation de l’équipe ;
