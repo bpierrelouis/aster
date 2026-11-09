@@ -37,7 +37,7 @@ Les productions remises aux cadres évaluateurs décrivent l’application cible
 
 | Destination | Fichiers concernés | Règle de contenu |
 | --- | --- | --- |
-| Productions destinées à la remise | Glossaire `docs/00-*`, règles et productions `docs/04-*` à `docs/16-*`, avec leurs images nécessaires dans `docs/assets/` | Fonctionnement cible, droits, données et contraintes de production ; aucune modalité propre au démonstrateur |
+| Productions destinées à la remise | Glossaire `docs/00-*`, règles et productions `docs/04-*` à `docs/18-*`, avec leurs images nécessaires dans `docs/assets/` | Fonctionnement cible, droits, données et contraintes de production ; aucune modalité propre au démonstrateur, sauf l’architecture réelle que le dossier d’architecture technique doit présenter, sans identifiant ni consigne de lancement |
 | Sources de travail internes | Cadrage `docs/02-*` et entretiens `docs/03-*` | Réponses en vigueur et historique des échanges ; ne pas les joindre automatiquement à une remise |
 | Source fournie par l’encadrement | Consignes `docs/01-*` | Sujet et critères d’évaluation, distincts des productions de l’équipe |
 | Réalisation et exploitation internes | `application/`, son README et ses configurations ; README général et `AGENTS.md` | Implémentation, démarrage, comptes de test et limites du démonstrateur |
@@ -65,6 +65,8 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 - [Fiche descriptive — Formateur](docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md) : supervision, alertes et remontées accessibles au formateur.
 - [Fiche descriptive — Administrateur](docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) : parc, postes, supervision, remontées et comptes de son école.
 - [Fiche descriptive — Super administrateur](docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) : adaptation globale des capacités de l'administrateur à toutes les écoles.
+- [Dossier d’architecture technique](docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) : contexte et contraintes, justification des briques, architecture réelle de démonstration, versions et architecture cible sur le C1NP, avec une annexe sur Keycloak.
+- [Diagrammes d’architecture](docs/18-DIAGRAMMES-ARCHITECTURE.md) : vues de l’architecture réelle et de l’architecture cible du dossier d’architecture technique.
 - [Design](design/README.md) : charte graphique, ressources visuelles et maquettes d’interface.
 - [Présentations](presentations/README.md) : supports datés et instructions pour les consulter.
 
