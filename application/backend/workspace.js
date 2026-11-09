@@ -404,7 +404,8 @@ export function createEngine({ state: initial, persist, pdf }) {
     async pdf(reportId, actor) {
       const report = scopedState(state, actor).remontees.find((r) => r.id === reportId);
       if (!report) fail(404, 'État des lieux introuvable.');
-      return pdf ? pdf(report, state) : reportPdf(report, state);
+      // Avec stockage : lien signé ; interface seule (sans stockage) : document produit à la demande
+      return pdf ? pdf(report, state) : { body: reportPdf(report, state) };
     },
     agent: {
       postes: () => state.postes.map((p) => ({ id: p.id, nomReseau: p.nomReseau, salleId: p.salleId, connecte: p.connecte })),
@@ -465,7 +466,8 @@ export function createWorkspaceRouter({ repository, actor }) {
   router.get('/reports/:id/pdf', async (req, res, next) => {
     try {
       const pdf = await repository.pdf(req.params.id, res.locals.actor);
-      res.type('application/pdf').set('Content-Disposition', `inline; filename="${req.params.id.replace(/[^a-zA-Z0-9-]/g, '')}.pdf"`).send(pdf);
+      if (pdf.url) return res.redirect(303, pdf.url);
+      res.type('application/pdf').set('Content-Disposition', `inline; filename="${req.params.id.replace(/[^a-zA-Z0-9-]/g, '')}.pdf"`).send(pdf.body);
     } catch (e) { next(e); }
   });
   router.use(errorHandler('Espace de travail'));

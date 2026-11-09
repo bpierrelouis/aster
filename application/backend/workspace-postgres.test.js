@@ -64,7 +64,8 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   const later = repo.read(admin);
   later.materiels.find((m) => m.id === mat.id).modele = 'Renommé après la remontée';
   await repo.update(later, later.revision, admin);
-  assert.deepEqual(await repo.pdf(report.id, teacher), snapshot);
+  assert.deepEqual(await repo.pdf(report.id, teacher), { url: `memoire:///${key}` }, 'lien vers le document déposé, sans transit');
+  assert.deepEqual(storage.objects.get(key), snapshot);
 
   // Relecture complète depuis PostgreSQL
   const reopened = await open(storage);
@@ -81,7 +82,7 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   assert.equal(reopened.read(teacher).prefs.ambiance, 'brume', 'préférences propres à chaque compte');
   assert(state.detections.some((d) => d.processus === 'steam.exe' && d.arret === 'réussi'));
   assert(state.processus.find((p) => p.nom === 'steam.exe').stoppedAt);
-  assert.deepEqual(await reopened.pdf(report.id, teacher), snapshot);
+  assert.deepEqual(await reopened.pdf(report.id, teacher), { url: `memoire:///${key}` });
   await assert.rejects(reopened.pdf(state.remontees.find((r) => r.ecoleId === 'e-res').id, admin), { status: 404 });
   const row = (await pool.query(`SELECT date_reception FROM ${schema}.aster_materiel WHERE id = 'm-test'`)).rows[0];
   assert.equal(row.date_reception.toISOString(), '2026-10-01T00:00:00.000Z');
@@ -97,9 +98,11 @@ test('PostgreSQL : un état des lieux manquant est produit puis déposé', { ski
   await pool.query(`UPDATE ${schema}.aster_remontee SET etat_des_lieux_cle = NULL WHERE id = $1`, [id]);
   storage.objects.clear();
   const reopened = await open(storage);
-  const pdf = await reopened.pdf(id, admin);
-  assert.equal(pdf.subarray(0, 5).toString(), '%PDF-');
+  const { url } = await reopened.pdf(id, admin);
   assert.equal(storage.objects.size, 1);
+  const [[key, body]] = storage.objects;
+  assert.equal(url, `memoire:///${key}`);
+  assert.equal(body.subarray(0, 5).toString(), '%PDF-');
   assert((await pool.query(`SELECT etat_des_lieux_cle FROM ${schema}.aster_remontee WHERE id = $1`, [id])).rows[0].etat_des_lieux_cle);
 });
 
@@ -110,6 +113,12 @@ test('S3 : dépôt et relecture d’un objet', { skip: !s3Available && 'S3 indis
   await s3.put('etats-des-lieux/test.pdf', body);
   assert.deepEqual(await s3.get('etats-des-lieux/test.pdf'), body);
   await assert.rejects(s3.get('etats-des-lieux/absent.pdf'));
+  const signed = await fetch(await s3.signedUrl('etats-des-lieux/test.pdf', 'test.pdf'));
+  assert.equal(signed.headers.get('content-type'), 'application/pdf');
+  assert.deepEqual(Buffer.from(await signed.arrayBuffer()), body, 'lecture par le lien signé, sans identifiants');
+  const altered = new URL(await s3.signedUrl('etats-des-lieux/test.pdf', 'test.pdf'));
+  altered.pathname = altered.pathname.replace('test.pdf', 'autre.pdf');
+  assert.equal((await fetch(altered)).status, 403, 'signature propre à un objet');
   const wrong = createS3Storage({ ...config.s3, bucket: 'aster-tests', secretAccessKey: 'faux' });
   await assert.rejects(wrong.get('etats-des-lieux/test.pdf'));
   wrong.destroy();

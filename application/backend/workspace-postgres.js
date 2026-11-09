@@ -285,21 +285,21 @@ export async function createPostgresWorkspaceRepository({ pool, storage, schema 
       }
       for (const { id, key } of keys) pdfKeys.set(id, key);
     },
+    // Lien signé vers le document déposé : le PDF ne transite pas par le serveur
     async pdf(report, state) {
-      const key = pdfKeys.get(report.id);
-      if (key) {
-        try { return await storage.get(key); } catch (error) { log.error?.('Lecture S3 impossible :', error.name || error.message); }
+      let key = pdfKeys.get(report.id);
+      try {
+        if (!key) {
+          // Remontée sans document déposé : produit avec les informations actuelles, puis déposé
+          key = await storePdf(report, state);
+          await pool.query(`UPDATE ${s}.aster_remontee SET etat_des_lieux_cle = $2 WHERE id = $1`, [report.id, key]);
+          pdfKeys.set(report.id, key);
+        }
+        return { url: await storage.signedUrl(key, `${report.id}.pdf`) };
+      } catch (error) {
+        log.error?.('Stockage S3 indisponible :', error.name || error.message);
+        throw Object.assign(new Error('État des lieux momentanément indisponible.'), { status: 503 });
       }
-      // Repli : document produit avec les informations actuelles, puis déposé s'il manquait
-      const buffer = reportPdf(report, state);
-      if (!key) {
-        try {
-          const stored = await storePdf(report, state);
-          await pool.query(`UPDATE ${s}.aster_remontee SET etat_des_lieux_cle = $2 WHERE id = $1`, [report.id, stored]);
-          pdfKeys.set(report.id, stored);
-        } catch (error) { log.error?.('Dépôt S3 impossible :', error.name || error.message); }
-      }
-      return buffer;
     },
   });
 }

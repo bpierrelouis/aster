@@ -194,7 +194,7 @@ test('moteur : persistance fichier, révision, rapprochement d’identité et PD
     assert.equal(reopened.read(admin).materiels[2].modele, 'Après un rapport de poste');
     assert.equal(reopened.findAccount({ sub: 'kc-teacher' }).id, TEACHER);
     const report = reopened.read(admin).remontees[0];
-    assert.equal((await reopened.pdf(report.id, admin)).subarray(0, 8).toString(), '%PDF-1.4');
+    assert.equal((await reopened.pdf(report.id, admin)).body.subarray(0, 8).toString(), '%PDF-1.4');
     const foreign = reopened.state.remontees.find((r) => r.ecoleId === 'e-res');
     await assert.rejects(reopened.pdf(foreign.id, admin), { status: 404 });
     const others = reopened.read(admin).remontees.find((r) => r.auteurId !== TEACHER);

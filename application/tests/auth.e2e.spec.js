@@ -135,9 +135,15 @@ test('formateur : une remontée transmise produit son PDF ; le gestionnaire la t
   await expect(dialog).toHaveCount(0);
   let report;
   await expect.poll(async () => { report = (await (await page.request.get('/api/workspace')).json()).remontees.find((r) => r.description === description); return Boolean(report); }).toBe(true);
-  const pdf = await page.request.get(`/api/workspace/reports/${report.id}/pdf`);
+  // Le serveur contrôle les droits puis redirige vers un lien signé : le PDF ne transite pas par lui
+  const link = await page.request.get(`/api/workspace/reports/${report.id}/pdf`, { maxRedirects: 0 });
+  expect(link.status()).toBe(303);
+  expect(link.headers().location).toContain(`${config.s3.endpoint}/${config.s3.bucket}/etats-des-lieux/`);
+  expect(link.headers().location).toContain('X-Amz-Signature=');
+  const pdf = await page.request.get(link.headers().location);
   expect(report.id).toMatch(/^REM-\d{4}$/);
   expect(pdf.ok()).toBeTruthy();
+  expect(pdf.headers()['content-type']).toBe('application/pdf');
   expect((await pdf.body()).subarray(0, 5).toString()).toBe('%PDF-');
   const [stored] = await sql('SELECT etat_des_lieux_cle, statut, auteur, auteur_id FROM aster_remontee WHERE id = $1', [report.id]);
   expect(stored).toMatchObject({ etat_des_lieux_cle: `etats-des-lieux/${report.ecoleId}/${report.id}.pdf`, statut: 'attente', auteur: 'L. Martin', auteur_id: 'cpt-num-formateur' });
