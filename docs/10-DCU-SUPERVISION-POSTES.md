@@ -9,7 +9,7 @@ flowchart LR
 
     formateur -->|« hérite de »| acteurSupervision
     administrateur -->|« hérite de »| acteurSupervision
-    superAdministrateur -->|« hérite de »| acteurSupervision
+    superAdministrateur -->|« hérite de »| administrateur
 
     subgraph aster["Application web ASTER — Supervision des postes"]
         direction TB
@@ -18,9 +18,11 @@ flowchart LR
         consulterProcessus(["Consulter les processus utilisateur"])
         arreterProcessus(["Arrêter manuellement un processus"])
         gererListes(["Gérer la whitelist et la blacklist"])
+        gererReglesGlobales(["Gérer les règles globales"])
         appliquerRegles(["Classer les processus et<br/>appliquer les règles"])
         arreterInterdit(["Arrêter automatiquement<br/>un processus blacklisté"])
-        consulterAlertes(["Recevoir et consulter une alerte<br/>de processus blacklisté"])
+        consulterAlertes(["Consulter les détections<br/>de processus d'une salle"])
+        recevoirAlerte(["Recevoir une notification<br/>de processus blacklisté"])
         consulterStatistiques(["Consulter les statistiques d'utilisation"])
     end
 
@@ -33,12 +35,13 @@ flowchart LR
     acteurSupervision --- consulterAlertes
     administrateur --- gererListes
     administrateur --- consulterStatistiques
-    superAdministrateur --- gererListes
-    superAdministrateur --- consulterStatistiques
+    administrateur --- recevoirAlerte
+    superAdministrateur --- gererReglesGlobales
 
     consulterEtat -.->|« include »| accederSalle
     consulterProcessus -.->|« include »| accederSalle
     arreterProcessus -.->|« include »| consulterProcessus
+    gererReglesGlobales -.->|« extend »| gererListes
     arreterInterdit -.->|« extend »| appliquerRegles
 
     consulterEtat --- administrationDistante
@@ -46,12 +49,14 @@ flowchart LR
     arreterProcessus --- administrationDistante
     appliquerRegles --- administrationDistante
 
-    classDef acteur fill:#C2E5FF,stroke:#3DADFF,color:#17243B
-    classDef acteurGeneral fill:#E8F5E9,stroke:#3E9B4B,color:#17243B
+    classDef acteurReel fill:#DCEEFF,stroke:#2878B5,color:#102A43,stroke-width:1.5px
+    classDef acteurAbstrait fill:#E3F5E6,stroke:#35864A,color:#173B22,stroke-width:2px,stroke-dasharray:6 4
     classDef acteurSecondaire fill:#FFECBD,stroke:#E8B84E,color:#17243B
-    classDef cas fill:#F6F4FB,stroke:#6954C0,color:#17243B
-    class formateur,administrateur,superAdministrateur acteur
-    class acteurSupervision acteurGeneral
+    classDef casUtilisation fill:#F5F2FF,stroke:#6954C0,color:#241C45
+    class formateur,administrateur,superAdministrateur acteurReel
+    class acteurSupervision acteurAbstrait
     class administrationDistante acteurSecondaire
-    class accederSalle,consulterEtat,consulterProcessus,arreterProcessus,gererListes,appliquerRegles,arreterInterdit,consulterAlertes,consulterStatistiques cas
+    class accederSalle,consulterEtat,consulterProcessus,arreterProcessus,gererListes,gererReglesGlobales,appliquerRegles,arreterInterdit,consulterAlertes,recevoirAlerte,consulterStatistiques casUtilisation
+
+    style aster fill:none,stroke:#7D8793,stroke-width:1px
 ```
