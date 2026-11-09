@@ -11,6 +11,7 @@ const dNum = new Intl.DateTimeFormat('fr-FR');
 const dTime = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'short', timeStyle: 'short' });
 const dDay = new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
 const tClock = new Intl.DateTimeFormat('fr-FR', { timeStyle: 'medium' });
+const dFull = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long', timeStyle: 'short' });
 
 export const num = (n) => nf0.format(n);
 export const dec = (n) => nf1.format(n);
@@ -27,6 +28,8 @@ export const dateTime = (t) => dTime.format(t);
 export const dateDay = (t) => dDay.format(t);
 /** « 20:15:42 » */
 export const clock = (t) => tClock.format(t);
+/** « 8 novembre 2026 à 20:15 » */
+export const dateFull = (t) => dFull.format(t);
 
 const H = 3600e3, D = 24 * H;
 
