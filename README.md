@@ -27,7 +27,7 @@ Ouvrir [ASTER en local](http://localhost:5173). Le [guide interne de développem
 
 ## Documentation
 
-Le sujet et les réponses du client constituent les sources de référence pour l’analyse et la conception du projet. Pour chaque sujet, la dernière réponse remplace les précédentes ; les comptes rendus d’entretiens en conservent l’historique et le cadrage présente les réponses en vigueur. Le glossaire sert de référence transversale ; les autres documents suivent cet ordre : consignes du sujet, questions de cadrage, comptes rendus des entretiens, puis analyse et diagrammes.
+Le sujet, les décisions prises avec le client en rendez-vous et l’application en cours de développement constituent les sources de référence pour l’analyse et la conception du projet ; les orientations données par l’équipe restent révisables tant qu’elles ne sont pas confirmées par le client. Pour chaque sujet, la décision du client prévaut, puis la dernière réponse remplace les précédentes ; les comptes rendus d’entretiens en conservent l’historique et le cadrage présente les réponses en vigueur. Le glossaire sert de référence transversale ; les autres documents suivent cet ordre : consignes du sujet, questions de cadrage, comptes rendus des entretiens, puis analyse et diagrammes.
 
 Les conventions de travail, les protections des diagrammes et les règles de contribution sont définies dans [AGENTS.md](AGENTS.md).
 
@@ -44,7 +44,7 @@ Les productions remises aux cadres évaluateurs décrivent l’application cible
 | Brouillons et ressources de préparation | `docs/temporaire/`, `design/` et sources éditables des modèles | Travaux et ressources à sélectionner avant inclusion dans un livrable |
 | Supports datés | `presentations/` | Conserver le contexte historique ; sélectionner et adapter le support destiné à chaque nouvelle remise |
 
-La destination d’une production ne vaut pas validation de son contenu : le MCD reste proposé et les questions réellement ouvertes ne deviennent pas des décisions. Avant une remise, sélectionner les documents et leurs ressources ; ne pas remettre indistinctement l’ensemble du dépôt ou du dossier `docs/`.
+Aucune validation documentaire par le client n’est prévue : les productions font référence dès qu’elles sont à jour, et les questions réellement ouvertes ne deviennent pas des décisions. Avant une remise, sélectionner les documents et leurs ressources ; ne pas remettre indistinctement l’ensemble du dépôt ou du dossier `docs/`.
 
 ### Sommaire
 
@@ -53,7 +53,7 @@ La destination d’une production ne vaut pas validation de son contenu : le MCD
 - [Questions de cadrage](docs/02-CADRAGE.md) : réponses en vigueur et questions encore ouvertes pour préparer l’architecture et le backlog.
 - [Compte rendu des entretiens de cadrage](docs/03-COMPTE-RENDU-ENTRETIENS.md) : trace historique des échanges des 22 et 23 octobre et du 4 novembre.
 - [Règles de gestion](docs/04-REGLES-DE-GESTION.md) : contraintes confirmées sur les données, les droits et les traitements.
-- [MCD Merise proposé](docs/05-MCD-MERISE.svg) : modèle de travail à présenter au client pour validation, avec son [source Mocodo éditable](docs/05-MCD-MERISE-MOCODO.url).
+- [MCD Merise](docs/05-MCD-MERISE.svg) : modèle conceptuel des données conservées par ASTER, établi d’après les décisions du client et l’application, avec son [source Mocodo éditable](docs/05-MCD-MERISE-MOCODO.url).
 - [Diagramme de contexte](docs/06-DIAGRAMME-CONTEXTE.md) : acteurs, composants de la suite et principaux échanges autour d’ASTER.
 - [Diagrammes d’activité](docs/07-DIAGRAMMES-ACTIVITE.md) : parcours général selon les droits et les tableaux de bord spécialisés, création d'une remontée avec génération du PDF, supervision des processus et notifications de garantie.
 - [DCU — Gestion du parc](docs/08-DCU-GESTION-PARC.md) : recherche, inventaire, affectations et tableau de bord du parc.
@@ -80,7 +80,7 @@ Utiliser le sommaire ci-dessus, puis les sections indiquées ci-dessous. Ces par
 | --- | --- | --- |
 | Objectifs et périmètre | §§ 1 et 2 | Consignes du sujet et entretien concerné |
 | Profils, droits et comptes | §§ 2, 3 et 18 | Règles, matrice des droits, fiches des profils concernés |
-| Matériels, salles, affectations et import | §§ 4 à 6 et 17 | Glossaire, règles, DCU gestion du parc, MCD proposé |
+| Matériels, salles, affectations et import | §§ 4 à 6 et 17 | Glossaire, règles, DCU gestion du parc, MCD |
 | Garanties | § 7 | Règles, matrice des droits |
 | Applications et réinstallation | §§ 8, 9 et 19 | Règles, DCU administration des postes |
 | Processus et alertes | §§ 10 à 12 | Règles, DCU supervision, matrice des droits |
@@ -89,7 +89,7 @@ Utiliser le sommaire ci-dessus, puis les sections indiquées ci-dessous. Ces par
 | Architecture et exploitation | §§ 18 à 21 | Sources citées et questions encore ouvertes |
 | Présentations client et nom du projet | § 22 | Entretien du 4 novembre et dossier des présentations |
 
-Pour la charte, une maquette ou un support client, commencer directement par le README de `design/` ou de `presentations/`. Les propositions présentées ne valent pas validation du client. Le dépôt contient actuellement surtout l’analyse, les modèles et les démonstrateurs ; ajouter les références aux composants métier et aux contrats API lorsqu’ils existeront.
+Pour la charte, une maquette ou un support client, commencer directement par le README de `design/` ou de `presentations/`. Les propositions présentées ne valent pas validation du client. Pour le fonctionnement du démonstrateur, les contrats HTTP et les règles serveur effectivement réalisées, consulter le [guide de l’application](application/README.md) et le code concerné.
 
 Pour une recherche ciblée, repérer d’abord les titres ou les identifiants de règles avec `rg -n`, puis lire les passages utiles et leurs sources. Élargir aux dépendances si nécessaire. Une lecture complète reste adaptée à un audit global explicitement demandé.
 

@@ -8,9 +8,11 @@ Ces instructions s'appliquent à tout le dépôt.
 
 ## Sources et lectures ciblées
 
-- Pour l'analyse et la conception, utiliser le sommaire et les parcours du `README.md`, puis lire les passages utiles des consignes, des entretiens et du cadrage. Ne pas déduire le besoin du seul code ou des diagrammes.
+- Sources qui font foi (décision de l’utilisateur du 9 novembre) : les décisions du client prises en rendez-vous (`docs/03-*`) et l’application en cours de développement (`application/`). La documentation décrit ce que fait l’application, dans le respect des décisions du client. Une contradiction entre le client et l’application est signalée et inscrite au cadrage pour le prochain rendez-vous ; en attendant, la documentation suit le client.
+- Les réponses directes de l’utilisateur sont des orientations de travail, non définitives : les appliquer tant qu’elles ne contredisent ni le client ni l’application. Si l’utilisateur se contredit, ou contredit le client ou l’application, le lui signaler, puis avancer sans bloquer.
+- Pour l'analyse et la conception, utiliser le sommaire et les parcours du `README.md`, puis lire les passages utiles des consignes, des entretiens, du cadrage et le code concerné.
 - Commencer par les noms de fichiers, titres et recherches ciblées (`rg`). Élargir si une dépendance, une incertitude ou le périmètre demandé le justifie ; ne pas relire intégralement la documentation à chaque tâche. Réutiliser les passages déjà lus dans le chat tant qu'ils sont disponibles et inchangés.
-- Le cadrage présente les réponses en vigueur : la plus récente remplace les précédentes sur le même sujet ; les précisions compatibles restent applicables. Conserver les entretiens datés comme historique, sans modifier leur sens ni présenter les anciennes réponses comme des contradictions à arbitrer.
+- Le cadrage présente les réponses en vigueur en distinguant leur provenance (client, application, orientation de l’utilisateur) : sur un même sujet, la décision du client l’emporte, puis la plus récente remplace les précédentes ; les précisions compatibles restent applicables. Conserver les entretiens datés comme historique, sans modifier leur sens ni présenter les anciennes réponses comme des contradictions à arbitrer.
 - Distinguer réponses recueillies, décisions validées, hypothèses, propositions et questions réellement ouvertes. Ne pas inventer de règle, de fonctionnalité ou de validation ; ne pas laisser ouverte une question déjà résolue.
 - Pour le recueil, la rédaction, la synchronisation ou l'audit documentaire, utiliser le skill [aster-documentation](.agents/skills/aster-documentation/SKILL.md). Ses modèles sont des aides, pas des exigences.
 
@@ -21,7 +23,7 @@ Ces instructions s'appliquent à tout le dépôt.
 - Les fichiers Markdown de diagrammes contiennent uniquement les diagrammes (blocs ou images) et leurs titres Markdown. Aucune prose, liste, légende annexe ni explication déplacée dans une note ou un commentaire du diagramme.
 - Répartir l'information : définitions dans le glossaire, réponses et questions dans le cadrage, contraintes confirmées dans les règles de gestion, conventions de représentation ici. Avant de retirer une explication d'un diagramme, transférer toute précision pertinente manquante au document de référence.
 - Ne pas modifier le contenu des premiers diagrammes de contexte et d'activité sans demande de mise à jour de l'utilisateur. Un renommage préserve leur contenu. Lors d'une mise à jour autorisée, appliquer les réponses en vigueur ; leur protection provisoire ne remet pas ces réponses en question.
-- Placer les travaux non finalisés dans `docs/temporaire/`, avec un nom indiquant le statut de brouillon et la version connue. Ne pas présenter le MCD Merise proposé comme validé.
+- Placer les travaux non finalisés dans `docs/temporaire/`, avec un nom indiquant le statut de brouillon et la version connue. Aucune validation documentaire par le client n’est prévue (précision de l’utilisateur du 9 novembre) : le MCD et les autres productions font référence dès qu’ils sont à jour ; ne pas les présenter comme en attente de validation du client.
 
 ## Livrables remis et documents internes
 
