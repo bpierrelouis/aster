@@ -17,7 +17,7 @@ test('l’utilisateur présenté vient du compte ASTER', () => {
 });
 
 test('les identifiants locaux sont utilisables uniquement hors production', () => {
-  assert.equal(readConfig({}).issuer.pathname, '/realms/aster-demo');
+  assert.equal(readConfig({}).issuer.pathname, '/realms/aster');
   assert.throws(() => readConfig({ NODE_ENV: 'production' }));
   const production = {
     NODE_ENV: 'production', APP_URL: 'https://aster.example.test', DATABASE_URL: 'postgres://example',
@@ -26,11 +26,11 @@ test('les identifiants locaux sont utilisables uniquement hors production', () =
     S3_ENDPOINT: 'https://s3.example.test', S3_BUCKET: 'aster', S3_ACCESS_KEY: 'aster', S3_SECRET_KEY: 'dedicated-s3-secret', AGENT_TOKEN: 'b'.repeat(40),
   };
   assert.equal(readConfig(production).production, true);
-  assert.throws(() => readConfig({ ...production, OIDC_ISSUER: 'http://localhost:8080/realms/aster-demo' }));
-  assert.throws(() => readConfig({ ...production, OIDC_CLIENT_SECRET: 'aster-demo-client-local' }));
+  assert.throws(() => readConfig({ ...production, OIDC_ISSUER: 'http://localhost:8080/realms/aster' }));
+  assert.throws(() => readConfig({ ...production, OIDC_CLIENT_SECRET: 'aster-client-local' }));
   assert.throws(() => readConfig({ ...production, SESSION_SECRET: 'short' }));
   assert.throws(() => readConfig({ ...production, S3_ENDPOINT: 'http://localhost:8333' }));
-  assert.throws(() => readConfig({ ...production, S3_SECRET_KEY: 'aster-demo-local-s3' }));
+  assert.throws(() => readConfig({ ...production, S3_SECRET_KEY: 'aster-local-s3' }));
   assert.throws(() => readConfig({ ...production, S3_BUCKET: '' }));
-  assert.throws(() => readConfig({ ...production, AGENT_TOKEN: 'aster-agent-demo-local' }));
+  assert.throws(() => readConfig({ ...production, AGENT_TOKEN: 'aster-agent-local' }));
 });

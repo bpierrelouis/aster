@@ -114,7 +114,7 @@ export const directTransport = (repository) => ({
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const api = process.env.ASTER_API || 'http://127.0.0.1:3001';
-  const token = process.env.AGENT_TOKEN || 'aster-agent-demo-local';
+  const token = process.env.AGENT_TOKEN || 'aster-agent-local';
   createAgentEmulator({ transport: httpTransport({ api, token }) }).start();
   setInterval(() => {}, 1 << 30); // processus maintenu actif
   console.log(`Postes émulés : rapports vers ${api}/api/agent`);

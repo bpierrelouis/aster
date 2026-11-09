@@ -39,7 +39,7 @@ export function uiDevelopment() {
         res.json({ user: userFromAccount(current, repository.state.ecoles.find((e) => e.id === current.ecoleId)?.nom) });
       });
       app.use('/api/workspace', createWorkspaceRouter({ repository, actor }));
-      app.use('/api/agent', createAgentRouter({ repository, token: process.env.AGENT_TOKEN || 'aster-agent-demo-local' }));
+      app.use('/api/agent', createAgentRouter({ repository, token: process.env.AGENT_TOKEN || 'aster-agent-local' }));
       app.use('/api', (_req, res) => res.status(404).json({ error: 'Ressource introuvable.' }));
       server.middlewares.use(app);
     },

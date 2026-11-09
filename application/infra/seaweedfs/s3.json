@@ -2,7 +2,7 @@
   "identities": [
     {
       "name": "aster",
-      "credentials": [{ "accessKey": "aster", "secretKey": "aster-demo-local-s3" }],
+      "credentials": [{ "accessKey": "aster", "secretKey": "aster-local-s3" }],
       "actions": ["Admin", "Read", "Write", "List", "Tagging"]
     }
   ]

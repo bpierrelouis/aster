@@ -1,7 +1,8 @@
 /* ==========================================================================
-   Démonstrateur uniquement : création des identités dans le Keycloak local
-   qui tient lieu de MindefConnect. En production, les identités existent
-   déjà chez le fournisseur ; ASTER n'attribue que le profil et l'école.
+   Démonstrateur uniquement : création des identités dans l'annuaire LDAP local,
+   au travers du Keycloak qui le fédère et tient lieu de MindefConnect. En
+   production, les identités existent déjà chez le fournisseur ; ASTER
+   n'attribue que le profil et l'école.
    ========================================================================== */
 
 export function createKeycloakProvisioning({ issuer, adminUser, adminPassword, log = console }) {
@@ -36,7 +37,7 @@ export function createKeycloakProvisioning({ issuer, adminUser, adminPassword, l
       const found = await api(`/users?email=${encodeURIComponent(c.email)}&exact=true`, access);
       if (found.length) continue;
       const [firstName, ...rest] = c.nom.split(' ');
-      await api('/users', access, { method: 'POST', body: JSON.stringify({ username: c.email, email: c.email, firstName, lastName: rest.join(' ') || firstName, enabled: true, emailVerified: true }) });
+      await api('/users', access, { method: 'POST', body: JSON.stringify({ username: c.email.split('@')[0], email: c.email, firstName, lastName: rest.join(' ') || firstName, enabled: true, emailVerified: true }) });
       created++;
     }
     if (created) log.info?.(`Identités créées dans le fournisseur local : ${created}`);

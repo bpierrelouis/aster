@@ -38,7 +38,8 @@ npm run dev
 | Serveur Express | http://localhost:3001 | API, parcours OIDC, API des postes ; accessible par le proxy Vite |
 | Keycloak | http://localhost:8081 | Fournisseur d’identité local, substitut de MindefConnect |
 | Console Keycloak | http://localhost:8081/admin | Administration technique du fournisseur |
-| PostgreSQL | localhost:5432 | Bases `aster` (données et sessions) et `keycloak` (identités) |
+| PostgreSQL ASTER | localhost:5432 | Base `aster` : données métier et sessions |
+| Annuaire LDAP (OpenLDAP, `osixia/openldap` 1.5.0) | réseau Docker uniquement | Identités des utilisateurs (`ou=people,dc=aster,dc=demo`), fédérées par Keycloak |
 | Stockage S3 (SeaweedFS 4.50) | http://localhost:8333 | Compartiment `aster-etats-des-lieux` |
 
 Utiliser le nom d’hôte `localhost`, qui correspond aux redirections OIDC déclarées. Le port 8081 évite le port 8080 déjà utilisé sur la machine. Les conteneurs exposent leurs ports uniquement sur la boucle locale. Les images MinIO n’étant plus distribuées publiquement, le stockage compatible S3 local est SeaweedFS (licence Apache 2.0), avec authentification par clés ([infra/seaweedfs/s3.json](infra/seaweedfs/s3.json)).
@@ -57,16 +58,18 @@ L’utilisateur est le premier compte actif du profil `ASTER_UI_ROLE` (`admin` p
 
 ## Identité et comptes
 
-Aucun annuaire LDAP n’est utilisé. Le 6 novembre, l’utilisateur a retenu MindefConnect pour la production, en remplacement du Keycloak relié à LDAP choisi le 3 novembre. Le Keycloak local tient lieu de MindefConnect.
+Le 6 novembre, l’utilisateur a retenu MindefConnect pour la production. Dans le démonstrateur, Keycloak tient lieu de MindefConnect ; depuis le 9 novembre, à la demande de l’utilisateur, il fédère un annuaire LDAP local qui contient les identités des utilisateurs ([infra/ldap/aster-utilisateurs.ldif](infra/ldap/aster-utilisateurs.ldif), chargé au premier démarrage). Keycloak n’a plus de base PostgreSQL : sa configuration est réimportée depuis [le realm](infra/keycloak/aster-realm.json) et ses données internes, sans valeur propre, sont perdues à la recréation du conteneur.
+
+- L’annuaire ne porte que l’identité : identifiant (`uid`), nom (`cn`, `givenName`, `sn`) et adresse (`mail`). Les profils ne sont pas stockés dans l’annuaire : MindefConnect, en cible, ne transmettra pas les profils ASTER, et le profil comme l’école sont gérés dans ASTER.
 
 - Le fournisseur authentifie et transmet une identité (sujet OIDC, adresse électronique). Le serveur échange le code, vérifie le jeton signé, le state, le nonce et PKCE, puis conserve la session dans PostgreSQL. Le navigateur ne reçoit qu’un cookie HttpOnly.
-- Le profil, l’école de rattachement et l’état actif sont portés par le compte ASTER (table `aster_compte`), géré dans Administration › Comptes par l’administrateur de l’école ou le super administrateur. Les rôles du realm Keycloak ne sont plus lus.
+- Le profil, l’école de rattachement et l’état actif sont portés par le compte ASTER (table `aster_compte`), géré dans Administration › Comptes par l’administrateur de l’école ou le super administrateur. Le realm ne définit aucun rôle.
 - À la connexion, l’identité est rapprochée du compte par son sujet, sinon par son adresse ; le sujet est alors enregistré. Une identité sans compte actif est refusée avec un message explicite.
 - Le compte est relu à chaque requête : une désactivation ferme les sessions en cours et un changement de profil s’applique immédiatement.
 - Le nom, l’auteur et la date des remontées, l’auteur des interventions et les numéros (remontées, identifiants ASTER) sont fixés par le serveur à partir du compte connecté.
 - Préférences d’affichage, dispositions des tableaux de bord (tableaux personnalisés compris : liste `tableaux` et widgets de chacun), dernière consultation des notifications et école affichée par le super administrateur sont enregistrées par compte (table `aster_preference`).
 
-**Démonstrateur uniquement :** comme le Keycloak local remplace MindefConnect, le serveur y crée l’identité de chaque compte ASTER actif qui n’en a pas (au démarrage et après chaque modification des comptes), avec le compte technique `keycloak-admin`. Un compte créé dans ASTER permet donc de se connecter aussitôt. En production, ce provisionnement est désactivé : les identités existent chez le fournisseur.
+**Démonstrateur uniquement :** comme le Keycloak local remplace MindefConnect, le serveur crée l’identité de chaque compte ASTER actif qui n’en a pas (au démarrage et après chaque modification des comptes), avec le compte technique `keycloak-admin`. La fédération étant en écriture, Keycloak l’enregistre dans l’annuaire LDAP (`uid` = partie de l’adresse avant `@`). Un compte créé dans ASTER permet donc de se connecter aussitôt. En production, ce provisionnement est désactivé : les identités existent chez le fournisseur.
 
 ### Comptes du démonstrateur
 
@@ -81,13 +84,13 @@ Aucun annuaire LDAP n’est utilisé. Le 6 novembre, l’utilisateur a retenu Mi
 | e.dubois@aster.demo | E. Dubois | Gestionnaire | École des réseaux |
 | j.lambert@aster.demo | J. Lambert | Formateur | École des réseaux |
 
-Les quatre premiers acceptent aussi l’identifiant court (`superadmin`, `admin`, `gestionnaire`, `formateur`). Laisser le mot de passe vide : le realm `aster-demo` utilise délibérément un flux qui identifie un utilisateur existant sans secret ; le champ mot de passe du thème est en lecture seule et n’est pas transmis. L’inscription et la récupération du mot de passe renvoient vers l’administrateur.
+Les quatre premiers acceptent aussi l’identifiant court (`superadmin`, `admin`, `gestionnaire`, `formateur`). Laisser le mot de passe vide : le realm `aster` utilise délibérément un flux qui identifie un utilisateur existant sans secret ; le champ mot de passe du thème est en lecture seule et n’est pas transmis. L’inscription et la récupération du mot de passe renvoient vers l’administrateur.
 
 Les tests de bout en bout utilisent aussi `nouveau.formateur@aster.demo` (créé puis désactivé par le test) et `sans.compte@aster.demo` (identité sans compte ASTER).
 
 La consigne de présentation du 6 novembre impose de conserver ces modalités dans ce guide interne : aucune liste de comptes, indication de mot de passe vide, étiquette de démonstration ou aide technique de démarrage ne doit apparaître dans l’interface ou dans les productions remises aux cadres.
 
-Le compte technique de la console Keycloak est `keycloak-admin` avec le mot de passe local `keycloak-admin-demo-local`. Il est distinct du super administrateur ASTER. Les sessions ASTER expirent au plus tard à l’expiration du jeton d’identité, ou après une heure ; une déconnexion détruit la session ASTER puis termine la session Keycloak.
+Le compte technique de la console Keycloak est `keycloak-admin` avec le mot de passe local `keycloak-admin-local`. Il est distinct du super administrateur ASTER. Les sessions ASTER expirent au plus tard à l’expiration du jeton d’identité, ou après une heure ; une déconnexion détruit la session ASTER puis termine la session Keycloak.
 
 ## Données
 
@@ -136,18 +139,18 @@ application/
 │   ├── workspace.js         # Règles, fusion, API de l'espace et des postes
 │   ├── workspace-postgres.js
 │   ├── storage.js           # Stockage S3
-│   ├── identity-provisioning.js  # Démonstrateur : identités Keycloak
+│   ├── identity-provisioning.js  # Démonstrateur : identités dans l’annuaire via Keycloak
 │   └── agents.js            # Démonstrateur : postes émulés
 ├── infra/
-│   ├── compose.yaml         # PostgreSQL, Keycloak, stockage S3
-│   ├── keycloak/            # Realm, comptes et thème de connexion
-│   ├── postgres/            # Initialisation de la base Keycloak
+│   ├── compose.yaml         # PostgreSQL ASTER, annuaire LDAP, Keycloak, stockage S3
+│   ├── keycloak/            # Realm (fédération LDAP) et thème de connexion
+│   ├── ldap/                # Identités de départ de l’annuaire (LDIF)
 │   └── seaweedfs/           # Clés d'accès S3 locales
 ├── tests/                   # Tests d’interface et de bout en bout
 └── .env.example
 ```
 
-Les volumes Docker du projet Compose `aster-demo` conservent les données PostgreSQL et S3. `npm run infra:down` arrête les services sans supprimer les données. L’import Keycloak n’écrase pas un realm existant : les identités nécessaires sont créées par le serveur au démarrage. Ne pas supprimer un volume sans vérifier les données qu’il contient.
+Les volumes Docker du projet Compose `aster` séparent et conservent les données PostgreSQL d’ASTER, l’annuaire LDAP (`ldap-data`, `ldap-config`) et les objets S3. Le fichier LDIF n’est chargé que si l’annuaire est vide : pour le recharger, supprimer les deux volumes LDAP. `npm run infra:down` arrête les services sans supprimer les données. Keycloak réimporte son realm à chaque recréation de son conteneur ; les identités manquantes sont créées dans l’annuaire par le serveur au démarrage. Ne pas supprimer un volume sans vérifier les données qu’il contient.
 
 ## Vérifications
 

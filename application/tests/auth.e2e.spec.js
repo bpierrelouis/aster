@@ -159,7 +159,7 @@ test('formateur : une remontée transmise produit son PDF ; le gestionnaire la t
 async function keycloak(path, options = {}) {
   const tokenResponse = await fetch(`${config.issuer.origin}/realms/master/protocol/openid-connect/token`, { method: 'POST', body: new URLSearchParams({ grant_type: 'password', client_id: 'admin-cli', username: config.keycloakAdmin.adminUser, password: config.keycloakAdmin.adminPassword }) });
   const { access_token: token } = await tokenResponse.json();
-  const response = await fetch(`${config.issuer.origin}/admin/realms/aster-demo${path}`, { ...options, headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } });
+  const response = await fetch(`${config.issuer.origin}/admin/realms/aster${path}`, { ...options, headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } });
   return response.status === 200 ? response.json() : response;
 }
 
