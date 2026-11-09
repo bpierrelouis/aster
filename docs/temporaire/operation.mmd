@@ -1,0 +1,31 @@
+---
+title: Intervention sur poste (opération) — cycle de vie
+---
+stateDiagram-v2
+    direction LR
+    [*] --> enregistree : demande manuelle<br/>[admin · superadmin, ou formateur pour un arrêt]<br/>[postes d’une seule école]
+    [*] --> enregistree : arrêt automatique<br/>[processus classé blacklist]
+
+    state enregistree {
+        direction LR
+        [*] --> en_attente : par poste cible
+        en_attente --> reussie : résultat agent « reussie »
+        en_attente --> echec_poste : résultat agent « echec »
+        echec_poste : echec
+    }
+
+    enregistree --> terminee : [tous les postes = reussie]<br/>/ termineLe = now
+    enregistree --> echec : [plus aucun en_attente ∧ ≥ 1 echec]<br/>/ termineLe = now
+    terminee --> [*]
+    echec --> [*]
+
+    enregistree : Enregistrée
+    terminee : Terminée
+    echec : Échec
+
+    note left of enregistree
+        Types : installation, désinstallation,
+        réinstallation, arrêt.
+        Commandes envoyées aux postes tant que
+        statut = enregistrée. Ni modifiable ni supprimable.
+    end note

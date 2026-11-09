@@ -1,0 +1,20 @@
+---
+title: Remontée — cycle de vie du statut (RG-13)
+---
+stateDiagram-v2
+    direction LR
+    [*] --> attente : créer remontée<br/>[formateur · admin · superadmin]<br/>[description non vide ∧ ≥ 1 matériel de l'école]<br/>/ id REM-xxxx, historique initialisé, PDF état des lieux
+    attente --> remplace : traiter « Remplacé »<br/>[gestionnaire · admin · superadmin]<br/>/ ajout historique
+    attente --> corrige : traiter « Corrigé »<br/>[admin · superadmin]<br/>/ ajout historique
+    remplace --> [*]
+    corrige --> [*]
+
+    attente : En attente
+    remplace : Remplacé
+    corrige : Corrigé
+
+    note right of attente
+        Seul « statut » et « historique » peuvent changer.
+        Formateur : aucun traitement.
+        Suppression interdite.
+    end note
