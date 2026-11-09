@@ -1,6 +1,6 @@
 # Fiche descriptive — Gestionnaire
 
-- **Statut :** proposée à partir des réponses en vigueur ; à présenter au client.
+- **Statut :** établie à partir des décisions en vigueur.
 - **Profil :** gestionnaire.
 - **Rattachement :** une école.
 - **Périmètre :** toutes les données de son école, sans restriction à un bâtiment.
@@ -10,12 +10,12 @@
 
 | Domaine | Capacités |
 | --- | --- |
-| Parc matériel | Créer, rechercher, consulter et modifier un matériel ; gérer le stock ; affecter ou déplacer un ou plusieurs matériels ; importer de nouveaux matériels en JSON |
-| Suppression | Interdite au gestionnaire |
-| Tableaux de bord | Consulter le tableau de bord du parc et celui des remontées |
-| Remontées | Consulter et télécharger les PDF, traiter les remontées et recevoir une notification à leur création |
-| Garanties | Renseigner la date de fin, consulter les indicateurs et recevoir les alertes si la fonctionnalité optionnelle est retenue |
-| Administration et supervision | Aucun droit d'administration des postes, de supervision des processus, de gestion des listes ou de gestion des comptes ASTER |
+| Parc matériel | Rechercher un matériel (recherche globale ou inventaire filtré par type, état, salle ou stock et garantie) ; consulter les salles par bâtiment et par étage, et le matériel de chaque salle ; créer, consulter et modifier un matériel ; consulter le stock ; affecter un ou plusieurs matériels à une salle ou les remettre en stock ; importer de nouveaux matériels en JSON |
+| Suppression | Interdite au gestionnaire ; la gestion des salles et des étages est réservée aux administrateurs |
+| Tableaux de bord | Consulter son tableau de bord personnel, qu'il peut composer, ainsi que les tableaux de bord du parc et des remontées |
+| Remontées | Consulter, rechercher et filtrer par bâtiment toutes les remontées de son école ; consulter, télécharger et imprimer les PDF ; passer une remontée de « en attente » à « remplacé » ; recevoir une notification dans ASTER à chaque nouvelle remontée |
+| Garanties | Renseigner la date de fin, consulter son état (échue, à échéance, en cours, non renseignée) et recevoir une notification dans ASTER lorsque la garantie est échue ou arrive à échéance dans les six mois |
+| Administration et supervision | Aucun accès aux postes, à la supervision des processus, aux listes de processus, à la modification des salles ni aux comptes ASTER |
 
 Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-DROITS.md).
 
@@ -27,22 +27,24 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 
 ### Scénario nominal
 
-1. Le gestionnaire recherche un matériel, ouvre la liste du parc ou consulte les salles par bâtiment pour voir le matériel présent dans une salle.
+1. Le gestionnaire recherche un matériel, ouvre l'inventaire ou consulte les salles par bâtiment et par étage pour voir le matériel présent dans une salle.
 2. ASTER limite les résultats à son école.
 3. Le gestionnaire consulte une fiche, crée un matériel ou modifie ses informations.
-4. Pour une création, il renseigne le modèle, la date de réception et l'état hors service ; la marque et le numéro de série restent facultatifs.
+4. Pour une création, il renseigne le modèle, la date de réception et l'état hors service ; le type, la marque, le numéro de série, l'affectation et la date de fin de garantie restent facultatifs.
 5. ASTER attribue automatiquement l'identifiant interne et enregistre le matériel.
 6. Le gestionnaire peut ensuite affecter ou déplacer un ou plusieurs matériels vers une salle de son école.
 7. ASTER applique immédiatement l'affectation ou le déplacement.
+8. Pour affecter, il sélectionne un ou plusieurs matériels et choisit une salle ou le stock, depuis l'inventaire ou en déplaçant les matériels vers une salle ou vers le stock.
 
 ### Variantes et limites
 
-- Un matériel peut rester en stock sans localisation.
+- Un matériel peut rester en stock sans localisation ; il reste rattaché à son école.
 - L'état est limité à « hors service : oui/non » et vaut « non » par défaut à la création.
-- L'import JSON applique immédiatement les données, sans validation métier préalable.
+- L'import JSON est appliqué immédiatement, sans validation métier préalable. Le format est contrôlé : un fichier comportant une ligne invalide est refusé en entier. Un import comporte au plus 2 000 matériels.
+- L'inventaire peut être trié par identifiant, matériel ou date de réception et se parcourt par pages.
 - Le gestionnaire ne peut pas supprimer un matériel.
-- Aucun historique des mouvements n'est exigé dans le périmètre confirmé.
-- Si la gestion des garanties est retenue, le gestionnaire peut renseigner la date de fin. Une notification est créée six mois avant l'échéance et le matériel est signalé hors garantie à l'échéance.
+- Aucun historique des mouvements n'est exigé.
+- Le gestionnaire renseigne la date de fin de garantie. Une notification est créée six mois avant l'échéance et le matériel est signalé hors garantie à l'échéance.
 
 ### Résultats attendus
 
@@ -52,14 +54,12 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 
 ### Questions ouvertes
 
-- Critères de recherche, filtres, tris, pagination et exports.
-- Schéma JSON, contrôles techniques, doublons et échecs partiels.
-- Parcours de remise en stock et traitement d'une affectation partiellement échouée.
-- Conditions empêchant la modification d'un matériel déjà lié à une remontée.
+- Exports de l'inventaire.
+- Contrôle des doublons de numéro de série.
 
 ### Règles applicables
 
-RG-03 à RG-10, RG-16 à RG-18, RG-25 à RG-29 et RG-69.
+RG-03 à RG-10, RG-16 à RG-18, RG-25 à RG-29, RG-69 et RG-72.
 
 ## UC-GEST-02 — Consulter et traiter les remontées
 
@@ -70,20 +70,20 @@ RG-03 à RG-10, RG-16 à RG-18, RG-25 à RG-29 et RG-69.
 ### Scénario nominal
 
 1. Lorsqu'une remontée est créée, ASTER crée une notification destinée au gestionnaire.
-2. La notification est affichée dans ASTER à la connexion de son ou ses destinataires.
-3. Le gestionnaire ouvre le tableau de bord ou la liste des remontées.
-4. Il consulte la remontée, les matériels concernés, leur localisation éventuelle et le PDF d'état des lieux.
-5. Il peut télécharger le PDF.
-6. Pour la transition explicitement confirmée, il fait passer une remontée de « en attente » à « remplacé ».
+2. Le gestionnaire reçoit cette notification dans ASTER.
+3. Le gestionnaire ouvre le tableau de bord ou la liste des remontées (en attente, traitées ou toutes), qu'il peut rechercher et filtrer par bâtiment.
+4. Il consulte la remontée, son suivi, les matériels concernés, leur localisation éventuelle et le PDF d'état des lieux.
+5. Il peut télécharger ou imprimer le PDF.
+6. Il fait passer une remontée de « en attente » à « remplacé ». Le passage à « corrigé » est réservé aux administrateurs.
 7. ASTER enregistre le statut commun à toute la remontée et crée la notification destinée à son auteur formateur.
 
 ### Variantes et limites
 
 - Une remontée peut concerner plusieurs matériels mais possède un statut unique.
 - Les statuts possibles sont « en attente », « remplacé » et « corrigé ».
-- Le gestionnaire ne crée pas de remontée dans le périmètre actuellement confirmé.
+- Une remontée est créée « en attente » ; le traitement est une transition unique et définitive.
+- Le gestionnaire ne crée pas de remontée.
 - Aucun courriel n'est envoyé.
-- La valeur initiale du statut et les transitions relatives à « corrigé » ne sont pas définies.
 
 ### Résultats attendus
 
@@ -93,14 +93,14 @@ RG-03 à RG-10, RG-16 à RG-18, RG-25 à RG-29 et RG-69.
 
 ### Questions ouvertes
 
-- Désignation du ou des gestionnaires notifiés lorsqu'une école en compte plusieurs.
+- Plusieurs gestionnaires d'une même école reçoivent chacun la notification ; aucune répartition entre eux n'est définie.
 - Qualification, affectation à un intervenant, priorités et délais de traitement.
-- Cycle complet des statuts, doublons et pièces jointes.
-- Indicateurs, filtres et règles de calcul du tableau de bord.
+- Doublons et pièces jointes.
+- Règles de calcul des indicateurs du tableau de bord.
 
 ### Règles applicables
 
-RG-11 à RG-14, RG-23 à RG-25, RG-34 à RG-38, RG-66, RG-67 et RG-69.
+RG-11 à RG-14, RG-23 à RG-25, RG-34 à RG-38, RG-64, RG-66, RG-67, RG-69 et RG-73.
 
 ## IHM issues de la maquette
 
@@ -129,11 +129,14 @@ Les maquettes ci-dessous illustrent les écrans de gestion des matériels.
 ## Besoins en interface
 
 - Tableau de bord du parc avec état des stocks et filtre par salle.
-- Liste, recherche et fiche détaillée des matériels.
+- Tableau de bord personnel composable.
+- Vue des salles par bâtiment et par étage, avec le matériel de chaque salle et le stock.
+- Inventaire avec recherche, filtres, tri et fiche détaillée des matériels.
 - Formulaire de création et de modification conforme aux champs confirmés.
-- Interface d'affectation d'un ou plusieurs matériels.
+- Interface d'affectation d'un ou plusieurs matériels à une salle ou au stock.
+- Import JSON avec description du format attendu.
 - Tableau de bord et liste des remontées avec accès aux PDF.
-- Vue de traitement d'une remontée et affichage des notifications à la connexion.
+- Vue de traitement d'une remontée et affichage des notifications dans ASTER.
 - Aucune action de suppression, d'administration des postes, de supervision ou de gestion des comptes.
 
 ## Contraintes transversales

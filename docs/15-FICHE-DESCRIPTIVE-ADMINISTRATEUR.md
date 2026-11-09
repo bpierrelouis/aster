@@ -1,19 +1,21 @@
 # Fiche descriptive — Administrateur
 
-- **Statut :** proposée à partir des réponses en vigueur ; à présenter au client.
+- **Statut :** établie à partir des décisions en vigueur.
 - **Profil :** administrateur.
 - **Rattachement :** une école.
 - **Périmètre :** toutes les données et fonctionnalités de son école.
-- **Finalité :** administrer le parc, les postes, la supervision, les remontées et les comptes de son école.
+- **Finalité :** administrer le parc, les salles, les postes, la supervision, les remontées et les comptes de son école.
 
 ## Périmètre fonctionnel
 
 | Domaine | Capacités |
 | --- | --- |
-| Parc matériel | Toutes les actions, y compris l'import JSON et la suppression |
-| Administration des postes | Consulter les applications ; installer ou désinstaller une application ; demander la réinstallation d'un poste ou d'une salle |
-| Supervision | Consulter les postes et processus, arrêter un processus utilisateur, gérer les listes, recevoir les alertes et consulter les statistiques |
-| Remontées | Créer et traiter une remontée ; consulter et télécharger tous les PDF ; consulter le tableau de bord |
+| Parc matériel | Toutes les actions, y compris l'import JSON et la suppression d'un ou plusieurs matériels |
+| Salles | Créer, modifier et supprimer une salle ; ajouter, renuméroter ou supprimer un étage vide d'un bâtiment |
+| Administration des postes | Consulter les postes, leur état et leurs applications ; installer ou désinstaller une application sur un poste ou une salle ; demander la réinstallation d'un ou plusieurs postes ; suivre les demandes d'intervention |
+| Supervision | Consulter les postes et processus de toutes les salles, arrêter un processus utilisateur, gérer les règles d'école, de bâtiment et de salle, consulter les détections, recevoir une notification de processus blacklisté et consulter les statistiques |
+| Remontées | Créer une remontée et suivre les siennes ; passer une remontée de « en attente » à « remplacé » ou « corrigé » ; consulter, télécharger et imprimer tous les PDF ; consulter le tableau de bord des remontées |
+| Tableaux de bord | Consulter son tableau de bord personnel, qu'il peut composer, ainsi que les tableaux de bord du parc et des remontées |
 | Comptes ASTER | Créer, modifier, désactiver et réactiver les comptes rattachés à son école |
 | Notifications de remontée | Aucune notification liée aux remontées |
 
@@ -30,73 +32,70 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 1. L'administrateur recherche ou ouvre un matériel.
 2. Il crée ou modifie sa fiche conformément aux données obligatoires.
 3. ASTER attribue l'identifiant interne lors d'une création.
-4. L'administrateur affecte ou déplace un ou plusieurs matériels si nécessaire.
+4. L'administrateur affecte ou déplace un ou plusieurs matériels vers une salle ou le stock si nécessaire.
 5. ASTER applique immédiatement l'opération autorisée.
 
 ### Variantes et limites
 
-- L'administrateur peut importer de nouveaux matériels en JSON ; les données sont appliquées immédiatement sans validation métier préalable.
-- Il peut supprimer un matériel, sous réserve des contraintes de suppression restant à définir.
-- Un matériel reste en stock sans localisation ou est affecté au maximum à une salle.
-- La gestion des garanties demeure optionnelle.
+- L'administrateur peut importer de nouveaux matériels en JSON ; les données sont appliquées immédiatement sans validation métier préalable, et un fichier comportant une ligne invalide est refusé en entier.
+- Il peut supprimer un ou plusieurs matériels ; un matériel cité par une remontée ne peut pas être supprimé (RG-73).
+- Un matériel reste en stock sans localisation ou est affecté au maximum à une salle de son école.
+- Il renseigne la date de fin de garantie et consulte l'état des garanties.
 
 ### Questions ouvertes
 
-- Contrôles JSON, doublons et échecs partiels.
-- Contraintes de suppression liées aux remontées.
-- Parcours de remise en stock et journalisation éventuelle.
-- Indicateurs et filtres du tableau de bord du parc.
+- Contrôle des doublons de numéro de série.
+- Journalisation éventuelle des opérations sur le parc.
 
 ### Règles applicables
 
-RG-03 à RG-10, RG-15, RG-25 à RG-29 et RG-69.
+RG-03 à RG-10, RG-15, RG-25 à RG-29, RG-69, RG-72 et RG-73.
 
 ## UC-ADMIN-02 — Administrer les applications d'un poste ou d'une salle
 
 - **Objectif :** consulter les applications installées et déclencher leur installation ou leur désinstallation.
-- **Déclencheur :** l'administrateur sélectionne un poste ou une salle de son école.
+- **Déclencheur :** l'administrateur sélectionne un poste, une salle ou une application de son école.
 - **Préconditions :** la cible appartient à son école ; la solution d’administration à distance est disponible et autorisée.
 
 ### Scénario nominal
 
-1. L'administrateur sélectionne un poste.
-2. ASTER obtient la liste de ses applications au moyen de la solution d’administration à distance retenue.
-3. ASTER présente les informations retournées.
-4. L'administrateur choisit une application et une opération d'installation ou de désinstallation.
-5. ASTER transmet la demande à la solution d’administration à distance retenue.
+1. L'administrateur ouvre un poste, ou une application du catalogue (nom, éditeur, version, nombre de postes équipés).
+2. ASTER présente les applications installées, remontées par les postes.
+3. Il choisit l'installation ou la désinstallation et la cible : un poste ou une salle entière.
+4. ASTER enregistre la demande d'intervention ; chaque poste cible l'exécute et renvoie son résultat.
+5. L'administrateur suit la demande : en attente des postes, en cours, terminée ou en échec avec le nombre de postes concernés.
 
 ### Variantes et limites
 
 - La cible peut être un poste ou l'ensemble des postes d'une salle.
-- La réussite, le suivi et les échecs partiels ne sont pas encore définis.
+- Une demande d'intervention ne peut pas être supprimée ; son suivi est mis à jour par les postes.
 
 ### Questions ouvertes
 
 - Solution d’administration à distance, protocole, compte technique et gestion des secrets.
-- Informations à afficher pour une application.
-- Origine, validation et version des paquets.
-- Confirmation, suivi, reprise et journalisation des opérations.
+- Origine, validation et version des paquets ; gestion du catalogue des applications.
+- Reprise d'une intervention en échec.
 
 ### Règles applicables
 
-RG-15, RG-65 et RG-69.
+RG-15, RG-25, RG-65 et RG-69.
 
 ## UC-ADMIN-03 — Réinstaller un poste ou une salle
 
 - **Objectif :** demander depuis ASTER la réapplication d'une image système.
-- **Déclencheur :** l'administrateur sélectionne un poste ou une salle à replaquer.
-- **Préconditions :** la cible appartient à son école ; un mécanisme de déploiement est disponible et autorisé.
+- **Déclencheur :** l'administrateur sélectionne un ou plusieurs postes, ou une salle, à replaquer.
+- **Préconditions :** les postes appartiennent à son école ; un mécanisme de déploiement est disponible et autorisé.
 
 ### Scénario nominal
 
-1. L'administrateur sélectionne un poste.
-2. Il demande sa réinstallation depuis ASTER.
-3. ASTER transmet la demande au mécanisme de déploiement retenu.
-4. Ce mécanisme prend en charge la réapplication de l'image.
+1. L'administrateur sélectionne un ou plusieurs postes, éventuellement tous ceux d'une salle.
+2. Il demande leur réinstallation et confirme.
+3. ASTER enregistre la demande avec l'image de référence ; chaque poste l'exécute et renvoie son résultat.
+4. L'administrateur suit l'avancement poste par poste.
 
 ### Variantes et limites
 
-- La cible peut être une salle entière.
+- La cible peut être une partie des postes d'une salle ou la salle entière.
 - ASTER ne développe pas son propre moteur d'image.
 - L'annulation et l'interruption ne sont pas demandées dans ASTER.
 
@@ -104,42 +103,41 @@ RG-15, RG-65 et RG-69.
 
 - Outil existant et interface d'automatisation.
 - Images de référence, sélection de l'image et données locales.
-- Planification, confirmation renforcée et ciblage partiel d'une salle.
-- Suivi, signalement des échecs, reprise et capacité simultanée.
+- Planification, reprise et capacité simultanée.
 
 ### Règles applicables
 
-RG-15, RG-22, RG-30 et RG-69.
+RG-15, RG-22, RG-25, RG-30 et RG-69.
 
 ## UC-ADMIN-04 — Superviser les postes et gérer les règles de processus
 
 - **Objectif :** superviser les postes de l'école, intervenir sur les processus utilisateur et définir les règles de classement.
-- **Déclencheur :** l'administrateur ouvre une salle, la gestion des listes ou les statistiques.
+- **Déclencheur :** l'administrateur ouvre une salle, les détections, la gestion des listes ou les statistiques.
 - **Préconditions :** les postes sont connus dans ASTER ; la solution d’administration à distance est disponible.
 
 ### Scénario nominal
 
 1. L'administrateur sélectionne une salle et consulte l'état de ses postes.
-2. ASTER présente les processus utilisateur et les actualise toutes les cinq secondes.
+2. ASTER présente les processus utilisateur et les actualise en quelques secondes.
 3. L'administrateur peut demander l'arrêt manuel d'un processus utilisateur affiché.
-4. Il peut créer, modifier ou supprimer une entrée de whitelist ou de blacklist dans les limites de son périmètre.
+4. Il peut créer, modifier ou supprimer une entrée de whitelist ou de blacklist dans les portées école, bâtiment ou salle ; les règles globales lui sont présentées sans modification.
 5. ASTER applique les règles cumulées et arrête automatiquement un processus blacklisté.
-6. ASTER crée l'alerte et conserve l'historique confirmé.
-7. L'administrateur peut consulter les statistiques d'utilisation disponibles.
+6. ASTER enregistre la détection et conserve l'historique confirmé.
+7. L'administrateur consulte les détections de toutes les salles et les statistiques d'utilisation.
+8. Il reçoit une notification dans ASTER pour chaque processus blacklisté détecté.
 
 ### Variantes et limites
 
 - Les processus système ne sont pas proposés comme cible d'un arrêt manuel.
 - La blacklist est prioritaire et une interdiction héritée ne peut pas être annulée localement.
-- Après environ quinze secondes sans remontée, un poste est déconnecté et reste visible sans processus.
-- Le droit de consulter des statistiques est confirmé ; leurs indicateurs ne le sont pas encore.
+- Après trente secondes sans remontée, un poste est déconnecté et reste visible sans processus.
+- Les statistiques présentent les postes connectés, les processus utilisateur actifs, les détections conservées et le classement des processus les plus détectés.
 
 ### Questions ouvertes
 
-- Articulation entre les règles de portée globale et le périmètre d'une école.
 - Solution d’administration à distance, flux et sécurisation.
-- Indicateurs, périodes, calculs, filtres et exports statistiques.
-- Statuts, traitement et durée de conservation des alertes et historiques.
+- Périodes, filtres et exports statistiques.
+- Statuts, traitement et durée de conservation des détections et historiques.
 
 ### Règles applicables
 
@@ -153,29 +151,27 @@ RG-15, RG-31 à RG-33, RG-40 à RG-58, RG-68 et RG-69.
 
 ### Scénario nominal
 
-1. L'administrateur sélectionne un ou plusieurs matériels et saisit la description du problème.
-2. ASTER enregistre la remontée et génère automatiquement son PDF d'état des lieux.
-3. L'administrateur consulte ou télécharge le PDF.
-4. Il peut traiter la remontée et effectuer la transition confirmée de « en attente » à « remplacé ».
+1. L'administrateur sélectionne un ou plusieurs matériels, choisit éventuellement un type de problème et saisit la description.
+2. ASTER enregistre la remontée « en attente » et génère automatiquement son PDF d'état des lieux.
+3. L'administrateur consulte, télécharge ou imprime le PDF.
+4. Il peut traiter la remontée en la passant de « en attente » à « remplacé » ou « corrigé » ; cette transition est unique.
 5. ASTER enregistre le statut commun à toute la remontée.
 
 ### Variantes et limites
 
 - L'administrateur peut consulter et télécharger tous les PDF de son école.
+- Il suit ses propres remontées dans un espace dédié.
 - Il peut consulter le tableau de bord des remontées.
 - Il ne reçoit aucune notification liée aux remontées.
-- Les transitions relatives au statut « corrigé » restent à définir.
 
 ### Questions ouvertes
 
-- Mode d'obtention du type de problème inclus dans le PDF.
-- Cycle complet des statuts, qualification, affectation et délais.
-- Modèle, archivage, immutabilité et versionnement du PDF.
-- Indicateurs et filtres du tableau de bord.
+- Qualification, affectation et délais.
+- Archivage, immutabilité et versionnement du PDF.
 
 ### Règles applicables
 
-RG-11 à RG-15, RG-21, RG-23 à RG-25, RG-34 à RG-39 et RG-69.
+RG-11 à RG-15, RG-21, RG-23 à RG-25, RG-34 à RG-39, RG-64, RG-69 et RG-73.
 
 ## UC-ADMIN-06 — Gérer les comptes ASTER de l'école
 
@@ -185,26 +181,49 @@ RG-11 à RG-15, RG-21, RG-23 à RG-25, RG-34 à RG-39 et RG-69.
 
 ### Scénario nominal
 
-1. L'administrateur renseigne le login et les informations du compte.
-2. Il attribue exactement un profil autorisé dans son périmètre et sélectionne son école de rattachement.
-3. ASTER vérifie le périmètre et enregistre le compte.
+1. L'administrateur renseigne le nom et l'adresse électronique du compte, unique dans ASTER.
+2. Il attribue exactement un profil parmi administrateur, gestionnaire et formateur.
+3. ASTER rattache le compte à son école et l'enregistre ; le compte est rapproché de l'identité MindefConnect lors de la connexion.
 
 ### Variantes et limites
 
 - L'administrateur peut modifier, désactiver ou réactiver un compte de son école.
-- Il ne gère pas les comptes super administrateur, faute de règle confirmant cette autorité.
-- La suppression définitive d'un compte n'est pas confirmée.
+- Il ne peut ni modifier son propre profil ni désactiver son propre compte.
+- Il ne gère pas les comptes super administrateur.
+- Un compte se désactive ; il n'est pas supprimé.
 
 ### Questions ouvertes
 
-- Données d'identité obligatoires.
-- Modalités d’intégration à MindefConnect et articulation avec la gestion des comptes ASTER (cadrage § 18).
-- Changement de profil ou d'école, sessions actives et revue des droits.
+- Modalités d’intégration à MindefConnect (cadrage § 18).
+- Sessions actives et revue des droits.
 - Traçabilité des opérations sur les comptes.
 
 ### Règles applicables
 
 RG-01, RG-15, RG-60, RG-62 et RG-69 à RG-71.
+
+## UC-ADMIN-07 — Gérer les salles et les étages
+
+- **Objectif :** tenir à jour les salles de l'école par bâtiment et par étage.
+- **Déclencheur :** une salle ou un étage doit être créé, modifié ou supprimé.
+- **Préconditions :** l'administrateur est authentifié ; la salle ou l'étage appartient à son école.
+
+### Scénario nominal
+
+1. L'administrateur ouvre les salles d'un bâtiment.
+2. Il crée ou modifie une salle : nom, bâtiment existant ou nouveau, étage.
+3. ASTER enregistre la salle dans son école.
+
+### Variantes et limites
+
+- Une salle qui accueille des postes supervisés ne peut pas être supprimée.
+- À la suppression d'une salle, ses matériels passent en stock.
+- Un étage peut exister sans salle ; un étage sans salle peut être ajouté, renuméroté ou supprimé.
+- Le rattachement d'une salle à une école ne peut pas être modifié.
+
+### Règles applicables
+
+RG-02, RG-15, RG-61 et RG-69.
 
 ## IHM issues de la maquette
 
@@ -223,11 +242,13 @@ Les autres écrans disponibles sont présentés dans la [fiche Gestionnaire](13-
 ## Besoins en interface
 
 - Tous les écrans du parc, avec suppression réservée aux profils administrateurs.
-- Sélection d'un poste ou d'une salle pour l'administration distante.
-- Consultation des applications, installation, désinstallation et réinstallation.
-- Supervision des postes et processus, gestion des listes, alertes et statistiques.
+- Gestion des salles et des étages depuis la vue des bâtiments.
+- Sélection d'un ou plusieurs postes, ou d'une salle, pour l'administration distante.
+- Consultation des applications, installation, désinstallation, réinstallation et suivi des demandes d'intervention.
+- Supervision des postes et processus, gestion des listes, détections et statistiques.
 - Création, consultation et traitement des remontées avec accès aux PDF.
 - Gestion des comptes limitée à l'école.
+- Affichage des notifications dans ASTER.
 - Aucun écran ne doit laisser penser que l'administrateur possède un périmètre global sur toutes les écoles.
 
 ## Contraintes transversales
