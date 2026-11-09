@@ -81,6 +81,20 @@ test('les titres d’écran ne sont pas affichés', async ({ page }) => {
   }
 });
 
+test('cliquer une ligne de l’inventaire la sélectionne', async ({ page }) => {
+  await open(page, '/materiels/inventaire');
+  const row = page.locator('.inv-table tbody tr').first();
+  await row.locator('.inv-id').click();
+  await expect(row.locator('input[type=checkbox]')).toBeChecked();
+  await expect(page.locator('.inv-selection strong')).toHaveText('1');
+  await row.locator('td').last().click();
+  await expect(row.locator('input[type=checkbox]')).not.toBeChecked();
+  // Les commandes de la ligne gardent leur action : le matériel s'ouvre sans changer la sélection
+  await row.locator('.inv-device').click();
+  await expect(page.getByRole('dialog')).toHaveCount(1);
+  await expect(row.locator('input[type=checkbox]')).not.toBeChecked();
+});
+
 test('quitter une salle de la vue éclatée retire son état survolé', async ({ page }) => {
   await open(page, '/salles/batiment/C');
   const room = page.locator('.blk').first();

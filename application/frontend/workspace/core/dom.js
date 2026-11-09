@@ -4,6 +4,9 @@ export const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
 export const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/** Clic sur une ligne de tableau en dehors de ses commandes (lien, bouton, case, champ) */
+export const outsideControls = (e) => !e.target.closest('a, button, input, select, textarea, label');
+
 /**
  * FLIP : anime les éléments de leur ancienne position vers la nouvelle
  * après une mutation du DOM.

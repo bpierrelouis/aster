@@ -10,6 +10,7 @@
 .inv-table th { color:var(--ink-2); font-size:11px; font-weight:600; white-space:nowrap; background:rgba(125,110,170,.04); }
 .inv-table th,.inv-table td { padding:14px 16px; border-bottom:1px solid var(--hairline); }
 .inv-table tbody tr { transition:background .15s; }
+.inv-table tbody tr:has(input[type=checkbox]) { cursor:pointer; }
 .inv-table tbody tr:hover,.inv-table tbody tr.is-selected { background:rgba(125,110,170,.07); }
 .inv-table input[type=checkbox] { width:16px; height:16px; accent-color:var(--iris); }
 .inv-sort { background:none; border:0; color:inherit; font:inherit; padding:0; cursor:pointer; }

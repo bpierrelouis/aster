@@ -16,6 +16,7 @@
 .ops-table th { font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-2,#77788b); font-weight:600; }
 .ops-table th,.ops-table td { padding:18px 20px; border-bottom:1px solid var(--line,rgba(110,100,140,.12)); }
 .ops-table tr:last-child td { border-bottom:0; }
+.ops-table tbody tr:has(.ops-check) { cursor:pointer; }
 .ops-table td small { display:block; color:var(--text-2,#77788b); margin-top:4px; }
 .ops-table td:last-child { white-space:nowrap; }
 .ops-status { display:inline-flex; align-items:center; gap:7px; font-size:12px; white-space:nowrap; }

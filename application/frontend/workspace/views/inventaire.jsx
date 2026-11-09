@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router';
 import { Icon, Tile } from '../ui/icons.jsx';
-import { uid } from '../core/dom.js';
+import { uid, outsideControls } from '../core/dom.js';
 import { store, currentEcole } from '../core/store.js';
 import { useStore } from '../core/useStore.js';
 import { can } from '../core/permissions.js';
@@ -139,7 +139,7 @@ export function Inventaire() {
           </tr></thead>
           <tbody>{rows.length ? rows.map((m) => {
             const t = deviceType(m.type), room = index().salle.get(m.salleId), on = selected.has(m.id);
-            return <tr key={m.id} className={on ? 'is-selected' : ''}>
+            return <tr key={m.id} className={on ? 'is-selected' : ''} onClick={(e) => { if (outsideControls(e)) toggle([m.id], !on); }}>
               <td><input type="checkbox" aria-label={`Sélectionner ${m.idAster}`} checked={on} onChange={(e) => toggle([m.id], e.target.checked)} /></td>
               <td className="inv-id">{m.idAster}</td>
               <td><button className="inv-device" onClick={() => detail(m)}><Tile name={t.icon} color={t.color} size="s" className="tile--tint" /><span><strong>{m.modele}</strong><small>{m.marque || t.label}{m.serie ? ` · ${m.serie}` : ''}</small></span></button></td>

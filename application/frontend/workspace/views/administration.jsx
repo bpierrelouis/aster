@@ -15,6 +15,7 @@ import { Icon, Tile } from '../ui/icons.jsx';
 import { confirmSheet, notify } from '../ui/overlays.jsx';
 import { openAccountForm, openSchoolForm, recordOperation, openDeploymentForm, openPostDetail } from './administration-forms.jsx';
 import { OpsEmpty, PageHead } from '../widgets/parts.jsx';
+import { outsideControls } from '../core/dom.js';
 import { dateTime } from '../core/format.js';
 import { useTitle } from '../ui/useTitle.js';
 
@@ -94,7 +95,7 @@ function Posts({ list, selected, onToggle }) {
   const installations = store.state.installations || [];
   return <div className="ops-table-wrap glass"><table className="ops-table">
     <thead><tr><th>Sélection</th><th>Poste</th><th>Salle</th><th>État</th><th>Applications</th><th>Actions</th></tr></thead>
-    <tbody>{list.map((p) => <tr key={p.id}>
+    <tbody>{list.map((p) => <tr key={p.id} onClick={(e) => { if (outsideControls(e)) onToggle(p.id, !selected.has(p.id)); }}>
       <td><input className="ops-check" type="checkbox" checked={selected.has(p.id)} onChange={(e) => onToggle(p.id, e.target.checked)} aria-label={`Sélectionner ${p.nomReseau}`} /></td>
       <td><strong>{p.nomReseau}</strong></td>
       <td>{index().salle.get(p.salleId)?.nom}</td>
