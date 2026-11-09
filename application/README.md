@@ -4,7 +4,9 @@ Document interne de réalisation et d’exploitation, exclu des productions remi
 
 ## Périmètre
 
-L’application couvre l’ensemble des écrans : tableaux de bord personnalisables, salles par bâtiment et par étage (vue éclatée), inventaire et import JSON des matériels, remontées et états des lieux, supervision des postes (processus, détections, règles, statistiques) et administration (postes, applications, comptes).
+L’application couvre l’ensemble des écrans : tableaux de bord personnalisables (dont des tableaux que chaque compte ajoute au sous-menu de l’accueil), salles par bâtiment avec tous leurs étages (vue éclatée), stock, inventaire et import JSON des matériels, remontées et états des lieux, supervision des postes (processus, détections, règles, statistiques) et administration (postes, applications, comptes).
+
+Repères d’interface : le menu indique l’écran affiché, le titre de chaque écran est réservé aux lecteurs d’écran. Le contenu repose sur un fond uni ; ses cartes entrent en glissant de gauche à droite et, au défilement, se replient sous la barre haute (animations pilotées par le défilement, ignorées par les navigateurs qui ne les gèrent pas). En ambiance Encre, aucune lumière ne suit le pointeur. Les étages d’un bâtiment sont ceux de ses salles, rangées en grille la plus proche d’un carré ; un étage ou une salle choisi est mis en évidence parmi tous les étages. L’écran Stock ne montre que le stock.
 
 PostgreSQL et JavaScript répondent à la demande de l’utilisateur du 6 novembre 2026. React, React Router, Vite, Express et OpenID Connect sont des choix d’implémentation. L’interface est une seule application React : la page de connexion, puis l’espace de travail, chargé seulement après la connexion, avec une adresse par écran (`/accueil`, `/salles/batiment/A`, `/remontees/attente`…). Le thème Keycloak reprend les captures de référence du [bouton d’accès](../design/MinDefConnect/reference-bouton-acces-mindefconnect.png) et du [formulaire de connexion](../design/MinDefConnect/reference-formulaire-connexion-mindefconnect.png).
 
@@ -62,7 +64,7 @@ Aucun annuaire LDAP n’est utilisé. Le 6 novembre, l’utilisateur a retenu Mi
 - À la connexion, l’identité est rapprochée du compte par son sujet, sinon par son adresse ; le sujet est alors enregistré. Une identité sans compte actif est refusée avec un message explicite.
 - Le compte est relu à chaque requête : une désactivation ferme les sessions en cours et un changement de profil s’applique immédiatement.
 - Le nom, l’auteur et la date des remontées, l’auteur des interventions et les numéros (remontées, identifiants ASTER) sont fixés par le serveur à partir du compte connecté.
-- Préférences d’affichage, dispositions des tableaux de bord, dernière consultation des notifications et école affichée par le super administrateur sont enregistrées par compte (table `aster_preference`).
+- Préférences d’affichage, dispositions des tableaux de bord (tableaux personnalisés compris : liste `tableaux` et widgets de chacun), dernière consultation des notifications et école affichée par le super administrateur sont enregistrées par compte (table `aster_preference`).
 
 **Démonstrateur uniquement :** comme le Keycloak local remplace MindefConnect, le serveur y crée l’identité de chaque compte ASTER actif qui n’en a pas (au démarrage et après chaque modification des comptes), avec le compte technique `keycloak-admin`. Un compte créé dans ASTER permet donc de se connecter aussitôt. En production, ce provisionnement est désactivé : les identités existent chez le fournisseur.
 
@@ -102,7 +104,7 @@ Le serveur applique les droits à chaque écriture ([backend/workspace.js](backe
 
 Au premier démarrage, ou quand la version du jeu de données change, les tables sont initialisées avec une école de quatre bâtiments (1 à 5 niveaux, jusqu’à 8 salles par étage), une seconde école, l’inventaire, les remontées passées et les comptes ci-dessus. L’activité des postes (processus, détections, installations) part de zéro et n’est alimentée que par les postes.
 
-L’état des lieux PDF d’une remontée est produit à la transmission, avec les informations de cet instant, puis déposé dans S3 (`etats-des-lieux/<école>/<remontée>.pdf`). L’API le sert depuis S3 ; s’il manque, il est produit puis déposé. Le contrat d’intégration avec le S3 cible reste à établir : seules les opérations de dépôt et de lecture sont utilisées.
+L’état des lieux PDF d’une remontée est produit à la transmission, avec les informations de cet instant, puis déposé dans S3 (`etats-des-lieux/<école>/<remontée>.pdf`). Le document A4 ([backend/workspace-pdf.js](backend/workspace-pdf.js), sans dépendance) comprend un bandeau ASTER (référence, statut, type de problème), l’école et le déclarant, la localisation, la description, le tableau des matériels concernés (type, identifiant ASTER, numéro de série, salle, état), le suivi et un pied de page numéroté ; il passe sur plusieurs pages si nécessaire. L’API le sert depuis S3 ; s’il manque, il est produit puis déposé. Le contrat d’intégration avec le S3 cible reste à établir : seules les opérations de dépôt et de lecture sont utilisées.
 
 Les écritures concurrentes sont fusionnées élément par élément à partir d’un journal des dernières révisions : une écriture préparée sur une révision antérieure n’échoue que si le même élément a été modifié entre-temps. Le navigateur reprend toutes les quatre secondes les modifications des autres utilisateurs et des postes (requête conditionnelle par ETag).
 
