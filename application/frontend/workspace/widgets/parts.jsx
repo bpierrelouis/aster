@@ -37,6 +37,14 @@ export function EtatBar({ c, thin = false }) {
   </div>;
 }
 
+/** En-tête d'écran : le menu indique déjà l'écran, le titre reste réservé aux lecteurs d'écran */
+export function PageHead({ title, children }) {
+  return <header className="page-head">
+    <h1 className="sr-only">{title}</h1>
+    <div className="page-actions">{children}</div>
+  </header>;
+}
+
 /** État vide des écrans Supervision et Administration */
 export function OpsEmpty({ icon, title, text }) {
   return <div className="ops-empty glass"><Icon name={icon} size={36} /><h2>{title}</h2>{text && <p>{text}</p>}</div>;

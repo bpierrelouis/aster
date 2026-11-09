@@ -12,11 +12,12 @@ import { Sheet, openSheet, confirmSheet, notify } from '../ui/overlays.jsx';
 import { SheetForm, SheetFormActions } from '../ui/forms.jsx';
 import { dateNum } from '../core/format.js';
 import { useTitle } from '../ui/useTitle.js';
+import { PageHead } from '../widgets/parts.jsx';
 
 const date = (n) => (n ? dateNum(n) : '—');
 const warranty = (m) => !m.garantieFin ? 'Non renseignée' : m.garantieFin < Date.now() ? 'Échue' : m.garantieFin < Date.now() + 182 * 86400000 ? 'À échéance' : 'En cours';
 const TABS = ['inventaire', 'import'];
-const TITLES = { inventaire: ['Inventaire', 'Retrouvez, gérez et suivez chaque matériel de votre école.'], import: ['Import JSON', 'Ajoutez vos matériels depuis un fichier JSON.'] };
+const TITLES = { inventaire: 'Inventaire', import: 'Import JSON' };
 const PAGE_SIZE = 25;
 
 export function validateImport(text, ecoleId, salles) {
@@ -111,12 +112,10 @@ export function Inventaire() {
     {label}{sort === key ? direction === 1 ? ' ↑' : ' ↓' : ''}
   </button>;
 
-  const [title, subtitle] = TITLES[tab];
   return <div className="inv-view">
-    <header className="page-head">
-      <div><h1>{title}</h1><p className="page-sub">{subtitle}</p></div>
-      {can('materiel.create') && <button className="btn btn--primary" onClick={() => openMaterielForm()}><Icon name="plus" size={18} />Ajouter un matériel</button>}
-    </header>
+    <PageHead title={TITLES[tab]}>
+      {can('materiel.create') && <button className="btn btn--primary" onClick={() => openMaterielForm()}><Icon name="plus" size={18} /><span>Ajouter un matériel</span></button>}
+    </PageHead>
     {tab === 'import' ? <ImportPanel /> : <section className="inv-panel glass">
       <div className="inv-filters">
         <label className="field field--search"><Icon name="recherche" size={18} /><input type="search" value={q} onChange={filter(setQ)} placeholder="Modèle, identifiant, série…" aria-label="Rechercher un matériel" /></label>

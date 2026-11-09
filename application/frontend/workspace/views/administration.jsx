@@ -14,16 +14,16 @@ import { role } from '../core/catalog.js';
 import { Icon, Tile } from '../ui/icons.jsx';
 import { confirmSheet, notify } from '../ui/overlays.jsx';
 import { openAccountForm, openSchoolForm, recordOperation, openDeploymentForm, openPostDetail } from './administration-forms.jsx';
-import { OpsEmpty } from '../widgets/parts.jsx';
+import { OpsEmpty, PageHead } from '../widgets/parts.jsx';
 import { dateTime } from '../core/format.js';
 import { useTitle } from '../ui/useTitle.js';
 
 const Empty = ({ text }) => <OpsEmpty icon="desktop" title={text} />;
 
 const TITLES = {
-  postes: ['Administration des postes', 'Préparez les interventions sur un poste ou une salle entière.'],
-  applications: ['Applications', 'Le catalogue et les applications installées sur vos postes.'],
-  comptes: ['Comptes & accès', 'Un profil et une école de rattachement pour chaque utilisateur.'],
+  postes: 'Administration des postes',
+  applications: 'Applications',
+  comptes: 'Comptes & accès',
 };
 
 export function Administration() {
@@ -43,7 +43,6 @@ export function Administration() {
   const selected = new Set([...selection].filter((id) => scope().postes.some((p) => p.id === id)));
   const q = query.toLowerCase();
   const posts = scope().postes.filter((p) => (!salleId || p.salleId === salleId) && p.nomReseau.toLowerCase().includes(q));
-  const [title, intro] = TITLES[tab] || TITLES.postes;
 
   const toggle = (id, on) => setSelection((prev) => { const next = new Set(prev); if (on) next.add(id); else next.delete(id); return next; });
   function selectAll() {
@@ -61,10 +60,9 @@ export function Administration() {
   }
 
   return <>
-    <div className="ops-head">
-      <div><h1>{title}</h1><p>{intro}</p></div>
-      {tab === 'comptes' && <button className="btn btn--primary" onClick={() => openAccountForm()}><Icon name="plus" size={18} />Créer un compte</button>}
-    </div>
+    <PageHead title={TITLES[tab] || TITLES.postes}>
+      {tab === 'comptes' && <button className="btn btn--primary" onClick={() => openAccountForm()}><Icon name="plus" size={18} /><span>Créer un compte</span></button>}
+    </PageHead>
     <div className="ops-toolbar">
       {tab !== 'comptes' && <label className="field"><span className="field-label">Salle</span>
         <select aria-label="Filtrer par salle" value={salleId} onChange={(e) => { setSalleId(e.target.value); setSelection(new Set()); }}>

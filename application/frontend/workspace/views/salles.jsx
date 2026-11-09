@@ -21,6 +21,7 @@ import { deviceType } from '../core/catalog.js';
 import { parc, scope, batiments, batimentLabel, materielsOf, index } from '../core/selectors.js';
 import { confirmSheet, notify } from '../ui/overlays.jsx';
 import { useTitle } from '../ui/useTitle.js';
+import { PageHead } from '../widgets/parts.jsx';
 import { floorLabel, floorLevel, floorHref, modelOf, signature, BatCard, Building, fitIso } from './salles-scene.jsx';
 import { Overview, SalleDetail, Stock } from './salles-panel.jsx';
 import { openSalleForm, openFloorForm } from './salles-forms.jsx';
@@ -224,15 +225,13 @@ export function Salles() {
   const stageModel = stageBat ? modelOf(stageBat, stageFloor, .88) : null;
   const x = salleId ? ix.salle.get(salleId) : null;
   const canManage = can('salle.manage');
+  const title = mode === 'stock' ? 'Stock' : stageBat ? `${batimentLabel(stageBat)}${stageFloor === null ? '' : ` · ${floorLabel(stageFloor)}`}` : 'Salles';
 
   return <div ref={rootRef} className={`view-salles${ghost ? ' is-dragging-mat' : ''}`} onPointerOver={onOver} onPointerLeave={() => { if (hoverId) setHoverId(null); }}>
-    <header className="page-head">
-      <div className="page-title-wrap"><h1 className="page-title">{mode === 'stock' ? 'Stock' : stageBat ? `${batimentLabel(stageBat)}${stageFloor === null ? '' : ` · ${floorLabel(stageFloor)}`}` : 'Salles'}</h1></div>
-      <div className="page-actions">
-        {canManage && stageBat && <button className="btn btn--glass" onClick={() => openFloorForm(stageBat, stageFloor)}><Icon name="layers" size={18} /><span>{stageFloor === null ? 'Ajouter un étage' : 'Modifier l’étage'}</span></button>}
-        {canManage && <button className="btn btn--glass" onClick={() => openSalleForm(null, { batiment: stageBat, etage: stageFloor ?? 0 })}><Icon name="plus" size={18} /><span>Nouvelle salle</span></button>}
-      </div>
-    </header>
+    <PageHead title={title}>
+      {canManage && stageBat && <button className="btn btn--glass" onClick={() => openFloorForm(stageBat, stageFloor)}><Icon name="layers" size={18} /><span>{stageFloor === null ? 'Ajouter un étage' : 'Modifier l’étage'}</span></button>}
+      {canManage && <button className="btn btn--glass" onClick={() => openSalleForm(null, { batiment: stageBat, etage: stageFloor ?? 0 })}><Icon name="plus" size={18} /><span>Nouvelle salle</span></button>}
+    </PageHead>
     <div className="salles">
       <section className={`iso-stage${stageBat ? '' : ' is-overview'}`} aria-label="Bâtiments et étages">
         <div className="scene" ref={sceneRef}>

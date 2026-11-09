@@ -108,6 +108,4 @@
 }
 @media (max-width: 520px) {
   :root { --board-row: 150px; --board-gap: 12px; }
-  .page-actions .btn span { display: none; }
-  .page-actions .btn { width: 42px; padding: 0; }
 }

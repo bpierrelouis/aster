@@ -17,7 +17,7 @@ import { processClass } from '../core/operations-data.js';
 import { Icon, Tile } from '../ui/icons.jsx';
 import { Sheet, openSheet, confirmSheet, notify } from '../ui/overlays.jsx';
 import { SheetForm, SheetFormActions } from '../ui/forms.jsx';
-import { OpsEmpty } from '../widgets/parts.jsx';
+import { OpsEmpty, PageHead } from '../widgets/parts.jsx';
 import { dateTime, clock } from '../core/format.js';
 import { useTitle } from '../ui/useTitle.js';
 
@@ -30,10 +30,10 @@ function Status({ c }) {
 const Empty = ({ title, text }) => <OpsEmpty icon="supervision" title={title} text={text} />;
 
 const TITLES = {
-  salles: ['Supervision des salles', 'Les postes et leurs processus utilisateur, au même endroit.'],
-  alertes: ['Alertes & détections', 'Retrouvez les processus interdits et non référencés.'],
-  listes: ['Règles de processus', 'Une politique cohérente, de l’école à la salle.'],
-  statistiques: ['Utilisation du parc', 'Une lecture des connexions et des détections disponibles.'],
+  salles: 'Supervision des salles',
+  alertes: 'Alertes & détections',
+  listes: 'Règles de processus',
+  statistiques: 'Utilisation du parc',
 };
 
 export function Supervision() {
@@ -58,16 +58,14 @@ export function Supervision() {
   const salleId = salleChoice && scope().salleIds.has(salleChoice) ? salleChoice : '';
   let tab = params.tab || 'salles';
   if (!can('administration.view') && !['salles', 'alertes'].includes(tab)) tab = 'salles';
-  const [title, intro] = TITLES[tab] || TITLES.salles;
   const relevant = (state.processus || []).filter((p) => scope().salleIds.has(p.salleId) && (!salleId || p.salleId === salleId));
 
   return <>
-    <div className="ops-head">
-      <div><h1>{title}</h1><p>{intro}</p></div>
+    <PageHead title={TITLES[tab] || TITLES.salles}>
       {tab === 'listes'
-        ? <button className="btn btn--primary" onClick={() => openRuleForm()}><Icon name="plus" size={18} />Ajouter une règle</button>
+        ? <button className="btn btn--primary" onClick={() => openRuleForm()}><Icon name="plus" size={18} /><span>Ajouter une règle</span></button>
         : <span className="ops-status"><span className="led led--ok"></span><span>Actualisé à {stamp}</span></span>}
-    </div>
+    </PageHead>
     {['salles', 'alertes'].includes(tab) && <div className="ops-toolbar">
       <label className="field"><span className="field-label">Salle à superviser</span>
         <select aria-label="Salle à superviser" value={salleId} onChange={(e) => setSalleId(e.target.value)}>

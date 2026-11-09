@@ -16,7 +16,7 @@ import { can } from '../core/permissions.js';
 import { num, ago, dateLong, dateShort } from '../core/format.js';
 import { deviceType, problem, statut } from '../core/catalog.js';
 import { remontees, remonteeContext, batiments, batimentLabel } from '../core/selectors.js';
-import { StatutPill, LieuChip } from '../widgets/parts.jsx';
+import { StatutPill, LieuChip, PageHead } from '../widgets/parts.jsx';
 import { openNewRemontee } from './remontees-create.jsx';
 import { openEtatDesLieux } from './remontees-edl.jsx';
 
@@ -153,12 +153,9 @@ export function Remontees() {
   });
 
   return <div ref={rootRef} className="view-remontees">
-    <header className="page-head">
-      <div className="page-title-wrap"><h1 className="page-title">{title}</h1></div>
-      <div className="page-actions">
-        {can('remontee.create') && <button className="btn btn--primary" onClick={() => openNewRemontee()}><Icon name="alertes" size={18} /><span>Signaler un problème</span></button>}
-      </div>
-    </header>
+    <PageHead title={title}>
+      {can('remontee.create') && <button className="btn btn--primary" onClick={() => openNewRemontee()}><Icon name="alertes" size={18} /><span>Signaler un problème</span></button>}
+    </PageHead>
     <div className={`rm-layout ${selId ? 'has-selection' : ''}`}>
       <section className="rm-panel glass" data-lens="" aria-label="Liste des remontées">
         <div className="rm-toolbar">

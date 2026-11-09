@@ -11,16 +11,16 @@ import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useParams } from 'react-router';
 import { flip, uid, reduceMotion, $$ } from '../core/dom.js';
-import { store, me } from '../core/store.js';
+import { store } from '../core/store.js';
 import { useStore } from '../core/useStore.js';
 import { refreshLens } from '../core/glass.js';
 import { can } from '../core/permissions.js';
 import { SIZES, widgetDef } from '../widgets/catalog.jsx';
+import { PageHead } from '../widgets/parts.jsx';
 import { Widget, Gallery } from './dashboard-widgets.jsx';
 import { Icon, Tile } from '../ui/icons.jsx';
 import { Sheet, openSheet, notify } from '../ui/overlays.jsx';
 import { useTitle } from '../ui/useTitle.js';
-import { dateDay } from '../core/format.js';
 
 const TITLES = { perso: 'Accueil', parc: 'Gestion du parc', remontees: 'Remontées' };
 
@@ -263,27 +263,19 @@ export function Dashboard() {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const date = dateDay(Date.now());
-
   return <div className={`view-dashboard${editing ? ' is-editing' : ''}`}>
-    <header className="page-head">
-      <div className="page-title-wrap">
-        <h1 className="page-title">{TITLES[boardId]}</h1>
-        <span className="page-sub">{boardId === 'perso' ? date : me().nom}</span>
-      </div>
-      <div className="page-actions">
-        <button type="button" className="btn btn--glass btn--icon" data-tip="Disposition par défaut" aria-label="Revenir à la disposition par défaut" hidden={!editing}
-          onClick={() => { store.resetLayout(boardId); notify('Disposition par défaut', { icon: 'refresh', tone: 'info' }); }}>
-          <Icon name="refresh" size={20} />
-        </button>
-        <button type="button" className="btn btn--glass btn--icon" data-tip="Ajouter un widget" aria-label="Ajouter un widget" hidden={!editing} onClick={openGallery}>
-          <Icon name="widgets" size={20} />
-        </button>
-        <button type="button" className={`btn ${editing ? 'btn--primary' : 'btn--glass'}`} aria-pressed={editing} onClick={() => setEditing(!editing)}>
-          <Icon name={editing ? 'check' : 'pencil'} size={18} /><span>{editing ? 'Terminé' : 'Personnaliser'}</span>
-        </button>
-      </div>
-    </header>
+    <PageHead title={TITLES[boardId]}>
+      <button type="button" className="btn btn--glass btn--icon" data-tip="Disposition par défaut" aria-label="Revenir à la disposition par défaut" hidden={!editing}
+        onClick={() => { store.resetLayout(boardId); notify('Disposition par défaut', { icon: 'refresh', tone: 'info' }); }}>
+        <Icon name="refresh" size={20} />
+      </button>
+      <button type="button" className="btn btn--glass btn--icon" data-tip="Ajouter un widget" aria-label="Ajouter un widget" hidden={!editing} onClick={openGallery}>
+        <Icon name="widgets" size={20} />
+      </button>
+      <button type="button" className={`btn ${editing ? 'btn--primary' : 'btn--glass'}`} aria-pressed={editing} onClick={() => setEditing(!editing)}>
+        <Icon name={editing ? 'check' : 'pencil'} size={18} /><span>{editing ? 'Terminé' : 'Personnaliser'}</span>
+      </button>
+    </PageHead>
     {/* Liens désactivés en mode édition */}
     <section ref={boardRef} className="board" aria-label="Widgets"
       onClickCapture={(e) => { if (editing && e.target.closest('a')) e.preventDefault(); }}

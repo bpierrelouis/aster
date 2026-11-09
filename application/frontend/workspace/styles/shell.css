@@ -131,8 +131,6 @@
   .ecole-chip span { display: none; }
   .ecole-chip { padding: 0 10px; margin-right: 0; }
   .view { padding: 72px 14px calc(max(10px, env(safe-area-inset-bottom)) + 70px); }
-  .page-title { font-size: 30px; }
-  .page-sub { display: none; }
   .subnav .seg-btn span:not(.seg-count):not(.code-badge) { display: none; }
   .subnav .seg-btn { padding: 0 12px; }
 }

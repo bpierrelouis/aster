@@ -9,9 +9,10 @@ const routes = [
   '/administration/postes', '/administration/applications', '/administration/comptes',
 ];
 
+// Le titre de chaque écran est réservé aux lecteurs d'écran : présent, mais non affiché
 async function open(page, route) {
   await page.goto(route);
-  await expect(page.locator('#view h1')).toBeVisible();
+  await expect(page.locator('#view h1')).toBeAttached();
   await expect(page.locator('.loading')).toHaveCount(0);
 }
 
@@ -71,6 +72,13 @@ test('le stock affiche tous les bâtiments, même après un bâtiment', async ({
   await page.locator('.subnav').getByRole('link', { name: /Bâtiment B/ }).click();
   await expect(page.locator('#view h1')).toHaveText('Bâtiment B');
   await expect(page.locator('.bat-card')).toHaveCount(0);
+});
+
+test('les titres d’écran ne sont pas affichés', async ({ page }) => {
+  for (const route of ['/accueil', '/salles', '/materiels/inventaire', '/remontees/attente', '/supervision/salles', '/administration/postes']) {
+    await open(page, route);
+    expect(await page.locator('#view h1').evaluate((n) => n.getBoundingClientRect().width), route).toBeLessThanOrEqual(1);
+  }
 });
 
 test('quitter une salle de la vue éclatée retire son état survolé', async ({ page }) => {
@@ -147,7 +155,7 @@ test('un matériel créé est conservé après rechargement', async ({ page, req
   await expect(dialog).toHaveCount(0);
   await expect.poll(async () => (await state(request)).materiels.some((m) => m.modele === model)).toBe(true);
   await page.reload();
-  await expect(page.locator('#view h1')).toBeVisible();
+  await expect(page.locator('#view h1')).toBeAttached();
   await expect.poll(async () => page.evaluate((name) => window.aster.store.state.materiels.some((m) => m.modele === name), model)).toBe(true);
 });
 

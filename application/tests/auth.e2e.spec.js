@@ -27,7 +27,7 @@ async function login(page, username) {
   await expect(page.locator('#password')).toHaveValue('');
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await expect(page).toHaveURL(/\/accueil$/);
-  await expect(page.locator('#view h1')).toBeVisible();
+  await expect(page.locator('#view h1')).toBeAttached();
   await expect(page.locator('.loading')).toHaveCount(0);
 }
 
@@ -76,7 +76,7 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
     await expect(page.locator('#password')).toHaveValue('');
     await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
     await expect(page).toHaveURL(/\/accueil$/);
-    await expect(page.locator('#view h1')).toBeVisible();
+    await expect(page.locator('#view h1')).toBeAttached();
     await expectPublicPresentation(page);
     if (username === 'superadmin') await page.screenshot({ path: 'test-results/accueil-superadmin.png', fullPage: true });
 
@@ -92,7 +92,7 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
     expect(await page.locator('.rail-item:not([hidden]) .rail-label').allTextContents()).toEqual(modules);
 
     await page.reload();
-    await expect(page.locator('#view h1')).toBeVisible();
+    await expect(page.locator('#view h1')).toBeAttached();
     expect((await page.request.get('/api/me')).status()).toBe(200);
     await logout(page);
     await expectPublicPresentation(page);
@@ -113,7 +113,7 @@ test('administrateur : un matériel créé est enregistré par le serveur réel'
   await expect(dialog).toHaveCount(0);
   await expect.poll(async () => (await (await page.request.get('/api/workspace')).json()).materiels.find((m) => m.modele === model)?.idAster ?? null).toMatch(/^MAT-\d{4}$/);
   await page.reload();
-  await expect(page.locator('#view h1')).toBeVisible();
+  await expect(page.locator('#view h1')).toBeAttached();
   await expect.poll(() => page.evaluate((name) => window.aster.store.state.materiels.some((m) => m.modele === name), model)).toBe(true);
   const [row] = await sql('SELECT id_aster, ecole_id, salle_id, hors_service FROM aster_materiel WHERE modele = $1', [model]);
   expect(row).toMatchObject({ ecole_id: 'e-num', salle_id: null, hors_service: false });

@@ -40,14 +40,16 @@ svg { flex: none; }
 kbd { font: inherit; font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 6px; background: rgb(255 255 255 / .18); margin-left: 6px; }
 
 /* --------------------------------------------------------------------------
-   Titres de page (façon « large title »)
+   En-tête d'écran : actions alignées à droite (le titre n'est pas affiché)
    -------------------------------------------------------------------------- */
-.page-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); flex-wrap: wrap; margin: var(--sp-2) 0 var(--sp-6); }
-.page-title-wrap { display: flex; align-items: center; gap: var(--sp-3); min-width: 0; }
-.page-title { font-size: var(--fs-title); font-weight: 800; letter-spacing: -.028em; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.page-sub { color: var(--ink-3); font-size: var(--fs-l); font-weight: 600; letter-spacing: -.01em; padding-top: 6px; }
-.page-sub::first-letter { text-transform: uppercase; }
-.page-actions { display: flex; align-items: center; gap: var(--sp-2); }
+.page-head { display: flex; justify-content: flex-end; margin: 0 0 var(--sp-5); }
+.page-head:has(> .page-actions:empty) { margin: 0; }
+.page-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: var(--sp-2); }
+.page-actions:empty { display: none; }
+@media (max-width: 520px) {
+  .page-actions .btn span { display: none; }
+  .page-actions .btn { width: 42px; padding: 0; }
+}
 
 /* --------------------------------------------------------------------------
    Boutons
