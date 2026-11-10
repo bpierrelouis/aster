@@ -1,7 +1,7 @@
 /* ==========================================================================
    Shell ASTER
-   - Menu principal : rail vertical à gauche (barre basse sur mobile),
-     lentille de sélection qui glisse vers le module actif.
+   - Menu principal : rail vertical à gauche (barre basse sur mobile) ; le
+     module actif prend la couleur d'accent et son icône grandit légèrement.
    - Menu secondaire : en haut, sous-navigation du module courant.
    - Actions de l'écran : dans la barre haute, toujours visibles (PageHead).
    - Menus de la barre haute : voir shell-menus.jsx.
@@ -86,8 +86,6 @@ export function Shell() {
   const navId = path.split('/')[1] || 'accueil';
   const nav = NAV.find((n) => n.id === navId);
 
-  const railRef = useRef(null);
-  const lensRef = useRef(null);
   const subRef = useRef(null);
   const viewRef = useRef(null);
   const [actionsSlot, setActionsSlot] = useState(null); // actions de l'écran, dans la barre haute
@@ -121,19 +119,6 @@ export function Shell() {
     scrollTo({ top: 0, behavior: 'instant' });
   }, [navId]);
 
-  // Lentille du menu principal sur le module actif
-  const placeLens = useCallback(() => {
-    const lens = lensRef.current;
-    const item = railRef.current?.querySelector(`.rail-item[data-nav="${navId}"]`);
-    if (!lens) return;
-    if (!item) { lens.style.opacity = '0'; return; }
-    lens.style.opacity = '1';
-    lens.style.width = `${item.offsetWidth}px`;
-    lens.style.height = `${item.offsetHeight}px`;
-    lens.style.transform = `translate(${item.offsetLeft}px, ${item.offsetTop}px)`;
-  }, [navId]);
-  useLayoutEffect(placeLens);
-  useEffect(() => { addEventListener('resize', placeLens); return () => removeEventListener('resize', placeLens); }, [placeLens]);
 
   // Sous-navigation : quand les onglets débordent, ceux à pastille (bâtiments) se réduisent à leur pastille
   const fitSub = useCallback(() => {
@@ -176,10 +161,9 @@ export function Shell() {
 
   return <>
     <a className="skip" href="#view">Aller au contenu</a>
-    <nav ref={railRef} className="rail glass" data-lens="strong" aria-label="Menu principal">
+    <nav className="rail glass" data-lens="strong" aria-label="Menu principal">
       <Link className="rail-brand" to="/accueil" aria-label="ASTER, accueil"><Brand ambiance={s.prefs.ambiance} size={34} /></Link>
       <div className="rail-items">
-        <span ref={lensRef} className="rail-lens" aria-hidden="true" />
         {NAV.filter(allowed).map((n) => <Link key={n.id} className={`rail-item${n.id === navId ? ' is-active' : ''}`} to={n.path} data-nav={n.id}
           aria-label={n.label} aria-current={n.id === navId ? 'page' : undefined}>
           <span className="rail-ico"><Icon name={n.icon} size={24} />{n.id === 'remontees' && attente > 0 && <span className="badge">{attente > 99 ? '99+' : attente}</span>}</span>
