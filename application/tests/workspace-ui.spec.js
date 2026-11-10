@@ -401,3 +401,21 @@ test('le menu principal n’a pas de bulle ; les règles de processus portent le
     await expect(page.locator('.ops-table tr', { hasText: nom }).locator('img.app-icon')).toHaveCount(1);
   }
 });
+
+// Dernier test : il change d'utilisateur puis revient au compte de départ
+test('en mode interface seule, le menu du compte change d’utilisateur', async ({ page, request }) => {
+  const comptes = (await state(request)).comptes.filter((c) => c.actif);
+  const admin = comptes.find((c) => c.role === 'admin');
+  const formateur = comptes.find((c) => c.role === 'formateur');
+  const switchTo = async (compte) => {
+    await page.getByRole('button', { name: 'Compte' }).click();
+    await page.getByRole('combobox', { name: /Changer d’utilisateur/ }).selectOption(compte.id);
+    await expect(page).toHaveURL(/\/accueil$/);
+    await expect(page.locator('#view h1')).toBeAttached();
+  };
+  await open(page, '/accueil');
+  await switchTo(formateur);
+  await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(0);
+  await switchTo(admin);
+  await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(1);
+});

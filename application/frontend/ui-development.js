@@ -9,7 +9,8 @@ import { createAgentEmulator, directTransport } from '../backend/demonstrateur/a
 import { userFromAccount } from '../backend/profiles.js';
 
 // Mode interface seule : mêmes règles et même API, sans fournisseur d'identité ni base de données.
-// L'utilisateur est le premier compte actif du profil ASTER_UI_ROLE ; les postes sont émulés en mémoire.
+// L'utilisateur est d'abord le premier compte actif du profil ASTER_UI_ROLE ; /api/dev permet d'en changer
+// (menu du compte) pour passer d'un profil à l'autre. Les postes sont émulés en mémoire.
 export function uiDevelopment() {
   return {
     name: 'aster-local-workspace',
@@ -20,7 +21,7 @@ export function uiDevelopment() {
       const namespace = createHash('sha256').update(server.config.root).digest('hex').slice(0, 12);
       const file = process.env.ASTER_UI_STATE_FILE || join(tmpdir(), `aster-workspace-${namespace}.json`);
       const repository = await createWorkspaceRepository({ file });
-      const account = repository.state.comptes.find((c) => c.actif && c.role === role && (role === 'superadmin' || c.ecoleId === repository.state.ecoles[0]?.id));
+      let account = repository.state.comptes.find((c) => c.actif && c.role === role && (role === 'superadmin' || c.ecoleId === repository.state.ecoles[0]?.id));
       if (!account) throw new Error(`Aucun compte actif pour le profil ${role}.`);
       const actor = () => repository.actor(account.id);
       if (process.env.ASTER_UI_AGENTS !== '0') createAgentEmulator({ transport: directTransport(repository) }).start();
@@ -39,6 +40,17 @@ export function uiDevelopment() {
         const current = actor();
         if (!current) return res.status(401).json({ error: 'Connexion nécessaire.' });
         res.json({ user: userFromAccount(current, repository.state.ecoles.find((e) => e.id === current.ecoleId)?.nom) });
+      });
+      // Changement d'utilisateur, propre à ce mode
+      app.get('/api/dev/comptes', (_req, res) => res.json({
+        courant: account.id,
+        comptes: repository.state.comptes.filter((c) => c.actif).map((c) => ({ id: c.id, nom: c.nom, role: c.role, ecole: repository.state.ecoles.find((e) => e.id === c.ecoleId)?.nom ?? null })),
+      }));
+      app.post('/api/dev/compte', express.json(), (req, res) => {
+        const next = repository.state.comptes.find((c) => c.id === req.body?.id && c.actif);
+        if (!next) return res.status(400).json({ error: 'Compte inconnu ou inactif.' });
+        account = next;
+        res.json({ ok: true });
       });
       app.use('/api/workspace', createWorkspaceRouter({ repository, actor }));
       app.use('/api/agent', createAgentRouter({ repository, token: process.env.AGENT_TOKEN || 'aster-agent-local' }));

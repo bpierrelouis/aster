@@ -14,6 +14,7 @@ import { AMBIANCES, GLASS } from '#shared/ambiance.js';
 import { role as roleOf, deviceType, statut } from '#shared/catalog.js';
 import { remontees, batimentLabel, index, scope, detections, remonteeContext, parc } from '../../core/selectors.js';
 import { num, ago } from '#shared/format.js';
+import { UserSwitch } from './user-switch.jsx';
 
 export const ecoleNom = (e) => (e === 'all' || !e ? 'Toutes les écoles' : index().ecole.get(e)?.nom ?? '');
 
@@ -87,6 +88,7 @@ export function AccountPopover({ anchor, onClose }) {
         </div>
         {!info.supportsLens && s.prefs.glass === 'liquid' && <span className="pop-note"><Icon name="eye" size={14} />La réfraction des bords s’affiche dans Chrome ou Edge.</span>}
       </div>
+      {import.meta.env.MODE === 'ui' && <UserSwitch />}
       <form action="/auth/logout" method="post"><button className="pop-link" type="submit">Se déconnecter</button></form>
     </div>
   </Popover>;

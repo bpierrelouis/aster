@@ -71,7 +71,7 @@ npm ci
 npm run dev:ui
 ```
 
-L’utilisateur est le premier compte actif du profil `ASTER_UI_ROLE` (`admin` par défaut ; `superadmin`, `gestionnaire`, `formateur`), par exemple `ASTER_UI_ROLE=formateur npm run dev:ui`. Les postes sont émulés en mémoire (désactivables avec `ASTER_UI_AGENTS=0`). Les données sont conservées dans un fichier du dossier temporaire et régénérées quand la version du jeu de données change. Ce mode se limite à la boucle locale et n’est pas inclus dans le build de production.
+L’utilisateur est d’abord le premier compte actif du profil `ASTER_UI_ROLE` (`admin` par défaut ; `superadmin`, `gestionnaire`, `formateur`), par exemple `ASTER_UI_ROLE=formateur npm run dev:ui`. Le menu du compte propose alors « Changer d’utilisateur » pour passer à n’importe quel compte actif et voir l’application avec son profil ([views/shell/user-switch.jsx](frontend/src/workspace/views/shell/user-switch.jsx), routes `/api/dev` de [ui-development.js](frontend/ui-development.js)) ; ce choix n’existe ni dans l’application connectée ni dans le build de production (`import.meta.env.MODE`). Les postes sont émulés en mémoire (désactivables avec `ASTER_UI_AGENTS=0`). Les données sont conservées dans un fichier du dossier temporaire et régénérées quand la version du jeu de données change. Ce mode se limite à la boucle locale et n’est pas inclus dans le build de production.
 
 ## Identité et comptes
 
