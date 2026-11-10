@@ -1,13 +1,12 @@
 /* ==========================================================================
-   Administration · formulaires : comptes, écoles, renommage d'un bâtiment,
+   Administration · formulaires : comptes, écoles (bâtiment : salles-forms.jsx),
    demandes d'intervention (déploiement, réinstallation) et fiche d'un poste.
    ========================================================================== */
 
 import { useState } from 'react';
 import { store, currentEcole, me } from '../../core/store.js';
 import { useStore } from '../../hooks/use-store.js';
-import { scope, index, batimentLabel } from '../../core/selectors.js';
-import { renameBuilding, batimentCode } from '#shared/buildings.js';
+import { scope, index } from '../../core/selectors.js';
 import { uid } from '../../core/dom.js';
 import { ROLES } from '#shared/catalog.js';
 import { Tile } from '../../ui/icons.jsx';
@@ -62,27 +61,6 @@ export function openSchoolForm(school = null) {
   openSheet(<Sheet title={school ? 'Modifier l’école' : 'Ajouter une école'} lead={<Tile name="school" color="var(--c3)" size="m" />} footer={<SheetFormActions form="school-form" />}>
     <SheetForm id="school-form" onSave={save}>
       <label className="field"><span className="field-label">Nom de l’école *</span><input name="nom" required maxLength={100} defaultValue={school?.nom || ''} /></label>
-    </SheetForm>
-  </Sheet>);
-}
-
-/** Renommage d'un bâtiment d'une école : ses salles, étages et règles suivent (core/buildings.js) */
-export function openBuildingForm(building) {
-  const { batiment } = building;
-  async function save(form) {
-    const nom = batimentCode(form.get('batiment'));
-    if (nom === batiment) return;
-    await store.update('data', (s) => renameBuilding(s, building, nom));
-    await store.flush();
-    notify(`${batimentLabel(batiment)} renommé ${batimentLabel(nom)}`, { icon: 'building' });
-  }
-  openSheet(<Sheet title={`Renommer le bâtiment ${batiment}`} size="s" lead={<Tile name="building" color="var(--c3)" size="m" />}
-    footer={<SheetFormActions form="building-form" label="Renommer" />}>
-    <SheetForm id="building-form" onSave={save}>
-      <label className="field"><span className="field-label">Nom du bâtiment *</span>
-        <input className="input-code" name="batiment" required maxLength={12} defaultValue={batiment} autoComplete="off" />
-        <span className="field-hint">Code court affiché sur les salles (ex. C). Les salles, les étages et les règles du bâtiment prennent ce nom.</span>
-      </label>
     </SheetForm>
   </Sheet>);
 }

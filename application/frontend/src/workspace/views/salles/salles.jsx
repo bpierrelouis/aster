@@ -28,6 +28,7 @@ import { PageHead } from '../../widgets/parts.jsx';
 import { floorLabel, floorLevel, floorHref, modelOf, signature, BatCard, Building, fitIso } from './salles-scene.jsx';
 import { Overview, SalleDetail, Stock } from './salles-panel.jsx';
 import { openSalleForm } from './salles-forms.jsx';
+import { affecter } from './salles-affectation.jsx';
 
 /** Mode affiché d'après l'adresse : all | batiment | salle | stock */
 function routeState(params, query) {
@@ -127,15 +128,10 @@ export function Salles() {
   async function moveTo(ids, targetSalleId) {
     const mats = ids.map((id) => index().materiel.get(id)).filter(Boolean).filter((m) => (m.salleId ?? null) !== (targetSalleId ?? null));
     if (!mats.length) return;
-    const dest = targetSalleId ? index().salle.get(targetSalleId) : null;
-    if (dest && mats.some((m) => m.ecoleId !== dest.ecoleId)) { notify('Destination dans une autre école', { icon: 'alertes', tone: 'warn' }); return; }
     const previousSelection = selectedRef.current;
     setSelected(new Set());
     try {
-      store.update('data', (s) => { for (const m of mats) s.materiels.find((x) => x.id === m.id).salleId = targetSalleId ?? null; });
-      await store.flush();
-      const label = mats.length > 1 ? `${num(mats.length)} matériels` : mats[0].idAster;
-      notify(dest ? `${label} affecté${mats.length > 1 ? 's' : ''} à ${dest.nom}` : `${label} remis en stock`, { icon: 'deplacement' });
+      if (!await affecter(mats, targetSalleId)) setSelected(previousSelection);
     } catch { setSelected(previousSelection); }
   }
   const moveRef = useRef(moveTo);

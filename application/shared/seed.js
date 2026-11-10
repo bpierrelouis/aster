@@ -19,7 +19,7 @@ function prng(seed) {
 }
 
 /** Version du jeu de données : un état enregistré plus ancien est régénéré. */
-export const SEED_VERSION = 5;
+export const SEED_VERSION = 6;
 
 /**
  * Comptes ASTER de départ : profil et école de rattachement de chaque personne.
@@ -117,6 +117,9 @@ export function seed(now = Date.now()) {
   for (const [ecoleId, n] of [['e-num', 46], ['e-res', 14]]) {
     for (let i = 0; i < n; i++) mkMat(ecoleId, null, pick(['uc', 'ecran', 'ecran', 'clavier', 'souris', 'cable', 'cable', 'audio', 'autre', 'borne']));
   }
+  // Stock pour équiper une nouvelle salle : une vingtaine de postes (un ou deux écrans chacun) et des matériels secondaires
+  const LOT = { uc: 20, ecran: 40, clavier: 20, souris: 20, vp: 3, switch: 2, borne: 3, cable: 24, audio: 4, imprimante: 2, autre: 3 };
+  for (const [key, n] of Object.entries(LOT)) for (let i = 0; i < n; i++) mkMat('e-num', null, key);
   // Identifiant ASTER attribué dans l'ordre de réception (RG-03)
   [...materiels].sort((a, b) => a.dateReception - b.dateReception).forEach((m, i) => { m.idAster = `MAT-${String(i + 1).padStart(4, '0')}`; });
 

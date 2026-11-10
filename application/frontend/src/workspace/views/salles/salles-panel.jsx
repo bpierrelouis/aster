@@ -4,7 +4,7 @@
    ========================================================================== */
 
 import { useRef } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Icon, Tile } from '../../ui/icons.jsx';
 import { currentEcole } from '../../core/store.js';
 import { can, why } from '../../core/permissions.js';
@@ -15,7 +15,8 @@ import { EtatBar } from '../../widgets/parts.jsx';
 import { openMaterielForm, AffectationOptions } from '../inventaire/materiel.jsx';
 import { openNewRemontee } from '../remontees/remontees-create.jsx';
 import { floorLabel, floorLevel, roomOrder } from './salles-scene.jsx';
-import { openSalleForm } from './salles-forms.jsx';
+import { openSalleForm, openBuildingForm } from './salles-forms.jsx';
+import { openEquipSheet } from './salles-affectation.jsx';
 
 /** Bouton désactivé, avec l'explication, si le droit manque. */
 function GuardedBtn({ cap, className, onClick, children, ...attrs }) {
@@ -24,6 +25,7 @@ function GuardedBtn({ cap, className, onClick, children, ...attrs }) {
 }
 
 export function Overview({ mode, stageBat, stageFloor, hoverId }) {
+  const navigate = useNavigate();
   const p = parc();
   const bats = mode === 'batiment' ? [stageBat] : batiments();
   const list = bats.flatMap((b) => [...sallesOf(b)].sort(roomOrder)).filter((x) => stageFloor === null || floorLevel(x) === stageFloor); // groupées par bâtiment
@@ -35,6 +37,10 @@ export function Overview({ mode, stageBat, stageFloor, hoverId }) {
     <div className="insp-head">
       <Tile name={mode === 'batiment' ? 'salles' : 'school'} color="var(--c3)" size="l" />
       <div className="insp-title"><h2>{titleTxt}</h2><span>{num(list.length)} salles{mode === 'all' ? `, ${num(bats.length)} bâtiments` : ''}</span></div>
+      {mode === 'batiment' && <div className="insp-actions">
+        <GuardedBtn cap="salle.manage" className="icon-btn" aria-label="Renommer le bâtiment" data-tip="Renommer le bâtiment"
+          onClick={() => openBuildingForm({ ecoleId: sallesOf(stageBat)[0]?.ecoleId, batiment: stageBat }, { onRenamed: (nom) => navigate(`/salles/batiment/${encodeURIComponent(nom)}`) })}><Icon name="pencil" size={18} /></GuardedBtn>
+      </div>}
     </div>
     <ul className="stat-row">
       <li data-tip="Salles"><Icon name="salles" size={20} /><b>{num(list.length)}</b></li>
@@ -145,7 +151,7 @@ export function SalleDetail({ x, stageBat, selected, devs, act }) {
       <span className="insp-tools">
         {can('remontee.create') && <button className="icon-btn icon-btn--glass" aria-label="Signaler un problème dans cette salle" data-tip-title="Signaler un problème" data-tip="Reprend les matériels sélectionnés"
           onClick={() => openNewRemontee({ salleId: x.id, materielIds: [...selected] })}><Icon name="alertes" size={18} /></button>}
-        {can('materiel.create') && <button className="icon-btn icon-btn--glass" aria-label="Ajouter un matériel" data-tip="Ajouter un matériel" onClick={() => openMaterielForm(null, { salleId: x.id })}><Icon name="plus" size={18} /></button>}
+        {can('materiel.move') && <button className="icon-btn icon-btn--glass" aria-label="Équiper la salle" data-tip-title="Équiper la salle" data-tip="Postes et matériels secondaires pris dans le stock" onClick={() => openEquipSheet(x)}><Icon name="plus" size={18} /></button>}
       </span>
     </div>
     <DevGroups list={list} draggable={draggable} mode="salle" selected={selected} {...devs} />

@@ -306,3 +306,24 @@
 
 /* Redessin de la scène : placement immédiat, sans rejouer les transitions */
 .is-placing .floor-slab, .is-placing .blk, .is-placing .blk-face, .is-placing .blk-label > span { transition: none !important; }
+
+/* Équiper une salle : postes et matériels secondaires pris dans le stock */
+.equip-block { display: flex; flex-direction: column; gap: 10px; }
+.equip-block + .equip-block { padding-top: 18px; border-top: 1px solid var(--hairline); }
+.equip-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.equip-head h3 { margin: 0; font-size: 16px; font-weight: 750; }
+.equip-head span { font-size: 13px; color: var(--ink-3); }
+.equip-list { display: flex; flex-direction: column; gap: 2px; }
+.equip-row { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 6px 10px; border-radius: 14px; }
+label.equip-row { cursor: pointer; }
+label.equip-row:hover { background: var(--fill-1); }
+.equip-row.is-off .equip-name, .equip-row.is-off .tile { opacity: .5; }
+.equip-name { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.equip-name b { font-size: 14px; font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.equip-name small { font-size: 12px; color: var(--ink-3); }
+.equip-need { min-width: 34px; text-align: right; font-size: 16px; font-variant-numeric: tabular-nums; }
+.equip-group { display: flex; flex-direction: column; gap: 2px; }
+.equip-group .equip-row { padding-left: 48px; }
+.equip-group-title { display: flex; align-items: center; gap: 10px; padding: 6px 10px 2px; font-size: 13px; font-weight: 700; color: var(--ink-2); }
+.equip-none { margin: 0; padding: 4px 10px 8px 48px; font-size: 13px; color: var(--ink-3); }
+.equip-option { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 0 10px; font-size: 14px; font-weight: 650; color: var(--ink-2); }

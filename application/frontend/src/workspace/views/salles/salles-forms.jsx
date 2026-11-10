@@ -1,6 +1,7 @@
 /* ==========================================================================
    Salles · formulaire de salle (création, modification). L'étage est celui
    indiqué sur la salle : les étages d'un bâtiment sont ceux de ses salles.
+   Renommage d'un bâtiment (vue du bâtiment et Administration › Bâtiments).
    ========================================================================== */
 
 import { useEffect, useRef, useState } from 'react';
@@ -11,7 +12,7 @@ import { uid } from '../../core/dom.js';
 import { store, currentEcole } from '../../core/store.js';
 import { can } from '../../core/permissions.js';
 import { batimentLabel } from '../../core/selectors.js';
-import { batimentCode } from '#shared/buildings.js';
+import { batimentCode, renameBuilding } from '#shared/buildings.js';
 import { Sheet, openSheet, notify } from '../../ui/overlays.jsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.jsx';
 
@@ -69,4 +70,29 @@ function SalleSheet({ salle, defaults }) {
       </div>
     </SheetForm>
   </Sheet>;
+}
+
+/**
+ * Renommage d'un bâtiment d'une école : ses salles, étages et règles suivent (shared/buildings.js).
+ * onRenamed(nom) : appelé après l'enregistrement (la vue du bâtiment suit son nouveau nom).
+ */
+export function openBuildingForm(building, { onRenamed } = {}) {
+  const { batiment } = building;
+  async function save(form) {
+    const nom = batimentCode(form.get('batiment'));
+    if (nom === batiment) return;
+    await store.update('data', (s) => renameBuilding(s, building, nom));
+    await store.flush();
+    notify(`${batimentLabel(batiment)} renommé ${batimentLabel(nom)}`, { icon: 'building' });
+    onRenamed?.(nom);
+  }
+  openSheet(<Sheet title={`Renommer le bâtiment ${batiment}`} size="s" lead={<Tile name="building" color="var(--c3)" size="m" />}
+    footer={<SheetFormActions form="building-form" label="Renommer" />}>
+    <SheetForm id="building-form" onSave={save}>
+      <label className="field"><span className="field-label">Nom du bâtiment *</span>
+        <input className="input-code" name="batiment" required maxLength={12} defaultValue={batiment} autoComplete="off" />
+        <span className="field-hint">Code court affiché sur les salles (ex. C). Les salles, les étages et les règles du bâtiment prennent ce nom.</span>
+      </label>
+    </SheetForm>
+  </Sheet>);
 }

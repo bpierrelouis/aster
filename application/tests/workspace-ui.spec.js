@@ -335,3 +335,48 @@ test('un bâtiment se renomme depuis l’administration, avec ses salles', async
   await expect(await rename('E', 'D')).toHaveCount(0);
   await expect(page.locator('tr', { hasText: 'Bâtiment D' })).toHaveCount(1);
 });
+
+test('un bâtiment se renomme depuis sa vue, qui suit le nouveau nom', async ({ page }) => {
+  const rename = async (from, to) => {
+    await page.getByRole('button', { name: 'Renommer le bâtiment' }).click();
+    const dialog = page.getByRole('dialog', { name: `Renommer le bâtiment ${from}` });
+    await dialog.getByLabel('Nom du bâtiment *').fill(to);
+    await dialog.getByLabel('Nom du bâtiment *').press('Enter');
+    await expect(dialog).toHaveCount(0);
+    await expect(page).toHaveURL(new RegExp(`/salles/batiment/${to}$`));
+    await expect(page.locator('.insp-title h2')).toHaveText(`Bâtiment ${to}`);
+  };
+  await open(page, '/salles/batiment/D');
+  await rename('D', 'E');
+  await rename('E', 'D'); // retour au nom initial pour les autres tests
+});
+
+test('une salle s’équipe de postes et de matériels secondaires pris dans le stock', async ({ page, request }) => {
+  const before = await state(request);
+  const salle = before.salles.find((s) => s.nom === 'B004');
+  const stock = before.materiels.filter((m) => m.ecoleId === salle.ecoleId && !m.salleId && !m.hs);
+  const count = (pred) => stock.filter(pred).length;
+  // Postes complets avec deux écrans (unité centrale, deux écrans, clavier, souris), plus un câble réseau
+  const postes = Math.min(2, count((m) => m.type === 'uc'), Math.floor(count((m) => m.type === 'ecran') / 2), count((m) => m.modele === 'Clavier USB'), count((m) => m.modele === 'Souris filaire'));
+  const cables = Math.min(1, count((m) => m.modele === 'Câble Ethernet 5 m'));
+  const expected = postes * 5 + cables;
+  expect(expected).toBeGreaterThan(0);
+
+  await open(page, `/salles/salle/${salle.id}`);
+  await page.getByRole('button', { name: 'Équiper la salle', exact: true }).click();
+  const dialog = page.getByRole('dialog', { name: `Équiper ${salle.nom}` });
+  await dialog.getByRole('spinbutton', { name: 'Nombre de postes' }).fill(String(postes));
+  await dialog.getByRole('radio', { name: '2 écrans' }).click();
+  if (cables) await dialog.getByRole('button', { name: 'Un de plus : Câble Ethernet 5 m' }).click();
+  await expect(dialog.locator('.sheet-hint')).toHaveText(`${expected} matériel${expected > 1 ? 's' : ''} du stock`);
+  await dialog.getByRole('button', { name: `Affecter à ${salle.nom}` }).click();
+  await expect(dialog).toHaveCount(0);
+
+  const inRoom = (data) => data.materiels.filter((m) => m.salleId === salle.id).length;
+  await expect.poll(async () => inRoom(await state(request))).toBe(inRoom(before) + expected);
+  const after = await state(request);
+  const moved = after.materiels.filter((m) => m.salleId === salle.id && !before.materiels.find((b) => b.id === m.id).salleId);
+  expect(moved).toHaveLength(expected);
+  expect(moved.every((m) => !m.hs)).toBe(true);
+  expect(moved.filter((m) => m.type === 'ecran')).toHaveLength(postes * 2);
+});
