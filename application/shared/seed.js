@@ -208,29 +208,35 @@ export function seed(now = Date.now()) {
 export function defaultLayouts() {
   let i = 0;
   const w = (type, size) => ({ id: `w${++i}`, type, size });
+  // Parc : indicateurs, où sont les matériels hors service, composition, garanties, acquisitions, listes
   const parc = () => [
     w('kpi.materiels', 'S'), w('kpi.affectes', 'S'), w('kpi.stock', 'S'), w('kpi.hs', 'S'),
-    w('chart.parcBatiments', 'L'), w('chart.garanties', 'L'),
-    w('chart.localisation', 'M'), w('chart.disponibilite', 'M'),
+    w('chart.hsBatiments', 'L'), w('chart.types', 'L'),
+    w('chart.matriceHs', 'L'), w('list.surveiller', 'L'),
+    w('chart.garanties', 'M'), w('chart.disponibilite', 'M'),
+    w('chart.echeances', 'L'), w('chart.parcBatiments', 'L'),
     w('chart.receptions', 'XL'),
-    w('chart.types', 'L'), w('chart.marques', 'L'),
-    w('list.salles', 'L'), w('list.hs', 'L'),
+    w('chart.localisation', 'M'), w('chart.marques', 'M'),
+    w('list.hs', 'M'), w('list.salles', 'M'),
     w('list.recents', 'XL'),
   ];
+  // Remontées : file de travail, flux, ancienneté, répartition dans le temps, par type et par bâtiment
   const remontees = () => [
-    w('kpi.attente', 'S'), w('kpi.traitees', 'S'), w('chart.statuts', 'M'),
-    w('chart.flux', 'L'), w('list.attente', 'L'),
-    w('chart.problemes', 'L'), w('chart.semaines', 'L'),
-    w('chart.batiments', 'XL'),
+    w('kpi.attente', 'M'), w('kpi.traitees', 'S'), w('kpi.delai', 'S'),
+    w('list.aTraiter', 'L'), w('chart.flux', 'L'),
+    w('chart.anciennete', 'M'), w('chart.solde', 'M'),
+    w('chart.calendrier', 'XL'),
+    w('chart.semaines', 'L'), w('chart.problemes', 'M'), w('chart.statuts', 'M'),
+    w('chart.taux', 'L'), w('chart.batiments', 'L'),
   ];
+  // Synthèse : ce qui demande une action d'abord, puis l'état du parc et des postes
   const admin = () => ({
     perso: [
-      w('kpi.parc', 'M'), w('kpi.hs', 'S'), w('kpi.attente', 'S'),
-      w('chart.flux', 'L'), w('list.attente', 'L'),
-      w('chart.problemes', 'M'), w('chart.postes', 'M'),
-      w('chart.parcBatiments', 'L'), w('chart.garanties', 'L'),
-      w('chart.disponibilite', 'M'), w('list.detections', 'M'),
-      w('chart.batiments', 'XL'),
+      w('kpi.hs', 'S'), w('kpi.attente', 'S'), w('kpi.traitees', 'S'), w('kpi.delai', 'S'),
+      w('list.aTraiter', 'L'), w('chart.flux', 'L'),
+      w('chart.hsBatiments', 'L'), w('list.surveiller', 'L'),
+      w('chart.postes', 'M'), w('list.detections', 'M'),
+      w('kpi.parc', 'M'), w('chart.garanties', 'M'),
     ],
     parc: parc(),
     remontees: remontees(),
@@ -240,11 +246,11 @@ export function defaultLayouts() {
     superadmin: admin(),
     gestionnaire: {
       perso: [
-        w('kpi.stock', 'S'), w('kpi.hs', 'S'), w('kpi.attente', 'S'), w('chart.disponibilite', 'S'),
-        w('list.attente', 'L'), w('chart.problemes', 'L'),
-        w('chart.garanties', 'L'), w('chart.types', 'L'),
+        w('kpi.stock', 'S'), w('kpi.hs', 'S'), w('kpi.attente', 'S'), w('kpi.delai', 'S'),
+        w('list.aTraiter', 'L'), w('list.surveiller', 'L'),
+        w('chart.garanties', 'M'), w('chart.hsTypes', 'M'),
+        w('chart.echeances', 'L'), w('chart.types', 'L'),
         w('chart.receptions', 'XL'),
-        w('kpi.garanties', 'M'), w('list.hs', 'M'),
       ],
       parc: parc(),
       remontees: remontees(),

@@ -101,6 +101,9 @@
   --focus: var(--accent-text);
   --grid-dot: rgb(var(--ink) / .16);
   --chart-grid: rgb(var(--ink) / .08);
+  /* Teintes de l'accent dans les graphiques (ui/charts-bars.jsx, accentShade) : l'accent
+     s'éclaircit vers le blanc (ambiances claires) ou vers l'encre claire (ambiances sombres) */
+  --ramp-base: #fff;
   --room-wait: color-mix(in srgb, var(--wait) 80%, white);
   --room-hs: color-mix(in srgb, var(--crit) 62%, white);
 }
@@ -316,3 +319,6 @@
 
   --crit: #e5533d;            /* alerte corail */
 }
+
+/* Ambiances sombres : teintes des graphiques vers l'encre claire */
+:root[data-tone="dark"] { --ramp-base: rgb(var(--ink)); }

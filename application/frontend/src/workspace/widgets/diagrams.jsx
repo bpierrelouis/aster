@@ -2,18 +2,19 @@
    Diagrammes du tableau de bord : un titre, la forme et sa légende.
    Valeurs calculées sur le périmètre affiché (école), comme les autres
    widgets ; ajoutés au catalogue (widgets/catalog.jsx).
+   Couleurs : les grandeurs et les catégories sans état prennent l'accent et
+   ses teintes (accentShade) ; les couleurs d'état ne servent qu'aux états.
    ========================================================================== */
 
-import { num, dec, pct, pct1, dateShort, DAY } from '#shared/format.js';
+import { num, dec, pct, pct1, dateShort } from '#shared/format.js';
 import { PROBLEMS, problem } from '#shared/catalog.js';
 import { parc, remontees, scope, index, batimentLabel } from '../core/selectors.js';
-import { LineChart } from '../ui/charts.jsx';
 import { Donut, Arcs, Gauge, Columns, ComboBars, Pyramid, ChartLegend } from '../ui/charts-shapes.jsx';
+import { accentShade, RankBars, SegBar, SegLegend, Multiples } from '../ui/charts-bars.jsx';
 import { WidgetHead, WidgetEmpty } from './parts.jsx';
 
-/* Catégories sans couleur propre (problèmes, bâtiments) : ordre fixe de la palette catégorielle */
-const PALETTE = ['var(--c1)', 'var(--c5)', 'var(--c3)', 'var(--c2)', 'var(--c6)', 'var(--c4)', 'var(--c7)', 'var(--c8)'];
-const color = (i) => PALETTE[i % PALETTE.length];
+/* Garanties : échue et sous 6 mois sont des états (alerte, échéance proche) ; au-delà, teintes de l'accent */
+const GARANTIE_COLORS = { echue: 'var(--crit)', proche: 'var(--warn)', annee: accentShade(2, 3), longue: 'var(--accent)', aucune: 'var(--stock)' };
 const byName = (a, b) => a.localeCompare(b, 'fr', { numeric: true });
 
 /** Trimestres civils, du plus ancien au trimestre en cours */
@@ -32,8 +33,8 @@ export const DIAGRAMS = [
     type: 'chart.problemes', kind: 'chart', title: 'Types de problème', icon: 'ring', color: 'var(--accent)', sizes: ['M', 'L'], cap: 'remontee.viewAll',
     Body() {
       const list = remontees().visible;
-      const parts = PROBLEMS.map((p, i) => ({ label: p.label, value: list.filter((r) => problem(r.probleme).id === p.id).length, color: color(i) }))
-        .filter((p) => p.value).sort((a, b) => b.value - a.value);
+      const parts = PROBLEMS.map((p) => ({ label: p.label, value: list.filter((r) => problem(r.probleme).id === p.id).length }))
+        .filter((p) => p.value).sort((a, b) => b.value - a.value).map((p, i, all) => ({ ...p, color: accentShade(i, all.length) }));
       return <>
         <WidgetHead title="Types de problème" />
         {list.length ? <div className="diagram">
@@ -56,28 +57,21 @@ export const DIAGRAMS = [
         <WidgetHead title="En salle et en stock" />
         <div className="diagram">
           <Donut parts={parts} hole={0} label={`${t.affectes} matériels en salle, ${t.stock} en stock`} />
-          <ChartLegend items={parts.map((p) => ({ label: p.label, color: p.color, value: `${num(p.value)} · ${pct(t.total ? p.value / t.total : 0)}` }))} />
+          <ChartLegend items={parts.map((p) => ({ label: p.label, color: p.color, value: pct(t.total ? p.value / t.total : 0) }))} />
         </div>
       </>;
     },
   },
   {
-    type: 'chart.semaines', kind: 'chart', title: 'Remontées par type et par semaine', icon: 'chartLine', color: 'var(--accent)', sizes: ['L', 'XL'], cap: 'remontee.viewAll',
+    type: 'chart.semaines', kind: 'chart', title: 'Remontées par type et par semaine', icon: 'chartBar', color: 'var(--accent)', sizes: ['L', 'XL'], cap: 'remontee.viewAll',
     Body() {
       const rm = remontees();
-      const start = rm.weeks[0].from;
-      const series = PROBLEMS.map((p, i) => ({ name: p.label, color: color(i), values: rm.weeks.map(() => 0) }));
-      for (const r of rm.visible) {
-        const w = Math.floor((r.createdAt - start) / (7 * DAY));
-        if (w >= 0 && w < rm.weeks.length) series[PROBLEMS.indexOf(problem(r.probleme))].values[w]++;
-      }
-      const used = series.filter((s) => s.values.some(Boolean));
+      const items = rm.problemes.filter((x) => x.values.some(Boolean)).sort((a, b) => b.values.reduce((t, v) => t + v, 0) - a.values.reduce((t, v) => t + v, 0))
+        .map((x) => ({ label: x.p.label, values: x.values, tips: x.values.map((v, k) => `${num(v)} la semaine du ${dateShort(rm.weeks[k].from)}`) }));
       return <>
         <WidgetHead title="Remontées par type et par semaine" />
-        {used.length ? <>
-          <LineChart stacked labels={rm.weeks.map((w) => dateShort(w.from))} series={used} />
-          <ul className="legend legend--inline legend--wrap">{used.map((s) => <li key={s.name}><span className="key-dot" style={{ '--k': s.color }} />{s.name}</li>)}</ul>
-        </> : <WidgetEmpty ic="checkCircle" text="Aucune remontée sur 12 semaines" />}
+        {items.length ? <Multiples items={items} label={`Remontées par type de problème et par semaine, 12 semaines : ${items.map((x) => `${x.label} ${x.values.reduce((t, v) => t + v, 0)}`).join(', ')}`} />
+          : <WidgetEmpty ic="checkCircle" text="Aucune remontée sur 12 semaines" />}
       </>;
     },
   },
@@ -86,8 +80,8 @@ export const DIAGRAMS = [
     Body() {
       const { byBatiment, totals } = parc();
       const max = Math.max(1, ...byBatiment.map((b) => b.total));
-      const items = byBatiment.map((b, i) => ({
-        key: b.batiment, label: batimentLabel(b.batiment), short: b.batiment, ratio: b.total / max, color: color(i),
+      const items = byBatiment.map((b) => ({
+        key: b.batiment, label: batimentLabel(b.batiment), short: b.batiment, ratio: b.total / max, color: 'var(--accent)',
         display: pct(totals.total ? b.total / totals.total : 0), tip: `${num(b.total)} matériels\n${num(b.hs)} hors service`,
       }));
       return <>
@@ -108,8 +102,8 @@ export const DIAGRAMS = [
         if (p.connecte) g.on++;
         groups.set(b, g);
       }
-      const items = [...groups].sort(([a], [b]) => byName(a, b)).map(([b, g], i) => ({
-        label: batimentLabel(b), ratio: g.on / g.total, color: color(i), tip: `${num(g.on)} postes connectés sur ${num(g.total)}`,
+      const items = [...groups].sort(([a], [b]) => byName(a, b)).map(([b, g], i, all) => ({
+        label: batimentLabel(b), ratio: g.on / g.total, color: accentShade(i, all.length), tip: `${num(g.on)} postes connectés sur ${num(g.total)}`,
       }));
       return <>
         <WidgetHead title="Postes connectés par bâtiment" />
@@ -129,7 +123,7 @@ export const DIAGRAMS = [
       return <>
         <WidgetHead title="Réceptions de matériel" right={<ul className="legend legend--inline">
           <li><span className="key-dot" style={{ '--k': 'var(--accent)' }} />Reçus</li>
-          <li><span className="key-line" style={{ '--k': 'var(--c2)' }} />Moyenne sur 4 trimestres</li>
+          <li><span className="key-line" style={{ '--k': 'var(--ink-2)' }} />Moyenne sur 4 trimestres</li>
         </ul>} />
         <ComboBars labels={list.map((q) => q.label)} bars={bars} line={trend} barName="Reçus" lineName="Moyenne sur 4 trimestres" fmtLine={dec}
           label={`Matériels reçus par trimestre, de ${list[0].label} à ${list.at(-1).label}`} />
@@ -138,25 +132,19 @@ export const DIAGRAMS = [
   },
   {
     type: 'chart.garanties', kind: 'chart', title: 'Garanties du parc', icon: 'stack', color: 'var(--warn)', sizes: ['M', 'L'], cap: 'dashboard.parc',
-    Body() {
-      const now = Date.now();
-      const buckets = [
-        { label: 'Échue', color: 'var(--crit)', until: now },
-        { label: 'Sous 6 mois', color: 'var(--warn)', until: now + 182 * DAY },
-        { label: '6 à 12 mois', color: 'var(--c5)', until: now + 365 * DAY },
-        { label: 'Plus d’un an', color: 'var(--ok)', until: Infinity },
-        { label: 'Non renseignée', color: 'var(--stock)', until: null },
-      ].map((b) => ({ ...b, n: 0 }));
-      const list = scope().materiels;
-      for (const m of list) (m.garantieFin ? buckets.find((b) => b.until !== null && m.garantieFin <= b.until) : buckets.at(-1)).n++;
-      const layers = buckets.filter((b) => b.n).sort((a, b) => a.n - b.n)
-        .map((b) => ({ ...b, tip: `${num(b.n)} matériels, ${pct(b.n / list.length)}` }));
+    Body({ size }) {
+      const { garantieTranches, totals } = parc();
+      const parts = garantieTranches.map((t) => ({ label: t.label, value: t.n, color: GARANTIE_COLORS[t.id] }));
+      const label = `Garanties : ${parts.map((p) => `${p.label} ${p.value}`).join(', ')}`;
+      if (!totals.total) return <><WidgetHead title="Garanties du parc" /><WidgetEmpty ic="materiel" text="Aucun matériel" /></>;
+      if (size === 'M') return <><WidgetHead title="Garanties du parc" /><div className="aging"><SegBar parts={parts} label={label} /><SegLegend parts={parts} /></div></>;
+      const layers = parts.filter((p) => p.value).sort((a, b) => a.value - b.value).map((p) => ({ ...p, n: p.value, tip: `${num(p.value)} matériels, ${pct(p.value / totals.total)}` }));
       return <>
         <WidgetHead title="Garanties du parc" />
-        {list.length ? <div className="diagram">
-          <Pyramid layers={layers} label={`Garanties : ${layers.map((l) => `${l.label} ${l.n}`).join(', ')}`} />
+        <div className="diagram">
+          <Pyramid layers={layers} label={label} />
           <ChartLegend items={layers.map((l) => ({ label: l.label, color: l.color, value: num(l.n) }))} />
-        </div> : <WidgetEmpty ic="materiel" text="Aucun matériel" />}
+        </div>
       </>;
     },
   },
@@ -178,15 +166,10 @@ export const DIAGRAMS = [
       const counts = new Map();
       for (const m of list) { const k = m.marque || 'Non renseignée'; counts.set(k, (counts.get(k) ?? 0) + 1); }
       const rows = [...counts].sort((a, b) => b[1] - a[1] || byName(a[0], b[0])).slice(0, size === 'M' ? 3 : 8);
-      const max = rows[0]?.[1] || 1;
       return <>
         <WidgetHead title="Matériels par marque" />
-        <ul className="hbars hbars--plain">{rows.map(([nom, n]) => (
-          <li key={nom} className="hbar" data-tip-title={nom} data-tip={`${num(n)} matériels, ${pct(n / list.length)}`}>
-            <span className="hbar-label">{nom}</span>
-            <span className="hbar-track"><span className="hbar-fill" style={{ width: `${(n / max) * 100}%` }} /></span>
-            <b className="hbar-value">{num(n)}</b>
-          </li>))}</ul>
+        <RankBars rows={rows.map(([nom, n]) => ({ label: nom, value: n, tip: `${num(n)} matériels, ${pct(n / list.length)}` }))}
+          label={`Matériels par marque : ${rows.map(([nom, n]) => `${nom} ${n}`).join(', ')}`} />
       </>;
     },
   },

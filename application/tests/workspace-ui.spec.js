@@ -295,24 +295,43 @@ test('quatre ambiances changent les couleurs et la marque', async ({ page }) => 
   await expect(page.locator('html')).toHaveAttribute('data-ambiance', 'aube');
 });
 
-test('les tableaux de bord présentent des diagrammes ; indicateurs et diagrammes sans icône', async ({ page }) => {
+test('les tableaux de bord présentent des diagrammes ; indicateurs et diagrammes sans icône', async ({ page, request }) => {
   await open(page, '/accueil/parc');
   const widget = (type) => page.locator(`.widget[data-type="${type}"]`);
   await expect(widget('chart.parcBatiments').locator('.col')).toHaveCount(4);
   await expect(widget('chart.parcBatiments').locator('.col-value').first()).toContainText('%');
-  await expect(widget('chart.garanties').locator('.pyramid polygon').first()).toBeVisible();
+  // Grandeurs sans palette décorative : une seule couleur, l'accent
+  expect(await widget('chart.parcBatiments').locator('.col-bar').evaluateAll((n) => [...new Set(n.map((e) => e.style.getPropertyValue('--c')))])).toEqual(['var(--accent)']);
+  await expect(widget('chart.garanties').locator('.segbar-part').first()).toBeVisible();
+  await expect(widget('chart.garanties').locator('.seglegend li')).toHaveCount(5);
   await expect(widget('chart.disponibilite').locator('.gauge-text b')).toContainText('%');
   await expect(widget('chart.receptions').locator('.combo-col')).toHaveCount(12);
-  await expect(page.locator('.widget--kpi .tile, .widget--chart .w-head .tile')).toHaveCount(0);
+  await expect(widget('chart.echeances').locator('.vbar')).toHaveCount(12);
+  await expect(widget('chart.hsBatiments').locator('.bullet-mark').first()).toBeAttached();
+  await expect(page.locator('.widget--kpi .tile, .widget .w-head .tile')).toHaveCount(0);
+  // Aucune pastille : un indicateur hors service non nul teinte le fond de sa carte
+  await expect(page.locator('.widget .led')).toHaveCount(0);
+  const hs = (await state(request)).materiels.filter((m) => m.hs && m.ecoleId === 'e-num').length;
+  await expect(widget('kpi.hs').locator('.kpi--hs')).toHaveCount(hs > 0 ? 1 : 0);
+  await expect(widget('chart.matriceHs').locator('.heatmx-row--total .heatmx-total').last()).toHaveText(String(hs));
   await open(page, '/accueil/remontees');
   await expect(widget('chart.problemes').locator('.radial-part').first()).toBeVisible();
-  await expect(widget('chart.semaines').locator('.chart-svg path').first()).toBeAttached();
+  await expect(widget('chart.semaines').locator('.multiples li').first()).toBeVisible();
+  await expect(widget('chart.calendrier').locator('.heatcal .heat-cell')).toHaveCount(12 * 7);
+  await expect(widget('chart.solde').locator('.vbar')).toHaveCount(12);
+  await expect(widget('kpi.delai').locator('.kpi-value')).toBeVisible();
+  // Remontées à traiter : les plus anciennes d'abord
+  const ages = (await widget('list.aTraiter').locator('.age b').allTextContents()).map((t) => (t === 'Auj.' ? 0 : parseInt(t, 10)));
+  expect(ages.length).toBeGreaterThan(0);
+  expect(ages).toEqual([...ages].sort((a, b) => b - a));
   // La galerie propose les diagrammes
   await page.getByRole('button', { name: 'Personnaliser' }).click();
   await page.getByRole('button', { name: 'Ajouter un widget', exact: true }).click();
   const gallery = page.getByRole('dialog', { name: 'Ajouter un widget' });
   await gallery.getByRole('tab', { name: 'Graphiques' }).click();
-  await expect(gallery.locator('.gal-meta b', { hasText: 'Postes connectés par bâtiment' })).toHaveCount(1);
+  for (const title of ['Postes connectés par bâtiment', 'Remontées par jour', 'Hors service par type et par bâtiment', 'Solde hebdomadaire des remontées']) {
+    await expect(gallery.locator('.gal-meta b', { hasText: title })).toHaveCount(1);
+  }
 });
 
 test('un bâtiment se renomme depuis l’administration, avec ses salles', async ({ page, request }) => {

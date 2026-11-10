@@ -24,13 +24,25 @@ a.w-count:hover { background: var(--fill-2); color: var(--ink-1); }
 .kpi { display: flex; flex-direction: column; justify-content: space-between; height: 100%; min-width: 0; }
 .kpi-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 24px; }
 .kpi-top .kpi-label { display: inline-flex; align-items: center; gap: 8px; margin: 0; font-size: 14px; font-weight: 650; }
-.kpi-top .kpi-label .led { width: 10px; height: 10px; }
 .kpi-value {
   font-family: var(--font-display);
   font-size: var(--fs-3xl); font-weight: 760; letter-spacing: -.04em; line-height: 1;
   font-variant-numeric: tabular-nums;
 }
+/* Bas d'un indicateur : valeur, puis variation datée ou détail */
+.kpi-bottom { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.kpi-value small { margin-left: 2px; font-size: .55em; font-weight: 650; letter-spacing: -.01em; }
+.kpi-sub { font-size: 12.5px; font-weight: 550; color: var(--ink-2); line-height: 1.3; }
+.kpi-delta b { margin-right: 4px; font-weight: 700; white-space: nowrap; }
+.kpi-delta[data-tone="bad"] b { color: var(--crit); }
+.kpi-delta[data-tone="good"] b { color: var(--ok); }
+.spark-area { fill: rgb(var(--ink) / .06); }
+.spark-line { fill: none; stroke: var(--ink-3); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 .kpi-label { margin-top: 6px; font-size: 13.5px; font-weight: 600; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Indicateur en alerte (hors service, en attente) : fond de carte teinté, discret, au lieu d'une pastille.
+   Couche ajoutée sur le verre, liquide ou opaque (sélecteur plus précis que celui du verre opaque). */
+:root .widget .widget-card:has(.kpi--hs) { background-image: linear-gradient(var(--alert-wash), var(--alert-wash)); --alert-wash: color-mix(in srgb, var(--crit) 10%, transparent); }
+:root .widget .widget-card:has(.kpi--wait) { background-image: linear-gradient(var(--alert-wash), var(--alert-wash)); --alert-wash: color-mix(in srgb, var(--wait) 17%, transparent); }
 .kpi--split { flex-direction: row; align-items: stretch; gap: 22px; }
 .kpi--split > .kpi { flex: 0 0 auto; min-width: 132px; }
 .kpi-side { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 14px; }
@@ -145,6 +157,7 @@ button.row:hover { background: var(--fill-1); }
 
 @media (max-width: 520px) {
   .kpi-value { font-size: 30px; }
+  .kpi-top .kpi-label { white-space: normal; line-height: 1.25; }
   .w-content { padding: 14px; }
   .kpi--split { gap: 12px; }
   .kpi--split > .kpi { min-width: 0; }

@@ -4,7 +4,7 @@
    ========================================================================== */
 
 import { store, me, currentEcole } from './store.js';
-import { DEVICE_TYPES } from '#shared/catalog.js';
+import { DEVICE_TYPES, PROBLEMS, problem } from '#shared/catalog.js';
 import { DAY } from '#shared/format.js';
 import { can } from './permissions.js';
 
@@ -89,7 +89,84 @@ export const parc = () => cached('parc', () => {
   }
   const recents = [...materiels].sort((a, b) => b.dateReception - a.dateReception);
   const topSalles = [...salles].sort((a, b) => bySalle.get(b.id).total - bySalle.get(a.id).total);
-  return { totals, byType, bySalle, byBatiment, stock, sallesEquipees, garanties, recents, topSalles };
+  // Salles à surveiller : matériels hors service ou en remontée, les plus touchées d'abord
+  const surveiller = salles.filter((x) => bySalle.get(x.id).hs + bySalle.get(x.id).attente > 0)
+    .sort((a, b) => { const va = bySalle.get(a.id), vb = bySalle.get(b.id); return vb.hs + vb.attente - (va.hs + va.attente) || vb.hs - va.hs; });
+  // Hors service par type et par bâtiment (dernière colonne : stock)
+  const cols = [...batiments(), null];
+  const col = (m) => (m.salleId ? cols.indexOf(index().salle.get(m.salleId)?.batiment) : cols.length - 1);
+  const matrix = DEVICE_TYPES.map((t) => ({ t, cells: cols.map(() => 0) }));
+  for (const m of materiels) if (m.hs) { const row = matrix.find((r) => r.t.id === m.type); const c = col(m); if (row && c >= 0) row.cells[c]++; }
+  // Parc en fin de chaque semaine (12 semaines) et matériels reçus sur la période
+  const W = 7 * DAY;
+  const parcWeeks = Array.from({ length: 12 }, (_, i) => materiels.filter((m) => m.dateReception <= now - (11 - i) * W).length);
+  const recus = materiels.filter((m) => m.dateReception > now - 12 * W).length;
+  return {
+    totals, byType, bySalle, byBatiment, stock, sallesEquipees, garanties, recents, topSalles,
+    surveiller, matrix: { cols, rows: matrix.filter((r) => r.cells.some(Boolean)) }, parcWeeks, recus,
+    garantieTranches: garantieTranches(materiels, now), echeances: echeances(materiels, now),
+  };
+});
+
+/** Garanties par échéance : échue, sous 6 mois, 6 à 12 mois, plus d'un an, non renseignée */
+function garantieTranches(materiels, now) {
+  const tranches = [
+    { id: 'echue', label: 'Échue', until: now },
+    { id: 'proche', label: 'Sous 6 mois', until: now + 182 * DAY },
+    { id: 'annee', label: '6 à 12 mois', until: now + 365 * DAY },
+    { id: 'longue', label: 'Plus d’un an', until: Infinity },
+    { id: 'aucune', label: 'Non renseignée', until: null },
+  ].map((b) => ({ ...b, n: 0 }));
+  for (const m of materiels) (m.garantieFin ? tranches.find((b) => b.until !== null && m.garantieFin <= b.until) : tranches.at(-1)).n++;
+  return tranches;
+}
+
+/** Fins de garantie à venir, mois par mois, du mois en cours au onzième suivant */
+function echeances(materiels, now) {
+  const d = new Date(now);
+  return Array.from({ length: 12 }, (_, i) => {
+    const from = new Date(d.getFullYear(), d.getMonth() + i, 1).getTime();
+    const to = new Date(d.getFullYear(), d.getMonth() + i + 1, 1).getTime();
+    return { from, n: materiels.filter((m) => m.garantieFin && m.garantieFin >= Math.max(from, now) && m.garantieFin < to).length };
+  });
+}
+
+/** Date du traitement d'une remontée (premier changement de statut), ou null si elle attend encore */
+export const treatedAt = (r) => r.historique.find((h) => h.statut !== 'attente')?.at ?? null;
+const pendingAt = (list, t) => list.filter((r) => { const d = treatedAt(r); return r.createdAt <= t && (d === null || d > t); }).length;
+const median = (values) => {
+  if (!values.length) return null;
+  const s = [...values].sort((a, b) => a - b), k = Math.floor(s.length / 2);
+  return s.length % 2 ? s[k] : (s[k - 1] + s[k]) / 2;
+};
+
+/** Lundi 0 h de la semaine d'une date */
+const mondayOf = (t) => { const d = new Date(t); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d; };
+const dayKey = (t) => new Date(t).toDateString();
+
+/** Remontées créées par jour sur 12 semaines civiles (du lundi au dimanche), la semaine en cours comprise */
+export const remonteesParJour = () => cached('remonteesParJour', () => {
+  const counts = new Map();
+  for (const r of remontees().visible) counts.set(dayKey(r.createdAt), (counts.get(dayKey(r.createdAt)) ?? 0) + 1);
+  const first = mondayOf(Date.now());
+  first.setDate(first.getDate() - 11 * 7);
+  const today = new Date().setHours(0, 0, 0, 0);
+  return Array.from({ length: 12 }, (_, w) => Array.from({ length: 7 }, (__, d) => {
+    const at = new Date(first.getFullYear(), first.getMonth(), first.getDate() + w * 7 + d).getTime();
+    return { at, n: counts.get(dayKey(at)) ?? 0, future: at > today };
+  }));
+});
+
+/** Remontées des 12 dernières semaines pour 100 matériels, par bâtiment (localisation actuelle des matériels) */
+export const remonteesParBatiment = () => cached('remonteesParBatiment', () => {
+  const since = Date.now() - 12 * 7 * DAY;
+  const recent = remontees().visible.filter((r) => r.createdAt > since);
+  const rows = parc().byBatiment.map((b) => {
+    const n = recent.filter((r) => remonteeContext(r).salles.some((x) => x.batiment === b.batiment)).length;
+    return { batiment: b.batiment, n, total: b.total, taux: b.total ? (100 * n) / b.total : 0 };
+  });
+  const n = rows.reduce((t, r) => t + r.n, 0), total = rows.reduce((t, r) => t + r.total, 0);
+  return { rows, moyenne: total ? (100 * n) / total : 0 };
 });
 
 /** Remontées visibles : toutes (gestionnaire, administrateurs) ou les siennes (formateur) */
@@ -111,9 +188,25 @@ export const remontees = () => cached('remontees', () => {
     const done = r.historique.find((h) => h.statut !== 'attente');
     if (done) { const wd = Math.floor((done.at - start) / W); if (wd >= 0 && wd < 12) weeks[wd].traitees++; }
   }
+  for (const w of weeks) { w.attente = pendingAt(visible, Math.min(w.from + W, now)); w.solde = w.creees - w.traitees; }
   const recentTraitees = traitees.filter((r) => r.historique.at(-1).at > now - 30 * DAY);
+  const traiteesAvant = traitees.filter((r) => { const t = r.historique.at(-1).at; return t > now - 60 * DAY && t <= now - 30 * DAY; }).length;
+  // Délai de traitement (création → premier changement de statut), médiane sur 12 semaines et sur les 12 précédentes
+  const delays = (from, to) => visible.map((r) => [r.createdAt, treatedAt(r)]).filter(([, d]) => d !== null && d > from && d <= to).map(([c, d]) => d - c);
+  const delai = { median: median(delays(start, now)), avant: median(delays(start - 12 * W, start)) };
+  // Par type de problème et par semaine
+  const problemes = PROBLEMS.map((p) => ({ p, values: weeks.map(() => 0) }));
+  for (const r of visible) {
+    const wi = Math.floor((r.createdAt - start) / W);
+    if (wi >= 0 && wi < 12) problemes.find((x) => x.p.id === problem(r.probleme).id).values[wi]++;
+  }
   const mesRemontees = s.remontees.filter((r) => inScope(r.ecoleId) && mine(r));
-  return { visible, attente, traitees, byStatut, weeks, recentTraitees, mine: mesRemontees, mineAttente: mesRemontees.filter((r) => r.statut === 'attente') };
+  return {
+    visible, attente, traitees, byStatut, weeks, recentTraitees, traiteesAvant, delai, problemes,
+    attenteAvant: pendingAt(visible, now - 7 * DAY), // en attente il y a 7 jours
+    aTraiter: [...attente].sort((a, b) => a.createdAt - b.createdAt), // les plus anciennes d'abord
+    mine: mesRemontees, mineAttente: mesRemontees.filter((r) => r.statut === 'attente'),
+  };
 });
 
 /** Localisations d'une remontée : celles de ses matériels (RG-12, RG-34) */

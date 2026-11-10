@@ -19,10 +19,9 @@ function niceMax(v) {
 
 /**
  * Courbes avec réticule et infobulle, à la taille de leur conteneur (.chart-host).
- * stacked : aires empilées (la première série en bas), l'infobulle donne la valeur de chaque série.
- * @param {{series:{name:string,color:string,values:number[]}[], labels:string[], fmt?:(n:number)=>string, stacked?:boolean}} props
+ * @param {{series:{name:string,color:string,values:number[]}[], labels:string[], fmt?:(n:number)=>string}} props
  */
-export function LineChart({ series, labels, fmt = num, stacked = false }) {
+export function LineChart({ series, labels, fmt = num }) {
   const ref = useRef(null);
   const [box, setBox] = useState(null); // { w, h } mesurés
   const [hover, setHover] = useState(null); // index survolé
@@ -40,12 +39,11 @@ export function LineChart({ series, labels, fmt = num, stacked = false }) {
     return () => ro.disconnect();
   }, []);
 
-  // Hauteur de chaque série : cumulée si empilée
-  const tops = stacked ? series.map((_, k) => labels.map((__, i) => series.slice(0, k + 1).reduce((t, s) => t + s.values[i], 0))) : series.map((s) => s.values);
+  const tops = series.map((s) => s.values);
   let svg = null, geo = null;
   if (box) {
     const { w, h } = box;
-    const pad = { l: 30, r: stacked ? 10 : 34, t: 10, b: 22 };
+    const pad = { l: 30, r: 34, t: 10, b: 22 };
     const n = labels.length;
     const max = niceMax(Math.max(...tops.flat()) * 1.08);
     const X = (i) => pad.l + (i * (w - pad.l - pad.r)) / (n - 1);
@@ -62,14 +60,7 @@ export function LineChart({ series, labels, fmt = num, stacked = false }) {
       {[0, Math.floor((n - 1) / 2), n - 1].map((i, k) => (
         <text key={k} x={X(i)} y={h - 4} className="ch-tick" textAnchor={i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}>{labels[i]}</text>
       ))}
-      {stacked && series.map((s, k) => {
-        const floor = k ? points(tops[k - 1]).reverse() : [[X(n - 1), Y(0)], [X(0), Y(0)]];
-        return <Fragment key={s.name}>
-          <path d={`${path([...points(tops[k]), ...floor])}Z`} fill={s.color} opacity=".82" />
-          <path d={line(tops[k])} fill="none" stroke={s.color} strokeWidth="2" strokeLinejoin="round" />
-        </Fragment>;
-      })}
-      {!stacked && series.map((s) => {
+      {series.map((s) => {
         const d = line(s.values);
         const last = s.values[n - 1];
         return <Fragment key={s.name}>
@@ -101,8 +92,8 @@ export function LineChart({ series, labels, fmt = num, stacked = false }) {
   return <div ref={ref} className="chart-host" onPointerMove={onMove} onPointerLeave={onLeave}>{svg}</div>;
 }
 
-/** Sparkline : ligne en teinte discrète, point courant accentué */
-export function Sparkline({ values, w = 120, h = 36, color = 'var(--c1)', label = '' }) {
+/** Sparkline : tendance en encre discrète, seul le point courant prend la couleur (état ou accent) */
+export function Sparkline({ values, w = 120, h = 36, color = 'var(--accent)', label = '' }) {
   if (!values.length) return null;
   const max = Math.max(...values) || 1;
   const min = Math.min(...values);
@@ -112,8 +103,8 @@ export function Sparkline({ values, w = 120, h = 36, color = 'var(--c1)', label 
   const d = values.map((v, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)} ${Y(v).toFixed(1)}`).join('');
   const li = values.length - 1;
   return <svg className="spark" width={w} height={h} viewBox={`0 0 ${w} ${h}`} role="img" aria-label={label}>
-    <path d={`${d}L${X(li)} ${h}L${X(0)} ${h}Z`} fill={color} opacity=".08" />
-    <path d={d} fill="none" stroke={color} strokeOpacity=".55" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d={`${d}L${X(li)} ${h}L${X(0)} ${h}Z`} className="spark-area" />
+    <path d={d} className="spark-line" />
     <circle cx={X(li)} cy={Y(values[li])} r="4" fill={color} className="ch-dot" />
   </svg>;
 }

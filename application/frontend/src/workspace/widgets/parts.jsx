@@ -1,7 +1,7 @@
 /* Éléments d'affichage partagés par plusieurs écrans. */
 import { createContext, useContext } from 'react';
 import { createPortal } from 'react-dom';
-import { Icon, Tile } from '../ui/icons.jsx';
+import { Icon } from '../ui/icons.jsx';
 import { usePeek } from '../ui/peek.js';
 import { num } from '#shared/format.js';
 import { ETATS, statut } from '#shared/catalog.js';
@@ -13,9 +13,9 @@ export function EtatIcon({ m }) {
   return <span className={`st st--${e.id}`} data-tip={e.label}><Icon name={e.icon} size={16} /></span>;
 }
 
-/** Pastille d'état d'un matériel : témoin + libellé */
+/** Étiquette d'état d'un matériel : libellé sur fond de la couleur de l'état, sans témoin */
 export function EtatPill({ m }) {
-  return <span className={`pill pill--${m.hs ? 'hs' : 'ok'}`}><span className={`led led--${m.hs ? 'hs' : 'ok'}`} />{m.hs ? 'Hors service' : 'En service'}</span>;
+  return <span className={`pill pill--${m.hs ? 'hs' : 'ok'}`}>{m.hs ? 'Hors service' : 'En service'}</span>;
 }
 
 /** Pastille de statut d'une remontée */
@@ -55,10 +55,9 @@ export function PageHead({ title, children }) {
   </>;
 }
 
-/** En-tête d'un widget : titre, icône facultative (les diagrammes n'ont que leur titre) */
-export function WidgetHead({ title, ic = null, color, right = null }) {
+/** En-tête d'un widget : le titre seul, sans icône, et un complément facultatif à droite */
+export function WidgetHead({ title, right = null }) {
   return <header className="w-head">
-    {ic && <Tile name={ic} color={color} size="s" />}
     <h3 className="w-title">{title}</h3>
     {right && <div className="w-head-right">{right}</div>}
   </header>;
@@ -66,6 +65,29 @@ export function WidgetHead({ title, ic = null, color, right = null }) {
 
 /** Contenu vide d'un widget */
 export const WidgetEmpty = ({ ic, text }) => <div className="w-empty"><Icon name={ic} size={28} /><span>{text}</span></div>;
+
+/** Indicateur : libellé en haut (puce facultative à droite), valeur en bas, suivie d'une ligne facultative (variation, détail) */
+export const KpiBody = ({ label, value, chip = null, sub = null }) => <>
+  <div className="kpi-top"><span className="kpi-label">{label}</span>{chip}</div>
+  <div className="kpi-bottom"><div className="kpi-value">{value}</div>{sub}</div>
+</>;
+
+/** Signal d'un indicateur : la carte prend un fond rouge (hors service) ou jaune (en attente) discret tant que la valeur n'est pas nulle */
+export const alertClass = (tone, n) => (n > 0 ? ` kpi--${tone}` : '');
+
+/** Ligne de détail sous la valeur d'un indicateur */
+export const KpiSub = ({ children }) => <p className="kpi-sub">{children}</p>;
+
+/**
+ * Variation datée d'un indicateur : flèche, écart, puis la période.
+ * sense : 'up-bad' (une hausse est défavorable), 'up-good' ou 'neutral' (sans jugement, encre).
+ */
+export function Delta({ diff, period, fmt = num, sense = 'neutral' }) {
+  if (diff === null || diff === undefined || Number.isNaN(diff)) return null;
+  if (!diff) return <p className="kpi-sub kpi-delta"><b>Stable</b> {period}</p>;
+  const tone = sense === 'neutral' ? 'flat' : (diff > 0) === (sense === 'up-good') ? 'good' : 'bad';
+  return <p className="kpi-sub kpi-delta" data-tone={tone}><b>{diff > 0 ? '▲' : '▼'} {fmt(Math.abs(diff))}</b> {period}</p>;
+}
 
 /** Tableau des écrans Supervision et Administration : en-tête fixe, défilement dans le cadre, pied facultatif (pagination) */
 export function OpsTable({ head, children, footer = null }) {
