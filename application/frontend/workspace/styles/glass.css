@@ -1,11 +1,12 @@
 /* ==========================================================================
    ASTER · Le matériau verre
-   Trois niveaux, pilotés par <html data-glass="…"> :
-   - liquid : réfraction réelle des bords (filtre SVG, Chromium) + flou
-   - frost  : verre dépoli (flou + saturation), tous navigateurs
-   - solid  : surfaces opaques (performance, accessibilité)
+   Deux niveaux, pilotés par <html data-glass="…">, distincts même sur le
+   fond uni du contenu :
+   - liquid : verre clair, presque transparent ; liseré lumineux, reflet,
+              réfraction réelle des bords des barres fixes (filtre SVG, Chromium)
+   - solid  : surface pleine, filet net, sans reflet ni flou
    La lumière (--la angle, --lx/--ly position, --li intensité) est pilotée
-   par core/glass.js et suit le pointeur.
+   par core/glass.js et suit le pointeur dans les ambiances claires.
    ========================================================================== */
 
 .glass {
@@ -62,17 +63,19 @@
 /* Dans le contenu, le verre repose sur le fond uni : aucun flou à recalculer pendant le défilement */
 .view .glass { -webkit-backdrop-filter: none; backdrop-filter: none; }
 
-/* Ambiance Encre : pas de lumière qui suit le pointeur, un liseré régulier */
-:root[data-ambiance="encre"] .glass::before { background: var(--rim-mid); }
-:root[data-ambiance="encre"] .glass::after { background: linear-gradient(180deg, var(--sheen), transparent 42%); }
+/* Ambiances sombres : pas de lumière qui suit le pointeur, liseré éclairé par le haut */
+:root[data-tone="dark"] .glass::before { background: linear-gradient(180deg, var(--rim-hi), var(--rim-mid) 22%, var(--rim-lo)); }
+:root[data-tone="dark"] .glass::after { background: linear-gradient(180deg, var(--sheen), transparent 42%); }
 
-/* Niveau "solid" ou transparence réduite : pas de flou */
+/* Opaque : surface pleine, filet net, sans reflet ni flou */
 :root[data-glass="solid"] .glass {
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
   background: var(--glass-tint-solid);
+  box-shadow: 0 0 0 1px var(--hairline), 0 1px 2px rgb(var(--shade) / .06), 0 10px 24px -14px rgb(var(--shade) / .28);
 }
-:root[data-glass="solid"] .glass::after { background: linear-gradient(180deg, var(--sheen), transparent 30%); }
+:root[data-glass="solid"] .glass--clear { background: transparent; }
+:root[data-glass="solid"] .glass::before, :root[data-glass="solid"] .glass::after { display: none; }
 
 @media (prefers-reduced-transparency: reduce) {
   .glass {
@@ -105,6 +108,7 @@
 .led--ok { --led: var(--ok); }
 .led--wait { --led: var(--wait); }
 .led--stock { --led: var(--stock); }
+.led--warn { --led: var(--warn); }
 .led--hs { --led: var(--crit); }
 .led--off { --led: rgb(var(--ink) / .25); box-shadow: 0 0 0 1.5px rgb(255 255 255 / .4); }
 .led--lg { width: 10px; height: 10px; }

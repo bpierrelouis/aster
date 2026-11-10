@@ -6,7 +6,7 @@ const routes = [
   '/materiels/inventaire', '/materiels/import',
   '/remontees/attente', '/remontees/traitees', '/remontees/toutes', '/remontees/miennes',
   '/supervision/salles', '/supervision/alertes', '/supervision/listes', '/supervision/statistiques',
-  '/administration/postes', '/administration/applications', '/administration/comptes',
+  '/administration/postes', '/administration/applications', '/administration/batiments', '/administration/comptes',
 ];
 
 // Le titre de chaque écran est réservé aux lecteurs d'écran : présent, mais non affiché
@@ -237,4 +237,101 @@ test('les écrans principaux restent contenus sur mobile', async ({ page }) => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), route).toBe(true);
   }
   await page.screenshot({ path: 'test-results/workspace-mobile.png', fullPage: true });
+});
+
+test('les actions de l’écran restent visibles pendant le défilement', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await open(page, '/accueil');
+  const action = page.getByRole('button', { name: 'Personnaliser' });
+  await expect(page.locator('.topbar .page-actions')).toContainText('Personnaliser');
+  await page.mouse.move(700, 500);
+  await page.mouse.wheel(0, 1500);
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(200);
+  await expect(action).toBeInViewport();
+});
+
+test('sans barre de défilement, l’en-tête du tableau reste visible et la ligne suivante est coupée', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await open(page, '/materiels/inventaire');
+  const scroller = page.locator('.inv-table-scroll');
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollbarWidth)).toBe('none');
+  expect(await scroller.evaluate((el) => getComputedStyle(el).scrollbarWidth)).toBe('none');
+  // La ligne qui croise le bas de la zone en montre entre le tiers et la moitié
+  const shown = await scroller.evaluate((el) => {
+    const bottom = el.getBoundingClientRect().bottom;
+    const row = [...el.querySelectorAll('tbody tr')].map((r) => r.getBoundingClientRect()).find((r) => r.top < bottom && r.bottom > bottom);
+    return row ? (bottom - row.top) / row.height : null;
+  });
+  expect(shown).toBeGreaterThanOrEqual(1 / 3 - .02);
+  expect(shown).toBeLessThanOrEqual(1 / 2 + .02);
+  await scroller.evaluate((el) => { el.scrollTop = 600; });
+  const [head, box] = [await page.locator('.inv-table thead th').first().boundingBox(), await scroller.boundingBox()];
+  expect(Math.abs(head.y - box.y)).toBeLessThanOrEqual(1);
+});
+
+test('la légende des salles reste visible pendant le défilement', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await open(page, '/salles');
+  await page.mouse.move(500, 600);
+  await page.mouse.wheel(0, 1200);
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(200);
+  await expect(page.locator('.iso-legend')).toBeInViewport({ ratio: 1 });
+});
+
+test('quatre ambiances changent les couleurs et la marque', async ({ page }) => {
+  await open(page, '/accueil');
+  await page.getByRole('button', { name: 'Compte' }).click();
+  const group = page.getByRole('radiogroup', { name: 'Ambiance' });
+  await expect(group.getByRole('radio')).toHaveText(['Aube', 'Encre', 'Orion', 'Vigie']);
+  await expect(page.getByRole('radiogroup', { name: 'Verre' }).getByRole('radio')).toHaveText(['Liquide', 'Opaque']);
+  await group.getByRole('radio', { name: 'Orion' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-ambiance', 'orion');
+  await expect(page.locator('html')).toHaveAttribute('data-tone', 'dark');
+  await expect(page.locator('.rail-brand .brand--orion')).toHaveCount(1);
+  await group.getByRole('radio', { name: 'Vigie' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-tone', 'light');
+  await expect(page.locator('.rail-brand .brand--vigie')).toHaveCount(1);
+  await group.getByRole('radio', { name: 'Aube' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-ambiance', 'aube');
+});
+
+test('les tableaux de bord présentent des diagrammes ; indicateurs et diagrammes sans icône', async ({ page }) => {
+  await open(page, '/accueil/parc');
+  const widget = (type) => page.locator(`.widget[data-type="${type}"]`);
+  await expect(widget('chart.parcBatiments').locator('.col')).toHaveCount(4);
+  await expect(widget('chart.parcBatiments').locator('.col-value').first()).toContainText('%');
+  await expect(widget('chart.garanties').locator('.pyramid polygon').first()).toBeVisible();
+  await expect(widget('chart.disponibilite').locator('.gauge-text b')).toContainText('%');
+  await expect(widget('chart.receptions').locator('.combo-col')).toHaveCount(12);
+  await expect(page.locator('.widget--kpi .tile, .widget--chart .w-head .tile')).toHaveCount(0);
+  await open(page, '/accueil/remontees');
+  await expect(widget('chart.problemes').locator('.radial-part').first()).toBeVisible();
+  await expect(widget('chart.semaines').locator('.chart-svg path').first()).toBeAttached();
+  // La galerie propose les diagrammes
+  await page.getByRole('button', { name: 'Personnaliser' }).click();
+  await page.getByRole('button', { name: 'Ajouter un widget', exact: true }).click();
+  const gallery = page.getByRole('dialog', { name: 'Ajouter un widget' });
+  await gallery.getByRole('tab', { name: 'Graphiques' }).click();
+  await expect(gallery.locator('.gal-meta b', { hasText: 'Postes connectés par bâtiment' })).toHaveCount(1);
+});
+
+test('un bâtiment se renomme depuis l’administration, avec ses salles', async ({ page, request }) => {
+  await open(page, '/administration/batiments');
+  const rename = async (from, to) => {
+    await page.locator('tr', { hasText: `Bâtiment ${from}` }).getByRole('button', { name: 'Renommer' }).click();
+    const dialog = page.getByRole('dialog', { name: `Renommer le bâtiment ${from}` });
+    await dialog.getByLabel('Nom du bâtiment *').fill(to);
+    await dialog.getByLabel('Nom du bâtiment *').press('Enter');
+    return dialog;
+  };
+  const refused = await rename('D', 'a');
+  await expect(refused.getByRole('alert')).toContainText('existe déjà');
+  await refused.getByRole('button', { name: 'Annuler' }).click();
+  await expect(await rename('D', 'e')).toHaveCount(0);
+  await expect(page.locator('tr', { hasText: 'Bâtiment E' })).toHaveCount(1);
+  await expect.poll(async () => (await state(request)).salles.some((s) => s.batiment === 'E')).toBe(true);
+  expect((await state(request)).salles.some((s) => s.batiment === 'D')).toBe(false);
+  // Retour au nom initial : les autres tests gardent leur jeu de données
+  await expect(await rename('E', 'D')).toHaveCount(0);
+  await expect(page.locator('tr', { hasText: 'Bâtiment D' })).toHaveCount(1);
 });

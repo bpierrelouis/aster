@@ -44,7 +44,7 @@
   display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
   color: var(--ink-1);
   background: var(--glass-tint-solid);
-  box-shadow: 0 0 0 .5px rgb(var(--ink) / .12), 0 4px 10px -2px rgb(52 36 110 / .35);
+  box-shadow: 0 0 0 .5px rgb(var(--ink) / .12), 0 4px 10px -2px rgb(var(--shade) / .35);
   opacity: 0; transform: scale(.4); pointer-events: none;
   transition: opacity var(--dur-2), transform var(--dur-2) var(--ease-spring);
 }
@@ -64,7 +64,7 @@
 }
 .w-sizes button:hover, .gal-sizes button:hover { color: var(--ink-1); }
 .w-sizes button[aria-pressed="true"], .gal-sizes button[aria-checked="true"] { color: var(--ink-1); background: var(--glass-tint-solid); box-shadow: 0 1px 3px rgb(var(--ink) / .15); }
-:root[data-ambiance="encre"] .w-sizes button[aria-pressed="true"], :root[data-ambiance="encre"] .gal-sizes button[aria-checked="true"] { background: rgb(255 255 255 / .16); }
+:root[data-tone="dark"] .w-sizes button[aria-pressed="true"], :root[data-tone="dark"] .gal-sizes button[aria-checked="true"] { background: rgb(255 255 255 / .16); }
 
 .widget.is-dragging { z-index: 30; cursor: grabbing; }
 .widget.is-dragging .widget-inner { animation: none; }

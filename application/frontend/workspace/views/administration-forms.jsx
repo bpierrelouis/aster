@@ -1,12 +1,13 @@
 /* ==========================================================================
-   Administration · formulaires : comptes, écoles, demandes d'intervention
-   (déploiement, réinstallation) et fiche d'un poste.
+   Administration · formulaires : comptes, écoles, renommage d'un bâtiment,
+   demandes d'intervention (déploiement, réinstallation) et fiche d'un poste.
    ========================================================================== */
 
 import { useState } from 'react';
 import { store, currentEcole, me } from '../core/store.js';
 import { useStore } from '../core/useStore.js';
-import { scope, index } from '../core/selectors.js';
+import { scope, index, batimentLabel } from '../core/selectors.js';
+import { renameBuilding, batimentCode } from '../core/buildings.js';
 import { uid } from '../core/dom.js';
 import { ROLES } from '../core/catalog.js';
 import { Tile } from '../ui/icons.jsx';
@@ -14,7 +15,7 @@ import { Sheet, openSheet, notify } from '../ui/overlays.jsx';
 import { SheetForm, SheetFormActions } from '../ui/forms.jsx';
 
 export function openAccountForm(account = null) {
-  openSheet(<Sheet title={account ? 'Modifier le compte' : 'Créer un compte'} lead={<Tile name="users" color="var(--iris)" size="m" />} footer={<SheetFormActions form="account-form" />}>
+  openSheet(<Sheet title={account ? 'Modifier le compte' : 'Créer un compte'} lead={<Tile name="users" color="var(--accent)" size="m" />} footer={<SheetFormActions form="account-form" />}>
     <AccountForm account={account} />
   </Sheet>);
 }
@@ -65,6 +66,27 @@ export function openSchoolForm(school = null) {
   </Sheet>);
 }
 
+/** Renommage d'un bâtiment d'une école : ses salles, étages et règles suivent (core/buildings.js) */
+export function openBuildingForm(building) {
+  const { batiment } = building;
+  async function save(form) {
+    const nom = batimentCode(form.get('batiment'));
+    if (nom === batiment) return;
+    await store.update('data', (s) => renameBuilding(s, building, nom));
+    await store.flush();
+    notify(`${batimentLabel(batiment)} renommé ${batimentLabel(nom)}`, { icon: 'building' });
+  }
+  openSheet(<Sheet title={`Renommer le bâtiment ${batiment}`} size="s" lead={<Tile name="building" color="var(--c3)" size="m" />}
+    footer={<SheetFormActions form="building-form" label="Renommer" />}>
+    <SheetForm id="building-form" onSave={save}>
+      <label className="field"><span className="field-label">Nom du bâtiment *</span>
+        <input className="input-code" name="batiment" required maxLength={12} defaultValue={batiment} autoComplete="off" />
+        <span className="field-hint">Code court affiché sur les salles (ex. C). Les salles, les étages et les règles du bâtiment prennent ce nom.</span>
+      </label>
+    </SheetForm>
+  </Sheet>);
+}
+
 export async function recordOperation(type, cibles, extra = {}) {
   if (!cibles.length) throw Error('Cette cible ne contient aucun poste.');
   await store.update('data', (s) => { s.operations.push({ id: uid('op'), type, cibles, ...extra, at: Date.now(), par: me().nom, statut: 'enregistree', ecoleId: index().salle.get(index().poste.get(cibles[0])?.salleId)?.ecoleId }); });
@@ -76,7 +98,7 @@ export async function recordOperation(type, cibles, extra = {}) {
 export function openDeploymentForm(applicationId, postId = null, salleId = '') {
   const app = store.state.applications.find((a) => a.id === applicationId);
   if (!app) return;
-  openSheet(<Sheet title={`Déployer ${app.nom}`} lead={<Tile name="widgets" color="var(--iris)" size="m" />} footer={<SheetFormActions form="deployment-form" label="Enregistrer la demande" />}>
+  openSheet(<Sheet title={`Déployer ${app.nom}`} lead={<Tile name="widgets" color="var(--accent)" size="m" />} footer={<SheetFormActions form="deployment-form" label="Enregistrer la demande" />}>
     <DeploymentForm applicationId={applicationId} postId={postId} salleId={salleId} />
   </Sheet>);
 }
@@ -114,7 +136,7 @@ function PostDetail({ id }) {
   const p = index().poste.get(id);
   const installed = new Set((state.installations || []).filter((i) => i.posteId === id).map((i) => i.applicationId));
   const manage = (close, aid) => { close(); openDeploymentForm(aid, id); };
-  return <Sheet title={p?.nomReseau} lead={<Tile name="desktop" color="var(--iris)" size="m" />}
+  return <Sheet title={p?.nomReseau} lead={<Tile name="desktop" color="var(--accent)" size="m" />}
     footer={(close) => <>
       <button className="btn btn--ghost" data-sheet-close="">Fermer</button>
       <button className="btn btn--primary" onClick={() => manage(close, choice)}>Gérer l’installation</button>

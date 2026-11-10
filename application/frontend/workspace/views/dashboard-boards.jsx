@@ -42,7 +42,7 @@ function BoardSheet({ board }) {
     if (!board) navigate(`/accueil/${id}`);
   }
 
-  return <Sheet title={board ? 'Renommer le tableau de bord' : 'Nouveau tableau de bord'} size="s" lead={<Tile name="gauge" color="var(--iris)" size="m" />}
+  return <Sheet title={board ? 'Renommer le tableau de bord' : 'Nouveau tableau de bord'} size="s" lead={<Tile name="gauge" color="var(--accent)" size="m" />}
     footer={<SheetFormActions form="board-form" icon="check" label={board ? 'Renommer' : 'Créer'} />}>
     <SheetForm id="board-form" onSave={save}>
       <label className="field"><span className="field-label">Nom</span>

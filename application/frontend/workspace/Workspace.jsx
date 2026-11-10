@@ -10,6 +10,7 @@ import './styles/base.css';
 import './styles/shell.css';
 import './styles/dashboard.css';
 import './styles/widgets.css';
+import './styles/diagrams.css';
 import './styles/salles.css';
 import './styles/remontees.css';
 import './styles/overlays.css';
@@ -17,6 +18,7 @@ import './styles/inventaire.css';
 import './styles/operations.css';
 import { store, ready } from './core/store.js';
 import { initGlass } from './core/glass.js';
+import { applyAmbiance } from './core/ambiance.js';
 import { initTooltips } from './ui/tooltips.js';
 import { OverlayHost, notify } from './ui/overlays.jsx';
 import { Shell } from './views/shell.jsx';
@@ -40,7 +42,7 @@ export default function Workspace({ loading }) {
 
   useEffect(() => {
     ready.then(() => {
-      document.documentElement.dataset.ambiance = store.state.prefs.ambiance;
+      applyAmbiance(store.state.prefs.ambiance);
       initGlass(store.state.prefs.glass);
       initTooltips();
       setStatus('ready');

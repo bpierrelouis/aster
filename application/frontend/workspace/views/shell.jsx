@@ -3,21 +3,24 @@
    - Menu principal : rail vertical à gauche (barre basse sur mobile),
      lentille de sélection qui glisse vers le module actif.
    - Menu secondaire : en haut, sous-navigation du module courant.
+   - Actions de l'écran : dans la barre haute, toujours visibles (PageHead).
    - Menus de la barre haute : voir shell-menus.jsx.
    ========================================================================== */
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, Navigate, Outlet, useLocation, useNavigate } from 'react-router';
-import { Icon, Tile, Flower } from '../ui/icons.jsx';
+import { Icon, Tile, Brand } from '../ui/icons.jsx';
 import { Sheet, openSheet } from '../ui/overlays.jsx';
 import { me, currentEcole } from '../core/store.js';
 import { useStore } from '../core/useStore.js';
 import { can } from '../core/permissions.js';
 import { setGlassLevel } from '../core/glass.js';
+import { applyAmbiance } from '../core/ambiance.js';
 import { role as roleOf } from '../core/catalog.js';
 import { remontees, batiments, batimentLabel, index } from '../core/selectors.js';
 import { num } from '../core/format.js';
 import { reveal } from '../ui/reveal.js';
+import { PageActionsSlot } from '../widgets/parts.jsx';
 import { AccountPopover, EcolePopover, AlertsPopover, Spotlight, ecoleNom, weekNotifications } from './shell-menus.jsx';
 import { customBoards, openBoardForm } from './dashboard-boards.jsx';
 
@@ -28,7 +31,7 @@ export const NAV = [
   { id: 'materiels', path: '/materiels/inventaire', label: 'Matériels', icon: 'materiel', cap: 'materiel.create' },
   { id: 'remontees', path: '/remontees/attente', label: 'Remontées', icon: 'ticket', cap: null },
   { id: 'supervision', path: '/supervision/salles', label: 'Supervision', icon: 'supervision', cap: 'supervision.view' },
-  { id: 'administration', path: '/administration/postes', label: 'Administration', icon: 'administration', cap: 'administration.view' },
+  { id: 'administration', path: '/administration/postes', label: 'Administration', icon: 'gear', cap: 'administration.view' },
 ];
 const allowed = (n) => n.cap === null || can(n.cap);
 
@@ -65,6 +68,7 @@ function subnav(navId) {
     case 'administration': return [
       { path: '/administration/postes', label: 'Postes', icon: 'desktop' },
       { path: '/administration/applications', label: 'Applications', icon: 'widgets' },
+      { path: '/administration/batiments', label: 'Bâtiments', icon: 'building' },
       { path: '/administration/comptes', label: 'Comptes', icon: 'users' },
     ];
     default: return [];
@@ -86,18 +90,19 @@ export function Shell() {
   const lensRef = useRef(null);
   const subRef = useRef(null);
   const viewRef = useRef(null);
+  const [actionsSlot, setActionsSlot] = useState(null); // actions de l'écran, dans la barre haute
   const [pop, setPop] = useState(null); // { kind, anchor }
   const closePop = useCallback(() => setPop(null), []);
   const toggle = (kind) => (e) => { const anchor = e.currentTarget; setPop((p) => (p?.kind === kind ? null : { kind, anchor })); };
 
   const spotlight = useCallback(() => {
     if (document.querySelector('dialog[open]')) return;
-    openSheet(<Sheet title="Rechercher" size="m" lead={<Tile name="recherche" color="var(--iris)" />}><Spotlight navigate={navigate} /></Sheet>);
+    openSheet(<Sheet title="Rechercher" size="m" lead={<Tile name="recherche" color="var(--accent)" />}><Spotlight navigate={navigate} /></Sheet>);
   }, [navigate]);
 
   // Préférences d'affichage
   useEffect(() => {
-    document.documentElement.dataset.ambiance = s.prefs.ambiance;
+    applyAmbiance(s.prefs.ambiance);
     setGlassLevel(s.prefs.glass);
   }, [s.prefs.ambiance, s.prefs.glass]);
 
@@ -139,6 +144,13 @@ export function Shell() {
   }, []);
   useLayoutEffect(fitSub);
   useEffect(() => { addEventListener('resize', fitSub); return () => removeEventListener('resize', fitSub); }, [fitSub]);
+  // Les actions de l'écran partagent la barre haute : leur largeur peut aussi réduire les onglets
+  useEffect(() => {
+    if (!actionsSlot) return undefined;
+    const ro = new ResizeObserver(fitSub);
+    ro.observe(actionsSlot);
+    return () => ro.disconnect();
+  }, [actionsSlot, fitSub]);
 
   const items = subnav(navId);
   // Une salle ouverte active l'onglet de son bâtiment
@@ -165,7 +177,7 @@ export function Shell() {
   return <>
     <a className="skip" href="#view">Aller au contenu</a>
     <nav ref={railRef} className="rail glass" data-lens="strong" aria-label="Menu principal">
-      <Link className="rail-brand" to="/accueil" aria-label="ASTER, accueil"><Flower size={34} /></Link>
+      <Link className="rail-brand" to="/accueil" aria-label="ASTER, accueil"><Brand ambiance={s.prefs.ambiance} size={34} /></Link>
       <div className="rail-items">
         <span ref={lensRef} className="rail-lens" aria-hidden="true" />
         {NAV.filter(allowed).map((n) => <Link key={n.id} className={`rail-item${n.id === navId ? ' is-active' : ''}`} to={n.path} data-nav={n.id}
@@ -189,6 +201,7 @@ export function Shell() {
         {boards && <button type="button" className="seg-btn seg-btn--add" aria-label="Nouveau tableau de bord" data-tip="Nouveau tableau de bord" data-tip-pos="bottom"
           onClick={() => openBoardForm()}><Icon name="plus" size={17} /></button>}
       </nav>}
+      <div ref={setActionsSlot} className="page-actions" />
       <div className="topbar-actions glass" data-lens="strong">
         <button type="button" className={`ecole-chip${switchable ? '' : ' is-static'}`} aria-label={`École affichée : ${ecole}`}
           onClick={switchable ? toggle('ecole') : undefined}>
@@ -207,7 +220,7 @@ export function Shell() {
       </div>
     </header>
     <main id="view" className="view" tabIndex={-1}>
-      <div ref={viewRef} className="view-inner"><Outlet /></div>
+      <PageActionsSlot.Provider value={actionsSlot}><div ref={viewRef} className="view-inner"><Outlet /></div></PageActionsSlot.Provider>
     </main>
     {pop?.kind === 'account' && <AccountPopover anchor={pop.anchor} onClose={closePop} />}
     {pop?.kind === 'ecole' && <EcolePopover anchor={pop.anchor} onClose={closePop} />}

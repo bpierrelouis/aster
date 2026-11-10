@@ -6,7 +6,7 @@
    2. Lumière (ambiances claires) : un point lumineux suit le pointeur ;
       chaque surface reçoit --la (angle), --lx/--ly (position locale) et
       --li (intensité). Rien n'est recalculé pendant le défilement.
-   3. Niveaux : liquid | frost | solid, avec repli automatique hors Chromium.
+   3. Niveaux : liquid | solid ; hors Chromium, le verre liquide est sans réfraction.
    ========================================================================== */
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -232,7 +232,7 @@ function updateLight() {
 }
 
 function onPointer(e) {
-  if (e.pointerType === 'touch' || document.documentElement.dataset.ambiance === 'encre') return;
+  if (e.pointerType === 'touch' || document.documentElement.dataset.tone === 'dark') return;
   px = e.clientX; py = e.clientY;
   if (!raf) raf = requestAnimationFrame(updateLight);
 }

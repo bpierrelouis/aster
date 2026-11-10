@@ -1,12 +1,19 @@
 /* ==========================================================================
    ASTER · Design tokens
-   Palette de la charte ASTER (direction artistique 01) :
+   Charte ASTER (direction artistique 01) :
    Encre #17243B · Iris #6954C0 · Lilas #B8A3EA · Brume #F6F4FB · Cœur #E8B84E
-   Les ambiances (brume, aube, encre) ne redéfinissent que des tokens.
+   Quatre ambiances, choisies par compte (<html data-ambiance="…">) :
+   - aube  : blanc, encre et iris (défaut)
+   - encre : noir, blanc et or
+   - orion : bleus de la charte ORION sur un ciel nocturne
+   - vigie : bleu pétrole et signal de la charte VIGIE
+   <html data-tone="light|dark"> regroupe les ambiances claires et sombres.
+   Les ambiances ne redéfinissent que des tokens ; les composants utilisent
+   --accent (interaction), jamais une couleur de charte en dur.
    ========================================================================== */
 
 :root {
-  /* Charte */
+  /* Charte ASTER (constantes : logo, documents) */
   --encre: #17243b;
   --iris: #6954c0;
   --iris-2: #8670cd;
@@ -63,6 +70,7 @@
   /* Navigation */
   --rail-w: 92px;
   --rail-gap: 20px;
+  --top-h: 92px; /* bas de la barre haute : début du contenu */
 
   /* États (réservés, toujours accompagnés d'une icône et d'un libellé) */
   --ok: #0ca30c;      /* en service, corrigé */
@@ -81,30 +89,41 @@
   --c7: #008300; /* imprimante      */
   --c8: #64748b; /* autre           */
 
-  --focus: var(--iris);
-}
-
-/* --------------------------------------------------------------------------
-   Ambiance « Brume » (claire, défaut) : le fond de la charte
-   -------------------------------------------------------------------------- */
-:root,
-:root[data-ambiance="brume"] {
-  color-scheme: light;
-  --ink: 23 36 59;            /* encre */
+  /* Dérivés communs (calculés avec les valeurs de l'ambiance) */
   --ink-1: rgb(var(--ink));
   --ink-2: rgb(var(--ink) / .66);
   --ink-3: rgb(var(--ink) / .46);
   --hairline: rgb(var(--ink) / .09);
   --fill-1: rgb(var(--ink) / .05);
   --fill-2: rgb(var(--ink) / .09);
-  --tint-1: rgb(105 84 192 / .08);
-  --tint-2: rgb(105 84 192 / .14);
+  --tint-1: color-mix(in srgb, var(--accent) 8%, transparent);
+  --tint-2: color-mix(in srgb, var(--accent) 14%, transparent);
+  --focus: var(--accent-text);
+  --grid-dot: rgb(var(--ink) / .16);
+  --chart-grid: rgb(var(--ink) / .08);
+  --room-wait: color-mix(in srgb, var(--wait) 80%, white);
+  --room-hs: color-mix(in srgb, var(--crit) 62%, white);
+}
 
-  --base: #f3f0fa;
+/* --------------------------------------------------------------------------
+   Aube (défaut) : blanc, encre et iris
+   -------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+  --ink: 23 36 59;            /* encre */
+  --accent: #6954c0;
+  --accent-2: #8670cd;
+  --accent-text: #6954c0;
+  --accent-fg: #fff;
+  --shade: 52 36 110;         /* ombres teintées */
 
-  --glass-tint: rgb(255 255 255 / .38);
-  --glass-tint-strong: rgb(252 251 255 / .7);
-  --glass-tint-solid: rgb(250 249 254 / .97);
+  --base: #f6f5fa;
+  --backdrop: none;
+
+  /* Verre : liquide (clair) ou opaque */
+  --glass-tint: rgb(255 255 255 / .2);
+  --glass-tint-strong: rgb(252 251 255 / .66);
+  --glass-tint-solid: #fff;
   --glass-blur: 22px;
   --glass-sat: 1.7;
   --rim-hi: rgb(255 255 255 / 1);
@@ -112,79 +131,67 @@
   --rim-lo: rgb(255 255 255 / .18);
   --sheen: rgb(255 255 255 / .3);
   --glass-shadow:
-    0 1px 1px rgb(52 36 110 / .05),
-    0 10px 28px -10px rgb(52 36 110 / .2),
-    0 34px 64px -28px rgb(52 36 110 / .24);
+    0 1px 1px rgb(var(--shade) / .05),
+    0 10px 28px -10px rgb(var(--shade) / .2),
+    0 34px 64px -28px rgb(var(--shade) / .24);
   --glass-shadow-lift:
-    0 2px 2px rgb(52 36 110 / .06),
-    0 22px 44px -12px rgb(52 36 110 / .3),
-    0 50px 90px -30px rgb(52 36 110 / .3);
+    0 2px 2px rgb(var(--shade) / .06),
+    0 22px 44px -12px rgb(var(--shade) / .3),
+    0 50px 90px -30px rgb(var(--shade) / .3);
 
-  --btn-primary-bg: var(--iris);
-  --btn-primary-fg: #fff;
-  --btn-primary-glow: rgb(105 84 192 / .55);
   --solid-chip-bg: var(--encre);
   --solid-chip-fg: #fff;
-  --grid-dot: rgb(var(--ink) / .16);
-  --chart-grid: rgb(var(--ink) / .08);
   --scrim: rgb(226 218 246 / .38);
   --lens-bg: rgb(255 255 255 / .66);
-  --nav-active: var(--iris);
+  --room: #b8a3ea;            /* salles de la vue éclatée */
+  --room-on: var(--accent);   /* salle choisie */
 }
 
 /* --------------------------------------------------------------------------
-   Ambiance « Aube » (claire, lilas plus présent)
-   -------------------------------------------------------------------------- */
-:root[data-ambiance="aube"] {
-  --base: #efe7f8;
-  --glass-tint: rgb(255 255 255 / .34);
-}
-
-/* --------------------------------------------------------------------------
-   Ambiance « Encre » (sombre, dessinée sur l'encre de la charte)
+   Encre : noir, blanc et or
    -------------------------------------------------------------------------- */
 :root[data-ambiance="encre"] {
   color-scheme: dark;
-  --ink: 238 236 250;
+  --ink: 244 241 234;
   --ink-2: rgb(var(--ink) / .7);
   --ink-3: rgb(var(--ink) / .48);
   --hairline: rgb(var(--ink) / .1);
   --fill-1: rgb(var(--ink) / .06);
   --fill-2: rgb(var(--ink) / .11);
-  --tint-1: rgb(162 138 220 / .12);
-  --tint-2: rgb(162 138 220 / .2);
+  --accent: #d6aa4f;
+  --accent-2: #ecc777;
+  --accent-text: #e9c06a;
+  --accent-fg: #1b1404;
+  --shade: 0 0 0;
 
-  --base: #0c1222;
+  --base: #0a0a0c;
 
-  --glass-tint: rgb(23 36 59 / .44);
-  --glass-tint-strong: rgb(20 30 52 / .78);
-  --glass-tint-solid: rgb(19 28 48 / .97);
+  --glass-tint: rgb(255 255 255 / .035);
+  --glass-tint-strong: rgb(26 26 30 / .82);
+  --glass-tint-solid: #18181c;
   --glass-blur: 24px;
-  --glass-sat: 1.5;
-  --rim-hi: rgb(255 255 255 / .6);
-  --rim-mid: rgb(255 255 255 / .2);
-  --rim-lo: rgb(255 255 255 / .06);
-  --sheen: rgb(255 255 255 / .09);
+  --glass-sat: 1.4;
+  --rim-hi: rgb(255 255 255 / .55);
+  --rim-mid: rgb(255 255 255 / .16);
+  --rim-lo: rgb(255 255 255 / .05);
+  --sheen: rgb(255 255 255 / .06);
   --glass-shadow:
-    0 1px 1px rgb(0 0 0 / .3),
-    0 14px 30px -10px rgb(0 0 0 / .55),
-    0 40px 70px -30px rgb(0 0 0 / .6);
+    0 1px 1px rgb(0 0 0 / .4),
+    0 14px 30px -10px rgb(0 0 0 / .6),
+    0 40px 70px -30px rgb(0 0 0 / .7);
   --glass-shadow-lift:
-    0 2px 2px rgb(0 0 0 / .35),
-    0 26px 50px -12px rgb(0 0 0 / .65),
-    0 60px 100px -30px rgb(0 0 0 / .6);
+    0 2px 2px rgb(0 0 0 / .45),
+    0 26px 50px -12px rgb(0 0 0 / .7),
+    0 60px 100px -30px rgb(0 0 0 / .7);
 
-  --btn-primary-bg: #7560cf;
-  --btn-primary-fg: #fff;
-  --btn-primary-glow: rgb(117 96 207 / .6);
-  --solid-chip-bg: rgb(238 236 250 / .92);
-  --solid-chip-fg: #121a2e;
-  --grid-dot: rgb(var(--ink) / .14);
-  --chart-grid: rgb(var(--ink) / .09);
-  --scrim: rgb(4 6 14 / .5);
-  --lens-bg: rgb(255 255 255 / .12);
-  --nav-active: #c9bbf5;
-  --focus: #a28adc;
+  --solid-chip-bg: rgb(244 241 234 / .94);
+  --solid-chip-fg: #111113;
+  --scrim: rgb(0 0 0 / .58);
+  --lens-bg: rgb(255 255 255 / .1);
+  --room: #8d8a84;
+  --room-on: var(--accent);
+
+  --wait: #f0953c; /* distinct de l'or de l'interaction */
 
   /* catégorielle : pas sombres validés pour la surface sombre */
   --c1: #8670cd;
@@ -195,4 +202,93 @@
   --c6: #d55181;
   --c7: #1f9a1f;
   --c8: #7c8aa0;
+}
+
+/* --------------------------------------------------------------------------
+   Orion : nuit profonde, panneaux et bleus de la charte ORION
+   -------------------------------------------------------------------------- */
+:root[data-ambiance="orion"] {
+  color-scheme: dark;
+  --ink: 255 255 255;
+  --ink-2: #9fb0d0;
+  --ink-3: #6f82a8;
+  --hairline: rgb(59 104 196 / .28);
+  --fill-1: rgb(59 130 246 / .08);
+  --fill-2: rgb(59 130 246 / .15);
+  --accent: #2563eb;
+  --accent-2: #3b82f6;
+  --accent-text: #6ea8ff;
+  --accent-fg: #fff;
+  --shade: 2 6 18;
+
+  --base: #040b1e;
+  --backdrop: radial-gradient(ellipse at 10% 90%, #0b2a6b 0, #040b1e 55%);
+
+  --glass-tint: rgb(10 22 48 / .3);
+  --glass-tint-strong: rgb(10 22 48 / .86);
+  --glass-tint-solid: #0a1630;
+  --glass-blur: 24px;
+  --glass-sat: 1.5;
+  --rim-hi: rgb(110 168 255 / .75);
+  --rim-mid: rgb(59 130 246 / .32);
+  --rim-lo: rgb(27 46 92 / .6);
+  --sheen: rgb(59 130 246 / .07);
+  /* lueur bleue des cadres de la maquette ORION */
+  --glass-shadow:
+    0 0 0 1px rgb(27 46 92 / .9),
+    0 0 14px 1px rgb(11 42 107 / .75),
+    0 0 34px 6px rgb(37 99 235 / .16);
+  --glass-shadow-lift:
+    0 0 0 1px rgb(37 99 235 / .7),
+    0 0 18px 2px rgb(11 42 107 / .9),
+    0 0 44px 10px rgb(37 99 235 / .24);
+
+  --solid-chip-bg: #1e3a7a;
+  --solid-chip-fg: #fff;
+  --scrim: rgb(2 6 18 / .72);
+  --lens-bg: #2563eb;
+  --nav-on: #fff;             /* menu actif : bouton bleu plein, icône blanche */
+  --room: #2f56a6;
+  --room-on: #60a5fa;
+
+  --ok: #22c55e;
+  --crit: #ef4444;
+  --wait: #f59e0b;
+  --warn: #f59e0b;
+  --c1: #8670cd;
+  --c2: #d95926;
+  --c3: #199e70;
+  --c4: #c98500;
+  --c5: #3987e5;
+  --c6: #d55181;
+  --c7: #1f9a1f;
+  --c8: #7c8aa0;
+}
+
+/* --------------------------------------------------------------------------
+   Vigie : brume claire, bleu pétrole (balise), signal et alerte corail
+   -------------------------------------------------------------------------- */
+:root[data-ambiance="vigie"] {
+  color-scheme: light;
+  --ink: 16 45 54;            /* nuit VIGIE */
+  --accent: #0b6173;
+  --accent-2: #1b8296;
+  --accent-text: #0b6173;
+  --accent-fg: #fff;
+  --shade: 16 45 54;
+
+  --base: #edf6f4;
+
+  --glass-tint: rgb(255 255 255 / .22);
+  --glass-tint-strong: rgb(251 254 253 / .7);
+  --glass-tint-solid: #fbfdfc;
+
+  --solid-chip-bg: #102d36;
+  --solid-chip-fg: #fff;
+  --scrim: rgb(16 45 54 / .24);
+  --lens-bg: rgb(255 255 255 / .72);
+  --room: #77d7d0;            /* signal */
+  --room-on: var(--accent);
+
+  --crit: #e5533d;            /* alerte corail */
 }

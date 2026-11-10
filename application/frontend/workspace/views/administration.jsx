@@ -1,22 +1,22 @@
 /* ==========================================================================
    Administration : postes (réinstallation), applications (déploiement),
-   comptes et écoles. L'utilisateur enregistre une demande d'intervention ;
-   chaque poste cible l'exécute et renvoie son résultat.
+   bâtiments (renommage), comptes et écoles. L'utilisateur enregistre une
+   demande d'intervention ; chaque poste cible l'exécute et renvoie son résultat.
    ========================================================================== */
 
 import { useState } from 'react';
 import { useParams } from 'react-router';
 import { store, currentEcole, me } from '../core/store.js';
 import { useStore } from '../core/useStore.js';
-import { scope, index } from '../core/selectors.js';
+import { scope, index, parc, batimentLabel } from '../core/selectors.js';
 import { can } from '../core/permissions.js';
 import { role } from '../core/catalog.js';
+import { num, dateTime } from '../core/format.js';
 import { Icon, Tile } from '../ui/icons.jsx';
 import { confirmSheet, notify } from '../ui/overlays.jsx';
-import { openAccountForm, openSchoolForm, recordOperation, openDeploymentForm, openPostDetail } from './administration-forms.jsx';
-import { OpsEmpty, PageHead } from '../widgets/parts.jsx';
+import { openAccountForm, openSchoolForm, openBuildingForm, recordOperation, openDeploymentForm, openPostDetail } from './administration-forms.jsx';
+import { OpsEmpty, OpsTable, PageHead } from '../widgets/parts.jsx';
 import { outsideControls } from '../core/dom.js';
-import { dateTime } from '../core/format.js';
 import { useTitle } from '../ui/useTitle.js';
 
 const Empty = ({ text }) => <OpsEmpty icon="desktop" title={text} />;
@@ -24,8 +24,11 @@ const Empty = ({ text }) => <OpsEmpty icon="desktop" title={text} />;
 const TITLES = {
   postes: 'Administration des postes',
   applications: 'Applications',
+  batiments: 'Bâtiments',
   comptes: 'Comptes & accès',
 };
+const SEARCH = { postes: 'Nom du poste…', applications: 'Application…', batiments: 'Bâtiment…', comptes: 'Nom ou adresse…' };
+const byPost = (tab) => tab === 'postes' || tab === 'applications'; // onglets filtrés par salle, avec le suivi des interventions
 
 export function Administration() {
   useTitle('Administration');
@@ -65,7 +68,7 @@ export function Administration() {
       {tab === 'comptes' && <button className="btn btn--primary" onClick={() => openAccountForm()}><Icon name="plus" size={18} /><span>Créer un compte</span></button>}
     </PageHead>
     <div className="ops-toolbar">
-      {tab !== 'comptes' && <label className="field"><span className="field-label">Salle</span>
+      {byPost(tab) && <label className="field"><span className="field-label">Salle</span>
         <select aria-label="Filtrer par salle" value={salleId} onChange={(e) => { setSalleId(e.target.value); setSelection(new Set()); }}>
           <option value="">Toutes les salles</option>
           {scope().salles.map((s) => <option key={s.id} value={s.id}>{s.nom} · Bâtiment {s.batiment}</option>)}
@@ -73,7 +76,7 @@ export function Administration() {
       </label>}
       <label className="field"><span className="field-label">Rechercher</span>
         <input type="search" value={query} onChange={(e) => setQuery(e.target.value)}
-          placeholder={tab === 'comptes' ? 'Nom ou adresse…' : tab === 'applications' ? 'Application…' : 'Nom du poste…'} aria-label="Rechercher" />
+          placeholder={SEARCH[tab] ?? SEARCH.postes} aria-label="Rechercher" />
       </label>
       {tab === 'postes' && <>
         <button className="btn btn--ghost" onClick={selectAll}>Tout sélectionner</button>
@@ -82,28 +85,28 @@ export function Administration() {
     </div>
     <div>
       {tab === 'comptes' ? <Accounts query={q} />
-        : tab === 'applications' ? <Apps query={q} salleId={salleId} />
-          : <Posts list={posts} selected={selected} onToggle={toggle} />}
+        : tab === 'batiments' ? <Buildings query={q} />
+          : tab === 'applications' ? <Apps query={q} salleId={salleId} />
+            : <Posts list={posts} selected={selected} onToggle={toggle} />}
     </div>
     {tab === 'comptes' && me().role === 'superadmin' && <Schools />}
-    {tab !== 'comptes' && <Operations state={state} />}
+    {byPost(tab) && <Operations state={state} />}
   </>;
 }
 
 function Posts({ list, selected, onToggle }) {
   if (!list.length) return <Empty text="Aucun poste trouvé" />;
   const installations = store.state.installations || [];
-  return <div className="ops-table-wrap glass"><table className="ops-table">
-    <thead><tr><th>Sélection</th><th>Poste</th><th>Salle</th><th>État</th><th>Applications</th><th>Actions</th></tr></thead>
-    <tbody>{list.map((p) => <tr key={p.id} onClick={(e) => { if (outsideControls(e)) onToggle(p.id, !selected.has(p.id)); }}>
+  return <OpsTable head={['Sélection', 'Poste', 'Salle', 'État', 'Applications', 'Actions']}>
+    {list.map((p) => <tr key={p.id} onClick={(e) => { if (outsideControls(e)) onToggle(p.id, !selected.has(p.id)); }}>
       <td><input className="ops-check" type="checkbox" checked={selected.has(p.id)} onChange={(e) => onToggle(p.id, e.target.checked)} aria-label={`Sélectionner ${p.nomReseau}`} /></td>
       <td><strong>{p.nomReseau}</strong></td>
       <td>{index().salle.get(p.salleId)?.nom}</td>
       <td><span className="ops-status"><span className={`led led--${p.connecte ? 'ok' : 'wait'}`}></span>{p.connecte ? 'Connecté' : 'Déconnecté'}</span></td>
       <td>{installations.filter((i) => i.posteId === p.id).length}</td>
       <td><button className="btn btn--ghost" onClick={() => openPostDetail(p.id)}>Ouvrir</button></td>
-    </tr>)}</tbody>
-  </table></div>;
+    </tr>)}
+  </OpsTable>;
 }
 
 function Apps({ query, salleId }) {
@@ -111,7 +114,7 @@ function Apps({ query, salleId }) {
   const ids = new Set(scope().postes.filter((p) => !salleId || p.salleId === salleId).map((p) => p.id));
   if (!apps.length) return <Empty text="Aucune application trouvée" />;
   return <div className="ops-grid">{apps.map((a) => <article key={a.id} className="ops-card glass">
-    <div className="ops-card-top"><Tile name="widgets" color="var(--iris)" size="m" /><div><h2>{a.nom}</h2><p>{a.editeur} · {a.version}</p></div></div>
+    <div className="ops-card-top"><Tile name="widgets" color="var(--accent)" size="m" /><div><h2>{a.nom}</h2><p>{a.editeur} · {a.version}</p></div></div>
     <p className="ops-muted">{(store.state.installations || []).filter((i) => i.applicationId === a.id && ids.has(i.posteId)).length} postes équipés</p>
     <button className="btn btn--primary" onClick={() => openDeploymentForm(a.id, null, salleId)}>Gérer le déploiement</button>
   </article>)}</div>;
@@ -136,16 +139,44 @@ function Operations({ state }) {
   const label = (o) => (o.type === 'arret' ? (o.auto ? 'Arrêt automatique' : 'Arrêt de processus') : OPERATION_TYPES[o.type] || o.type);
   return <>
     <h2 className="ops-section-title">Demandes d’intervention</h2>
-    <div className="ops-table-wrap glass"><table className="ops-table">
-      <thead><tr><th>Intervention</th><th>Cible</th><th>Date</th><th>État</th></tr></thead>
-      <tbody>{items.map((o) => <tr key={o.id}>
+    <OpsTable head={['Intervention', 'Cible', 'Date', 'État']}>
+      {items.map((o) => <tr key={o.id}>
         <td>{label(o)}<small>{o.image || (state.applications || []).find((a) => a.id === o.applicationId)?.nom || ''}</small></td>
         <td>{o.cibles.length} poste{o.cibles.length > 1 ? 's' : ''}</td>
         <td>{dateTime(o.at)}</td>
         <td><OperationStatus o={o} /></td>
-      </tr>)}</tbody>
-    </table></div>
+      </tr>)}
+    </OpsTable>
   </>;
+}
+
+/** Bâtiments de chaque école : information portée par les salles (RG-02), renommée pour toutes ses salles */
+function Buildings({ query }) {
+  const p = parc();
+  const groups = new Map();
+  for (const x of scope().salles) {
+    const key = `${x.ecoleId}\u0000${x.batiment}`;
+    const g = groups.get(key) ?? { ecoleId: x.ecoleId, batiment: x.batiment, salles: 0, etages: new Set(), materiels: 0 };
+    g.salles++;
+    g.etages.add(x.etage ?? 0);
+    g.materiels += p.bySalle.get(x.id)?.total ?? 0;
+    groups.set(key, g);
+  }
+  const all = currentEcole() === 'all';
+  const list = [...groups.values()]
+    .filter((g) => batimentLabel(g.batiment).toLowerCase().includes(query))
+    .sort((a, b) => (index().ecole.get(a.ecoleId)?.nom ?? '').localeCompare(index().ecole.get(b.ecoleId)?.nom ?? '', 'fr') || a.batiment.localeCompare(b.batiment, 'fr', { numeric: true }));
+  if (!list.length) return <Empty text="Aucun bâtiment trouvé" />;
+  return <OpsTable head={['Bâtiment', ...(all ? ['École'] : []), 'Étages', 'Salles', 'Matériels', 'Actions']}>
+    {list.map((g) => <tr key={`${g.ecoleId}-${g.batiment}`}>
+      <td><span className="ops-building"><span className="code-badge">{g.batiment}</span><strong>{batimentLabel(g.batiment)}</strong></span></td>
+      {all && <td>{index().ecole.get(g.ecoleId)?.nom}</td>}
+      <td>{num(g.etages.size)}</td>
+      <td>{num(g.salles)}</td>
+      <td>{num(g.materiels)}</td>
+      <td><button className="btn btn--ghost" onClick={() => openBuildingForm(g)}><Icon name="pencil" size={17} />Renommer</button></td>
+    </tr>)}
+  </OpsTable>;
 }
 
 async function toggleAccount(id) {
@@ -162,19 +193,18 @@ async function toggleAccount(id) {
 function Accounts({ query }) {
   const list = (store.state.comptes || []).filter((c) => (currentEcole() === 'all' || c.ecoleId === currentEcole()) && `${c.nom} ${c.email}`.toLowerCase().includes(query));
   if (!list.length) return <Empty text="Aucun compte trouvé" />;
-  return <div className="ops-table-wrap glass"><table className="ops-table">
-    <thead><tr><th>Utilisateur</th><th>Profil</th><th>École</th><th>État</th><th>Actions</th></tr></thead>
-    <tbody>{list.map((c) => <tr key={c.id}>
+  return <OpsTable head={['Utilisateur', 'Profil', 'École', 'État', 'Actions']}>
+    {list.map((c) => <tr key={c.id}>
       <td><strong>{c.nom}</strong><small>{c.email}</small></td>
       <td>{role(c.role).label}</td>
       <td>{index().ecole.get(c.ecoleId)?.nom || 'Toutes les écoles'}</td>
       <td><span className="ops-status"><span className={`led led--${c.actif ? 'ok' : 'wait'}`}></span>{c.actif ? 'Actif' : 'Désactivé'}</span></td>
       <td>
-        <button className="icon-btn" onClick={() => openAccountForm(store.state.comptes.find((x) => x.id === c.id))} aria-label={`Modifier ${c.nom}`}><Icon name="edit" size={17} /></button>
+        <button className="icon-btn" onClick={() => openAccountForm(store.state.comptes.find((x) => x.id === c.id))} aria-label={`Modifier ${c.nom}`}><Icon name="pencil" size={17} /></button>
         {c.id !== me().id && <button className="btn btn--ghost" onClick={() => toggleAccount(c.id)}>{c.actif ? 'Désactiver' : 'Réactiver'}</button>}
       </td>
-    </tr>)}</tbody>
-  </table></div>;
+    </tr>)}
+  </OpsTable>;
 }
 
 function Schools() {

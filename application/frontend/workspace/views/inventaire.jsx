@@ -12,6 +12,7 @@ import { Sheet, openSheet, confirmSheet, notify } from '../ui/overlays.jsx';
 import { SheetForm, SheetFormActions } from '../ui/forms.jsx';
 import { dateNum } from '../core/format.js';
 import { useTitle } from '../ui/useTitle.js';
+import { usePeek } from '../ui/peek.js';
 import { PageHead } from '../widgets/parts.jsx';
 
 const date = (n) => (n ? dateNum(n) : '—');
@@ -56,6 +57,7 @@ export function Inventaire() {
   const [direction, setDirection] = useState(1);
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(() => new Set());
+  const tableScroll = usePeek('tbody tr', '.inv-panel');
 
   // Changement d'onglet : retour à la première page
   useEffect(() => { setPage(1); }, [tab]);
@@ -132,7 +134,7 @@ export function Inventaire() {
           {selected.size > 0 && <button className="btn btn--ghost" onClick={() => setSelected(new Set())}>Effacer la sélection</button>}
           <span className="inv-count">{list.length} matériel(s)</span>
         </div>
-        <div className="inv-table-scroll"><table className="inv-table">
+        <div ref={tableScroll} className="inv-table-scroll"><table className="inv-table">
           <thead><tr>
             <th><input type="checkbox" aria-label="Sélectionner la page" checked={rows.length > 0 && rows.every((m) => selected.has(m.id))} onChange={(e) => toggle(rows.map((m) => m.id), e.target.checked)} /></th>
             <th>{header('idAster', 'Identifiant')}</th><th>{header('modele', 'Matériel')}</th><th>Localisation</th><th>État</th><th>{header('dateReception', 'Réception')}</th><th>Garantie</th>
@@ -172,7 +174,7 @@ function MoveSheet({ items, onDone }) {
     notify('Affectation enregistrée', { icon: 'deplacement' });
   }
 
-  return <Sheet title={`Affecter ${items.length} matériel(s)`} size="s" lead={<Tile name="deplacement" color="var(--iris)" size="m" />}
+  return <Sheet title={`Affecter ${items.length} matériel(s)`} size="s" lead={<Tile name="deplacement" color="var(--accent)" size="m" />}
     footer={<SheetFormActions form="move-form" label="Enregistrer l’affectation" />}>
     <p className="sheet-text">Choisissez leur nouvelle salle ou replacez-les en stock.</p>
     <SheetForm id="move-form" onSave={save}>
@@ -221,7 +223,7 @@ function ImportPanel() {
   }
 
   return <section className="inv-import glass">
-    <div><Tile name="importJson" color="var(--iris)" size="l" /><h2>Votre inventaire, en une fois.</h2><p>Importez un tableau JSON. Chaque ligne crée un matériel et reçoit un identifiant ASTER.</p></div>
+    <div><Tile name="importJson" color="var(--accent)" size="l" /><h2>Votre inventaire, en une fois.</h2><p>Importez un tableau JSON. Chaque ligne crée un matériel et reçoit un identifiant ASTER.</p></div>
     <form className="form" onSubmit={submit}>
       <label className="field"><span className="field-label">École</span><select name="ecole">{store.state.ecoles.filter((e) => ecole === 'all' || e.id === ecole).map((e) => <option key={e.id} value={e.id}>{e.nom}</option>)}</select></label>
       <label className="inv-drop field"><span className="field-label">Fichier JSON</span><input name="file" type="file" accept=".json,application/json" /><span className="field-hint">2 000 matériels maximum, 2 Mo maximum.</span></label>

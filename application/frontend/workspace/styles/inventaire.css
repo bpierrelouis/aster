@@ -7,12 +7,14 @@
 .inv-count { margin-left:auto; color:var(--ink-2); }
 .inv-table-scroll { overflow:auto; }
 .inv-table { width:100%; border-collapse:collapse; font-size:13px; text-align:left; }
-.inv-table th { color:var(--ink-2); font-size:11px; font-weight:600; white-space:nowrap; background:rgba(125,110,170,.04); }
+.inv-table th { color:var(--ink-2); font-size:11px; font-weight:600; white-space:nowrap; }
+/* En-tête toujours visible : il reste en haut du tableau pendant le défilement */
+.inv-table thead th { position:sticky; top:0; z-index:2; background:linear-gradient(var(--fill-1), var(--fill-1)), var(--glass-tint-solid); border-bottom:0; box-shadow:inset 0 -1px 0 var(--hairline); }
 .inv-table th,.inv-table td { padding:14px 16px; border-bottom:1px solid var(--hairline); }
 .inv-table tbody tr { transition:background .15s; }
 .inv-table tbody tr:has(input[type=checkbox]) { cursor:pointer; }
-.inv-table tbody tr:hover,.inv-table tbody tr.is-selected { background:rgba(125,110,170,.07); }
-.inv-table input[type=checkbox] { width:16px; height:16px; accent-color:var(--iris); }
+.inv-table tbody tr:hover,.inv-table tbody tr.is-selected { background:var(--tint-1); }
+.inv-table input[type=checkbox] { width:16px; height:16px; accent-color:var(--accent); }
 .inv-sort { background:none; border:0; color:inherit; font:inherit; padding:0; cursor:pointer; }
 .inv-id { font-variant-numeric:tabular-nums; white-space:nowrap; font-size:12px; }
 .inv-device { display:flex; align-items:center; gap:12px; text-align:left; background:none; border:0; color:inherit; font:inherit; padding:0; cursor:pointer; min-width:210px; }
@@ -28,9 +30,9 @@
 .inv-import { border-radius:28px; padding:32px; max-width:1000px; display:grid; grid-template-columns: .8fr 1.2fr; gap:32px; }
 .inv-import h2 { font-size:25px; letter-spacing:-.035em; margin:24px 0 14px; }
 .inv-import p { line-height:1.7; color:var(--ink-2); }
-.inv-drop { border:1px dashed var(--iris); padding:20px; border-radius:16px; }
+.inv-drop { border:1px dashed var(--accent); padding:20px; border-radius:16px; }
 .inv-import textarea { font-family:ui-monospace,monospace; font-size:12px; resize:vertical; }
 .inv-help { grid-column:1/-1; border-top:1px solid var(--hairline); padding-top:22px; font-size:13px; }
 .inv-help summary { cursor:pointer; font-weight:600; }
-.inv-help pre { overflow:auto; padding:18px; background:rgba(125,110,170,.06); border-radius:14px; line-height:1.7; }
+.inv-help pre { overflow:auto; padding:18px; background:var(--fill-1); border-radius:14px; line-height:1.7; }
 @media(max-width:800px) { .inv-filters { padding:14px; } .inv-filters select { max-width:none; flex:1 1 130px; } .inv-import { grid-template-columns:1fr; padding:22px; } .inv-details { grid-template-columns:1fr; } }

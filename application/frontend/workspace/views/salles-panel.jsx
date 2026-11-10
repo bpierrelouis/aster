@@ -82,7 +82,7 @@ function DevCard({ ids, mode, salleId, act }) {
     </div>) : null;
   if (ids.length > 1) {
     return <div className="dev-card">
-      <div className="dev-card-head"><Tile name="deplacement" color="var(--iris)" size="m" /><div><b>{num(ids.length)} matériels sélectionnés</b><span>Glissez-les sur une salle, ou choisissez une destination.</span></div>
+      <div className="dev-card-head"><Tile name="deplacement" color="var(--accent)" size="m" /><div><b>{num(ids.length)} matériels sélectionnés</b><span>Glissez-les sur une salle, ou choisissez une destination.</span></div>
         <button className="icon-btn" aria-label="Annuler la sélection" onClick={act.clear}><Icon name="close" size={16} /></button></div>
       {move}
     </div>;

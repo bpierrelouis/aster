@@ -1,0 +1,72 @@
+/* ==========================================================================
+   ASTER · Diagrammes du tableau de bord (ui/charts-shapes.jsx)
+   ========================================================================== */
+
+/* Les diagrammes prennent la place disponible sans agrandir le widget (contain: size) */
+.diagram, .gauge, .cols, .combo { contain: size; }
+
+/* Forme et légende côte à côte, à la hauteur du widget */
+.diagram { flex: 1; min-height: 0; display: flex; align-items: center; gap: 20px; }
+.diagram > .radial, .diagram > .pyramid { flex: none; height: 100%; max-width: 55%; }
+.diagram > .chart-legend { flex: 1; min-width: 0; }
+
+.key-dot { flex: none; width: 10px; height: 10px; border-radius: 3px; background: var(--k); }
+.chart-legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px 16px; }
+.chart-legend li { gap: 8px; min-width: 0; }
+.chart-legend .legend-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.legend--wrap { flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; }
+.legend--wrap li { gap: 6px; font-size: 12px; }
+
+/* Anneau, camembert, arcs */
+.radial { position: relative; aspect-ratio: 1; container-type: size; }
+.radial svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.radial-part { transition: opacity var(--dur-1); }
+.radial-part:hover { opacity: .82; }
+.radial-track { fill: none; stroke: var(--fill-2); }
+.radial-arc { fill: none; stroke-linecap: round; }
+.radial-center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; pointer-events: none; }
+.radial-center b { font-family: var(--font-display); font-size: 19cqmin; font-weight: 760; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.radial-center span { margin-top: 2px; font-size: 6.5cqmin; font-weight: 600; color: var(--ink-2); }
+@container (max-width: 150px) { .radial-center span { display: none; } }
+
+/* Jauge */
+.gauge { position: relative; flex: 1; min-height: 0; display: flex; justify-content: center; }
+.gauge svg { height: 100%; max-width: 100%; overflow: visible; }
+.gauge-arc { stroke: var(--accent); }
+.gauge-text { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; line-height: 1.1; }
+.gauge-text b { font-family: var(--font-display); font-size: 26px; font-weight: 760; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.gauge-text span { font-size: 12px; font-weight: 600; color: var(--ink-2); }
+
+/* Colonnes en relief : face claire, face foncée, dessus */
+.cols { flex: 1; min-height: 0; display: flex; justify-content: space-around; gap: 10px; }
+.col { flex: 1; max-width: 84px; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.col-track { flex: 1; min-height: 0; width: 100%; display: flex; align-items: flex-end; justify-content: center; padding-top: 34px; }
+.col-bar {
+  position: relative; width: 56%; height: var(--h); border-radius: 0 0 5px 5px;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--c) 72%, white) 0 50%, var(--c) 50% 100%);
+  box-shadow: 0 10px 18px -12px var(--c);
+  transition: height .6s var(--ease-out);
+}
+.col-bar::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 12px; border-radius: 50%; transform: translateY(-50%); background: color-mix(in oklab, var(--c) 42%, white); }
+.col-value { position: absolute; left: 50%; bottom: 100%; margin-bottom: 10px; transform: translateX(-50%); font-family: var(--font-display); font-size: 16px; font-weight: 760; letter-spacing: -.02em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.col-label { font-size: 12.5px; font-weight: 650; color: var(--ink-2); max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Barres et tendance */
+.combo { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; --trend: var(--c2); }
+.combo-plot { position: relative; flex: 1; min-height: 0; display: flex; align-items: flex-end; border-bottom: 1px solid var(--chart-grid); }
+.combo-col { flex: 1; height: 100%; display: flex; align-items: flex-end; padding: 0 3px; }
+.combo-bar { width: 100%; min-height: 2px; border-radius: 5px 5px 0 0; background: linear-gradient(180deg, var(--accent-2), var(--accent)); opacity: .8; transition: opacity var(--dur-1); }
+.combo-col:hover .combo-bar { opacity: 1; }
+.combo-line { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.combo-line polyline { fill: none; stroke: var(--trend); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.combo-dot { position: absolute; width: 9px; height: 9px; margin: 0 0 -4.5px -4.5px; border-radius: 50%; background: var(--trend); box-shadow: 0 0 0 2px var(--glass-tint-solid); pointer-events: none; }
+.combo-axis { display: flex; }
+.combo-axis span { flex: 1; text-align: center; font-size: 11px; color: var(--ink-3); white-space: nowrap; }
+
+/* Pyramide */
+.pyramid { display: block; width: auto; overflow: visible; }
+.pyramid polygon { transition: opacity var(--dur-1); }
+.pyramid polygon:hover { opacity: .82; }
+
+/* Barres horizontales sans icône (marques) */
+.hbars--plain .hbar { grid-template-columns: minmax(70px, 30%) 1fr 42px; }

@@ -27,7 +27,7 @@ export const STOCK = { label: 'Stock', long: 'En stock, sans localisation', icon
 /* Statuts d'une remontée (RG-13) */
 export const REMONTEE_STATUTS = [
   { id: 'attente', label: 'En attente', icon: 'hourglass', color: 'var(--wait)', led: 'wait' },
-  { id: 'remplace', label: 'Remplacé', icon: 'swap', color: 'var(--iris)', led: 'ok' },
+  { id: 'remplace', label: 'Remplacé', icon: 'swap', color: 'var(--accent)', led: 'ok' },
   { id: 'corrige', label: 'Corrigé', icon: 'checkCircle', color: 'var(--ok)', led: 'ok' },
 ];
 
@@ -43,7 +43,7 @@ export const PROBLEMS = [
 
 /* Profils (RG-01) */
 export const ROLES = [
-  { id: 'admin', label: 'Administrateur', icon: 'shield', color: 'var(--iris)' },
+  { id: 'admin', label: 'Administrateur', icon: 'shield', color: 'var(--accent)' },
   { id: 'gestionnaire', label: 'Gestionnaire', icon: 'materiel', color: 'var(--c5)' },
   { id: 'formateur', label: 'Formateur', icon: 'user', color: 'var(--c3)' },
   { id: 'superadmin', label: 'Super administrateur', icon: 'school', color: 'var(--encre)' },

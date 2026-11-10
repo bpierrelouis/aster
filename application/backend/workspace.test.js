@@ -8,6 +8,8 @@ import {
   initialState, actorOf, accountForIdentity, scopedState, mergeState, rebase, applyReports, pendingCommands, applyResults,
   markDisconnected, createWorkspaceRepository, createWorkspaceRouter, createAgentRouter, DISCONNECT_AFTER,
 } from './workspace.js';
+import { renameBuilding } from '../frontend/workspace/core/buildings.js';
+import { processClass } from '../frontend/workspace/core/operations-data.js';
 
 const as = (state, accountId) => actorOf(state, accountId);
 const ADMIN = 'cpt-num-admin', MANAGER = 'cpt-num-gestionnaire', TEACHER = 'cpt-num-formateur', SUPER = 'cpt-superadmin';
@@ -81,6 +83,37 @@ test('parc : gestionnaire sans suppression ni autre école ; identifiant ASTER a
   const crossed = scopedState(state, admin);
   crossed.materiels[0].salleId = state.salles.find((s) => s.ecoleId === 'e-res').id;
   assert.throws(() => mergeState(state, crossed, admin), { status: 400 });
+});
+
+test('bâtiments : un administrateur renomme un bâtiment ; salles, étages et règles suivent', () => {
+  const state = initialState();
+  state.regles.push({ id: 'rule-bat', nom: 'jeu.exe', classement: 'blacklist', portee: 'batiment', ecoleId: 'e-num', batiment: 'C' });
+  const admin = as(state, ADMIN);
+  const input = scopedState(state, admin);
+  renameBuilding(input, { ecoleId: 'e-num', batiment: 'C' }, ' sud ');
+  const next = mergeState(state, input, admin);
+  const school = (list) => list.filter((x) => x.ecoleId === 'e-num');
+  assert(!school(next.salles).some((s) => s.batiment === 'C') && !school(next.etages).some((e) => e.batiment === 'C'));
+  assert.equal(school(next.salles).filter((s) => s.batiment === 'SUD').length, school(state.salles).filter((s) => s.batiment === 'C').length);
+  assert.equal(next.regles.find((r) => r.id === 'rule-bat').batiment, 'SUD');
+  assert.equal(processClass(next, { nom: 'jeu.exe', salleId: next.salles.find((s) => s.batiment === 'SUD').id }), 'blacklist', 'la règle suit le bâtiment');
+  assert.throws(() => renameBuilding(scopedState(next, admin), { ecoleId: 'e-num', batiment: 'SUD' }, 'a'), /existe déjà/, 'deux bâtiments ne fusionnent pas');
+  const teacher = as(state, TEACHER);
+  const attempt = scopedState(state, teacher);
+  renameBuilding(attempt, { ecoleId: 'e-num', batiment: 'C' }, 'SUD');
+  assert.throws(() => mergeState(state, attempt, teacher), { status: 403 });
+});
+
+test('préférences : ambiance et verre reconnus, valeur inconnue remplacée par le défaut', () => {
+  const state = initialState();
+  const admin = as(state, ADMIN);
+  const input = scopedState(state, admin);
+  input.prefs = { ambiance: 'orion', glass: 'solid' };
+  let next = mergeState(state, input, admin);
+  assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'orion', glass: 'solid' });
+  input.prefs = { ambiance: 'brume', glass: 'frost' }; // anciennes valeurs
+  next = mergeState(state, input, admin);
+  assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'aube', glass: 'liquid' });
 });
 
 test('comptes : création dans son école, adresse unique, pas d’auto-désactivation, sujet conservé', () => {

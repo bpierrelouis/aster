@@ -11,6 +11,7 @@ import { uid } from '../core/dom.js';
 import { store, currentEcole } from '../core/store.js';
 import { can } from '../core/permissions.js';
 import { batimentLabel } from '../core/selectors.js';
+import { batimentCode } from '../core/buildings.js';
 import { Sheet, openSheet, notify } from '../ui/overlays.jsx';
 import { SheetForm, SheetFormActions } from '../ui/forms.jsx';
 
@@ -38,7 +39,7 @@ function SalleSheet({ salle, defaults }) {
   async function save(form) {
     const nom = form.get('nom').trim();
     const etage = Number(form.get('etage'));
-    const batiment = bat === null ? form.get('batiment').trim().toUpperCase() : bat;
+    const batiment = bat === null ? batimentCode(form.get('batiment')) : bat;
     if (!nom || !batiment || !Number.isInteger(etage) || etage < -5 || etage > 30) throw Error('Renseignez le nom, le bâtiment et un étage entre −5 et 30.');
     const clash = store.state.salles.find((x) => x.ecoleId === ecoleId && x.nom.toLowerCase() === nom.toLowerCase() && x.id !== salle?.id);
     if (clash) throw Error(`La salle ${clash.nom} existe déjà dans cette école.`);

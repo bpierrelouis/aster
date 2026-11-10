@@ -19,9 +19,10 @@ function niceMax(v) {
 
 /**
  * Courbes avec réticule et infobulle, à la taille de leur conteneur (.chart-host).
- * @param {{series:{name:string,color:string,values:number[]}[], labels:string[], fmt?:(n:number)=>string}} props
+ * stacked : aires empilées (la première série en bas), l'infobulle donne la valeur de chaque série.
+ * @param {{series:{name:string,color:string,values:number[]}[], labels:string[], fmt?:(n:number)=>string, stacked?:boolean}} props
  */
-export function LineChart({ series, labels, fmt = num }) {
+export function LineChart({ series, labels, fmt = num, stacked = false }) {
   const ref = useRef(null);
   const [box, setBox] = useState(null); // { w, h } mesurés
   const [hover, setHover] = useState(null); // index survolé
@@ -39,14 +40,19 @@ export function LineChart({ series, labels, fmt = num }) {
     return () => ro.disconnect();
   }, []);
 
+  // Hauteur de chaque série : cumulée si empilée
+  const tops = stacked ? series.map((_, k) => labels.map((__, i) => series.slice(0, k + 1).reduce((t, s) => t + s.values[i], 0))) : series.map((s) => s.values);
   let svg = null, geo = null;
   if (box) {
     const { w, h } = box;
-    const pad = { l: 30, r: 34, t: 10, b: 22 };
+    const pad = { l: 30, r: stacked ? 10 : 34, t: 10, b: 22 };
     const n = labels.length;
-    const max = niceMax(Math.max(...series.flatMap((s) => s.values)) * 1.08);
+    const max = niceMax(Math.max(...tops.flat()) * 1.08);
     const X = (i) => pad.l + (i * (w - pad.l - pad.r)) / (n - 1);
     const Y = (v) => pad.t + (1 - v / max) * (h - pad.t - pad.b);
+    const points = (values) => values.map((v, i) => [X(i), Y(v)]);
+    const path = (pts) => pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join('');
+    const line = (values) => path(points(values));
     geo = { X, Y, n };
     svg = <svg width={w} height={h} className="chart-svg" role="img" aria-label={series.map((s) => s.name).join(', ')}>
       {[0, max / 2, max].map((t, k) => <Fragment key={k}>
@@ -56,8 +62,15 @@ export function LineChart({ series, labels, fmt = num }) {
       {[0, Math.floor((n - 1) / 2), n - 1].map((i, k) => (
         <text key={k} x={X(i)} y={h - 4} className="ch-tick" textAnchor={i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}>{labels[i]}</text>
       ))}
-      {series.map((s) => {
-        const d = s.values.map((v, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)} ${Y(v).toFixed(1)}`).join('');
+      {stacked && series.map((s, k) => {
+        const floor = k ? points(tops[k - 1]).reverse() : [[X(n - 1), Y(0)], [X(0), Y(0)]];
+        return <Fragment key={s.name}>
+          <path d={`${path([...points(tops[k]), ...floor])}Z`} fill={s.color} opacity=".82" />
+          <path d={line(tops[k])} fill="none" stroke={s.color} strokeWidth="2" strokeLinejoin="round" />
+        </Fragment>;
+      })}
+      {!stacked && series.map((s) => {
+        const d = line(s.values);
         const last = s.values[n - 1];
         return <Fragment key={s.name}>
           <path d={`${d}L${X(n - 1)} ${Y(0)}L${X(0)} ${Y(0)}Z`} fill={s.color} opacity=".09" />
@@ -68,7 +81,7 @@ export function LineChart({ series, labels, fmt = num }) {
       })}
       <line className="ch-cross" y1={pad.t} y2={h - pad.b} x1={hover == null ? 0 : X(hover)} x2={hover == null ? 0 : X(hover)} visibility={hover == null ? 'hidden' : 'visible'} />
       <g className="ch-hover">
-        {hover != null && series.map((s) => <circle key={s.name} cx={X(hover)} cy={Y(s.values[hover])} r="4.5" fill={s.color} className="ch-dot" />)}
+        {hover != null && series.map((s, k) => <circle key={s.name} cx={X(hover)} cy={Y(tops[k][hover])} r="4.5" fill={s.color} className="ch-dot" />)}
       </g>
     </svg>;
   }
@@ -81,7 +94,7 @@ export function LineChart({ series, labels, fmt = num }) {
     i = Math.max(0, Math.min(n - 1, i));
     setHover(i);
     floatTip({ title: labels[i], rows: series.map((s) => ({ color: s.color, name: s.name, value: fmt(s.values[i]) })) },
-      r.left + X(i), r.top + Math.min(...series.map((s) => Y(s.values[i]))));
+      r.left + X(i), r.top + Math.min(...tops.map((t) => Y(t[i]))));
   };
   const onLeave = () => { floatTip(null); setHover(null); };
 

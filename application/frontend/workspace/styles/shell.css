@@ -14,16 +14,17 @@
 }
 .rail-brand { display: grid; place-items: center; width: 54px; height: 54px; margin-bottom: 14px; border-radius: 18px; transition: transform var(--dur-2) var(--ease-spring); }
 .rail-brand:hover { transform: rotate(-12deg) scale(1.05); }
-.rail-brand .flower { filter: drop-shadow(0 4px 10px rgb(105 84 192 / .35)); }
+.rail-brand > svg { filter: drop-shadow(0 4px 10px color-mix(in srgb, var(--accent) 35%, transparent)); }
+.rail-brand > .brand--orion { width: 30px; filter: drop-shadow(0 0 6px #3b82f6); }
 .rail-items { position: relative; display: flex; flex-direction: column; gap: 4px; width: 100%; }
 .rail-lens {
   position: absolute; left: 0; top: 0; z-index: 0; opacity: 0;
   border-radius: 20px;
   background: var(--lens-bg);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .55), inset 0 1px 0 rgb(255 255 255 / .9), 0 8px 20px -8px rgb(52 36 110 / .35);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .55), inset 0 1px 0 rgb(255 255 255 / .9), 0 8px 20px -8px rgb(var(--shade) / .35);
   transition: transform .62s var(--ease-spring), width .4s var(--ease-out), height .4s var(--ease-out), opacity .2s;
 }
-:root[data-ambiance="encre"] .rail-lens { box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14), inset 0 1px 0 rgb(255 255 255 / .22), 0 8px 20px -8px rgb(0 0 0 / .6); }
+:root[data-tone="dark"] .rail-lens { box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14), inset 0 1px 0 rgb(255 255 255 / .22), 0 8px 20px -8px rgb(0 0 0 / .6); }
 .rail-item {
   position: relative; z-index: 1;
   display: flex; flex-direction: column; align-items: center; gap: 5px;
@@ -33,7 +34,7 @@
 }
 .rail-item:hover { color: var(--ink-1); }
 .rail-item:active { transform: scale(.94); }
-.rail-item.is-active { color: var(--nav-active); }
+.rail-item.is-active { color: var(--nav-on, var(--accent-text)); }
 .rail-item.is-active .ico .d { fill-opacity: .3; }
 .rail-ico { position: relative; display: grid; place-items: center; }
 .rail-ico .badge { top: -6px; right: -12px; }
@@ -64,7 +65,17 @@
   border-radius: var(--r-pill); font-size: 11.5px; font-weight: 750; font-variant-numeric: tabular-nums;
   color: #5a3d00; background: color-mix(in srgb, var(--wait) 55%, transparent);
 }
-:root[data-ambiance="encre"] .seg-count { color: #fff2d6; background: color-mix(in srgb, var(--wait) 40%, transparent); }
+:root[data-tone="dark"] .seg-count { color: #fff2d6; background: color-mix(in srgb, var(--wait) 40%, transparent); }
+
+/* Actions de l'écran (PageHead) : à droite, avant les menus du compte */
+.page-actions { display: flex; align-items: center; gap: var(--sp-2); flex: none; margin-left: auto; }
+.page-actions:empty { display: none; }
+.page-actions > .ops-status { height: 42px; padding: 0 16px; border-radius: var(--r-pill); background: var(--glass-tint-strong); box-shadow: inset 0 0 0 1px var(--hairline); }
+.page-actions:not(:empty) + .topbar-actions { margin-left: 0; }
+@media (max-width: 520px) {
+  .page-actions .btn span { display: none; }
+  .page-actions .btn { width: 42px; padding: 0; }
+}
 
 .topbar-actions { display: flex; align-items: center; gap: 2px; padding: 4px; --radius: var(--r-pill); flex: none; margin-left: auto; }
 .topbar-actions .icon-btn { width: 40px; height: 40px; color: var(--ink-1); }
@@ -74,8 +85,7 @@
   color: var(--ink-1); background: var(--tint-1);
   transition: background var(--dur-1);
 }
-.ecole-chip .ico { color: var(--iris); }
-:root[data-ambiance="encre"] .ecole-chip .ico { color: var(--nav-active); }
+.ecole-chip .ico { color: var(--accent-text); }
 .ecole-chip:not(.is-static):hover { background: var(--tint-2); }
 .ecole-chip.is-static { cursor: default; }
 
@@ -85,23 +95,23 @@
   min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px;
   background: var(--crit); color: #fff;
   font-size: 10.5px; font-weight: 750; font-variant-numeric: tabular-nums; line-height: 1;
-  box-shadow: 0 0 0 2px rgb(255 255 255 / .9);
+  box-shadow: 0 0 0 2px var(--glass-tint-solid);
 }
-:root[data-ambiance="encre"] .badge { box-shadow: 0 0 0 2px rgb(19 28 48); }
 
-.avatar { position: relative; width: 40px; height: 40px; margin-left: 2px; border-radius: 50%; }
+/* Avatar : le badge du profil reste dans le bloc, au-dessus de son liseré de verre */
+.avatar { position: relative; width: 40px; height: 40px; margin: 0 3px 0 2px; border-radius: 50%; }
 .avatar-face {
   display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
-  font-weight: 750; font-size: 16px; color: #fff;
-  background: radial-gradient(120% 90% at 30% 0%, rgb(255 255 255 / .45), transparent 55%), linear-gradient(150deg, var(--iris-2), var(--iris));
+  font-weight: 750; font-size: 16px; color: var(--accent-fg);
+  background: radial-gradient(120% 90% at 30% 0%, rgb(255 255 255 / .45), transparent 55%), linear-gradient(150deg, var(--accent-2), var(--accent));
   box-shadow: inset 0 1px 0 rgb(255 255 255 / .5);
 }
 .avatar-face--l { width: 48px; height: 48px; font-size: 20px; flex: none; }
 .avatar-role {
-  position: absolute; right: -3px; bottom: -3px;
-  display: grid; place-items: center; width: 19px; height: 19px; border-radius: 50%;
+  position: absolute; right: -2px; bottom: -1px; z-index: 4;
+  display: grid; place-items: center; width: 17px; height: 17px; border-radius: 50%;
   background: var(--c); color: #fff;
-  box-shadow: 0 0 0 2px rgb(255 255 255 / .9);
+  box-shadow: 0 0 0 2px var(--glass-tint-solid);
 }
 
 /* --------------------------------------------------------------------------
@@ -112,7 +122,7 @@
   position: relative;
   max-width: calc(1320px + var(--rail-w) + var(--rail-gap) * 2 + 24px);
   min-height: 100vh; margin: 0 auto;
-  padding: 92px clamp(20px, 3vw, 40px) var(--rail-gap) calc(var(--rail-w) + var(--rail-gap) * 2 + 4px);
+  padding: var(--top-h) clamp(20px, 3vw, 40px) var(--rail-gap) calc(var(--rail-w) + var(--rail-gap) * 2 + 4px);
   outline: none;
 }
 
@@ -146,7 +156,8 @@
     .topbar { padding: 10px 12px 0; gap: 8px; }
   .ecole-chip span { display: none; }
   .ecole-chip { padding: 0 10px; margin-right: 0; }
-  .view { --tuck: 64px; padding: 72px 14px calc(max(10px, env(safe-area-inset-bottom)) + 70px); }
+  :root { --top-h: 72px; }
+  .view { --tuck: 64px; padding: var(--top-h) 14px calc(max(10px, env(safe-area-inset-bottom)) + 70px); }
   .subnav .seg-btn span:not(.seg-count):not(.code-badge) { display: none; }
   .subnav .seg-btn { padding: 0 12px; }
 }

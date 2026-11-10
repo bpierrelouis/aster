@@ -22,7 +22,9 @@ a.w-count:hover { background: var(--fill-2); color: var(--ink-1); }
    KPI
    -------------------------------------------------------------------------- */
 .kpi { display: flex; flex-direction: column; justify-content: space-between; height: 100%; min-width: 0; }
-.kpi-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.kpi-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 24px; }
+.kpi-top .kpi-label { display: inline-flex; align-items: center; gap: 8px; margin: 0; font-size: 14px; font-weight: 650; }
+.kpi-top .kpi-label .led { width: 10px; height: 10px; }
 .kpi-value {
   font-family: var(--font-display);
   font-size: var(--fs-3xl); font-weight: 760; letter-spacing: -.04em; line-height: 1;
@@ -161,17 +163,16 @@ button.row:hover { background: var(--fill-1); }
 
 /* ===== ASTER : compléments ===== */
 .kpi--link { color: inherit; border-radius: var(--r-m); }
-.kpi-label--top { margin-top: 0; font-size: 15px; font-weight: 700; color: var(--ink-1); }
 .kpi-pair { flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: end; }
 .kpi-pair > div { display: flex; flex-direction: column; padding: 12px 14px; border-radius: 16px; background: var(--fill-1); }
 .kpi-pair .kpi-label { white-space: normal; }
 .kpi-pair .kpi-value { font-size: 30px; }
-.w-link { font-size: 13px; font-weight: 650; color: var(--iris); }
+.w-link { font-size: 13px; font-weight: 650; color: var(--accent-text); }
 .w-link:hover { text-decoration: underline; text-underline-offset: 3px; }
-:root[data-ambiance="encre"] .w-link { color: var(--nav-active); }
+
 .hbar { grid-template-columns: 28px minmax(0, 120px) 1fr 42px; }
 .hbar-label { font-size: 13.5px; font-weight: 600; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hbar-fill { background: linear-gradient(90deg, var(--iris-2), var(--iris)); }
+.hbar-fill { background: linear-gradient(90deg, var(--accent-2), var(--accent)); }
 .hbars--compact .hbar-label { display: none; }
 .hbars--compact .hbar { grid-template-columns: 28px 1fr 42px; }
 .chip--stock { gap: 2px; padding: 0 8px 0 5px; color: var(--stock); background: color-mix(in srgb, var(--stock) 12%, transparent); }
@@ -180,7 +181,7 @@ button.row:hover { background: var(--fill-1); }
 .stbar { display: flex; gap: 2px; height: 14px; border-radius: 7px; overflow: hidden; margin-top: 6px; }
 .stbar-seg { min-width: 6px; }
 .stbar-seg--attente { background: var(--wait); }
-.stbar-seg--remplace { background: var(--iris); }
+.stbar-seg--remplace { background: var(--accent); }
 .stbar-seg--corrige { background: var(--ok); }
 .sb-seg--ok { background: var(--ok); }
 .sb-seg--hs { background: var(--crit); }

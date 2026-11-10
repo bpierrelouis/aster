@@ -23,6 +23,7 @@ import { deviceType } from '../core/catalog.js';
 import { parc, scope, batiments, batimentLabel, materielsOf, index } from '../core/selectors.js';
 import { confirmSheet, notify } from '../ui/overlays.jsx';
 import { useTitle } from '../ui/useTitle.js';
+import { usePeek, useFitRows } from '../ui/peek.js';
 import { PageHead } from '../widgets/parts.jsx';
 import { floorLabel, floorLevel, floorHref, modelOf, signature, BatCard, Building, fitIso } from './salles-scene.jsx';
 import { Overview, SalleDetail, Stock } from './salles-panel.jsx';
@@ -74,6 +75,7 @@ export function Salles() {
   const suppressRef = useRef(false);
   const rootRef = useRef(null);
   const sceneRef = useRef(null);
+  const panelRef = usePeek('.salle-row, .dev-group > header, .dev');
 
   /* ---------- Mise à l'échelle des scènes ---------- */
   const scenes = useRef(new Map()); // élément .iso → { model, box, options d'échelle }
@@ -90,6 +92,9 @@ export function Salles() {
       },
     },
   };
+
+  // Vue d'ensemble : hauteur des cartes choisie pour que le bas de l'écran coupe la rangée suivante (avant la mise à l'échelle)
+  useFitRows(() => sceneRef.current?.querySelector('.bat-grid'), '--bat-row', [mode, batiments().length]);
 
   // Mise en place sans transition quand les données affichées changent : seuls le survol et la sélection restent animés
   const sig = useMemo(() => signature(state), [store.version]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -235,6 +240,11 @@ export function Salles() {
     </PageHead>
     <div className={`salles${mode === 'stock' ? ' is-stock' : ''}`}>
       {mode !== 'stock' && <section className={`iso-stage${stageBat ? '' : ' is-overview'}`} aria-label="Bâtiments et étages">
+        <div className="iso-legend" aria-label="Légende">
+          <span><span className="lg-key lg-key--ok" />Salle</span>
+          <span><span className="lg-key lg-key--hs" />Matériel hors service</span>
+          <span><span className="lg-key lg-key--wait" />Remontée en attente</span>
+        </div>
         <div className="scene" ref={sceneRef}>
           {stageModel
             ? <div className="iso is-exploded" ref={scene.register(stageModel, { tagW: 190 })}>
@@ -244,13 +254,8 @@ export function Salles() {
         </div>
         {can('materiel.move') && <div className={`stock-tray glass glass--strong${dropId === 'stock' ? ' is-drop' : ''}`} aria-hidden="true">
           <Tile name="stockage" color="var(--c8)" size="m" /><span><b>Remettre en stock</b><small>{num(stock.total)} matériels en stock</small></span></div>}
-        <div className="iso-legend">
-          <span><span className="lg-key lg-key--ok" />Salle</span>
-          <span><span className="lg-key lg-key--hs" />Matériel hors service</span>
-          <span><span className="lg-key lg-key--wait" />Remontée en attente</span>
-        </div>
       </section>}
-      <aside className="spanel glass">
+      <aside ref={panelRef} className="spanel glass">
         {mode === 'salle' && x ? <SalleDetail x={x} stageBat={stageBat} selected={selected} devs={devs} act={act} />
           : mode === 'stock' ? <Stock selected={selected} devs={devs} act={act} />
             : <Overview mode={mode} stageBat={stageBat} stageFloor={stageFloor} hoverId={hoverId} />}

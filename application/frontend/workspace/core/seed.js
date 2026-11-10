@@ -18,9 +18,6 @@ function prng(seed) {
   };
 }
 
-/** Préférences d'affichage par défaut d'un compte. */
-export const DEFAULT_PREFS = { ambiance: 'brume', glass: 'liquid' };
-
 /** Version du jeu de données : un état enregistré plus ancien est régénéré. */
 export const SEED_VERSION = 5;
 
@@ -210,20 +207,27 @@ export function defaultLayouts() {
   const w = (type, size) => ({ id: `w${++i}`, type, size });
   const parc = () => [
     w('kpi.materiels', 'S'), w('kpi.affectes', 'S'), w('kpi.stock', 'S'), w('kpi.hs', 'S'),
-    w('chart.types', 'L'), w('list.salles', 'L'),
+    w('chart.parcBatiments', 'L'), w('chart.garanties', 'L'),
+    w('chart.localisation', 'M'), w('chart.disponibilite', 'M'),
+    w('chart.receptions', 'XL'),
+    w('chart.types', 'L'), w('chart.marques', 'L'),
+    w('list.salles', 'L'), w('list.hs', 'L'),
     w('list.recents', 'XL'),
   ];
   const remontees = () => [
     w('kpi.attente', 'S'), w('kpi.traitees', 'S'), w('chart.statuts', 'M'),
     w('chart.flux', 'L'), w('list.attente', 'L'),
+    w('chart.problemes', 'L'), w('chart.semaines', 'L'),
     w('chart.batiments', 'XL'),
   ];
   const admin = () => ({
     perso: [
       w('kpi.parc', 'M'), w('kpi.hs', 'S'), w('kpi.attente', 'S'),
       w('chart.flux', 'L'), w('list.attente', 'L'),
-      w('chart.batiments', 'L'), w('kpi.garanties', 'M'), w('list.detections', 'M'),
-      w('chart.types', 'L'), w('list.salles', 'L'),
+      w('chart.problemes', 'M'), w('chart.postes', 'M'),
+      w('chart.parcBatiments', 'L'), w('chart.garanties', 'L'),
+      w('chart.disponibilite', 'M'), w('list.detections', 'M'),
+      w('chart.batiments', 'XL'),
     ],
     parc: parc(),
     remontees: remontees(),
@@ -233,8 +237,10 @@ export function defaultLayouts() {
     superadmin: admin(),
     gestionnaire: {
       perso: [
-        w('kpi.stock', 'S'), w('kpi.attente', 'S'),
-        w('list.attente', 'L'), w('chart.types', 'L'),
+        w('kpi.stock', 'S'), w('kpi.hs', 'S'), w('kpi.attente', 'S'), w('chart.disponibilite', 'S'),
+        w('list.attente', 'L'), w('chart.problemes', 'L'),
+        w('chart.garanties', 'L'), w('chart.types', 'L'),
+        w('chart.receptions', 'XL'),
         w('kpi.garanties', 'M'), w('list.hs', 'M'),
       ],
       parc: parc(),
@@ -243,6 +249,7 @@ export function defaultLayouts() {
     formateur: {
       perso: [
         w('kpi.mesattente', 'S'), w('kpi.salles', 'S'),
+        w('chart.postes', 'M'),
         w('list.mesremontees', 'XL'),
       ],
     },

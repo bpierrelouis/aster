@@ -3,7 +3,7 @@
    ========================================================================== */
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scrollbar-gutter: stable; }
+html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   min-height: 100vh;
@@ -16,6 +16,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
+/* Ciel propre à certaines ambiances (Orion) : couche fixe, sans coût au défilement */
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--backdrop); }
+
+/* Aucune barre de défilement visible : la suite d'une liste se devine à
+   l'élément suivant, coupé entre le tiers et la moitié (ui/peek.js). */
+* { scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; }
 
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
@@ -40,18 +47,6 @@ svg { flex: none; }
 kbd { font: inherit; font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 6px; background: rgb(255 255 255 / .18); margin-left: 6px; }
 
 /* --------------------------------------------------------------------------
-   En-tête d'écran : actions alignées à droite (le titre n'est pas affiché)
-   -------------------------------------------------------------------------- */
-.page-head { display: flex; justify-content: flex-end; margin: 0 0 var(--sp-5); }
-.page-head:has(> .page-actions:empty) { margin: 0; }
-.page-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: var(--sp-2); }
-.page-actions:empty { display: none; }
-@media (max-width: 520px) {
-  .page-actions .btn span { display: none; }
-  .page-actions .btn { width: 42px; padding: 0; }
-}
-
-/* --------------------------------------------------------------------------
    Boutons
    -------------------------------------------------------------------------- */
 .btn {
@@ -62,17 +57,17 @@ kbd { font: inherit; font-size: 11px; font-weight: 600; padding: 1px 6px; border
 }
 .btn:active:not([disabled]):not([aria-disabled="true"]) { transform: scale(.96); }
 .btn--primary {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--btn-primary-bg) 88%, white), var(--btn-primary-bg));
-  color: var(--btn-primary-fg);
-  box-shadow: 0 8px 20px -8px var(--btn-primary-glow), inset 0 1px 0 rgb(255 255 255 / .22);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 88%, white), var(--accent));
+  color: var(--accent-fg);
+  box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--accent) 55%, transparent), inset 0 1px 0 rgb(255 255 255 / .22);
 }
-.btn--primary:hover { background: var(--btn-primary-bg); }
+.btn--primary:hover { background: var(--accent); }
 .btn--glass {
   position: relative;
   background: var(--glass-tint-strong);
   -webkit-backdrop-filter: blur(16px) saturate(1.7);
   backdrop-filter: blur(16px) saturate(1.7);
-  box-shadow: inset 0 0 0 1px var(--rim-mid), inset 0 1px 0 var(--rim-hi), 0 6px 16px -8px rgb(52 36 110 / .3);
+  box-shadow: inset 0 0 0 1px var(--rim-mid), inset 0 1px 0 var(--rim-hi), 0 6px 16px -8px rgb(var(--shade) / .3);
 }
 .btn--glass:hover { background: var(--glass-tint-solid); }
 .btn--ghost { background: var(--fill-1); }
@@ -83,7 +78,7 @@ kbd { font: inherit; font-size: 11px; font-weight: 600; padding: 1px 6px; border
 .btn--s { height: 32px; padding: 0 12px; font-size: 13px; }
 .btn--block { width: 100%; }
 .btn[disabled], .btn[aria-disabled="true"], .icon-btn[aria-disabled="true"], .seg-btn[aria-disabled="true"] { opacity: .38; cursor: not-allowed; }
-:root[data-glass="solid"] .btn--glass { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--glass-tint-solid); }
+:root[data-glass="solid"] .btn--glass, :root[data-glass="solid"] .icon-btn--glass { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--glass-tint-solid); box-shadow: 0 0 0 1px var(--hairline), 0 4px 12px -8px rgb(var(--shade) / .3); }
 
 .icon-btn {
   position: relative; display: inline-grid; place-items: center; flex: none;
@@ -94,7 +89,7 @@ kbd { font: inherit; font-size: 11px; font-weight: 600; padding: 1px 6px; border
 .icon-btn:hover:not([aria-disabled="true"]) { background: var(--fill-1); color: var(--ink-1); }
 .icon-btn:active:not([aria-disabled="true"]) { transform: scale(.92); }
 .icon-btn--danger:hover:not([aria-disabled="true"]) { color: var(--crit); background: color-mix(in srgb, var(--crit) 12%, transparent); }
-.icon-btn--glass { background: var(--glass-tint-strong); box-shadow: inset 0 0 0 1px var(--rim-mid), 0 4px 12px -6px rgb(52 36 110 / .25); color: var(--ink-1); }
+.icon-btn--glass { background: var(--glass-tint-strong); box-shadow: inset 0 0 0 1px var(--rim-mid), 0 4px 12px -6px rgb(var(--shade) / .25); color: var(--ink-1); }
 
 /* --------------------------------------------------------------------------
    Contrôles segmentés
@@ -113,7 +108,7 @@ kbd { font: inherit; font-size: 11px; font-weight: 600; padding: 1px 6px; border
   background: var(--glass-tint-solid);
   box-shadow: 0 1px 1px rgb(var(--ink) / .06), 0 6px 14px -6px rgb(var(--ink) / .25), inset 0 0 0 .5px rgb(255 255 255 / .7);
 }
-:root[data-ambiance="encre"] .seg-btn.is-on { background: rgb(255 255 255 / .14); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14), 0 6px 14px -6px rgb(0 0 0 / .5); }
+:root[data-tone="dark"] .seg-btn.is-on { background: rgb(255 255 255 / .14); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14), 0 6px 14px -6px rgb(0 0 0 / .5); }
 .seg--chips .seg-btn { height: 38px; padding: 0 16px 0 7px; gap: 9px; }
 .seg--wide { display: flex; }
 .seg--wide .seg-btn { flex: 1; justify-content: center; }
@@ -149,7 +144,7 @@ a.chip--pin:hover { background: var(--fill-2); }
 .st--ok { color: var(--ok); }
 .st--wait { color: #b8860b; }
 .st--stock { color: var(--stock); }
-:root[data-ambiance="encre"] .st--wait { color: var(--wait); }
+:root[data-tone="dark"] .st--wait { color: var(--wait); }
 .st--hs { color: var(--crit); }
 
 
@@ -211,7 +206,7 @@ select {
   box-shadow: inset 0 0 0 1px var(--hairline);
 }
 select:focus { outline: none; box-shadow: inset 0 0 0 2px var(--focus); background-color: var(--glass-tint-solid); }
-:root[data-ambiance="encre"] select option, :root[data-ambiance="encre"] select optgroup { background: #131c30; }
+:root[data-tone="dark"] select option, :root[data-tone="dark"] select optgroup { background: var(--base); }
 .field-hint { font-size: 12px; color: var(--ink-3); }
 .seg--wrap { display: flex; flex-wrap: wrap; border-radius: var(--r-m); }
 .id-aster { display: flex; align-items: center; height: 44px; padding: 0 14px; border-radius: 14px; background: var(--tint-1); font-weight: 750; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
@@ -219,4 +214,3 @@ select:focus { outline: none; box-shadow: inset 0 0 0 2px var(--focus); backgrou
 .type-picker--wide { gap: 4px; }
 .empty-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 .flower { display: block; flex: none; }
-.pop-label .flower { width: 16px; height: 16px; }

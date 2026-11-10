@@ -23,6 +23,7 @@ import { customBoards, openBoardForm, deleteBoard } from './dashboard-boards.jsx
 import { Icon, Tile } from '../ui/icons.jsx';
 import { Sheet, openSheet, notify } from '../ui/overlays.jsx';
 import { useTitle } from '../ui/useTitle.js';
+import { useFitRows } from '../ui/peek.js';
 
 const TITLES = { perso: 'Accueil', parc: 'Gestion du parc', remontees: 'Remontées' };
 
@@ -251,6 +252,9 @@ export function Dashboard() {
     }
   }
 
+  // Défilement sans barre : le bas de l'écran coupe la rangée suivante
+  useFitRows(() => boardRef.current, '--board-row', [items.map((w) => w.size).join()]);
+
   /* ---------- Abonnements ---------- */
 
   useEffect(() => {
@@ -301,7 +305,7 @@ export function Dashboard() {
         onKeyDown={onWidgetKey} />)}
     </section>
     {!items.length && <div className="empty-state glass">
-      <Tile name="widgets" color="var(--iris)" size="xl" />
+      <Tile name="widgets" color="var(--accent)" size="xl" />
       <p>Ce tableau de bord est vide. Choisissez les indicateurs, graphiques et listes à y afficher.</p>
       <button type="button" className="btn btn--primary" onClick={openGallery}><Icon name="plus" size={18} /><span>Ajouter un widget</span></button>
     </div>}

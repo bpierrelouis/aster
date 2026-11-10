@@ -10,6 +10,7 @@ import { Link, useParams } from 'react-router';
 import { Icon, Tile } from '../ui/icons.jsx';
 import { notify } from '../ui/overlays.jsx';
 import { useTitle } from '../ui/useTitle.js';
+import { usePeek } from '../ui/peek.js';
 import { store, me } from '../core/store.js';
 import { useStore } from '../core/useStore.js';
 import { can } from '../core/permissions.js';
@@ -61,7 +62,7 @@ function RemonteeDetail({ selId, tab }) {
   const state = useStore();
   const r = remontees().visible.find((x) => x.id === selId) ?? remontees().mine.find((x) => x.id === selId);
   if (!r) {
-    return <div className="rm-empty"><Tile name="ticket" color="var(--iris)" size="xl" /><p>Sélectionnez une remontée pour voir son détail et son état des lieux.</p></div>;
+    return <div className="rm-empty"><Tile name="ticket" color="var(--accent)" size="xl" /><p>Sélectionnez une remontée pour voir son détail et son état des lieux.</p></div>;
   }
   const { mats } = remonteeContext(r);
   const p = problem(r.probleme);
@@ -83,7 +84,7 @@ function RemonteeDetail({ selId, tab }) {
 
   return <>
     <div className="insp-head">
-      <Tile name={p.icon} color="var(--iris)" size="l" />
+      <Tile name={p.icon} color="var(--accent)" size="l" />
       <div className="insp-title"><h2>{r.id}</h2><span><StatutPill r={r} /></span></div>
       <div className="insp-actions"><Link className="icon-btn" to={`/remontees/${tab}`} aria-label="Fermer le détail"><Icon name="close" size={18} /></Link></div>
     </div>
@@ -138,6 +139,7 @@ export function Remontees() {
   const [query, setQuery] = useState('');
   const [bat, setBat] = useState('');
   const rootRef = useRef(null);
+  const listScroll = usePeek('.rm-row', '.rm-panel');
   const title = can('remontee.viewAll') ? 'Remontées' : 'Mes remontées';
   useTitle(title);
 
@@ -168,7 +170,7 @@ export function Remontees() {
           </div>
           <span className="rm-count" aria-live="polite">{num(list.length)}</span>
         </div>
-        <div className="rm-scroll">
+        <div ref={listScroll} className="rm-scroll">
           {list.length
             ? <ul className="rm-list">{list.map((r) => <RemonteeRow key={r.id} r={r} tab={tab} selected={r.id === selId} />)}</ul>
             : <div className="w-empty w-empty--l"><Icon name={query || bat ? 'recherche' : EMPTIES[tab][0]} size={32} /><span>{query || bat ? 'Aucune remontée ne correspond à ces filtres.' : EMPTIES[tab][1]}</span></div>}

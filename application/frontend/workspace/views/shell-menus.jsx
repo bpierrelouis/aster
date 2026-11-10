@@ -5,25 +5,15 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
-import { Icon, Tile, Flower } from '../ui/icons.jsx';
+import { Icon, Tile, Brand } from '../ui/icons.jsx';
 import { Popover, notify, useSheetClose } from '../ui/overlays.jsx';
 import { store, me, currentEcole } from '../core/store.js';
 import { can } from '../core/permissions.js';
 import { glassInfo } from '../core/glass.js';
+import { AMBIANCES, GLASS } from '../core/ambiance.js';
 import { role as roleOf, deviceType, statut } from '../core/catalog.js';
 import { remontees, batimentLabel, index, scope, detections, remonteeContext, parc } from '../core/selectors.js';
 import { num, ago } from '../core/format.js';
-
-const AMBIANCES = [
-  { id: 'brume', label: 'Brume' },
-  { id: 'aube', label: 'Aube' },
-  { id: 'encre', label: 'Encre' },
-];
-const GLASS = [
-  { id: 'liquid', label: 'Liquide', tip: 'Réfraction réelle des bords (Chrome, Edge)' },
-  { id: 'frost', label: 'Givré', tip: 'Verre dépoli, tous navigateurs dont Firefox' },
-  { id: 'solid', label: 'Opaque', tip: 'Sans transparence' },
-];
 
 export const ecoleNom = (e) => (e === 'all' || !e ? 'Toutes les écoles' : index().ecole.get(e)?.nom ?? '');
 
@@ -48,7 +38,7 @@ export const weekNotifications = () => notificationsFor(Date.now() - 7 * 86400e3
 function NotifRow({ n, onOpen }) {
   if (n.kind === 'garantie') {
     return <li><Link className="pop-row" to="/materiels/inventaire" onClick={onOpen}>
-      <Tile name="clock" color="var(--iris)" size="s" />
+      <Tile name="clock" color="var(--accent)" size="s" />
       <span><b>{n.m.garantieFin <= Date.now() ? 'Garantie échue' : 'Garantie proche de l’échéance'}</b><small>{n.m.modele} · {n.m.idAster}</small></span>
     </Link></li>;
   }
@@ -83,19 +73,19 @@ export function AccountPopover({ anchor, onClose }) {
         <div><b>{me().nom}</b><span>{roleOf(s.role).label}</span><span>{ecoleNom(currentEcole())}</span></div>
       </div>
       <div className="pop-group">
-        <span className="pop-label"><Icon name="sun" size={16} />Ambiance</span>
         <div className="swatches" role="radiogroup" aria-label="Ambiance">
           {AMBIANCES.map((a) => <button key={a.id} type="button" role="radio" aria-checked={s.prefs.ambiance === a.id}
-            className={`swatch swatch--${a.id}`} data-tip={a.label} aria-label={a.label} onClick={() => setPref('ambiance', a.id)} />)}
+            className="swatch-item" onClick={() => setPref('ambiance', a.id)}>
+            <span className={`swatch swatch--${a.id}`}><Brand ambiance={a.id} size={24} /></span>{a.label}
+          </button>)}
         </div>
       </div>
       <div className="pop-group">
-        <span className="pop-label"><Flower size={16} />Verre</span>
-        <div className="seg" role="radiogroup" aria-label="Matériau">
+        <div className="seg" role="radiogroup" aria-label="Verre">
           {GLASS.map((g) => <button key={g.id} type="button" role="radio" aria-checked={s.prefs.glass === g.id}
             className={`seg-btn${s.prefs.glass === g.id ? ' is-on' : ''}`} data-tip={g.tip} onClick={() => setPref('glass', g.id)}>{g.label}</button>)}
         </div>
-        {!info.supportsLens && <span className="pop-note"><Icon name="eye" size={14} />La réfraction s'affiche dans Chrome ou Edge ; ici le verre est givré.</span>}
+        {!info.supportsLens && s.prefs.glass === 'liquid' && <span className="pop-note"><Icon name="eye" size={14} />La réfraction des bords s’affiche dans Chrome ou Edge.</span>}
       </div>
       <form action="/auth/logout" method="post"><button className="pop-link" type="submit">Se déconnecter</button></form>
     </div>
@@ -117,7 +107,7 @@ export function EcolePopover({ anchor, onClose }) {
         const on = s.ecoleId === o.id;
         const count = o.id === 'all' ? s.salles.length : s.salles.filter((x) => x.ecoleId === o.id).length;
         return <li key={o.id}><button type="button" className={`pop-row${on ? ' is-on' : ''}`} onClick={() => choose(o.id)}>
-          <Tile name={o.id === 'all' ? 'layers' : 'school'} color="var(--iris)" size="s" className="tile--tint" />
+          <Tile name={o.id === 'all' ? 'layers' : 'school'} color="var(--accent)" size="s" className="tile--tint" />
           <span><b>{o.nom}</b><small>{num(count)} salles</small></span>
           {on && <Icon name="check" size={18} />}
         </button></li>;
@@ -158,7 +148,7 @@ function searchResults(q) {
     }
   }
   for (const r of remontees().visible) {
-    if (r.id.toLowerCase().includes(q) || r.description.toLowerCase().includes(q)) out.push({ icon: 'ticket', color: 'var(--iris)', title: r.id, sub: statut(r.statut).label, href: `/remontees/toutes/${r.id}` });
+    if (r.id.toLowerCase().includes(q) || r.description.toLowerCase().includes(q)) out.push({ icon: 'ticket', color: 'var(--accent)', title: r.id, sub: statut(r.statut).label, href: `/remontees/toutes/${r.id}` });
   }
   return out.slice(0, 12);
 }

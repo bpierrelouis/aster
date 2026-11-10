@@ -13,7 +13,8 @@ import { DEVICE_TYPES, REMONTEE_STATUTS, CLASSEMENTS, deviceType, problem } from
 import { parc, remontees, remonteeContext, detections, batimentLabel, index, scope } from '../core/selectors.js';
 import { can } from '../core/permissions.js';
 import { LineChart, Sparkline } from '../ui/charts.jsx';
-import { EtatIcon, EtatPill, StatutPill, LieuChip, EtatBar } from './parts.jsx';
+import { EtatIcon, EtatPill, StatutPill, LieuChip, EtatBar, WidgetHead, WidgetEmpty } from './parts.jsx';
+import { DIAGRAMS } from './diagrams.jsx';
 
 export const SIZES = {
   S: { c: 1, r: 1, label: 'Petit' },
@@ -24,17 +25,14 @@ export const SIZES = {
 
 /* ---------- Fragments communs ---------- */
 
-function Head({ ic, color, title, right = null }) {
-  return <header className="w-head">
-    <Tile name={ic} color={color} size="s" />
-    <h3 className="w-title">{title}</h3>
-    {right && <div className="w-head-right">{right}</div>}
-  </header>;
-}
+/** Libellé d'un indicateur, précédé du point de couleur de son état (hs, wait, ok, stock, warn) */
+const KpiLabel = ({ label, led = null }) => <span className="kpi-label">{led && <span className={`led led--${led}`} />}{label}</span>;
 
-const KpiTop = ({ ic, color, chip = null }) => <div className="kpi-top"><Tile name={ic} color={color} size="m" />{chip}</div>;
-const KpiValue = ({ value, label }) => <div className="kpi-main"><div className="kpi-value">{value}</div><div className="kpi-label">{label}</div></div>;
-const Empty = ({ ic, text }) => <div className="w-empty"><Icon name={ic} size={28} /><span>{text}</span></div>;
+/** Indicateur : libellé en haut (puce facultative à droite), valeur en bas */
+const KpiBody = ({ label, led, value, chip = null }) => <>
+  <div className="kpi-top"><KpiLabel label={label} led={led} />{chip}</div>
+  <div className="kpi-value">{value}</div>
+</>;
 
 /** Ligne de remontée (listes) */
 function RemonteeRow({ r, showStatut = false }) {
@@ -82,15 +80,15 @@ function BstackRow({ code, label, c, to }) {
 export const WIDGETS = [
   /* ===== Parc ===== */
   {
-    type: 'kpi.materiels', kind: 'kpi', title: 'Matériels', icon: 'materiel', color: 'var(--iris)', sizes: ['S'], cap: 'dashboard.parc',
-    Body: () => <div className="kpi"><KpiTop ic="materiel" color="var(--iris)" /><KpiValue value={num(parc().totals.total)} label="Matériels" /></div>,
+    type: 'kpi.materiels', kind: 'kpi', title: 'Matériels', icon: 'materiel', color: 'var(--accent)', sizes: ['S'], cap: 'dashboard.parc',
+    Body: () => <div className="kpi"><KpiBody label="Matériels" value={num(parc().totals.total)} /></div>,
   },
   {
     type: 'kpi.affectes', kind: 'kpi', title: 'Affectés en salle', icon: 'salles', color: 'var(--c3)', sizes: ['S'], cap: 'dashboard.parc',
     Body() {
       const p = parc();
       const chip = <span className="chip" data-tip="Salles équipées"><Icon name="salles" size={14} />{num(p.sallesEquipees)}</span>;
-      return <div className="kpi"><KpiTop ic="salles" color="var(--c3)" chip={chip} /><KpiValue value={num(p.totals.affectes)} label="Affectés en salle" /></div>;
+      return <div className="kpi"><KpiBody label="Affectés en salle" value={num(p.totals.affectes)} chip={chip} /></div>;
     },
   },
   {
@@ -98,14 +96,14 @@ export const WIDGETS = [
     Body() {
       const p = parc();
       const chip = p.stock.hs ? <span className="chip chip--bad" data-tip="Hors service en stock"><Icon name="power" size={14} />{num(p.stock.hs)}</span> : null;
-      return <div className="kpi"><KpiTop ic="stockage" color="var(--c8)" chip={chip} /><KpiValue value={num(p.totals.stock)} label="En stock" /></div>;
+      return <div className="kpi"><KpiBody label="En stock" led="stock" value={num(p.totals.stock)} chip={chip} /></div>;
     },
   },
   {
     type: 'kpi.hs', kind: 'kpi', title: 'Hors service', icon: 'power', color: 'var(--crit)', sizes: ['S', 'M'], cap: 'dashboard.parc',
     Body({ size }) {
       const p = parc();
-      const main = <><KpiTop ic="power" color="var(--crit)" /><KpiValue value={num(p.totals.hs)} label="Hors service" /></>;
+      const main = <KpiBody label="Hors service" led="hs" value={num(p.totals.hs)} />;
       if (size === 'S') return <div className="kpi">{main}</div>;
       const top = DEVICE_TYPES.map((t) => ({ t, n: p.byType[t.id].hs })).filter((x) => x.n).sort((a, b) => b.n - a.n).slice(0, 4);
       return <div className="kpi kpi--split"><div className="kpi">{main}</div>
@@ -117,10 +115,10 @@ export const WIDGETS = [
     },
   },
   {
-    type: 'kpi.parc', kind: 'kpi', title: 'État du parc', icon: 'materiel', color: 'var(--iris)', sizes: ['M'], cap: 'dashboard.parc',
+    type: 'kpi.parc', kind: 'kpi', title: 'État du parc', icon: 'materiel', color: 'var(--accent)', sizes: ['M'], cap: 'dashboard.parc',
     Body() {
       const { totals: c } = parc();
-      return <div className="kpi kpi--split"><div className="kpi"><KpiTop ic="materiel" color="var(--iris)" /><KpiValue value={num(c.total)} label="Matériels" /></div>
+      return <div className="kpi kpi--split"><div className="kpi"><KpiBody label="Matériels" value={num(c.total)} /></div>
         <div className="kpi-side">
           <EtatBar c={c} />
           <ul className="legend">
@@ -135,7 +133,7 @@ export const WIDGETS = [
     type: 'kpi.garanties', kind: 'kpi', title: 'Garanties', icon: 'calendarWarn', color: 'var(--warn)', sizes: ['M'], cap: 'dashboard.parc',
     Body() {
       const { garanties: g } = parc();
-      return <div className="kpi kpi--split"><div className="kpi"><KpiTop ic="calendarWarn" color="var(--warn)" /><div className="kpi-main"><div className="kpi-label kpi-label--top">Garanties</div></div></div>
+      return <div className="kpi kpi--split"><div className="kpi"><div className="kpi-top"><KpiLabel label="Garanties" led="warn" /></div></div>
         <div className="kpi-pair">
           <div><span className="kpi-value">{num(g.proches.length)}</span><span className="kpi-label">Échéance sous 6 mois</span></div>
           <div><span className="kpi-value">{num(g.echues.length)}</span><span className="kpi-label">Arrivées à échéance</span></div>
@@ -143,13 +141,13 @@ export const WIDGETS = [
     },
   },
   {
-    type: 'chart.types', kind: 'chart', title: 'Répartition du matériel', icon: 'chartBar', color: 'var(--iris)', sizes: ['M', 'L'], cap: 'dashboard.parc',
+    type: 'chart.types', kind: 'chart', title: 'Répartition du matériel', icon: 'chartBar', color: 'var(--accent)', sizes: ['M', 'L'], cap: 'dashboard.parc',
     Body({ size }) {
       const { byType } = parc();
       const rows = DEVICE_TYPES.map((t) => ({ t, ...byType[t.id] })).filter((r) => r.total).sort((a, b) => b.total - a.total).slice(0, size === 'M' ? 4 : 8);
       const max = Math.max(...rows.map((r) => r.total), 1);
       return <>
-        <Head ic="chartBar" color="var(--iris)" title="Répartition du matériel" right={<Link className="w-link" to="/salles">Voir les salles</Link>} />
+        <WidgetHead title="Répartition du matériel" right={<Link className="w-link" to="/salles">Voir les salles</Link>} />
         <ul className={`hbars${size === 'M' ? ' hbars--compact' : ''}`}>{rows.map((r) => (
           <li key={r.t.id} className="hbar" data-tip-title={r.t.plural} data-tip={`${num(r.total)} matériels\n${num(r.hs)} hors service`}>
             <Tile name={r.t.icon} color={r.t.color} size="s" />
@@ -168,7 +166,7 @@ export const WIDGETS = [
         <li><span className="st st--ok"><Icon name="checkCircle" size={16} /></span><span className="legend-text">En service</span></li>
         <li><span className="st st--hs"><Icon name="power" size={16} /></span><span className="legend-text">Hors service</span></li></ul>;
       return <>
-        <Head ic="salles" color="var(--c3)" title="État par bâtiment" right={size === 'M' ? null : legend} />
+        <WidgetHead title="État par bâtiment" right={size === 'M' ? null : legend} />
         <ul className={`bstack${size === 'M' ? ' bstack--compact' : ''}`}>
           {byBatiment.map((b) => <BstackRow key={b.batiment} code={b.batiment} label={batimentLabel(b.batiment)} c={b} to={`/salles/batiment/${b.batiment}`} />)}
           <BstackRow code="—" label="Stock" c={stock} to="/salles/stock" />
@@ -182,7 +180,7 @@ export const WIDGETS = [
       const { topSalles, bySalle } = parc();
       const list = topSalles.slice(0, size === 'M' ? 2 : 5);
       return <>
-        <Head ic="salles" color="var(--c3)" title="Salles les plus équipées" right={<Link className="w-link" to="/salles">Toutes</Link>} />
+        <WidgetHead ic="salles" color="var(--c3)" title="Salles les plus équipées" right={<Link className="w-link" to="/salles">Toutes</Link>} />
         <ul className="rank">{list.map((x) => {
           const c = bySalle.get(x.id);
           return <li key={x.id}><Link className="rank-row" to={`/salles/salle/${x.id}`}>
@@ -194,12 +192,12 @@ export const WIDGETS = [
     },
   },
   {
-    type: 'list.recents', kind: 'list', title: 'Matériels récemment enregistrés', icon: 'importJson', color: 'var(--iris)', sizes: ['L', 'XL'], cap: 'dashboard.parc',
+    type: 'list.recents', kind: 'list', title: 'Matériels récemment enregistrés', icon: 'importJson', color: 'var(--accent)', sizes: ['L', 'XL'], cap: 'dashboard.parc',
     Body({ size }) {
       const { recents } = parc();
-      if (size === 'L') return <><Head ic="importJson" color="var(--iris)" title="Récemment enregistrés" /><ul className="rows">{recents.slice(0, 4).map((m) => <MaterielRow key={m.id} m={m} />)}</ul></>;
+      if (size === 'L') return <><WidgetHead ic="importJson" color="var(--accent)" title="Récemment enregistrés" /><ul className="rows">{recents.slice(0, 4).map((m) => <MaterielRow key={m.id} m={m} />)}</ul></>;
       return <>
-        <Head ic="importJson" color="var(--iris)" title="Matériels récemment enregistrés" />
+        <WidgetHead ic="importJson" color="var(--accent)" title="Matériels récemment enregistrés" />
         <div className="table-wrap"><table className="table">
           <thead><tr><th>Modèle</th><th>Identifiant ASTER</th><th>Réception</th><th>Localisation</th><th>État</th></tr></thead>
           <tbody>{recents.slice(0, 4).map((m) => {
@@ -215,10 +213,10 @@ export const WIDGETS = [
     Body({ size }) {
       const list = scope().materiels.filter((m) => m.hs);
       return <>
-        <Head ic="power" color="var(--crit)" title="Hors service" right={<span className="w-count">{num(list.length)}</span>} />
+        <WidgetHead ic="power" color="var(--crit)" title="Hors service" right={<span className="w-count">{num(list.length)}</span>} />
         {list.length
           ? <ul className="rows">{list.slice(0, size === 'M' ? 2 : 4).map((m) => <MaterielRow key={m.id} m={m} />)}</ul>
-          : <Empty ic="checkCircle" text="Tout le parc est en service" />}
+          : <WidgetEmpty ic="checkCircle" text="Tout le parc est en service" />}
       </>;
     },
   },
@@ -228,26 +226,26 @@ export const WIDGETS = [
     type: 'kpi.attente', kind: 'kpi', title: 'Remontées en attente', icon: 'hourglass', color: 'var(--wait)', sizes: ['S', 'M'], cap: 'remontee.viewAll',
     Body({ size }) {
       const rm = remontees();
-      const main = <Link className="kpi kpi--link" to="/remontees/attente"><KpiTop ic="hourglass" color="var(--wait)" /><KpiValue value={num(rm.attente.length)} label="Remontées en attente" /></Link>;
+      const main = <Link className="kpi kpi--link" to="/remontees/attente"><KpiBody label="Remontées en attente" led="wait" value={num(rm.attente.length)} /></Link>;
       if (size === 'S') return main;
       return <div className="kpi kpi--split">{main}
-        <div className="kpi-side kpi-side--center" data-tip="Remontées créées par semaine, 12 semaines"><Sparkline values={rm.weeks.map((w) => w.creees)} w={240} h={64} color="var(--iris)" label="Remontées créées par semaine" /></div></div>;
+        <div className="kpi-side kpi-side--center" data-tip="Remontées créées par semaine, 12 semaines"><Sparkline values={rm.weeks.map((w) => w.creees)} w={240} h={64} color="var(--accent)" label="Remontées créées par semaine" /></div></div>;
     },
   },
   {
     type: 'kpi.traitees', kind: 'kpi', title: 'Traitées sur 30 jours', icon: 'checkCircle', color: 'var(--ok)', sizes: ['S'], cap: 'remontee.viewAll',
     Body() {
       const rm = remontees();
-      return <Link className="kpi kpi--link" to="/remontees/traitees"><KpiTop ic="checkCircle" color="var(--ok)" /><KpiValue value={num(rm.recentTraitees.length)} label="Traitées sur 30 jours" /></Link>;
+      return <Link className="kpi kpi--link" to="/remontees/traitees"><KpiBody label="Traitées sur 30 jours" led="ok" value={num(rm.recentTraitees.length)} /></Link>;
     },
   },
   {
-    type: 'chart.statuts', kind: 'chart', title: 'Statuts des remontées', icon: 'documents', color: 'var(--iris)', sizes: ['M'], cap: 'remontee.viewAll',
+    type: 'chart.statuts', kind: 'chart', title: 'Statuts des remontées', icon: 'documents', color: 'var(--accent)', sizes: ['M'], cap: 'remontee.viewAll',
     Body() {
       const { byStatut } = remontees();
       const total = byStatut.attente + byStatut.remplace + byStatut.corrige || 1;
       return <>
-        <Head ic="documents" color="var(--iris)" title="Statuts des remontées" />
+        <WidgetHead title="Statuts des remontées" />
         <div className="stbar" role="img" aria-label={`En attente ${byStatut.attente}, remplacé ${byStatut.remplace}, corrigé ${byStatut.corrige}`}>
           {REMONTEE_STATUTS.map((s) => (byStatut[s.id]
             ? <span key={s.id} className={`stbar-seg stbar-seg--${s.id}`} style={{ flex: byStatut[s.id] / total }} data-tip={`${s.label} : ${num(byStatut[s.id])}`} />
@@ -260,11 +258,11 @@ export const WIDGETS = [
     },
   },
   {
-    type: 'chart.flux', kind: 'chart', title: 'Flux des remontées', icon: 'chartLine', color: 'var(--iris)', sizes: ['L', 'XL'], cap: 'remontee.viewAll',
+    type: 'chart.flux', kind: 'chart', title: 'Flux des remontées', icon: 'chartLine', color: 'var(--accent)', sizes: ['L', 'XL'], cap: 'remontee.viewAll',
     Body() {
       const rm = remontees();
       return <>
-        <Head ic="chartLine" color="var(--iris)" title="Flux des remontées" right={<ul className="legend legend--inline">
+        <WidgetHead title="Flux des remontées" right={<ul className="legend legend--inline">
           <li><span className="key-line" style={{ '--k': 'var(--c1)' }} />Créées</li>
           <li><span className="key-line" style={{ '--k': 'var(--c3)' }} />Traitées</li>
         </ul>} />
@@ -281,10 +279,10 @@ export const WIDGETS = [
       const rm = remontees();
       const list = rm.attente.slice(0, size === 'M' ? 2 : 4);
       return <>
-        <Head ic="hourglass" color="var(--wait)" title="Remontées en attente" right={<Link className="w-count" to="/remontees/attente" data-tip="Ouvrir la liste">{num(rm.attente.length)}<Icon name="chevR" size={14} /></Link>} />
+        <WidgetHead ic="hourglass" color="var(--wait)" title="Remontées en attente" right={<Link className="w-count" to="/remontees/attente" data-tip="Ouvrir la liste">{num(rm.attente.length)}<Icon name="chevR" size={14} /></Link>} />
         {list.length
           ? <ul className="rows">{list.map((r) => <RemonteeRow key={r.id} r={r} />)}</ul>
-          : <Empty ic="checkCircle" text="Aucune remontée en attente" />}
+          : <WidgetEmpty ic="checkCircle" text="Aucune remontée en attente" />}
       </>;
     },
   },
@@ -292,19 +290,19 @@ export const WIDGETS = [
     type: 'kpi.mesattente', kind: 'kpi', title: 'Mes remontées en attente', icon: 'hourglass', color: 'var(--wait)', sizes: ['S'], cap: 'remontee.create',
     Body() {
       const rm = remontees();
-      return <Link className="kpi kpi--link" to="/remontees/miennes"><KpiTop ic="hourglass" color="var(--wait)" /><KpiValue value={num(rm.mineAttente.length)} label="Mes remontées en attente" /></Link>;
+      return <Link className="kpi kpi--link" to="/remontees/miennes"><KpiBody label="Mes remontées en attente" led="wait" value={num(rm.mineAttente.length)} /></Link>;
     },
   },
   {
-    type: 'list.mesremontees', kind: 'list', title: 'Mes remontées', icon: 'documents', color: 'var(--iris)', sizes: ['L', 'XL'], cap: 'remontee.create',
+    type: 'list.mesremontees', kind: 'list', title: 'Mes remontées', icon: 'documents', color: 'var(--accent)', sizes: ['L', 'XL'], cap: 'remontee.create',
     Body() {
       const rm = remontees();
       const list = rm.mine.slice(0, 4);
       return <>
-        <Head ic="documents" color="var(--iris)" title="Mes remontées" right={<Link className="w-count" to="/remontees/miennes">{num(rm.mine.length)}<Icon name="chevR" size={14} /></Link>} />
+        <WidgetHead ic="documents" color="var(--accent)" title="Mes remontées" right={<Link className="w-count" to="/remontees/miennes">{num(rm.mine.length)}<Icon name="chevR" size={14} /></Link>} />
         {list.length
           ? <ul className="rows">{list.map((r) => <RemonteeRow key={r.id} r={r} showStatut />)}</ul>
-          : <Empty ic="documents" text="Aucune remontée pour le moment" />}
+          : <WidgetEmpty ic="documents" text="Aucune remontée pour le moment" />}
       </>;
     },
   },
@@ -317,7 +315,7 @@ export const WIDGETS = [
       const list = all.slice(0, size === 'M' ? 2 : 4);
       const ix = index();
       return <>
-        <Head ic="supervision" color="var(--c5)" title="Détections de processus" right={<span className="w-count">{num(all.length)}</span>} />
+        <WidgetHead ic="supervision" color="var(--c5)" title="Détections de processus" right={<span className="w-count">{num(all.length)}</span>} />
         {list.length ? <ul className="rows">{list.map((d) => {
           const c = CLASSEMENTS[d.classement];
           const p = ix.poste.get(d.posteId);
@@ -328,7 +326,7 @@ export const WIDGETS = [
               <span className="row-sub"><span className="chip chip--pin"><Icon name="pin" size={13} />{s?.nom ?? ''}</span><span className="row-meta">{p?.nomReseau ?? ''}</span><span className="row-meta"><Icon name="clock" size={13} />{ago(d.at)}</span></span></span>
             <span className={`led led--${c.led}`} data-tip={`${c.label}${d.arret ? ` : arrêt ${d.arret}` : ''}`} />
           </div></li>;
-        })}</ul> : <Empty ic="shield" text="Aucune détection" />}
+        })}</ul> : <WidgetEmpty ic="shield" text="Aucune détection" />}
       </>;
     },
   },
@@ -336,9 +334,11 @@ export const WIDGETS = [
   /* ===== Salles (formateur) ===== */
   {
     type: 'kpi.salles', kind: 'kpi', title: 'Salles', icon: 'salles', color: 'var(--c3)', sizes: ['S'], cap: 'salle.view',
-    Body: () => <Link className="kpi kpi--link" to="/salles"><KpiTop ic="salles" color="var(--c3)" /><KpiValue value={num(scope().salles.length)} label="Salles de l’école" /></Link>,
+    Body: () => <Link className="kpi kpi--link" to="/salles"><KpiBody label="Salles de l’école" value={num(scope().salles.length)} /></Link>,
   },
 
+  /* ===== Diagrammes (widgets/diagrams.jsx) ===== */
+  ...DIAGRAMS,
 ];
 
 export const widgetDef = (type) => WIDGETS.find((w) => w.type === type);

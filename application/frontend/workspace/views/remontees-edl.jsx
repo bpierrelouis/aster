@@ -21,7 +21,7 @@ export function openEtatDesLieux(r) {
   const ecole = ix.ecole.get(r.ecoleId);
   const p = problem(r.probleme);
   openSheet(
-    <Sheet title={`État des lieux ${r.id}`} size="l" lead={<Tile name="documents" color="var(--iris)" size="m" />}
+    <Sheet title={`État des lieux ${r.id}`} size="l" lead={<Tile name="documents" color="var(--accent)" size="m" />}
       footer={<>
         <span className="sheet-hint"><Icon name="documents" size={16} />Format A4</span>
         <a className="btn btn--glass" href={`/api/workspace/reports/${encodeURIComponent(r.id)}/pdf`} target="_blank" rel="noopener">Télécharger le PDF</a>

@@ -13,7 +13,8 @@ import express from 'express';
 import { randomUUID, timingSafeEqual } from 'node:crypto';
 import { readFile, writeFile, rename, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
-import { seed, SEED_VERSION, DEFAULT_PREFS, defaultLayouts } from '../frontend/workspace/core/seed.js';
+import { seed, SEED_VERSION, defaultLayouts } from '../frontend/workspace/core/seed.js';
+import { displayPrefs } from '../frontend/workspace/core/ambiance.js';
 import { initializeOperations, processClass } from '../frontend/workspace/core/operations-data.js';
 import { reportPdf } from './workspace-pdf.js';
 
@@ -86,7 +87,7 @@ const strip = (collection, item) => {
 export function preferencesOf(state, actor) {
   const p = state.preferences?.[actor.id] ?? {};
   return {
-    prefs: { ...DEFAULT_PREFS, ...(p.prefs ?? {}) },
+    prefs: displayPrefs(p.prefs),
     layouts: { [actor.role]: p.layouts ?? defaultLayouts()[actor.role] },
     seenAt: { [actor.role]: p.seenAt ?? (state.seededAt ?? Date.now()) - 3 * DAY },
     ecoleId: actor.role === 'superadmin' ? (p.ecoleId ?? state.ecoles[0]?.id ?? 'all') : actor.ecoleId,
@@ -247,7 +248,7 @@ export function mergeState(state, input, actor, now = Date.now()) {
 
   // Préférences du compte connecté uniquement
   const prefs = { ...(next.preferences?.[actor.id] ?? {}) };
-  if (input.prefs && typeof input.prefs === 'object') prefs.prefs = { ambiance: String(input.prefs.ambiance ?? DEFAULT_PREFS.ambiance).slice(0, 20), glass: String(input.prefs.glass ?? DEFAULT_PREFS.glass).slice(0, 20) };
+  if (input.prefs && typeof input.prefs === 'object') prefs.prefs = displayPrefs(input.prefs);
   if (Array.isArray(input.layouts?.[actor.role]?.perso) || input.layouts?.[actor.role]) { assert(JSON.stringify(input.layouts[actor.role]).length < 50_000); prefs.layouts = input.layouts[actor.role]; }
   if (Number.isFinite(input.seenAt?.[actor.role])) prefs.seenAt = Math.min(input.seenAt[actor.role], now);
   if (actor.role === 'superadmin' && input.ecoleId) { assert(input.ecoleId === 'all' || next.ecoles.some((e) => e.id === input.ecoleId)); prefs.ecoleId = input.ecoleId; }

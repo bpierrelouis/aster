@@ -17,7 +17,7 @@ import { processClass } from '../core/operations-data.js';
 import { Icon, Tile } from '../ui/icons.jsx';
 import { Sheet, openSheet, confirmSheet, notify } from '../ui/overlays.jsx';
 import { SheetForm, SheetFormActions } from '../ui/forms.jsx';
-import { OpsEmpty, PageHead } from '../widgets/parts.jsx';
+import { OpsEmpty, OpsTable, PageHead } from '../widgets/parts.jsx';
 import { dateTime, clock } from '../core/format.js';
 import { useTitle } from '../ui/useTitle.js';
 
@@ -107,7 +107,7 @@ function Rooms({ salleId, query, relevant }) {
   return <div className="ops-grid">{shown.map((p) => {
     const processes = relevant.filter((x) => x.posteId === p.id && !x.stoppedAt);
     return <article key={p.id} className="ops-card glass">
-      <div className="ops-card-top"><Tile name="desktop" color="var(--iris)" size="m" /><div><h2>{p.nomReseau}</h2><p><span className={`led led--${p.connecte ? 'ok' : 'wait'}`}></span> {p.connecte ? 'Connecté' : 'Déconnecté'}</p></div></div>
+      <div className="ops-card-top"><Tile name="desktop" color="var(--accent)" size="m" /><div><h2>{p.nomReseau}</h2><p><span className={`led led--${p.connecte ? 'ok' : 'wait'}`}></span> {p.connecte ? 'Connecté' : 'Déconnecté'}</p></div></div>
       {!p.connecte ? <p className="ops-muted">Aucun processus disponible.</p>
         : !processes.length ? <p className="ops-muted">Aucun processus utilisateur en cours.</p>
           : processes.map((x) => <div key={x.id} className="ops-process">
@@ -124,16 +124,15 @@ function Alerts({ salleId, query }) {
   if (!can('administration.view') && !salleId) return <Empty title="Choisissez votre salle" text="Les alertes concernent la salle que vous supervisez." />;
   const items = detections().filter((d) => (!salleId || d.salleId === salleId) && `${d.processus} ${index().poste.get(d.posteId)?.nomReseau}`.toLowerCase().includes(query.toLowerCase()));
   if (!items.length) return <Empty title="Aucune détection" text="Aucun événement ne correspond à votre sélection." />;
-  return <div className="ops-table-wrap glass"><table className="ops-table">
-    <thead><tr><th>Processus</th><th>Poste / salle</th><th>Compte Windows</th><th>Détection</th><th>Résultat</th></tr></thead>
-    <tbody>{items.map((d) => <tr key={d.id}>
+  return <OpsTable head={['Processus', 'Poste / salle', 'Compte Windows', 'Détection', 'Résultat']}>
+    {items.map((d) => <tr key={d.id}>
       <td><strong>{d.processus}</strong><small><Status c={d.classement} /></small></td>
       <td>{index().poste.get(d.posteId)?.nomReseau}<small>{index().salle.get(d.salleId)?.nom}</small></td>
       <td>{d.compte}</td>
       <td>{dateTime(d.at)}</td>
       <td>{d.arret ? `Arrêt ${d.arret}` : d.classement === 'blacklist' ? 'Arrêt en cours' : 'Historisé'}</td>
-    </tr>)}</tbody>
-  </table></div>;
+    </tr>)}
+  </OpsTable>;
 }
 
 async function deleteRule(id) {
@@ -151,20 +150,19 @@ function Rules() {
   const scopeLabel = (r) => (r.portee === 'global' ? 'Toutes les écoles' : r.portee === 'ecole' ? index().ecole.get(r.ecoleId)?.nom : r.portee === 'batiment' ? `Bâtiment ${r.batiment}` : index().salle.get(r.salleId)?.nom);
   return <>
     <p className="ops-muted" style={{ marginBottom: 20 }}>Les règles se cumulent. Une interdiction reste prioritaire sur une autorisation.</p>
-    <div className="ops-table-wrap glass"><table className="ops-table">
-      <thead><tr><th>Processus</th><th>Classement</th><th>Portée</th><th>Actions</th></tr></thead>
-      <tbody>{rules.map((r) => <tr key={r.id}>
+    <OpsTable head={['Processus', 'Classement', 'Portée', 'Actions']}>
+      {rules.map((r) => <tr key={r.id}>
         <td><strong>{r.nom}</strong></td>
         <td><Status c={r.classement} /></td>
         <td>{scopeLabel(r)}</td>
         <td>{r.portee !== 'global' || me().role === 'superadmin'
           ? <>
-            <button className="icon-btn" onClick={() => openRuleForm(store.state.regles.find((x) => x.id === r.id))} aria-label={`Modifier ${r.nom}`}><Icon name="edit" size={17} /></button>
+            <button className="icon-btn" onClick={() => openRuleForm(store.state.regles.find((x) => x.id === r.id))} aria-label={`Modifier ${r.nom}`}><Icon name="pencil" size={17} /></button>
             <button className="icon-btn" onClick={() => deleteRule(r.id)} aria-label={`Supprimer ${r.nom}`}><Icon name="trash" size={17} /></button>
           </>
           : <span className="ops-muted">Règle globale</span>}</td>
-      </tr>)}</tbody>
-    </table></div>
+      </tr>)}
+    </OpsTable>
   </>;
 }
 
@@ -192,7 +190,7 @@ function Stats({ relevant }) {
 const PORTEES = { global: 'Globale', ecole: 'École', batiment: 'Bâtiment', salle: 'Salle' };
 
 function openRuleForm(rule = null) {
-  openSheet(<Sheet title={rule ? 'Modifier la règle' : 'Ajouter une règle'} lead={<Tile name="shield" color="var(--iris)" size="m" />}
+  openSheet(<Sheet title={rule ? 'Modifier la règle' : 'Ajouter une règle'} lead={<Tile name="shield" color="var(--accent)" size="m" />}
     footer={<SheetFormActions form="rule-form" />}>
     <RuleForm rule={rule} />
   </Sheet>);

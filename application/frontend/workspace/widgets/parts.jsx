@@ -1,5 +1,8 @@
 /* Éléments d'affichage partagés par plusieurs écrans. */
-import { Icon } from '../ui/icons.jsx';
+import { createContext, useContext } from 'react';
+import { createPortal } from 'react-dom';
+import { Icon, Tile } from '../ui/icons.jsx';
+import { usePeek } from '../ui/peek.js';
 import { num } from '../core/format.js';
 import { ETATS, statut } from '../core/catalog.js';
 import { index, batimentLabel } from '../core/selectors.js';
@@ -37,12 +40,42 @@ export function EtatBar({ c, thin = false }) {
   </div>;
 }
 
-/** En-tête d'écran : le menu indique déjà l'écran, le titre reste réservé aux lecteurs d'écran */
+/** Emplacement des actions de l'écran dans la barre haute, fourni par le shell */
+export const PageActionsSlot = createContext(null);
+
+/**
+ * En-tête d'écran : le menu indique déjà l'écran, le titre reste réservé aux
+ * lecteurs d'écran ; les actions vont dans la barre haute, toujours visibles.
+ */
 export function PageHead({ title, children }) {
-  return <header className="page-head">
+  const slot = useContext(PageActionsSlot);
+  return <>
     <h1 className="sr-only">{title}</h1>
-    <div className="page-actions">{children}</div>
+    {slot && createPortal(children, slot)}
+  </>;
+}
+
+/** En-tête d'un widget : titre, icône facultative (les diagrammes n'ont que leur titre) */
+export function WidgetHead({ title, ic = null, color, right = null }) {
+  return <header className="w-head">
+    {ic && <Tile name={ic} color={color} size="s" />}
+    <h3 className="w-title">{title}</h3>
+    {right && <div className="w-head-right">{right}</div>}
   </header>;
+}
+
+/** Contenu vide d'un widget */
+export const WidgetEmpty = ({ ic, text }) => <div className="w-empty"><Icon name={ic} size={28} /><span>{text}</span></div>;
+
+/** Tableau des écrans Supervision et Administration : en-tête fixe, défilement dans le cadre */
+export function OpsTable({ head, children }) {
+  const scroll = usePeek('tbody tr');
+  return <div className="ops-table-wrap glass">
+    <div ref={scroll} className="ops-table-scroll"><table className="ops-table">
+      <thead><tr>{head.map((h) => <th key={h}>{h}</th>)}</tr></thead>
+      <tbody>{children}</tbody>
+    </table></div>
+  </div>;
 }
 
 /** État vide des écrans Supervision et Administration */
