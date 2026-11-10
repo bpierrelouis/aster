@@ -16,8 +16,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
-/* Ciel propre à certaines ambiances (Orion) : couche fixe, sans coût au défilement */
-body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--backdrop); }
+/* Fond de l'ambiance (styles/tokens.css) : couches fixes, sans coût au défilement.
+   ::before porte le fond et la lueur des bords, ::after les vagues lumineuses. */
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--backdrop); box-shadow: var(--backdrop-edge); }
+body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--backdrop-waves) 0 0 / 100% 100% no-repeat; }
 
 /* Aucune barre de défilement visible : la suite d'une liste se devine à
    l'élément suivant, coupé entre le tiers et la moitié (ui/peek.js). */

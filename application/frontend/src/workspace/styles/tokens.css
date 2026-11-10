@@ -118,7 +118,13 @@
   --shade: 52 36 110;         /* ombres teintées */
 
   --base: #f6f5fa;
-  --backdrop: none;
+  /* Fond « flux » (façon menu PS4) : halos blanc et lilas, vagues lumineuses blanches et iris */
+  --backdrop:
+    radial-gradient(60vmax 40vmax at 12% 8%, color-mix(in srgb, var(--lilas) 55%, transparent), transparent 70%),
+    radial-gradient(50vmax 34vmax at 92% 96%, color-mix(in srgb, var(--iris) 30%, transparent), transparent 70%),
+    linear-gradient(170deg, #fbfaff 0%, var(--base) 55%, #ece6fa 100%);
+  --backdrop-waves: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23FFFFFF' stop-opacity='0'/%3E%3Cstop offset='.45' stop-color='%23FFFFFF' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%23FFFFFF' stop-opacity='.08'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23A28ADC' stop-opacity='.06'/%3E%3Cstop offset='.6' stop-color='%23A28ADC' stop-opacity='.4'/%3E%3Cstop offset='1' stop-color='%23A28ADC' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='f' x='-5%25' y='-20%25' width='110%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cpath filter='url(%23f)' fill='url(%23a)' d='M0 540C260 450 540 680 840 590S1350 400 1600 500V650C1340 580 1100 770 790 700S250 620 0 700Z'/%3E%3Cpath filter='url(%23f)' fill='url(%23b)' d='M0 650C320 560 620 790 930 680S1420 540 1600 610V720C1360 670 1060 830 760 770S260 730 0 790Z'/%3E%3Cpath fill='none' stroke='%23A28ADC' stroke-opacity='.75' stroke-width='1.6' d='M0 585C280 495 560 715 860 620S1370 455 1600 545'/%3E%3Cpath fill='none' stroke='%23A28ADC' stroke-opacity='.45' stroke-width='1.1' d='M0 655C330 570 640 790 940 685S1430 545 1600 625'/%3E%3Cpath fill='none' stroke='%23A28ADC' stroke-opacity='.3' stroke-width='.9' d='M0 520C300 430 600 650 900 560S1400 380 1600 470'/%3E%3C/svg%3E");
+  --backdrop-edge: none;
 
   /* Verre : liquide (clair) ou opaque */
   --glass-tint: rgb(255 255 255 / .2);
@@ -165,6 +171,12 @@
   --shade: 0 0 0;
 
   --base: #0a0a0c;
+  /* Fond « flux » transposé : halos et vagues lumineuses dorés sur le noir */
+  --backdrop:
+    radial-gradient(60vmax 40vmax at 12% 8%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%),
+    radial-gradient(50vmax 34vmax at 92% 96%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
+    linear-gradient(170deg, #121014 0%, var(--base) 55%, #17120a 100%);
+  --backdrop-waves: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23D6AA4F' stop-opacity='0'/%3E%3Cstop offset='.45' stop-color='%23D6AA4F' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%23D6AA4F' stop-opacity='.08'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ECC777' stop-opacity='.06'/%3E%3Cstop offset='.6' stop-color='%23ECC777' stop-opacity='.4'/%3E%3Cstop offset='1' stop-color='%23ECC777' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='f' x='-5%25' y='-20%25' width='110%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cpath filter='url(%23f)' fill='url(%23a)' d='M0 540C260 450 540 680 840 590S1350 400 1600 500V650C1340 580 1100 770 790 700S250 620 0 700Z'/%3E%3Cpath filter='url(%23f)' fill='url(%23b)' d='M0 650C320 560 620 790 930 680S1420 540 1600 610V720C1360 670 1060 830 760 770S260 730 0 790Z'/%3E%3Cpath fill='none' stroke='%23ECC777' stroke-opacity='.75' stroke-width='1.6' d='M0 585C280 495 560 715 860 620S1370 455 1600 545'/%3E%3Cpath fill='none' stroke='%23ECC777' stroke-opacity='.45' stroke-width='1.1' d='M0 655C330 570 640 790 940 685S1430 545 1600 625'/%3E%3Cpath fill='none' stroke='%23ECC777' stroke-opacity='.3' stroke-width='.9' d='M0 520C300 430 600 650 900 560S1400 380 1600 470'/%3E%3C/svg%3E");
 
   --glass-tint: rgb(255 255 255 / .035);
   --glass-tint-strong: rgb(26 26 30 / .82);
@@ -222,7 +234,10 @@
   --shade: 2 6 18;
 
   --base: #040b1e;
+  /* Maquette ORION : ciel radial et lueur bleue sur tout le tour de l'écran */
   --backdrop: radial-gradient(ellipse at 10% 90%, #0b2a6b 0, #040b1e 55%);
+  --backdrop-waves: none;
+  --backdrop-edge: inset 0 0 14px 2px rgb(11 42 107 / .95), inset 0 0 34px 8px rgb(37 99 235 / .22);
 
   --glass-tint: rgb(10 22 48 / .3);
   --glass-tint-strong: rgb(10 22 48 / .86);
@@ -278,6 +293,12 @@
   --shade: 16 45 54;
 
   --base: #edf6f4;
+  /* Charte VIGIE : quadrillage cartographique de 32 px sur la brume */
+  --backdrop:
+    linear-gradient(rgb(11 97 115 / .045) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgb(11 97 115 / .045) 1px, transparent 1px) 0 0 / 32px 32px,
+    #f8fbfa;
+  --backdrop-waves: none;
 
   --glass-tint: rgb(255 255 255 / .22);
   --glass-tint-strong: rgb(251 254 253 / .7);
