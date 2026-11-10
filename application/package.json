@@ -2,19 +2,22 @@
   "name": "aster",
   "private": true,
   "type": "module",
+  "imports": {
+    "#shared/*": "./shared/*"
+  },
   "engines": {
     "node": ">=22.12"
   },
   "scripts": {
     "dev": "concurrently -k -n serveur,interface,postes \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:postes\"",
-    "dev:postes": "node --env-file-if-exists=.env backend/agents.js",
+    "dev:postes": "node --env-file-if-exists=.env backend/demonstrateur/agents.js",
     "dev:backend": "node --watch --env-file-if-exists=.env backend/index.js",
     "dev:frontend": "vite --config frontend/vite.config.js --host 127.0.0.1",
     "build": "vite build --config frontend/vite.config.js",
     "start": "node --env-file-if-exists=.env backend/start-production.js",
     "infra:up": "docker compose -f infra/compose.yaml up -d --wait",
     "infra:down": "docker compose -f infra/compose.yaml down",
-    "test": "node --test backend/*.test.js",
+    "test": "node --test \"backend/**/*.test.js\"",
     "test:ui": "playwright test tests/login-ui.spec.js",
     "test:e2e": "playwright test tests/auth.e2e.spec.js",
     "test:workspace": "playwright test -c playwright.workspace.config.js",

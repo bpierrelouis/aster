@@ -6,11 +6,11 @@ Document interne de réalisation et d’exploitation, exclu des productions remi
 
 L’application couvre l’ensemble des écrans : tableaux de bord personnalisables (dont des tableaux que chaque compte ajoute au sous-menu de l’accueil), salles par bâtiment avec tous leurs étages (vue éclatée), stock, inventaire et import JSON des matériels, remontées et états des lieux, supervision des postes (processus, détections, règles, statistiques) et administration (postes, applications, bâtiments, comptes).
 
-Repères d’interface : le menu indique l’écran affiché, le titre de chaque écran est réservé aux lecteurs d’écran. Les actions d’un écran (Personnaliser, Nouvelle salle…) sont placées dans la barre haute et restent visibles. Le contenu repose sur un fond uni ; ses cartes entrent en glissant de gauche à droite et, au défilement, se replient sous la barre haute (animations pilotées par le défilement, ignorées par les navigateurs qui ne les gèrent pas). Aucune barre de défilement n’est affichée : une zone qui déborde s’arrête sur l’élément suivant coupé à 40 % (entre le tiers et la moitié), qu’il s’agisse d’une ligne de tableau, d’une liste ou d’une rangée de cartes ([frontend/workspace/ui/peek.js](frontend/workspace/ui/peek.js)) ; les tableaux défilent dans leur cadre, en-tête toujours visible. La légende de la vue des salles est collée en haut de la scène. Les étages d’un bâtiment sont ceux de ses salles, rangées en grille la plus proche d’un carré ; un étage ou une salle choisi est mis en évidence parmi tous les étages. L’écran Stock ne montre que le stock. Administration › Bâtiments renomme un bâtiment d’une école : le bâtiment étant une information des salles, ses salles, ses étages et ses règles de processus prennent le nouveau nom ; un nom déjà utilisé dans l’école est refusé ([frontend/workspace/core/buildings.js](frontend/workspace/core/buildings.js)).
+Repères d’interface : le menu indique l’écran affiché, le titre de chaque écran est réservé aux lecteurs d’écran. Les actions d’un écran (Personnaliser, Nouvelle salle…) sont placées dans la barre haute et restent visibles. Le contenu repose sur un fond uni ; ses cartes entrent en glissant de gauche à droite et, au défilement, se replient sous la barre haute (animations pilotées par le défilement, ignorées par les navigateurs qui ne les gèrent pas). Aucune barre de défilement n’est affichée : une zone qui déborde s’arrête sur l’élément suivant coupé à 40 % (entre le tiers et la moitié), qu’il s’agisse d’une ligne de tableau, d’une liste ou d’une rangée de cartes ([frontend/src/workspace/ui/peek.js](frontend/src/workspace/ui/peek.js)) ; les tableaux défilent dans leur cadre, en-tête toujours visible. La légende de la vue des salles est collée en haut de la scène. Les étages d’un bâtiment sont ceux de ses salles, rangées en grille la plus proche d’un carré ; un étage ou une salle choisi est mis en évidence parmi tous les étages. L’écran Stock ne montre que le stock. Administration › Bâtiments renomme un bâtiment d’une école : le bâtiment étant une information des salles, ses salles, ses étages et ses règles de processus prennent le nouveau nom ; un nom déjà utilisé dans l’école est refusé ([shared/buildings.js](shared/buildings.js)).
 
-Tableaux de bord : les indicateurs affichent leur libellé en haut et leur valeur en bas, sans icône ; le libellé d’un indicateur d’état est précédé d’un point de couleur (hors service, remontées en attente, traitées, stock, garanties). Les diagrammes n’ont que leur titre. Diagrammes du catalogue ([frontend/workspace/widgets/diagrams.jsx](frontend/workspace/widgets/diagrams.jsx), formes dans [ui/charts-shapes.jsx](frontend/workspace/ui/charts-shapes.jsx)) : types de problème (anneau), matériels en salle et en stock (camembert), remontées par type et par semaine (aires empilées), matériels par bâtiment (colonnes en relief), postes connectés par bâtiment (arcs concentriques), réceptions de matériel par trimestre avec moyenne sur quatre trimestres, garanties du parc (pyramide), taux de disponibilité (jauge) et matériels par marque. Ils figurent dans les dispositions par défaut ; un compte qui a déjà enregistré sa disposition les obtient par « Disposition par défaut » ou par la galerie.
+Tableaux de bord : les indicateurs affichent leur libellé en haut et leur valeur en bas, sans icône ; le libellé d’un indicateur d’état est précédé d’un point de couleur (hors service, remontées en attente, traitées, stock, garanties). Les diagrammes n’ont que leur titre. Diagrammes du catalogue ([frontend/src/workspace/widgets/diagrams.jsx](frontend/src/workspace/widgets/diagrams.jsx), formes dans [ui/charts-shapes.jsx](frontend/src/workspace/ui/charts-shapes.jsx)) : types de problème (anneau), matériels en salle et en stock (camembert), remontées par type et par semaine (aires empilées), matériels par bâtiment (colonnes en relief), postes connectés par bâtiment (arcs concentriques), réceptions de matériel par trimestre avec moyenne sur quatre trimestres, garanties du parc (pyramide), taux de disponibilité (jauge) et matériels par marque. Ils figurent dans les dispositions par défaut ; un compte qui a déjà enregistré sa disposition les obtient par « Disposition par défaut » ou par la galerie.
 
-Préférences d’affichage, par compte ([frontend/workspace/core/ambiance.js](frontend/workspace/core/ambiance.js)), validées par le serveur (une valeur inconnue, comme les anciennes `brume` ou `frost`, revient au défaut) :
+Préférences d’affichage, par compte ([shared/ambiance.js](shared/ambiance.js), appliquées au document par [core/theme.js](frontend/src/workspace/core/theme.js)), validées par le serveur (une valeur inconnue, comme les anciennes `brume` ou `frost`, revient au défaut) :
 
 | Ambiance (identifiant) | Couleurs | Marque du menu |
 | --- | --- | --- |
@@ -19,7 +19,7 @@ Préférences d’affichage, par compte ([frontend/workspace/core/ambiance.js](f
 | Orion (`orion`) | Nuit, panneaux et bleus de la [charte ORION](../design/charte-graphique/charte-graphique-orion.html), ciel radial et lueur des cadres | Étoile ORION |
 | Vigie (`vigie`) | Brume, bleu pétrole, signal et corail de la [charte VIGIE](../design/charte-graphique-vigie/index.html) | Repère VIGIE |
 
-Les couleurs sont des jetons ([styles/tokens.css](frontend/workspace/styles/tokens.css)) : les composants utilisent `--accent` et ne codent aucune couleur d’ambiance. `data-tone` (clair ou sombre) regroupe les réglages communs aux ambiances sombres, où aucune lumière ne suit le pointeur. Le verre a deux niveaux, distincts sur le fond uni : Liquide (clair, presque transparent, liseré lumineux ; réfraction des bords des barres fixes dans Chrome et Edge) et Opaque (surfaces pleines, filet net).
+Les couleurs sont des jetons ([styles/tokens.css](frontend/src/workspace/styles/tokens.css)) : les composants utilisent `--accent` et ne codent aucune couleur d’ambiance. `data-tone` (clair ou sombre) regroupe les réglages communs aux ambiances sombres, où aucune lumière ne suit le pointeur. Le verre a deux niveaux, distincts sur le fond uni : Liquide (clair, presque transparent, liseré lumineux ; réfraction des bords des barres fixes dans Chrome et Edge) et Opaque (surfaces pleines, filet net).
 
 PostgreSQL et JavaScript répondent à la demande de l’utilisateur du 6 novembre 2026. React, React Router, Vite, Express et OpenID Connect sont des choix d’implémentation. L’interface est une seule application React : la page de connexion, puis l’espace de travail, chargé seulement après la connexion, avec une adresse par écran (`/accueil`, `/salles/batiment/A`, `/remontees/attente`…). Le thème Keycloak reprend les captures de référence du [bouton d’accès](../design/MinDefConnect/reference-bouton-acces-mindefconnect.png) et du [formulaire de connexion](../design/MinDefConnect/reference-formulaire-connexion-mindefconnect.png).
 
@@ -107,7 +107,7 @@ Le compte technique de la console Keycloak est `keycloak-admin` avec le mot de p
 
 ## Données
 
-Le serveur applique les droits à chaque écriture ([backend/workspace.js](backend/workspace.js)), puis l’enregistre en une transaction ([backend/workspace-postgres.js](backend/workspace-postgres.js)) :
+Le serveur applique les droits à chaque écriture ([backend/workspace/rules.js](backend/workspace/rules.js)), puis l’enregistre en une transaction ([backend/workspace/postgres.js](backend/workspace/postgres.js)) :
 
 | Table | Contenu |
 | --- | --- |
@@ -120,7 +120,7 @@ Le serveur applique les droits à chaque écriture ([backend/workspace.js](backe
 
 Au premier démarrage, ou quand la version du jeu de données change, les tables sont initialisées avec une école de quatre bâtiments (1 à 5 niveaux, jusqu’à 8 salles par étage), une seconde école, l’inventaire, les remontées passées et les comptes ci-dessus. L’activité des postes (processus, détections, installations) part de zéro et n’est alimentée que par les postes.
 
-L’état des lieux PDF d’une remontée est produit à la transmission, avec les informations de cet instant, puis déposé dans S3 (`etats-des-lieux/<école>/<remontée>.pdf`). Le document A4 ([backend/workspace-pdf.js](backend/workspace-pdf.js), sans dépendance) comprend un bandeau ASTER (référence, statut, type de problème), l’école et le déclarant, la localisation, la description, le tableau des matériels concernés (type, identifiant ASTER, numéro de série, salle, état), le suivi et un pied de page numéroté ; il passe sur plusieurs pages si nécessaire. Le document ne transite pas par le serveur : `GET /api/workspace/reports/:id/pdf` contrôle la session et le périmètre du compte, puis répond par une redirection 303 vers une URL S3 présignée, valable 60 secondes et propre à cet objet ([backend/storage.js](backend/storage.js)) ; le navigateur télécharge le PDF directement dans S3. Une remontée sans document déposé voit le sien produit puis déposé avant la signature ; si S3 est indisponible, l’API répond 503. `S3_ENDPOINT` doit donc être joignable par les navigateurs comme par le serveur. En mode interface seule, sans stockage, le serveur produit le document à la demande. Le contrat d’intégration avec le S3 cible reste à établir : seules les opérations de dépôt, de lecture et de lecture signée sont utilisées.
+L’état des lieux PDF d’une remontée est produit à la transmission, avec les informations de cet instant, puis déposé dans S3 (`etats-des-lieux/<école>/<remontée>.pdf`). Le document A4 ([backend/workspace/pdf.js](backend/workspace/pdf.js), sans dépendance) comprend un bandeau ASTER (référence, statut, type de problème), l’école et le déclarant, la localisation, la description, le tableau des matériels concernés (type, identifiant ASTER, numéro de série, salle, état), le suivi et un pied de page numéroté ; il passe sur plusieurs pages si nécessaire. Le document ne transite pas par le serveur : `GET /api/workspace/reports/:id/pdf` contrôle la session et le périmètre du compte, puis répond par une redirection 303 vers une URL S3 présignée, valable 60 secondes et propre à cet objet ([backend/storage.js](backend/storage.js)) ; le navigateur télécharge le PDF directement dans S3. Une remontée sans document déposé voit le sien produit puis déposé avant la signature ; si S3 est indisponible, l’API répond 503. `S3_ENDPOINT` doit donc être joignable par les navigateurs comme par le serveur. En mode interface seule, sans stockage, le serveur produit le document à la demande. Le contrat d’intégration avec le S3 cible reste à établir : seules les opérations de dépôt, de lecture et de lecture signée sont utilisées.
 
 Les écritures concurrentes sont fusionnées élément par élément à partir d’un journal des dernières révisions : une écriture préparée sur une révision antérieure n’échoue que si le même élément a été modifié entre-temps. Le navigateur reprend toutes les quatre secondes les modifications des autres utilisateurs et des postes (requête conditionnelle par ETag).
 
@@ -136,32 +136,63 @@ Les postes communiquent par l’API `/api/agent` du serveur, authentifiée par u
 
 À chaque rapport, ASTER met à jour l’état des postes, ouvre ou clôt les processus, classe les nouveaux processus selon les règles (globales, école, bâtiment, salle) et enregistre une détection pour un processus non référencé ou interdit. Un processus interdit déclenche automatiquement une demande d’arrêt. Un poste sans rapport depuis 30 secondes est considéré déconnecté. Les arrêts demandés par un formateur, les installations, désinstallations et réinstallations demandées par un administrateur suivent le même circuit : demande enregistrée, exécution par le poste, résultat par poste, puis statut « Terminée » ou « Échec ».
 
-**Démonstrateur uniquement :** les postes Windows sont émulés par [backend/agents.js](backend/agents.js), qui utilise l’API réelle (programmes utilisateur, déconnexions, programmes interdits occasionnels, exécution des interventions avec un faible taux d’échec). Le protocole, l’authentification par poste et le déploiement d’un agent réel sur Windows restent à définir.
+**Démonstrateur uniquement :** les postes Windows sont émulés par [backend/demonstrateur/agents.js](backend/demonstrateur/agents.js), qui utilise l’API réelle (programmes utilisateur, déconnexions, programmes interdits occasionnels, exécution des interventions avec un faible taux d’échec). Le protocole, l’authentification par poste et le déploiement d’un agent réel sur Windows restent à définir.
 
 ## Structure
 
+Le frontend suit l’organisation habituelle d’un projet React : tout le code de l’interface est sous `src/`, rangé par rôle (données, crochets, composants génériques, widgets, un dossier par écran) ; les fichiers sont nommés en minuscules avec des tirets. Le code commun au navigateur et au serveur (référentiels, formats, données de départ, règle de renommage des bâtiments, préférences d’affichage) est dans `shared/`, importé par l’alias `#shared/…` (champ `imports` de `package.json`, compris par Node et par Vite). Le serveur sépare règles métier, moteur d’écriture, routes HTTP et stockage ; les facilités propres au démonstrateur sont isolées dans `backend/demonstrateur/`.
+
 ```text
 application/
+├── shared/                      # Commun au navigateur et au serveur, sans DOM
+│   ├── catalog.js               # Référentiels : types de matériel, états, statuts, profils
+│   ├── format.js                # Dates et nombres en français
+│   ├── seed.js                  # Données de départ (SEED_VERSION)
+│   ├── ambiance.js              # Préférences d'affichage valides
+│   ├── buildings.js             # Renommage d'un bâtiment
+│   └── operations-data.js       # Applications et règles de processus de départ
 ├── frontend/
-│   ├── index.html           # Point d'entrée unique
-│   ├── src/                 # Application React : connexion, puis chargement de l'espace
-│   ├── workspace/           # Espace de travail : routes, écrans React, données, styles
-│   └── ui-development.js    # Mode interface seule (Vite)
+│   ├── index.html               # Point d'entrée unique
+│   ├── vite.config.js
+│   ├── ui-development.js        # Mode interface seule (greffon Vite)
+│   └── src/
+│       ├── main.jsx             # Montage React et routeur
+│       ├── app.jsx              # Session : connexion ou espace de travail
+│       ├── connexion/           # Pages publiques : connexion, chargement, marques, styles
+│       └── workspace/           # Espace de travail, chargé après la connexion
+│           ├── workspace.jsx    # Routes des écrans
+│           ├── core/            # Données et règles d'affichage : store, sélecteurs, droits, verre, thème
+│           ├── hooks/           # useStore, useTitle
+│           ├── ui/              # Composants génériques : fenêtres, formulaires, icônes, graphiques
+│           ├── widgets/         # Widgets des tableaux de bord et éléments d'affichage partagés
+│           ├── views/           # Un dossier par écran (shell, dashboard, salles, remontees…)
+│           └── styles/          # Feuilles de style, importées dans un ordre fixe par workspace.jsx
 ├── backend/
-│   ├── index.js             # Serveur Express, OIDC, sessions
-│   ├── workspace.js         # Règles, fusion, API de l'espace et des postes
-│   ├── workspace-postgres.js
-│   ├── storage.js           # Stockage S3
-│   ├── identity-provisioning.js  # Démonstrateur : identités dans l’annuaire via Keycloak
-│   └── agents.js            # Démonstrateur : postes émulés
+│   ├── index.js                 # Serveur Express, OIDC, sessions
+│   ├── start-production.js
+│   ├── config.js
+│   ├── profiles.js              # Profils ASTER et utilisateur présenté au navigateur
+│   ├── storage.js               # Stockage S3
+│   ├── workspace/
+│   │   ├── rules.js             # Droits, visibilité, fusion des écritures concurrentes
+│   │   ├── postes.js            # Rapports et résultats des postes
+│   │   ├── engine.js            # File d'écriture, révisions ; dépôt du mode interface seule
+│   │   ├── postgres.js          # Dépôt PostgreSQL
+│   │   ├── routes.js            # API de l'espace et des postes
+│   │   └── pdf.js               # État des lieux PDF
+│   └── demonstrateur/
+│       ├── identity-provisioning.js  # Identités dans l’annuaire via Keycloak
+│       └── agents.js            # Postes émulés
 ├── infra/
-│   ├── compose.yaml         # PostgreSQL ASTER, annuaire LDAP, Keycloak, stockage S3
-│   ├── keycloak/            # Realm (fédération LDAP) et thème de connexion
-│   ├── ldap/                # Identités de départ de l’annuaire (LDIF)
-│   └── seaweedfs/           # Clés d'accès S3 locales
-├── tests/                   # Tests d’interface et de bout en bout
+│   ├── compose.yaml             # PostgreSQL ASTER, annuaire LDAP, Keycloak, stockage S3
+│   ├── keycloak/                # Realm (fédération LDAP) et thème de connexion
+│   ├── ldap/                    # Identités de départ de l’annuaire (LDIF)
+│   └── seaweedfs/               # Clés d'accès S3 locales
+├── tests/                       # Tests d’interface et de bout en bout
 └── .env.example
 ```
+
+Les classes CSS étant partagées entre écrans (tableaux `ops-`, contenus de widgets `w-`), les feuilles de style restent regroupées dans `styles/` et chargées dans un ordre fixe, qui détermine la cascade. Les tests du serveur (`*.test.js`) sont placés à côté des modules qu’ils vérifient.
 
 Les volumes Docker du projet Compose `aster` séparent et conservent les données PostgreSQL d’ASTER, l’annuaire LDAP (`ldap-data`, `ldap-config`) et les objets S3. Le fichier LDIF n’est chargé que si l’annuaire est vide : pour le recharger, supprimer les deux volumes LDAP. `npm run infra:down` arrête les services sans supprimer les données. Keycloak réimporte son realm à chaque recréation de son conteneur ; les identités manquantes sont créées dans l’annuaire par le serveur au démarrage. Ne pas supprimer un volume sans vérifier les données qu’il contient.
 

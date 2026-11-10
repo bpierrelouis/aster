@@ -2,8 +2,10 @@ import express from 'express';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
-import { createWorkspaceRepository, createWorkspaceRouter, createAgentRouter, ROLES } from '../backend/workspace.js';
-import { createAgentEmulator, directTransport } from '../backend/agents.js';
+import { ROLES } from '../backend/workspace/rules.js';
+import { createWorkspaceRepository } from '../backend/workspace/engine.js';
+import { createWorkspaceRouter, createAgentRouter } from '../backend/workspace/routes.js';
+import { createAgentEmulator, directTransport } from '../backend/demonstrateur/agents.js';
 import { userFromAccount } from '../backend/profiles.js';
 
 // Mode interface seule : mêmes règles et même API, sans fournisseur d'identité ni base de données.

@@ -7,9 +7,9 @@ import * as oidc from 'openid-client';
 import { fileURLToPath } from 'node:url';
 import { readConfig } from './config.js';
 import { identityFromClaims, userFromAccount } from './profiles.js';
-import { createWorkspaceRouter, createAgentRouter } from './workspace.js';
-import { createKeycloakProvisioning } from './identity-provisioning.js';
-import { createPostgresWorkspaceRepository } from './workspace-postgres.js';
+import { createWorkspaceRouter, createAgentRouter } from './workspace/routes.js';
+import { createKeycloakProvisioning } from './demonstrateur/identity-provisioning.js';
+import { createPostgresWorkspaceRepository } from './workspace/postgres.js';
 import { createS3Storage } from './storage.js';
 
 const config = readConfig();
