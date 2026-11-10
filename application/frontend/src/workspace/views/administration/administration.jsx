@@ -13,6 +13,7 @@ import { can } from '../../core/permissions.js';
 import { role } from '#shared/catalog.js';
 import { num, dateTime } from '#shared/format.js';
 import { Icon, Tile } from '../../ui/icons.jsx';
+import { AppIcon } from '../../ui/app-icon.jsx';
 import { confirmSheet, notify } from '../../ui/overlays.jsx';
 import { openAccountForm, openSchoolForm, recordOperation, openDeploymentForm, openPostDetail } from './administration-forms.jsx';
 import { openBuildingForm } from '../salles/salles-forms.jsx';
@@ -121,7 +122,7 @@ function Apps({ query, salleId }) {
   const ids = new Set(scope().postes.filter((p) => !salleId || p.salleId === salleId).map((p) => p.id));
   if (!apps.length) return <Empty text="Aucune application trouvée" />;
   return <div className="ops-grid">{apps.map((a) => <article key={a.id} className="ops-card glass">
-    <div className="ops-card-top"><Tile name="widgets" color="var(--accent)" size="m" /><div><h2>{a.nom}</h2><p>{a.editeur} · {a.version}</p></div></div>
+    <div className="ops-card-top"><AppIcon name={a.nom} size={40} /><div><h2>{a.nom}</h2><p>{a.editeur} · {a.version}</p></div></div>
     <p className="ops-muted">{(store.state.installations || []).filter((i) => i.applicationId === a.id && ids.has(i.posteId)).length} postes équipés</p>
     <button className="btn btn--primary" onClick={() => openDeploymentForm(a.id, null, salleId)}>Gérer le déploiement</button>
   </article>)}</div>;

@@ -193,6 +193,12 @@ input:focus, textarea:focus { outline: none; background: var(--glass-tint-solid)
 :is(.inv-table, .ops-table) tbody tr.is-selected:hover { background: color-mix(in srgb, var(--accent) 19%, transparent); }
 :is(.inv-table, .ops-table) tbody tr.is-selected > td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
 
+/* Icône d'application (ui/app-icon.jsx) et cellule de tableau qui l'accompagne */
+.app-icon { flex: none; display: block; object-fit: contain; }
+.app-icon--none { color: var(--ink-3); }
+.app-cell { display: inline-flex; align-items: center; gap: 12px; }
+.app-cell > span { display: flex; flex-direction: column; }
+
 /* Pied de tableau paginé (inventaire, administration des postes) */
 .pagination { display: flex; justify-content: flex-end; align-items: center; gap: 18px; padding: 16px 22px; font-size: 13px; border-top: 1px solid var(--hairline); }
 

@@ -10,6 +10,7 @@ import { scope, index } from '../../core/selectors.js';
 import { uid } from '../../core/dom.js';
 import { ROLES } from '#shared/catalog.js';
 import { Tile } from '../../ui/icons.jsx';
+import { AppIcon } from '../../ui/app-icon.jsx';
 import { Sheet, openSheet, notify } from '../../ui/overlays.jsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.jsx';
 
@@ -76,7 +77,7 @@ export async function recordOperation(type, cibles, extra = {}) {
 export function openDeploymentForm(applicationId, postId = null, salleId = '') {
   const app = store.state.applications.find((a) => a.id === applicationId);
   if (!app) return;
-  openSheet(<Sheet title={`Déployer ${app.nom}`} lead={<Tile name="widgets" color="var(--accent)" size="m" />} footer={<SheetFormActions form="deployment-form" label="Enregistrer la demande" />}>
+  openSheet(<Sheet title={`Déployer ${app.nom}`} lead={<AppIcon name={app.nom} size={36} />} footer={<SheetFormActions form="deployment-form" label="Enregistrer la demande" />}>
     <DeploymentForm applicationId={applicationId} postId={postId} salleId={salleId} />
   </Sheet>);
 }
@@ -124,6 +125,7 @@ function PostDetail({ id }) {
       <h3>Applications installées</h3>
       {installed.size
         ? <ul className="pop-list-plain">{state.applications.filter((a) => installed.has(a.id)).map((a) => <li key={a.id} className="ops-process">
+          <AppIcon name={a.nom} />
           <div><strong>{a.nom}</strong><small>{a.version}</small></div>
           <button className="btn btn--ghost" onClick={() => manage(close, a.id)}>Gérer</button>
         </li>)}</ul>

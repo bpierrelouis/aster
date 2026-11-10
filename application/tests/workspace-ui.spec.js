@@ -392,3 +392,12 @@ test('les postes de l’administration sont paginés, sans les demandes d’inte
     await expect(page.locator('.pagination')).toContainText(`Page 2 sur ${pages}`);
   }
 });
+
+test('le menu principal n’a pas de bulle ; les règles de processus portent le logo de leur application', async ({ page }) => {
+  await open(page, '/supervision/listes');
+  await expect(page.locator('.rail-lens')).toHaveCount(0);
+  await expect(page.locator('.rail-item.is-active')).toHaveAttribute('data-nav', 'supervision');
+  for (const nom of ['firefox.exe', 'Code.exe', 'steam.exe']) {
+    await expect(page.locator('.ops-table tr', { hasText: nom }).locator('img.app-icon')).toHaveCount(1);
+  }
+});

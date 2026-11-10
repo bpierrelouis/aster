@@ -15,6 +15,7 @@ import { can } from '../../core/permissions.js';
 import { CLASSEMENTS } from '#shared/catalog.js';
 import { processClass } from '#shared/operations-data.js';
 import { Icon, Tile } from '../../ui/icons.jsx';
+import { AppIcon } from '../../ui/app-icon.jsx';
 import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.jsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.jsx';
 import { OpsEmpty, OpsTable, PageHead } from '../../widgets/parts.jsx';
@@ -111,6 +112,7 @@ function Rooms({ salleId, query, relevant }) {
       {!p.connecte ? <p className="ops-muted">Aucun processus disponible.</p>
         : !processes.length ? <p className="ops-muted">Aucun processus utilisateur en cours.</p>
           : processes.map((x) => <div key={x.id} className="ops-process">
+            <AppIcon name={x.nom} />
             <div><strong>{x.nom}</strong><small>{x.compte}</small><small><Status c={processClass(state, x)} /></small></div>
             {stopRequested(state, x.id)
               ? <span className="ops-status"><span className="led led--wait"></span>Arrêt demandé</span>
@@ -126,7 +128,7 @@ function Alerts({ salleId, query }) {
   if (!items.length) return <Empty title="Aucune détection" text="Aucun événement ne correspond à votre sélection." />;
   return <OpsTable head={['Processus', 'Poste / salle', 'Compte Windows', 'Détection', 'Résultat']}>
     {items.map((d) => <tr key={d.id}>
-      <td><strong>{d.processus}</strong><small><Status c={d.classement} /></small></td>
+      <td><span className="app-cell"><AppIcon name={d.processus} /><span><strong>{d.processus}</strong><small><Status c={d.classement} /></small></span></span></td>
       <td>{index().poste.get(d.posteId)?.nomReseau}<small>{index().salle.get(d.salleId)?.nom}</small></td>
       <td>{d.compte}</td>
       <td>{dateTime(d.at)}</td>
@@ -152,7 +154,7 @@ function Rules() {
     <p className="ops-muted" style={{ marginBottom: 20 }}>Les règles se cumulent. Une interdiction reste prioritaire sur une autorisation.</p>
     <OpsTable head={['Processus', 'Classement', 'Portée', 'Actions']}>
       {rules.map((r) => <tr key={r.id}>
-        <td><strong>{r.nom}</strong></td>
+        <td><span className="app-cell"><AppIcon name={r.nom} /><strong>{r.nom}</strong></span></td>
         <td><Status c={r.classement} /></td>
         <td>{scopeLabel(r)}</td>
         <td>{r.portee !== 'global' || me().role === 'superadmin'
@@ -182,7 +184,7 @@ function Stats({ relevant }) {
     <div className="ops-metrics">{metrics.map(([label, n, sub]) => <article key={label} className="ops-metric glass"><span>{label}</span><strong>{n}</strong><span>{sub}</span></article>)}</div>
     <h2 className="ops-section-title">Processus détectés</h2>
     <div className="ops-grid">{[...counts].sort((a, b) => b[1] - a[1]).map(([nom, n]) => <article key={nom} className="ops-card glass">
-      <h3>{nom}</h3><span className="ops-muted">{n} détection{n > 1 ? 's' : ''}</span><div className="ops-bar"><i style={{ width: `${n / max * 100}%` }}></i></div>
+      <div className="ops-card-top"><AppIcon name={nom} size={36} /><h3>{nom}</h3></div><span className="ops-muted">{n} détection{n > 1 ? 's' : ''}</span><div className="ops-bar"><i style={{ width: `${n / max * 100}%` }}></i></div>
     </article>)}</div>
   </>;
 }

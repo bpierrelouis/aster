@@ -8,6 +8,7 @@
 
 import { Link } from 'react-router';
 import { Icon, Tile } from '../ui/icons.jsx';
+import { AppIcon } from '../ui/app-icon.jsx';
 import { num, ago, dateShort, dateMed } from '#shared/format.js';
 import { DEVICE_TYPES, REMONTEE_STATUTS, CLASSEMENTS, deviceType, problem } from '#shared/catalog.js';
 import { parc, remontees, remonteeContext, detections, batimentLabel, index, scope } from '../core/selectors.js';
@@ -321,10 +322,9 @@ export const WIDGETS = [
           const p = ix.poste.get(d.posteId);
           const s = ix.salle.get(d.salleId);
           return <li key={d.id}><div className="row">
-            <Tile name={c.icon} color={d.classement === 'blacklist' ? 'var(--crit)' : 'var(--wait)'} size="m" className="tile--tint" />
+            <AppIcon name={d.processus} size={32} />
             <span className="row-main"><span className="row-title">{d.processus}</span>
-              <span className="row-sub"><span className="chip chip--pin"><Icon name="pin" size={13} />{s?.nom ?? ''}</span><span className="row-meta">{p?.nomReseau ?? ''}</span><span className="row-meta"><Icon name="clock" size={13} />{ago(d.at)}</span></span></span>
-            <span className={`led led--${c.led}`} data-tip={`${c.label}${d.arret ? ` : arrêt ${d.arret}` : ''}`} />
+              <span className="row-sub"><span className={`chip${d.classement === 'blacklist' ? ' chip--bad' : ''}`} data-tip={d.arret ? `Arrêt ${d.arret}` : null}>{c.label}</span><span className="chip chip--pin"><Icon name="pin" size={13} />{s?.nom ?? ''}</span><span className="row-meta">{p?.nomReseau ?? ''}</span><span className="row-meta"><Icon name="clock" size={13} />{ago(d.at)}</span></span></span>
           </div></li>;
         })}</ul> : <WidgetEmpty ic="shield" text="Aucune détection" />}
       </>;
