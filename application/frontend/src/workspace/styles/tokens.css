@@ -115,6 +115,7 @@
   --accent-2: #8670cd;
   --accent-text: #6954c0;
   --accent-fg: #fff;
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236954c0' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); /* flèche des listes déroulantes, couleur --accent-text */
   --shade: 52 36 110;         /* ombres teintées */
 
   --base: #f6f5fa;
@@ -167,6 +168,7 @@
   --accent: #d6aa4f;
   --accent-2: #ecc777;
   --accent-text: #e9c06a;
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e9c06a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   --accent-fg: #1b1404;
   --shade: 0 0 0;
 
@@ -230,6 +232,7 @@
   --accent: #2563eb;
   --accent-2: #3b82f6;
   --accent-text: #6ea8ff;
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236ea8ff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   --accent-fg: #fff;
   --shade: 2 6 18;
 
@@ -289,6 +292,7 @@
   --accent: #0b6173;
   --accent-2: #1b8296;
   --accent-text: #0b6173;
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b6173' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   --accent-fg: #fff;
   --shade: 16 45 54;
 

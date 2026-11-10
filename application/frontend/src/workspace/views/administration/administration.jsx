@@ -16,7 +16,7 @@ import { Icon, Tile } from '../../ui/icons.jsx';
 import { confirmSheet, notify } from '../../ui/overlays.jsx';
 import { openAccountForm, openSchoolForm, recordOperation, openDeploymentForm, openPostDetail } from './administration-forms.jsx';
 import { openBuildingForm } from '../salles/salles-forms.jsx';
-import { OpsEmpty, OpsTable, PageHead } from '../../widgets/parts.jsx';
+import { OpsEmpty, OpsTable, PageHead, Pagination, paginate } from '../../widgets/parts.jsx';
 import { outsideControls } from '../../core/dom.js';
 import { useTitle } from '../../hooks/use-title.js';
 
@@ -29,7 +29,7 @@ const TITLES = {
   comptes: 'Comptes & accès',
 };
 const SEARCH = { postes: 'Nom du poste…', applications: 'Application…', batiments: 'Bâtiment…', comptes: 'Nom ou adresse…' };
-const byPost = (tab) => tab === 'postes' || tab === 'applications'; // onglets filtrés par salle, avec le suivi des interventions
+const byPost = (tab) => tab === 'postes' || tab === 'applications'; // onglets filtrés par salle (suivi des interventions : Applications)
 
 export function Administration() {
   useTitle('Administration');
@@ -88,18 +88,24 @@ export function Administration() {
       {tab === 'comptes' ? <Accounts query={q} />
         : tab === 'batiments' ? <Buildings query={q} />
           : tab === 'applications' ? <Apps query={q} salleId={salleId} />
-            : <Posts list={posts} selected={selected} onToggle={toggle} />}
+            : <Posts key={`${salleId}|${q}`} list={posts} selected={selected} onToggle={toggle} />}
     </div>
     {tab === 'comptes' && me().role === 'superadmin' && <Schools />}
-    {byPost(tab) && <Operations state={state} />}
+    {tab === 'applications' && <Operations state={state} />}
   </>;
 }
 
+const POSTS_PAGE = 25;
+
+/** Postes de la salle filtrée, par pages ; un changement de filtre ou de recherche revient à la première page (key) */
 function Posts({ list, selected, onToggle }) {
+  const [page, setPage] = useState(1);
   if (!list.length) return <Empty text="Aucun poste trouvé" />;
   const installations = store.state.installations || [];
-  return <OpsTable head={['Sélection', 'Poste', 'Salle', 'État', 'Applications', 'Actions']}>
-    {list.map((p) => <tr key={p.id} onClick={(e) => { if (outsideControls(e)) onToggle(p.id, !selected.has(p.id)); }}>
+  const { pages, current, rows } = paginate(list, page, POSTS_PAGE);
+  return <OpsTable head={['Sélection', 'Poste', 'Salle', 'État', 'Applications', 'Actions']}
+    footer={pages > 1 ? <Pagination current={current} pages={pages} onPage={setPage} /> : null}>
+    {rows.map((p) => <tr key={p.id} className={selected.has(p.id) ? 'is-selected' : ''} onClick={(e) => { if (outsideControls(e)) onToggle(p.id, !selected.has(p.id)); }}>
       <td><input className="ops-check" type="checkbox" checked={selected.has(p.id)} onChange={(e) => onToggle(p.id, e.target.checked)} aria-label={`Sélectionner ${p.nomReseau}`} /></td>
       <td><strong>{p.nomReseau}</strong></td>
       <td>{index().salle.get(p.salleId)?.nom}</td>

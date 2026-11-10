@@ -2,7 +2,8 @@
 .inv-panel { border-radius:26px; overflow:hidden; }
 .inv-filters { padding:22px; display:flex; flex-wrap:wrap; gap:12px; border-bottom:1px solid var(--hairline); }
 .inv-filters .field { margin:0; flex:1 1 250px; }
-.inv-filters select { max-width:190px; border:1px solid var(--hairline); background:var(--glass-tint); border-radius:12px; padding:10px 12px; font:inherit; color:inherit; }
+/* Listes déroulantes du style commun (base.css), à la hauteur du champ de recherche */
+.inv-filters select { max-width:190px; padding-block:14px; border-radius:16px; }
 .inv-selection { display:flex; align-items:center; flex-wrap:wrap; gap:10px; min-height:64px; padding:10px 22px; font-size:13px; }
 .inv-count { margin-left:auto; color:var(--ink-2); }
 .inv-table-scroll { overflow:auto; }
@@ -11,9 +12,7 @@
 /* En-tête toujours visible : il reste en haut du tableau pendant le défilement */
 .inv-table thead th { position:sticky; top:0; z-index:2; background:linear-gradient(var(--fill-1), var(--fill-1)), var(--glass-tint-solid); border-bottom:0; box-shadow:inset 0 -1px 0 var(--hairline); }
 .inv-table th,.inv-table td { padding:14px 16px; border-bottom:1px solid var(--hairline); }
-.inv-table tbody tr { transition:background .15s; }
 .inv-table tbody tr:has(input[type=checkbox]) { cursor:pointer; }
-.inv-table tbody tr:hover,.inv-table tbody tr.is-selected { background:var(--tint-1); }
 .inv-table input[type=checkbox] { width:16px; height:16px; accent-color:var(--accent); }
 .inv-sort { background:none; border:0; color:inherit; font:inherit; padding:0; cursor:pointer; }
 .inv-id { font-variant-numeric:tabular-nums; white-space:nowrap; font-size:12px; }
@@ -23,7 +22,6 @@
 .inv-state { display:flex; align-items:center; gap:7px; white-space:nowrap; }
 .inv-warranty { font-size:12px; white-space:nowrap; }
 .inv-warranty.is-expired { color:var(--crit); }
-.inv-pagination { display:flex; justify-content:flex-end; align-items:center; gap:18px; padding:16px 22px; font-size:13px; }
 .inv-details { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
 .inv-details dt { color:var(--ink-2); font-size:12px; margin-bottom:7px; }
 .inv-details dd { margin:0; font-weight:550; }

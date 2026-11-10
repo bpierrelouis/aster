@@ -380,3 +380,15 @@ test('une salle s’équipe de postes et de matériels secondaires pris dans le 
   expect(moved.every((m) => !m.hs)).toBe(true);
   expect(moved.filter((m) => m.type === 'ecran')).toHaveLength(postes * 2);
 });
+
+test('les postes de l’administration sont paginés, sans les demandes d’intervention', async ({ page, request }) => {
+  await open(page, '/administration/postes');
+  const total = (await state(request)).postes.length;
+  const pages = Math.ceil(total / 25);
+  await expect(page.locator('.ops-table tbody tr')).toHaveCount(Math.min(25, total));
+  await expect(page.getByRole('heading', { name: 'Demandes d’intervention' })).toHaveCount(0);
+  if (pages > 1) {
+    await page.locator('.pagination').getByRole('button', { name: 'Suivant' }).click();
+    await expect(page.locator('.pagination')).toContainText(`Page 2 sur ${pages}`);
+  }
+});

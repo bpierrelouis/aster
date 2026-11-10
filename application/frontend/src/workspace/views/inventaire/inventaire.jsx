@@ -13,7 +13,7 @@ import { SheetForm, SheetFormActions } from '../../ui/forms.jsx';
 import { dateNum } from '#shared/format.js';
 import { useTitle } from '../../hooks/use-title.js';
 import { usePeek } from '../../ui/peek.js';
-import { PageHead } from '../../widgets/parts.jsx';
+import { PageHead, Pagination, paginate } from '../../widgets/parts.jsx';
 
 const date = (n) => (n ? dateNum(n) : '—');
 const warranty = (m) => !m.garantieFin ? 'Non renseignée' : m.garantieFin < Date.now() ? 'Échue' : m.garantieFin < Date.now() + 182 * 86400000 ? 'À échéance' : 'En cours';
@@ -75,9 +75,7 @@ export function Inventaire() {
       && (!location || (location === 'stock' ? !m.salleId : m.salleId === location))
       && (!guarantee || warranty(m) === guarantee);
   }).sort((a, b) => direction * (sort === 'dateReception' ? a[sort] - b[sort] : String(a[sort] || '').localeCompare(String(b[sort] || ''), 'fr', { numeric: true })));
-  const pages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
-  const current = Math.min(page, pages);
-  const rows = list.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
+  const { pages, current, rows } = paginate(list, page, PAGE_SIZE);
   const chosen = () => scope().materiels.filter((m) => selected.has(m.id));
 
   const filter = (setter) => (e) => { setter(e.target.value); setPage(1); };
@@ -152,11 +150,7 @@ export function Inventaire() {
             </tr>;
           }) : <tr><td colSpan={7}><div className="w-empty w-empty--l">Aucun matériel ne correspond aux filtres.</div></td></tr>}</tbody>
         </table></div>
-        <footer className="inv-pagination">
-          <button className="btn btn--ghost" disabled={current <= 1} onClick={() => setPage(current - 1)}>Précédent</button>
-          <span>Page {current} sur {pages}</span>
-          <button className="btn btn--ghost" disabled={current >= pages} onClick={() => setPage(current + 1)}>Suivant</button>
-        </footer>
+        <Pagination current={current} pages={pages} onPage={setPage} />
       </div>
     </section>}
   </div>;

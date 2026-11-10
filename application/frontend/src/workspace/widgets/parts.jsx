@@ -67,15 +67,32 @@ export function WidgetHead({ title, ic = null, color, right = null }) {
 /** Contenu vide d'un widget */
 export const WidgetEmpty = ({ ic, text }) => <div className="w-empty"><Icon name={ic} size={28} /><span>{text}</span></div>;
 
-/** Tableau des écrans Supervision et Administration : en-tête fixe, défilement dans le cadre */
-export function OpsTable({ head, children }) {
+/** Tableau des écrans Supervision et Administration : en-tête fixe, défilement dans le cadre, pied facultatif (pagination) */
+export function OpsTable({ head, children, footer = null }) {
   const scroll = usePeek('tbody tr');
   return <div className="ops-table-wrap glass">
     <div ref={scroll} className="ops-table-scroll"><table className="ops-table">
       <thead><tr>{head.map((h) => <th key={h}>{h}</th>)}</tr></thead>
       <tbody>{children}</tbody>
     </table></div>
+    {footer}
   </div>;
+}
+
+/** Page d'une liste : page demandée bornée au nombre de pages, lignes de cette page */
+export function paginate(list, page, size) {
+  const pages = Math.max(1, Math.ceil(list.length / size));
+  const current = Math.min(Math.max(1, page), pages);
+  return { pages, current, rows: list.slice((current - 1) * size, current * size) };
+}
+
+/** Pied de tableau paginé : Précédent, page courante, Suivant */
+export function Pagination({ current, pages, onPage }) {
+  return <footer className="pagination">
+    <button className="btn btn--ghost" disabled={current <= 1} onClick={() => onPage(current - 1)}>Précédent</button>
+    <span>Page {current} sur {pages}</span>
+    <button className="btn btn--ghost" disabled={current >= pages} onClick={() => onPage(current + 1)}>Suivant</button>
+  </footer>;
 }
 
 /** État vide des écrans Supervision et Administration */
