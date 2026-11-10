@@ -23,7 +23,7 @@ Préférences d’affichage, par compte ([shared/ambiance.js](shared/ambiance.js
 | Orion (`orion`) | Nuit, panneaux et bleus de la [charte ORION](../design/charte-graphique/charte-graphique-orion.html), lueur des cadres | Celui de la [maquette ORION](../design/maquettes/maquette-dashboard-orion.html) : ciel radial, lueur bleue sur tout le tour de l’écran | Étoile ORION |
 | Vigie (`vigie`) | Brume, bleu pétrole, signal et corail de la [charte VIGIE](../design/charte-graphique-vigie/index.html) | Celui de la charte VIGIE : quadrillage de 32 px sur la brume | Repère VIGIE |
 
-Les couleurs et les fonds sont des jetons ([styles/tokens.css](frontend/src/workspace/styles/tokens.css) : `--backdrop`, `--backdrop-waves`, `--backdrop-edge`) : les composants utilisent `--accent` et ne codent aucune couleur d’ambiance. `data-tone` (clair ou sombre) regroupe les réglages communs aux ambiances sombres, où aucune lumière ne suit le pointeur. Le verre a deux niveaux : Liquide (clair, presque transparent, liseré lumineux ; réfraction des bords des barres fixes dans Chrome et Edge) et Opaque (surfaces pleines, filet net).
+Les couleurs et les fonds sont des jetons ([styles/tokens.css](frontend/src/workspace/styles/tokens.css) : `--backdrop`, `--backdrop-waves`, `--backdrop-edge`, flèche des listes déroulantes `--chevron`) : les composants utilisent `--accent` et ne codent aucune couleur d’ambiance. `data-tone` (clair ou sombre) regroupe les réglages communs aux ambiances sombres, où aucune lumière ne suit le pointeur. Le verre a deux niveaux : Liquide (clair, presque transparent, liseré lumineux ; réfraction des bords des barres fixes dans Chrome et Edge) et Opaque (surfaces pleines, filet net).
 
 PostgreSQL et JavaScript répondent à la demande de l’utilisateur du 6 novembre 2026. React, React Router, Vite, Express et OpenID Connect sont des choix d’implémentation. L’interface est une seule application React : la page de connexion, puis l’espace de travail, chargé seulement après la connexion, avec une adresse par écran (`/accueil`, `/salles/batiment/A`, `/remontees/attente`…). Le thème Keycloak reprend les captures de référence du [bouton d’accès](../design/MinDefConnect/reference-bouton-acces-mindefconnect.png) et du [formulaire de connexion](../design/MinDefConnect/reference-formulaire-connexion-mindefconnect.png).
 
@@ -38,7 +38,7 @@ Les deux modes ne peuvent pas tourner en même temps : ils utilisent le port 517
 
 ### Application connectée
 
-Prérequis : Node.js 22.12 ou supérieur, npm, Docker avec Docker Compose. Depuis la racine du dépôt :
+Prérequis : Node.js 22.22 ou supérieur (exigé par React Router), npm, Docker avec Docker Compose. Depuis la racine du dépôt :
 
 ```sh
 cd application
@@ -193,7 +193,7 @@ application/
 │   ├── keycloak/                # Realm (fédération LDAP) et thème de connexion
 │   ├── ldap/                    # Identités de départ de l’annuaire (LDIF)
 │   └── seaweedfs/               # Clés d'accès S3 locales
-├── tests/                       # Tests d’interface et de bout en bout
+├── tests/                       # Tests d’interface et de bout en bout ; fixtures/ : fichiers d’import
 └── .env.example
 ```
 
