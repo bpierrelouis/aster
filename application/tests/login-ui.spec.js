@@ -9,6 +9,9 @@ test('la page publique affiche le bouton et reste utilisable sur mobile', async 
   await expect(page.getByRole('link', { name: "S'identifier avec MinDefConnect" })).toHaveAttribute('href', '/auth/login');
   await expectPublicPresentation(page);
   const button = page.getByRole('link', { name: "S'identifier avec MinDefConnect" });
+  // Couleurs de référence MindefConnect : texte blanc sur fond #000091
+  await expect(button).toHaveCSS('color', 'rgb(255, 255, 255)');
+  await expect(button).toHaveCSS('background-color', 'rgb(0, 0, 145)');
   // Bouton centré horizontalement et visible sans défilement
   const expectCenteredButton = async () => {
     const box = await button.boundingBox();

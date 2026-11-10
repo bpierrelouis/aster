@@ -1,12 +1,16 @@
 /* Marques des pages publiques : symbole MindefConnect et fleur ASTER */
 
 export function MinDefSymbol() {
-  const points = [[30, 10], [70, 10], [92, 50], [70, 90], [30, 90], [8, 50]];
+  const nodes = [[30, 12], [70, 12], [90, 50], [70, 88], [30, 88], [10, 50]];
   return <svg className="mindef-symbol" viewBox="0 0 100 100" aria-hidden="true">
-    <path d="M30 10H70L92 50 70 90H30L8 50Z" fill="none" stroke="#00a5e7" strokeWidth="3" />
-    <circle cx="50" cy="50" r="29" fill="#46ad45" />
-    {points.map(([cx, cy]) => <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="6" fill="#00a5e7" stroke="#000091" strokeWidth="2" />)}
-    <path d="M48 47a10 10 0 1 1 8 8l-18 18-7-7 5-5 4 2 3-3-2-4Z" fill="#00a5e7" stroke="#000091" strokeWidth="3" strokeLinejoin="round" />
+    {/* Réseau : arêtes de l'hexagone et rayons vers le cercle central */}
+    <g stroke="#007ac1" strokeWidth="2.5" strokeLinecap="round">
+      {nodes.map(([x, y], i) => { const [nx, ny] = nodes[(i + 1) % 6]; return <line key={`e${i}`} x1={x} y1={y} x2={nx} y2={ny} />; })}
+      {nodes.map(([x, y]) => <line key={`r${x}-${y}`} x1={x} y1={y} x2={50 + (x - 50) * 0.62} y2={50 + (y - 50) * 0.62} />)}
+    </g>
+    <circle cx="50" cy="50" r="25" fill="#4caf50" />
+    {nodes.map(([cx, cy]) => <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="6" fill="#01a9f4" />)}
+    <path d="M48 47a10 10 0 1 1 8 8l-18 18-7-7 5-5 4 2 3-3-2-4Z" fill="#01a9f4" stroke="#000091" strokeWidth="3" strokeLinejoin="round" />
     <circle cx="57" cy="44" r="3" fill="#000091" />
   </svg>;
 }
