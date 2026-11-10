@@ -6,7 +6,7 @@
     "#shared/*": "./shared/*"
   },
   "engines": {
-    "node": ">=22.12"
+    "node": ">=22.22"
   },
   "scripts": {
     "dev": "concurrently -k -n serveur,interface,postes \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:postes\"",
