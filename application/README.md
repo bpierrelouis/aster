@@ -193,8 +193,10 @@ application/
 │   ├── compose.yaml             # PostgreSQL ASTER, annuaire LDAP, Keycloak, stockage S3
 │   ├── keycloak/                # Realm (fédération LDAP) et thème de connexion
 │   ├── ldap/                    # Identités de départ de l’annuaire (LDIF)
-│   └── seaweedfs/               # Clés d'accès S3 locales
+│   ├── seaweedfs/               # Clés d'accès S3 locales
+│   └── images/                  # Lecture des secrets et configuration Apache des images
 ├── tests/                       # Tests d’interface et de bout en bout ; fixtures/ : fichiers d’import
+├── Dockerfile                   # Images web, api et postes
 └── .env.example
 ```
 
@@ -236,5 +238,19 @@ Variables complémentaires, notamment pour le démonstrateur déployé sur VM en
 | `KEYCLOAK_ADMIN_URL` | Adresse de l’API d’administration de Keycloak, si elle diffère de l’émetteur (sur les VM : `http://keycloak:8080`) | origine de `OIDC_ISSUER` |
 | `NODE_EXTRA_CA_CERTS` | Fichier de l’autorité de certification à reconnaître pour joindre Keycloak et le stockage S3 en HTTPS (variable native de Node.js) | aucune |
 | `ASTER_API` | Adresse du serveur pour l’émulateur des postes (sur les VM : `http://api:3001`) | `http://127.0.0.1:3001` |
+
+### Images et intégration continue
+
+Le [Dockerfile](Dockerfile) produit une image par cible :
+
+| Cible | Contenu | Port | Commande de construction |
+| --- | --- | --- | --- |
+| `web` | Apache 2.4 et le build React ; toute adresse sans fichier renvoie `index.html` | `8080` | `docker build --target web .` |
+| `api` | Express en mode production, écoute sur `0.0.0.0` | `3001` | `docker build --target api .` |
+| `postes` | Émulateur des postes | aucun | `docker build --target postes .` |
+
+Au démarrage, les images `api` et `postes` transmettent chaque secret Docker Swarm `/run/secrets/NOM` au service dans la variable d’environnement `NOM` ([infra/images/secrets.sh](infra/images/secrets.sh)) : le secret porte donc le nom de la variable (`SESSION_SECRET`, `DATABASE_URL`…). Le contrôle de santé de `api` vérifie seulement que le serveur répond, pas que PostgreSQL et Keycloak sont joignables : une panne d’un service voisin ne fait pas relancer les instances d’Express.
+
+Le workflow GitHub Actions [ci.yml](../.github/workflows/ci.yml) exécute, à chaque push sur `main` ou `dev` et à chaque pull request, `npm test`, `npm run build`, `npm run test:ui` et `npm run test:workspace`, puis, dans un second job, `npm run test:e2e` avec l’infrastructure Compose. Sur `main`, si les tests passent, il publie les trois images sur Docker Hub en public, sous `<compte>/aster-web`, `<compte>/aster-api` et `<compte>/aster-postes`, avec le SHA du commit pour étiquette. Le dépôt GitHub doit définir la variable `DOCKERHUB_USERNAME` et le secret `DOCKERHUB_TOKEN` (jeton d’accès Docker Hub, pas le mot de passe).
 
 Ne pas utiliser `infra/compose.yaml` en production : il contient le flux sans mot de passe, les comptes locaux, l’émulateur de postes et des secrets publics. Les paramètres d’hébergement et les exigences complémentaires restent à définir dans le cadrage.
