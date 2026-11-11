@@ -10,9 +10,21 @@
 
 import { fileURLToPath } from 'node:url';
 
-// Programmes utilisateur et poids de tirage (les processus système ne sont pas remontés)
-const PROGRAMMES = [['firefox.exe', 50], ['Code.exe', 40], ['soffice.exe', 1.2], ['putty.exe', 0.8], ['steam.exe', 0.25], ['discord.exe', 0.25], ['spotify.exe', 0.15], ['torrent.exe', 0.1]];
-const IMAGE = ['app-firefox', 'app-vscode']; // applications de l'image de référence
+// Programmes utilisateur et poids de tirage (les processus système ne sont pas remontés) : surtout des
+// outils de développement et de bureautique autorisés, rarement des programmes non référencés ou interdits
+const PROGRAMMES = [
+  ['firefox.exe', 40], ['Code.exe', 30], ['msedge.exe', 5], ['WindowsTerminal.exe', 4], ['powershell.exe', 3],
+  ['git.exe', 3], ['node.exe', 3], ['python.exe', 3], ['idea64.exe', 2], ['pycharm64.exe', 2], ['notepad++.exe', 2],
+  ['soffice.exe', 1.5], ['eclipse.exe', 1], ['Postman.exe', 1], ['Docker Desktop.exe', 1], ['putty.exe', 0.8],
+  ['dbeaver.exe', 0.8], ['WinSCP.exe', 0.6],
+  ['vlc.exe', 0.4], ['Discord.exe', 0.25], ['Spotify.exe', 0.15],
+  ['steam.exe', 0.2], ['EpicGamesLauncher.exe', 0.1], ['RobloxPlayerBeta.exe', 0.1], ['MinecraftLauncher.exe', 0.1],
+  ['qbittorrent.exe', 0.08], ['uTorrent.exe', 0.05], ['tor.exe', 0.05], ['AnyDesk.exe', 0.05],
+];
+const IMAGE = ['app-firefox', 'app-vscode', 'app-git', 'app-python']; // applications de l'image de référence
+// Applications installées en plus de l'image, avec leur probabilité
+const OPTIONS = [['app-libreoffice', 0.3], ['app-notepadpp', 0.3], ['app-nodejs', 0.25], ['app-putty', 0.2], ['app-intellij', 0.15],
+  ['app-pycharm', 0.15], ['app-eclipse', 0.1], ['app-docker', 0.1], ['app-postman', 0.1], ['app-dbeaver', 0.1], ['app-winscp', 0.1]];
 
 function prng(seed) {
   let a = seed >>> 0;
@@ -34,7 +46,7 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
     const compte = `stagiaire.${String((index % 40) + 1).padStart(2, '0')}`;
     const online = rnd() > 0.1;
     const processes = new Set(online ? ['firefox.exe', ...(rnd() < 0.6 ? ['Code.exe'] : [])] : []);
-    const apps = new Set([...IMAGE, ...(rnd() < 0.3 ? ['app-libreoffice'] : [])]);
+    const apps = new Set([...IMAGE, ...OPTIONS.filter(([, p]) => rnd() < p).map(([app]) => app)]);
     return { nomReseau, compte, online, processes, apps };
   }
 

@@ -1,8 +1,10 @@
 /* ==========================================================================
-   Supervision : processus des postes par salle, alertes, règles de
-   classement (whitelist / blacklist) et statistiques d'utilisation.
-   Processus et détections ne sont alimentés que par les postes ; l'utilisateur
-   demande un arrêt, le poste l'exécute.
+   Supervision : alertes (onglet par défaut), processus des postes par
+   salle, règles de classement (whitelist / blacklist) et statistiques
+   d'utilisation. Processus et détections ne sont alimentés que par les
+   postes ; l'utilisateur demande un arrêt, le poste l'exécute. La recherche
+   ignore casse et accents et reconnaît le nom de l'application d'un
+   exécutable (« libreoffice » trouve soffice.exe).
    ========================================================================== */
 
 import { useEffect, useState } from 'react';
@@ -13,7 +15,7 @@ import { scope, index, detections, batiments } from '../../core/selectors.js';
 import { uid } from '../../core/dom.js';
 import { can } from '../../core/permissions.js';
 import { CLASSEMENTS } from '#shared/catalog.js';
-import { processClass } from '#shared/operations-data.js';
+import { processClass, logiciel } from '#shared/operations-data.js';
 import { Icon, Tile } from '../../ui/icons.jsx';
 import { AppIcon } from '../../ui/app-icon.jsx';
 import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.jsx';
@@ -31,11 +33,21 @@ function Status({ c }) {
 const Empty = ({ title, text }) => <OpsEmpty icon="supervision" title={title} text={text} />;
 
 const TITLES = {
-  salles: 'Supervision des salles',
   alertes: 'Alertes & détections',
+  salles: 'Supervision des salles',
   listes: 'Règles de processus',
   statistiques: 'Utilisation du parc',
 };
+const SEARCH = { alertes: 'Processus, poste ou compte…', salles: 'Poste, processus ou compte…', listes: 'Processus ou application…', statistiques: 'Processus ou application…' };
+
+// Recherche insensible à la casse, aux accents et aux espaces : chaque mot cherché figure dans l'un des textes
+const fold = (text) => String(text ?? '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+function matcher(query) {
+  const words = fold(query).split(/\s+/).filter(Boolean);
+  return (...texts) => { const t = fold(texts.join(' ')); return words.every((w) => t.includes(w)); };
+}
+// Un exécutable se cherche aussi par le nom de son application
+const processText = (nom) => `${nom} ${logiciel(nom)?.nom ?? ''}`;
 
 export function Supervision() {
   useTitle('Supervision');
@@ -57,32 +69,32 @@ export function Supervision() {
   if (!can('supervision.view')) return <Empty title="Accès non autorisé" text="Ce module n’est pas accessible avec votre profil." />;
 
   const salleId = salleChoice && scope().salleIds.has(salleChoice) ? salleChoice : '';
-  let tab = params.tab || 'salles';
-  if (!can('administration.view') && !['salles', 'alertes'].includes(tab)) tab = 'salles';
+  const allowed = can('administration.view') ? Object.keys(TITLES) : ['alertes', 'salles'];
+  const tab = allowed.includes(params.tab) ? params.tab : 'alertes';
   const relevant = (state.processus || []).filter((p) => scope().salleIds.has(p.salleId) && (!salleId || p.salleId === salleId));
 
   return <>
-    <PageHead title={TITLES[tab] || TITLES.salles}>
+    <PageHead title={TITLES[tab]}>
       {tab === 'listes'
         ? <button className="btn btn--primary" onClick={() => openRuleForm()}><Icon name="plus" size={18} /><span>Ajouter une règle</span></button>
         : <span className="ops-status"><span className="led led--ok"></span><span>Actualisé à {stamp}</span></span>}
     </PageHead>
-    {['salles', 'alertes'].includes(tab) && <div className="ops-toolbar">
-      <label className="field"><span className="field-label">Salle à superviser</span>
+    <div className="ops-toolbar">
+      {['salles', 'alertes'].includes(tab) && <label className="field"><span className="field-label">Salle à superviser</span>
         <select aria-label="Salle à superviser" value={salleId} onChange={(e) => setSalleId(e.target.value)}>
           <option value="">Choisir une salle</option>
           {scope().salles.map((s) => <option key={s.id} value={s.id}>{s.nom} · Bâtiment {s.batiment}</option>)}
         </select>
-      </label>
+      </label>}
       <label className="field"><span className="field-label">Rechercher</span>
-        <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Poste ou processus…" aria-label="Rechercher un poste ou processus" />
+        <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={SEARCH[tab]} aria-label="Rechercher" />
       </label>
-    </div>}
+    </div>
     <div>
-      {tab === 'listes' ? <Rules />
-        : tab === 'alertes' ? <Alerts salleId={salleId} query={query} />
-          : tab === 'statistiques' ? <Stats relevant={relevant} />
-            : <Rooms salleId={salleId} query={query} relevant={relevant} />}
+      {tab === 'listes' ? <Rules query={query} />
+        : tab === 'salles' ? <Rooms salleId={salleId} query={query} relevant={relevant} />
+          : tab === 'statistiques' ? <Stats relevant={relevant} query={query} />
+            : <Alerts salleId={salleId} query={query} />}
     </div>
   </>;
 }
@@ -101,30 +113,34 @@ async function requestStop(proc) {
 function Rooms({ salleId, query, relevant }) {
   if (!salleId) return <Empty title="Choisissez votre salle" text="Sélectionnez une salle pour consulter ses postes et leurs processus." />;
   const state = store.state;
-  const q = query.toLowerCase();
-  const shown = scope().postes.filter((p) => p.salleId === salleId)
-    .filter((p) => p.nomReseau.toLowerCase().includes(q) || relevant.some((x) => x.posteId === p.id && x.nom.toLowerCase().includes(q)));
-  if (!shown.length) return <Empty title="Aucun poste" text="Aucun poste ne correspond à cette recherche." />;
-  return <div className="ops-grid">{shown.map((p) => {
-    const processes = relevant.filter((x) => x.posteId === p.id && !x.stoppedAt);
-    return <article key={p.id} className="ops-card glass">
-      <div className="ops-card-top"><Tile name="desktop" color="var(--accent)" size="m" /><div><h2>{p.nomReseau}</h2><p><span className={`led led--${p.connecte ? 'ok' : 'wait'}`}></span> {p.connecte ? 'Connecté' : 'Déconnecté'}</p></div></div>
-      {!p.connecte ? <p className="ops-muted">Aucun processus disponible.</p>
-        : !processes.length ? <p className="ops-muted">Aucun processus utilisateur en cours.</p>
-          : processes.map((x) => <div key={x.id} className="ops-process">
-            <AppIcon name={x.nom} />
-            <div><strong>{x.nom}</strong><small>{x.compte}</small><small><Status c={processClass(state, x)} /></small></div>
-            {stopRequested(state, x.id)
-              ? <span className="ops-status"><span className="led led--wait"></span>Arrêt demandé</span>
-              : <button className="icon-btn" data-stop={x.id} onClick={() => requestStop(x)} aria-label={`Arrêter ${x.nom} sur ${p.nomReseau}`} data-tip="Arrêter ce processus"><Icon name="power" size={17} /></button>}
-          </div>)}
-    </article>;
-  })}</div>;
+  const matches = matcher(query);
+  // Un poste trouvé par son nom montre tous ses processus en cours ; sinon, seulement ceux qui correspondent
+  const shown = scope().postes.filter((p) => p.salleId === salleId).flatMap((p) => {
+    const running = relevant.filter((x) => x.posteId === p.id && !x.stoppedAt);
+    if (matches(p.nomReseau)) return [{ p, processes: running }];
+    const found = running.filter((x) => matches(p.nomReseau, processText(x.nom), x.compte));
+    return found.length ? [{ p, processes: found }] : [];
+  });
+  if (!shown.length) return <Empty title="Aucun poste" text="Aucun poste ni processus en cours ne correspond à cette recherche." />;
+  return <div className="ops-grid">{shown.map(({ p, processes }) => <article key={p.id} className="ops-card glass">
+    <div className="ops-card-top"><Tile name="desktop" color="var(--accent)" size="m" /><div><h2>{p.nomReseau}</h2><p><span className={`led led--${p.connecte ? 'ok' : 'wait'}`}></span> {p.connecte ? 'Connecté' : 'Déconnecté'}</p></div></div>
+    {!p.connecte ? <p className="ops-muted">Aucun processus disponible.</p>
+      : !processes.length ? <p className="ops-muted">Aucun processus utilisateur en cours.</p>
+        : processes.map((x) => <div key={x.id} className="ops-process">
+          <AppIcon name={x.nom} />
+          <div><strong>{x.nom}</strong><small>{x.compte}</small><small><Status c={processClass(state, x)} /></small></div>
+          {stopRequested(state, x.id)
+            ? <span className="ops-status"><span className="led led--wait"></span>Arrêt demandé</span>
+            : <button className="icon-btn" data-stop={x.id} onClick={() => requestStop(x)} aria-label={`Arrêter ${x.nom} sur ${p.nomReseau}`} data-tip="Arrêter ce processus"><Icon name="power" size={17} /></button>}
+        </div>)}
+  </article>)}</div>;
 }
 
 function Alerts({ salleId, query }) {
   if (!can('administration.view') && !salleId) return <Empty title="Choisissez votre salle" text="Les alertes concernent la salle que vous supervisez." />;
-  const items = detections().filter((d) => (!salleId || d.salleId === salleId) && `${d.processus} ${index().poste.get(d.posteId)?.nomReseau}`.toLowerCase().includes(query.toLowerCase()));
+  const matches = matcher(query);
+  const items = detections().filter((d) => (!salleId || d.salleId === salleId)
+    && matches(processText(d.processus), index().poste.get(d.posteId)?.nomReseau, index().salle.get(d.salleId)?.nom, d.compte));
   if (!items.length) return <Empty title="Aucune détection" text="Aucun événement ne correspond à votre sélection." />;
   return <OpsTable head={['Processus', 'Poste / salle', 'Compte Windows', 'Détection', 'Résultat']}>
     {items.map((d) => <tr key={d.id}>
@@ -146,13 +162,16 @@ async function deleteRule(id) {
   } catch (error) { notify(error.message, { tone: 'danger' }); }
 }
 
-function Rules() {
+function Rules({ query }) {
   const e = currentEcole();
-  const rules = (store.state.regles || []).filter((r) => r.portee === 'global' || e === 'all' || r.ecoleId === e);
+  const matches = matcher(query);
   const scopeLabel = (r) => (r.portee === 'global' ? 'Toutes les écoles' : r.portee === 'ecole' ? index().ecole.get(r.ecoleId)?.nom : r.portee === 'batiment' ? `Bâtiment ${r.batiment}` : index().salle.get(r.salleId)?.nom);
+  const rules = (store.state.regles || []).filter((r) => (r.portee === 'global' || e === 'all' || r.ecoleId === e)
+    && matches(processText(r.nom), CLASSEMENTS[r.classement]?.label, scopeLabel(r)));
   return <>
     <p className="ops-muted" style={{ marginBottom: 20 }}>Les règles se cumulent. Une interdiction reste prioritaire sur une autorisation.</p>
     <OpsTable head={['Processus', 'Classement', 'Portée', 'Actions']}>
+      {!rules.length && <tr><td colSpan={4}><div className="w-empty w-empty--l">Aucune règle ne correspond à cette recherche.</div></td></tr>}
       {rules.map((r) => <tr key={r.id}>
         <td><span className="app-cell"><AppIcon name={r.nom} /><strong>{r.nom}</strong></span></td>
         <td><Status c={r.classement} /></td>
@@ -168,13 +187,15 @@ function Rules() {
   </>;
 }
 
-function Stats({ relevant }) {
+function Stats({ relevant, query }) {
   const postes = scope().postes;
   const connected = postes.filter((p) => p.connecte).length;
   const ds = detections();
   const counts = new Map();
   ds.forEach((d) => counts.set(d.processus, (counts.get(d.processus) || 0) + 1));
   const max = Math.max(1, ...counts.values());
+  const matches = matcher(query);
+  const shown = [...counts].filter(([nom]) => matches(processText(nom))).sort((x, y) => y[1] - x[1]);
   const metrics = [
     ['Postes connectés', connected, `${postes.length} postes au total`],
     ['Processus utilisateur actifs', relevant.filter((p) => !p.stoppedAt).length, 'Dernier état disponible'],
@@ -183,9 +204,11 @@ function Stats({ relevant }) {
   return <>
     <div className="ops-metrics">{metrics.map(([label, n, sub]) => <article key={label} className="ops-metric glass"><span>{label}</span><strong>{n}</strong><span>{sub}</span></article>)}</div>
     <h2 className="ops-section-title">Processus détectés</h2>
-    <div className="ops-grid">{[...counts].sort((a, b) => b[1] - a[1]).map(([nom, n]) => <article key={nom} className="ops-card glass">
-      <div className="ops-card-top"><AppIcon name={nom} size={36} /><h3>{nom}</h3></div><span className="ops-muted">{n} détection{n > 1 ? 's' : ''}</span><div className="ops-bar"><i style={{ width: `${n / max * 100}%` }}></i></div>
-    </article>)}</div>
+    {shown.length
+      ? <div className="ops-grid">{shown.map(([nom, n]) => <article key={nom} className="ops-card glass">
+        <div className="ops-card-top"><AppIcon name={nom} size={36} /><h3>{nom}</h3></div><span className="ops-muted">{n} détection{n > 1 ? 's' : ''}</span><div className="ops-bar"><i style={{ width: `${n / max * 100}%` }}></i></div>
+      </article>)}</div>
+      : <p className="ops-muted">{counts.size ? 'Aucun processus détecté ne correspond à cette recherche.' : 'Aucun processus détecté.'}</p>}
   </>;
 }
 
