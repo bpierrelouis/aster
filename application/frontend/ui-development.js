@@ -21,7 +21,8 @@ export function uiDevelopment() {
       const namespace = createHash('sha256').update(server.config.root).digest('hex').slice(0, 12);
       const file = process.env.ASTER_UI_STATE_FILE || join(tmpdir(), `aster-workspace-${namespace}.json`);
       const repository = await createWorkspaceRepository({ file });
-      let account = repository.state.comptes.find((c) => c.actif && c.role === role && (role === 'superadmin' || c.ecoleId === repository.state.ecoles[0]?.id));
+      const initial = await repository.snapshot();
+      let account = initial.comptes.find((c) => c.actif && c.role === role && (role === 'superadmin' || c.ecoleId === initial.ecoles[0]?.id));
       if (!account) throw new Error(`Aucun compte actif pour le profil ${role}.`);
       const actor = () => repository.actor(account.id);
       if (process.env.ASTER_UI_AGENTS !== '0') createAgentEmulator({ transport: directTransport(repository) }).start();
@@ -36,18 +37,21 @@ export function uiDevelopment() {
         res.set('Cache-Control', 'no-store');
         next();
       });
-      app.get('/api/me', (_req, res) => {
-        const current = actor();
+      app.get('/api/me', async (_req, res) => {
+        const current = await actor();
         if (!current) return res.status(401).json({ error: 'Connexion nécessaire.' });
-        res.json({ user: userFromAccount(current, repository.state.ecoles.find((e) => e.id === current.ecoleId)?.nom) });
+        res.json({ user: userFromAccount(current, (await repository.snapshot()).ecoles.find((e) => e.id === current.ecoleId)?.nom) });
       });
       // Changement d'utilisateur, propre à ce mode
-      app.get('/api/dev/comptes', (_req, res) => res.json({
-        courant: account.id,
-        comptes: repository.state.comptes.filter((c) => c.actif).map((c) => ({ id: c.id, nom: c.nom, role: c.role, ecole: repository.state.ecoles.find((e) => e.id === c.ecoleId)?.nom ?? null })),
-      }));
-      app.post('/api/dev/compte', express.json(), (req, res) => {
-        const next = repository.state.comptes.find((c) => c.id === req.body?.id && c.actif);
+      app.get('/api/dev/comptes', async (_req, res) => {
+        const state = await repository.snapshot();
+        res.json({
+          courant: account.id,
+          comptes: state.comptes.filter((c) => c.actif).map((c) => ({ id: c.id, nom: c.nom, role: c.role, ecole: state.ecoles.find((e) => e.id === c.ecoleId)?.nom ?? null })),
+        });
+      });
+      app.post('/api/dev/compte', express.json(), async (req, res) => {
+        const next = (await repository.snapshot()).comptes.find((c) => c.id === req.body?.id && c.actif);
         if (!next) return res.status(400).json({ error: 'Compte inconnu ou inactif.' });
         account = next;
         res.json({ ok: true });

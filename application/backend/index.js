@@ -64,14 +64,14 @@ const workspaceRepository = await createPostgresWorkspaceRepository({ pool, stor
 // Identités du fournisseur local (démonstrateur) : créées pour les comptes ASTER actifs
 const provisioning = config.identityProvisioning ? createKeycloakProvisioning({ issuer: config.issuer, ...config.keycloakAdmin }) : null;
 const provision = (accounts) => provisioning?.ensure(accounts).catch((error) => console.error('Provisionnement des identités :', error.message));
-provision(workspaceRepository.state.comptes);
+provision((await workspaceRepository.snapshot()).comptes);
 workspaceRepository.onCommit((before, after) => { if (JSON.stringify(before.comptes) !== JSON.stringify(after.comptes)) provision(after.comptes); });
 setInterval(() => workspaceRepository.agent.sweep().catch(() => {}), 10_000).unref();
 
 /** Compte ASTER actif de la session ; une session dont le compte est désactivé est fermée. */
 async function sessionActor(req) {
   if (!req.session.accountId) return null;
-  const actor = req.session.expiresAt > Date.now() ? workspaceRepository.actor(req.session.accountId) : null;
+  const actor = req.session.expiresAt > Date.now() ? await workspaceRepository.actor(req.session.accountId) : null;
   if (!actor) await destroySession(req);
   return actor;
 }
@@ -79,7 +79,7 @@ async function sessionActor(req) {
 app.get('/api/me', async (req, res) => {
   const actor = await sessionActor(req);
   if (!actor) return res.status(401).json({ error: 'Connexion nécessaire.' });
-  const ecole = workspaceRepository.state.ecoles.find((e) => e.id === actor.ecoleId);
+  const ecole = (await workspaceRepository.snapshot()).ecoles.find((e) => e.id === actor.ecoleId);
   res.json({ user: userFromAccount(actor, ecole?.nom) });
 });
 
@@ -113,7 +113,7 @@ app.get('/auth/callback', async (req, res) => {
     const claims = tokens.claims();
     const identity = identityFromClaims(claims);
     // Rapprochement avec le compte ASTER : profil et école sont attribués dans ASTER
-    const account = workspaceRepository.findAccount(identity);
+    const account = await workspaceRepository.findAccount(identity);
     if (!account || !account.actif) {
       await destroySession(req);
       res.clearCookie('aster.sid');

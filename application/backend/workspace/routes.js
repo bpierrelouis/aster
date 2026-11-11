@@ -20,11 +20,14 @@ export function createWorkspaceRouter({ repository, actor }) {
       next();
     } catch (error) { next(error); }
   });
-  router.get('/', (req, res) => {
-    const etag = `"${repository.state.revision}-${res.locals.actor.id}"`;
-    res.set('ETag', etag);
-    if (req.get('If-None-Match') === etag) return res.status(304).end();
-    res.json(repository.read(res.locals.actor));
+  router.get('/', async (req, res, next) => {
+    try {
+      const view = await repository.read(res.locals.actor);
+      const etag = `"${view.revision}-${res.locals.actor.id}"`;
+      res.set('ETag', etag);
+      if (req.get('If-None-Match') === etag) return res.status(304).end();
+      res.json(view);
+    } catch (e) { next(e); }
   });
   router.put('/', async (req, res, next) => {
     try { res.json(await repository.update(req.body?.state, req.body?.baseRevision, res.locals.actor)); } catch (e) { next(e); }
@@ -51,7 +54,9 @@ export function createAgentRouter({ repository, token }) {
     if (given.length !== expected.length || !timingSafeEqual(given, expected)) return res.status(401).json({ error: 'Poste non authentifié.' });
     next();
   });
-  router.get('/postes', (_req, res) => res.json({ postes: repository.agent.postes() }));
+  router.get('/postes', async (_req, res, next) => {
+    try { res.json({ postes: await repository.agent.postes() }); } catch (e) { next(e); }
+  });
   router.post('/rapports', async (req, res, next) => {
     try {
       const rapports = req.body?.rapports;

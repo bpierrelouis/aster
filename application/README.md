@@ -120,13 +120,14 @@ Le serveur applique les droits à chaque écriture ([backend/workspace/rules.js]
 | `aster_remontee`, `aster_remontee_materiel` | Remontées, auteur, historique, clé de l’état des lieux S3 ; matériels concernés |
 | `aster_compte`, `aster_preference` | Comptes ASTER (profil, école, actif, sujet OIDC) ; préférences par compte |
 | `aster_donnee` | Postes, processus, détections, applications, installations, règles, interventions (JSONB) |
-| `aster_espace` | Version du jeu de données et numéro de révision |
+| `aster_espace` | Version du jeu de données et numéro de révision, verrouillé à chaque écriture |
+| `aster_journal` | Éléments modifiés par les dernières révisions, pour fusionner les écritures concurrentes (`json`, qui conserve l’ordre des propriétés) |
 
 Au premier démarrage, ou quand la version du jeu de données change, les tables sont initialisées avec une école de quatre bâtiments (1 à 5 niveaux, jusqu’à 8 salles par étage), une seconde école, l’inventaire, les remontées passées et les comptes ci-dessus. Le stock de l’École du numérique contient de quoi équiper une nouvelle salle : 20 unités centrales, 40 écrans, 20 claviers, 20 souris et des matériels secondaires (vidéoprojecteurs, commutateurs, bornes Wi-Fi, câbles, audio, imprimantes, onduleurs ou stations d’accueil). Le même lot, sous forme d’import JSON, est dans [tests/fixtures/import-stock-salle.json](tests/fixtures/import-stock-salle.json) (141 matériels, sans salle : ils entrent en stock) pour essayer Matériels › Import JSON. L’activité des postes (processus, détections, installations) part de zéro et n’est alimentée que par les postes.
 
 L’état des lieux PDF d’une remontée est produit à la transmission, avec les informations de cet instant, puis déposé dans S3 (`etats-des-lieux/<école>/<remontée>.pdf`). Le document A4 ([backend/workspace/pdf.js](backend/workspace/pdf.js), sans dépendance) comprend un bandeau ASTER (référence, statut, type de problème), l’école et le déclarant, la localisation, la description, le tableau des matériels concernés (type, identifiant ASTER, numéro de série, salle, état), le suivi et un pied de page numéroté ; il passe sur plusieurs pages si nécessaire. Le document ne transite pas par le serveur : `GET /api/workspace/reports/:id/pdf` contrôle la session et le périmètre du compte, puis répond par une redirection 303 vers une URL S3 présignée, valable 60 secondes et propre à cet objet ([backend/storage.js](backend/storage.js)) ; le navigateur télécharge le PDF directement dans S3. Une remontée sans document déposé voit le sien produit puis déposé avant la signature ; si S3 est indisponible, l’API répond 503. `S3_ENDPOINT` doit donc être joignable par les navigateurs comme par le serveur. En mode interface seule, sans stockage, le serveur produit le document à la demande. Le contrat d’intégration avec le S3 cible reste à établir : seules les opérations de dépôt, de lecture et de lecture signée sont utilisées.
 
-Les écritures concurrentes sont fusionnées élément par élément à partir d’un journal des dernières révisions : une écriture préparée sur une révision antérieure n’échoue que si le même élément a été modifié entre-temps. Le navigateur reprend toutes les quatre secondes les modifications des autres utilisateurs et des postes (requête conditionnelle par ETag).
+Le serveur ne garde aucun état qui fasse autorité : plusieurs serveurs Express peuvent partager la même base. Chaque écriture verrouille la ligne de révision (`aster_espace`), relit l’état, applique les règles puis enregistre ; un serveur ne réutilise sa copie de l’état que si la base porte toujours la même révision. Les écritures concurrentes sont fusionnées élément par élément à partir du journal des 2 000 dernières révisions, conservé en base (`aster_journal`) : une écriture préparée sur une révision antérieure n’échoue que si le même élément a été modifié entre-temps. Les éléments sont comparés indépendamment de l’ordre de leurs propriétés. Le navigateur reprend toutes les quatre secondes les modifications des autres utilisateurs et des postes (requête conditionnelle par ETag).
 
 ## Postes
 
@@ -181,7 +182,7 @@ application/
 │   ├── workspace/
 │   │   ├── rules.js             # Droits, visibilité, fusion des écritures concurrentes
 │   │   ├── postes.js            # Rapports et résultats des postes
-│   │   ├── engine.js            # File d'écriture, révisions ; dépôt du mode interface seule
+│   │   ├── engine.js            # Moteur sans état, révisions et fusion ; dépôt du mode interface seule
 │   │   ├── postgres.js          # Dépôt PostgreSQL
 │   │   ├── routes.js            # API de l'espace et des postes
 │   │   └── pdf.js               # État des lieux PDF

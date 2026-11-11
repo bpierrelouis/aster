@@ -1,7 +1,8 @@
 /* ==========================================================================
-   Espace de travail · moteur : file d'écriture, révisions, journal des
-   modifications ; dépôt du mode interface seule (fichier local ou mémoire).
-   Le dépôt PostgreSQL (postgres.js) utilise le même moteur.
+   Espace de travail · moteur sans état : révisions, fusion des écritures
+   concurrentes par le journal des modifications ; dépôt du mode interface
+   seule (fichier local ou mémoire). Le dépôt PostgreSQL (postgres.js) utilise
+   le même moteur.
    ========================================================================== */
 
 import { readFile, writeFile, rename, mkdir } from 'node:fs/promises';
@@ -23,58 +24,64 @@ function diffKeys(before, after) {
 }
 
 /**
- * persist(before, after) enregistre une nouvelle révision (fichier ou PostgreSQL).
- * onCommit(before, after) est appelé après enregistrement.
+ * Moteur sans état : chaque opération relit l'état courant dans le dépôt (store), si bien que
+ * plusieurs serveurs peuvent servir le même espace de travail.
+ * store.read() → état courant, à ne pas modifier.
+ * store.write(change) → sous verrou exclusif, relit l'état, appelle change(state, journalDepuis)
+ *   qui renvoie { next, result, entry }, enregistre next et l'entrée du journal, puis renvoie
+ *   { before, next, result }. journalDepuis(base) donne les entrées de révision supérieure à base.
+ * onCommit(before, after) est appelé après chaque enregistrement fait par ce serveur.
  */
-export function createEngine({ state: initial, persist, pdf }) {
-  let state = initial;
-  const log = [];
+export function createEngine({ store, pdf }) {
   const listeners = new Set();
-  let queue = Promise.resolve();
-  const run = (task) => { const op = queue.then(task); queue = op.catch(() => {}); return op; };
-  async function commit(next) {
-    await persist(state, next);
-    log.push({ revision: next.revision, before: diffKeys(state, next) });
-    if (log.length > 2000) log.splice(0, log.length - 2000);
-    const before = state;
-    state = next;
+  async function write(change) {
+    const { before, next, result } = await store.write(async (state, since) => {
+      const out = await change(state, since);
+      return { ...out, entry: { revision: out.next.revision, before: diffKeys(state, out.next) } };
+    });
     for (const fn of listeners) { try { await fn(before, next); } catch (error) { console.error('Après enregistrement :', error.message); } }
+    return result;
   }
   /** Modification par le système (postes, rapprochement d'identité). */
-  const system = (mutate) => run(async () => {
+  const system = (mutate) => write((state) => {
     const next = structuredClone(state);
     const result = mutate(next);
     next.revision = state.revision + 1;
     next.rev = (state.rev ?? state.revision) + 1;
-    await commit(next);
-    return result;
+    return { next, result };
   });
   return {
-    get state() { return state; },
+    snapshot: () => store.read(),
     onCommit: (fn) => listeners.add(fn),
-    actor: (accountId) => actorOf(state, accountId),
-    findAccount: (identity) => accountForIdentity(state, identity),
-    read: (actor) => scopedState(state, actor),
-    update: (input, baseRevision, actor) => run(async () => {
-      const next = mergeState(state, rebase(state, input, baseRevision, log, actor), actor);
-      await commit(next);
-      return scopedState(state, actor);
+    actor: async (accountId) => actorOf(await store.read(), accountId),
+    findAccount: async (identity) => accountForIdentity(await store.read(), identity),
+    read: async (actor) => scopedState(await store.read(), actor),
+    update: (input, baseRevision, actor) => write(async (state, since) => {
+      const next = mergeState(state, rebase(state, input, baseRevision, await since(baseRevision), actor), actor);
+      return { next, result: scopedState(next, actor) };
     }),
     bindIdentity: (accountId, sub) => system((s) => { const c = s.comptes.find((x) => x.id === accountId); if (c) c.sujet = sub; }),
     async pdf(reportId, actor) {
+      const state = await store.read();
       const report = scopedState(state, actor).remontees.find((r) => r.id === reportId);
       if (!report) fail(404, 'État des lieux introuvable.');
       // Avec stockage : lien signé ; interface seule (sans stockage) : document produit à la demande
       return pdf ? pdf(report, state) : { body: reportPdf(report, state) };
     },
     agent: {
-      postes: () => state.postes.map((p) => ({ id: p.id, nomReseau: p.nomReseau, salleId: p.salleId, connecte: p.connecte })),
+      postes: async () => (await store.read()).postes.map((p) => ({ id: p.id, nomReseau: p.nomReseau, salleId: p.salleId, connecte: p.connecte })),
       rapports: (rapports) => system((s) => { const unknown = applyReports(s, rapports); return { inconnus: unknown, commandes: pendingCommands(s, rapports.map((r) => r.poste)) }; }),
       resultats: (resultats) => system((s) => { applyResults(s, resultats); }),
-      sweep: () => (state.postes.some((p) => p.connecte && (!p.vuLe || Date.now() - p.vuLe >= DISCONNECT_AFTER)) ? system((s) => markDisconnected(s)) : Promise.resolve()),
+      async sweep() {
+        const stale = (await store.read()).postes.some((p) => p.connecte && (!p.vuLe || Date.now() - p.vuLe >= DISCONNECT_AFTER));
+        if (stale) await system((s) => markDisconnected(s));
+      },
     },
   };
 }
+
+/** Journal des dernières modifications, conservé pour fusionner les écritures concurrentes. */
+export const JOURNAL_SIZE = 2000;
 
 /** Mode interface seule : fichier local (ou mémoire). */
 export async function createWorkspaceRepository({ file, initialState: provided } = {}) {
@@ -88,13 +95,28 @@ export async function createWorkspaceRepository({ file, initialState: provided }
   for (const c of collections) state[c] ??= [];
   state.revision ??= 0;
   state.preferences ??= {};
-  return createEngine({
-    state,
-    async persist(_before, next) {
-      if (!file) return;
-      await mkdir(dirname(file), { recursive: true });
-      await writeFile(`${file}.tmp`, JSON.stringify(next), { mode: 0o600 });
-      await rename(`${file}.tmp`, file);
+  // Un seul processus : la file d'écriture tient lieu de verrou ; le journal reste en mémoire.
+  const journal = [];
+  let queue = Promise.resolve();
+  const store = {
+    read: async () => state,
+    write(change) {
+      const op = queue.then(async () => {
+        const out = await change(state, async (base) => journal.filter((e) => e.revision > base));
+        if (file) {
+          await mkdir(dirname(file), { recursive: true });
+          await writeFile(`${file}.tmp`, JSON.stringify(out.next), { mode: 0o600 });
+          await rename(`${file}.tmp`, file);
+        }
+        journal.push(out.entry);
+        if (journal.length > JOURNAL_SIZE) journal.splice(0, journal.length - JOURNAL_SIZE);
+        const before = state;
+        state = out.next;
+        return { before, next: out.next, result: out.result };
+      });
+      queue = op.catch(() => {});
+      return op;
     },
-  });
+  };
+  return createEngine({ store });
 }

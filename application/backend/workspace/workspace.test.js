@@ -182,6 +182,15 @@ test('postes : rapports, détection, arrêt automatique, résultats et déconnex
   assert(state.processus.filter((p) => p.posteId === poste.id).every((p) => p.stoppedAt));
 });
 
+test('comparaison : l’ordre des propriétés d’un élément relu en base est sans effet', () => {
+  const state = initialState();
+  const teacher = actorOf(state, TEACHER);
+  const view = scopedState(state, teacher);
+  // Un autre serveur renvoie les mêmes matériels, propriétés dans un autre ordre : aucune modification
+  view.materiels = view.materiels.map((m) => Object.fromEntries(Object.entries(m).reverse()));
+  assert.doesNotThrow(() => mergeState(state, view, teacher));
+});
+
 test('écritures concurrentes : fusion élément par élément, conflit seulement sur le même élément', () => {
   const state = online(initialState());
   const admin = as(state, ADMIN);
@@ -213,25 +222,25 @@ test('moteur : persistance fichier, révision, rapprochement d’identité et PD
   try {
     const file = join(dir, 'state.json');
     const repo = await createWorkspaceRepository({ file });
-    const admin = repo.actor(ADMIN);
-    const input = repo.read(admin); input.materiels[0].modele = 'Persisté';
+    const admin = await repo.actor(ADMIN);
+    const input = await repo.read(admin); input.materiels[0].modele = 'Persisté';
     await repo.update(input, 0, admin);
-    await repo.agent.rapports([{ poste: repo.state.postes[0].nomReseau, processus: [{ nom: 'firefox.exe', compte: 's' }] }]);
-    const stale = repo.read(admin); // révision 2
-    await repo.agent.rapports([{ poste: repo.state.postes[0].nomReseau, processus: [] }]); // révision 3
+    await repo.agent.rapports([{ poste: (await repo.snapshot()).postes[0].nomReseau, processus: [{ nom: 'firefox.exe', compte: 's' }] }]);
+    const stale = await repo.read(admin); // révision 2
+    await repo.agent.rapports([{ poste: (await repo.snapshot()).postes[0].nomReseau, processus: [] }]); // révision 3
     stale.materiels[2].modele = 'Après un rapport de poste';
     await repo.update(stale, 2, admin);
     await repo.bindIdentity(TEACHER, 'kc-teacher');
     const reopened = await createWorkspaceRepository({ file });
-    assert.equal(reopened.read(admin).materiels[0].modele, 'Persisté');
-    assert.equal(reopened.read(admin).materiels[2].modele, 'Après un rapport de poste');
-    assert.equal(reopened.findAccount({ sub: 'kc-teacher' }).id, TEACHER);
-    const report = reopened.read(admin).remontees[0];
+    assert.equal((await reopened.read(admin)).materiels[0].modele, 'Persisté');
+    assert.equal((await reopened.read(admin)).materiels[2].modele, 'Après un rapport de poste');
+    assert.equal((await reopened.findAccount({ sub: 'kc-teacher' })).id, TEACHER);
+    const report = (await reopened.read(admin)).remontees[0];
     assert.equal((await reopened.pdf(report.id, admin)).body.subarray(0, 8).toString(), '%PDF-1.4');
-    const foreign = reopened.state.remontees.find((r) => r.ecoleId === 'e-res');
+    const foreign = (await reopened.snapshot()).remontees.find((r) => r.ecoleId === 'e-res');
     await assert.rejects(reopened.pdf(foreign.id, admin), { status: 404 });
-    const others = reopened.read(admin).remontees.find((r) => r.auteurId !== TEACHER);
-    await assert.rejects(reopened.pdf(others.id, reopened.actor(TEACHER)), { status: 404 });
+    const others = (await reopened.read(admin)).remontees.find((r) => r.auteurId !== TEACHER);
+    await assert.rejects(reopened.pdf(others.id, await reopened.actor(TEACHER)), { status: 404 });
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
 

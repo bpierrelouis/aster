@@ -21,7 +21,10 @@ const OPERATION_TYPES = ['installation', 'desinstallation', 'reinstallation', 'a
 const SERVER_FIELDS = { comptes: ['sujet'] }; // jamais transmis au navigateur
 export const DAY = 24 * 3600 * 1000;
 
-export const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+// Comparaison indépendante de l'ordre des propriétés : un élément relu en base ne garde pas l'ordre
+// dans lequel le navigateur l'a envoyé, et plusieurs serveurs peuvent servir le même espace.
+const canonical = (value) => JSON.stringify(value, (_key, v) => (v && typeof v === 'object' && !Array.isArray(v) ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, v[k]])) : v));
+export const same = (a, b) => canonical(a) === canonical(b);
 export const fail = (status, message) => { throw Object.assign(new Error(message), { status }); };
 export const assert = (condition, message = 'Données invalides.') => { if (!condition) fail(400, message); };
 const isAdmin = (actor) => ['admin', 'superadmin'].includes(actor.role);

@@ -4,16 +4,16 @@
    remontées et leurs matériels). Les données de supervision et
    d'administration sont conservées en JSONB dans une table commune.
    Les règles de droits (mergeState) s'appliquent avant toute écriture ;
-   chaque écriture est une transaction contrôlée par numéro de révision.
+   chaque écriture est une transaction qui verrouille la ligne de révision,
+   ce qui permet à plusieurs serveurs de partager la même base.
    L'état des lieux PDF est produit à la transmission et déposé dans S3.
    ========================================================================== */
 
 import { SEED_VERSION } from '#shared/seed.js';
-import { collections, initialState } from './rules.js';
-import { createEngine } from './engine.js';
+import { collections, initialState, keyOf, same } from './rules.js';
+import { createEngine, JOURNAL_SIZE } from './engine.js';
 import { reportPdf } from './pdf.js';
 
-const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const toTs = (ms) => (ms == null ? null : new Date(ms).toISOString());
 const fromTs = (date) => (date == null ? null : new Date(date).getTime());
 
@@ -84,7 +84,10 @@ function schemaSQL(s) {
     rang integer NOT NULL, materiel_id text NOT NULL, PRIMARY KEY (remontee_id, rang));
   CREATE TABLE IF NOT EXISTS ${s}.aster_donnee (
     collection text NOT NULL, id text NOT NULL, ecole_id text, data jsonb NOT NULL,
-    rang bigint GENERATED ALWAYS AS IDENTITY, PRIMARY KEY (collection, id));`;
+    rang bigint GENERATED ALWAYS AS IDENTITY, PRIMARY KEY (collection, id));
+  -- Journal des dernières modifications : permet à tout serveur de fusionner les écritures concurrentes.
+  -- Type json (et non jsonb) : l'ordre des propriétés, utilisé pour comparer les éléments, est conservé.
+  CREATE TABLE IF NOT EXISTS ${s}.aster_journal (revision integer PRIMARY KEY, cles json NOT NULL);`;
 }
 
 /* ---------- Correspondance objets ⇄ lignes ---------- */
@@ -219,42 +222,18 @@ async function transaction(pool, fn) {
 }
 
 const reportKey = (r) => `etats-des-lieux/${r.ecoleId}/${r.id}.pdf`;
-const TABLES = (s) => `${s}.aster_preference, ${s}.aster_remontee_materiel, ${s}.aster_remontee, ${s}.aster_materiel, ${s}.aster_salle, ${s}.aster_etage, ${s}.aster_compte, ${s}.aster_ecole, ${s}.aster_donnee`;
+const TABLES = (s) => `${s}.aster_preference, ${s}.aster_remontee_materiel, ${s}.aster_remontee, ${s}.aster_materiel, ${s}.aster_salle, ${s}.aster_etage, ${s}.aster_compte, ${s}.aster_ecole, ${s}.aster_donnee, ${s}.aster_journal`;
 
 /**
  * Dépôt de l'espace de travail sur PostgreSQL. schema permet d'isoler les tests.
  * storage : { put(key, buffer), get(key) } (S3 ou mémoire).
+ * Sans état propre : plusieurs serveurs peuvent ouvrir le même schéma. Chaque écriture verrouille
+ * la ligne de révision ; la copie de l'état gardée par un serveur n'est réutilisée que si la base
+ * porte toujours sa révision.
  */
 export async function createPostgresWorkspaceRepository({ pool, storage, schema = 'public', log = console }) {
   if (!/^[a-z_][a-z0-9_]*$/.test(schema)) throw new Error('Nom de schéma invalide.');
   const s = schema;
-  await pool.query(schemaSQL(s));
-  // Évolutions de schéma des versions précédentes du démonstrateur
-  await pool.query(`ALTER TABLE ${s}.aster_espace DROP COLUMN IF EXISTS ecole_affichee, DROP COLUMN IF EXISTS preferences, DROP COLUMN IF EXISTS dispositions, DROP COLUMN IF EXISTS consultations;
-    ALTER TABLE ${s}.aster_remontee ADD COLUMN IF NOT EXISTS auteur_id text`);
-
-  let loaded = await loadState(pool, s);
-  if (!loaded || loaded.state.version !== SEED_VERSION) {
-    // Premier démarrage ou jeu de données d'une version antérieure : initialisation complète
-    const initial = initialState();
-    await transaction(pool, async (db) => {
-      await db.query(`TRUNCATE ${TABLES(s)} RESTART IDENTITY`);
-      await writeDiff(db, s, Object.fromEntries(collections.map((c) => [c, []])), initial);
-      await writeMeta(db, s, initial);
-    });
-    loaded = await loadState(pool, s);
-    // États des lieux des remontées existantes, déposés une fois
-    const keys = [];
-    for (const r of loaded.state.remontees) {
-      try { await storage.put(reportKey(r), reportPdf(r, loaded.state)); keys.push({ id: r.id, key: reportKey(r) }); }
-      catch (error) { log.error?.('Dépôt S3 impossible :', error.name || error.message); break; }
-    }
-    if (keys.length) {
-      await pool.query(`UPDATE ${s}.aster_remontee r SET etat_des_lieux_cle = x.key FROM jsonb_to_recordset($1::jsonb) AS x(id text, key text) WHERE r.id = x.id`, [JSON.stringify(keys)]);
-      for (const { id, key } of keys) loaded.pdfKeys.set(id, key);
-    }
-  }
-  const { pdfKeys } = loaded;
 
   async function storePdf(report, source) {
     const key = reportKey(report);
@@ -262,32 +241,90 @@ export async function createPostgresWorkspaceRepository({ pool, storage, schema 
     return key;
   }
 
-  return createEngine({
-    state: loaded.state,
-    async persist(before, after) {
-      // État des lieux produit à la transmission, avec les informations de cet instant
-      const known = new Set(before.remontees.map((r) => r.id));
-      const keys = [];
-      for (const r of after.remontees.filter((x) => !known.has(x.id))) {
-        try { keys.push({ id: r.id, key: await storePdf(r, after) }); } catch (error) { log.error?.('Dépôt S3 impossible :', error.name || error.message); }
-      }
+  // Initialisation sous verrou consultatif : un seul serveur crée le schéma et le jeu de départ
+  const init = await pool.connect();
+  try {
+    await init.query('SELECT pg_advisory_lock(hashtext($1))', [`aster:${s}`]);
+    await init.query(schemaSQL(s));
+    // Évolutions de schéma des versions précédentes du démonstrateur
+    await init.query(`ALTER TABLE ${s}.aster_espace DROP COLUMN IF EXISTS ecole_affichee, DROP COLUMN IF EXISTS preferences, DROP COLUMN IF EXISTS dispositions, DROP COLUMN IF EXISTS consultations;
+      ALTER TABLE ${s}.aster_remontee ADD COLUMN IF NOT EXISTS auteur_id text`);
+    const loaded = await loadState(init, s);
+    if (!loaded || loaded.state.version !== SEED_VERSION) {
+      // Premier démarrage ou jeu de données d'une version antérieure : initialisation complète
+      const initial = initialState();
+      await init.query('BEGIN');
       try {
-        await transaction(pool, async (db) => {
-          const current = (await db.query(`SELECT revision FROM ${s}.aster_espace WHERE id = 1 FOR UPDATE`)).rows[0];
-          if (current?.revision !== before.revision) throw Object.assign(new Error('Les données ont changé. Rechargez la page avant de réessayer.'), { status: 409 });
-          await writeDiff(db, s, before, after);
-          await writePreferences(db, s, before, after);
+        await init.query(`TRUNCATE ${TABLES(s)} RESTART IDENTITY`);
+        await writeDiff(init, s, Object.fromEntries(collections.map((c) => [c, []])), initial);
+        await writeMeta(init, s, initial);
+        await init.query('COMMIT');
+      } catch (error) { await init.query('ROLLBACK').catch(() => {}); throw error; }
+      // États des lieux des remontées existantes, déposés une fois
+      const keys = [];
+      for (const r of initial.remontees) {
+        try { keys.push({ id: r.id, key: await storePdf(r, initial) }); }
+        catch (error) { log.error?.('Dépôt S3 impossible :', error.name || error.message); break; }
+      }
+      if (keys.length) await init.query(`UPDATE ${s}.aster_remontee r SET etat_des_lieux_cle = x.key FROM jsonb_to_recordset($1::jsonb) AS x(id text, key text) WHERE r.id = x.id`, [JSON.stringify(keys)]);
+    }
+  } finally {
+    await init.query('SELECT pg_advisory_unlock(hashtext($1))', [`aster:${s}`]).catch(() => {});
+    init.release();
+  }
+
+  // Copie de l'état gardée par ce serveur, valable tant que la base porte la même révision
+  let cache = null;
+  async function current(db, lock = false) {
+    const row = (await db.query(`SELECT revision FROM ${s}.aster_espace WHERE id = 1${lock ? ' FOR UPDATE' : ''}`)).rows[0];
+    if (cache && row && cache.state.revision === row.revision) return cache;
+    const loaded = await loadState(db, s);
+    if (!cache || loaded.state.revision >= cache.state.revision) cache = loaded;
+    return loaded;
+  }
+  // Journal : [collection, identifiant, valeur avant modification] ; une valeur absente est enregistrée comme nulle
+  const since = (db) => async (base) => (await db.query(`SELECT revision, cles FROM ${s}.aster_journal WHERE revision > $1 ORDER BY revision`, [base])).rows
+    .map((row) => ({ revision: row.revision, before: new Map(row.cles.map(([c, itemId, v]) => [keyOf(c, itemId), v ?? undefined])) }));
+
+  const store = {
+    read: async () => (await current(pool)).state,
+    async write(change) {
+      let done;
+      try {
+        done = await transaction(pool, async (db) => {
+          const { state: before, pdfKeys } = await current(db, true);
+          const out = await change(before, since(db));
+          const next = out.next;
+          // État des lieux produit à la transmission, avec les informations de cet instant
+          const known = new Set(before.remontees.map((r) => r.id));
+          const keys = [];
+          for (const r of next.remontees.filter((x) => !known.has(x.id))) {
+            try { keys.push({ id: r.id, key: await storePdf(r, next) }); } catch (error) { log.error?.('Dépôt S3 impossible :', error.name || error.message); }
+          }
+          await writeDiff(db, s, before, next);
+          await writePreferences(db, s, before, next);
           for (const { id, key } of keys) await db.query(`UPDATE ${s}.aster_remontee SET etat_des_lieux_cle = $2 WHERE id = $1`, [id, key]);
-          await writeMeta(db, s, after);
+          await writeMeta(db, s, next);
+          await db.query(`INSERT INTO ${s}.aster_journal (revision, cles) VALUES ($1, $2::json)`, [out.entry.revision, JSON.stringify([...out.entry.before].map(([k, v]) => [...k.split('\u0000'), v ?? null]))]);
+          await db.query(`DELETE FROM ${s}.aster_journal WHERE revision <= $1`, [out.entry.revision - JOURNAL_SIZE]);
+          const nextKeys = new Map(pdfKeys);
+          for (const { id, key } of keys) nextKeys.set(id, key);
+          return { before, next, result: out.result, pdfKeys: nextKeys };
         });
       } catch (error) {
         if (String(error.code).startsWith('23')) throw Object.assign(new Error('Données invalides.'), { status: 400, cause: error }); // contrainte de la base
         throw error;
       }
-      for (const { id, key } of keys) pdfKeys.set(id, key);
+      if (!cache || done.next.revision > cache.state.revision) cache = { state: done.next, pdfKeys: done.pdfKeys };
+      return done;
     },
+  };
+
+  return createEngine({
+    store,
     // Lien signé vers le document déposé : le PDF ne transite pas par le serveur
     async pdf(report, state) {
+      const { pdfKeys } = await current(pool);
       let key = pdfKeys.get(report.id);
       try {
         if (!key) {
