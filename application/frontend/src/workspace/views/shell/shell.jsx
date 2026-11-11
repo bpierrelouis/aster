@@ -120,12 +120,20 @@ export function Shell() {
   }, [navId]);
 
 
-  // Sous-navigation : quand les onglets débordent, ceux à pastille (bâtiments) se réduisent à leur pastille
+  // Sous-navigation : quand les onglets débordent, ceux à pastille (bâtiments) se réduisent à leur pastille ;
+  // s'ils débordent encore, les autres se réduisent à leur icône, leur libellé passant en infobulle
   const fitSub = useCallback(() => {
     const sub = subRef.current;
     if (!sub) return;
-    sub.classList.remove('is-compact');
-    if (sub.scrollWidth > sub.clientWidth + 1) sub.classList.add('is-compact');
+    const overflows = () => sub.scrollWidth > sub.clientWidth + 1;
+    sub.classList.remove('is-compact', 'is-tight');
+    if (overflows()) sub.classList.add('is-compact');
+    const tight = overflows();
+    sub.classList.toggle('is-tight', tight);
+    for (const btn of sub.querySelectorAll('.seg-btn:not(.has-badge):not(.seg-btn--add)')) {
+      if (tight) Object.assign(btn.dataset, { tip: btn.querySelector(':scope > span:not(.seg-count)').textContent, tipPos: 'bottom' });
+      else { delete btn.dataset.tip; delete btn.dataset.tipPos; }
+    }
   }, []);
   useLayoutEffect(fitSub);
   useEffect(() => { addEventListener('resize', fitSub); return () => removeEventListener('resize', fitSub); }, [fitSub]);

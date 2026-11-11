@@ -68,6 +68,21 @@ test('les noms de toutes les salles sont visibles dans la vue d’ensemble', asy
   expect(hidden).toBe(0);
   const sub = page.locator('.subnav');
   expect(await sub.evaluate((n) => n.scrollWidth <= n.clientWidth + 1)).toBe(true);
+  // Onglets réduits ou non : chacun garde un nom lisible par les lecteurs d'écran
+  for (const name of ['Tous les bâtiments', 'Stock']) await expect(sub.getByRole('link', { name })).toBeVisible();
+});
+
+test('les onglets trop larges se réduisent à leur icône, avec une infobulle', async ({ page }) => {
+  await page.setViewportSize({ width: 1000, height: 820 });
+  await open(page, '/salles');
+  const sub = page.locator('.subnav');
+  await expect(sub).toHaveClass(/is-tight/);
+  expect(await sub.evaluate((n) => n.scrollWidth <= n.clientWidth + 1)).toBe(true);
+  const stock = sub.getByRole('link', { name: 'Stock' });
+  await expect(stock).toHaveAttribute('data-tip', 'Stock');
+  await page.setViewportSize({ width: 1600, height: 820 });
+  await expect(sub).not.toHaveClass(/is-tight/);
+  await expect(stock).not.toHaveAttribute('data-tip');
 });
 
 test('le stock n’affiche que le stock', async ({ page }) => {
