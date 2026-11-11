@@ -26,7 +26,7 @@ export async function affecter(mats, salleId) {
   store.update('data', (s) => { for (const m of mats) s.materiels.find((x) => x.id === m.id).salleId = salleId ?? null; });
   await store.flush();
   const label = mats.length > 1 ? `${num(mats.length)} matériels` : mats[0].idAster;
-  notify(dest ? `${label} affecté${mats.length > 1 ? 's' : ''} à ${dest.nom}` : `${label} remis en stock`, { icon: 'deplacement' });
+  notify(dest ? `${label} affecté${mats.length > 1 ? 's' : ''} à ${dest.nom}, à installer` : `${label} remis en stock, à ranger`, { icon: 'deplacement' }); // déplacement physique à confirmer (Salles › Déplacements)
   return true;
 }
 
@@ -39,10 +39,11 @@ export function openEquipSheet(salle) {
 const POSTE_TYPES = ['uc', 'ecran', 'peripherique'];
 const SECONDARY_TYPES = DEVICE_TYPES.filter((t) => !POSTE_TYPES.includes(t.id));
 
-/** Stock en service de l'école, regroupé : composants d'un poste et matériels secondaires par modèle. */
+/** Stock en service de l'école, regroupé : composants d'un poste et matériels secondaires par modèle.
+    Les matériels déjà rangés passent avant ceux encore à rapatrier (toujours dans leur salle d'origine). */
 function stockOf(materiels, ecoleId) {
   const items = materiels.filter((m) => m.ecoleId === ecoleId && !m.salleId && !m.hs)
-    .sort((a, b) => a.idAster.localeCompare(b.idAster, 'fr', { numeric: true }));
+    .sort((a, b) => Number(Boolean(a.deplacement)) - Number(Boolean(b.deplacement)) || a.idAster.localeCompare(b.idAster, 'fr', { numeric: true }));
   const groups = new Map();
   for (const m of items) {
     const key = m.type === 'uc' || m.type === 'ecran' ? m.type : `${m.type}|${m.modele}`;

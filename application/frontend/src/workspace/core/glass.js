@@ -247,10 +247,6 @@ export function setGlassLevel(next) {
   scan(document);
 }
 
-export function glassInfo() {
-  return { level, supportsLens, lensed: lensed.size };
-}
-
 export function initGlass(initialLevel = 'liquid') {
   level = initialLevel;
   document.documentElement.dataset.glass = level;

@@ -32,6 +32,12 @@ export function createWorkspaceRouter({ repository, actor }) {
   router.put('/', async (req, res, next) => {
     try { res.json(await repository.update(req.body?.state, req.body?.baseRevision, res.locals.actor)); } catch (e) { next(e); }
   });
+  router.post('/import/analyse', async (req, res, next) => {
+    try { res.json(await repository.importAnalyse(res.locals.actor, req.body)); } catch (e) { next(e); }
+  });
+  router.post('/import', async (req, res, next) => {
+    try { res.json(await repository.importMateriels(res.locals.actor, req.body)); } catch (e) { next(e); }
+  });
   router.get('/reports/:id/pdf', async (req, res, next) => {
     try {
       const pdf = await repository.pdf(req.params.id, res.locals.actor);

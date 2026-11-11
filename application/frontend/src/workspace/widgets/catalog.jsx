@@ -11,7 +11,7 @@ import { Icon, Tile } from '../ui/icons.jsx';
 import { AppIcon } from '../ui/app-icon.jsx';
 import { num, pct1, ago, dateShort, dateMed } from '#shared/format.js';
 import { DEVICE_TYPES, REMONTEE_STATUTS, CLASSEMENTS, deviceType, problem } from '#shared/catalog.js';
-import { parc, remontees, remonteeContext, detections, batimentLabel, index, scope } from '../core/selectors.js';
+import { parc, remontees, remonteeContext, remonteePath, detections, batimentLabel, index, scope } from '../core/selectors.js';
 import { can } from '../core/permissions.js';
 import { LineChart, Sparkline } from '../ui/charts.jsx';
 import { EtatIcon, EtatPill, StatutPill, LieuChip, EtatBar, WidgetHead, WidgetEmpty, KpiBody, KpiSub, Delta, alertClass } from './parts.jsx';
@@ -33,7 +33,7 @@ function RemonteeRow({ r, showStatut = false }) {
   const { mats, salles, first } = remonteeContext(r);
   const dt = deviceType(first?.type);
   const p = problem(r.probleme);
-  return <li><Link className="row" to={`/remontees/${showStatut ? 'toutes' : 'attente'}/${r.id}`}>
+  return <li><Link className="row" to={remonteePath(r)}>
     <span className="tile-wrap"><Tile name={p.icon} color={dt.color} size="m" className="tile--tint" /></span>
     <span className="row-main">
       <span className="row-title">{first?.modele ?? 'Matériel retiré'}{mats.length > 1 && <> <span className="row-more">+{mats.length - 1}</span></>}</span>
@@ -235,7 +235,7 @@ export const WIDGETS = [
     },
   },
   {
-    type: 'kpi.traitees', kind: 'kpi', title: 'Traitées sur 30 jours', icon: 'checkCircle', color: 'var(--ok)', sizes: ['S'], cap: 'remontee.viewAll',
+    type: 'kpi.traitees', kind: 'kpi', title: 'Traitées sur 30 jours', icon: 'clipboardCheck', color: 'var(--ok)', sizes: ['S'], cap: 'remontee.viewAll',
     Body() {
       const rm = remontees();
       const delta = <Delta diff={rm.recentTraitees.length - rm.traiteesAvant} period="par rapport aux 30 jours précédents" sense="up-good" />;
@@ -246,10 +246,10 @@ export const WIDGETS = [
     type: 'chart.statuts', kind: 'chart', title: 'Statuts des remontées', icon: 'documents', color: 'var(--accent)', sizes: ['M'], cap: 'remontee.viewAll',
     Body() {
       const { byStatut } = remontees();
-      const total = byStatut.attente + byStatut.remplace + byStatut.corrige || 1;
+      const total = REMONTEE_STATUTS.reduce((t, s) => t + byStatut[s.id], 0) || 1;
       return <>
         <WidgetHead title="Statuts des remontées" />
-        <div className="stbar" role="img" aria-label={`En attente ${byStatut.attente}, remplacé ${byStatut.remplace}, corrigé ${byStatut.corrige}`}>
+        <div className="stbar" role="img" aria-label={REMONTEE_STATUTS.map((s) => `${s.label} ${byStatut[s.id]}`).join(', ')}>
           {REMONTEE_STATUTS.map((s) => (byStatut[s.id]
             ? <span key={s.id} className={`stbar-seg stbar-seg--${s.id}`} style={{ flex: byStatut[s.id] / total }} data-tip={`${s.label} : ${num(byStatut[s.id])}`} />
             : null))}

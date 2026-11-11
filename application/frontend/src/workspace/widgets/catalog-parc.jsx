@@ -1,7 +1,8 @@
 /* ==========================================================================
    Widgets du parc issus des maquettes du tableau de bord (design/maquettes) :
    part hors service par bâtiment, hors service par type, matrice hors
-   service, échéances de garantie, salles à surveiller.
+   service, échéances de garantie, salles à surveiller ; installation
+   physique des salles (matériels à déplacer, avancement par salle).
    Couleurs : le rouge des matériels hors service et le jaune des remontées
    en attente sont des couleurs d'état ; l'accent sert aux autres grandeurs.
    ========================================================================== */
@@ -10,9 +11,10 @@ import { Link } from 'react-router';
 import { num, pct, pct1, monthShort, monthYear } from '#shared/format.js';
 import { DEVICE_TYPES } from '#shared/catalog.js';
 import { parc, batimentLabel } from '../core/selectors.js';
+import { installations } from '../core/installations.js';
 import { BulletRows, RankBars, VBars, MicroBar } from '../ui/charts-bars.jsx';
 import { HeatMatrix, HeatLegend } from '../ui/charts-heat.jsx';
-import { WidgetHead, WidgetEmpty } from './parts.jsx';
+import { WidgetHead, WidgetEmpty, KpiBody, KpiSub, Progress, alertClass } from './parts.jsx';
 
 /** Échelle arrondie au-dessus d'un ratio (2 %, 5 %, 10 %…), pour des barres comparables d'un écran à l'autre */
 const ratioScale = (v) => [.02, .05, .1, .2, .5, 1].find((s) => s >= v) ?? 1;
@@ -95,6 +97,32 @@ export const PARC_WIDGETS = [
             <span className={`watch-cell${v.attente ? '' : ' is-zero'}`} data-tip={`${num(v.attente)} en remontée`}><MicroBar value={v.attente} max={maxWait} color="var(--wait)" /><b>{num(v.attente)}</b></span>
           </Link></li>;
         })}</ul> : <WidgetEmpty ic="checkCircle" text="Aucune salle à surveiller" />}
+      </>;
+    },
+  },
+  {
+    type: 'kpi.deplacements', kind: 'kpi', title: 'Matériels à déplacer', icon: 'refresh', color: 'var(--install)', sizes: ['S'], cap: 'materiel.move',
+    Body() {
+      const { deplacements } = parc();
+      const { enCours } = installations();
+      return <Link className={`kpi kpi--link${alertClass('install', deplacements.length)}`} to="/salles/deplacements">
+        <KpiBody label="À déplacer" value={num(deplacements.length)} sub={<KpiSub>{enCours.length ? `${num(enCours.length)} salle${enCours.length > 1 ? 's' : ''} en installation` : 'Toutes les salles sont équipées'}</KpiSub>} />
+      </Link>;
+    },
+  },
+  {
+    type: 'list.installations', kind: 'list', title: 'Installation des salles', icon: 'salles', color: 'var(--install)', sizes: ['M', 'L'], cap: 'materiel.move',
+    Body({ size }) {
+      const { enCours } = installations();
+      const list = enCours.slice(0, size === 'M' ? 2 : 6);
+      return <>
+        <WidgetHead title="Installation des salles" right={<Link className="w-count" to="/salles/deplacements" data-tip="Salles en installation : ouvrir les déplacements">{num(enCours.length)}</Link>} />
+        {list.length ? <ul className="watch">{list.map((x) => (
+          <li key={x.salle.id}><Link className="watch-row watch-row--install" to={`/salles/deplacements?salle=${x.salle.id}`}>
+            <span className="watch-name"><b>{x.salle.nom}</b><small>{batimentLabel(x.salle.batiment)} · {num(x.enCours.length)} à déplacer</small></span>
+            <Progress value={x.pct} label={`Avancement de l’installation de ${x.salle.nom}`} />
+          </Link></li>))}</ul>
+          : <WidgetEmpty ic="checkCircle" text="Toutes les salles sont équipées" />}
       </>;
     },
   },

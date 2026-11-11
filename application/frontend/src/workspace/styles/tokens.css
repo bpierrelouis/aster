@@ -3,10 +3,11 @@
    Charte ASTER (direction artistique 01) :
    Encre #17243B · Iris #6954C0 · Lilas #B8A3EA · Brume #F6F4FB · Cœur #E8B84E
    Quatre ambiances, choisies par compte (<html data-ambiance="…">) :
-   - aube  : blanc, encre et iris (défaut)
-   - encre : noir, blanc et or
+   - aster : blanc, encre et iris en clair (Aube), noir, blanc et or en
+             sombre (Encre), selon le réglage de la machine (défaut)
    - orion : bleus de la charte ORION sur un ciel nocturne
    - vigie : bleu pétrole et signal de la charte VIGIE
+   - minarm : couleurs du DSFR et Marianne, clair ou sombre selon la machine
    <html data-tone="light|dark"> regroupe les ambiances claires et sombres.
    Les ambiances ne redéfinissent que des tokens ; les composants utilisent
    --accent (interaction), jamais une couleur de charte en dur.
@@ -96,6 +97,7 @@
   --hairline: rgb(var(--ink) / .09);
   --fill-1: rgb(var(--ink) / .05);
   --fill-2: rgb(var(--ink) / .09);
+  --install: color-mix(in srgb, var(--warn) 80%, var(--crit)); /* installation en cours (orange) ; installé : --ok */
   --tint-1: color-mix(in srgb, var(--accent) 8%, transparent);
   --tint-2: color-mix(in srgb, var(--accent) 14%, transparent);
   --focus: var(--accent-text);
@@ -109,7 +111,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Aube (défaut) : blanc, encre et iris
+   ASTER clair (« Aube », défaut) : blanc, encre et iris
    -------------------------------------------------------------------------- */
 :root {
   color-scheme: light;
@@ -122,12 +124,12 @@
   --shade: 52 36 110;         /* ombres teintées */
 
   --base: #f6f5fa;
-  /* Fond « flux » (façon menu PS4) : halos blanc et lilas, vagues lumineuses blanches et iris */
+  /* Fond « flux » (façon menu PS4), discret : halos blanc et lilas, vague lumineuse floue, sans trait */
   --backdrop:
     radial-gradient(60vmax 40vmax at 12% 8%, color-mix(in srgb, var(--lilas) 55%, transparent), transparent 70%),
     radial-gradient(50vmax 34vmax at 92% 96%, color-mix(in srgb, var(--iris) 30%, transparent), transparent 70%),
     linear-gradient(170deg, #fbfaff 0%, var(--base) 55%, #ece6fa 100%);
-  --backdrop-waves: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23FFFFFF' stop-opacity='0'/%3E%3Cstop offset='.45' stop-color='%23FFFFFF' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%23FFFFFF' stop-opacity='.08'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23A28ADC' stop-opacity='.06'/%3E%3Cstop offset='.6' stop-color='%23A28ADC' stop-opacity='.4'/%3E%3Cstop offset='1' stop-color='%23A28ADC' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='f' x='-5%25' y='-20%25' width='110%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cpath filter='url(%23f)' fill='url(%23a)' d='M0 540C260 450 540 680 840 590S1350 400 1600 500V650C1340 580 1100 770 790 700S250 620 0 700Z'/%3E%3Cpath filter='url(%23f)' fill='url(%23b)' d='M0 650C320 560 620 790 930 680S1420 540 1600 610V720C1360 670 1060 830 760 770S260 730 0 790Z'/%3E%3Cpath fill='none' stroke='%23A28ADC' stroke-opacity='.75' stroke-width='1.6' d='M0 585C280 495 560 715 860 620S1370 455 1600 545'/%3E%3Cpath fill='none' stroke='%23A28ADC' stroke-opacity='.45' stroke-width='1.1' d='M0 655C330 570 640 790 940 685S1430 545 1600 625'/%3E%3Cpath fill='none' stroke='%23A28ADC' stroke-opacity='.3' stroke-width='.9' d='M0 520C300 430 600 650 900 560S1400 380 1600 470'/%3E%3C/svg%3E");
+  --backdrop-waves: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23FFFFFF' stop-opacity='0'/%3E%3Cstop offset='.5' stop-color='%23FFFFFF' stop-opacity='0.45'/%3E%3Cstop offset='1' stop-color='%23FFFFFF' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23B8A3EA' stop-opacity='0'/%3E%3Cstop offset='.6' stop-color='%23B8A3EA' stop-opacity='0.28'/%3E%3Cstop offset='1' stop-color='%23B8A3EA' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='f' x='-10%25' y='-50%25' width='120%25' height='200%25'%3E%3CfeGaussianBlur stdDeviation='42'/%3E%3C/filter%3E%3C/defs%3E%3Cpath filter='url(%23f)' fill='url(%23a)' d='M0 560C260 470 540 700 840 610S1350 420 1600 520V660C1340 590 1100 780 790 710S250 630 0 710Z'/%3E%3Cpath filter='url(%23f)' fill='url(%23b)' d='M0 640C320 550 620 780 930 670S1420 530 1600 600V720C1360 670 1060 830 760 770S260 730 0 790Z'/%3E%3C/svg%3E");
   --backdrop-edge: none;
 
   /* Verre : liquide (clair) ou opaque */
@@ -153,15 +155,19 @@
   --solid-chip-fg: #fff;
   --scrim: rgb(226 218 246 / .38);
   --lens-bg: rgb(255 255 255 / .66);
+  --brand-petal: var(--iris);   /* marque ASTER (ui/icons.jsx) */
+  --brand-heart: var(--coeur);
   --room: #b8a3ea;            /* salles de la vue éclatée */
   --room-on: var(--accent);   /* salle choisie */
 }
 
 /* --------------------------------------------------------------------------
-   Encre : noir, blanc et or
+   ASTER sombre (« Encre ») : noir, blanc et or, quand la machine est en mode sombre
    -------------------------------------------------------------------------- */
-:root[data-ambiance="encre"] {
+:root[data-ambiance="aster"][data-tone="dark"] {
   color-scheme: dark;
+  --brand-petal: #d6aa4f;
+  --brand-heart: #f4f1ea;
   --ink: 244 241 234;
   --ink-2: rgb(var(--ink) / .7);
   --ink-3: rgb(var(--ink) / .48);
@@ -176,12 +182,12 @@
   --shade: 0 0 0;
 
   --base: #0a0a0c;
-  /* Fond « flux » transposé : halos et vagues lumineuses dorés sur le noir */
+  /* Fond « flux » transposé, discret : halos et vague lumineuse floue dorés sur le noir */
   --backdrop:
     radial-gradient(60vmax 40vmax at 12% 8%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%),
     radial-gradient(50vmax 34vmax at 92% 96%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
     linear-gradient(170deg, #121014 0%, var(--base) 55%, #17120a 100%);
-  --backdrop-waves: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23D6AA4F' stop-opacity='0'/%3E%3Cstop offset='.45' stop-color='%23D6AA4F' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%23D6AA4F' stop-opacity='.08'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ECC777' stop-opacity='.06'/%3E%3Cstop offset='.6' stop-color='%23ECC777' stop-opacity='.4'/%3E%3Cstop offset='1' stop-color='%23ECC777' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='f' x='-5%25' y='-20%25' width='110%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cpath filter='url(%23f)' fill='url(%23a)' d='M0 540C260 450 540 680 840 590S1350 400 1600 500V650C1340 580 1100 770 790 700S250 620 0 700Z'/%3E%3Cpath filter='url(%23f)' fill='url(%23b)' d='M0 650C320 560 620 790 930 680S1420 540 1600 610V720C1360 670 1060 830 760 770S260 730 0 790Z'/%3E%3Cpath fill='none' stroke='%23ECC777' stroke-opacity='.75' stroke-width='1.6' d='M0 585C280 495 560 715 860 620S1370 455 1600 545'/%3E%3Cpath fill='none' stroke='%23ECC777' stroke-opacity='.45' stroke-width='1.1' d='M0 655C330 570 640 790 940 685S1430 545 1600 625'/%3E%3Cpath fill='none' stroke='%23ECC777' stroke-opacity='.3' stroke-width='.9' d='M0 520C300 430 600 650 900 560S1400 380 1600 470'/%3E%3C/svg%3E");
+  --backdrop-waves: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23D6AA4F' stop-opacity='0'/%3E%3Cstop offset='.5' stop-color='%23D6AA4F' stop-opacity='0.14'/%3E%3Cstop offset='1' stop-color='%23D6AA4F' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ECC777' stop-opacity='0'/%3E%3Cstop offset='.6' stop-color='%23ECC777' stop-opacity='0.1'/%3E%3Cstop offset='1' stop-color='%23ECC777' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='f' x='-10%25' y='-50%25' width='120%25' height='200%25'%3E%3CfeGaussianBlur stdDeviation='42'/%3E%3C/filter%3E%3C/defs%3E%3Cpath filter='url(%23f)' fill='url(%23a)' d='M0 560C260 470 540 700 840 610S1350 420 1600 520V660C1340 590 1100 780 790 710S250 630 0 710Z'/%3E%3Cpath filter='url(%23f)' fill='url(%23b)' d='M0 640C320 550 620 780 930 670S1420 530 1600 600V720C1360 670 1060 830 760 770S260 730 0 790Z'/%3E%3C/svg%3E");
 
   --glass-tint: rgb(255 255 255 / .035);
   --glass-tint-strong: rgb(26 26 30 / .82);
@@ -318,6 +324,106 @@
   --room-on: var(--accent);
 
   --crit: #e5533d;            /* alerte corail */
+}
+
+/* --------------------------------------------------------------------------
+   Minarm : couleurs du Système de design de l'État (DSFR), celles des sites
+   ministériels (impots.gouv.fr…). Clair ou sombre selon le réglage de la
+   machine (core/theme.js). Valeurs du paquet officiel @gouvfr/dsfr 1.15.4
+   (licence Etalab 2.0, systeme-de-design.gouv.fr) : jetons background-*,
+   text-*, border-* et action-*-blue-france, couleurs système (succès, erreur,
+   avertissement) et illustratives pour les catégories. Surfaces pleines,
+   sans fond décoratif ; police système (Marianne est réservée aux sites de l'État).
+   -------------------------------------------------------------------------- */
+:root[data-ambiance="minarm"] {
+  color-scheme: light;
+  --ink: 22 22 22;                 /* text-title-grey #161616 */
+  --ink-2: #3a3a3a;                /* text-default-grey */
+  --ink-3: #666;                   /* text-mention-grey */
+  --hairline: #ddd;                /* border-default-grey */
+  --fill-1: #f6f6f6;               /* background-alt-grey */
+  --fill-2: #eee;                  /* background-contrast-grey */
+  --accent: #000091;               /* bleu France : action-high-blue-france */
+  --accent-2: #1212ff;             /* action-high-blue-france, survol */
+  --accent-text: #000091;
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000091' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  --accent-fg: #f5f5fe;            /* text-inverted-blue-france */
+  --shade: 0 0 18;                 /* shadow-color DSFR */
+
+  --base: #f6f6f6;                 /* background-alt-grey ; cartes en background-default-grey */
+  --backdrop: none;
+  --backdrop-waves: none;
+  --backdrop-edge: none;
+
+  --glass-tint: rgb(255 255 255 / .94);
+  --glass-tint-strong: #fff;
+  --glass-tint-solid: #fff;
+  --rim-hi: #ddd;
+  --rim-mid: #ddd;
+  --rim-lo: #ddd;
+  --sheen: transparent;
+  --glass-shadow: 0 1px 3px rgb(0 0 18 / .12), 0 4px 12px -6px rgb(0 0 18 / .16);
+  --glass-shadow-lift: 0 2px 6px rgb(0 0 18 / .16), 0 12px 28px -10px rgb(0 0 18 / .24);
+
+  --solid-chip-bg: #000091;
+  --solid-chip-fg: #f5f5fe;
+  --scrim: rgb(22 22 22 / .48);
+  --lens-bg: #e3e3fd;              /* action-low-blue-france */
+  --room: #6a6af4;                 /* blue-france main 525 */
+  --room-on: #000091;
+
+  --ok: #18753c;                   /* success */
+  --crit: #ce0500;                 /* error */
+  --warn: #b34000;                 /* warning */
+  --wait: #c3992a;                 /* illustrative jaune moutarde */
+  --install: #fc5d00;              /* warning du mode sombre : orange vif, distinct de l'erreur */
+  --stock: #929292;
+  /* Catégories : couleurs illustratives DSFR */
+  --c1: #6a6af4;                   /* bleu France */
+  --c2: #e4794a;                   /* orange terre battue */
+  --c3: #00a95f;                   /* vert émeraude */
+  --c4: #c3992a;                   /* jaune moutarde */
+  --c5: #417dc4;                   /* bleu cumulus */
+  --c6: #a558a0;                   /* violet glycine */
+  --c7: #68a532;                   /* vert bourgeon */
+  --c8: #aea397;                   /* beige gris galet */
+}
+:root[data-ambiance="minarm"][data-tone="dark"] {
+  color-scheme: dark;
+  --ink: 255 255 255;              /* text-title-grey */
+  --ink-2: #cecece;                /* text-default-grey */
+  --ink-3: #929292;                /* text-mention-grey */
+  --hairline: #353535;             /* border-default-grey */
+  --fill-1: #242424;               /* background-contrast-grey */
+  --fill-2: #2a2a2a;
+  --accent: #8585f6;               /* action-high-blue-france */
+  --accent-2: #b1b1f9;             /* survol */
+  --accent-text: #8585f6;
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238585f6' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  --accent-fg: #000091;            /* text-inverted-blue-france */
+  --shade: 0 0 0;
+
+  --base: #161616;                 /* background-default-grey ; cartes en background-raised-grey */
+  --glass-tint: rgb(30 30 30 / .96);
+  --glass-tint-strong: #1e1e1e;
+  --glass-tint-solid: #1e1e1e;
+  --rim-hi: #353535;
+  --rim-mid: #353535;
+  --rim-lo: #353535;
+  --glass-shadow: 0 1px 3px rgb(0 0 0 / .5), 0 6px 16px -8px rgb(0 0 0 / .6);
+  --glass-shadow-lift: 0 2px 6px rgb(0 0 0 / .55), 0 14px 30px -10px rgb(0 0 0 / .7);
+
+  --solid-chip-bg: #f5f5fe;
+  --solid-chip-fg: #000091;
+  --scrim: rgb(0 0 0 / .6);
+  --lens-bg: #272747;              /* action-low-blue-france */
+  --room: #313178;
+  --room-on: #8585f6;
+
+  --ok: #27a658;
+  --crit: #ff5655;
+  --warn: #fc5d00;
+  --stock: #7a7a7a;
 }
 
 /* Ambiances sombres : teintes des graphiques vers l'encre claire */

@@ -12,7 +12,7 @@ import { useStore } from '../../hooks/use-store.js';
 import { can, why } from '../../core/permissions.js';
 import { num } from '#shared/format.js';
 import { DEVICE_TYPES, PROBLEMS, deviceType, problem, statut } from '#shared/catalog.js';
-import { remontees, batiments, batimentLabel, sallesOf, materielsOf, index } from '../../core/selectors.js';
+import { batiments, batimentLabel, sallesOf, materielsOf, index } from '../../core/selectors.js';
 
 export function openNewRemontee({ salleId = null, materielIds = [] } = {}) {
   if (!can('remontee.create')) { notify(why('remontee.create'), { icon: 'alertes', tone: 'warn' }); return; }

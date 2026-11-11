@@ -23,7 +23,7 @@ const C = {
   ok: hex('#0ca30c'), okText: hex('#087a08'), crit: hex('#d03b3b'), critText: hex('#b02c2c'), white: [1, 1, 1],
 };
 const TYPE_COLOR = { uc: '#6954c0', videoprojecteur: '#eb6834', reseau: '#1baf7a', peripherique: '#d99a1e', ecran: '#2a78d6', audio: '#e87ba4', imprimante: '#008300', autre: '#64748b' };
-const STATUT_COLOR = { attente: C.coeur, remplace: C.iris, corrige: C.ok };
+const STATUT_COLOR = { attente: C.coeur, encours: hex('#2a78d6'), remplace: C.iris, corrige: C.ok, validee: hex('#7c879b') }; // --c5 et --stock pour « en cours » et « validée »
 
 /* --------------------------------------------------------------------------
    Texte : codage WinAnsi et largeurs Helvetica (millièmes de corps, 32 à 126)
@@ -299,7 +299,7 @@ export function reportPdf(report, state) {
 
   // Suivi : étapes de l'historique, puis traitement à venir
   const steps = history.map((h, i) => ({ label: i === 0 ? 'Transmise, en attente' : statut(h.statut).label, sub: dateFull(h.at), by: h.par, color: i === 0 ? C.coeur : STATUT_COLOR[h.statut] ?? C.iris }));
-  if (report.statut === 'attente') steps.push({ label: 'Remplacé ou corrigé', sub: 'Traitement par le gestionnaire', todo: true });
+  if (['attente', 'encours'].includes(report.statut)) steps.push({ label: 'Remplacé ou corrigé', sub: 'Traitement par le gestionnaire', todo: true });
   section('Suivi', 72);
   const xs = steps.map((_, i) => M + 12 + (i * (CW - 24)) / Math.max(1, steps.length - 1));
   steps.forEach((s, i) => {

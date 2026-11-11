@@ -1,6 +1,7 @@
 /* ==========================================================================
-   Shell · menus de la barre haute : école affichée (RG-69), notifications
-   (RG-37), compte et préférences d'affichage, recherche globale.
+   Shell · menus de la barre haute : école affichée (RG-69), résumé des
+   notifications (RG-37, calcul dans core/notifications.js, détail dans
+   views/notifications), compte et préférences d'affichage, recherche globale.
    ========================================================================== */
 
 import { useEffect, useRef, useState } from 'react';
@@ -9,72 +10,40 @@ import { Icon, Tile, Brand } from '../../ui/icons.jsx';
 import { Popover, notify, useSheetClose } from '../../ui/overlays.jsx';
 import { store, me, currentEcole } from '../../core/store.js';
 import { can } from '../../core/permissions.js';
-import { glassInfo } from '../../core/glass.js';
+import { autoTone, systemTone } from '../../core/theme.js';
 import { AMBIANCES, GLASS } from '#shared/ambiance.js';
 import { role as roleOf, deviceType, statut } from '#shared/catalog.js';
-import { remontees, batimentLabel, index, scope, detections, remonteeContext, parc } from '../../core/selectors.js';
-import { num, ago } from '#shared/format.js';
+import { remontees, batimentLabel, index, scope } from '../../core/selectors.js';
+import { num } from '#shared/format.js';
+import { notificationGroups } from '../../core/notifications.js';
 import { UserSwitch } from './user-switch.jsx';
 
 export const ecoleNom = (e) => (e === 'all' || !e ? 'Toutes les écoles' : index().ecole.get(e)?.nom ?? '');
-
-/* Notifications (RG-37, RG-55, RG-66, RG-67) */
-function notificationsFor(since) {
-  const items = [];
-  const r = me().role;
-  if (r === 'gestionnaire') {
-    for (const x of remontees().visible) if (x.createdAt > since) items.push({ kind: 'new', at: x.createdAt, r: x });
-    for (const m of [...parc().garanties.echues, ...parc().garanties.proches]) items.push({ kind: 'garantie', at: m.garantieFin, m });
-  }
-  if (r === 'formateur') {
-    for (const x of remontees().mine) for (const h of x.historique) if (h.statut !== 'attente' && h.at > since) items.push({ kind: 'status', at: h.at, r: x, h });
-  }
-  if (r === 'admin' || r === 'superadmin') {
-    for (const d of detections()) if (d.classement === 'blacklist' && d.at > since) items.push({ kind: 'blacklist', at: d.at, d });
-  }
-  return items.sort((a, b) => b.at - a.at);
-}
-export const weekNotifications = () => notificationsFor(Date.now() - 7 * 86400e3);
-
-function NotifRow({ n, onOpen }) {
-  if (n.kind === 'garantie') {
-    return <li><Link className="pop-row" to="/materiels/inventaire" onClick={onOpen}>
-      <Tile name="clock" color="var(--accent)" size="s" />
-      <span><b>{n.m.garantieFin <= Date.now() ? 'Garantie échue' : 'Garantie proche de l’échéance'}</b><small>{n.m.modele} · {n.m.idAster}</small></span>
-    </Link></li>;
-  }
-  if (n.kind === 'blacklist') {
-    const salle = index().salle.get(n.d.salleId);
-    return <li><div className="pop-row">
-      <Tile name="shieldX" color="var(--crit)" size="s" />
-      <span><b>{n.d.processus} arrêté</b><small>{salle?.nom ?? ''}, {ago(n.at)}</small></span>
-    </div></li>;
-  }
-  const { first } = remonteeContext(n.r);
-  const dt = deviceType(first?.type);
-  const label = n.kind === 'new' ? 'Nouvelle remontée' : `Statut : ${statut(n.h.statut).label.toLowerCase()}`;
-  return <li><Link className="pop-row" to={`/remontees/toutes/${n.r.id}`} onClick={onOpen}>
-    <Tile name={dt.icon} color={dt.color} size="s" />
-    <span><b>{label}</b><small>{n.r.id}, {first?.modele ?? ''}, {ago(n.at)}</small></span>
-    <Icon name="chevR" size={16} />
-  </Link></li>;
-}
+/** Initiale du nom de famille du compte connecté (avatar) */
+export const initiale = () => me().nom.split(' ').at(-1).slice(0, 1);
 
 /* --------------------------------------------------------------------------
    Popovers de la barre haute
    -------------------------------------------------------------------------- */
 export function AccountPopover({ anchor, onClose }) {
   const s = store.state;
-  const info = glassInfo();
   const setPref = (key, value) => store.update('prefs', (st) => { st.prefs[key] = value; });
+  // Aster et Minarm suivent la machine ; le soleil ou la lune force l'autre tonalité (revenir à celle de la machine la suit de nouveau)
+  const tone = autoTone(s.prefs.tone);
+  const followsMachine = AMBIANCES.find((a) => a.id === s.prefs.ambiance)?.tone === 'auto';
+  const switchTone = () => { const next = tone === 'dark' ? 'light' : 'dark'; setPref('tone', next === systemTone() ? 'auto' : next); };
   return <Popover anchor={anchor} onClose={onClose}>
     <div className="account">
       <div className="account-head">
-        <span className="avatar-face avatar-face--l">{me().nom.split(' ').at(-1).slice(0, 1)}</span>
+        <span className="avatar-face avatar-face--l">{initiale()}</span>
         <div><b>{me().nom}</b><span>{roleOf(s.role).label}</span><span>{ecoleNom(currentEcole())}</span></div>
+        {followsMachine && <button type="button" className="icon-btn tone-switch" onClick={switchTone}
+          aria-label={tone === 'dark' ? 'Passer en clair' : 'Passer en sombre'} data-tip={tone === 'dark' ? 'Passer en clair' : 'Passer en sombre'}>
+          <Icon name={tone === 'dark' ? 'moon' : 'sun'} size={20} />
+        </button>}
       </div>
       <div className="pop-group">
-        <div className="swatches" role="radiogroup" aria-label="Ambiance">
+        <div className="swatches" role="radiogroup" aria-label="Ambiance" data-tone={tone}>
           {AMBIANCES.map((a) => <button key={a.id} type="button" role="radio" aria-checked={s.prefs.ambiance === a.id}
             className="swatch-item" onClick={() => setPref('ambiance', a.id)}>
             <span className={`swatch swatch--${a.id}`}><Brand ambiance={a.id} size={24} /></span>{a.label}
@@ -86,7 +55,6 @@ export function AccountPopover({ anchor, onClose }) {
           {GLASS.map((g) => <button key={g.id} type="button" role="radio" aria-checked={s.prefs.glass === g.id}
             className={`seg-btn${s.prefs.glass === g.id ? ' is-on' : ''}`} data-tip={g.tip} onClick={() => setPref('glass', g.id)}>{g.label}</button>)}
         </div>
-        {!info.supportsLens && s.prefs.glass === 'liquid' && <span className="pop-note"><Icon name="eye" size={14} />La réfraction des bords s’affiche dans Chrome ou Edge.</span>}
       </div>
       {import.meta.env.MODE === 'ui' && <UserSwitch />}
       <form action="/auth/logout" method="post"><button className="pop-link" type="submit">Se déconnecter</button></form>
@@ -118,14 +86,20 @@ export function EcolePopover({ anchor, onClose }) {
   </Popover>;
 }
 
+/** Notifications regroupées par nature (core/notifications.js) ; le détail est dans l'espace Notifications */
 export function AlertsPopover({ anchor, onClose }) {
-  const items = weekNotifications();
+  const groups = notificationGroups();
   return <Popover anchor={anchor} onClose={onClose} className="popover--list">
     <div className="pop-list">
-      <div className="pop-title"><Icon name="bell" size={18} /><b>Notifications</b><span className="w-count">{num(items.length)}</span></div>
-      {items.length
-        ? <ul>{items.slice(0, 8).map((n, i) => <NotifRow key={i} n={n} onOpen={onClose} />)}</ul>
+      <div className="pop-title"><Icon name="bell" size={18} /><b>Notifications</b><span className="w-count">{num(groups.length)}</span></div>
+      {groups.length
+        ? <ul>{groups.map((g) => <li key={g.id}><Link className="pop-row" to={g.href} onClick={onClose}>
+          <Tile name={g.icon} color={g.color} size="s" />
+          <span><b>{g.title}</b><small>{g.period}</small></span>
+          <Icon name="chevR" size={16} />
+        </Link></li>)}</ul>
         : <div className="w-empty"><Icon name="checkCircle" size={24} /><span>Rien de nouveau cette semaine</span></div>}
+      <Link className="pop-link pop-link--foot" to="/notifications" onClick={onClose}><Icon name="list" size={16} /><span>Voir toutes les notifications</span><Icon name="chevR" size={16} /></Link>
     </div>
   </Popover>;
 }

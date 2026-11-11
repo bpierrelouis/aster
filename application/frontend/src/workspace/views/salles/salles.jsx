@@ -26,7 +26,7 @@ import { useTitle } from '../../hooks/use-title.js';
 import { usePeek, useFitRows } from '../../ui/peek.js';
 import { PageHead } from '../../widgets/parts.jsx';
 import { floorLabel, floorLevel, floorHref, modelOf, signature, BatCard, Building, fitIso } from './salles-scene.jsx';
-import { Overview, SalleDetail, Stock } from './salles-panel.jsx';
+import { Overview, SalleDetail, Stock, DevCard } from './salles-panel.jsx';
 import { openSalleForm } from './salles-forms.jsx';
 import { affecter } from './salles-affectation.jsx';
 
@@ -76,7 +76,7 @@ export function Salles() {
   const suppressRef = useRef(false);
   const rootRef = useRef(null);
   const sceneRef = useRef(null);
-  const panelRef = usePeek('.salle-row, .dev-group > header, .dev');
+  const panelRef = usePeek('.spanel');
 
   /* ---------- Mise à l'échelle des scènes ---------- */
   const scenes = useRef(new Map()); // élément .iso → { model, box, options d'échelle }
@@ -251,10 +251,14 @@ export function Salles() {
         {can('materiel.move') && <div className={`stock-tray glass glass--strong${dropId === 'stock' ? ' is-drop' : ''}`} aria-hidden="true">
           <Tile name="stockage" color="var(--c8)" size="m" /><span><b>Remettre en stock</b><small>{num(stock.total)} matériels en stock</small></span></div>}
       </section>}
-      <aside ref={panelRef} className="spanel glass">
-        {mode === 'salle' && x ? <SalleDetail x={x} stageBat={stageBat} selected={selected} devs={devs} act={act} />
-          : mode === 'stock' ? <Stock selected={selected} devs={devs} act={act} />
-            : <Overview mode={mode} stageBat={stageBat} stageFloor={stageFloor} hoverId={hoverId} />}
+      <aside className="spanel glass">
+        <div ref={panelRef} className="insp-scroll">
+          {mode === 'salle' && x ? <SalleDetail x={x} stageBat={stageBat} selected={selected} devs={devs} act={act} />
+            : mode === 'stock' ? <Stock selected={selected} devs={devs} />
+              : <Overview mode={mode} stageBat={stageBat} stageFloor={stageFloor} hoverId={hoverId} />}
+        </div>
+        {/* Sélection de matériels : sous la liste, sans la recouvrir */}
+        {(mode === 'salle' && x) || mode === 'stock' ? <DevCard ids={[...selected]} mode={mode} salleId={mode === 'salle' ? x.id : null} act={act} /> : null}
       </aside>
     </div>
     {ghost && createPortal(

@@ -32,7 +32,7 @@
 .sheet--l { --w: 840px; }
 .sheet-head { display: flex; align-items: center; gap: 12px; padding: 18px 16px 6px 20px; }
 .sheet-title { flex: 1; min-width: 0; font-size: 21px; font-weight: 760; letter-spacing: -.018em; }
-.sheet-body { display: flex; flex-direction: column; gap: 18px; padding: 12px 20px 20px; overflow: auto; }
+.sheet-body { display: flex; flex-direction: column; gap: 18px; padding: 12px 20px 20px; overflow: auto; overscroll-behavior: none; }
 .sheet-foot { display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding: 14px 20px 18px; border-top: 1px solid var(--hairline); }
 .sheet-text { color: var(--ink-2); line-height: 1.55; }
 .sheet-hint { display: inline-flex; align-items: center; gap: 8px; margin-right: auto; font-size: 13px; color: var(--ink-3); }
@@ -56,7 +56,8 @@
 
 .account { display: flex; flex-direction: column; gap: 16px; width: 316px; max-width: 100%; }
 .account-head { display: flex; align-items: center; gap: 12px; }
-.account-head div { display: flex; flex-direction: column; }
+.account-head div { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.tone-switch { align-self: flex-start; margin: -6px -6px 0 0; } /* soleil ou lune, en haut à droite */
 .account-head b { font-size: 17px; }
 .account-head div span { font-size: 13px; color: var(--ink-3); }
 .pop-group { display: flex; flex-direction: column; gap: 8px; }
@@ -70,13 +71,18 @@
 .swatch { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(0 0 0 / .1), 0 3px 8px rgb(0 0 0 / .15); transition: box-shadow var(--dur-1), transform var(--dur-1); }
 .swatch-item:hover .swatch { transform: scale(1.05); }
 .swatch-item[aria-checked="true"] .swatch { box-shadow: 0 0 0 3px var(--glass-tint-solid), 0 0 0 5px var(--focus); }
-.swatch--aube { background: #fff; }
-.swatch--encre { background: #0a0a0c; }
+.swatch--aster { background: #fff; --brand-petal: var(--iris); --brand-heart: var(--coeur); }
 .swatch--orion { background: radial-gradient(circle at 25% 85%, #0b2a6b, #040b1e 75%); }
 .swatch--orion .brand { filter: drop-shadow(0 0 3px #3b82f6); }
 .swatch--vigie { background: #edf6f4; }
+.swatch--minarm { background: #fff; }
+/* Aster et Minarm suivent la machine ou la tonalité forcée : l'aperçu prend leur couleur du moment, avec la marque adaptée */
+.swatches[data-tone="dark"] .swatch--aster { background: #0a0a0c; --brand-petal: #d6aa4f; --brand-heart: #f4f1ea; }
+.swatches[data-tone="dark"] .swatch--minarm { background: #161616; }
 .pop-link { display: flex; align-items: center; gap: 10px; padding: 10px; margin: -4px -4px 0; border-radius: 14px; font-size: 14px; font-weight: 600; color: var(--ink-2); }
 .pop-link:hover { background: var(--fill-1); color: var(--ink-1); }
+.pop-link--foot { margin: 8px -4px -4px; color: var(--accent-text); } /* pied du menu des notifications */
+.pop-link--foot > span { flex: 1; }
 
 .popover--list { width: 380px; }
 .pop-title { display: flex; align-items: center; gap: 8px; padding: 2px 6px 10px; }
@@ -198,7 +204,7 @@
 /* ===== ASTER : compléments ===== */
 .pick-grid--salles { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
 .pick-room small { margin-left: auto; color: var(--ink-3); font-weight: 650; font-variant-numeric: tabular-nums; }
-.pick-groups { display: flex; flex-direction: column; gap: 14px; max-height: 46vh; overflow: auto; padding: 2px; }
+.pick-groups { display: flex; flex-direction: column; gap: 14px; max-height: 46vh; overflow: auto; overscroll-behavior: none; padding: 2px; }
 .pick-group header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13.5px; font-weight: 650; color: var(--ink-2); }
 .pick-group header > span:not(.tile) { flex: 1; }
 .pick-device { position: relative; }

@@ -4,7 +4,8 @@
    ========================================================================== */
 
 import { processClass } from '#shared/operations-data.js';
-import { DAY, id, schoolOf } from './rules.js';
+import { DAY } from '#shared/format.js';
+import { id, schoolOf } from './rules.js';
 
 export const DISCONNECT_AFTER = 30_000; // poste sans rapport depuis ce délai : déconnecté
 

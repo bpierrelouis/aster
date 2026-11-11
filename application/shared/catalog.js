@@ -17,18 +17,49 @@ export const DEVICE_TYPES = [
   { id: 'autre', label: 'Autre', plural: 'Autres', icon: 'materiel', color: 'var(--c8)' },
 ];
 
-/* État binaire « hors service : oui/non » (RG-08) et localisation (RG-09) */
+/* État binaire « hors service : oui/non » (RG-08) */
 export const ETATS = {
   ok: { id: 'ok', label: 'En service', icon: 'checkCircle', led: 'ok' },
   hs: { id: 'hs', label: 'Hors service', icon: 'power', led: 'hs' },
 };
-export const STOCK = { label: 'Stock', long: 'En stock, sans localisation', icon: 'stockage' };
+/** Clé de rapprochement d'un numéro de série (import JSON) : sans espaces de début et de fin, en minuscules ; null si absent */
+export const serieKey = (s) => (typeof s === 'string' && s.trim() ? s.trim().toLowerCase() : null);
 
-/* Statuts d'une remontée (RG-13) */
+/* Installation physique (orientation de l'utilisateur du 11 novembre, à soumettre au client,
+   cadrage § 23). Une affectation enregistrée dans ASTER reste en cours tant que le
+   déplacement physique n'est pas confirmé (aujourd'hui d'un clic, demain par le scanner).
+   Le serveur tient deux champs du matériel : deplacement { de, at, par, parId } (en cours ;
+   de : salle d'origine physique, null pour le stock) et installation { de, at, par, parId }
+   (dernier déplacement confirmé). Point orange : en cours ; point vert : installé. */
+export const LOGISTIQUE = {
+  stock: { id: 'stock', label: 'En stock', tone: 'none' },
+  installe: { id: 'installe', label: 'Installé', tone: 'ok' },
+  encours: { id: 'encours', label: 'En cours d’installation', tone: 'wait', done: 'installé' },
+  rapatrier: { id: 'rapatrier', label: 'À rapatrier au stock', tone: 'wait', done: 'rangé au stock' },
+};
+export const logistique = (m) => (m.deplacement ? (m.salleId ? LOGISTIQUE.encours : LOGISTIQUE.rapatrier) : m.salleId ? LOGISTIQUE.installe : LOGISTIQUE.stock);
+/** Statut d'une salle : en cours d'installation tant qu'un déplacement y arrive ou en part, équipée ensuite */
+export const SALLE_STATUTS = {
+  installation: { id: 'installation', label: 'En cours d’installation', tone: 'wait' },
+  equipee: { id: 'equipee', label: 'Équipée', tone: 'ok' },
+};
+
+/* Statuts d'une remontée (RG-13). « En cours » et « Validée » (clôture par l'auteur) sont une
+   orientation de l'utilisateur du 11 novembre, à soumettre au client (cadrage, § 23). */
 export const REMONTEE_STATUTS = [
-  { id: 'attente', label: 'En attente', icon: 'hourglass', color: 'var(--wait)', led: 'wait' },
-  { id: 'remplace', label: 'Remplacé', icon: 'swap', color: 'var(--accent)', led: 'ok' },
-  { id: 'corrige', label: 'Corrigé', icon: 'checkCircle', color: 'var(--ok)', led: 'ok' },
+  { id: 'attente', label: 'En attente', icon: 'hourglass', color: 'var(--wait)', led: 'wait', phase: 'attente' },
+  { id: 'encours', label: 'En cours', icon: 'wrench', color: 'var(--c5)', led: 'wait', phase: 'encours' },
+  { id: 'remplace', label: 'Remplacé', icon: 'swap', color: 'var(--accent)', led: 'ok', phase: 'traitee' },
+  { id: 'corrige', label: 'Corrigé', icon: 'check', color: 'var(--ok)', led: 'ok', phase: 'traitee' },
+  { id: 'validee', label: 'Validée', icon: 'checkCircle', color: 'var(--stock)', led: 'ok', phase: 'validee' },
+];
+
+/* Phases du traitement : colonnes du backlog et onglets des remontées */
+export const REMONTEE_PHASES = [
+  { id: 'attente', label: 'En attente', icon: 'hourglass', hint: 'Transmises, pas encore prises en charge' },
+  { id: 'encours', label: 'En cours', icon: 'wrench', hint: 'Prises en charge' },
+  { id: 'traitee', label: 'Traitées', icon: 'clipboardCheck', hint: 'Remplacées ou corrigées, à valider par leur auteur' },
+  { id: 'validee', label: 'Validées', icon: 'checkCircle', hint: 'Validées et closes par leur auteur' },
 ];
 
 /* Types de problème (contenu de l'état des lieux, RG-14) : liste proposée */
@@ -59,6 +90,8 @@ export const CLASSEMENTS = {
 export const byId = (list, id) => list.find((x) => x.id === id);
 export const deviceType = (id) => byId(DEVICE_TYPES, id) ?? DEVICE_TYPES[7];
 export const statut = (id) => byId(REMONTEE_STATUTS, id) ?? REMONTEE_STATUTS[0];
+/** Phase d'une remontée (attente, encours, traitee, validee) */
+export const phaseOf = (r) => statut(r.statut).phase;
 export const problem = (id) => byId(PROBLEMS, id) ?? PROBLEMS[5];
 export const role = (id) => byId(ROLES, id) ?? ROLES[0];
 export const etat = (m) => (m?.hs ? ETATS.hs : ETATS.ok);

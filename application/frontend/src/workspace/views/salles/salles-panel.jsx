@@ -3,15 +3,17 @@
    l'écran Stock) et cartes de matériel (sélection, glisser-déposer, affectation).
    ========================================================================== */
 
-import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router';
+import { useEscape } from '../../hooks/use-escape.js';
 import { Icon, Tile } from '../../ui/icons.jsx';
 import { currentEcole } from '../../core/store.js';
 import { can, why } from '../../core/permissions.js';
 import { num, dateMed } from '#shared/format.js';
-import { DEVICE_TYPES, deviceType } from '#shared/catalog.js';
+import { DEVICE_TYPES, deviceType, logistique } from '#shared/catalog.js';
 import { parc, batiments, batimentLabel, sallesOf, materielsOf, index } from '../../core/selectors.js';
-import { EtatBar } from '../../widgets/parts.jsx';
+import { installationOf, salleStatut } from '../../core/installations.js';
+import { EtatBar, Progress, avancement } from '../../widgets/parts.jsx';
+import { InstallDot, lieuNom, resteAFaire } from './installation.jsx';
 import { openMaterielForm, AffectationOptions } from '../inventaire/materiel.jsx';
 import { openNewRemontee } from '../remontees/remontees-create.jsx';
 import { floorLabel, floorLevel, roomOrder } from './salles-scene.jsx';
@@ -51,10 +53,11 @@ export function Overview({ mode, stageBat, stageFloor, hoverId }) {
     <ul className="salle-list">
       {list.map((x) => {
         const v = p.bySalle.get(x.id);
+        const inst = installationOf(x.id);
         return <li key={x.id}><Link className={`salle-row${x.id === hoverId ? ' is-hover' : ''}`} to={`/salles/salle/${x.id}`} data-salle-row={x.id}>
           <span className="code-badge">{x.batiment}</span><b>{x.nom}</b>
           <span className="salle-types">{Object.entries(v.types).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([t]) => <span key={t} data-tip={deviceType(t).plural}><Tile name={deviceType(t).icon} color={deviceType(t).color} size="s" className="tile--tint" /></span>)}</span>
-          <span className="salle-meta">{v.hs ? <span className="led led--hs" /> : v.attente ? <span className="led led--wait" /> : null}<b>{num(v.total)}</b></span>
+          <span className="salle-meta">{inst ? <span className="salle-inst" data-tip="En cours d’installation"><span className="inst-dot inst-dot--wait inst-dot--s" />{avancement(inst.pct)}</span> : null}{v.hs ? <span className="led led--hs" /> : v.attente ? <span className="led led--wait" /> : null}<b>{num(v.total)}</b></span>
           <Icon name="chevR" size={18} />
         </Link></li>;
       })}
@@ -69,7 +72,7 @@ function DevGroups({ list, draggable, mode, selected, onPick, onGrab }) {
     <section key={t.id} className="dev-group">
       <header><Tile name={t.icon} color={t.color} size="s" /><span>{t.plural}</span><b>{num(l.length)}</b></header>
       <div className="dev-grid">{l.map((m) => (
-        <button key={m.id} className={`dev ${selected.has(m.id) ? 'is-on' : ''} ${draggable ? 'is-draggable' : ''}`} data-mat={m.id} style={{ '--c': t.color }}
+        <button key={m.id} className={`dev ${selected.has(m.id) ? 'is-on' : ''} ${draggable ? 'is-draggable' : ''} ${m.deplacement ? 'is-moving' : ''}`} data-mat={m.id} style={{ '--c': t.color }}
           aria-label={`${m.modele}, ${m.idAster}, ${m.hs ? 'hors service' : 'en service'}`} aria-pressed={selected.has(m.id)} data-tip={`${m.modele}\n${m.idAster}`}
           onClick={(e) => onPick(e, m.id)} onPointerDown={draggable ? (e) => onGrab(e, m.id) : undefined}>
           <Icon name={t.icon} size={20} /><span className={`led led--${m.hs ? 'hs' : 'ok'}`} />
@@ -77,15 +80,24 @@ function DevGroups({ list, draggable, mode, selected, onPick, onGrab }) {
     </section>))}</div>;
 }
 
-function DevCard({ ids, mode, salleId, act }) {
-  const moveRef = useRef(null);
-  if (!ids.length) return null;
+/** Aide à la sélection, sous la zone qui défile tant qu'aucun matériel n'est sélectionné */
+function SelectionHint({ mode, salleId }) {
+  if (!can('materiel.move') || !materielsOf(mode === 'stock' ? null : salleId).length) return null;
+  return <p className="hint-s spanel-hint"><Icon name="deplacement" size={16} />{mode === 'stock'
+    ? 'Sélectionnez une pastille pour l’affecter à une salle. Ctrl ou Maj pour en sélectionner plusieurs.'
+    : 'Glissez une pastille sur une salle ou sur le stock. Ctrl ou Maj pour en sélectionner plusieurs.'}</p>;
+}
+
+/** Fiche des matériels sélectionnés (affectation, état), ou aide à la sélection : rendue sous la zone qui défile du panneau */
+export function DevCard({ ids, mode, salleId, act }) {
+  useEscape(act.clear, ids.length > 0);
+  if (!ids.length) return <SelectionHint mode={mode} salleId={salleId} />;
   const move = can('materiel.move') ? (
-    <div className="move-row">
+    <form className="move-row" onSubmit={(e) => { e.preventDefault(); act.move(e.currentTarget.elements.destination.value || null); }}>
       <label className="sr-only" htmlFor="move-to">Affecter à</label>
-      <select id="move-to" ref={moveRef} key={ids.join()} defaultValue={mode === 'stock' ? '' : salleId ?? ''}><AffectationOptions ecoleId={null} /></select>
-      <button className="btn btn--primary btn--s" onClick={() => act.move(moveRef.current.value || null)}><Icon name="deplacement" size={16} /><span>Affecter</span></button>
-    </div>) : null;
+      <select id="move-to" name="destination" key={ids.join()} defaultValue={mode === 'stock' ? '' : salleId ?? ''}><AffectationOptions ecoleId={null} /></select>
+      <button type="submit" className="btn btn--primary btn--s"><Icon name="deplacement" size={16} /><span>Affecter</span></button>
+    </form>) : null;
   if (ids.length > 1) {
     return <div className="dev-card">
       <div className="dev-card-head"><Tile name="deplacement" color="var(--accent)" size="m" /><div><b>{num(ids.length)} matériels sélectionnés</b><span>Glissez-les sur une salle, ou choisissez une destination.</span></div>
@@ -108,6 +120,7 @@ function DevCard({ ids, mode, salleId, act }) {
       <li data-tip="Numéro de série"><Icon name="key" size={16} /><span>{m.serie ?? 'Sans numéro'}</span></li>
       <li data-tip="Date de réception"><Icon name="calendar" size={16} /><span>{dateMed(m.dateReception)}</span></li>
       {m.garantieFin ? <li data-tip="Fin de garantie" className={m.garantieFin < Date.now() ? 'is-late' : ''}><Icon name="calendarWarn" size={16} /><span>{dateMed(m.garantieFin)}</span></li> : null}
+      {m.salleId || m.deplacement ? <li className="dev-fact-inst"><InstallDot m={m} /><span>{logistique(m).label}{m.deplacement ? ` (${lieuNom(m.deplacement.de)} → ${lieuNom(m.salleId)})` : ''}</span></li> : null}
     </ul>
     <div className="seg seg--status" role="radiogroup" aria-label="Hors service">
       <button role="radio" aria-checked={!m.hs} className={`seg-btn st-btn st-btn--ok ${!m.hs ? 'is-on' : ''}`} {...guard} onClick={canEdit ? () => act.setHs(m.id, false) : undefined}><Icon name="checkCircle" size={18} /><span>En service</span></button>
@@ -123,20 +136,34 @@ function DevCard({ ids, mode, salleId, act }) {
   </div>;
 }
 
+/** Installation en cours : avancement, matériels à apporter et à retirer ; confirmés un à un dans Déplacements */
+function InstallationBlock({ x, inst }) {
+  const body = <>
+    <span className="inst-block-head"><b>En cours d’installation</b><small>{resteAFaire(inst)}</small>{can('materiel.move') && <Icon name="chevR" size={16} />}</span>
+    <Progress value={inst.pct} label={`Avancement de l’installation de ${x.nom}`} />
+  </>;
+  return can('materiel.move') ? <Link className="inst-block" to={`/salles/deplacements?salle=${x.id}`} aria-label={`Déplacements de ${x.nom}`}>{body}</Link> : <div className="inst-block">{body}</div>;
+}
+
 export function SalleDetail({ x, stageBat, selected, devs, act }) {
+  const navigate = useNavigate();
+  const closeTo = `/salles${stageBat ? `/batiment/${stageBat}` : ''}`;
+  useEscape(() => navigate(closeTo));
   const v = parc().bySalle.get(x.id) ?? { total: 0, hs: 0, ok: 0, postes: 0, connectes: 0, attente: 0 };
+  const inst = installationOf(x.id);
+  const st = inst ? null : salleStatut(x.id, v.total); // en cours d'installation : bloc d'avancement ci-dessous
   const list = materielsOf(x.id);
   const draggable = can('materiel.move');
   const postesLink = can('supervision.view') ? `/supervision/salles?salle=${encodeURIComponent(x.id)}` : null;
   return <>
     <div className="insp-head">
       <Tile name="salles" color="var(--c3)" size="l" />
-      <div className="insp-title"><h2>{x.nom}</h2><span><span className="code-badge">{x.batiment}</span>{batimentLabel(x.batiment)} · {floorLabel(floorLevel(x))}</span></div>
+      <div className="insp-title"><h2>{x.nom}</h2><span><span className="code-badge">{x.batiment}</span>{batimentLabel(x.batiment)} · {floorLabel(floorLevel(x))}</span>{st && <b className="salle-statut"><span className={`inst-dot inst-dot--${st.tone} inst-dot--s`} />{st.label}</b>}</div>
       <div className="insp-actions">
         <GuardedBtn cap="salle.manage" className="icon-btn" aria-label="Modifier la salle" onClick={() => openSalleForm(x)}><Icon name="pencil" size={18} /></GuardedBtn>
         {v.postes ? <button className="icon-btn" aria-disabled="true" aria-label="Suppression impossible" data-tip="La salle accueille des postes supervisés"><Icon name="trash" size={18} /></button>
           : <GuardedBtn cap="salle.delete" className="icon-btn icon-btn--danger" aria-label="Supprimer la salle" onClick={() => act.deleteSalle(x)}><Icon name="trash" size={18} /></GuardedBtn>}
-        <Link className="icon-btn" to={`/salles${stageBat ? `/batiment/${stageBat}` : ''}`} aria-label="Fermer"><Icon name="close" size={18} /></Link>
+        <Link className="icon-btn" to={closeTo} aria-label="Fermer" data-tip="Fermer (Échap)"><Icon name="close" size={18} /></Link>
       </div>
     </div>
     <ul className="stat-row">
@@ -146,6 +173,7 @@ export function SalleDetail({ x, stageBat, selected, devs, act }) {
       {v.attente ? <li data-tip="Matériels en remontée" className="is-wait"><Icon name="hourglass" size={20} /><b>{num(v.attente)}</b></li> : null}
     </ul>
     {v.total ? <EtatBar c={v} thin /> : null}
+    {inst ? <InstallationBlock x={x} inst={inst} /> : null}
     <div className="insp-section">
       <span className="insp-section-title"><Icon name="materiel" size={18} />Matériels</span>
       <span className="insp-tools">
@@ -155,12 +183,10 @@ export function SalleDetail({ x, stageBat, selected, devs, act }) {
       </span>
     </div>
     <DevGroups list={list} draggable={draggable} mode="salle" selected={selected} {...devs} />
-    {draggable && list.length && !selected.size ? <p className="hint-s"><Icon name="deplacement" size={16} />Glissez une pastille sur une salle ou sur le stock. Ctrl ou Maj pour en sélectionner plusieurs.</p> : null}
-    <DevCard ids={[...selected]} mode="salle" salleId={x.id} act={act} />
   </>;
 }
 
-export function Stock({ selected, devs, act }) {
+export function Stock({ selected, devs }) {
   const list = materielsOf(null);
   const s = parc().stock;
   return <>
@@ -177,7 +203,5 @@ export function Stock({ selected, devs, act }) {
       {can('materiel.create') && <button className="icon-btn icon-btn--glass" aria-label="Ajouter un matériel" data-tip="Ajouter un matériel" onClick={() => openMaterielForm(null, { salleId: null })}><Icon name="plus" size={18} /></button>}
     </div>
     <DevGroups list={list} draggable={false} mode="stock" selected={selected} {...devs} />
-    {list.length && !selected.size ? <p className="hint-s"><Icon name="deplacement" size={16} />Sélectionnez une pastille pour l’affecter à une salle. Ctrl ou Maj pour en sélectionner plusieurs.</p> : null}
-    <DevCard ids={[...selected]} mode="stock" salleId={null} act={act} />
   </>;
 }

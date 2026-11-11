@@ -7,17 +7,16 @@
    ========================================================================== */
 
 import { Link } from 'react-router';
-import { num, dec, dateShort, DAY } from '#shared/format.js';
+import { num, plural, dec, dateShort, DAY } from '#shared/format.js';
 import { problem } from '#shared/catalog.js';
-import { remontees, remonteeContext, remonteesParJour, remonteesParBatiment, batimentLabel } from '../core/selectors.js';
+import { remontees, remonteeContext, remonteePath, remonteesParJour, remonteesParBatiment, batimentLabel } from '../core/selectors.js';
 import { BulletRows, SegBar, SegLegend, VBars, MicroBar, AgeStrip } from '../ui/charts-bars.jsx';
 import { HeatCalendar, HeatLegend } from '../ui/charts-heat.jsx';
-import { WidgetHead, WidgetEmpty, KpiBody, KpiSub, Delta } from './parts.jsx';
+import { WidgetHead, WidgetEmpty, KpiBody, KpiSub, Delta, StatutPill } from './parts.jsx';
 
 const days = (ms) => ms / DAY;
 const ageOf = (r, now = Date.now()) => Math.floor(days(now - r.createdAt));
 const ageText = (d) => (d ? `${num(d)} j` : 'Auj.');
-const plural = (n, one, many) => `${num(n)} ${n > 1 ? many : one}`;
 /* Ancienneté : trois tranches d'une même teinte d'attente, de la plus claire à la plus soutenue */
 const AGES = [
   { label: 'Moins de 2 jours', test: (d) => d < 2, color: 'color-mix(in srgb, var(--wait) 38%, var(--ramp-base))' },
@@ -48,15 +47,15 @@ export const REMONTEE_WIDGETS = [
         {list.length ? <ul className="rows">{list.map((r) => {
           const { mats, salles, first } = remonteeContext(r);
           const d = ageOf(r);
-          return <li key={r.id}><Link className="row row--age" to={`/remontees/attente/${r.id}`}>
+          return <li key={r.id}><Link className="row row--age" to={remonteePath(r)}>
             <span className="age" data-tip={`Créée le ${dateShort(r.createdAt)}`}><b>{ageText(d)}</b><MicroBar value={d} max={oldest} color="var(--wait)" /></span>
             <span className="row-main">
               <span className="row-title">{first?.modele ?? 'Matériel retiré'}{mats.length > 1 && <> <span className="row-more">+{mats.length - 1}</span></>}</span>
               <span className="row-sub">{[salles.map((x) => x.nom).join(', ') || 'Stock', salles[0] && batimentLabel(salles[0].batiment), problem(r.probleme).label].filter(Boolean).join(' · ')}</span>
             </span>
-            <span className="row-meta">{r.id}</span>
+            {r.statut === 'encours' ? <StatutPill r={r} /> : <span className="row-meta">{r.id}</span>}
           </Link></li>;
-        })}</ul> : <WidgetEmpty ic="checkCircle" text="Aucune remontée en attente" />}
+        })}</ul> : <WidgetEmpty ic="checkCircle" text="Aucune remontée à traiter" />}
       </>;
     },
   },

@@ -19,7 +19,7 @@ function prng(seed) {
 }
 
 /** Version du jeu de données : un état enregistré plus ancien est régénéré. */
-export const SEED_VERSION = 6;
+export const SEED_VERSION = 10;
 
 /**
  * Comptes ASTER de départ : profil et école de rattachement de chaque personne.
@@ -80,9 +80,10 @@ export function seed(now = Date.now()) {
   [['R101', 10], ['R102', 10], ['R201', 8], ['Labo réseau', 6], ['R204', 4]].forEach(([n, p]) => addSalle('e-res', 'R', n, p, n === 'Labo réseau' ? 2 : undefined));
 
   const materiels = [];
-  const mkMat = (ecoleId, salleId, key) => {
+  // recentDays : réception récente, entre 2 et recentDays jours (sinon entre 20 jours et 3 ans)
+  const mkMat = (ecoleId, salleId, key, recentDays = 0) => {
     const [type, modele, marque, hasSerie, garantie] = pick(MODELES[key]);
-    const recu = now - between(20, 1100) * DAY;
+    const recu = now - (recentDays ? between(2, recentDays) : between(20, 1100)) * DAY;
     const r = rnd();
     materiels.push({
       id: `m-${materiels.length + 1}`,
@@ -117,11 +118,29 @@ export function seed(now = Date.now()) {
   for (const [ecoleId, n] of [['e-num', 46], ['e-res', 14]]) {
     for (let i = 0; i < n; i++) mkMat(ecoleId, null, pick(['uc', 'ecran', 'ecran', 'clavier', 'souris', 'cable', 'cable', 'audio', 'autre', 'borne']));
   }
-  // Stock pour équiper une nouvelle salle : une vingtaine de postes (un ou deux écrans chacun) et des matériels secondaires
+  // Stock pour équiper une nouvelle salle : une vingtaine de postes (un ou deux écrans chacun) et des matériels secondaires,
+  // reçus ces dernières semaines (garanties en cours)
   const LOT = { uc: 20, ecran: 40, clavier: 20, souris: 20, vp: 3, switch: 2, borne: 3, cable: 24, audio: 4, imprimante: 2, autre: 3 };
-  for (const [key, n] of Object.entries(LOT)) for (let i = 0; i < n; i++) mkMat('e-num', null, key);
+  for (const [key, n] of Object.entries(LOT)) for (let i = 0; i < n; i++) mkMat('e-num', null, key, 21);
   // Identifiant ASTER attribué dans l'ordre de réception (RG-03)
   [...materiels].sort((a, b) => a.dateReception - b.dateReception).forEach((m, i) => { m.idAster = `MAT-${String(i + 1).padStart(4, '0')}`; });
+
+  const comptes = structuredClone(ACCOUNTS);
+  const gestionnaireDe = (ecoleId) => comptes.find((c) => c.ecoleId === ecoleId && c.role === 'gestionnaire');
+
+  // Installation physique, affectations enregistrées par le gestionnaire : l'Atelier 2 reçoit huit postes du stock (trois
+  // déjà installés), deux écrans passent de C201 à C202, trois matériels de l'Atelier 1 retournent au stock (pas encore
+  // déplacés) et la B203 a fini d'être équipée il y a trois jours
+  const gestNum = gestionnaireDe('e-num');
+  const plan = (m, salleId, at = now - between(2, 30) * HOUR) => { m.deplacement = { de: m.salleId ?? null, at, par: gestNum.nom, parId: gestNum.id }; m.salleId = salleId; };
+  const installe = (m, de, at) => { m.installation = { de, at, par: gestNum.nom, parId: gestNum.id }; };
+  const salleNommee = (nom) => salles.find((s) => s.ecoleId === 'e-num' && s.nom === nom).id;
+  const atelier = materiels.filter((m) => m.ecoleId === 'e-num' && !m.salleId && !m.hs && now - m.dateReception < 22 * DAY && ['uc', 'ecran'].includes(m.type)).slice(0, 8);
+  atelier.forEach((m) => plan(m, salleNommee('Atelier 2'), now - 26 * HOUR));
+  atelier.slice(0, 3).forEach((m) => { installe(m, null, now - between(1, 3) * HOUR); delete m.deplacement; });
+  materiels.filter((m) => m.salleId === salleNommee('C201') && m.type === 'ecran').slice(0, 2).forEach((m) => plan(m, salleNommee('C202')));
+  materiels.filter((m) => m.salleId === salleNommee('Atelier 1') && ['uc', 'ecran'].includes(m.type)).slice(0, 3).forEach((m) => plan(m, null));
+  materiels.filter((m) => m.salleId === salleNommee('B203') && ['uc', 'ecran'].includes(m.type)).slice(0, 4).forEach((m) => installe(m, null, now - 3 * DAY + between(0, 4) * HOUR));
 
   // Postes de supervision (domaine distinct du parc, RG-40)
   const postes = [];
@@ -143,9 +162,7 @@ export function seed(now = Date.now()) {
   };
   const typeToProblem = { uc: ['power', 'malfunction', 'network'], ecran: ['display', 'broken'], videoprojecteur: ['display', 'power'], peripherique: ['malfunction', 'broken'], reseau: ['network'], audio: ['malfunction', 'other'], imprimante: ['malfunction', 'power'], autre: ['other', 'power'] };
   // Auteurs : formateurs (L. Martin plus souvent) et administrateur de l'école du matériel
-  const comptes = structuredClone(ACCOUNTS);
   const auteursDe = (ecoleId) => { const list = comptes.filter((c) => c.ecoleId === ecoleId && ['formateur', 'admin'].includes(c.role)); const lead = list.find((c) => c.role === 'formateur'); return [lead, ...list]; };
-  const gestionnaireDe = (ecoleId) => comptes.find((c) => c.ecoleId === ecoleId && c.role === 'gestionnaire');
   const remontees = [];
   const placed = materiels.filter((m) => m.salleId);
   for (let i = 0; i < 74; i++) {
@@ -161,10 +178,18 @@ export function seed(now = Date.now()) {
     const open = ageDays < 16 ? rnd() < 0.85 : ageDays < 32 ? rnd() < 0.3 : false;
     const auteur = pick(auteursDe(first.ecoleId));
     const historique = [{ statut: 'attente', at: createdAt, par: auteur.nom, parId: auteur.id }];
+    const gest = gestionnaireDe(first.ecoleId);
+    const step = (statut, at, by = gest) => historique.push({ statut, at, par: by.nom, parId: by.id });
     let st = 'attente';
-    if (!open) {
+    // Cycle : en attente → en cours (prise en charge) → remplacé ou corrigé → validée par l'auteur
+    if (open) {
+      if (rnd() < 0.45) { st = 'encours'; step(st, Math.min(now - HOUR, createdAt + between(1, 30) * HOUR)); }
+    } else {
+      const treatedAt = Math.min(now - HOUR, createdAt + between(3, 120) * HOUR);
+      if (rnd() < 0.8) step('encours', createdAt + (treatedAt - createdAt) * (0.2 + rnd() * 0.5));
       st = rnd() < 0.55 ? 'remplace' : 'corrige';
-      historique.push({ statut: st, at: Math.min(now - HOUR, createdAt + between(3, 120) * HOUR), par: gestionnaireDe(first.ecoleId).nom, parId: gestionnaireDe(first.ecoleId).id });
+      step(st, treatedAt);
+      if (treatedAt < now - 2 * HOUR && rnd() < 0.7) { st = 'validee'; step(st, Math.min(now - HOUR / 2, treatedAt + between(2, 96) * HOUR), auteur); }
     }
     remontees.push({
       id: '', ecoleId: first.ecoleId, auteur: auteur.nom, auteurId: auteur.id, createdAt, materielIds: ids, probleme: prob,
@@ -173,8 +198,8 @@ export function seed(now = Date.now()) {
   }
   remontees.sort((a, b) => a.createdAt - b.createdAt).forEach((r, i) => { r.id = `REM-${String(101 + i).padStart(4, '0')}`; });
   remontees.reverse();
-  // Matériels concernés par une remontée en attente : souvent hors service
-  for (const r of remontees) if (r.statut === 'attente' && rnd() < 0.5) { const m = materiels.find((x) => x.id === r.materielIds[0]); if (m) m.hs = true; }
+  // Matériels concernés par une remontée non traitée : souvent hors service
+  for (const r of remontees) if (['attente', 'encours'].includes(r.statut) && rnd() < 0.5) { const m = materiels.find((x) => x.id === r.materielIds[0]); if (m) m.hs = true; }
 
   /* Détections de processus (historique RG-56) */
   const procs = [['steam.exe', 'blacklist'], ['discord.exe', 'blacklist'], ['torrent.exe', 'blacklist'], ['vlc.exe', 'nonref'], ['notepad++.exe', 'nonref'], ['spotify.exe', 'blacklist'], ['putty.exe', 'nonref']];
@@ -246,10 +271,10 @@ export function defaultLayouts() {
     superadmin: admin(),
     gestionnaire: {
       perso: [
-        w('kpi.stock', 'S'), w('kpi.hs', 'S'), w('kpi.attente', 'S'), w('kpi.delai', 'S'),
-        w('list.aTraiter', 'L'), w('list.surveiller', 'L'),
+        w('kpi.stock', 'S'), w('kpi.hs', 'S'), w('kpi.attente', 'S'), w('kpi.deplacements', 'S'),
+        w('list.aTraiter', 'L'), w('list.installations', 'L'),
         w('chart.garanties', 'M'), w('chart.hsTypes', 'M'),
-        w('chart.echeances', 'L'), w('chart.types', 'L'),
+        w('list.surveiller', 'L'), w('chart.echeances', 'L'),
         w('chart.receptions', 'XL'),
       ],
       parc: parc(),

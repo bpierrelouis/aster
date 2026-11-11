@@ -91,6 +91,47 @@ export const openapi = {
         responses: { 200: json({ $ref: '#/components/schemas/Espace' }), 400: error, 401: error, 403: error, 409: error },
       },
     },
+    '/api/workspace/import/analyse': {
+      post: {
+        tags: ['Espace de travail'], summary: 'Rapprocher les numéros de série d’un import du parc', security: session,
+        description: 'Gestionnaire ou administrateur. Pour chaque numéro de série connu, dans l’école de destination ou dans une autre école, donne le matériel correspondant ; un transfert est bloqué si le matériel est cité par une remontée en cours de son école. Exige l’en-tête `Origin` de l’application.',
+        requestBody: {
+          required: true,
+          content: { 'application/json': { schema: {
+            type: 'object', required: ['ecoleId', 'series'],
+            properties: { ecoleId: { type: 'string', description: 'École de destination' }, series: { type: 'array', maxItems: 2000, items: { type: 'string' } } },
+          } } },
+        },
+        responses: {
+          200: json({ type: 'object', description: 'Par numéro de série normalisé (sans espaces de début et de fin, en minuscules)', additionalProperties: { $ref: '#/components/schemas/MaterielConnu' } }),
+          400: error, 401: error, 403: error,
+        },
+      },
+    },
+    '/api/workspace/import': {
+      post: {
+        tags: ['Espace de travail'], summary: 'Importer des matériels', security: session,
+        description: 'Gestionnaire ou administrateur. Ajoute les nouveaux matériels et transfère dans l’école de destination les matériels d’une autre école dont le numéro de série figure dans `transferts` ; un matériel déjà présent dans l’école, ou répété dans le fichier, n’est pas traité. Exige l’en-tête `Origin` de l’application.',
+        requestBody: {
+          required: true,
+          content: { 'application/json': { schema: {
+            type: 'object', required: ['ecoleId', 'materiels'],
+            properties: {
+              ecoleId: { type: 'string', description: 'École de destination' },
+              materiels: { type: 'array', minItems: 1, maxItems: 2000, items: { type: 'object', description: 'modele, dateReception (obligatoires), type, marque, serie, hs, salleId, garantieFin' } },
+              transferts: { type: 'array', items: { type: 'string' }, description: 'Numéros de série des matériels d’une autre école à transférer' },
+            },
+          } } },
+        },
+        responses: {
+          200: json({ type: 'object', properties: {
+            ajoutes: { type: 'integer' }, transferes: { type: 'integer' }, ignores: { type: 'integer', description: 'Lignes non traitées' },
+            state: { $ref: '#/components/schemas/Espace' },
+          } }),
+          400: error, 401: error, 403: error,
+        },
+      },
+    },
     '/api/workspace/reports/{id}/pdf': {
       get: {
         tags: ['Espace de travail'], summary: 'Télécharger l’état des lieux d’une remontée', security: session,
@@ -187,6 +228,13 @@ export const openapi = {
           services: { type: 'array', items: { type: 'object', properties: {
             id: { type: 'string' }, name: { type: 'string' }, role: { type: 'string' }, host: { type: ['string', 'null'] }, port: { type: ['integer', 'null'] }, required: { type: 'boolean' },
           } } },
+        },
+      },
+      MaterielConnu: {
+        type: 'object',
+        properties: {
+          idAster: { type: 'string' }, modele: { type: 'string' }, ecoleId: { type: 'string' }, ecole: { type: 'string' },
+          bloque: { type: ['string', 'null'], description: 'Raison qui empêche le transfert' },
         },
       },
       Espace: { type: 'object', description: 'Révision et données visibles : écoles, bâtiments, salles, postes, matériels, remontées, opérations…', properties: { revision: { type: 'integer' } } },

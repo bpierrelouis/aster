@@ -1,12 +1,15 @@
 /* ==========================================================================
-   Défilement sans barre visible : une zone qui déborde s'arrête au milieu
-   d'un de ses éléments (lignes, cartes), coupé à 40 % (entre le tiers et la
-   moitié), pour signaler la suite.
-   - La zone occupe la hauteur disponible jusqu'au bas de l'écran, moins ce
-     qui la suit dans son cadre (ex. pagination sous un tableau).
-   - Une zone collante (panneau latéral) garde la hauteur maximale de son CSS.
+   Défilement sans barre visible.
+   - Une zone qui déborde occupe toute la hauteur disponible : le bas de sa
+     fenêtre s'aligne sur celui du menu et des autres fenêtres. Un fondu au
+     bas de la zone (classe has-more) signale la suite tant qu'il en reste.
+   - Hauteur disponible : jusqu'au bas de l'écran, moins ce qui suit la zone
+     dans son cadre (ex. pagination sous un tableau) ; dans un panneau
+     collant, la hauteur maximale de son CSS, quel que soit le défilement de
+     la page.
    - Une grille qui défile avec la page (tableau de bord, bâtiments) ajuste la
-     hauteur de ses rangées pour que le bas de l'écran coupe la suivante.
+     hauteur de ses rangées pour que le bas de l'écran coupe la suivante à
+     40 % (entre le tiers et la moitié).
    - Recalcul à chaque rendu et au redimensionnement, jamais pendant le
      défilement : la position de lecture est conservée.
    ========================================================================== */
@@ -16,17 +19,25 @@ import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 const SHOWN = .4;    // part visible de l'élément suivant
 const MIN = 220;     // hauteur minimale d'une zone, en pixels
 
+/** Panneau collant qui contient la zone (ou la zone elle-même) */
+function stickyOf(el) {
+  for (let n = el; n && n !== document.body; n = n.parentElement) if (getComputedStyle(n).position === 'sticky') return n;
+  return null;
+}
+
 function available(el, frame) {
   const view = document.getElementById('view');
   const vs = view ? getComputedStyle(view) : null;
   const top = vs ? parseFloat(vs.paddingTop) : 0;       // bas de la barre haute
   const gap = vs ? parseFloat(vs.paddingBottom) : 20;   // marge basse (barre basse sur mobile)
-  if (getComputedStyle(el).position === 'sticky') {
-    const inline = el.style.maxHeight;
-    el.style.maxHeight = '';
-    const css = parseFloat(getComputedStyle(el).maxHeight);
-    el.style.maxHeight = inline;
-    return css || innerHeight - top - gap;
+  const sticky = stickyOf(el);
+  if (sticky) {
+    // Hauteur maximale du CSS (sans celle posée ici), moins ce qui entoure la zone dans le panneau (marges, fiche dessous)
+    const inline = sticky.style.maxHeight;
+    sticky.style.maxHeight = '';
+    const css = parseFloat(getComputedStyle(sticky).maxHeight) || innerHeight - top - gap;
+    sticky.style.maxHeight = inline;
+    return css - (sticky.getBoundingClientRect().height - el.getBoundingClientRect().height);
   }
   const box = el.getBoundingClientRect();
   const below = frame ? frame.getBoundingClientRect().bottom - box.bottom : 0;
@@ -36,22 +47,16 @@ function available(el, frame) {
   return innerHeight - start - below - gap;
 }
 
-/** Ajuste la hauteur maximale de la zone défilante el (items : sélecteur des éléments, frame : cadre). */
-function fitPeek(el, items, frame = null) {
+/** Fondu bas tant qu'il reste à lire plus bas */
+const markMore = (el) => el.classList.toggle('has-more', el.scrollTop + el.clientHeight < el.scrollHeight - 2);
+
+/** Ajuste la hauteur maximale de la zone défilante el (frame : cadre englobant). */
+function fitPeek(el, frame = null) {
   if (!el?.isConnected) return;
-  if (getComputedStyle(el).overflowY === 'visible') { el.style.maxHeight = ''; return; } // zone non défilante (ex. écran Stock)
-  const limit = Math.max(MIN, available(el, frame));
-  if (el.scrollHeight <= limit + 1) { el.style.maxHeight = ''; return; }
-  const origin = el.getBoundingClientRect().top - el.scrollTop;
-  let cut = 0;
-  for (const item of el.querySelectorAll(items)) {
-    const r = item.getBoundingClientRect();
-    if (!r.height) continue;
-    const at = r.top - origin + r.height * SHOWN;
-    if (at > limit) break;
-    cut = at;
-  }
-  el.style.maxHeight = `${Math.round(cut || limit)}px`;
+  const scrolls = getComputedStyle(el).overflowY !== 'visible'; // l'écran Stock défile avec la page
+  const limit = scrolls ? Math.max(MIN, available(el, frame)) : Infinity;
+  el.style.maxHeight = el.scrollHeight > limit + 1 ? `${Math.round(limit)}px` : '';
+  markMore(el);
 }
 
 /**
@@ -91,15 +96,22 @@ export function useFitRows(grid, prop, deps) {
 
 /**
  * Référence d'une zone défilante ajustée par fitPeek.
- * items : éléments à couper (ex. 'tbody tr') ; frame : sélecteur du cadre englobant.
+ * frame : sélecteur du cadre englobant (ce qui suit la zone dans ce cadre reste visible).
  */
-export function usePeek(items, frame) {
+export function usePeek(frame) {
   const ref = useRef(null);
   const fit = useCallback(() => {
     const el = ref.current;
-    if (el) fitPeek(el, items, frame ? el.closest(frame) : null);
-  }, [items, frame]);
+    if (el) fitPeek(el, frame ? el.closest(frame) : null);
+  }, [frame]);
   useLayoutEffect(fit);
+  useLayoutEffect(() => { // fondu : suivi pendant le défilement, sans recalcul de hauteur
+    const el = ref.current;
+    if (!el) return undefined;
+    const onScroll = () => markMore(el);
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => el.removeEventListener('scroll', onScroll);
+  });
   useEffect(() => {
     addEventListener('resize', fit);
     return () => removeEventListener('resize', fit);

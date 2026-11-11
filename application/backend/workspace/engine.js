@@ -11,6 +11,7 @@ import { SEED_VERSION } from '#shared/seed.js';
 import { collections, same, keyOf, fail, initialState, actorOf, accountForIdentity, scopedState, rebase, mergeState } from './rules.js';
 import { DISCONNECT_AFTER, applyReports, applyResults, markDisconnected, pendingCommands } from './postes.js';
 import { reportPdf } from './pdf.js';
+import { analyseImport, importMateriels } from './import.js';
 
 function diffKeys(before, after) {
   const changed = new Map();
@@ -61,6 +62,12 @@ export function createEngine({ store, pdf }) {
       return { next, result: scopedState(next, actor) };
     }),
     bindIdentity: (accountId, sub) => system((s) => { const c = s.comptes.find((x) => x.id === accountId); if (c) c.sujet = sub; }),
+    /** Import JSON : rapprochement des numéros de série avec tout le parc, puis import (import.js) */
+    importAnalyse: async (actor, input) => analyseImport(await store.read(), actor, input),
+    importMateriels: (actor, input) => write((state) => {
+      const { next, bilan } = importMateriels(state, actor, input, Date.now());
+      return { next, result: { ...bilan, state: scopedState(next, actor) } };
+    }),
     async pdf(reportId, actor) {
       const state = await store.read();
       const report = scopedState(state, actor).remontees.find((r) => r.id === reportId);

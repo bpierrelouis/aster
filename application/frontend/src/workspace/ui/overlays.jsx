@@ -132,7 +132,7 @@ export function Popover({ anchor, onClose, align = 'end', className = '', childr
     const raf = requestAnimationFrame(() => setShown(true));
     pop.querySelector('button, [tabindex], input')?.focus({ preventScroll: true });
     const onDown = (e) => { if (!pop.contains(e.target) && !anchor.contains(e.target)) onCloseRef.current(); };
-    const onKey = (e) => { if (e.key === 'Escape') { onCloseRef.current(); anchor.focus(); } };
+    const onKey = (e) => { if (e.key === 'Escape') { e.preventDefault(); onCloseRef.current(); anchor.focus(); } }; // la fenêtre dessous reste ouverte (hooks/use-escape.js)
     document.addEventListener('pointerdown', onDown, true);
     document.addEventListener('keydown', onKey);
     addEventListener('resize', place);

@@ -28,6 +28,8 @@ import { Remontees } from './views/remontees/remontees.jsx';
 import { Inventaire } from './views/inventaire/inventaire.jsx';
 import { Supervision } from './views/supervision/supervision.jsx';
 import { Administration } from './views/administration/administration.jsx';
+import { Notifications } from './views/notifications/notifications.jsx';
+import { Deplacements } from './views/salles/salles-deplacements.jsx';
 
 window.aster = { store };
 
@@ -42,7 +44,7 @@ export default function Workspace({ loading }) {
 
   useEffect(() => {
     ready.then(() => {
-      applyAmbiance(store.state.prefs.ambiance);
+      applyAmbiance(store.state.prefs.ambiance, store.state.prefs.tone);
       initGlass(store.state.prefs.glass);
       initTooltips();
       setStatus('ready');
@@ -65,14 +67,17 @@ export default function Workspace({ loading }) {
         <Route path="accueil" element={<DashboardRoute />} />
         <Route path="accueil/:board" element={<DashboardRoute />} />
         <Route path="salles" element={<Salles />} />
+        <Route path="salles/deplacements" element={<Deplacements />} />
         <Route path="salles/:mode" element={<Salles />} />
         <Route path="salles/:mode/:id" element={<Salles />} />
+        <Route path="remontees" element={<Remontees />} />
         <Route path="remontees/:tab" element={<Remontees />} />
         <Route path="remontees/:tab/:id" element={<Remontees />} />
         <Route path="materiels/affectation" element={<Navigate to="/materiels/inventaire" replace />} />
         <Route path="materiels/:tab" element={<Inventaire />} />
         <Route path="supervision/:tab" element={<Supervision />} />
         <Route path="administration/:tab" element={<Administration />} />
+        <Route path="notifications" element={<Notifications />} />
       </Route>
       <Route path="*" element={<Navigate to="/accueil" replace />} />
     </Routes>

@@ -72,6 +72,7 @@ export const P = {
   inbox: '<path class="d" d="M3.5 13.5 6 5.5h12l2.5 8V18a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2Z"/><path d="M3.5 13.5H8l1.5 2.5h5l1.5-2.5h4.5"/>',
   pause: '<circle class="d" cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/>',
   flag: '<path class="d" d="M5 3.5v17M5 4h11l-2.2 4L16 12H5"/>',
+  clipboardCheck: '<rect class="d" x="4.5" y="4.5" width="15" height="17" rx="2.5"/><path d="M9 3h6v3H9Z"/><path d="m8.8 13.6 2.3 2.3 4.4-4.6"/>',
 
   /* Graphiques */
   chartLine: '<path d="M3.5 3.5v17h17"/><path d="m7 15 4-5 3.5 3L20 6.5"/>',

@@ -10,6 +10,7 @@
    ========================================================================== */
 
 import { SEED_VERSION } from '#shared/seed.js';
+import { REMONTEE_STATUTS } from '#shared/catalog.js';
 import { collections, initialState, keyOf, same } from './rules.js';
 import { createEngine, JOURNAL_SIZE } from './engine.js';
 import { reportPdf } from './pdf.js';
@@ -43,6 +44,7 @@ const LINKED = new Set(['materielIds']); // propriétés portées par une table 
 
 function schemaSQL(s) {
   const fk = (table) => `REFERENCES ${s}.${table}(id) DEFERRABLE INITIALLY DEFERRED`;
+  const statuts = REMONTEE_STATUTS.map((x) => `'${x.id}'`).join(', ');
   return `
   CREATE SCHEMA IF NOT EXISTS ${s};
   CREATE TABLE IF NOT EXISTS ${s}.aster_espace (
@@ -75,8 +77,12 @@ function schemaSQL(s) {
     affichage jsonb, dispositions jsonb, consultation timestamptz, ecole_affichee text);
   CREATE TABLE IF NOT EXISTS ${s}.aster_remontee (
     id text PRIMARY KEY, ecole_id text NOT NULL ${fk('aster_ecole')}, auteur text NOT NULL, created_at timestamptz NOT NULL,
-    probleme text, description text NOT NULL CHECK (description <> ''), statut text NOT NULL CHECK (statut IN ('attente', 'remplace', 'corrige')),
+    probleme text, description text NOT NULL CHECK (description <> ''), statut text NOT NULL,
     historique jsonb NOT NULL DEFAULT '[]', auteur_id text ${fk('aster_compte')}, etat_des_lieux_cle text, extra jsonb NOT NULL DEFAULT '{}');
+  -- Statuts du catalogue, contrainte recréée à chaque démarrage : une base existante suit le catalogue
+  -- (en cours et validée ajoutés le 11 novembre)
+  ALTER TABLE ${s}.aster_remontee DROP CONSTRAINT IF EXISTS aster_remontee_statut_check;
+  ALTER TABLE ${s}.aster_remontee ADD CONSTRAINT aster_remontee_statut_check CHECK (statut IN (${statuts}));
   CREATE INDEX IF NOT EXISTS aster_remontee_ecole ON ${s}.aster_remontee (ecole_id, statut);
   -- Pas de clé étrangère vers le matériel : une remontée reste consultable après la suppression du matériel.
   CREATE TABLE IF NOT EXISTS ${s}.aster_remontee_materiel (

@@ -4,13 +4,14 @@
    ========================================================================== */
 
 import { store, me, currentEcole } from './store.js';
-import { DEVICE_TYPES, PROBLEMS, problem } from '#shared/catalog.js';
+import { DEVICE_TYPES, PROBLEMS, REMONTEE_STATUTS, problem, statut, phaseOf } from '#shared/catalog.js';
 import { DAY } from '#shared/format.js';
 import { can } from './permissions.js';
 
 let memoRev = -1;
 let memo = {};
-const cached = (key, fn) => {
+/** Valeur calculée une fois par version de l'état */
+export const cached = (key, fn) => {
   const rev = store.state.rev || 0;
   if (rev !== memoRev) { memo = {}; memoRev = rev; }
   if (!(key in memo)) memo[key] = fn();
@@ -42,11 +43,6 @@ export const scope = () => cached('scope', () => {
   const postes = s.postes.filter((p) => salleIds.has(p.salleId));
   return { salles, materiels, postes, salleIds };
 });
-
-export function locate(m) {
-  const salle = m?.salleId ? index().salle.get(m.salleId) : null;
-  return { salle, ecole: index().ecole.get(m?.ecoleId) };
-}
 
 export const batiments = () => cached('batiments', () => [...new Set(scope().salles.map((x) => x.batiment))].sort());
 export const sallesOf = (batiment) => scope().salles.filter((x) => !batiment || x.batiment === batiment);
@@ -101,8 +97,9 @@ export const parc = () => cached('parc', () => {
   const W = 7 * DAY;
   const parcWeeks = Array.from({ length: 12 }, (_, i) => materiels.filter((m) => m.dateReception <= now - (11 - i) * W).length);
   const recus = materiels.filter((m) => m.dateReception > now - 12 * W).length;
+  const deplacements = materiels.filter((m) => m.deplacement).sort((a, b) => a.deplacement.at - b.deplacement.at); // à déplacer, les plus anciens d'abord
   return {
-    totals, byType, bySalle, byBatiment, stock, sallesEquipees, garanties, recents, topSalles,
+    totals, byType, bySalle, byBatiment, stock, sallesEquipees, garanties, recents, topSalles, deplacements,
     surveiller, matrix: { cols, rows: matrix.filter((r) => r.cells.some(Boolean)) }, parcWeeks, recus,
     garantieTranches: garantieTranches(materiels, now), echeances: echeances(materiels, now),
   };
@@ -131,9 +128,15 @@ function echeances(materiels, now) {
   });
 }
 
-/** Date du traitement d'une remontée (premier changement de statut), ou null si elle attend encore */
-export const treatedAt = (r) => r.historique.find((h) => h.statut !== 'attente')?.at ?? null;
-const pendingAt = (list, t) => list.filter((r) => { const d = treatedAt(r); return r.createdAt <= t && (d === null || d > t); }).length;
+/** Date du traitement d'une remontée (remplacé ou corrigé), ou null tant qu'elle est en attente ou en cours */
+export const treatedAt = (r) => r.historique.find((h) => statut(h.statut).phase === 'traitee')?.at ?? null;
+
+/** Onglet de la liste des remontées qui présente une remontée, selon sa phase */
+const PHASE_TAB = { attente: 'attente', encours: 'encours', traitee: 'traitees', validee: 'validees' };
+export const remonteePath = (r) => `/remontees/${PHASE_TAB[phaseOf(r)]}/${r.id}`;
+/** Phase d'une remontée à une date : celle de son dernier changement de statut à cette date (null avant sa création) */
+const phaseAt = (r, t) => (r.createdAt > t ? null : statut(r.historique.findLast((h) => h.at <= t)?.statut ?? 'attente').phase);
+const countAt = (list, t, phase) => list.filter((r) => phaseAt(r, t) === phase).length;
 const median = (values) => {
   if (!values.length) return null;
   const s = [...values].sort((a, b) => a - b), k = Math.floor(s.length / 2);
@@ -174,10 +177,14 @@ export const remontees = () => cached('remontees', () => {
   const s = store.state;
   const mine = (r) => r.auteurId === me().id;
   const visible = s.remontees.filter((r) => inScope(r.ecoleId) && (can('remontee.viewAll') || mine(r)));
-  const attente = visible.filter((r) => r.statut === 'attente');
-  const traitees = visible.filter((r) => r.statut !== 'attente');
-  const byStatut = { attente: attente.length, remplace: 0, corrige: 0 };
-  for (const r of traitees) byStatut[r.statut]++;
+  const inPhase = (list, p) => list.filter((r) => phaseOf(r) === p);
+  const attente = inPhase(visible, 'attente');
+  const encours = inPhase(visible, 'encours');
+  const traitees = inPhase(visible, 'traitee');   // remplacées ou corrigées, à valider par leur auteur
+  const validees = inPhase(visible, 'validee');   // validées et closes par leur auteur
+  const resolues = visible.filter((r) => treatedAt(r) !== null); // traitées, validées ou non
+  const byStatut = Object.fromEntries(REMONTEE_STATUTS.map((s) => [s.id, 0]));
+  for (const r of visible) byStatut[r.statut]++;
   const W = 7 * DAY;
   const now = Date.now();
   const start = now - 12 * W;
@@ -185,13 +192,13 @@ export const remontees = () => cached('remontees', () => {
   for (const r of visible) {
     const wi = Math.floor((r.createdAt - start) / W);
     if (wi >= 0 && wi < 12) weeks[wi].creees++;
-    const done = r.historique.find((h) => h.statut !== 'attente');
-    if (done) { const wd = Math.floor((done.at - start) / W); if (wd >= 0 && wd < 12) weeks[wd].traitees++; }
+    const done = treatedAt(r);
+    if (done) { const wd = Math.floor((done - start) / W); if (wd >= 0 && wd < 12) weeks[wd].traitees++; }
   }
-  for (const w of weeks) { w.attente = pendingAt(visible, Math.min(w.from + W, now)); w.solde = w.creees - w.traitees; }
-  const recentTraitees = traitees.filter((r) => r.historique.at(-1).at > now - 30 * DAY);
-  const traiteesAvant = traitees.filter((r) => { const t = r.historique.at(-1).at; return t > now - 60 * DAY && t <= now - 30 * DAY; }).length;
-  // Délai de traitement (création → premier changement de statut), médiane sur 12 semaines et sur les 12 précédentes
+  for (const w of weeks) { w.attente = countAt(visible, Math.min(w.from + W, now), 'attente'); w.solde = w.creees - w.traitees; }
+  const recentTraitees = resolues.filter((r) => treatedAt(r) > now - 30 * DAY);
+  const traiteesAvant = resolues.filter((r) => { const t = treatedAt(r); return t > now - 60 * DAY && t <= now - 30 * DAY; }).length;
+  // Délai de traitement (création → remplacé ou corrigé), médiane sur 12 semaines et sur les 12 précédentes
   const delays = (from, to) => visible.map((r) => [r.createdAt, treatedAt(r)]).filter(([, d]) => d !== null && d > from && d <= to).map(([c, d]) => d - c);
   const delai = { median: median(delays(start, now)), avant: median(delays(start - 12 * W, start)) };
   // Par type de problème et par semaine
@@ -202,10 +209,10 @@ export const remontees = () => cached('remontees', () => {
   }
   const mesRemontees = s.remontees.filter((r) => inScope(r.ecoleId) && mine(r));
   return {
-    visible, attente, traitees, byStatut, weeks, recentTraitees, traiteesAvant, delai, problemes,
-    attenteAvant: pendingAt(visible, now - 7 * DAY), // en attente il y a 7 jours
-    aTraiter: [...attente].sort((a, b) => a.createdAt - b.createdAt), // les plus anciennes d'abord
-    mine: mesRemontees, mineAttente: mesRemontees.filter((r) => r.statut === 'attente'),
+    visible, attente, encours, traitees, validees, byStatut, weeks, recentTraitees, traiteesAvant, delai, problemes,
+    attenteAvant: countAt(visible, now - 7 * DAY, 'attente'), // en attente il y a 7 jours
+    aTraiter: [...attente, ...encours].sort((a, b) => a.createdAt - b.createdAt), // en attente ou en cours, les plus anciennes d'abord
+    mine: mesRemontees, mineAttente: inPhase(mesRemontees, 'attente'), mineAValider: inPhase(mesRemontees, 'traitee'),
   };
 });
 

@@ -24,8 +24,10 @@
 /* Écran Stock : le stock seul, sur toute la largeur */
 .salles.is-stock { grid-template-columns: minmax(0, 1fr); }
 .salles.is-stock .spanel { position: static; max-height: none; overflow: visible; }
+.salles.is-stock .insp-scroll { overflow: visible; }
 .salles.is-stock .dev-grid { grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); }
-.salles.is-stock .dev-card { bottom: var(--rail-gap); max-width: 560px; }
+.salles.is-stock .dev-card { position: sticky; z-index: 2; bottom: var(--rail-gap); max-width: 560px; }
+.salles.is-stock .spanel-hint { position: sticky; z-index: 2; bottom: 0; border-radius: 0 0 var(--r-xl) var(--r-xl); background: var(--glass-tint-solid); }
 @media (max-width: 760px) { .salles.is-stock .dev-card { bottom: calc(max(10px, env(safe-area-inset-bottom)) + 76px); } } /* au-dessus de la barre basse */
 
 /* --------------------------------------------------------------------------
@@ -195,12 +197,18 @@
 /* --------------------------------------------------------------------------
    Panneau latéral
    -------------------------------------------------------------------------- */
+/* Panneaux latéraux (salles, détail d'une remontée) : la fenêtre de verre reste fixe et son contenu défile dans
+   .insp-scroll (une fenêtre qui défilerait emporterait son liseré et son fond, et le contenu passerait sur le fond
+   de la page) ; ce qui suit la zone (fiche des matériels sélectionnés, actions) se range dessous, sans la recouvrir */
 .spanel, .rm-detail {
   position: sticky; top: var(--top-h);
-  display: flex; flex-direction: column; gap: var(--sp-4);
-  max-height: calc(100vh - var(--top-h) - var(--rail-gap)); overflow: auto; overscroll-behavior: contain;
-  padding: 22px; --radius: var(--r-xl);
+  display: flex; flex-direction: column;
+  max-height: calc(100vh - var(--top-h) - var(--rail-gap)); overflow: hidden;
+  --radius: var(--r-xl);
 }
+.insp-scroll { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: var(--sp-4); padding: 22px; overflow: auto; overscroll-behavior: none; }
+.spanel > .dev-card { flex: none; margin: 0 14px 14px; }
+.spanel > .spanel-hint { flex: none; margin: 0; padding: 12px 22px 16px; border-top: 1px solid var(--hairline); }
 .insp-head { display: flex; align-items: center; gap: 14px; }
 .insp-title { flex: 1; min-width: 0; }
 .insp-title h2 { font-size: 24px; font-weight: 800; letter-spacing: -.022em; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -226,6 +234,8 @@
 .salle-meta { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 
 .hint { display: flex; align-items: flex-start; gap: 12px; padding: 14px; border-radius: 16px; background: var(--fill-1); color: var(--ink-2); font-size: 13.5px; line-height: 1.45; }
+.hint--warn { background: color-mix(in srgb, var(--warn) 16%, transparent); color: var(--ink-1); }
+.hint--warn > .ico { flex: none; color: color-mix(in srgb, var(--warn) 70%, black); }
 .hint-s { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink-3); }
 .insp-section { display: flex; align-items: center; justify-content: space-between; margin-top: 2px; }
 .insp-section-title { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; }
@@ -252,7 +262,6 @@
 .dev.is-draggable { cursor: grab; touch-action: none; }
 
 .dev-card {
-  position: sticky; bottom: -22px; z-index: 2; margin-bottom: -6px;
   display: flex; flex-direction: column; gap: 12px; padding: 14px; border-radius: 22px;
   background: var(--glass-tint-solid);
   box-shadow: 0 1px 2px rgb(var(--ink) / .08), 0 16px 32px -16px rgb(var(--shade) / .4);
@@ -265,6 +274,18 @@
 .dev-facts { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); }
 .dev-facts li { display: inline-flex; align-items: center; gap: 6px; }
 .dev-facts li.is-late { color: var(--crit); }
+.dev-facts li.dev-fact-inst { gap: 8px; padding-left: 2px; }
+/* Installation physique (core/installations.js) : matériel en cours (contour pointillé), statut et avancement de la salle */
+.dev.is-moving { outline: 2px dashed var(--install); outline-offset: 2px; }
+.salle-statut { display: inline-flex; align-items: center; gap: 7px; margin-top: 6px; white-space: nowrap; font-size: 12.5px; font-weight: 650; color: var(--ink-2); }
+.inst-block { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 16px; background: var(--fill-1); color: var(--ink-1); }
+a.inst-block:hover { background: var(--fill-2); }
+.inst-block-head { display: flex; align-items: baseline; gap: 8px; }
+.inst-block-head b { font-size: 14px; }
+.inst-block-head small { flex: 1; min-width: 0; font-size: 12.5px; color: var(--ink-3); }
+.inst-block-head .ico { align-self: center; color: var(--ink-3); }
+.salle-inst { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--ink-2); }
+
 .seg--status { display: flex; }
 .st-btn { flex: 1; justify-content: center; padding: 0 10px; font-size: 12.5px; gap: 5px; }
 .st-btn--ok .ico { color: var(--ok); }

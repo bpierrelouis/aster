@@ -12,9 +12,11 @@ const serverFields = (s) => JSON.stringify({ ...s, rev: 0, revision: 0 });
 // version : change à chaque notification, pour que React détecte les mutations en place
 let version = 0;
 const emit = (topic) => { version++; for (const fn of [...subs]) fn(topic); };
+// Reprend un état du serveur ; rev avance toujours, pour que les calculs mémorisés (core/selectors.js) soient refaits
+const adopt = (data, topic) => { state = { ...structuredClone(data), rev: (state.rev || 0) + 1 }; emit(topic); };
 
-async function request(options) {
-  const response = await fetch('/api/workspace', options);
+async function request(options, path = '') {
+  const response = await fetch(`/api/workspace${path}`, options);
   if (response.status === 304) return null; // aucune modification depuis la dernière lecture
   const body = await response.json().catch(() => ({}));
   // Session absente ou expirée : retour à la page de connexion
@@ -40,8 +42,7 @@ async function sync() {
     const data = await response.json();
     if (pending || batch !== generation || data.revision <= committed.revision) return;
     committed = data;
-    state = { ...structuredClone(data), rev: (state.rev || 0) + 1 };
-    emit('remote');
+    adopt(data, 'remote');
   } catch { /* nouvelle tentative au prochain intervalle */ }
 }
 ready.then(() => { setInterval(sync, SYNC_INTERVAL); document.addEventListener('visibilitychange', () => { if (!document.hidden) sync(); }); }, () => {});
@@ -68,22 +69,27 @@ export const store = {
         committed = data;
         state.revision = data.revision;
         // Valeurs attribuées par le serveur (identifiants ASTER, numéros de remontée) : reprises si aucune écriture n'attend
-        if (!pending && serverFields(data) !== serverFields(state)) {
-          state = { ...structuredClone(data), rev: (state.rev || 0) + 1 };
-          emit('data');
-        }
+        if (!pending && serverFields(data) !== serverFields(state)) adopt(data, 'data');
       } catch (error) {
         generation++;
         lastError = error;
-        state = structuredClone(committed);
-        state.rev = (state.rev || 0) + 1;
-        emit('all');
+        adopt(committed, 'all');
         window.dispatchEvent(new CustomEvent('aster:save-error', { detail: error.message }));
       }
     });
     return queue;
   },
   async flush() { await queue; if (lastError) throw lastError; },
+  /** Opération du serveur (path sous /api/workspace, ex. /import) après les écritures en cours ; l'état renvoyé (state) est repris */
+  async call(path, body) {
+    await this.flush();
+    const data = await request({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }, path);
+    if (data?.state) {
+      committed = data.state;
+      adopt(data.state, 'data');
+    }
+    return data;
+  },
   resetLayout(board, roleId = state.role) { return this.update('layout', (s) => { s.layouts[roleId][board] = defaultLayouts()[roleId][board]; }); },
 };
 

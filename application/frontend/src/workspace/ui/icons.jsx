@@ -1,5 +1,6 @@
 /* Icônes ASTER en composants React. Les tracés sont les constantes de la charte (core/icons.js). */
 import { A, P } from '../core/icons.js';
+import { Marianne } from './marianne.jsx';
 
 export function Icon({ name, size = 24, label, className = '', stroke = 2 }) {
   const aster = A[name];
@@ -25,8 +26,9 @@ export function Flower({ size = 32, petal = 'var(--iris)', heart = 'var(--coeur)
 }
 
 /**
- * Marque de l'ambiance (core/ambiance.js) : fleur ASTER iris (Clair) ou dorée
- * (Sombre), étoile de la charte ORION, repère de la charte VIGIE.
+ * Marque de l'ambiance (shared/ambiance.js) : fleur ASTER iris en clair et
+ * dorée en sombre (jetons --brand-*), Marianne (Minarm), étoile de la charte
+ * ORION, repère de la charte VIGIE.
  */
 export function Brand({ ambiance, size = 32 }) {
   if (ambiance === 'orion') {
@@ -41,5 +43,6 @@ export function Brand({ ambiance, size = 32 }) {
       <path d="M64 64 101 32" stroke="#f06449" strokeWidth="12" />
     </svg>;
   }
-  return ambiance === 'encre' ? <Flower size={size} petal="#d6aa4f" heart="#f4f1ea" /> : <Flower size={size} />;
+  if (ambiance === 'minarm') return <Marianne size={size} />;
+  return <Flower size={size} petal="var(--brand-petal, var(--iris))" heart="var(--brand-heart, var(--coeur))" />; // ASTER : iris en clair, or en sombre
 }

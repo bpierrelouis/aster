@@ -1,6 +1,7 @@
 /* ==========================================================================
    Espace de travail · règles métier communes aux deux modes
-   (postes : postes.js ; moteur d'écriture : engine.js ; API : routes.js)
+   (postes : postes.js ; import JSON : import.js ; moteur d'écriture :
+   engine.js ; API : routes.js)
    - Les droits s'appliquent au compte ASTER connecté (profil, école).
    - Les valeurs d'autorité (auteur, dates, numéros, identifiants ASTER,
      suivi des interventions) sont fixées par le serveur.
@@ -13,13 +14,13 @@
 import { randomUUID } from 'node:crypto';
 import { seed, defaultLayouts } from '#shared/seed.js';
 import { displayPrefs } from '#shared/ambiance.js';
+import { DAY } from '#shared/format.js';
 import { initializeOperations } from '#shared/operations-data.js';
 
 export const collections = ['ecoles', 'salles', 'etages', 'materiels', 'postes', 'remontees', 'detections', 'applications', 'comptes', 'regles', 'operations', 'processus', 'installations'];
 export const ROLES = ['superadmin', 'admin', 'gestionnaire', 'formateur'];
 const OPERATION_TYPES = ['installation', 'desinstallation', 'reinstallation', 'arret'];
 const SERVER_FIELDS = { comptes: ['sujet'] }; // jamais transmis au navigateur
-export const DAY = 24 * 3600 * 1000;
 
 // Comparaison indépendante de l'ordre des propriétés : un élément relu en base ne garde pas l'ordre
 // dans lequel le navigateur l'a envoyé, et plusieurs serveurs peuvent servir le même espace.
@@ -83,7 +84,7 @@ const strip = (collection, item) => {
   return copy;
 };
 
-export function preferencesOf(state, actor) {
+function preferencesOf(state, actor) {
   const p = state.preferences?.[actor.id] ?? {};
   return {
     prefs: displayPrefs(p.prefs),
@@ -217,8 +218,12 @@ export function mergeState(state, input, actor, now = Date.now()) {
           if (actor.role === 'gestionnaire') fail(403, 'Création de remontée non autorisée.');
           Object.assign(x, { auteur: actor.nom, auteurId: actor.id, createdAt: now, statut: 'attente', historique: [{ statut: 'attente', at: now, par: actor.nom, parId: actor.id }] });
         } else {
-          if (actor.role === 'formateur') fail(403, 'Traitement non autorisé.');
-          assert(old.statut === 'attente' && (actor.role === 'gestionnaire' ? ['remplace'] : ['remplace', 'corrige']).includes(x.statut), 'Transition de statut indisponible.');
+          // Cycle : en attente → en cours → remplacé ou corrigé (traitement) → validée, par l'auteur seul
+          const treatment = actor.role === 'gestionnaire' ? ['remplace'] : ['remplace', 'corrige'];
+          const possibles = { attente: ['encours', ...treatment], encours: treatment, remplace: ['validee'], corrige: ['validee'] }[old.statut] ?? [];
+          if (x.statut === 'validee') { if (old.auteurId !== actor.id) fail(403, 'Seul l’auteur de la remontée peut la valider et la clore.'); }
+          else if (actor.role === 'formateur') fail(403, 'Traitement non autorisé.');
+          assert(possibles.includes(x.statut), 'Transition de statut indisponible.');
           const stable = (r) => Object.fromEntries(Object.entries(r).filter(([k]) => !['statut', 'historique'].includes(k)));
           assert(same(stable(old), stable(x)), 'Seul le traitement peut être modifié.');
           x.historique = [...old.historique, { statut: x.statut, at: now, par: actor.nom, parId: actor.id }];
@@ -231,6 +236,19 @@ export function mergeState(state, input, actor, now = Date.now()) {
         assert(!x.salleId || salles.some((s) => s.id === x.salleId && s.ecoleId === x.ecoleId), 'Salle inconnue ou hors école.');
         if (old) assert(old.idAster === x.idAster, 'Identifiant ASTER immuable.');
         else x.idAster = `MAT-${String(++lastAsterId).padStart(4, '0')}`;
+        // Installation physique : toute nouvelle affectation reste en cours (deplacement) jusqu'à la confirmation du
+        // déplacement physique, qui devient le dernier déplacement confirmé (installation). Les deux sont tenus ici ;
+        // le navigateur peut seulement retirer deplacement (confirmation) et sa valeur d'installation est ignorée.
+        // de : emplacement physique d'origine (null pour le stock), conservé si le matériel n'a pas encore bougé.
+        const keepInstallation = () => { if (old?.installation) x.installation = old.installation; else delete x.installation; };
+        if (!old) { delete x.deplacement; delete x.installation; } // un matériel déclaré ou importé est là où il est déclaré
+        else if ((old.salleId ?? null) !== (x.salleId ?? null)) {
+          const de = old.deplacement ? old.deplacement.de : old.salleId ?? null;
+          if (de === (x.salleId ?? null)) { delete x.deplacement; keepInstallation(); } // retour à son emplacement physique
+          else { x.deplacement = { de, at: now, par: actor.nom, parId: actor.id }; delete x.installation; }
+        } else if (x.deplacement && !same(x.deplacement, old.deplacement)) fail(400, 'Le suivi du déplacement est tenu par le serveur.');
+        else if (old.deplacement && !x.deplacement) x.installation = { de: old.deplacement.de, at: now, par: actor.nom, parId: actor.id };
+        else keepInstallation();
       }
       if (c === 'salles') assert(typeof x.nom === 'string' && x.nom.trim() && typeof x.batiment === 'string' && x.batiment.trim() && Number.isInteger(x.etage ?? 0) && (x.etage ?? 0) >= -5 && (x.etage ?? 0) <= 30);
       if (c === 'etages') assert(Number.isInteger(x.niveau) && x.niveau >= -5 && x.niveau <= 30 && typeof x.batiment === 'string' && x.batiment.trim());

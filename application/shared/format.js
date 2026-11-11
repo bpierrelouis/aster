@@ -16,6 +16,8 @@ const mShort = new Intl.DateTimeFormat('fr-FR', { month: 'short' });
 const mYear = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' });
 
 export const num = (n) => nf0.format(n);
+/** Nombre et nom accordé : plural(2, 'matériel') → « 2 matériels » ; pluriel irrégulier en dernier argument */
+export const plural = (n, one, many = `${one}s`) => `${num(n)} ${n > 1 ? many : one}`;
 export const dec = (n) => nf1.format(n);
 export const pct = (n) => pf.format(n);
 export const pct1 = (n) => pf1.format(n);

@@ -1,15 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import express from 'express';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, rm, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { initialState, actorOf, accountForIdentity, scopedState, mergeState, rebase } from './rules.js';
 import { applyReports, pendingCommands, applyResults, markDisconnected, DISCONNECT_AFTER } from './postes.js';
 import { createWorkspaceRepository } from './engine.js';
+import { analyseImport, importMateriels } from './import.js';
 import { createWorkspaceRouter, createAgentRouter } from './routes.js';
 import { renameBuilding } from '#shared/buildings.js';
-import { processClass } from '#shared/operations-data.js';
+import { processClass, logiciel } from '#shared/operations-data.js';
 
 const as = (state, accountId) => actorOf(state, accountId);
 const ADMIN = 'cpt-num-admin', MANAGER = 'cpt-num-gestionnaire', TEACHER = 'cpt-num-formateur', SUPER = 'cpt-superadmin';
@@ -68,6 +69,108 @@ test('remontée : auteur, date, numéro et historique imposés par le serveur', 
   assert.throws(() => mergeState(next, m, manager), { status: 400 });
 });
 
+test('remontée : prise en charge, traitement, puis validation par son seul auteur', () => {
+  let state = initialState();
+  const teacher = as(state, TEACHER);
+  const input = scopedState(state, teacher);
+  const mat = input.materiels.find((m) => m.salleId);
+  input.remontees.unshift({ id: 'tmp', ecoleId: 'e-num', materielIds: [mat.id], probleme: 'display', description: 'Projecteur muet', historique: [] });
+  state = mergeState(state, input, teacher);
+  const id = state.remontees.find((r) => r.description === 'Projecteur muet').id;
+  const move = (accountId, statut) => {
+    const actor = as(state, accountId);
+    const view = scopedState(state, actor);
+    view.remontees.find((r) => r.id === id).statut = statut;
+    return mergeState(state, view, actor);
+  };
+  assert.throws(() => move(TEACHER, 'validee'), { status: 400 });   // rien à valider avant le traitement
+  assert.throws(() => move(TEACHER, 'encours'), { status: 403 });   // le formateur ne traite pas
+  state = move(MANAGER, 'encours');
+  assert.throws(() => move(MANAGER, 'attente'), { status: 400 });   // pas de retour en arrière
+  state = move(MANAGER, 'remplace');
+  assert.throws(() => move(MANAGER, 'validee'), { status: 403 });   // seul l'auteur valide
+  assert.throws(() => move(ADMIN, 'validee'), { status: 403 });
+  state = move(TEACHER, 'validee');
+  const done = state.remontees.find((r) => r.id === id);
+  assert.deepEqual(done.historique.map((h) => [h.statut, h.parId]), [['attente', TEACHER], ['encours', MANAGER], ['remplace', MANAGER], ['validee', TEACHER]]);
+  assert.throws(() => move(MANAGER, 'remplace'), { status: 400 });  // une remontée validée ne change plus
+});
+
+test('données de départ : stock récent ; le lot d’import de démonstration ajoute un matériel déjà présent et un d’une autre école', async () => {
+  const state = initialState();
+  const lot = JSON.parse(await readFile(new URL('../../tests/fixtures/import-stock-salle.json', import.meta.url), 'utf8'));
+  const modeles = new Set(state.materiels.map((m) => m.modele));
+  const bySerie = new Map(state.materiels.filter((m) => m.serie).map((m) => [m.serie, m]));
+  const open = new Set(state.remontees.filter((r) => r.statut !== 'validee').flatMap((r) => r.materielIds));
+  const connus = lot.filter((m) => bySerie.has(m.serie)).map((m) => bySerie.get(m.serie));
+  assert.deepEqual(connus.map((m) => m.ecoleId).sort(), ['e-num', 'e-res']); // non traité / à transférer depuis l'école des réseaux
+  assert.ok(connus.every((m) => !open.has(m.id)), 'transfert possible : aucune remontée en cours');
+  assert.deepEqual(lot.filter((m) => !bySerie.has(m.serie) && modeles.has(m.modele)), []); // les autres : modèles inédits
+  assert.equal(new Set(lot.map((m) => m.serie).filter(Boolean)).size, lot.filter((m) => m.serie).length); // numéros uniques
+  // Stock pour équiper une salle : reçu ces dernières semaines, aucune garantie échue
+  const recent = state.materiels.filter((m) => m.ecoleId === 'e-num' && (!m.salleId || m.deplacement || m.installation) && Date.now() - m.dateReception < 22 * 864e5); // en stock, en cours d'installation ou installé
+  assert.ok(recent.length >= 140);
+  assert.ok(recent.every((m) => !m.garantieFin || m.garantieFin > Date.now()));
+});
+
+test('installation : une affectation reste en cours jusqu’à la confirmation, qui devient l’installation', () => {
+  let state = initialState();
+  const move = (accountId, mutate) => {
+    const actor = as(state, accountId);
+    const view = scopedState(state, actor);
+    mutate(view);
+    return mergeState(state, view, actor, 1_800_000_000_000);
+  };
+  const stock = state.materiels.find((m) => m.ecoleId === 'e-num' && !m.salleId && !m.deplacement);
+  const [a, b] = state.salles.filter((s) => s.ecoleId === 'e-num');
+  const mat = (s) => s.materiels.find((m) => m.id === stock.id);
+  state = move(MANAGER, (v) => { mat(v).salleId = a.id; });
+  assert.deepEqual(mat(state).deplacement, { de: null, at: 1_800_000_000_000, par: 'G. Bernard', parId: MANAGER });
+  state = move(MANAGER, (v) => { mat(v).salleId = b.id; });            // pas encore déplacé : l'origine reste le stock
+  assert.equal(mat(state).deplacement.de, null);
+  assert.throws(() => move(MANAGER, (v) => { mat(v).deplacement.de = a.id; }), { status: 400 }); // tenu par le serveur
+  assert.throws(() => move(TEACHER, (v) => { delete mat(v).deplacement; }), { status: 403 });
+  state = move(MANAGER, (v) => { delete mat(v).deplacement; mat(v).installation = { de: a.id, at: 0, par: 'X' }; }); // confirmé
+  assert.equal(mat(state).deplacement, undefined);
+  assert.deepEqual(mat(state).installation, { de: null, at: 1_800_000_000_000, par: 'G. Bernard', parId: MANAGER }); // valeur du serveur
+  state = move(MANAGER, (v) => { mat(v).hs = true; delete mat(v).installation; }); // autre modification : installation conservée
+  assert.equal(mat(state).installation.de, null);
+  state = move(MANAGER, (v) => { mat(v).salleId = null; });             // retour au stock : à déplacer depuis la salle b
+  assert.equal(mat(state).deplacement.de, b.id);
+  assert.equal(mat(state).installation, undefined);
+  state = move(MANAGER, (v) => { mat(v).salleId = b.id; });             // revenu à son emplacement physique : rien à faire
+  assert.equal(mat(state).deplacement, undefined);
+});
+
+test('import : seuls les nouveaux matériels et les transferts validés sont traités', () => {
+  const state = initialState();
+  const manager = as(state, MANAGER);
+  const open = new Set(state.remontees.filter((r) => r.statut !== 'validee').flatMap((r) => r.materielIds));
+  const ici = state.materiels.find((m) => m.ecoleId === 'e-num' && m.serie);
+  const [ailleurs, autre, cite] = [
+    ...state.materiels.filter((m) => m.ecoleId === 'e-res' && m.serie && !open.has(m.id)).slice(0, 2),
+    state.materiels.find((m) => m.ecoleId === 'e-res' && m.serie && open.has(m.id)),
+  ];
+  const row = (serie, modele = 'Écran importé') => ({ modele, type: 'ecran', dateReception: 1_790_000_000_000, hs: false, serie });
+  const analyse = analyseImport(state, manager, { ecoleId: 'e-num', series: [ici.serie, ailleurs.serie.toUpperCase(), 'INCONNU-1'] });
+  assert.equal(analyse[ici.serie.toLowerCase()].ecoleId, 'e-num');
+  assert.equal(analyse[ailleurs.serie.toLowerCase()].ecole, 'École des réseaux');
+  assert.equal(analyse['inconnu-1'], undefined);
+  if (cite) assert.ok(analyseImport(state, manager, { ecoleId: 'e-num', series: [cite.serie] })[cite.serie.toLowerCase()].bloque);
+  const rows = [row('NOUVEAU-1'), row('nouveau-1 '), row(ici.serie), row(ailleurs.serie), row(autre.serie), ...(cite ? [row(cite.serie)] : [])];
+  const { next, bilan } = importMateriels(state, manager, { ecoleId: 'e-num', materiels: rows, transferts: [ailleurs.serie, ...(cite ? [cite.serie] : [])] }, 1_800_000_000_000);
+  assert.deepEqual(bilan, { ajoutes: 1, transferes: 1, ignores: cite ? 4 : 3 }); // répété, déjà présent, transfert non validé, remontée en cours
+  const cree = next.materiels.find((m) => m.serie === 'NOUVEAU-1');
+  assert.ok(cree.idAster.startsWith('MAT-') && cree.ecoleId === 'e-num' && !cree.deplacement);
+  const transfere = next.materiels.find((m) => m.id === ailleurs.id);
+  assert.deepEqual([transfere.ecoleId, transfere.salleId, transfere.idAster], ['e-num', null, ailleurs.idAster]); // identifiant conservé, en stock
+  assert.equal(next.materiels.find((m) => m.id === autre.id).ecoleId, 'e-res');
+  assert.equal(next.materiels.length, state.materiels.length + 1);
+  assert.throws(() => importMateriels(state, as(state, TEACHER), { ecoleId: 'e-num', materiels: rows }), { status: 403 });
+  assert.throws(() => importMateriels(state, manager, { ecoleId: 'e-res', materiels: rows }), { status: 400 }); // école d'un autre
+  assert.throws(() => importMateriels(state, manager, { ecoleId: 'e-num', materiels: [row(ici.serie)] }), { status: 400 }); // rien de nouveau
+});
+
 test('parc : gestionnaire sans suppression ni autre école ; identifiant ASTER attribué', () => {
   const state = initialState();
   const manager = as(state, MANAGER);
@@ -104,16 +207,22 @@ test('bâtiments : un administrateur renomme un bâtiment ; salles, étages et r
   assert.throws(() => mergeState(state, attempt, teacher), { status: 403 });
 });
 
-test('préférences : ambiance et verre reconnus, valeur inconnue remplacée par le défaut', () => {
+test('préférences : ambiance, tonalité et verre reconnus, valeur inconnue remplacée par le défaut', () => {
   const state = initialState();
   const admin = as(state, ADMIN);
   const input = scopedState(state, admin);
-  input.prefs = { ambiance: 'orion', glass: 'solid' };
+  input.prefs = { ambiance: 'minarm', tone: 'dark', glass: 'solid' }; // sombre forcé
   let next = mergeState(state, input, admin);
-  assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'orion', glass: 'solid' });
-  input.prefs = { ambiance: 'brume', glass: 'frost' }; // anciennes valeurs
+  assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'minarm', tone: 'dark', glass: 'solid' });
+  input.prefs = { ambiance: 'brume', tone: 'nuit', glass: 'frost' }; // anciennes valeurs, tonalité inconnue
   next = mergeState(state, input, admin);
-  assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'aube', glass: 'liquid' });
+  assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'aster', tone: 'auto', glass: 'liquid' });
+  input.prefs = { ambiance: 'encre', glass: 'solid' }; // Aube et Encre réunies dans ASTER (11 novembre)
+  next = mergeState(state, input, admin);
+  assert.equal(scopedState(next, admin).prefs.ambiance, 'aster');
+  input.prefs = { ambiance: 'etat', glass: 'solid' }; // État renommée Minarm
+  next = mergeState(state, input, admin);
+  assert.equal(scopedState(next, admin).prefs.ambiance, 'minarm');
 });
 
 test('comptes : création dans son école, adresse unique, pas d’auto-désactivation, sujet conservé', () => {
@@ -189,6 +298,26 @@ test('comparaison : l’ordre des propriétés d’un élément relu en base est
   // Un autre serveur renvoie les mêmes matériels, propriétés dans un autre ordre : aucune modification
   view.materiels = view.materiels.map((m) => Object.fromEntries(Object.entries(m).reverse()));
   assert.doesNotThrow(() => mergeState(state, view, teacher));
+});
+
+test('supervision : règles de départ, applications déployables et logiciels connus', () => {
+  const state = initialState();
+  const classOf = (nom) => processClass(state, { nom, salleId: 's-e-num-a012' });
+  assert.equal(new Set(state.regles.map((r) => r.id)).size, state.regles.length, 'identifiants de règles uniques');
+  assert(state.regles.every((r) => r.portee === 'global' && r.ecoleId === null));
+  for (const nom of ['firefox.exe', 'Code.exe', 'idea64.exe', 'python.exe', 'Docker Desktop.exe', 'notepad++.exe', 'soffice.exe']) assert.equal(classOf(nom), 'whitelist', nom);
+  for (const nom of ['steam.exe', 'EpicGamesLauncher.exe', 'RobloxPlayerBeta.exe', 'qbittorrent.exe', 'tor.exe', 'AnyDesk.exe']) assert.equal(classOf(nom), 'blacklist', nom);
+  assert.equal(classOf('STEAM.EXE'), 'blacklist', 'nom comparé sans la casse');
+  assert.equal(classOf('vlc.exe'), 'nonref');
+  // Une application déployable est un logiciel connu dont les exécutables sont autorisés
+  for (const app of state.applications) {
+    const l = logiciel(app.nom);
+    assert(l, app.nom);
+    assert(l.exe.every((nom) => classOf(nom) === 'whitelist'), app.nom);
+  }
+  assert.equal(logiciel('libreoffice').exe[0], 'soffice.exe');
+  assert.equal(logiciel('CODE.EXE').nom, 'Visual Studio Code');
+  assert.equal(logiciel('inconnu.exe'), undefined);
 });
 
 test('écritures concurrentes : fusion élément par élément, conflit seulement sur le même élément', () => {

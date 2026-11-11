@@ -4,11 +4,10 @@
    suit sa valeur rapportée au maximum, en quatre paliers d'une même teinte.
    ========================================================================== */
 
-import { num, dateDay, monthShort } from '#shared/format.js';
+import { num, plural, dateDay, monthShort } from '#shared/format.js';
 
 /** Palier 0 à 3 d'une valeur rapportée au maximum (0 : aucune) */
 const level = (v, max) => (v > 0 ? Math.min(3, Math.ceil((v / Math.max(max, 1)) * 3)) : 0);
-const plural = (n, one, many) => `${num(n)} ${n > 1 ? many : one}`;
 const DAYS = ['lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.', 'dim.'];
 
 /**

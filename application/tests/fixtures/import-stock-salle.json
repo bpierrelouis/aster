@@ -1,1115 +1,1101 @@
 [
   {
-    "modele": "Unité centrale OptiPlex 7010",
+    "modele": "Unité centrale ProDesk 400 G9",
     "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260001",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260002",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260003",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260004",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260005",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260006",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260007",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260008",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260009",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260010",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260011",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260012",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260013",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260014",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260015",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260016",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260017",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260018",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260019",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Unité centrale OptiPlex 7010",
-    "type": "uc",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "UC-260020",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260021",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260022",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260023",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260024",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260025",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260026",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260027",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260028",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260029",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260030",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260031",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260032",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260033",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260034",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260035",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260036",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260037",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260038",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260039",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260040",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260041",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260042",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260043",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260044",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260045",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260046",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260047",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260048",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260049",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260050",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260051",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260052",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260053",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260054",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260055",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260056",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260057",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260058",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260059",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Écran 24 pouces",
-    "type": "ecran",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Dell",
-    "serie": "EC-260060",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Clavier USB",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Souris filaire",
-    "type": "peripherique",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech"
-  },
-  {
-    "modele": "Vidéoprojecteur EB-W06",
-    "type": "videoprojecteur",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Epson",
-    "serie": "VP-260101",
-    "garantieFin": "2028-11-03"
-  },
-  {
-    "modele": "Vidéoprojecteur EB-W06",
-    "type": "videoprojecteur",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Epson",
-    "serie": "VP-260102",
-    "garantieFin": "2028-11-03"
-  },
-  {
-    "modele": "Vidéoprojecteur EB-W06",
-    "type": "videoprojecteur",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Epson",
-    "serie": "VP-260103",
-    "garantieFin": "2028-11-03"
-  },
-  {
-    "modele": "Commutateur 24 ports",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Cisco",
-    "serie": "SW-260104",
-    "garantieFin": "2031-11-03"
-  },
-  {
-    "modele": "Commutateur 24 ports",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Cisco",
-    "serie": "SW-260105",
-    "garantieFin": "2031-11-03"
-  },
-  {
-    "modele": "Borne Wi-Fi",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Ubiquiti",
-    "serie": "WF-260106",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Borne Wi-Fi",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Ubiquiti",
-    "serie": "WF-260107",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Borne Wi-Fi",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Ubiquiti",
-    "serie": "WF-260108",
-    "garantieFin": "2029-11-03"
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Câble Ethernet 5 m",
-    "type": "reseau",
-    "dateReception": "2026-11-03",
-    "hs": false
-  },
-  {
-    "modele": "Enceintes USB",
-    "type": "audio",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Creative"
-  },
-  {
-    "modele": "Enceintes USB",
-    "type": "audio",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Creative"
-  },
-  {
-    "modele": "Webcam HD",
-    "type": "audio",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech",
-    "serie": "WC-260135",
-    "garantieFin": "2028-11-03"
-  },
-  {
-    "modele": "Webcam HD",
-    "type": "audio",
-    "dateReception": "2026-11-03",
-    "hs": false,
-    "marque": "Logitech",
-    "serie": "WC-260136",
-    "garantieFin": "2028-11-03"
-  },
-  {
-    "modele": "Imprimante laser",
-    "type": "imprimante",
-    "dateReception": "2026-11-03",
+    "dateReception": "2026-11-09",
     "hs": false,
     "marque": "HP",
-    "serie": "IM-260137",
-    "garantieFin": "2028-11-03"
+    "serie": "PD400-2611-001",
+    "garantieFin": "2029-11-09"
   },
   {
-    "modele": "Imprimante laser",
-    "type": "imprimante",
-    "dateReception": "2026-11-03",
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
     "hs": false,
     "marque": "HP",
-    "serie": "IM-260138",
-    "garantieFin": "2028-11-03"
+    "serie": "PD400-2611-002",
+    "garantieFin": "2029-11-09"
   },
   {
-    "modele": "Onduleur",
-    "type": "autre",
-    "dateReception": "2026-11-03",
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
     "hs": false,
-    "marque": "APC",
-    "serie": "ON-260139",
-    "garantieFin": "2028-11-03"
+    "marque": "HP",
+    "serie": "PD400-2611-003",
+    "garantieFin": "2029-11-09"
   },
   {
-    "modele": "Onduleur",
-    "type": "autre",
-    "dateReception": "2026-11-03",
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
     "hs": false,
-    "marque": "APC",
-    "serie": "ON-260140",
-    "garantieFin": "2028-11-03"
+    "marque": "HP",
+    "serie": "PD400-2611-004",
+    "garantieFin": "2029-11-09"
   },
   {
-    "modele": "Onduleur",
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-005",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-006",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-007",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-008",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-009",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-010",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-011",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-012",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-013",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-014",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-015",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-016",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-017",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-018",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-019",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Unité centrale ProDesk 400 G9",
+    "type": "uc",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "HP",
+    "serie": "PD400-2611-020",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-001",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-002",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-003",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-004",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-005",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-006",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-007",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-008",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-009",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-010",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-011",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-012",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-013",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-014",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-015",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-016",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-017",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-018",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-019",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-020",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-021",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-022",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-023",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-024",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-025",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-026",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-027",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-028",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-029",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-030",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-031",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-032",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-033",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-034",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-035",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-036",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-037",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-038",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-039",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Écran ProLite XUB2493HS 24 pouces",
+    "type": "ecran",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XUB24-2611-040",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Clavier K120 AZERTY",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Souris optique M100",
+    "type": "peripherique",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech"
+  },
+  {
+    "modele": "Vidéoprojecteur EB-992F",
+    "type": "videoprojecteur",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Epson",
+    "serie": "EB992-2611-001",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Vidéoprojecteur EB-992F",
+    "type": "videoprojecteur",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Epson",
+    "serie": "EB992-2611-002",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Commutateur 48 ports CBS350",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Cisco",
+    "serie": "CBS48-2611-001",
+    "garantieFin": "2031-11-09"
+  },
+  {
+    "modele": "Point d’accès Wi-Fi U6 Lite",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Ubiquiti",
+    "serie": "U6L-2611-001",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Point d’accès Wi-Fi U6 Lite",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Ubiquiti",
+    "serie": "U6L-2611-002",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Point d’accès Wi-Fi U6 Lite",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Ubiquiti",
+    "serie": "U6L-2611-003",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Câble Ethernet catégorie 6, 3 m",
+    "type": "reseau",
+    "dateReception": "2026-11-09",
+    "hs": false
+  },
+  {
+    "modele": "Casque USB H390",
+    "type": "audio",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech",
+    "serie": "H390-2611-001",
+    "garantieFin": "2028-11-09"
+  },
+  {
+    "modele": "Casque USB H390",
+    "type": "audio",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech",
+    "serie": "H390-2611-002",
+    "garantieFin": "2028-11-09"
+  },
+  {
+    "modele": "Casque USB H390",
+    "type": "audio",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech",
+    "serie": "H390-2611-003",
+    "garantieFin": "2028-11-09"
+  },
+  {
+    "modele": "Casque USB H390",
+    "type": "audio",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Logitech",
+    "serie": "H390-2611-004",
+    "garantieFin": "2028-11-09"
+  },
+  {
+    "modele": "Imprimante multifonction MFC-L2750DW",
+    "type": "imprimante",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "Brother",
+    "serie": "MFC27-2611-001",
+    "garantieFin": "2029-11-09"
+  },
+  {
+    "modele": "Onduleur Back-UPS 700",
     "type": "autre",
-    "dateReception": "2026-11-03",
+    "dateReception": "2026-11-09",
     "hs": false,
     "marque": "APC",
-    "serie": "ON-260141",
-    "garantieFin": "2028-11-03"
+    "serie": "BU700-2611-001",
+    "garantieFin": "2028-11-09"
+  },
+  {
+    "modele": "Onduleur Back-UPS 700",
+    "type": "autre",
+    "dateReception": "2026-11-09",
+    "hs": false,
+    "marque": "APC",
+    "serie": "BU700-2611-002",
+    "garantieFin": "2028-11-09"
+  },
+  {
+    "modele": "Écran 27 pouces",
+    "type": "ecran",
+    "dateReception": "2024-08-16",
+    "hs": false,
+    "marque": "Iiyama",
+    "serie": "XC-25693",
+    "garantieFin": "2027-08-16"
+  },
+  {
+    "modele": "Unité centrale ThinkCentre M70",
+    "type": "uc",
+    "dateReception": "2024-09-14",
+    "hs": false,
+    "marque": "Lenovo",
+    "serie": "UN-82908",
+    "garantieFin": "2027-09-14"
   }
 ]

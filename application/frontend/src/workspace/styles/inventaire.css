@@ -6,7 +6,7 @@
 .inv-filters select { max-width:190px; padding-block:14px; border-radius:16px; }
 .inv-selection { display:flex; align-items:center; flex-wrap:wrap; gap:10px; min-height:64px; padding:10px 22px; font-size:13px; }
 .inv-count { margin-left:auto; color:var(--ink-2); }
-.inv-table-scroll { overflow:auto; }
+.inv-table-scroll { overflow:auto; overscroll-behavior:none; }
 .inv-table { width:100%; border-collapse:collapse; font-size:13px; text-align:left; }
 .inv-table th { color:var(--ink-2); font-size:11px; font-weight:600; white-space:nowrap; }
 /* En-tête toujours visible : il reste en haut du tableau pendant le défilement */
@@ -25,12 +25,44 @@
 .inv-details { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
 .inv-details dt { color:var(--ink-2); font-size:12px; margin-bottom:7px; }
 .inv-details dd { margin:0; font-weight:550; }
-.inv-import { border-radius:28px; padding:32px; max-width:1000px; display:grid; grid-template-columns: .8fr 1.2fr; gap:32px; }
+/* Import JSON : formulaire, puis aperçu des matériels (views/inventaire/inventaire-import.jsx) */
+.inv-import-view { display:flex; flex-direction:column; gap:22px; }
+.inv-import { border-radius:28px; padding:32px; display:grid; grid-template-columns: .8fr 1.2fr; gap:32px; }
 .inv-import h2 { font-size:25px; letter-spacing:-.035em; margin:24px 0 14px; }
 .inv-import p { line-height:1.7; color:var(--ink-2); }
 .inv-drop { border:1px dashed var(--accent); padding:20px; border-radius:16px; }
 .inv-import textarea { font-family:ui-monospace,monospace; font-size:12px; resize:vertical; }
 .inv-help { grid-column:1/-1; border-top:1px solid var(--hairline); padding-top:22px; font-size:13px; }
-.inv-help summary { cursor:pointer; font-weight:600; }
+.inv-help summary, .inv-paste summary { cursor:pointer; font-weight:600; }
+.inv-paste[open] summary { margin-bottom:12px; }
 .inv-help pre { overflow:auto; padding:18px; background:var(--fill-1); border-radius:14px; line-height:1.7; }
+.inv-preview { display:flex; flex-direction:column; gap:14px; }
+.inv-preview-lead { font-size:15px; color:var(--ink-2); }
+.inv-preview-lead b { color:var(--ink-1); }
+/* Bilan de l'aperçu : prêts à être ajoutés, à accepter, non traités */
+.inv-tally { display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:12px; }
+.inv-tally li { display:flex; align-items:center; gap:14px; padding:14px 18px; border-radius:18px; background:var(--fill-1); }
+.inv-tally b { font-size:28px; font-weight:800; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+.inv-tally span { font-size:13.5px; line-height:1.35; color:var(--ink-2); }
+.inv-tally .is-ok b { color:var(--ok); }
+.inv-tally .is-choice { background:color-mix(in srgb, var(--accent) 10%, transparent); }
+.inv-tally .is-choice b { color:var(--accent-text); }
+.inv-tally .is-skip { background:color-mix(in srgb, var(--warn) 14%, transparent); }
+.inv-preview tr.is-flagged td { background:color-mix(in srgb, var(--warn) 9%, transparent); }
+/* Tableau de l'aperçu : colonnes fixes, d'une page à l'autre et quand une ligne change d'état */
+.inv-preview .ops-table { table-layout:fixed; }
+.inv-preview .ops-table :is(th, td) { padding:16px 14px; }
+.inv-preview th:nth-child(1) { width:19%; }
+.inv-preview th:nth-child(2) { width:19%; }
+.inv-preview th:nth-child(3) { width:12%; }
+.inv-preview th:nth-child(4) { width:14.5%; }
+.inv-preview th:nth-child(5) { width:10%; }
+.inv-preview th:nth-child(6) { width:8.5%; }
+.inv-preview th:nth-child(7) { width:17%; }
+.inv-preview td { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:background var(--dur-2) var(--ease-soft); }
+.inv-preview td:nth-child(2) { white-space:normal; } /* modèle et marque */
+.inv-preview td .chip { max-width:100%; }
+.inv-transfer { display:inline-flex; align-items:center; gap:10px; font-weight:600; }
+.inv-add { color:var(--ok); font-weight:650; }
+.inv-skip { color:var(--ink-3); }
 @media(max-width:800px) { .inv-filters { padding:14px; } .inv-filters select { max-width:none; flex:1 1 130px; } .inv-import { grid-template-columns:1fr; padding:22px; } .inv-details { grid-template-columns:1fr; } }

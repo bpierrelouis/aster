@@ -12,7 +12,7 @@
 .ops-process > div { flex:1; min-width:0; }
 .ops-process small { display:block; margin-top:4px; color:var(--ink-2); }
 .ops-table-wrap { overflow:hidden; border-radius:24px; --radius:24px; }
-.ops-table-scroll { overflow:auto; }
+.ops-table-scroll { overflow:auto; overscroll-behavior:none; }
 .ops-table { width:100%; border-collapse:collapse; font-size:14px; text-align:left; }
 .ops-table th { font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2); font-weight:600; }
 /* En-tête toujours visible : il reste en haut du tableau pendant le défilement */

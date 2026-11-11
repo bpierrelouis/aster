@@ -4,9 +4,10 @@ const routes = [
   '/accueil', '/accueil/parc', '/accueil/remontees', '/salles',
   '/salles/batiment/A', '/salles/stock',
   '/materiels/inventaire', '/materiels/import',
-  '/remontees/attente', '/remontees/traitees', '/remontees/toutes', '/remontees/miennes',
+  '/remontees/attente', '/remontees/encours', '/remontees/traitees', '/remontees/validees', '/remontees/toutes', '/remontees/miennes',
   '/supervision/salles', '/supervision/alertes', '/supervision/listes', '/supervision/statistiques',
   '/administration/postes', '/administration/applications', '/administration/batiments', '/administration/comptes',
+  '/salles/deplacements', '/notifications',
 ];
 
 // Le titre de chaque écran est réservé aux lecteurs d'écran : présent, mais non affiché
@@ -265,49 +266,79 @@ test('les actions de l’écran restent visibles pendant le défilement', async 
   await expect(action).toBeInViewport();
 });
 
-test('sans barre de défilement, l’en-tête du tableau reste visible et la ligne suivante est coupée', async ({ page }) => {
+const bottom = async (locator) => { const b = await locator.boundingBox(); return b.y + b.height; };
+
+test('sans barre ni rebond de défilement, la fenêtre s’aligne sur le bas du menu et un fondu signale la suite', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await open(page, '/materiels/inventaire');
   const scroller = page.locator('.inv-table-scroll');
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollbarWidth)).toBe('none');
-  expect(await scroller.evaluate((el) => getComputedStyle(el).scrollbarWidth)).toBe('none');
-  // La ligne qui croise le bas de la zone en montre entre le tiers et la moitié
-  const shown = await scroller.evaluate((el) => {
-    const bottom = el.getBoundingClientRect().bottom;
-    const row = [...el.querySelectorAll('tbody tr')].map((r) => r.getBoundingClientRect()).find((r) => r.top < bottom && r.bottom > bottom);
-    return row ? (bottom - row.top) / row.height : null;
-  });
-  expect(shown).toBeGreaterThanOrEqual(1 / 3 - .02);
-  expect(shown).toBeLessThanOrEqual(1 / 2 + .02);
+  expect(await scroller.evaluate((el) => [getComputedStyle(el).scrollbarWidth, getComputedStyle(el).overscrollBehaviorY])).toEqual(['none', 'none']);
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).overscrollBehaviorY)).toBe('none');
+  expect(Math.abs(await bottom(page.locator('.inv-panel')) - await bottom(page.locator('.rail')))).toBeLessThanOrEqual(1);
+  await expect(scroller).toHaveClass(/has-more/);
   await scroller.evaluate((el) => { el.scrollTop = 600; });
   const [head, box] = [await page.locator('.inv-table thead th').first().boundingBox(), await scroller.boundingBox()];
   expect(Math.abs(head.y - box.y)).toBeLessThanOrEqual(1);
+  await scroller.evaluate((el) => { el.scrollTop = el.scrollHeight; });
+  await expect(scroller).not.toHaveClass(/has-more/);
 });
 
-test('la légende des salles reste visible pendant le défilement', async ({ page }) => {
+test('la légende des salles reste visible pendant le défilement ; le panneau garde sa forme', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await open(page, '/salles');
+  const panel = page.locator('.spanel');
+  const height = (await panel.boundingBox()).height;
+  expect(Math.abs(await bottom(panel) - await bottom(page.locator('.rail')))).toBeLessThanOrEqual(1);
   await page.mouse.move(500, 600);
   await page.mouse.wheel(0, 1200);
   await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(200);
   await expect(page.locator('.iso-legend')).toBeInViewport({ ratio: 1 });
+  await page.locator('.salle-row').nth(3).hover(); // nouveau rendu une fois la page défilée
+  expect((await panel.boundingBox()).height).toBe(height);
 });
 
-test('quatre ambiances changent les couleurs et la marque', async ({ page }) => {
+test('quatre ambiances ; Aster et Minarm suivent la machine, ou la tonalité forcée par le soleil ou la lune', async ({ page }) => {
   await open(page, '/accueil');
   await page.getByRole('button', { name: 'Compte' }).click();
   const group = page.getByRole('radiogroup', { name: 'Ambiance' });
-  await expect(group.getByRole('radio')).toHaveText(['Aube', 'Encre', 'Orion', 'Vigie']);
+  const html = page.locator('html');
+  await expect(group.getByRole('radio')).toHaveText(['Aster', 'Minarm', 'Orion', 'Vigie']);
   await expect(page.getByRole('radiogroup', { name: 'Verre' }).getByRole('radio')).toHaveText(['Liquide', 'Opaque']);
+  // Aster (défaut) : Aube en clair, Encre en sombre, en direct
+  await expect(html).toHaveAttribute('data-ambiance', 'aster');
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect(html).toHaveAttribute('data-tone', 'dark');
+  await page.emulateMedia({ colorScheme: 'light' });
+  await expect(html).toHaveAttribute('data-tone', 'light');
+  // Minarm : couleurs du DSFR et Marianne
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await group.getByRole('radio', { name: 'Minarm' }).click();
+  await expect(html).toHaveAttribute('data-ambiance', 'minarm');
+  await expect(html).toHaveAttribute('data-tone', 'dark');
+  await expect(page.locator('.rail-brand .brand--minarm')).toHaveCount(1);
+  await page.emulateMedia({ colorScheme: 'light' });
+  await expect(html).toHaveAttribute('data-tone', 'light');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(246, 246, 246)'); // background-alt-grey du DSFR
   await group.getByRole('radio', { name: 'Orion' }).click();
-  await expect(page.locator('html')).toHaveAttribute('data-ambiance', 'orion');
-  await expect(page.locator('html')).toHaveAttribute('data-tone', 'dark');
+  await expect(html).toHaveAttribute('data-tone', 'dark');
   await expect(page.locator('.rail-brand .brand--orion')).toHaveCount(1);
+  await expect(page.locator('.tone-switch')).toHaveCount(0); // tonalité propre à l'ambiance
   await group.getByRole('radio', { name: 'Vigie' }).click();
-  await expect(page.locator('html')).toHaveAttribute('data-tone', 'light');
+  await expect(html).toHaveAttribute('data-tone', 'light');
   await expect(page.locator('.rail-brand .brand--vigie')).toHaveCount(1);
-  await group.getByRole('radio', { name: 'Aube' }).click();
-  await expect(page.locator('html')).toHaveAttribute('data-ambiance', 'aube');
+  await group.getByRole('radio', { name: 'Aster' }).click();
+  await expect(html).toHaveAttribute('data-ambiance', 'aster');
+  // Soleil ou lune : force l'autre tonalité ; revenir à celle de la machine la suit de nouveau
+  await expect(page.getByText(/Chrome ou Edge/)).toHaveCount(0);
+  await page.getByRole('button', { name: 'Passer en sombre' }).click();
+  await expect(html).toHaveAttribute('data-tone', 'dark');
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.getByRole('button', { name: 'Passer en clair' }).click();
+  await expect(html).toHaveAttribute('data-tone', 'light');
+  await page.getByRole('button', { name: 'Passer en sombre' }).click();
+  await page.emulateMedia({ colorScheme: 'light' });
+  await expect(html).toHaveAttribute('data-tone', 'light');
 });
 
 test('les tableaux de bord présentent des diagrammes ; indicateurs et diagrammes sans icône', async ({ page, request }) => {
@@ -413,13 +444,64 @@ test('une salle s’équipe de postes et de matériels secondaires pris dans le 
   expect(moved).toHaveLength(expected);
   expect(moved.every((m) => !m.hs)).toBe(true);
   expect(moved.filter((m) => m.type === 'ecran')).toHaveLength(postes * 2);
+  expect(moved.every((m) => m.deplacement?.de === null)).toBe(true); // à déplacer depuis le stock
+});
+
+test('installation : un point orange passe au vert, la salle est équipée une fois tout installé', async ({ page, request }) => {
+  const data = await state(request);
+  const atelier = data.salles.find((s) => s.nom === 'Atelier 2');
+  const pending = data.materiels.filter((m) => m.salleId === atelier.id && m.deplacement?.de === null);
+  expect(pending.length).toBeGreaterThan(1);
+  await open(page, `/salles/salle/${atelier.id}`);
+  const block = page.locator('.inst-block');
+  await expect(block).toContainText('En cours d’installation');
+  const progress = () => block.getByRole('progressbar').getAttribute('aria-valuenow').then(Number);
+  const start = await progress();
+  await block.click();
+  await expect(page).toHaveURL(new RegExp(`/salles/deplacements\\?salle=${atelier.id}$`));
+  await expect(page.locator('.group-lead')).toContainText(/\d+ matériels? à déplacer$/);
+  const card = page.getByRole('region', { name: 'Stock vers Atelier 2' });
+  await expect(card.locator('button.inst-dot')).toHaveCount(pending.length);
+  await card.locator('button.inst-dot').first().click(); // en cours → installé, enregistré par le serveur
+  await expect(card.locator('button.inst-dot')).toHaveCount(pending.length - 1);
+  await expect.poll(async () => (await state(request)).materiels.filter((m) => m.salleId === atelier.id && m.installation && !m.deplacement && m.installation.at > Date.now() - 60_000).length).toBe(1);
+  await open(page, `/salles/salle/${atelier.id}`);
+  expect(await progress()).toBeGreaterThan(start);
+  await page.locator('.inst-block').click();
+  const dots = page.getByRole('region', { name: 'Stock vers Atelier 2' }).locator('button.inst-dot');
+  await expect(dots.first()).toBeVisible();
+  await expect(page.getByRole('button', { name: /Tout est/ })).toHaveCount(0); // un matériel à la fois
+  for (let left = await dots.count(); left > 0; left--) {
+    await dots.first().click();
+    await expect(dots).toHaveCount(left - 1);
+  }
+  await expect.poll(async () => (await state(request)).materiels.filter((m) => m.salleId === atelier.id && m.deplacement).length).toBe(0);
+  await open(page, `/salles/salle/${atelier.id}`);
+  await expect(page.locator('.inst-block')).toHaveCount(0);
+  await expect(page.locator('.insp-title')).toContainText('Équipée');
+});
+
+test('Échap ferme la fenêtre munie d’une croix ouverte en dernier', async ({ page }) => {
+  await open(page, '/salles/salle/s-e-num-a012');
+  await page.locator('.dev').first().click();
+  await expect(page.locator('.dev-card .dev-card-head')).toBeVisible();
+  await page.keyboard.press('Escape'); // fiche du matériel
+  await expect(page.locator('.dev-card')).toHaveCount(0);
+  await expect(page).toHaveURL(/\/salles\/salle\/s-e-num-a012/);
+  await page.keyboard.press('Escape'); // fiche de la salle : retour à son bâtiment, comme la croix
+  await expect(page).toHaveURL(/\/salles\/batiment\/A$/);
+  await open(page, '/remontees/toutes');
+  await page.locator('.rm-row').first().click();
+  await expect(page.locator('.rm-detail .insp-title h2')).toHaveText(/^REM-/);
+  await page.keyboard.press('Escape'); // détail de la remontée
+  await expect(page).toHaveURL(/\/remontees\/toutes$/);
 });
 
 test('les postes de l’administration sont paginés, sans les demandes d’intervention', async ({ page, request }) => {
   await open(page, '/administration/postes');
   const total = (await state(request)).postes.length;
   const pages = Math.ceil(total / 25);
-  await expect(page.locator('.ops-table tbody tr')).toHaveCount(Math.min(25, total));
+  await expect(page.locator('.inv-table tbody tr')).toHaveCount(Math.min(25, total));
   await expect(page.getByRole('heading', { name: 'Demandes d’intervention' })).toHaveCount(0);
   if (pages > 1) {
     await page.locator('.pagination').getByRole('button', { name: 'Suivant' }).click();
@@ -433,6 +515,146 @@ test('le menu principal n’a pas de bulle ; les règles de processus portent le
   await expect(page.locator('.rail-item.is-active')).toHaveAttribute('data-nav', 'supervision');
   for (const nom of ['firefox.exe', 'Code.exe', 'steam.exe']) {
     await expect(page.locator('.ops-table tr', { hasText: nom }).locator('img.app-icon')).toHaveCount(1);
+  }
+});
+
+test('supervision : Alertes par défaut ; la recherche ignore casse et espaces, reconnaît l’application et filtre les processus', async ({ page }) => {
+  await open(page, '/supervision/inconnu');
+  await expect(page.locator('#view h1')).toHaveText('Alertes & détections');
+  await open(page, '/supervision/listes');
+  const search = page.getByRole('searchbox', { name: 'Rechercher' });
+  await search.fill('  LibreOffice ');
+  await expect(page.locator('.ops-table tbody tr')).toHaveText([/soffice\.exe/, /soffice\.bin/]);
+  await search.fill('blacklist STEAM');
+  await expect(page.locator('.ops-table tbody tr')).toHaveText([/steam\.exe/]);
+  await search.fill('processus-absent');
+  await expect(page.locator('.ops-table tbody tr')).toHaveText([/Aucune règle/]);
+  // Un poste trouvé par un processus ne montre que les processus correspondants
+  await open(page, '/supervision/salles?salle=s-e-num-a101');
+  await search.fill('FIREFOX');
+  const names = page.locator('.ops-process strong');
+  await expect(names.first()).toBeVisible();
+  expect(new Set(await names.allTextContents())).toEqual(new Set(['firefox.exe']));
+});
+
+test('le gestionnaire suit son travail dans le backlog ; seul l’auteur valide et clôt', async ({ page, request }) => {
+  const comptes = (await state(request)).comptes.filter((c) => c.actif);
+  const admin = comptes.find((c) => c.role === 'admin');
+  const manager = comptes.find((c) => c.role === 'gestionnaire');
+  const report = (await state(request)).remontees.find((r) => r.statut === 'attente');
+  const asAccount = async (id) => expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
+  const col = (phase) => page.locator(`.bl-col--${phase}`);
+  try {
+    await asAccount(manager.id);
+    await page.goto('/remontees');
+    await expect(page).toHaveURL(/\/remontees\/backlog$/);
+    await expect(page.locator('.subnav .seg-btn')).toHaveText([/Remontées/, /Installations/, /Toutes/]);
+    await expect(page.locator('.bl-col')).toHaveCount(4);
+    await expect(col('attente').locator('.bl-title').first()).toHaveText(/^(Ne s’allume pas|Pas d’image|Connexion|Casse|Fonctionnement anormal|Autre)$/); // la remontée, pas ses matériels
+    await col('attente').locator('.bl-card', { hasText: report.id }).click();
+    await page.getByRole('button', { name: 'Prendre en charge' }).click();
+    await expect(col('encours').locator('.bl-card', { hasText: report.id })).toHaveCount(1);
+    await page.getByRole('button', { name: 'Remplacé', exact: true }).click();
+    await expect(col('traitee').locator('.bl-card', { hasText: report.id })).toHaveCount(1);
+    await expect(page.getByRole('button', { name: 'Valider et clore' })).toHaveCount(0); // le gestionnaire n'en est pas l'auteur
+    await asAccount(report.auteurId);
+    await open(page, '/accueil'); // l'auteur est invité à valider le traitement
+    await page.getByRole('button', { name: 'Notifications', exact: true }).click();
+    await expect(page.locator('.popover--list .pop-row', { hasText: /traitées?, à valider/ })).toHaveCount(1);
+    await open(page, `/remontees/traitees/${report.id}`);
+    await page.getByRole('button', { name: 'Valider et clore' }).click();
+    await expect.poll(async () => (await state(request)).remontees.find((r) => r.id === report.id)?.statut).toBe('validee');
+  } finally {
+    await asAccount(admin.id);
+  }
+});
+
+test('l’import JSON n’ajoute que les nouveaux matériels et, une fois validés, les transferts d’une autre école', async ({ page, request }) => {
+  const asAccount = async (id) => expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
+  try {
+    await asAccount('cpt-superadmin'); // toutes les écoles, pour choisir les matériels du fichier
+    const all = await state(request);
+    const cited = new Set(all.remontees.filter((r) => r.statut !== 'validee').flatMap((r) => r.materielIds));
+    const ici = all.materiels.find((m) => m.ecoleId === 'e-num' && m.serie);
+    const ailleurs = all.materiels.find((m) => m.ecoleId === 'e-res' && m.serie && !cited.has(m.id));
+    await asAccount('cpt-num-admin');
+    await open(page, '/materiels/import');
+    await page.getByText('Ou coller le JSON').click(); // champ facultatif, replié
+    await page.getByLabel('JSON', { exact: true }).fill(JSON.stringify([
+      { modele: 'Clavier aperçu', type: 'peripherique', dateReception: '2026-11-08', serie: 'APERCU-0001' },
+      { modele: 'Écran aperçu', type: 'ecran', dateReception: '2026-11-08', serie: ici.serie },
+      { modele: 'Écran échangé', type: 'ecran', dateReception: '2026-11-08', serie: ailleurs.serie },
+      { modele: 'Clavier aperçu', type: 'peripherique', dateReception: '2026-11-08', serie: 'apercu-0001' },
+    ]));
+    const preview = page.getByRole('region', { name: 'Aperçu de l’import' });
+    await expect(preview.locator('.inv-tally .is-ok')).toContainText(/1\s*nouveau matériel, prêt à être ajouté/);
+    await expect(preview.locator('.inv-tally')).toContainText(/1\s*déjà présent dans le parc, non traité/);
+    await expect(preview.getByRole('alert').first()).toContainText('autre école');
+    await expect(preview.getByRole('alert').nth(1)).toContainText('déjà présent');
+    await expect(preview.locator('tbody tr').first()).toContainText(`École des réseaux · ${ailleurs.idAster}`); // à décider : en premier
+    await expect(preview.locator('tbody tr', { hasText: `Déjà présent · ${ici.idAster}` })).toContainText('Non traité');
+    await expect(preview.locator('tbody tr', { hasText: /APERCU-0001/ })).toContainText('Prêt à être ajouté');
+    await expect(page.getByRole('button', { name: 'Importer 1 matériel' })).toBeEnabled();
+    await preview.getByRole('switch', { name: `Transférer ${ailleurs.idAster} depuis École des réseaux` }).click();
+    await page.getByRole('button', { name: 'Importer 2 matériels' }).click();
+    await expect(page.getByRole('button', { name: 'Import terminé' })).toBeVisible(); // coche, puis bouton initial
+    await expect(page.locator('.inv-import [role="status"]')).toContainText('1 matériel ajouté, 1 transféré, 2 non traités');
+    await expect(preview).toHaveCount(0);
+    const resultat = page.getByRole('region', { name: 'Résultat de l’import' }); // la liste reste, avec le résultat
+    await expect(resultat.locator('tbody tr', { hasText: /APERCU-0001/ })).toContainText('Ajouté');
+    await expect(resultat.locator('tbody tr', { hasText: ailleurs.idAster })).toContainText('Transféré');
+    await expect(page.getByRole('button', { name: 'Importer les matériels' })).toBeDisabled();
+    await expect(page.locator('.inv-drop input[type="file"]')).toHaveValue('');
+    const after = await state(request);
+    expect(after.materiels.filter((m) => m.modele === 'Clavier aperçu')).toHaveLength(1);
+    expect(after.materiels.find((m) => m.id === ailleurs.id)).toMatchObject({ ecoleId: 'e-num', idAster: ailleurs.idAster, salleId: null });
+  } finally {
+    await asAccount('cpt-num-admin');
+  }
+});
+
+test('le gestionnaire suit l’installation des salles dans un second backlog ; les déplacements vont d’un lieu à un autre', async ({ page, request }) => {
+  const comptes = (await state(request)).comptes.filter((c) => c.actif);
+  const admin = comptes.find((c) => c.role === 'admin');
+  const manager = comptes.find((c) => c.role === 'gestionnaire');
+  const asAccount = async (id) => expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
+  try {
+    await asAccount(manager.id);
+    await open(page, '/remontees/installations');
+    await expect(page.locator('.bl-col')).toHaveCount(3);
+    await expect(page.locator('.bl-col--terminees .bl-card', { hasText: 'B203' }).getByRole('progressbar')).toHaveAttribute('aria-valuenow', '100');
+    await page.locator('.bl-col--afaire .bl-card', { hasText: 'C202' }).click();
+    await expect(page).toHaveURL(/\/salles\/deplacements\?salle=/);
+    await expect(page.getByRole('region', { name: 'C201 vers C202' })).toContainText('2 matériels à installer');
+    await open(page, '/salles/deplacements');
+    await expect(page.getByRole('region', { name: 'Atelier 1 vers Stock' })).toContainText(/\d+ matériels? à rapatrier/);
+  } finally {
+    await asAccount(admin.id);
+  }
+});
+
+test('les notifications sont regroupées par nature ; l’espace Notifications les détaille toutes', async ({ page, request }) => {
+  const comptes = (await state(request)).comptes.filter((c) => c.actif);
+  const admin = comptes.find((c) => c.role === 'admin');
+  const manager = comptes.find((c) => c.role === 'gestionnaire');
+  const asAccount = async (id) => expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
+  try {
+    await asAccount(manager.id);
+    await open(page, '/accueil');
+    await page.getByRole('button', { name: 'Notifications', exact: true }).click();
+    const pop = page.locator('.popover--list');
+    await expect(pop.locator('.pop-row', { hasText: /sous garantie échue/ })).toHaveCount(1);
+    await expect(pop.locator('.pop-row', { hasText: /à échéance/ })).toHaveCount(1);
+    const groups = await pop.locator('.pop-row').count();
+    await expect(page.locator('.topbar-actions .badge')).toHaveText(String(groups)); // un sujet par groupe
+    await pop.getByRole('link', { name: 'Voir toutes les notifications' }).click();
+    await expect(page).toHaveURL(/\/notifications$/);
+    await expect(page.locator('.group-card')).toHaveCount(groups);
+    await page.locator('.group-card', { hasText: /sous garantie échue/ }).getByRole('link', { name: 'Ouvrir' }).click();
+    await expect(page).toHaveURL(/\/materiels\/inventaire\?garantie=/);
+    await expect(page.getByRole('combobox', { name: 'Garantie' })).toHaveValue('Échue');
+  } finally {
+    await asAccount(admin.id);
   }
 });
 

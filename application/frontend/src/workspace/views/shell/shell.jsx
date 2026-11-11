@@ -17,11 +17,14 @@ import { can } from '../../core/permissions.js';
 import { setGlassLevel } from '../../core/glass.js';
 import { applyAmbiance } from '../../core/theme.js';
 import { role as roleOf } from '#shared/catalog.js';
-import { remontees, batiments, batimentLabel, index } from '../../core/selectors.js';
+import { remontees, batiments, batimentLabel, index, parc } from '../../core/selectors.js';
+import { installations } from '../../core/installations.js';
+import { TABS, remonteeTabs } from '../remontees/remontees-tabs.js';
 import { num } from '#shared/format.js';
 import { reveal } from '../../ui/reveal.js';
 import { PageActionsSlot } from '../../widgets/parts.jsx';
-import { AccountPopover, EcolePopover, AlertsPopover, Spotlight, ecoleNom, weekNotifications } from './shell-menus.jsx';
+import { AccountPopover, EcolePopover, AlertsPopover, Spotlight, ecoleNom, initiale } from './shell-menus.jsx';
+import { notificationGroups } from '../../core/notifications.js';
 import { customBoards, openBoardForm } from '../dashboard/dashboard-boards.jsx';
 
 /* Modules du menu principal */
@@ -29,9 +32,9 @@ export const NAV = [
   { id: 'accueil', path: '/accueil', label: 'Accueil', icon: 'home', cap: 'dashboard.perso' },
   { id: 'salles', path: '/salles', label: 'Salles', icon: 'salles', cap: 'salle.view' },
   { id: 'materiels', path: '/materiels/inventaire', label: 'Matériels', icon: 'materiel', cap: 'materiel.create' },
-  { id: 'remontees', path: '/remontees/attente', label: 'Remontées', icon: 'ticket', cap: null },
-  { id: 'supervision', path: '/supervision/salles', label: 'Supervision', icon: 'supervision', cap: 'supervision.view' },
-  { id: 'administration', path: '/administration/postes', label: 'Administration', icon: 'gear', cap: 'administration.view' },
+  { id: 'remontees', path: '/remontees', label: 'Remontées', icon: 'ticket', cap: null },
+  { id: 'supervision', path: '/supervision/alertes', label: 'Supervision', icon: 'supervision', cap: 'supervision.view' },
+  { id: 'administration', path: '/administration/postes', label: 'Administration', icon: 'sliders', cap: 'administration.view' },
 ];
 const allowed = (n) => n.cap === null || can(n.cap);
 
@@ -48,20 +51,21 @@ function subnav(navId) {
       { path: '/salles', label: 'Tous les bâtiments', icon: 'salles' },
       ...batiments().map((b) => ({ path: `/salles/batiment/${b}`, label: batimentLabel(b), badge: b })),
       can('materiel.move') && { path: '/salles/stock', label: 'Stock', icon: 'stockage' },
+      can('materiel.move') && { path: '/salles/deplacements', label: 'Déplacements', icon: 'refresh', count: parc().deplacements.length },
     ].filter(Boolean);
     case 'materiels': return [
       { path: '/materiels/inventaire', label: 'Inventaire', icon: 'recherche' },
       { path: '/materiels/import', label: 'Import JSON', icon: 'importJson' },
     ];
-    case 'remontees': return [
-      { path: '/remontees/attente', label: 'En attente', icon: 'hourglass', count: remontees().attente.length },
-      { path: '/remontees/traitees', label: 'Traitées', icon: 'checkCircle' },
-      { path: '/remontees/toutes', label: 'Toutes', icon: 'list' },
-      can('remontee.create') && can('remontee.viewAll') && { path: '/remontees/miennes', label: 'Mes remontées', icon: 'user' },
-    ].filter(Boolean);
+    case 'remontees': return remonteeTabs().map((id) => ({
+      path: `/remontees/${id}`, label: TABS[id].label, icon: TABS[id].icon,
+      // nouvelles remontées à prendre en charge ; salles en cours d'installation ; remontées de l'auteur à valider
+      count: ['attente', 'backlog'].includes(id) ? remontees().attente.length : id === 'installations' ? installations().enCours.length
+        : id === (me().role === 'formateur' ? 'traitees' : 'miennes') ? remontees().mineAValider.length : undefined,
+    }));
     case 'supervision': return [
-      { path: '/supervision/salles', label: 'Salles', icon: 'salles' },
       { path: '/supervision/alertes', label: 'Alertes', icon: 'alertes' },
+      { path: '/supervision/salles', label: 'Salles', icon: 'salles' },
       can('administration.view') && { path: '/supervision/listes', label: 'Listes de processus', icon: 'shield' },
       can('administration.view') && { path: '/supervision/statistiques', label: 'Statistiques', icon: 'chartLine' },
     ].filter(Boolean);
@@ -100,9 +104,9 @@ export function Shell() {
 
   // Préférences d'affichage
   useEffect(() => {
-    applyAmbiance(s.prefs.ambiance);
+    applyAmbiance(s.prefs.ambiance, s.prefs.tone);
     setGlassLevel(s.prefs.glass);
-  }, [s.prefs.ambiance, s.prefs.glass]);
+  }, [s.prefs.ambiance, s.prefs.tone, s.prefs.glass]);
 
   // Recherche au clavier
   useEffect(() => {
@@ -161,7 +165,7 @@ export function Shell() {
   if (nav && !allowed(nav)) return <Navigate to="/accueil" replace />;
 
   const attente = remontees().attente.length;
-  const notifs = weekNotifications().length;
+  const notifs = notificationGroups().length; // notifications regroupées
   const r = roleOf(s.role);
   const ecole = ecoleNom(currentEcole());
   const switchable = can('ecole.switch');
@@ -205,8 +209,8 @@ export function Shell() {
         <button type="button" className="icon-btn" aria-label="Notifications" data-tip="Notifications" data-tip-pos="bottom" onClick={toggle('alerts')}>
           <Icon name="bell" size={20} />{notifs > 0 && <span className="badge">{notifs}</span>}
         </button>
-        <button type="button" className="avatar" aria-label="Compte" aria-haspopup="dialog" aria-expanded="false" onClick={toggle('account')}>
-          <span className="avatar-face">{me().nom.split(' ').at(-1).slice(0, 1)}</span>
+        <button type="button" className="avatar" aria-label="Compte" aria-haspopup="dialog" aria-expanded={pop?.kind === 'account'} onClick={toggle('account')}>
+          <span className="avatar-face">{initiale()}</span>
           <span className="avatar-role" style={{ '--c': r.color }}><Icon name={r.icon} size={11} stroke={2.6} /></span>
         </button>
       </div>
