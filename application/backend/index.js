@@ -4,6 +4,7 @@ import session from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
 import pg from 'pg';
 import * as oidc from 'openid-client';
+import swaggerUi from 'swagger-ui-express';
 import { fileURLToPath } from 'node:url';
 import { readConfig } from './config.js';
 import { identityFromClaims, userFromAccount } from './profiles.js';
@@ -11,6 +12,9 @@ import { createWorkspaceRouter, createAgentRouter } from './workspace/routes.js'
 import { createKeycloakProvisioning } from './demonstrateur/identity-provisioning.js';
 import { createPostgresWorkspaceRepository } from './workspace/postgres.js';
 import { createS3Storage } from './storage.js';
+import { createServices } from './services.js';
+import { openapi } from './openapi.js';
+import { DISCONNECT_AFTER } from './workspace/postes.js';
 
 const config = readConfig();
 const pool = new pg.Pool({ connectionString: config.databaseUrl });
@@ -46,20 +50,19 @@ const saveSession = (req) => new Promise((resolve, reject) => req.session.save((
 const regenerateSession = (req) => new Promise((resolve, reject) => req.session.regenerate((error) => error ? reject(error) : resolve()));
 const destroySession = (req) => new Promise((resolve, reject) => req.session.destroy((error) => error ? reject(error) : resolve()));
 
-app.get('/api/health', async (_req, res) => {
-  try {
-    await pool.query('SELECT 1');
-    const metadata = await fetch(`${config.issuer.href.replace(/\/$/, '')}/.well-known/openid-configuration`, { signal: AbortSignal.timeout(3000) });
-    if (!metadata.ok || (await metadata.json()).issuer !== config.issuer.href) throw new Error('Fournisseur indisponible');
-    res.json({ status: 'ok' });
-  } catch {
-    res.status(503).json({ status: 'unavailable' });
-  }
-});
-
 // Espace de travail : données métier dans PostgreSQL, états des lieux PDF dans le stockage S3.
 const storage = createS3Storage(config.s3);
 const workspaceRepository = await createPostgresWorkspaceRepository({ pool, storage });
+
+// Système : état et description des services, documentation de l'API
+const services = createServices({ config, pool, snapshot: workspaceRepository.snapshot, connectedAfter: DISCONNECT_AFTER });
+app.get('/api/health', async (_req, res) => {
+  const health = await services.health();
+  res.status(health.status === 'unavailable' ? 503 : 200).json(health);
+});
+app.get('/api/infos', (_req, res) => res.json(services.infos()));
+app.get('/api/openapi.json', (_req, res) => res.json(openapi));
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openapi, { customSiteTitle: 'API ASTER' }));
 
 // Identités du fournisseur local (démonstrateur) : créées pour les comptes ASTER actifs
 const provisioning = config.identityProvisioning ? createKeycloakProvisioning({ issuer: config.issuer, ...config.keycloakAdmin }) : null;

@@ -1,10 +1,13 @@
 # Images ASTER, une cible par image : docker build --target web | api | postes .
 
 FROM node:22.22.3-alpine3.24 AS node
+# Version publiée par /api/infos : commit de l'image
+ARG ASTER_VERSION
 WORKDIR /app
-ENV NODE_ENV=production
+ENV NODE_ENV=production ASTER_VERSION=$ASTER_VERSION
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+# Sans scripts d'installation : aucune dépendance de production n'en a besoin (évite la télémétrie de @scarf/scarf)
+RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 COPY shared ./shared
 COPY backend ./backend
 COPY --chmod=755 infra/images/secrets.sh /usr/local/bin/aster-secrets

@@ -143,6 +143,19 @@ Les postes communiquent par l’API `/api/agent` du serveur, authentifiée par u
 
 **Démonstrateur uniquement :** les postes Windows sont émulés par [backend/demonstrateur/agents.js](backend/demonstrateur/agents.js), qui utilise l’API réelle (programmes utilisateur, déconnexions, programmes interdits occasionnels, exécution des interventions avec un faible taux d’échec). Le protocole, l’authentification par poste et le déploiement d’un agent réel sur Windows restent à définir.
 
+## État, description et documentation de l’API
+
+Ces routes sont publiques, sans connexion (application connectée seulement) :
+
+| Route | Rôle |
+| --- | --- |
+| `GET /api/health` | État de chaque service : adresse `hôte:port`, IP résolues, port, état (`up`, `down` ou `not-configured`), temps de réponse ou erreur ; pour les postes, nombre de postes connectés. État global `ok`, `degraded` (service facultatif indisponible) ou `unavailable` : réponse 503 seulement si la base de données ou le fournisseur d’identité est indisponible |
+| `GET /api/infos` | Description du système (version, mode, démarrage), de l’instance qui répond (nom d’hôte, IP, Node.js) et du rôle de chaque service |
+| `GET /api/docs/` | Documentation interactive (Swagger UI) |
+| `GET /api/openapi.json` | Spécification OpenAPI 3.1 de toutes les routes ([backend/openapi.js](backend/openapi.js)) |
+
+Les services et leurs contrôles sont définis dans [backend/services.js](backend/services.js) : réponse HTTP pour le point d’entrée (`APP_URL`), le serveur web, le fournisseur d’identité, son administration et le stockage S3 ; requête SQL pour la base ; connexion TCP pour l’annuaire et le collecteur de journaux. Dans Docker Swarm, l’IP d’un service joint par son nom est son adresse virtuelle sur le réseau overlay. Aucun identifiant n’est publié. Toute route ajoutée au serveur est décrite dans `backend/openapi.js`.
+
 ## Structure
 
 Le frontend suit l’organisation habituelle d’un projet React : tout le code de l’interface est sous `src/`, rangé par rôle (données, crochets, composants génériques, widgets, un dossier par écran) ; les fichiers sont nommés en minuscules avec des tirets. Le code commun au navigateur et au serveur (référentiels, formats, données de départ, règle de renommage des bâtiments, préférences d’affichage) est dans `shared/`, importé par l’alias `#shared/…` (champ `imports` de `package.json`, compris par Node et par Vite). Le serveur sépare règles métier, moteur d’écriture, routes HTTP et stockage ; les facilités propres au démonstrateur sont isolées dans `backend/demonstrateur/`.
@@ -179,6 +192,8 @@ application/
 │   ├── config.js
 │   ├── profiles.js              # Profils ASTER et utilisateur présenté au navigateur
 │   ├── storage.js               # Stockage S3
+│   ├── services.js              # Description et état des services (/api/infos, /api/health)
+│   ├── openapi.js               # Spécification OpenAPI (Swagger UI sur /api/docs)
 │   ├── workspace/
 │   │   ├── rules.js             # Droits, visibilité, fusion des écritures concurrentes
 │   │   ├── postes.js            # Rapports et résultats des postes
@@ -238,6 +253,10 @@ Variables complémentaires, notamment pour le démonstrateur déployé sur VM en
 | `KEYCLOAK_ADMIN_URL` | Adresse de l’API d’administration de Keycloak, si elle diffère de l’émetteur (sur les VM : `http://keycloak:8080`) | origine de `OIDC_ISSUER` |
 | `NODE_EXTRA_CA_CERTS` | Fichier de l’autorité de certification à reconnaître pour joindre Keycloak et le stockage S3 en HTTPS (variable native de Node.js) | aucune |
 | `ASTER_API` | Adresse du serveur pour l’émulateur des postes (sur les VM : `http://api:3001`) | `http://127.0.0.1:3001` |
+| `WEB_URL` | Serveur web contrôlé par `/api/health` (sur les VM : `http://apache:8080`) | non contrôlé |
+| `LDAP_URL` | Annuaire contrôlé par `/api/health` (sur les VM : `ldap://ldap:389`) | non contrôlé |
+| `SYSLOG_URL` | Collecteur de journaux contrôlé par `/api/health` (sur les VM : `tcp://<IP VM 08>:6514`) | non contrôlé |
+| `ASTER_VERSION` | Version publiée par `/api/infos` ; fixée à la construction de l’image (commit) | aucune |
 
 ### Images et intégration continue
 
