@@ -1,0 +1,229 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1420" height="1290" viewBox="0 0 1420 1290" role="img" aria-labelledby="title desc">
+<title id="title">ASTER — architecture réelle complète sur huit VM</title>
+<desc id="desc">Placement des services, conteneurs ou services de l’hôte, rôles Swarm, versions, ports, volumes et flux.</desc>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f6cbd"/></marker>
+<marker id="arrow-start" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0 L0 5 L10 10 Z" fill="#0f6cbd"/></marker>
+<symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+<symbol id="i-user-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="m21.7 16.4-.9-.3"/><path d="m15.2 13.9-.9-.3"/><path d="m16.6 18.7.3-.9"/><path d="m19.1 12.2.3-.9"/><path d="m19.6 18.7-.4-1"/><path d="m16.8 12.3-.4-1"/><path d="m14.3 16.6 1-.4"/><path d="m20.7 13.8 1-.4"/></symbol>
+<symbol id="i-boxes" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42Z"/><path d="m7 16.5-4.74-2.85"/><path d="m7 16.5 5-3"/><path d="M7 16.5v5.17"/><path d="M12 13.5V19l3.97 2.38a2 2 0 0 0 2.06 0l3-1.8a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L17 10.5l-5 3Z"/><path d="m17 16.5-5-3"/><path d="m17 16.5 4.74-2.85"/><path d="M17 16.5v5.17"/><path d="M7.97 4.42A2 2 0 0 0 7 6.13v4.37l5 3 5-3V6.13a2 2 0 0 0-.97-1.71l-3-1.8a2 2 0 0 0-2.06 0l-3 1.8Z"/><path d="M12 8 7.26 5.15"/><path d="m12 8 4.74-2.85"/><path d="M12 13.5V8"/></symbol>
+<symbol id="i-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></symbol>
+<symbol id="i-split" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+<symbol id="i-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 22v-2"/><path d="m17 20.66-1-1.73"/><path d="M11 10.27 7 3.34"/><path d="m20.66 17-1.73-1"/><path d="m3.34 7 1.73 1"/><path d="M14 12h8"/><path d="M2 12h2"/><path d="m20.66 7-1.73 1"/><path d="m3.34 17 1.73-1"/><path d="m17 3.34-1 1.73"/><path d="m11 13.73-4 6.93"/></symbol>
+<symbol id="i-app-window" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></symbol>
+<symbol id="i-archive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></symbol>
+<symbol id="i-hard-drive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></symbol>
+<symbol id="i-key-round" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
+<symbol id="i-book-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 13a3 3 0 1 0-6 0"/><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><circle cx="12" cy="8" r="2"/></symbol>
+<symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></symbol>
+<symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
+<symbol id="i-scroll-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 12h-5"/><path d="M15 8h-5"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></symbol>
+</defs>
+<style>
+text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
+.title{font-size:30px;font-weight:bold}
+.body{font-size:15px;fill:#425a72}
+.frame,.zname{font-size:16px;font-weight:bold}
+.vm{font-size:15px;font-weight:bold}
+.service{font-size:14px;font-weight:bold}
+.cname{font-size:15px;font-weight:bold}
+.crole{font-size:12.5px;fill:#425a72}
+.cvm{font-size:12px;font-weight:bold;fill:#0f6cbd}
+.caption{font-size:12.5px;fill:#425a72}
+.vol{font-size:12.5px;font-weight:bold;fill:#24603d}
+.tag{font-size:10.5px;font-weight:bold;fill:#0f6cbd;letter-spacing:.3px}
+.tag.host{fill:#a06a00}
+.badge{font-size:10.5px;font-weight:bold;fill:#254e78;letter-spacing:.5px}
+.step{font-size:13px;font-weight:bold;fill:#fff}
+.route{font-size:11.5px;font-weight:bold;fill:#0b4f8a;paint-order:stroke;stroke:#fff;stroke-width:4;stroke-linejoin:round}
+.flow{fill:none;stroke:#0f6cbd;stroke-width:2}
+.auto{stroke-dasharray:6 4}
+</style>
+<rect width="1420" height="1290" fill="#fff"/>
+<text x="40" y="44" class="title" text-anchor="start">Architecture réelle complète sur huit VM</text>
+<text x="40" y="72" class="body" text-anchor="start">Debian 13 · Docker · une pile Docker Swarm · accès par l’IP de la VM 01</text>
+<rect x="20" y="205" width="170" height="130" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-users" x="32" y="217" width="22" height="22" style="color:#3d5a78"/>
+<text x="64" y="233" class="service" text-anchor="start">Navigateur</text>
+<text x="64" y="252" class="caption" text-anchor="start">Firefox</text>
+<text x="64" y="268" class="caption" text-anchor="start">React 19.3.1</text>
+<rect x="20" y="1160" width="170" height="110" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-user-cog" x="32" y="1172" width="22" height="22" style="color:#3d5a78"/>
+<text x="64" y="1188" class="service" text-anchor="start">Opérateur</text>
+<text x="64" y="1207" class="caption" text-anchor="start">son poste, sur le</text>
+<text x="64" y="1223" class="caption" text-anchor="start">réseau</text>
+<text x="64" y="1239" class="caption" text-anchor="start">d’administration</text>
+<rect x="285" y="140" width="1095" height="990" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-dasharray="7 5" stroke-width="1.5"/>
+<use href="#i-boxes" x="300" y="152" width="22" height="22" style="color:#0f6cbd"/>
+<text x="330" y="169" class="frame" text-anchor="start">Cluster Docker Swarm · VM 01 à 08 · réseau overlay « aster »</text>
+<rect x="305" y="195" width="275" height="425" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<use href="#i-server" x="317" y="206" width="16" height="16" style="color:#5b7690"/>
+<text x="339" y="219" class="vm" text-anchor="start">VM 01</text>
+<text x="339" y="236" class="caption" text-anchor="start">Entrée</text>
+<rect x="505.6" y="205" width="64.4" height="19" rx="9.5" fill="#d7e8fb" stroke="none"/>
+<text x="537.8" y="218.5" class="badge" text-anchor="middle">MANAGER</text>
+<rect x="318" y="245" width="249" height="270" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
+<use href="#i-split" x="328" y="255" width="20" height="20" style="color:#0f6cbd"/>
+<text x="356" y="270" class="service" text-anchor="start">HAProxy 3.2</text>
+<text x="557" y="269" class="tag" text-anchor="end">conteneur</text>
+<text x="356" y="288" class="caption" text-anchor="start">image officielle</text>
+<text x="356" y="304" class="caption" text-anchor="start">réseau de l’hôte</text>
+<text x="356" y="320" class="caption" text-anchor="start">HTTPS 443 · ASTER</text>
+<text x="356" y="336" class="caption" text-anchor="start">HTTPS 8443 · Keycloak</text>
+<text x="356" y="352" class="caption" text-anchor="start">HTTPS 9443 · SeaweedFS</text>
+<text x="356" y="368" class="caption" text-anchor="start">HTTPS 8444 · console Keycloak</text>
+<rect x="318" y="530" width="249" height="72" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
+<use href="#i-clock" x="328" y="540" width="20" height="20" style="color:#a06a00"/>
+<text x="356" y="555" class="service" text-anchor="start">chrony</text>
+<text x="557" y="554" class="tag host" text-anchor="end">service hôte</text>
+<text x="356" y="573" class="caption" text-anchor="start">paquet Debian</text>
+<text x="356" y="589" class="caption" text-anchor="start">NTP 123/UDP</text>
+<rect x="305" y="640" width="275" height="115" rx="10" fill="#fff" stroke="#b9c7d6"/>
+<use href="#i-boxes" x="317" y="652" width="18" height="18" style="color:#5b7690"/>
+<text x="343" y="667" class="service" text-anchor="start">Docker Swarm</text>
+<text x="317" y="689" class="caption" text-anchor="start">Managers : VM 01, 04, 05</text>
+<text x="317" y="705" class="caption" text-anchor="start">Workers : VM 02, 03, 06, 07, 08</text>
+<text x="317" y="721" class="caption" text-anchor="start">2377/TCP · 7946/TCP-UDP · 4789/UDP</text>
+<rect x="305" y="775" width="275" height="115" rx="10" fill="#fff6e5" stroke="#e3bd6d"/>
+<use href="#i-cog" x="317" y="787" width="18" height="18" style="color:#a06a00"/>
+<text x="343" y="802" class="service" text-anchor="start">Sur chaque VM</text>
+<text x="317" y="824" class="caption" text-anchor="start">Debian 13 · Docker · OpenSSH (22)</text>
+<text x="317" y="840" class="caption" text-anchor="start">systemd-timesyncd → VM 01</text>
+<text x="317" y="856" class="caption" text-anchor="start">pilote syslog de Docker → VM 08</text>
+<rect x="650" y="195" width="300" height="150" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<use href="#i-server" x="662" y="206" width="16" height="16" style="color:#5b7690"/>
+<text x="684" y="219" class="vm" text-anchor="start">VM 02</text>
+<text x="684" y="236" class="caption" text-anchor="start">Interface</text>
+<rect x="882.8" y="205" width="57.2" height="19" rx="9.5" fill="#e8eef5" stroke="none"/>
+<text x="911.4" y="218.5" class="badge" text-anchor="middle">WORKER</text>
+<rect x="663" y="245" width="274" height="86" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
+<use href="#i-app-window" x="673" y="255" width="20" height="20" style="color:#0f6cbd"/>
+<text x="701" y="270" class="service" text-anchor="start">Apache 2.4</text>
+<text x="927" y="269" class="tag" text-anchor="end">conteneur</text>
+<text x="701" y="288" class="caption" text-anchor="start">image sur httpd:2.4 · HTTP 8080</text>
+<text x="701" y="304" class="caption" text-anchor="start">build React 19.3.1</text>
+<text x="701" y="320" class="caption" text-anchor="start">2 instances · VM 02, 03, 07</text>
+<rect x="650" y="365" width="300" height="150" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<use href="#i-server" x="662" y="376" width="16" height="16" style="color:#5b7690"/>
+<text x="684" y="389" class="vm" text-anchor="start">VM 03</text>
+<text x="684" y="406" class="caption" text-anchor="start">API</text>
+<rect x="882.8" y="375" width="57.2" height="19" rx="9.5" fill="#e8eef5" stroke="none"/>
+<text x="911.4" y="388.5" class="badge" text-anchor="middle">WORKER</text>
+<rect x="663" y="415" width="274" height="86" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
+<use href="#i-server" x="673" y="425" width="20" height="20" style="color:#0f6cbd"/>
+<text x="701" y="440" class="service" text-anchor="start">Express 5.3</text>
+<text x="927" y="439" class="tag" text-anchor="end">conteneur</text>
+<text x="701" y="458" class="caption" text-anchor="start">image sur node:22 · HTTP 3001</text>
+<text x="701" y="474" class="caption" text-anchor="start">2 instances · VM 02, 03, 07</text>
+<rect x="650" y="535" width="300" height="170" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<use href="#i-server" x="662" y="546" width="16" height="16" style="color:#5b7690"/>
+<text x="684" y="559" class="vm" text-anchor="start">VM 05</text>
+<text x="684" y="576" class="caption" text-anchor="start">Fichiers</text>
+<rect x="875.6" y="545" width="64.4" height="19" rx="9.5" fill="#d7e8fb" stroke="none"/>
+<text x="907.8" y="558.5" class="badge" text-anchor="middle">MANAGER</text>
+<rect x="663" y="585" width="274" height="56" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
+<use href="#i-archive" x="673" y="595" width="20" height="20" style="color:#0f6cbd"/>
+<text x="701" y="610" class="service" text-anchor="start">SeaweedFS 4.50</text>
+<text x="927" y="609" class="tag" text-anchor="end">conteneur</text>
+<text x="701" y="628" class="caption" text-anchor="start">image officielle · S3 HTTP 8333</text>
+<rect x="663" y="651" width="274" height="40" rx="8" fill="#e6f4ec" stroke="#8fc4a3"/>
+<use href="#i-hard-drive" x="673" y="663" width="16" height="16" style="color:#2f7a4f"/>
+<text x="697" y="668" class="vol" text-anchor="start">s3-data</text>
+<text x="697" y="683" class="caption" text-anchor="start">volume Docker · /data</text>
+<rect x="650" y="725" width="300" height="310" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<use href="#i-server" x="662" y="736" width="16" height="16" style="color:#5b7690"/>
+<text x="684" y="749" class="vm" text-anchor="start">VM 06</text>
+<text x="684" y="766" class="caption" text-anchor="start">Identité</text>
+<rect x="882.8" y="735" width="57.2" height="19" rx="9.5" fill="#e8eef5" stroke="none"/>
+<text x="911.4" y="748.5" class="badge" text-anchor="middle">WORKER</text>
+<rect x="663" y="775" width="274" height="56" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
+<use href="#i-key-round" x="673" y="785" width="20" height="20" style="color:#0f6cbd"/>
+<text x="701" y="800" class="service" text-anchor="start">Keycloak 26.7.4</text>
+<text x="927" y="799" class="tag" text-anchor="end">conteneur</text>
+<text x="701" y="818" class="caption" text-anchor="start">image officielle · HTTP 8080</text>
+<rect x="663" y="871" width="274" height="56" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
+<use href="#i-book-user" x="673" y="881" width="20" height="20" style="color:#0f6cbd"/>
+<text x="701" y="896" class="service" text-anchor="start">OpenLDAP 1.5.0</text>
+<text x="927" y="895" class="tag" text-anchor="end">conteneur</text>
+<text x="701" y="914" class="caption" text-anchor="start">image osixia/openldap · LDAP 389</text>
+<rect x="663" y="937" width="274" height="40" rx="8" fill="#e6f4ec" stroke="#8fc4a3"/>
+<use href="#i-hard-drive" x="673" y="949" width="16" height="16" style="color:#2f7a4f"/>
+<text x="697" y="954" class="vol" text-anchor="start">ldap-data</text>
+<text x="697" y="969" class="caption" text-anchor="start">volume Docker · /var/lib/ldap</text>
+<rect x="663" y="982" width="274" height="40" rx="8" fill="#e6f4ec" stroke="#8fc4a3"/>
+<use href="#i-hard-drive" x="673" y="994" width="16" height="16" style="color:#2f7a4f"/>
+<text x="697" y="999" class="vol" text-anchor="start">ldap-config</text>
+<text x="697" y="1014" class="caption" text-anchor="start">volume Docker · /etc/ldap/slapd.d</text>
+<rect x="1030" y="195" width="330" height="150" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<use href="#i-server" x="1042" y="206" width="16" height="16" style="color:#5b7690"/>
+<text x="1064" y="219" class="vm" text-anchor="start">VM 07</text>
+<text x="1064" y="236" class="caption" text-anchor="start">Postes simulés</text>
+<rect x="1292.8" y="205" width="57.2" height="19" rx="9.5" fill="#e8eef5" stroke="none"/>
+<text x="1321.4" y="218.5" class="badge" text-anchor="middle">WORKER</text>
+<rect x="1043" y="245" width="304" height="56" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
+<use href="#i-monitor" x="1053" y="255" width="20" height="20" style="color:#0f6cbd"/>
+<text x="1081" y="270" class="service" text-anchor="start">Émulateur des postes</text>
+<text x="1337" y="269" class="tag" text-anchor="end">conteneur</text>
+<text x="1081" y="288" class="caption" text-anchor="start">image sur node:22 · 1 instance</text>
+<rect x="1030" y="365" width="330" height="175" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<use href="#i-server" x="1042" y="376" width="16" height="16" style="color:#5b7690"/>
+<text x="1064" y="389" class="vm" text-anchor="start">VM 04</text>
+<text x="1064" y="406" class="caption" text-anchor="start">Base de données</text>
+<rect x="1285.6" y="375" width="64.4" height="19" rx="9.5" fill="#d7e8fb" stroke="none"/>
+<text x="1317.8" y="388.5" class="badge" text-anchor="middle">MANAGER</text>
+<rect x="1043" y="415" width="304" height="56" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
+<use href="#i-database" x="1053" y="425" width="20" height="20" style="color:#0f6cbd"/>
+<text x="1081" y="440" class="service" text-anchor="start">PostgreSQL 17.7</text>
+<text x="1337" y="439" class="tag" text-anchor="end">conteneur</text>
+<text x="1081" y="458" class="caption" text-anchor="start">image officielle · TCP 5432</text>
+<rect x="1043" y="481" width="304" height="40" rx="8" fill="#e6f4ec" stroke="#8fc4a3"/>
+<use href="#i-hard-drive" x="1053" y="493" width="16" height="16" style="color:#2f7a4f"/>
+<text x="1077" y="498" class="vol" text-anchor="start">pg-data</text>
+<text x="1077" y="513" class="caption" text-anchor="start">volume Docker · /var/lib/pgsql/data</text>
+<rect x="1030" y="560" width="330" height="175" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<use href="#i-server" x="1042" y="571" width="16" height="16" style="color:#5b7690"/>
+<text x="1064" y="584" class="vm" text-anchor="start">VM 08</text>
+<text x="1064" y="601" class="caption" text-anchor="start">Journaux</text>
+<rect x="1292.8" y="570" width="57.2" height="19" rx="9.5" fill="#e8eef5" stroke="none"/>
+<text x="1321.4" y="583.5" class="badge" text-anchor="middle">WORKER</text>
+<rect x="1043" y="610" width="304" height="56" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
+<use href="#i-scroll-text" x="1053" y="620" width="20" height="20" style="color:#0f6cbd"/>
+<text x="1081" y="635" class="service" text-anchor="start">Logstash 8.19</text>
+<text x="1337" y="634" class="tag" text-anchor="end">conteneur</text>
+<text x="1081" y="653" class="caption" text-anchor="start">image officielle · TCP TLS 6514</text>
+<rect x="1043" y="676" width="304" height="40" rx="8" fill="#e6f4ec" stroke="#8fc4a3"/>
+<use href="#i-hard-drive" x="1053" y="688" width="16" height="16" style="color:#2f7a4f"/>
+<text x="1077" y="693" class="vol" text-anchor="start">Dossier de la VM</text>
+<text x="1077" y="708" class="caption" text-anchor="start">/var/log/aster · monté, hors volume Docker</text>
+<path d="M190 260 L316 260" class="flow" marker-end="url(#arrow)"/>
+<text x="196" y="254" class="route" text-anchor="start">443 · ASTER</text>
+<path d="M190 295 L316 295" class="flow" marker-end="url(#arrow)"/>
+<text x="196" y="289" class="route" text-anchor="start">8443 · connexion</text>
+<path d="M190 330 L316 330" class="flow" marker-end="url(#arrow)"/>
+<text x="196" y="324" class="route" text-anchor="start">9443 · PDF</text>
+<path d="M567 290 L661 290" class="flow" marker-end="url(#arrow)"/>
+<text x="575" y="283" class="route" text-anchor="start">8080</text>
+<path d="M567 445 L661 445" class="flow" marker-end="url(#arrow)"/>
+<text x="575" y="438" class="route" text-anchor="start">3001</text>
+<path d="M663 485 L569 485" class="flow" marker-end="url(#arrow)"/>
+<text x="575" y="478" class="route" text-anchor="start">8443 · 9443</text>
+<path d="M567 505 L610 505 L610 803" class="flow"/>
+<path d="M610 613 L661 613" class="flow" marker-end="url(#arrow)"/>
+<text x="616" y="606" class="route" text-anchor="start">8333</text>
+<path d="M610 803 L661 803" class="flow" marker-end="url(#arrow)"/>
+<text x="616" y="796" class="route" text-anchor="start">8080</text>
+<path d="M800 831 L800 869" class="flow" marker-end="url(#arrow)"/>
+<text x="808" y="854" class="route" text-anchor="start">LDAP 389</text>
+<path d="M937 443 L1041 443" class="flow" marker-end="url(#arrow)"/>
+<text x="948" y="436" class="route" text-anchor="start">TCP 5432</text>
+<path d="M1043 273 L990 273 L990 420 L939 420" class="flow" marker-end="url(#arrow)"/>
+<text x="958" y="266" class="route" text-anchor="start">HTTP 3001</text>
+<path d="M440 890 L440 1110 L1195 1110 L1195 737" class="flow" marker-end="url(#arrow)"/>
+<text x="820" y="1104" class="route" text-anchor="middle">syslog TLS 6514 · conteneurs de chaque VM</text>
+<path d="M305 830 L295 830 L295 566 L316 566" class="flow" marker-end="url(#arrow)"/>
+<path d="M190 1235 L1100 1235 L1100 1132" class="flow" marker-end="url(#arrow)"/>
+<text x="640" y="1228" class="route" text-anchor="middle">SSH 22 · les 8 VM · client Docker vers un manager</text>
+<path d="M105 1160 L105 1152 L262 1152 L262 500 L316 500" class="flow" marker-end="url(#arrow)"/>
+<text x="272" y="1148" class="route" text-anchor="start">HTTPS 8444 · console Keycloak</text>
+</svg>
