@@ -1,11 +1,10 @@
-# Tests à chaque push et pull request ; images publiées sur Docker Hub depuis main.
+# À chaque push sur main : tests, puis images publiées sur Docker Hub s'ils passent.
 # Configuration du dépôt GitHub : variable DOCKERHUB_USERNAME, secret DOCKERHUB_TOKEN (jeton d'accès Docker Hub).
 name: CI
 
 on:
   push:
-    branches: [main, dev]
-  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 defaults:
