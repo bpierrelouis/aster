@@ -14,7 +14,7 @@ Elle vise à remplacer la gestion du parc informatique sous Excel par un outil c
 
 Le dossier [application/](application/README.md) regroupe le front React/Vite (`frontend/`), le back Express (`backend/`) et l’infrastructure PostgreSQL/Keycloak (`infra/`). Le code applicatif est écrit en JavaScript ; les icônes de l’interface utilisent Lucide.
 
-Avec Node.js 22.12 ou supérieur et Docker Desktop démarré :
+Avec Node.js 22.22 ou supérieur et Docker Desktop démarré :
 
 ```sh
 cd application
