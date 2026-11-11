@@ -16,9 +16,16 @@ export function readConfig(env = process.env) {
   if (production && (appUrl.protocol !== 'https:' || issuer.protocol !== 'https:' || env.OIDC_CLIENT_SECRET === 'aster-client-local' || env.SESSION_SECRET.length < 32)) {
     throw new Error('La production exige HTTPS, un fournisseur hors démonstrateur et des secrets dédiés.');
   }
+  // Démonstrateur : création des identités dans le Keycloak local, active hors production ou sur demande explicite
+  const identityProvisioning = env.IDENTITY_PROVISIONING ? env.IDENTITY_PROVISIONING === 'true' : !production;
+  if (production && identityProvisioning && (!env.KEYCLOAK_ADMIN_PASSWORD || env.KEYCLOAK_ADMIN_PASSWORD === 'keycloak-admin-local')) {
+    throw new Error('La création des identités en production exige un mot de passe d’administration Keycloak dédié.');
+  }
   return {
     production,
     port: Number(env.PORT || 3001),
+    // Adresse d'écoute : boucle locale par défaut, toutes les interfaces dans un conteneur (HOST=0.0.0.0)
+    host: env.HOST || '127.0.0.1',
     appUrl: appUrl.origin,
     issuer,
     clientId: env.OIDC_CLIENT_ID || 'aster-web',
@@ -27,7 +34,12 @@ export function readConfig(env = process.env) {
     sessionSecret: env.SESSION_SECRET || randomBytes(48).toString('base64url'),
     agentToken: env.AGENT_TOKEN || 'aster-agent-local',
     // Démonstrateur : compte d'administration du Keycloak local (création des identités)
-    keycloakAdmin: { adminUser: env.KEYCLOAK_ADMIN_USER || 'keycloak-admin', adminPassword: env.KEYCLOAK_ADMIN_PASSWORD || 'keycloak-admin-local' },
+    identityProvisioning,
+    keycloakAdmin: {
+      adminUrl: new URL(env.KEYCLOAK_ADMIN_URL || issuer.origin),
+      adminUser: env.KEYCLOAK_ADMIN_USER || 'keycloak-admin',
+      adminPassword: env.KEYCLOAK_ADMIN_PASSWORD || 'keycloak-admin-local',
+    },
     s3: {
       endpoint: s3Endpoint.href.replace(/\/$/, ''),
       region: env.S3_REGION || 'us-east-1',

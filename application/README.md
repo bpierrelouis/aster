@@ -226,4 +226,14 @@ La cible est le véritable MindefConnect. Son contrat d’intégration, ses acc�
 
 `npm run build` produit l’interface dans `frontend/dist/`. `npm start` démarre le serveur en mode production et sert cette interface ; il exige `APP_URL`, `DATABASE_URL`, `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`, un `SESSION_SECRET` d’au moins 32 caractères, la configuration S3 (`S3_ENDPOINT` en HTTPS, joignable par les navigateurs, `S3_BUCKET`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`) et un `AGENT_TOKEN` d’au moins 32 caractères. Les valeurs de démonstration sont refusées et le provisionnement des identités est désactivé. Le serveur écoute sur la boucle locale et attend un proxy HTTPS de confiance devant lui.
 
+Variables complémentaires, notamment pour le démonstrateur déployé sur VM en conteneurs :
+
+| Variable | Rôle | Valeur par défaut |
+| --- | --- | --- |
+| `HOST` | Adresse d’écoute du serveur ; `0.0.0.0` dans un conteneur, pour être joint par le proxy et par l’émulateur | `127.0.0.1` |
+| `IDENTITY_PROVISIONING` | `true` : crée dans le Keycloak local les identités des comptes actifs, même en mode production ; exige alors un `KEYCLOAK_ADMIN_PASSWORD` dédié | actif hors production seulement |
+| `KEYCLOAK_ADMIN_URL` | Adresse de l’API d’administration de Keycloak, si elle diffère de l’émetteur (sur les VM : `http://keycloak:8080`) | origine de `OIDC_ISSUER` |
+| `NODE_EXTRA_CA_CERTS` | Fichier de l’autorité de certification à reconnaître pour joindre Keycloak et le stockage S3 en HTTPS (variable native de Node.js) | aucune |
+| `ASTER_API` | Adresse du serveur pour l’émulateur des postes (sur les VM : `http://api:3001`) | `http://127.0.0.1:3001` |
+
 Ne pas utiliser `infra/compose.yaml` en production : il contient le flux sans mot de passe, les comptes locaux, l’émulateur de postes et des secrets publics. Les paramètres d’hébergement et les exigences complémentaires restent à définir dans le cadrage.

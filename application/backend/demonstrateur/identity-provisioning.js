@@ -5,8 +5,9 @@
    n'attribue que le profil et l'école.
    ========================================================================== */
 
-export function createKeycloakProvisioning({ issuer, adminUser, adminPassword, log = console }) {
-  const base = issuer.origin;
+// adminUrl : adresse de l'API d'administration, par défaut celle de l'émetteur ; sur les VM, l'adresse interne de Keycloak.
+export function createKeycloakProvisioning({ issuer, adminUrl = issuer, adminUser, adminPassword, log = console }) {
+  const base = adminUrl.origin;
   const realm = issuer.pathname.match(/\/realms\/([^/]+)/)?.[1];
   if (!realm) throw new Error('Realm Keycloak introuvable dans OIDC_ISSUER.');
 

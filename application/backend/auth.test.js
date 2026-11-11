@@ -33,4 +33,14 @@ test('les identifiants locaux sont utilisables uniquement hors production', () =
   assert.throws(() => readConfig({ ...production, S3_SECRET_KEY: 'aster-local-s3' }));
   assert.throws(() => readConfig({ ...production, S3_BUCKET: '' }));
   assert.throws(() => readConfig({ ...production, AGENT_TOKEN: 'aster-agent-local' }));
+  // Écoute et création des identités du démonstrateur
+  assert.equal(readConfig({}).host, '127.0.0.1');
+  assert.equal(readConfig({ HOST: '0.0.0.0' }).host, '0.0.0.0');
+  assert.equal(readConfig({}).identityProvisioning, true);
+  assert.equal(readConfig(production).identityProvisioning, false);
+  assert.throws(() => readConfig({ ...production, IDENTITY_PROVISIONING: 'true' }));
+  const demo = readConfig({ ...production, IDENTITY_PROVISIONING: 'true', KEYCLOAK_ADMIN_PASSWORD: 'dedicated-admin', KEYCLOAK_ADMIN_URL: 'http://keycloak:8080' });
+  assert.equal(demo.identityProvisioning, true);
+  assert.equal(demo.keycloakAdmin.adminUrl.origin, 'http://keycloak:8080');
+  assert.equal(readConfig(production).keycloakAdmin.adminUrl.origin, 'https://identity.example.test');
 });

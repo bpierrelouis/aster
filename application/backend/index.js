@@ -62,7 +62,7 @@ const storage = createS3Storage(config.s3);
 const workspaceRepository = await createPostgresWorkspaceRepository({ pool, storage });
 
 // Identités du fournisseur local (démonstrateur) : créées pour les comptes ASTER actifs
-const provisioning = config.production ? null : createKeycloakProvisioning({ issuer: config.issuer, ...config.keycloakAdmin });
+const provisioning = config.identityProvisioning ? createKeycloakProvisioning({ issuer: config.issuer, ...config.keycloakAdmin }) : null;
 const provision = (accounts) => provisioning?.ensure(accounts).catch((error) => console.error('Provisionnement des identités :', error.message));
 provision(workspaceRepository.state.comptes);
 workspaceRepository.onCommit((before, after) => { if (JSON.stringify(before.comptes) !== JSON.stringify(after.comptes)) provision(after.comptes); });
@@ -167,7 +167,7 @@ app.use((error, _req, res, _next) => {
   res.status(503).type('html').send('<!doctype html><html lang="fr"><meta charset="utf-8"><title>ASTER — Connexion indisponible</title><h1>Connexion momentanément indisponible</h1><p>Veuillez réessayer dans quelques instants. Si le problème persiste, contactez votre administrateur.</p><a href="/">Retour à la connexion</a></html>');
 });
 
-const server = app.listen(config.port, '127.0.0.1', () => console.log(`Serveur ASTER : http://localhost:${config.port}`));
+const server = app.listen(config.port, config.host, () => console.log(`Serveur ASTER : http://${config.host}:${config.port}`));
 for (const signal of ['SIGINT', 'SIGTERM']) {
   process.once(signal, () => server.close(() => pool.end().then(() => process.exit(0))));
 }
