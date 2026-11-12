@@ -113,7 +113,7 @@ function ImportPreview({ items, transferts, onToggle, ecoleNom, done = false }) 
       {doubles ? <li className="is-skip"><b>{num(doubles)}</b><span>en double dans le fichier, non traité{s(doubles)}</span></li> : null}
     </ul>
     {ecoles && !done ? <div className="hint hint--warn" role="alert"><Icon name="school" size={20} /><span>
-      {plural(ecoles, 'matériel')} {ecoles > 1 ? 'appartiennent' : 'appartient'} à une autre école. S’il s’agit d’un échange, acceptez-le avec « Transférer » : le matériel rejoint {ecoleNom} avec son identifiant ASTER. Sinon, il n’est pas traité.</span></div> : null}
+      {plural(ecoles, 'matériel')} {ecoles > 1 ? 'appartiennent' : 'appartient'} à une autre école. S’il s’agit d’un échange, acceptez-le avec « Transférer » : le matériel rejoint {ecoleNom} avec son identifiant Orion. Sinon, il n’est pas traité.</span></div> : null}
     {presents + doubles && !done ? <div className="hint hint--warn" role="alert"><Icon name="alertes" size={20} /><span>
       {presents ? `${plural(presents, 'matériel')} ${presents > 1 ? 'sont' : 'est'} déjà ${presents > 1 ? 'présents' : 'présent'} dans l’inventaire (même numéro de série). ` : ''}
       {doubles ? `${plural(doubles, 'ligne')} ${doubles > 1 ? 'répètent' : 'répète'} un numéro de série du fichier. ` : ''}
@@ -198,7 +198,7 @@ export function ImportPanel() {
   const label = !checked?.rows ? 'Importer les matériels' : !ready ? 'Analyse du parc…' : toImport ? `Importer ${plural(toImport, 'matériel')}` : 'Aucun matériel à importer';
   return <div className="inv-import-view">
     <section className="inv-import glass">
-      <div><Tile name="importJson" color="var(--accent)" size="l" /><h2>Votre inventaire, en une fois.</h2><p>Importez un tableau JSON. Chaque nouveau matériel reçoit un identifiant ASTER. Le fichier est analysé dès qu’il est choisi : l’aperçu signale les matériels déjà présents, non traités, et ceux d’une autre école, à accepter s’il s’agit d’un échange.</p></div>
+      <div><Tile name="importJson" color="var(--accent)" size="l" /><h2>Votre inventaire, en une fois.</h2><p>Importez un tableau JSON. Chaque nouveau matériel reçoit un identifiant Orion. Le fichier est analysé dès qu’il est choisi : l’aperçu signale les matériels déjà présents, non traités, et ceux d’une autre école, à accepter s’il s’agit d’un échange.</p></div>
       <form className="form" onSubmit={submit}>
         <label className="field"><span className="field-label">École</span><select name="ecole" value={ecoleId} onChange={(e) => { setEcoleId(e.target.value); setTransferts(new Set()); }}>{ecoles.map((e) => <option key={e.id} value={e.id}>{e.nom}</option>)}</select></label>
         <label className="inv-drop field"><span className="field-label">Fichier JSON</span><input name="file" type="file" accept=".json,application/json" onChange={readFile} /><span className="field-hint">{fileName ? `${fileName}, analysé ci-dessous.` : '2 000 matériels maximum, 2 Mo maximum.'}</span></label>

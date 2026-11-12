@@ -279,7 +279,7 @@ export function reportPdf(report, state) {
   y += 12;
 
   // Matériels concernés
-  const cols = [{ label: 'MATÉRIEL', w: 176 }, { label: 'IDENTIFIANT ASTER', w: 88 }, { label: 'N° DE SÉRIE', w: 88 }, { label: 'LOCALISATION', w: 96 }, { label: 'ÉTAT', w: CW - 448 }];
+  const cols = [{ label: 'MATÉRIEL', w: 176 }, { label: 'IDENTIFIANT ORION', w: 88 }, { label: 'N° DE SÉRIE', w: 88 }, { label: 'LOCALISATION', w: 96 }, { label: 'ÉTAT', w: CW - 448 }];
   const colX = cols.map((_, i) => M + cols.slice(0, i).reduce((s, c) => s + c.w, 0));
   const tableHead = () => {
     cv.round(M, y, CW, 24, 7, { fill: C.encre });
@@ -333,7 +333,7 @@ export function reportPdf(report, state) {
     cv.select(i);
     cv.line(M, H - 46, W - M, H - 46, C.line, 0.6);
     cv.star(M + 5, H - 28.5, 11, C.encre);
-    cv.text(fit(`Document établi par ASTER le ${dateMed(report.createdAt)}${updated > report.createdAt ? `, mis à jour le ${dateMed(updated)}` : ''}${ecole ? ` · ${ecole}` : ''}`, CW - 120, 8), M + 17, H - 25.5, { size: 8, color: C.ink2 });
+    cv.text(fit(`Document établi par Orion le ${dateMed(report.createdAt)}${updated > report.createdAt ? `, mis à jour le ${dateMed(updated)}` : ''}${ecole ? ` · ${ecole}` : ''}`, CW - 120, 8), M + 17, H - 25.5, { size: 8, color: C.ink2 });
     cv.text(`${report.id} · page ${i + 1} sur ${total}`, W - M, H - 25.5, { size: 8, color: C.ink2, align: 'right' });
   }
   return assemble(cv.pages);

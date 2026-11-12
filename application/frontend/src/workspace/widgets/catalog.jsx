@@ -197,7 +197,7 @@ export const WIDGETS = [
       return <>
         <WidgetHead title="Matériels récemment enregistrés" />
         <div className="table-wrap"><table className="table">
-          <thead><tr><th>Modèle</th><th>Identifiant ASTER</th><th>Réception</th><th>Localisation</th><th>État</th></tr></thead>
+          <thead><tr><th>Modèle</th><th>Identifiant Orion</th><th>Réception</th><th>Localisation</th><th>État</th></tr></thead>
           <tbody>{recents.slice(0, 4).map((m) => {
             const dt = deviceType(m.type);
             return <tr key={m.id}><td><span className="cell-model"><Tile name={dt.icon} color={dt.color} size="s" className="tile--tint" /><span><b>{m.modele}</b><small>{m.marque ?? 'Marque non renseignée'}</small></span></span></td>

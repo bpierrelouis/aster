@@ -1,8 +1,8 @@
 /* ==========================================================================
    Remontées · état des lieux : document généré depuis la remontée,
    consultable et imprimable (RG-14, RG-35), avec son suivi de la
-   transmission à la clôture. Le PDF (backend/workspace/pdf.js) en est
-   déposé dans S3 à chaque étape.
+   transmission à la fin du traitement. Le PDF (backend/workspace/pdf.js)
+   est produit par le serveur à chaque demande, sans être conservé.
    ========================================================================== */
 
 import { Icon, Tile } from '../../ui/icons.jsx';
@@ -44,7 +44,7 @@ export function openEtatDesLieux(r) {
         </dl>
         <h3>Matériels concernés</h3>
         <table className="edl-table">
-          <thead><tr><th>Matériel</th><th>Identifiant ASTER</th><th>N° de série</th><th>Localisation</th></tr></thead>
+          <thead><tr><th>Matériel</th><th>Identifiant Orion</th><th>N° de série</th><th>Localisation</th></tr></thead>
           <tbody>{mats.map((m) => {
             const salle = m.salleId ? ix.salle.get(m.salleId) : null;
             return <tr key={m.id}>
@@ -64,7 +64,7 @@ export function openEtatDesLieux(r) {
             ? <tr key={i} className="is-todo"><td>{s.label}</td><td colSpan={2}>À venir · {s.sub}</td></tr>
             : <tr key={i}><td><b>{s.label}</b></td><td>{dateLong(s.at)}</td><td>{s.par}</td></tr>))}</tbody>
         </table>
-        <footer className="edl-foot">Document établi par ASTER le {dateShort(r.createdAt)}{updated > r.createdAt && `, mis à jour le ${dateShort(updated)}`}.</footer>
+        <footer className="edl-foot">Document établi par Orion le {dateShort(r.createdAt)}{updated > r.createdAt && `, mis à jour le ${dateShort(updated)}`}.</footer>
       </article>
     </Sheet>,
   );

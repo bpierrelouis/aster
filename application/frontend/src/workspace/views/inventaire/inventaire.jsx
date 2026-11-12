@@ -122,7 +122,7 @@ export function Inventaire() {
           <td><input type="checkbox" aria-label={`Sélectionner ${m.idAster}`} checked={on} onChange={(e) => toggle([m.id], e.target.checked)} /></td>
           <td className="inv-id">{m.idAster}</td>
           <td><button className="inv-device" onClick={() => detail(m)}><Tile name={t.icon} color={t.color} size="s" className="tile--tint" /><span><strong>{m.modele}</strong><small>{m.marque || t.label}{m.serie ? ` · ${m.serie}` : ''}</small></span></button></td>
-          <td>{room ? <><Link className="chip" to={`/salles/salle/${room.id}`}>{room.nom}</Link><small className="inv-sub">Bâtiment {room.batiment}</small></> : <span className="chip chip--stock">Stock</span>}{m.deplacement && <span className="chip chip--move" data-tip="Affecté dans ASTER, pas encore à sa place"><span className="inst-dot inst-dot--wait inst-dot--s" />{logistique(m).label}</span>}</td>
+          <td>{room ? <><Link className="chip" to={`/salles/salle/${room.id}`}>{room.nom}</Link><small className="inv-sub">Bâtiment {room.batiment}</small></> : <span className="chip chip--stock">Stock</span>}{m.deplacement && <span className="chip chip--move" data-tip="Affecté dans Orion, pas encore à sa place"><span className="inst-dot inst-dot--wait inst-dot--s" />{logistique(m).label}</span>}</td>
           <td><span className="inv-state"><i className={`led led--${m.hs ? 'hs' : 'ok'}`} />{m.hs ? 'Hors service' : 'En service'}</span></td>
           <td>{date(m.dateReception)}</td>
           <td><span className={`inv-warranty${warranty(m) === 'Échue' ? ' is-expired' : ''}`}>{warranty(m)}</span><small className="inv-sub">{date(m.garantieFin)}</small></td>
@@ -151,7 +151,7 @@ function MoveSheet({ items, onDone }) {
 /** Fiche d'un matériel, avec modification et suppression selon les droits */
 function DetailSheet({ m, onDelete }) {
   const t = deviceType(m.type), room = index().salle.get(m.salleId);
-  const rows = [['Identifiant ASTER', m.idAster], ['Type', t.label], ['Marque', m.marque || '—'], ['Numéro de série', m.serie || '—'], ['Réception', date(m.dateReception)], ['Localisation', room ? `${room.nom} · Bâtiment ${room.batiment}` : 'Stock'], ['État', m.hs ? 'Hors service' : 'En service'], ['Garantie', `${warranty(m)} · ${date(m.garantieFin)}`]];
+  const rows = [['Identifiant Orion', m.idAster], ['Type', t.label], ['Marque', m.marque || '—'], ['Numéro de série', m.serie || '—'], ['Réception', date(m.dateReception)], ['Localisation', room ? `${room.nom} · Bâtiment ${room.batiment}` : 'Stock'], ['État', m.hs ? 'Hors service' : 'En service'], ['Garantie', `${warranty(m)} · ${date(m.garantieFin)}`]];
   return <Sheet title={m.modele} lead={<Tile name={t.icon} color={t.color} size="m" />}
     footer={(close) => <>
       {can('materiel.edit') && <button className="btn btn--primary" onClick={() => { close(); setTimeout(() => openMaterielForm(m), 230); }}>Modifier</button>}

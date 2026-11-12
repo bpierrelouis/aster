@@ -138,7 +138,7 @@ export function Spotlight({ navigate }) {
   useEffect(() => { const t = setTimeout(() => input.current?.focus(), 50); return () => clearTimeout(t); }, []);
   return <>
     <label className="field field--search"><Icon name="recherche" size={22} />
-      <input ref={input} type="search" placeholder="Salle, modèle, identifiant ASTER, n° de série, remontée…" autoComplete="off" aria-label="Recherche"
+      <input ref={input} type="search" placeholder="Salle, modèle, identifiant Orion, n° de série, remontée…" autoComplete="off" aria-label="Recherche"
         value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter' && results[0]) open(results[0]); }} />
     </label>
     <ul className="results" role="listbox">

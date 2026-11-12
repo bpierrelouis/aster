@@ -61,7 +61,7 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
       await page.getByLabel('Afficher', { exact: true }).check();
       await expect(page.locator('#password')).toHaveAttribute('type', 'text');
       await page.getByRole('button', { name: 'Créer un compte', exact: true }).click();
-      await expect(page.getByRole('dialog')).toContainText('Pour demander un accès à ASTER, contactez votre administrateur.');
+      await expect(page.getByRole('dialog')).toContainText('Pour demander un accès à Orion, contactez votre administrateur.');
       await expectPublicPresentation(page);
       await page.getByRole('button', { name: 'Fermer', exact: true }).click();
       await page.getByRole('button', { name: 'Mot de passe oublié?', exact: true }).click();
@@ -198,7 +198,7 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
   await newcomer.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
   await newcomer.getByLabel('email', { exact: true }).fill(email);
   await newcomer.getByRole('button', { name: 'Se connecter', exact: true }).click();
-  await expect(newcomer.getByRole('alert')).toContainText('aucun compte ASTER actif');
+  await expect(newcomer.getByRole('alert')).toContainText('aucun compte Orion actif');
   expect((await newcomer.request.get('/api/me')).status()).toBe(401);
   await other.close();
   await logout(page);
@@ -213,7 +213,7 @@ test('une identité du fournisseur sans compte ASTER est refusée', async ({ pag
   await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
   await page.getByLabel('email', { exact: true }).fill(email);
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
-  await expect(page.getByRole('alert')).toContainText('aucun compte ASTER actif');
+  await expect(page.getByRole('alert')).toContainText('aucun compte Orion actif');
   expect((await page.request.get('/api/me')).status()).toBe(401);
 });
 

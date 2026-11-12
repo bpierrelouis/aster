@@ -253,7 +253,7 @@ export function mergeState(state, input, actor, now = Date.now()) {
         assert(!x.salleId || salles.some((s) => s.id === x.salleId && s.ecoleId === x.ecoleId), 'Salle inconnue ou hors école.');
         // Un matériel hors service ne peut qu'être remis en service ou renvoyé au stock (orientation de l'utilisateur du 12 novembre)
         if (old && x.hs && x.salleId && x.salleId !== (old.salleId ?? null)) fail(400, 'Un matériel hors service ne peut aller qu’au stock.');
-        if (old) assert(old.idAster === x.idAster, 'Identifiant ASTER immuable.');
+        if (old) assert(old.idAster === x.idAster, 'Identifiant Orion immuable.');
         else x.idAster = `MAT-${String(++lastAsterId).padStart(4, '0')}`;
         // Installation physique : toute nouvelle affectation reste en cours (deplacement) jusqu'à la confirmation du
         // déplacement physique, qui devient le dernier déplacement confirmé (installation). Les deux sont tenus ici ;

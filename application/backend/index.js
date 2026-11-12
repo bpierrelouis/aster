@@ -165,7 +165,7 @@ if (config.production) {
 }
 app.use((error, _req, res, _next) => {
   console.error('Serveur :', error.code || error.name);
-  res.status(503).type('html').send('<!doctype html><html lang="fr"><meta charset="utf-8"><title>ASTER — Connexion indisponible</title><h1>Connexion momentanément indisponible</h1><p>Veuillez réessayer dans quelques instants. Si le problème persiste, contactez votre administrateur.</p><a href="/">Retour à la connexion</a></html>');
+  res.status(503).type('html').send('<!doctype html><html lang="fr"><meta charset="utf-8"><title>Orion — Connexion indisponible</title><h1>Connexion momentanément indisponible</h1><p>Veuillez réessayer dans quelques instants. Si le problème persiste, contactez votre administrateur.</p><a href="/">Retour à la connexion</a></html>');
 });
 
 const server = app.listen(config.port, config.host, () => console.log(`Serveur ASTER : http://${config.host}:${config.port}`));

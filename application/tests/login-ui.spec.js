@@ -5,7 +5,7 @@ import { expectPublicPresentation } from './presentation.js';
 test('la page publique affiche le bouton et reste utilisable sur mobile', async ({ page }) => {
   await page.route('**/api/me', (route) => route.fulfill({ status: 401, contentType: 'application/json', body: '{"error":"Connexion nécessaire."}' }));
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('ASTER');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('ORION');
   await expect(page.getByRole('link', { name: "S'identifier avec MinDefConnect" })).toHaveAttribute('href', '/auth/login');
   await expectPublicPresentation(page);
   const button = page.getByRole('link', { name: "S'identifier avec MinDefConnect" });

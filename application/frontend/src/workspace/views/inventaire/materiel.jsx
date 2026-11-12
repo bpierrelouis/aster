@@ -96,8 +96,8 @@ function MaterielForm({ materiel, salleId, ecoleId }) {
         <label className="field"><span className="field-label">Fin de garantie</span><input name="garantie" type="date" defaultValue={toDate(materiel?.garantieFin)} />
           <span className="field-hint">Facultative.</span></label>
         {materiel
-          ? <div className="field"><span className="field-label">Identifiant ASTER</span><output className="id-aster">{materiel.idAster}</output></div>
-          : <div className="field"><span className="field-label">Identifiant ASTER</span><output className="id-aster is-muted">Attribué à l’enregistrement</output></div>}
+          ? <div className="field"><span className="field-label">Identifiant Orion</span><output className="id-aster">{materiel.idAster}</output></div>
+          : <div className="field"><span className="field-label">Identifiant Orion</span><output className="id-aster is-muted">Attribué à l’enregistrement</output></div>}
       </div>
     </SheetForm>
   </Sheet>;

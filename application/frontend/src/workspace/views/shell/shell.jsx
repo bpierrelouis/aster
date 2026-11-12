@@ -175,7 +175,7 @@ export function Shell() {
   return <>
     <a className="skip" href="#view">Aller au contenu</a>
     <nav className="rail glass" data-lens="strong" aria-label="Menu principal">
-      <Link className="rail-brand" to="/accueil" aria-label="ASTER, accueil"><Brand ambiance={s.prefs.ambiance} size={34} /></Link>
+      <Link className="rail-brand" to="/accueil" aria-label="Orion, accueil"><Brand ambiance={s.prefs.ambiance} size={34} /></Link>
       <div className="rail-items">
         {NAV.filter(allowed).map((n) => <Link key={n.id} className={`rail-item${n.id === navId ? ' is-active' : ''}`} to={n.path} data-nav={n.id}
           aria-label={n.label} aria-current={n.id === navId ? 'page' : undefined}>

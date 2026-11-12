@@ -2,7 +2,7 @@ import { MinDefSymbol, OrionLogo, OrionMark, OrionStar } from './brand.jsx';
 
 const ERRORS = {
   session: 'La demande de connexion a expiré. Veuillez recommencer.',
-  compte: 'Votre identité est reconnue, mais aucun compte ASTER actif ne lui est associé. Contactez votre administrateur.',
+  compte: 'Votre identité est reconnue, mais aucun compte Orion actif ne lui est associé. Contactez votre administrateur.',
 };
 
 /** Page de connexion : accès par MindefConnect et message d'échec éventuel. */

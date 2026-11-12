@@ -1,6 +1,6 @@
 {
   "realm": "aster",
-  "displayName": "ASTER — Environnement local",
+  "displayName": "Orion — Environnement local",
   "enabled": true,
   "sslRequired": "none",
   "registrationAllowed": false,
