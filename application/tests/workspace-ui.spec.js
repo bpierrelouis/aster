@@ -555,6 +555,12 @@ test('le gestionnaire suit son travail dans le backlog ; seul l’auteur valide 
     await col('attente').locator('.bl-card', { hasText: report.id }).click();
     await page.getByRole('button', { name: 'Prendre en charge' }).click();
     await expect(col('encours').locator('.bl-card', { hasText: report.id })).toHaveCount(1);
+    await expect(page.getByRole('button', { name: 'Corrigé', exact: true })).toBeVisible(); // remplacée ou corrigée
+    // L'état des lieux suit la remontée de la transmission à la clôture
+    await page.getByRole('button', { name: 'État des lieux', exact: true }).click();
+    const suivi = page.getByRole('dialog', { name: `État des lieux ${report.id}` }).getByRole('table', { name: 'Suivi de la remontée' });
+    await expect(suivi.locator('tbody tr')).toHaveText([/^Transmise, en attente/, new RegExp(`^En cours.*${manager.nom}$`), /^Remplacé ou corrigéÀ venir/, /^ValidéeÀ venir/]);
+    await page.keyboard.press('Escape');
     await page.getByRole('button', { name: 'Remplacé', exact: true }).click();
     await expect(col('traitee').locator('.bl-card', { hasText: report.id })).toHaveCount(1);
     await expect(page.getByRole('button', { name: 'Valider et clore' })).toHaveCount(0); // le gestionnaire n'en est pas l'auteur

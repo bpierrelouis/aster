@@ -59,12 +59,12 @@ test('remontée : auteur, date, numéro et historique imposés par le serveur', 
   const manager = as(next, MANAGER);
   const m = scopedState(next, manager);
   const r = m.remontees.find((x) => x.id === created.id);
-  r.statut = 'corrige';
-  assert.throws(() => mergeState(next, m, manager), { status: 400 });
-  r.statut = 'remplace';
-  r.historique.push({ statut: 'remplace', at: 1, par: 'Faux' });
+  r.statut = 'validee';
+  assert.throws(() => mergeState(next, m, manager), { status: 403 });
+  r.statut = 'corrige'; // le gestionnaire remplace ou corrige
+  r.historique.push({ statut: 'corrige', at: 1, par: 'Faux' });
   const treated = mergeState(next, m, manager).remontees.find((x) => x.id === created.id);
-  assert.equal(treated.historique.at(-1).par, 'G. Bernard');
+  assert.deepEqual([treated.statut, treated.historique.at(-1).par], ['corrige', 'G. Bernard']);
   r.description = 'Texte remplacé';
   assert.throws(() => mergeState(next, m, manager), { status: 400 });
 });

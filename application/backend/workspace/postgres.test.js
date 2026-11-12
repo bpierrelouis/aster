@@ -57,16 +57,26 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   const report = after.remontees.find((r) => r.description === 'Écran noir test');
   assert.match(report.id, /^REM-\d{4}$/);
   assert.equal(report.auteurId, 'cpt-num-formateur');
-  const key = `etats-des-lieux/${report.ecoleId}/${report.id}.pdf`;
-  const snapshot = storage.objects.get(key);
+  const first = `etats-des-lieux/${report.ecoleId}/${report.id}/1-attente.pdf`;
+  const snapshot = storage.objects.get(first);
   assert(snapshot);
 
   // L'état des lieux reste celui de la transmission même si le matériel change ensuite
   const later = await repo.read(admin);
   later.materiels.find((m) => m.id === mat.id).modele = 'Renommé après la remontée';
   await repo.update(later, later.revision, admin);
-  assert.deepEqual(await repo.pdf(report.id, teacher), { url: `memoire:///${key}` }, 'lien vers le document déposé, sans transit');
-  assert.deepEqual(storage.objects.get(key), snapshot);
+  assert.deepEqual(await repo.pdf(report.id, teacher), { url: `memoire:///${first}` }, 'lien vers le document déposé, sans transit');
+  assert.deepEqual(storage.objects.get(first), snapshot);
+
+  // Chaque changement de statut dépose une nouvelle version ; les précédentes restent
+  const manager = await repo.actor('cpt-num-gestionnaire');
+  const taken = await repo.read(manager);
+  taken.remontees.find((r) => r.id === report.id).statut = 'encours';
+  await repo.update(taken, taken.revision, manager);
+  const key = `etats-des-lieux/${report.ecoleId}/${report.id}/2-encours.pdf`;
+  assert(storage.objects.get(key));
+  assert.deepEqual(storage.objects.get(first), snapshot);
+  assert.deepEqual(await repo.pdf(report.id, teacher), { url: `memoire:///${key}` }, 'lien vers la dernière version');
 
   // Relecture complète depuis PostgreSQL
   const reopened = await open(storage);

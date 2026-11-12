@@ -6,7 +6,8 @@
    Les règles de droits (mergeState) s'appliquent avant toute écriture ;
    chaque écriture est une transaction qui verrouille la ligne de révision,
    ce qui permet à plusieurs serveurs de partager la même base.
-   L'état des lieux PDF est produit à la transmission et déposé dans S3.
+   L'état des lieux PDF est produit à la transmission puis à chaque
+   changement de statut ; chaque version est déposée dans S3.
    ========================================================================== */
 
 import { SEED_VERSION } from '#shared/seed.js';
@@ -227,7 +228,8 @@ async function transaction(pool, fn) {
   } finally { client.release(); }
 }
 
-const reportKey = (r) => `etats-des-lieux/${r.ecoleId}/${r.id}.pdf`;
+/** Une version de l'état des lieux par étape du suivi (transmission, puis chaque changement de statut) ; les précédentes restent dans S3 */
+const reportKey = (r) => `etats-des-lieux/${r.ecoleId}/${r.id}/${r.historique.length}-${r.statut}.pdf`;
 const TABLES = (s) => `${s}.aster_preference, ${s}.aster_remontee_materiel, ${s}.aster_remontee, ${s}.aster_materiel, ${s}.aster_salle, ${s}.aster_etage, ${s}.aster_compte, ${s}.aster_ecole, ${s}.aster_donnee, ${s}.aster_journal`;
 
 /**
@@ -301,10 +303,10 @@ export async function createPostgresWorkspaceRepository({ pool, storage, schema 
           const { state: before, pdfKeys } = await current(db, true);
           const out = await change(before, since(db));
           const next = out.next;
-          // État des lieux produit à la transmission, avec les informations de cet instant
-          const known = new Set(before.remontees.map((r) => r.id));
+          // État des lieux produit à la transmission puis à chaque changement de statut, avec les informations de cet instant
+          const statuts = new Map(before.remontees.map((r) => [r.id, r.statut]));
           const keys = [];
-          for (const r of next.remontees.filter((x) => !known.has(x.id))) {
+          for (const r of next.remontees.filter((x) => statuts.get(x.id) !== x.statut)) {
             try { keys.push({ id: r.id, key: await storePdf(r, next) }); } catch (error) { log.error?.('Dépôt S3 impossible :', error.name || error.message); }
           }
           await writeDiff(db, s, before, next);
@@ -328,13 +330,13 @@ export async function createPostgresWorkspaceRepository({ pool, storage, schema 
 
   return createEngine({
     store,
-    // Lien signé vers le document déposé : le PDF ne transite pas par le serveur
+    // Lien signé vers la dernière version déposée : le PDF ne transite pas par le serveur
     async pdf(report, state) {
       const { pdfKeys } = await current(pool);
       let key = pdfKeys.get(report.id);
       try {
-        if (!key) {
-          // Remontée sans document déposé : produit avec les informations actuelles, puis déposé
+        if (key !== reportKey(report)) {
+          // Version de l'étape en cours absente (dépôt échoué, document antérieur) : produite avec les informations actuelles, puis déposée
           key = await storePdf(report, state);
           await pool.query(`UPDATE ${s}.aster_remontee SET etat_des_lieux_cle = $2 WHERE id = $1`, [report.id, key]);
           pdfKeys.set(report.id, key);

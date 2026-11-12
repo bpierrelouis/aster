@@ -4,7 +4,8 @@
      remontées (remontees-backlog.jsx) et des installations des salles
      (remontees-installations.jsx) ; listes maître-détail pour les autres profils
    - Cycle : en attente → en cours → remplacé ou corrigé → validée, la
-     validation (clôture) étant réservée à l'auteur de la remontée
+     validation (clôture) étant réservée à l'auteur de la remontée ; le
+     suivi (shared/catalog.js) est le même dans le détail et l'état des lieux
    - État des lieux (remontees-edl.jsx) et création (remontees-create.jsx)
    ========================================================================== */
 
@@ -19,7 +20,7 @@ import { store, me } from '../../core/store.js';
 import { useStore } from '../../hooks/use-store.js';
 import { can } from '../../core/permissions.js';
 import { num, ago, dateLong, dateShort } from '#shared/format.js';
-import { deviceType, problem, statut, phaseOf } from '#shared/catalog.js';
+import { deviceType, problem, statut, phaseOf, suiviRemontee } from '#shared/catalog.js';
 import { remontees, remonteeContext, batiments, batimentLabel } from '../../core/selectors.js';
 import { StatutPill, LieuChip, PageHead } from '../../widgets/parts.jsx';
 import { openNewRemontee } from './remontees-create.jsx';
@@ -52,7 +53,7 @@ function RemonteeRow({ r, tab, selected }) {
 
 /** Détail d'une remontée : le contenu défile dans la fenêtre, les actions restent dessous */
 function RemonteeDetail({ selId, tab }) {
-  const state = useStore();
+  useStore();
   const scroll = usePeek('.rm-detail');
   const navigate = useNavigate();
   const r = remontees().visible.find((x) => x.id === selId) ?? remontees().mine.find((x) => x.id === selId);
@@ -62,15 +63,11 @@ function RemonteeDetail({ selId, tab }) {
   }
   const { mats } = remonteeContext(r);
   const p = problem(r.probleme);
-  const steps = r.historique;
+  const steps = suiviRemontee(r);
+  const current = steps.findLastIndex((s) => !s.todo);
   const phase = phaseOf(r);
   const treat = can('remontee.treat') && (phase === 'attente' || phase === 'encours');
   const validate = phase === 'traitee' && r.auteurId === me().id; // seul l'auteur valide et clôt
-  const todo = [
-    phase === 'attente' && { icon: 'wrench', title: 'En cours', sub: 'Prise en charge par le gestionnaire' },
-    (phase === 'attente' || phase === 'encours') && { icon: 'swap', title: 'Remplacé ou corrigé', sub: 'Traitement par le gestionnaire' },
-    phase !== 'validee' && { icon: 'checkCircle', title: 'Validée', sub: `Validation et clôture par ${r.auteur}` },
-  ].filter(Boolean);
 
   const edl = () => { const x = store.state.remontees.find((y) => y.id === r.id); if (x) openEtatDesLieux(x); };
   const setStatut = async (val) => {
@@ -114,14 +111,12 @@ function RemonteeDetail({ selId, tab }) {
       <section className="insp-block">
         <h3 className="insp-section-title"><Icon name="clock" size={18} />Suivi</h3>
         <ol className="timeline">
-          {steps.map((h, i) => {
-            const s = statut(h.statut);
-            return <li key={i} className={`tl-item is-done ${i === steps.length - 1 ? 'is-current' : ''} tl-item--${s.id}`}>
-              <span className="tl-dot"><Icon name={i === 0 ? 'documents' : s.icon} size={16} /></span>
-              <div className="tl-body"><b>{i === 0 ? 'Transmise, en attente' : s.label}</b><span>{dateLong(h.at)}</span><span>{h.par}</span></div>
-            </li>;
-          })}
-          {todo.map((t) => <li key={t.title} className="tl-item tl-item--todo"><span className="tl-dot"><Icon name={t.icon} size={16} /></span><div className="tl-body"><b>{t.title}</b><span>{t.sub}</span></div></li>)}
+          {steps.map((s, i) => (s.todo
+            ? <li key={i} className="tl-item tl-item--todo"><span className="tl-dot"><Icon name={s.icon} size={16} /></span><div className="tl-body"><b>{s.label}</b><span>{s.sub}</span></div></li>
+            : <li key={i} className={`tl-item is-done ${i === current ? 'is-current' : ''} tl-item--${s.statut}`}>
+              <span className="tl-dot"><Icon name={s.icon} size={16} /></span>
+              <div className="tl-body"><b>{s.label}</b><span>{dateLong(s.at)}</span><span>{s.par}</span></div>
+            </li>))}
         </ol>
       </section>
     </div>
@@ -132,7 +127,7 @@ function RemonteeDetail({ selId, tab }) {
           : phase === 'attente' ? <button className="btn btn--primary flex-1" onClick={() => setStatut('encours')}><Icon name="wrench" size={18} /><span>Prendre en charge</span></button>
             : <>
               <button className="btn btn--glass flex-1" onClick={() => setStatut('remplace')}><Icon name="swap" size={18} /><span>Remplacé</span></button>
-              {['admin', 'superadmin'].includes(state.role) && <button className="btn btn--primary flex-1" onClick={() => setStatut('corrige')}><Icon name="check" size={18} /><span>Corrigé</span></button>}
+              <button className="btn btn--primary flex-1" onClick={() => setStatut('corrige')}><Icon name="check" size={18} /><span>Corrigé</span></button>
             </>}
       </> : <button className="btn btn--glass flex-1" onClick={edl}><Icon name="documents" size={18} /><span>État des lieux</span></button>}
     </footer>

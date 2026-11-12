@@ -3,12 +3,13 @@
    - Bandeau aux couleurs ASTER : référence, statut, type de problème.
    - Cartes : école et déclarant, localisation, matériels concernés.
    - Description, tableau des matériels (type, identifiant, série,
-     localisation, état), suivi de la remontée, pied de page numéroté.
+     localisation, état), suivi de la remontée de la transmission à la
+     clôture (shared/catalog.js), pied de page numéroté.
    Polices standard Helvetica, codage WinAnsi (accents français).
    ========================================================================== */
 
 import { deflateSync } from 'node:zlib';
-import { deviceType, problem, statut } from '#shared/catalog.js';
+import { deviceType, problem, statut, suiviRemontee } from '#shared/catalog.js';
 import { dateFull, dateMed, num } from '#shared/format.js';
 
 const W = 595.28, H = 841.89, M = 40, CW = W - 2 * M;
@@ -193,7 +194,8 @@ export function reportPdf(report, state) {
   const ecole = state.ecoles.find((e) => e.id === report.ecoleId)?.nom ?? '';
   const pb = problem(report.probleme);
   const st = statut(report.statut);
-  const history = report.historique?.length ? report.historique : [{ statut: 'attente', at: report.createdAt, par: report.auteur }];
+  const steps = suiviRemontee(report);
+  const updated = steps.findLast((s) => !s.todo).at;
   let y = 0;
 
   const firstHeader = () => {
@@ -297,22 +299,19 @@ export function reportPdf(report, state) {
   });
   y += 26;
 
-  // Suivi : étapes de l'historique, puis traitement à venir
-  const steps = history.map((h, i) => ({ label: i === 0 ? 'Transmise, en attente' : statut(h.statut).label, sub: dateFull(h.at), by: h.par, color: i === 0 ? C.coeur : STATUT_COLOR[h.statut] ?? C.iris }));
-  if (['attente', 'encours'].includes(report.statut)) steps.push({ label: 'Remplacé ou corrigé', sub: 'Traitement par le gestionnaire', todo: true });
-  section('Suivi', 72);
-  const xs = steps.map((_, i) => M + 12 + (i * (CW - 24)) / Math.max(1, steps.length - 1));
+  // Suivi, de la transmission à la clôture : étapes franchies, puis étapes restantes en pointillés
+  const ROW = 36;
+  section('Suivi de la remontée', ROW);
   steps.forEach((s, i) => {
-    if (i) cv.line(xs[i - 1] + 13, y + 12, xs[i] - 13, y + 12, s.todo ? C.line : C.iris, 2, s.todo ? [3, 3] : null);
-  });
-  steps.forEach((s, i) => {
-    const align = steps.length > 1 && i === steps.length - 1 ? 'right' : i === 0 ? 'left' : 'center';
-    const tx = align === 'left' ? xs[i] - 10 : align === 'right' ? xs[i] + 10 : xs[i];
-    if (s.todo) cv.circle(xs[i], y + 12, 9, { fill: C.white, stroke: C.ink3, width: 1.2, dash: [2.5, 2] });
-    else { cv.circle(xs[i], y + 12, 9, { fill: s.color }); cv.check(xs[i], y + 12, 3.6); }
-    cv.text(s.label, tx, y + 38, { size: 9.5, bold: true, align, color: s.todo ? C.ink2 : C.encre });
-    cv.text(s.sub, tx, y + 51, { size: 8.5, color: C.ink2, align });
-    if (s.by) cv.text(s.by, tx, y + 63, { size: 8.5, color: C.ink2, align });
+    ensure(ROW);
+    const cx = M + 12, cy = y + 12;
+    const next = steps[i + 1];
+    if (next && y + 2 * ROW <= BOTTOM) cv.line(cx, cy + 11, cx, cy + ROW - 11, next.todo ? C.line : C.iris, 2, next.todo ? [3, 3] : null);
+    if (s.todo) cv.circle(cx, cy, 9, { fill: C.white, stroke: C.ink3, width: 1.2, dash: [2.5, 2] });
+    else { cv.circle(cx, cy, 9, { fill: STATUT_COLOR[s.statut] ?? C.iris }); cv.check(cx, cy, 3.6); }
+    cv.text(s.label, M + 32, y + 9.5, { size: 10, bold: true, color: s.todo ? C.ink2 : C.encre });
+    cv.text(fit(s.todo ? `À venir · ${s.sub}` : `${dateFull(s.at)} · ${s.par}`, CW - 32, 8.5), M + 32, y + 22.5, { size: 8.5, color: C.ink2 });
+    y += ROW;
   });
 
   // Pied de page numéroté
@@ -321,7 +320,7 @@ export function reportPdf(report, state) {
     cv.select(i);
     cv.line(M, H - 46, W - M, H - 46, C.line, 0.6);
     cv.flower(M + 6, H - 28.5, 12, C.iris, C.coeur);
-    cv.text(fit(`Document établi par ASTER le ${dateMed(report.createdAt)}${ecole ? ` · ${ecole}` : ''}`, CW - 120, 8), M + 17, H - 25.5, { size: 8, color: C.ink2 });
+    cv.text(fit(`Document établi par ASTER le ${dateMed(report.createdAt)}${updated > report.createdAt ? `, mis à jour le ${dateMed(updated)}` : ''}${ecole ? ` · ${ecole}` : ''}`, CW - 120, 8), M + 17, H - 25.5, { size: 8, color: C.ink2 });
     cv.text(`${report.id} · page ${i + 1} sur ${total}`, W - M, H - 25.5, { size: 8, color: C.ink2, align: 'right' });
   }
   return assemble(cv.pages);

@@ -54,6 +54,21 @@ export const REMONTEE_STATUTS = [
   { id: 'validee', label: 'Validée', icon: 'checkCircle', color: 'var(--stock)', led: 'ok', phase: 'validee' },
 ];
 
+/* Suivi d'une remontée, de la transmission à la clôture (détail, état des lieux et son PDF) :
+   étapes franchies, tirées de l'historique tenu par le serveur, puis étapes restantes */
+export function suiviRemontee(r) {
+  const historique = r.historique?.length ? r.historique : [{ statut: 'attente', at: r.createdAt, par: r.auteur }];
+  const phase = phaseOf(r);
+  return [
+    ...historique.map((h, i) => ({ statut: h.statut, label: i === 0 ? 'Transmise, en attente' : statut(h.statut).label, icon: i === 0 ? 'documents' : statut(h.statut).icon, at: h.at, par: h.par })),
+    ...[
+      phase === 'attente' && { statut: 'encours', label: 'En cours', icon: 'wrench', sub: 'Prise en charge par le gestionnaire' },
+      ['attente', 'encours'].includes(phase) && { statut: 'traitee', label: 'Remplacé ou corrigé', icon: 'swap', sub: 'Traitement par le gestionnaire' },
+      phase !== 'validee' && { statut: 'validee', label: 'Validée', icon: 'checkCircle', sub: `Validation et clôture par ${r.auteur}` },
+    ].filter(Boolean).map((s) => ({ ...s, todo: true })),
+  ];
+}
+
 /* Phases du traitement : colonnes du backlog et onglets des remontées */
 export const REMONTEE_PHASES = [
   { id: 'attente', label: 'En attente', icon: 'hourglass', hint: 'Transmises, pas encore prises en charge' },

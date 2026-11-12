@@ -146,7 +146,7 @@ test('formateur : une remontée transmise produit son PDF ; le gestionnaire la t
   expect(pdf.headers()['content-type']).toBe('application/pdf');
   expect((await pdf.body()).subarray(0, 5).toString()).toBe('%PDF-');
   const [stored] = await sql('SELECT etat_des_lieux_cle, statut, auteur, auteur_id FROM aster_remontee WHERE id = $1', [report.id]);
-  expect(stored).toMatchObject({ etat_des_lieux_cle: `etats-des-lieux/${report.ecoleId}/${report.id}.pdf`, statut: 'attente', auteur: 'L. Martin', auteur_id: 'cpt-num-formateur' });
+  expect(stored).toMatchObject({ etat_des_lieux_cle: `etats-des-lieux/${report.ecoleId}/${report.id}/1-attente.pdf`, statut: 'attente', auteur: 'L. Martin', auteur_id: 'cpt-num-formateur' });
   expect((await sql('SELECT materiel_id FROM aster_remontee_materiel WHERE remontee_id = $1 ORDER BY rang', [report.id])).map((r) => r.materiel_id)).toEqual(report.materielIds);
   expect(await s3.get(stored.etat_des_lieux_cle)).toEqual(await pdf.body());
   await logout(page);

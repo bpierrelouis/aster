@@ -1,12 +1,14 @@
 /* ==========================================================================
    Remontées · état des lieux : document généré depuis la remontée,
-   consultable et imprimable (RG-14, RG-35).
+   consultable et imprimable (RG-14, RG-35), avec son suivi de la
+   transmission à la clôture. Le PDF (backend/workspace/pdf.js) en est
+   déposé dans S3 à chaque étape.
    ========================================================================== */
 
 import { Icon, Tile, Flower } from '../../ui/icons.jsx';
 import { Sheet, openSheet, notify } from '../../ui/overlays.jsx';
 import { dateLong, dateShort } from '#shared/format.js';
-import { deviceType, problem } from '#shared/catalog.js';
+import { deviceType, problem, suiviRemontee } from '#shared/catalog.js';
 import { remonteeContext, batimentLabel, index } from '../../core/selectors.js';
 
 function printEtatDesLieux() {
@@ -20,6 +22,8 @@ export function openEtatDesLieux(r) {
   const ix = index();
   const ecole = ix.ecole.get(r.ecoleId);
   const p = problem(r.probleme);
+  const steps = suiviRemontee(r);
+  const updated = steps.findLast((s) => !s.todo).at;
   openSheet(
     <Sheet title={`État des lieux ${r.id}`} size="l" lead={<Tile name="documents" color="var(--accent)" size="m" />}
       footer={<>
@@ -52,7 +56,14 @@ export function openEtatDesLieux(r) {
         <h3>Problème</h3>
         <p className="edl-problem"><Icon name={p.icon} size={18} /><b>{p.label}</b></p>
         <p className="edl-desc">{r.description}</p>
-        <footer className="edl-foot">Document établi par ASTER le {dateShort(r.createdAt)}.</footer>
+        <h3>Suivi</h3>
+        <table className="edl-table" aria-label="Suivi de la remontée">
+          <thead><tr><th>Étape</th><th>Date</th><th>Par</th></tr></thead>
+          <tbody>{steps.map((s, i) => (s.todo
+            ? <tr key={i} className="is-todo"><td>{s.label}</td><td colSpan={2}>À venir · {s.sub}</td></tr>
+            : <tr key={i}><td><b>{s.label}</b></td><td>{dateLong(s.at)}</td><td>{s.par}</td></tr>))}</tbody>
+        </table>
+        <footer className="edl-foot">Document établi par ASTER le {dateShort(r.createdAt)}{updated > r.createdAt && `, mis à jour le ${dateShort(updated)}`}.</footer>
       </article>
     </Sheet>,
   );

@@ -218,8 +218,8 @@ export function mergeState(state, input, actor, now = Date.now()) {
           if (actor.role === 'gestionnaire') fail(403, 'Création de remontée non autorisée.');
           Object.assign(x, { auteur: actor.nom, auteurId: actor.id, createdAt: now, statut: 'attente', historique: [{ statut: 'attente', at: now, par: actor.nom, parId: actor.id }] });
         } else {
-          // Cycle : en attente → en cours → remplacé ou corrigé (traitement) → validée, par l'auteur seul
-          const treatment = actor.role === 'gestionnaire' ? ['remplace'] : ['remplace', 'corrige'];
+          // Cycle : en attente → en cours → remplacé ou corrigé (traitement, gestionnaire ou administrateur) → validée, par l'auteur seul
+          const treatment = ['remplace', 'corrige'];
           const possibles = { attente: ['encours', ...treatment], encours: treatment, remplace: ['validee'], corrige: ['validee'] }[old.statut] ?? [];
           if (x.statut === 'validee') { if (old.auteurId !== actor.id) fail(403, 'Seul l’auteur de la remontée peut la valider et la clore.'); }
           else if (actor.role === 'formateur') fail(403, 'Traitement non autorisé.');
