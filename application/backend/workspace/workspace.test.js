@@ -266,6 +266,21 @@ test('supervision : le formateur demande un arrêt ; seuls les postes modifient 
   assert.equal(next.processus.find((p) => p.id === proc.id).stoppedAt, null, 'le processus reste actif jusqu’au résultat du poste');
 });
 
+test('interventions : une salle entière, dont le serveur fixe les postes, ou un seul poste', () => {
+  const state = initialState();
+  const admin = as(state, ADMIN);
+  const salle = 's-e-num-a012';
+  const postes = state.postes.filter((p) => p.salleId === salle).map((p) => p.id);
+  const ask = (op) => { const view = scopedState(state, admin); view.operations.push({ id: 'tmp', ...op }); return mergeState(state, view, admin); };
+  const room = ask({ type: 'installation', applicationId: 'app-putty', salleId: salle, cibles: [postes[0]] }).operations[0];
+  assert.deepEqual([room.salleId, room.cibles, room.statut], [salle, postes, 'enregistree']);
+  assert.deepEqual(Object.values(room.resultats), postes.map(() => 'en_attente'));
+  const one = ask({ type: 'reinstallation', cibles: [postes[1]], image: 'Windows' }).operations[0];
+  assert.deepEqual([one.salleId, one.cibles], [undefined, [postes[1]]]);
+  assert.throws(() => ask({ type: 'reinstallation', cibles: postes.slice(0, 2) }), { status: 400 }); // ni salle ni poste seul
+  assert.throws(() => ask({ type: 'reinstallation', salleId: 's-inconnue', cibles: [] }), { status: 403 });
+});
+
 test('postes : rapports, détection, arrêt automatique, résultats et déconnexion', () => {
   const state = initialState();
   const poste = state.postes.find((p) => p.salleId === 's-e-num-a012');

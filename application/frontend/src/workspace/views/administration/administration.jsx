@@ -1,7 +1,9 @@
 /* ==========================================================================
-   Administration : postes (réinstallation), applications (déploiement),
-   bâtiments (renommage), comptes et écoles. L'utilisateur enregistre une
-   demande d'intervention ; chaque poste cible l'exécute et renvoie son résultat.
+   Administration : postes (réinstallation d'une salle ou d'un poste),
+   applications (installation, désinstallation), suivi des interventions
+   (administration-interventions.jsx), bâtiments (renommage), comptes et
+   écoles. L'utilisateur demande une intervention (administration-
+   intervention-form.jsx) ; chaque poste cible l'exécute et renvoie son résultat.
    ========================================================================== */
 
 import { useState } from 'react';
@@ -11,14 +13,15 @@ import { useStore } from '../../hooks/use-store.js';
 import { scope, index, parc, batimentLabel } from '../../core/selectors.js';
 import { can } from '../../core/permissions.js';
 import { role } from '#shared/catalog.js';
-import { num, plural, dateTime } from '#shared/format.js';
+import { num, plural } from '#shared/format.js';
 import { Icon, Tile } from '../../ui/icons.jsx';
 import { AppIcon } from '../../ui/app-icon.jsx';
 import { confirmSheet, notify } from '../../ui/overlays.jsx';
-import { openAccountForm, openSchoolForm, recordOperation, openDeploymentForm, openPostDetail } from './administration-forms.jsx';
+import { openAccountForm, openSchoolForm, openPostDetail } from './administration-forms.jsx';
+import { openInterventionForm } from './administration-intervention-form.jsx';
+import { Interventions } from './administration-interventions.jsx';
 import { openBuildingForm } from '../salles/salles-forms.jsx';
 import { DataPanel, OpsEmpty, OpsTable, PageHead, Pagination, paginate } from '../../widgets/parts.jsx';
-import { outsideControls } from '../../core/dom.js';
 import { useTitle } from '../../hooks/use-title.js';
 
 const Empty = ({ text }) => <OpsEmpty icon="desktop" title={text} />;
@@ -33,43 +36,31 @@ const SEARCH = { postes: 'Nom du poste…', applications: 'Application…', bati
 
 export function Administration() {
   useTitle('Administration');
-  const state = useStore();
-  const tab = useParams().tab || 'postes';
+  useStore();
+  const { tab = 'postes', id } = useParams();
   const [salleChoice, setSalleId] = useState('');
   const [query, setQuery] = useState('');
-  const [selection, setSelection] = useState(() => new Set());
   // La recherche repart de zéro à chaque changement d'onglet
   const [queryTab, setQueryTab] = useState(tab);
   if (queryTab !== tab) { setQueryTab(tab); setQuery(''); }
 
   if (!can('administration.view')) return <Empty text="Accès non autorisé" />;
+  if (tab === 'interventions') return <Interventions id={id} />;
 
   const salleId = salleChoice && scope().salleIds.has(salleChoice) ? salleChoice : '';
-  const selected = new Set([...selection].filter((id) => scope().postes.some((p) => p.id === id)));
   const q = query.toLowerCase();
   const posts = scope().postes.filter((p) => (!salleId || p.salleId === salleId) && p.nomReseau.toLowerCase().includes(q));
 
-  const toggle = (ids, on) => setSelection((prev) => { const next = new Set(prev); for (const id of ids) { if (on) next.add(id); else next.delete(id); } return next; });
-  const chooseSalle = (id) => { setSalleId(id); setSelection(new Set()); };
-  async function reinstall() {
-    if (!selected.size) return;
-    try {
-      if (!await confirmSheet({ title: 'Demander une réinstallation ?', message: `Réappliquer l’image Windows sur les ${selected.size} postes sélectionnés.`, confirm: 'Enregistrer la demande', iconName: 'refresh' })) return;
-      await recordOperation('reinstallation', [...selected], { image: 'Windows — configuration de référence' });
-      setSelection(new Set());
-    } catch (error) { notify(error.message, { tone: 'danger' }); }
-  }
-
   return <>
     <PageHead title={TITLES[tab] || TITLES.postes}>
+      {tab === 'postes' && <button className="btn btn--primary" onClick={() => openInterventionForm('reinstallation', { salleId })}><Icon name="refresh" size={18} /><span>Réinstaller</span></button>}
       {tab === 'comptes' && <button className="btn btn--primary" onClick={() => openAccountForm()}><Icon name="plus" size={18} /><span>Créer un compte</span></button>}
     </PageHead>
     {tab === 'postes'
-      ? <Posts list={posts} selected={selected} onToggle={toggle} onClear={() => setSelection(new Set())} onReinstall={reinstall}
-        salleId={salleId} onSalle={chooseSalle} query={query} onQuery={setQuery} />
+      ? <Posts list={posts} salleId={salleId} onSalle={setSalleId} query={query} onQuery={setQuery} />
       : <>
         <div className="ops-toolbar">
-          {tab === 'applications' && <label className="field"><span className="field-label">Salle</span><SalleFilter value={salleId} onChange={chooseSalle} /></label>}
+          {tab === 'applications' && <label className="field"><span className="field-label">Salle</span><SalleFilter value={salleId} onChange={setSalleId} /></label>}
           <label className="field"><span className="field-label">Rechercher</span>
             <input type="search" value={query} onChange={(e) => setQuery(e.target.value)}
               placeholder={SEARCH[tab] ?? SEARCH.postes} aria-label="Rechercher" />
@@ -82,7 +73,6 @@ export function Administration() {
         </div>
       </>}
     {tab === 'comptes' && me().role === 'superadmin' && <Schools />}
-    {tab === 'applications' && <Operations state={state} />}
   </>;
 }
 
@@ -96,83 +86,44 @@ function SalleFilter({ value, onChange }) {
   </select>;
 }
 
-/** Postes : même carte que l'inventaire (filtres, sélection, tableau, pagination) ; un filtre revient à la première page */
-function Posts({ list, selected, onToggle, onClear, onReinstall, salleId, onSalle, query, onQuery }) {
+/** Postes : même carte que l'inventaire (filtres, tableau, pagination) ; un filtre revient à la première page.
+    La réinstallation (salle entière ou poste) se demande depuis la barre haute. */
+function Posts({ list, salleId, onSalle, query, onQuery }) {
   const [page, setPage] = useState(1);
   const filter = (set) => (value) => { set(value); setPage(1); };
   const installations = store.state.installations || [];
   const { pages, current, rows } = paginate(list, page, POSTS_PAGE);
-  const allShown = list.length > 0 && list.every((p) => selected.has(p.id));
   return <DataPanel
     filters={<>
       <label className="field field--search"><Icon name="recherche" size={18} /><input type="search" value={query} onChange={(e) => filter(onQuery)(e.target.value)} placeholder={SEARCH.postes} aria-label="Rechercher un poste" /></label>
       <SalleFilter value={salleId} onChange={filter(onSalle)} />
     </>}
-    selection={<>
-      <span><strong>{num(selected.size)}</strong> sélectionné{selected.size > 1 ? 's' : ''}</span>
-      <button className="btn btn--ghost" disabled={!selected.size} onClick={onReinstall}><Icon name="refresh" size={17} />Réinstaller</button>
-      <button className="btn btn--ghost" disabled={!list.length || allShown} onClick={() => onToggle(list.map((p) => p.id), true)}>Tout sélectionner</button>
-      {selected.size > 0 && <button className="btn btn--ghost" onClick={onClear}>Effacer la sélection</button>}
-      <span className="inv-count">{plural(list.length, 'poste')}</span>
-    </>}
-    head={<>
-      <th><input type="checkbox" aria-label="Sélectionner la page" checked={rows.length > 0 && rows.every((p) => selected.has(p.id))} onChange={(e) => onToggle(rows.map((p) => p.id), e.target.checked)} /></th>
-      <th>Poste</th><th>Salle</th><th>État</th><th>Applications</th><th><span className="sr-only">Actions</span></th>
-    </>}
+    selection={<span className="inv-count">{plural(list.length, 'poste')}</span>}
+    head={<><th>Poste</th><th>Salle</th><th>État</th><th>Applications</th><th><span className="sr-only">Actions</span></th></>}
     footer={<Pagination current={current} pages={pages} onPage={setPage} />}>
-    {rows.length ? rows.map((p) => {
-      const on = selected.has(p.id);
-      return <tr key={p.id} className={on ? 'is-selected' : ''} onClick={(e) => { if (outsideControls(e)) onToggle([p.id], !on); }}>
-        <td><input type="checkbox" checked={on} onChange={(e) => onToggle([p.id], e.target.checked)} aria-label={`Sélectionner ${p.nomReseau}`} /></td>
-        <td><strong>{p.nomReseau}</strong></td>
-        <td>{index().salle.get(p.salleId)?.nom}</td>
-        <td><span className="inv-state"><i className={`led led--${p.connecte ? 'ok' : 'wait'}`} />{p.connecte ? 'Connecté' : 'Déconnecté'}</span></td>
-        <td>{installations.filter((i) => i.posteId === p.id).length}</td>
-        <td><button className="btn btn--ghost" onClick={() => openPostDetail(p.id)}>Ouvrir</button></td>
-      </tr>;
-    }) : <tr><td colSpan={6}><div className="w-empty w-empty--l">Aucun poste ne correspond aux filtres.</div></td></tr>}
+    {rows.length ? rows.map((p) => <tr key={p.id}>
+      <td><strong>{p.nomReseau}</strong></td>
+      <td>{index().salle.get(p.salleId)?.nom}</td>
+      <td><span className="inv-state"><i className={`led led--${p.connecte ? 'ok' : 'wait'}`} />{p.connecte ? 'Connecté' : 'Éteint ou indisponible'}</span></td>
+      <td>{installations.filter((i) => i.posteId === p.id).length}</td>
+      <td><button className="btn btn--ghost" onClick={() => openPostDetail(p.id)}>Ouvrir</button></td>
+    </tr>) : <tr><td colSpan={5}><div className="w-empty w-empty--l">Aucun poste ne correspond aux filtres.</div></td></tr>}
   </DataPanel>;
 }
 
+/** Applications : installer ou désinstaller, la salle filtrée étant proposée comme cible */
 function Apps({ query, salleId }) {
   const apps = (store.state.applications || []).filter((a) => `${a.nom} ${a.editeur}`.toLowerCase().includes(query));
   const ids = new Set(scope().postes.filter((p) => !salleId || p.salleId === salleId).map((p) => p.id));
   if (!apps.length) return <Empty text="Aucune application trouvée" />;
   return <div className="ops-grid">{apps.map((a) => <article key={a.id} className="ops-card glass">
     <div className="ops-card-top"><AppIcon name={a.nom} size={40} /><div><h2>{a.nom}</h2><p>{a.editeur} · {a.version}</p></div></div>
-    <p className="ops-muted">{(store.state.installations || []).filter((i) => i.applicationId === a.id && ids.has(i.posteId)).length} postes équipés</p>
-    <button className="btn btn--primary" onClick={() => openDeploymentForm(a.id, null, salleId)}>Gérer le déploiement</button>
+    <p className="ops-muted">{plural((store.state.installations || []).filter((i) => i.applicationId === a.id && ids.has(i.posteId)).length, 'poste équipé', 'postes équipés')}</p>
+    <div className="ops-card-actions">
+      <button className="btn btn--primary" onClick={() => openInterventionForm('installation', { applicationId: a.id, salleId })}>Installer</button>
+      <button className="btn btn--danger-ghost" onClick={() => openInterventionForm('desinstallation', { applicationId: a.id, salleId })}>Désinstaller</button>
+    </div>
   </article>)}</div>;
-}
-
-// Suivi réel : chaque poste cible renvoie le résultat de l'intervention
-function OperationStatus({ o }) {
-  const states = Object.values(o.resultats || {});
-  const done = states.filter((x) => x !== 'en_attente').length;
-  const failed = states.filter((x) => x === 'echec').length;
-  if (o.statut === 'terminee') return <span className="ops-status"><span className="led led--ok"></span>Terminée</span>;
-  if (o.statut === 'echec') return <span className="ops-status"><span className="led led--hs"></span>Échec sur {failed} poste{failed > 1 ? 's' : ''}</span>;
-  return <span className="ops-status"><span className="led led--wait"></span>{done ? `En cours, ${done}/${states.length} postes` : 'En attente des postes'}</span>;
-}
-
-const OPERATION_TYPES = { reinstallation: 'Réinstallation', installation: 'Installation', desinstallation: 'Désinstallation' };
-
-function Operations({ state }) {
-  const ids = new Set(scope().postes.map((p) => p.id));
-  const items = (state.operations || []).filter((o) => o.cibles?.some((id) => ids.has(id))).slice().reverse().slice(0, 12);
-  if (!items.length) return null;
-  const label = (o) => (o.type === 'arret' ? (o.auto ? 'Arrêt automatique' : 'Arrêt de processus') : OPERATION_TYPES[o.type] || o.type);
-  return <>
-    <h2 className="ops-section-title">Demandes d’intervention</h2>
-    <OpsTable head={['Intervention', 'Cible', 'Date', 'État']}>
-      {items.map((o) => <tr key={o.id}>
-        <td>{label(o)}<small>{o.image || (state.applications || []).find((a) => a.id === o.applicationId)?.nom || ''}</small></td>
-        <td>{o.cibles.length} poste{o.cibles.length > 1 ? 's' : ''}</td>
-        <td>{dateTime(o.at)}</td>
-        <td><OperationStatus o={o} /></td>
-      </tr>)}
-    </OpsTable>
-  </>;
 }
 
 /** Bâtiments de chaque école : information portée par les salles (RG-02), renommée pour toutes ses salles */

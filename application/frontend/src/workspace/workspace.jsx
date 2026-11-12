@@ -77,6 +77,7 @@ export default function Workspace({ loading }) {
         <Route path="materiels/:tab" element={<Inventaire />} />
         <Route path="supervision/:tab" element={<Supervision />} />
         <Route path="administration/:tab" element={<Administration />} />
+        <Route path="administration/:tab/:id" element={<Administration />} />
         <Route path="notifications" element={<Notifications />} />
       </Route>
       <Route path="*" element={<Navigate to="/accueil" replace />} />

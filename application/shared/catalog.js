@@ -95,6 +95,21 @@ export const ROLES = [
   { id: 'superadmin', label: 'Super administrateur', icon: 'school', color: 'var(--encre)' },
 ];
 
+/* Interventions sur les postes (Administration › Interventions) : une demande vise une salle entière ou un seul poste,
+   chaque poste l'exécute et renvoie son résultat. État d'un poste : en attente (éteint ou indisponible), en cours
+   (connecté, il l'exécute), fait, ou échec renvoyé par le poste. L'arrêt d'un processus relève de la supervision. */
+export const INTERVENTIONS = [
+  { id: 'installation', label: 'Installation', verbe: 'Installer', icon: 'download', etats: { attente: 'En attente d’installation', encours: 'En cours d’installation', fait: 'Installé' } },
+  { id: 'desinstallation', label: 'Désinstallation', verbe: 'Désinstaller', icon: 'trash', etats: { attente: 'En attente de désinstallation', encours: 'En cours de désinstallation', fait: 'Désinstallé' } },
+  { id: 'reinstallation', label: 'Réinstallation', verbe: 'Réinstaller', icon: 'refresh', etats: { attente: 'En attente de réinstallation', encours: 'En cours de réinstallation', fait: 'Réinstallé' } },
+];
+export const ETATS_INTERVENTION = {
+  attente: { id: 'attente', tone: 'attente', icon: 'hourglass' },
+  encours: { id: 'encours', tone: 'encours', icon: 'refresh' },
+  fait: { id: 'fait', tone: 'ok', icon: 'checkCircle' },
+  echec: { id: 'echec', tone: 'hs', icon: 'alert', label: 'Échec' },
+};
+
 /* Classement d'un processus (RG-45) */
 export const CLASSEMENTS = {
   blacklist: { label: 'Blacklist', icon: 'shieldX', led: 'hs' },
@@ -109,4 +124,8 @@ export const statut = (id) => byId(REMONTEE_STATUTS, id) ?? REMONTEE_STATUTS[0];
 export const phaseOf = (r) => statut(r.statut).phase;
 export const problem = (id) => byId(PROBLEMS, id) ?? PROBLEMS[5];
 export const role = (id) => byId(ROLES, id) ?? ROLES[0];
+/** Intervention sur les postes ; undefined pour l'arrêt d'un processus */
+export const intervention = (id) => byId(INTERVENTIONS, id);
+/** Libellé d'un état d'intervention : « En cours d'installation », « Installé », « Échec » */
+export const etatIntervention = (type, etat) => ETATS_INTERVENTION[etat].label ?? intervention(type).etats[etat];
 export const etat = (m) => (m?.hs ? ETATS.hs : ETATS.ok);

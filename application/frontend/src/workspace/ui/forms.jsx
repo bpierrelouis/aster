@@ -43,10 +43,10 @@ export function Switch({ on, onChange, label, disabled = false, tip }) {
     onClick={() => onChange(!on)}><span className="switch-knob" /></button>;
 }
 
-/** Pied d'un sheet de formulaire : Annuler et le bouton de soumission. */
-export function SheetFormActions({ form, label = 'Enregistrer', icon = null }) {
+/** Pied d'un sheet de formulaire : Annuler et le bouton de soumission (tone : primary, ou danger pour une action destructrice). */
+export function SheetFormActions({ form, label = 'Enregistrer', icon = null, tone = 'primary' }) {
   return <>
     <button className="btn btn--ghost" type="button" data-sheet-close="">Annuler</button>
-    <button className="btn btn--primary" type="submit" form={form}>{icon && <Icon name={icon} size={18} />}<span>{label}</span></button>
+    <button className={`btn btn--${tone}`} type="submit" form={form}>{icon && <Icon name={icon} size={18} />}<span>{label}</span></button>
   </>;
 }

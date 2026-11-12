@@ -8,6 +8,20 @@
 .ops-card-top > div { flex:1; min-width:0; }
 .ops-card-top p { margin:5px 0 0; font-size:12px; color:var(--ink-2); }
 .ops-card .btn { align-self:flex-start; }
+.ops-card-actions { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:8px; }
+.ops-card-actions .btn { align-self:stretch; padding:0 12px; }
+/* Demande d'intervention : postes visés, connectés (démarrage immédiat), indisponibles (en attente), application présente */
+.ops-summary { display:flex; flex-direction:column; gap:8px; padding:12px 14px; border-radius:16px; background:var(--fill-1); font-size:13.5px; color:var(--ink-2); }
+.ops-summary li { display:flex; align-items:center; gap:10px; }
+.ops-summary li > :first-child { flex:none; }
+.ops-summary b { color:var(--ink-1); }
+.ops-summary .led { margin:0 4px; }
+.pick-device-note { max-width:100%; margin-top:-4px; padding:0 4px; font-size:11px; color:var(--ink-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+/* Suivi d'une intervention : fin, faite ou en échec */
+.timeline .tl-item--fait.is-done .tl-dot { background:var(--ok); color:#fff; }
+.timeline .tl-item--fait.is-current .tl-dot { box-shadow:0 0 0 5px color-mix(in srgb, var(--ok) 20%, transparent); }
+.timeline .tl-item--echec.is-done .tl-dot { background:var(--crit); color:#fff; }
+.timeline .tl-item--echec.is-current .tl-dot { box-shadow:0 0 0 5px color-mix(in srgb, var(--crit) 20%, transparent); }
 .ops-process { display:flex; align-items:center; gap:10px; border-top:1px solid var(--hairline); padding:12px 0 0; font-size:13px; }
 .ops-process > div { flex:1; min-width:0; }
 .ops-process small { display:block; margin-top:4px; color:var(--ink-2); }

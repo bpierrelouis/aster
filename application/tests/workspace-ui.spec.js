@@ -6,7 +6,7 @@ const routes = [
   '/materiels/inventaire', '/materiels/import',
   '/remontees/attente', '/remontees/encours', '/remontees/traitees', '/remontees/validees', '/remontees/toutes', '/remontees/miennes',
   '/supervision/salles', '/supervision/alertes', '/supervision/listes', '/supervision/statistiques',
-  '/administration/postes', '/administration/applications', '/administration/batiments', '/administration/comptes',
+  '/administration/postes', '/administration/applications', '/administration/interventions', '/administration/batiments', '/administration/comptes',
   '/salles/deplacements', '/notifications',
 ];
 
@@ -508,6 +508,45 @@ test('les postes de l’administration sont paginés, sans les demandes d’inte
     await page.locator('.pagination').getByRole('button', { name: 'Suivant' }).click();
     await expect(page.locator('.pagination')).toContainText(`Page 2 sur ${pages}`);
   }
+});
+
+test('une application s’installe sur une salle entière, un poste se réinstalle ; un seul suivi, une ligne par demande', async ({ page, request }) => {
+  const data = await state(request);
+  const salle = data.salles.find((s) => s.id === 's-e-num-a012');
+  const postes = data.postes.filter((p) => p.salleId === salle.id).sort((a, b) => a.nomReseau.localeCompare(b.nomReseau));
+  await open(page, '/administration/applications');
+  await expect(page.getByRole('heading', { name: 'Demandes d’intervention' })).toHaveCount(0); // le suivi n'est plus ici
+  const card = page.locator('.ops-card', { hasText: 'PuTTY' });
+  await expect(card.getByRole('button', { name: 'Désinstaller' })).toHaveClass(/btn--danger-ghost/);
+  await card.getByRole('button', { name: 'Installer', exact: true }).click();
+  const dialog = page.getByRole('dialog', { name: 'Installer PuTTY' });
+  await expect(dialog.getByRole('radio', { name: 'Salle entière' })).toHaveAttribute('aria-checked', 'true');
+  await dialog.getByRole('combobox', { name: 'Salle', exact: true }).selectOption(salle.id);
+  await expect(dialog.locator('.ops-summary')).toContainText(`${postes.length} postes visés, toute la salle`);
+  await dialog.getByRole('button', { name: 'Installer', exact: true }).click();
+  await expect(dialog).toHaveCount(0);
+  // La salle tient sur une ligne ; le détail suit chacun de ses postes
+  await open(page, '/administration/interventions');
+  const row = page.locator('.rm-row', { hasText: 'Installation de PuTTY' });
+  await expect(row).toHaveCount(1);
+  await expect(row).toContainText(salle.nom);
+  await row.click();
+  await expect(page).toHaveURL(/\/administration\/interventions\/[^/]+$/);
+  const detail = page.locator('.rm-detail');
+  await expect(detail.locator('.rows .row')).toHaveCount(postes.length);
+  await expect(detail.locator('.rows .pill').first()).toHaveText(/En cours d’installation|En attente d’installation|Installé|Échec/);
+  // Réinstallation demandée depuis les postes, pour un seul poste
+  await open(page, '/administration/postes');
+  await expect(page.locator('.inv-table input[type="checkbox"]')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Réinstaller', exact: true }).click();
+  const reinstall = page.getByRole('dialog', { name: 'Réinstaller Windows' });
+  await reinstall.getByRole('radio', { name: 'Un poste' }).click();
+  await reinstall.getByRole('combobox', { name: 'Salle', exact: true }).selectOption(salle.id);
+  await reinstall.getByRole('radio', { name: postes[0].nomReseau }).click();
+  await reinstall.getByRole('button', { name: 'Réinstaller', exact: true }).click();
+  await expect(reinstall).toHaveCount(0);
+  await open(page, '/administration/interventions');
+  await expect(page.locator('.rm-row', { hasText: 'Réinstallation de Windows' })).toContainText(postes[0].nomReseau);
 });
 
 test('le menu principal n’a pas de bulle ; les règles de processus portent le logo de leur application', async ({ page }) => {

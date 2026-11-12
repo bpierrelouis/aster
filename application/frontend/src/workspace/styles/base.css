@@ -77,7 +77,8 @@ kbd { font: inherit; font-size: 11px; font-weight: 600; padding: 1px 6px; border
 .btn--ghost { background: var(--fill-1); }
 .btn--ghost:hover { background: var(--fill-2); }
 .btn--danger { background: var(--crit); color: #fff; box-shadow: 0 8px 20px -8px rgb(208 59 59 / .6); }
-.btn--danger-ghost { color: var(--crit); }
+.btn--danger-ghost { color: var(--crit); background: color-mix(in srgb, var(--crit) 11%, transparent); } /* action destructrice : rouge, moins appuyée que l'action principale */
+.btn--danger-ghost:hover { background: color-mix(in srgb, var(--crit) 18%, transparent); }
 .btn--icon { width: 42px; padding: 0; }
 /* Bouton d'état (import) : chargement, puis coche tracée comme dans une case à cocher */
 .btn--status { transition: background var(--dur-2), color var(--dur-2); }

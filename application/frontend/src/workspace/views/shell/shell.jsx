@@ -19,6 +19,7 @@ import { applyAmbiance } from '../../core/theme.js';
 import { role as roleOf } from '#shared/catalog.js';
 import { remontees, batiments, batimentLabel, index, parc } from '../../core/selectors.js';
 import { installations } from '../../core/installations.js';
+import { interventionsOuvertes } from '../../core/interventions.js';
 import { TABS, remonteeTabs } from '../remontees/remontees-tabs.js';
 import { num } from '#shared/format.js';
 import { reveal } from '../../ui/reveal.js';
@@ -72,6 +73,7 @@ function subnav(navId) {
     case 'administration': return [
       { path: '/administration/postes', label: 'Postes', icon: 'desktop' },
       { path: '/administration/applications', label: 'Applications', icon: 'widgets' },
+      { path: '/administration/interventions', label: 'Interventions', icon: 'clock', count: interventionsOuvertes().length }, // pas encore terminées
       { path: '/administration/batiments', label: 'Bâtiments', icon: 'building' },
       { path: '/administration/comptes', label: 'Comptes', icon: 'users' },
     ];

@@ -201,7 +201,15 @@ export function mergeState(state, input, actor, now = Date.now()) {
         if (old) fail(403, 'Le suivi d’une intervention est mis à jour par les postes.');
         assert(OPERATION_TYPES.includes(x.type), 'Intervention inconnue.');
         if (!isAdmin(actor)) assert(actor.role === 'formateur' && x.type === 'arret', 'Action réservée aux administrateurs.');
-        assert(Array.isArray(x.cibles) && x.cibles.length && x.cibles.length <= 500 && new Set(x.cibles).size === x.cibles.length, 'Postes cibles invalides.');
+        // Cible : une salle entière, dont le serveur fixe les postes, ou un seul poste
+        if (x.salleId && x.type !== 'arret') {
+          x.cibles = next.postes.filter((p) => p.salleId === x.salleId).map((p) => p.id);
+          assert(x.cibles.length, 'Cette salle ne compte aucun poste.');
+        } else {
+          delete x.salleId;
+          assert(Array.isArray(x.cibles) && x.cibles.length === 1, 'Une intervention vise une salle entière ou un seul poste.');
+        }
+        assert(x.cibles.length <= 500 && new Set(x.cibles).size === x.cibles.length, 'Postes cibles invalides.');
         const postes = x.cibles.map((pid) => next.postes.find((p) => p.id === pid));
         assert(postes.every((p) => p && (actor.role === 'superadmin' || schoolOf(p, next) === actor.ecoleId)), 'Postes hors périmètre.');
         assert(new Set(postes.map((p) => schoolOf(p, next))).size === 1, 'Une intervention concerne une seule école.');
