@@ -73,7 +73,7 @@ function DevGroups({ list, draggable, mode, selected, onPick, onGrab }) {
       <header><Tile name={t.icon} color={t.color} size="s" /><span>{t.plural}</span><b>{num(l.length)}</b></header>
       <div className="dev-grid">{l.map((m) => (
         <button key={m.id} className={`dev ${selected.has(m.id) ? 'is-on' : ''} ${draggable ? 'is-draggable' : ''} ${m.deplacement ? 'is-moving' : ''}`} data-mat={m.id} style={{ '--c': t.color }}
-          aria-label={`${m.modele}, ${m.idAster}, ${m.hs ? 'hors service' : 'en service'}`} aria-pressed={selected.has(m.id)} data-tip={`${m.modele}\n${m.idAster}`}
+          aria-label={`${m.modele}, ${m.idOrion}, ${m.hs ? 'hors service' : 'en service'}`} aria-pressed={selected.has(m.id)} data-tip={`${m.modele}\n${m.idOrion}`}
           onClick={(e) => onPick(e, m.id)} onPointerDown={draggable ? (e) => onGrab(e, m.id) : undefined}>
           <Icon name={t.icon} size={20} /><span className={`led led--${m.hs ? 'hs' : 'ok'}`} />
         </button>))}</div>
@@ -113,7 +113,7 @@ export function DevCard({ ids, mode, salleId, act }) {
   return <div className="dev-card">
     <div className="dev-card-head">
       <span className="tile-wrap"><Tile name={t.icon} color={t.color} size="m" /><span className={`led led--${m.hs ? 'hs' : 'ok'} tile-led`} /></span>
-      <div><b>{m.modele}</b><span>{m.idAster}{m.marque ? `, ${m.marque}` : ''}</span></div>
+      <div><b>{m.modele}</b><span>{m.idOrion}{m.marque ? `, ${m.marque}` : ''}</span></div>
       <button className="icon-btn" aria-label="Fermer" onClick={act.clear}><Icon name="close" size={16} /></button>
     </div>
     <ul className="dev-facts">

@@ -1,4 +1,4 @@
-# Diagrammes d’activité des cas d’utilisation ASTER — Brouillon V2
+# Diagrammes d’activité des cas d’utilisation ORION — Brouillon V2
 
 ## 1. Importer de nouveaux matériels en JSON — scénario nominal, acteur habilité
 
@@ -13,7 +13,7 @@ flowchart TD
         action2["Sélectionner le fichier JSON et demander son import"]
     end
 
-    subgraph SYSTEME["ASTER"]
+    subgraph SYSTEME["ORION"]
         direction TB
         action3["Lire les données du fichier"]
         decision{"Reste-t-il un matériel à importer ?"}
@@ -47,7 +47,7 @@ flowchart TD
         correction["Corriger les informations signalées"]
     end
 
-    subgraph ASTER["ASTER"]
+    subgraph ORION["ORION"]
         controleAcces["Vérifier le droit de modification et le périmètre du matériel"]
         acces{"Accès autorisé ?"}
         fiche["Présenter les informations du matériel"]
@@ -84,7 +84,7 @@ flowchart TD
         correction["Compléter les matériels concernés ou la description"]
     end
 
-    subgraph ASTER["ASTER"]
+    subgraph ORION["ORION"]
         localisation["Présenter la localisation de chaque matériel lorsqu’elle est renseignée"]
         controleAcces["Vérifier le droit de création et le périmètre des matériels"]
         acces{"Création autorisée pour ces matériels ?"}
@@ -94,7 +94,7 @@ flowchart TD
         refus["Refuser la création sans enregistrer de remontée"]
         enregistrer["Enregistrer la remontée, son auteur et les matériels concernés"]
         pdf["Générer et associer le PDF d’état des lieux à partir du formulaire"]
-        notification["Créer la notification ASTER destinée au gestionnaire de l’école concernée"]
+        notification["Créer la notification ORION destinée au gestionnaire de l’école concernée"]
     end
 
     debut --> selection --> localisation --> saisie
@@ -119,7 +119,7 @@ flowchart TD
         action3["Choisir le nouveau profil et son rattachement, puis demander l’enregistrement"]
     end
 
-    subgraph SYSTEME["ASTER"]
+    subgraph SYSTEME["ORION"]
         direction TB
         action2["Présenter le profil actuel et les choix autorisés"]
         action4["Vérifier l’habilitation, le périmètre et la cohérence du rattachement"]
@@ -154,7 +154,7 @@ flowchart TD
         action3["Choisir la portée globale, école, bâtiment ou salle et demander l’enregistrement"]
     end
 
-    subgraph SYSTEME["ASTER"]
+    subgraph SYSTEME["ORION"]
         direction TB
         action4["Contrôler les droits sur la portée demandée"]
         decision{"Portée accessible à cet acteur ?"}
@@ -188,7 +188,7 @@ flowchart TD
         correction["Renseigner le nom manquant"]
     end
 
-    subgraph ASTER["ASTER"]
+    subgraph ORION["ORION"]
         profil{"Profil de l’acteur ?"}
         ecoleAdmin["Retenir l’école de rattachement de l’administrateur"]
         controleAcces["Vérifier le droit de création et l’accès à l’école choisie"]
@@ -222,7 +222,7 @@ flowchart TD
         correction["Renseigner le nom manquant"]
     end
 
-    subgraph ASTER["ASTER"]
+    subgraph ORION["ORION"]
         controleNom["Vérifier la présence du nom de l’école"]
         nomPresent{"Nom renseigné ?"}
         erreurs["Signaler le nom manquant"]

@@ -1,6 +1,6 @@
 /* ==========================================================================
    Salles · déplacements (installation physique). Une affectation enregistrée
-   dans ASTER reste en cours tant que le déplacement physique n'est pas
+   dans ORION reste en cours tant que le déplacement physique n'est pas
    confirmé (règle tenue par le serveur). Une carte par trajet (du stock vers
    une salle, d'une salle à une autre, d'une salle vers le stock) avec son
    avancement ; le point orange d'un matériel le confirme. ?salle= limite
@@ -25,7 +25,7 @@ function MoveRow({ m }) {
   return <li><div className={`row${pending ? '' : ' is-done'}`}>
     <InstallDot m={m} />
     <span className="row-main"><span className="row-title">{m.modele}</span>
-      <span className="row-sub"><span className="row-meta">{m.idAster}</span><span className="row-meta">{pending ? 'Affecté' : m.salleId ? 'Installé' : 'Rangé'} par {trace.par}</span></span></span>
+      <span className="row-sub"><span className="row-meta">{m.idOrion}</span><span className="row-meta">{pending ? 'Affecté' : m.salleId ? 'Installé' : 'Rangé'} par {trace.par}</span></span></span>
     <span className="row-when">{ago(trace.at)}</span>
   </div></li>;
 }

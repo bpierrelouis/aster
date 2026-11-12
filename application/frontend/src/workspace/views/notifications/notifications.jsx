@@ -27,7 +27,7 @@ function NotificationRow({ n }) {
     return <li><Link className="row" to={`/salles/${salle ? `salle/${salle.id}` : 'stock'}?m=${n.m.id}`}>
       <Tile name={t.icon} color={t.color} size="m" className="tile--tint" />
       <span className="row-main"><span className="row-title">{n.m.modele}</span>
-        <span className="row-sub"><span className="row-meta">{n.m.idAster}</span><span className="row-meta">{salle ? salle.nom : 'Stock'}</span></span></span>
+        <span className="row-sub"><span className="row-meta">{n.m.idOrion}</span><span className="row-meta">{salle ? salle.nom : 'Stock'}</span></span></span>
       <span className="row-when">{echue ? 'Échue le' : 'Fin le'} {dateMed(n.m.garantieFin)}</span>
     </Link></li>;
   }
@@ -36,7 +36,7 @@ function NotificationRow({ n }) {
     return <li><Link className="row" to={`/salles/deplacements${n.m.salleId ? `?salle=${n.m.salleId}` : ''}`}>
       <Tile name={t.icon} color={t.color} size="m" className="tile--tint" />
       <span className="row-main"><span className="row-title">{n.m.modele}</span>
-        <span className="row-sub"><span className="row-meta">{n.m.idAster}</span><span className="row-meta">{lieuNom(n.m.deplacement.de)} → {lieuNom(n.m.salleId)}</span></span></span>
+        <span className="row-sub"><span className="row-meta">{n.m.idOrion}</span><span className="row-meta">{lieuNom(n.m.deplacement.de)} → {lieuNom(n.m.salleId)}</span></span></span>
       <span className="row-when">{ago(n.at)}</span>
     </Link></li>;
   }

@@ -1,13 +1,13 @@
 ---
 name: create-specification
-description: 'Rédiger une spécification ciblée avec exigences, critères d’acceptation et contrats à partir des sources ASTER. Utiliser pour formaliser un comportement ou une interface ; pas pour une simple correction documentaire.'
+description: 'Rédiger une spécification ciblée avec exigences, critères d’acceptation et contrats à partir des sources ORION. Utiliser pour formaliser un comportement ou une interface ; pas pour une simple correction documentaire.'
 ---
 
 # Create Specification
 
-## Adaptation ASTER
+## Adaptation ORION
 
-Appliquer `AGENTS.md` et utiliser `aster-documentation` pour les sources et la synchronisation. Cette adaptation remplace les conventions génériques de sortie ci-dessous.
+Appliquer `AGENTS.md` et utiliser `orion-documentation` pour les sources et la synchronisation. Cette adaptation remplace les conventions génériques de sortie ci-dessous.
 
 - Rédiger en français, au niveau demandé, à partir du cadrage et des sources utiles. Réutiliser les identifiants `RG-*` et les liens vers le glossaire ; ne pas recopier le cadrage pour rendre le document autonome.
 - Compléter le document existant adapté au besoin avant d'en créer un. Pour une nouvelle spécification non finalisée, utiliser `docs/temporaire/SPECIFICATION-<SUJET>-BROUILLON-V1.md`. Pour un livrable final, respecter le classement et la numérotation du dépôt et mettre à jour le sommaire.
@@ -16,4 +16,4 @@ Appliquer `AGENTS.md` et utiliser `aster-documentation` pour les sources et la s
 
 ## Ressource à la demande
 
-Lire le [modèle de référence](references/MODELE-AMONT.md) seulement pour structurer le livrable demandé. Les adaptations ASTER ci-dessus priment sur ce modèle générique.
+Lire le [modèle de référence](references/MODELE-AMONT.md) seulement pour structurer le livrable demandé. Les adaptations ORION ci-dessus priment sur ce modèle générique.

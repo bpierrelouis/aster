@@ -1,7 +1,7 @@
 /* ==========================================================================
    Démonstrateur uniquement : création des identités dans l'annuaire LDAP local,
    au travers du Keycloak qui le fédère et tient lieu de MindefConnect. En
-   production, les identités existent déjà chez le fournisseur ; ASTER
+   production, les identités existent déjà chez le fournisseur ; ORION
    n'attribue que le profil et l'école.
    ========================================================================== */
 

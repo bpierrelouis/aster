@@ -1,4 +1,4 @@
-// Profils ASTER (portés par le compte ASTER, pas par le fournisseur d'identité).
+// Profils ORION (portés par le compte ORION, pas par le fournisseur d'identité).
 export const profiles = {
   superadmin: { label: 'Super administrateur', scope: 'Toutes les écoles' },
   admin: { label: 'Administrateur', scope: 'École de rattachement' },
@@ -13,7 +13,7 @@ export function identityFromClaims(claims) {
   return { sub: claims.sub, email, name: claims.name || claims.preferred_username || claims.sub };
 }
 
-/** Utilisateur présenté au navigateur, à partir du compte ASTER actif. */
+/** Utilisateur présenté au navigateur, à partir du compte ORION actif. */
 export function userFromAccount(actor, ecoleNom = null) {
   return {
     id: actor.id,

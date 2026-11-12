@@ -95,8 +95,8 @@ jobs:
         with:
           context: application
           target: ${{ matrix.image }}
-          build-args: ASTER_VERSION=${{ github.sha }}
+          build-args: ORION_VERSION=${{ github.sha }}
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/aster-${{ matrix.image }}:${{ github.sha }}
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/orion-${{ matrix.image }}:${{ github.sha }}
           cache-from: type=gha,scope=${{ matrix.image }}
           cache-to: type=gha,mode=max,scope=${{ matrix.image }}

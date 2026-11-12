@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ASTER · Moteur du verre
+   ORION · Moteur du verre
    1. Lentille : pour chaque élément .glass[data-lens], génère une carte de
       déplacement (SDF d'un rectangle arrondi) et un filtre SVG appliqué en
       backdrop-filter. Les bords réfractent réellement ce qui est derrière.

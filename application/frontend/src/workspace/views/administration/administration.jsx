@@ -105,7 +105,7 @@ function Posts({ list, salleId, onSalle, query, onQuery }) {
       return <tr key={p.id}>
         <td><strong>{p.nomReseau}</strong></td>
         <td>{emplacement(index().salle.get(p.salleId))}</td>
-        <td>{m ? <>{m.idAster}<small className="inv-sub">{m.modele}</small></> : <span className="ops-muted">Aucun</span>}</td>
+        <td>{m ? <>{m.idOrion}<small className="inv-sub">{m.modele}</small></> : <span className="ops-muted">Aucun</span>}</td>
         <td><PosteEtat p={p} /></td>
         <td>{installations.filter((i) => i.posteId === p.id).length}</td>
         <td><button className="btn btn--ghost" onClick={() => openPostDetail(p.id)}>Ouvrir</button></td>

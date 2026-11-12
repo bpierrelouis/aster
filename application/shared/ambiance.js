@@ -39,9 +39,9 @@ export const TONES = [{ id: 'auto' }, { id: 'light' }, { id: 'dark' }];
 export const ORION_STAR = 'M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z';
 
 const known = (list, id) => list.find((x) => x.id === id) ?? list[0];
-// Ambiance État renommée Minarm le 11 novembre ; l'ambiance par défaut « aster » devient « orion », nom de l'application, le 12 novembre
+// Ambiance État renommée Minarm le 11 novembre ; l'ambiance par défaut « orion » devient « orion », nom de l'application, le 12 novembre
 // Ambiance Vigie retirée le 12 novembre : une préférence « vigie » revient au défaut
-const RENAMED = { etat: 'minarm', aster: 'orion' };
+const RENAMED = { etat: 'minarm', orion: 'orion' };
 
 /** Préférences valides : une valeur inconnue (ancienne ambiance, verre givré) revient au défaut. */
 export const displayPrefs = (p = {}) => ({

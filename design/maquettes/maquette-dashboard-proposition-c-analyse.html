@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ASTER — Tableau de bord, proposition C</title>
+<title>ORION — Tableau de bord, proposition C</title>
 <style>
 /* Jetons des ambiances (repris de styles/tokens.css, contraste du texte secondaire renforcé) */
 :root {
@@ -287,7 +287,7 @@ a.row:hover { background: var(--fill-1); }
 <body>
 <div class="app">
   <nav class="rail" aria-label="Menu principal">
-    <a class="brand" href="#" aria-label="ASTER">
+    <a class="brand" href="#" aria-label="ORION">
       <svg viewBox="0 0 64 64" aria-hidden="true"><g style="fill:var(--accent)"><ellipse cx="32" cy="14" rx="4.5" ry="11"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(45 32 32)"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(90 32 32)"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(135 32 32)"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(180 32 32)"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(225 32 32)"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(270 32 32)"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(315 32 32)"/></g><circle cx="32" cy="32" r="6" style="fill:var(--coeur)"/></svg>
     </a>
     <ul class="nav">
@@ -407,9 +407,9 @@ function applyDisplay(ambiance, glass) {
   if (ambiance && AMBIANCES[ambiance]) {
     if (ambiance === 'aube') delete root.dataset.ambiance; else root.dataset.ambiance = ambiance;
     root.dataset.tone = AMBIANCES[ambiance];
-    store.set('aster-maquette-ambiance', ambiance);
+    store.set('orion-maquette-ambiance', ambiance);
   }
-  if (glass) { root.dataset.glass = glass; store.set('aster-maquette-verre', glass); }
+  if (glass) { root.dataset.glass = glass; store.set('orion-maquette-verre', glass); }
   const cur = { ambiance: root.dataset.ambiance || 'aube', glass: root.dataset.glass || 'liquid' };
   document.querySelectorAll('[data-set-ambiance]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.setAmbiance === cur.ambiance)));
   document.querySelectorAll('[data-set-glass]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.setGlass === cur.glass)));
@@ -417,7 +417,7 @@ function applyDisplay(ambiance, glass) {
 (() => {
   const q = new URLSearchParams(location.search);
   const glassParam = { liquide: 'liquid', opaque: 'solid' }[q.get('verre')];
-  applyDisplay(q.get('ambiance') || store.get('aster-maquette-ambiance') || 'aube', glassParam || store.get('aster-maquette-verre') || 'liquid');
+  applyDisplay(q.get('ambiance') || store.get('orion-maquette-ambiance') || 'aube', glassParam || store.get('orion-maquette-verre') || 'liquid');
   document.addEventListener('click', (e) => {
     const a = e.target.closest('[data-set-ambiance]'); if (a) applyDisplay(a.dataset.setAmbiance, null);
     const g = e.target.closest('[data-set-glass]'); if (g) applyDisplay(null, g.dataset.setGlass);

@@ -1,5 +1,5 @@
 {
-  "realm": "aster",
+  "realm": "orion",
   "displayName": "Orion — Environnement local",
   "enabled": true,
   "sslRequired": "none",
@@ -8,7 +8,7 @@
   "rememberMe": false,
   "loginWithEmailAllowed": true,
   "duplicateEmailsAllowed": false,
-  "loginTheme": "aster-mindef",
+  "loginTheme": "orion-mindef",
   "internationalizationEnabled": true,
   "supportedLocales": [
     "fr"
@@ -19,12 +19,12 @@
   "ssoSessionMaxLifespan": 3600,
   "clients": [
     {
-      "clientId": "aster-web",
-      "name": "ASTER",
+      "clientId": "orion-web",
+      "name": "ORION",
       "enabled": true,
       "protocol": "openid-connect",
       "publicClient": false,
-      "secret": "aster-client-local",
+      "secret": "orion-client-local",
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": false,
@@ -45,13 +45,13 @@
       ],
       "protocolMappers": [
         {
-          "name": "aster-roles",
+          "name": "orion-roles",
           "protocol": "openid-connect",
           "protocolMapper": "oidc-usermodel-realm-role-mapper",
           "consentRequired": false,
           "config": {
             "multivalued": "true",
-            "claim.name": "aster_roles",
+            "claim.name": "orion_roles",
             "jsonType.label": "String",
             "id.token.claim": "true",
             "access.token.claim": "true",
@@ -62,10 +62,10 @@
       "fullScopeAllowed": true
     }
   ],
-  "browserFlow": "aster-username-only",
+  "browserFlow": "orion-username-only",
   "authenticationFlows": [
     {
-      "alias": "aster-username-only",
+      "alias": "orion-username-only",
       "description": "LOCAL ONLY: known usernames without a password. Never deploy in production.",
       "providerId": "basic-flow",
       "topLevel": true,
@@ -84,7 +84,7 @@
   "components": {
     "org.keycloak.storage.UserStorageProvider": [
       {
-        "name": "annuaire-aster",
+        "name": "annuaire-orion",
         "providerId": "ldap",
         "subComponents": {
           "org.keycloak.storage.ldap.mappers.LDAPStorageMapper": [
@@ -218,13 +218,13 @@
             "simple"
           ],
           "bindDn": [
-            "cn=admin,dc=aster,dc=demo"
+            "cn=admin,dc=orion,dc=demo"
           ],
           "bindCredential": [
             "ldap-admin-local"
           ],
           "usersDn": [
-            "ou=people,dc=aster,dc=demo"
+            "ou=people,dc=orion,dc=demo"
           ],
           "searchScope": [
             "1"

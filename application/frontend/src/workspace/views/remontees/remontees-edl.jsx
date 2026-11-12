@@ -49,7 +49,7 @@ export function openEtatDesLieux(r) {
             const salle = m.salleId ? ix.salle.get(m.salleId) : null;
             return <tr key={m.id}>
               <td><b>{m.modele}</b><br /><small>{deviceType(m.type).label}{m.marque ? `, ${m.marque}` : ''}</small></td>
-              <td>{m.idAster}</td><td>{m.serie ?? '—'}</td>
+              <td>{m.idOrion}</td><td>{m.serie ?? '—'}</td>
               <td>{salle ? `${salle.nom}, ${batimentLabel(salle.batiment)}` : 'Stock'}</td>
             </tr>;
           })}</tbody>

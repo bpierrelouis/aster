@@ -29,16 +29,16 @@ function Materiel({ m, gerer }) {
   async function setHs(hs) {
     store.update('data', (s) => { s.materiels.find((x) => x.id === m.id).hs = hs; });
     try { await store.flush(); } catch { return; }
-    notify(`${m.idAster} ${hs ? 'déclaré hors service' : 'remis en service'}`, { icon: hs ? 'power' : 'checkCircle', tone: hs ? 'warn' : 'ok' });
+    notify(`${m.idOrion} ${hs ? 'déclaré hors service' : 'remis en service'}`, { icon: hs ? 'power' : 'checkCircle', tone: hs ? 'warn' : 'ok' });
   }
   return <li>
     <div className="rm-mat">
       <Link className="row" to={`/salles/${m.salleId ? `salle/${m.salleId}` : 'stock'}?m=${m.id}`}>
         <span className="tile-wrap"><Tile name={t.icon} color={t.color} size="m" /><span className={`led led--${m.hs ? 'hs' : 'ok'} tile-led`} /></span>
-        <span className="row-main"><span className="row-title">{m.modele}</span><span className="row-sub"><LieuChip m={m} /><span className="row-meta">{m.idAster}</span></span></span>
+        <span className="row-main"><span className="row-title">{m.modele}</span><span className="row-sub"><LieuChip m={m} /><span className="row-meta">{m.idOrion}</span></span></span>
         {!gerer && <Icon name="chevR" size={16} />}
       </Link>
-      {gerer && <span className="rm-mat-etat"><small>{m.hs ? 'Hors service' : 'En service'}</small><Switch on={!m.hs} onChange={(on) => setHs(!on)} label={`${m.modele} ${m.idAster} en service`} /></span>}
+      {gerer && <span className="rm-mat-etat"><small>{m.hs ? 'Hors service' : 'En service'}</small><Switch on={!m.hs} onChange={(on) => setHs(!on)} label={`${m.modele} ${m.idOrion} en service`} /></span>}
     </div>
     {gerer && m.hs && m.salleId && !m.deplacement && <Remise m={m} />}
   </li>;
@@ -64,12 +64,12 @@ function Remise({ m }) {
     notify(`${plural(n, 'déplacement lancé', 'déplacements lancés')}, à confirmer dans Salles › Déplacements`, { icon: 'refresh', tone: 'info' });
   }
 
-  return <form className="rm-remise" onSubmit={submit} aria-label={`Remise de ${m.idAster}`}>
+  return <form className="rm-remise" onSubmit={submit} aria-label={`Remise de ${m.idOrion}`}>
     <label className="rm-remise-choix"><input type="checkbox" checked={stock} onChange={(e) => setStock(e.target.checked)} />Relocaliser dans le stock</label>
     <label className="rm-remise-choix"><input type="checkbox" checked={remplacer} disabled={!candidats.length} onChange={(e) => setRemplacer(e.target.checked)} />Remplacer par
       {candidats.length
         ? <select value={remplacant} disabled={!remplacer} onChange={(e) => setRemplacant(e.target.value)} aria-label="Matériel de remplacement">
-          {candidats.map((x) => <option key={x.id} value={x.id}>{x.modele} · {x.idAster}</option>)}
+          {candidats.map((x) => <option key={x.id} value={x.id}>{x.modele} · {x.idOrion}</option>)}
         </select>
         : <small>aucun {deviceType(m.type).label.toLowerCase()} en service au stock</small>}
     </label>

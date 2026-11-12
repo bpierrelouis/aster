@@ -21,7 +21,7 @@ flowchart LR
     consultantRemontees -->|« hérite de »| lecteurRemontee
     superAdministrateur -->|« hérite de »| administrateur
 
-    subgraph aster["Application web ASTER — Remontées utilisateur"]
+    subgraph orion["Application web ORION — Remontées utilisateur"]
         direction TB
         creerRemontee(["Créer une remontée"])
         suivreRemontee(["Suivre l'avancement de ses remontées"])
@@ -56,5 +56,5 @@ flowchart LR
     class auteurRemontee,consultantRemontees,lecteurRemontee,acteurTraitement acteurAbstrait
     class creerRemontee,suivreRemontee,consulterRemontee,consulterPdf,telechargerPdf,consulterTableau,marquerRemplace,marquerCorrige,recevoirNotification,recevoirNouvelleRemontee casUtilisation
 
-    style aster fill:none,stroke:#7D8793,stroke-width:1px
+    style orion fill:none,stroke:#7D8793,stroke-width:1px
 ```

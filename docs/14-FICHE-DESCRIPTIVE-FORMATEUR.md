@@ -14,9 +14,9 @@
 | Supervision | Choisir une salle de son école, consulter l'état de ses postes et leurs processus utilisateur ; demander l'arrêt d'un processus affiché |
 | Alertes | Consulter les détections de processus blacklistés et non référencés de la salle choisie, avec le résultat de l'arrêt automatique |
 | Remontées | Créer une remontée, y compris depuis une salle ; suivre ses propres remontées ; consulter, télécharger et imprimer son propre PDF d'état des lieux |
-| Notifications | Recevoir dans ASTER une notification lorsque le statut de l'une de ses remontées change |
+| Notifications | Recevoir dans ORION une notification lorsque le statut de l'une de ses remontées change |
 | Tableau de bord | Consulter et composer son tableau de bord personnel (ses remontées en attente, salles de l'école) |
-| Exclusions | Aucun accès à l'inventaire, à la modification du parc, à l'administration des postes, aux listes de processus, aux statistiques, aux comptes ASTER ni au traitement des remontées |
+| Exclusions | Aucun accès à l'inventaire, à la modification du parc, à l'administration des postes, aux listes de processus, aux statistiques, aux comptes ORION ni au traitement des remontées |
 
 Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-DROITS.md).
 
@@ -29,12 +29,12 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 ### Scénario nominal
 
 1. Le formateur sélectionne une salle.
-2. ASTER affiche tous les postes de cette salle et leur état connecté ou déconnecté.
+2. ORION affiche tous les postes de cette salle et leur état connecté ou déconnecté.
 3. Les données sont actualisées automatiquement en quelques secondes.
-4. Pour chaque poste connecté, ASTER présente ses processus utilisateur en cours, avec leur nom, le compte Windows et leur classement.
+4. Pour chaque poste connecté, ORION présente ses processus utilisateur en cours, avec leur nom, le compte Windows et leur classement.
 5. Le formateur peut rechercher un poste ou un processus.
-6. Il demande l'arrêt d'un processus utilisateur ; ASTER indique que l'arrêt est demandé.
-7. ASTER transmet l'ordre au poste, qui l'exécute ; le processus disparaît de la liste une fois arrêté.
+6. Il demande l'arrêt d'un processus utilisateur ; ORION indique que l'arrêt est demandé.
+7. ORION transmet l'ordre au poste, qui l'exécute ; le processus disparaît de la liste une fois arrêté.
 
 ### Variantes et limites
 
@@ -49,7 +49,7 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 ### Résultats attendus
 
 - Le formateur dispose de l'état courant de la salle sélectionnée.
-- L'arrêt manuel porte uniquement sur un processus utilisateur présenté dans ASTER.
+- L'arrêt manuel porte uniquement sur un processus utilisateur présenté dans ORION.
 - L'état de la demande d'arrêt est affiché.
 
 ### Questions ouvertes
@@ -72,7 +72,7 @@ RG-19, RG-20, RG-25, RG-31 à RG-33, RG-44 à RG-49, RG-51 à RG-54, RG-56 à RG
 ### Scénario nominal
 
 1. Le formateur choisit la salle.
-2. ASTER liste les détections de cette salle : processus, classement, poste, salle, compte Windows, date de détection et résultat (arrêt réussi, en échec ou en cours pour un processus blacklisté, historisé pour un processus non référencé).
+2. ORION liste les détections de cette salle : processus, classement, poste, salle, compte Windows, date de détection et résultat (arrêt réussi, en échec ou en cours pour un processus blacklisté, historisé pour un processus non référencé).
 3. Il peut filtrer par poste ou processus.
 
 ### Variantes et limites
@@ -103,12 +103,12 @@ RG-38, RG-52 à RG-54, RG-56 et RG-69.
 ### Scénario nominal
 
 1. Le formateur choisit une salle par bâtiment, ou le stock, puis un ou plusieurs matériels ; depuis une salle, les matériels sélectionnés sont repris.
-2. ASTER affiche la localisation de chaque matériel lorsqu'elle est renseignée.
+2. ORION affiche la localisation de chaque matériel lorsqu'elle est renseignée.
 3. Il choisit éventuellement un type de problème (ne s'allume pas, pas d'image, connexion, casse, fonctionnement anormal, autre) et saisit la description obligatoire.
-4. ASTER attribue le numéro de la remontée, enregistre le formateur comme auteur et le statut « en attente ».
-5. Le formateur peut consulter, télécharger ou imprimer le PDF d'état des lieux, qu'ASTER génère à chaque demande avec les informations actuelles de la remontée.
+4. ORION attribue le numéro de la remontée, enregistre le formateur comme auteur et le statut « en attente ».
+5. Le formateur peut consulter, télécharger ou imprimer le PDF d'état des lieux, qu'ORION génère à chaque demande avec les informations actuelles de la remontée.
 6. Il suit l'avancement et l'historique de ses propres remontées.
-7. Lorsqu'un statut change, il reçoit une notification dans ASTER.
+7. Lorsqu'un statut change, il reçoit une notification dans ORION.
 
 ### Variantes et limites
 
@@ -142,7 +142,7 @@ RG-11 à RG-14, RG-21, RG-23, RG-34 à RG-38, RG-63, RG-64, RG-66 et RG-69.
 - Liste des détections de la salle choisie.
 - Formulaire de remontée avec choix de la salle ou du stock et sélection de plusieurs matériels.
 - Espace limité aux remontées du formateur, avec statut, suivi et accès au PDF.
-- Affichage des notifications dans ASTER.
+- Affichage des notifications dans ORION.
 - Tableau de bord personnel composable ; aucune vue globale de supervision.
 
 ## Contraintes transversales

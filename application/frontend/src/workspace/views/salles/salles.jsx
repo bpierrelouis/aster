@@ -198,12 +198,12 @@ export function Salles() {
     },
     async deleteMat(m) {
       try {
-        const ok = await confirmSheet({ title: `Supprimer ${m.idAster} ?`, message: `${m.modele} sera retiré de l’inventaire. Les remontées qui le mentionnent restent consultables.`, confirm: 'Supprimer' });
+        const ok = await confirmSheet({ title: `Supprimer ${m.idOrion} ?`, message: `${m.modele} sera retiré de l’inventaire. Les remontées qui le mentionnent restent consultables.`, confirm: 'Supprimer' });
         if (!ok) return;
         setSelected(new Set());
         store.update('data', (s) => { s.materiels = s.materiels.filter((y) => y.id !== m.id); });
         await store.flush();
-        notify(`${m.idAster} supprimé`, { icon: 'trash', tone: 'danger' });
+        notify(`${m.idOrion} supprimé`, { icon: 'trash', tone: 'danger' });
       } catch { /* Le store restaure les données et affiche l'erreur serveur. */ }
     },
     async deleteSalle(x) {

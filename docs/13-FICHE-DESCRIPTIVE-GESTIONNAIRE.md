@@ -13,9 +13,9 @@
 | Parc matériel | Rechercher un matériel (recherche globale ou inventaire filtré par type, état, salle ou stock et garantie) ; consulter les salles par bâtiment et par étage, et le matériel de chaque salle ; créer, consulter et modifier un matériel ; consulter le stock ; affecter un ou plusieurs matériels à une salle ou les remettre en stock ; importer de nouveaux matériels en JSON |
 | Suppression | Interdite au gestionnaire ; la gestion des salles et des étages est réservée aux administrateurs |
 | Tableaux de bord | Consulter son tableau de bord personnel, qu'il peut composer, ainsi que les tableaux de bord du parc et des remontées |
-| Remontées | Consulter, rechercher et filtrer par bâtiment toutes les remontées de son école ; consulter, télécharger et imprimer les PDF ; passer une remontée de « en attente » à « remplacé » ; recevoir une notification dans ASTER à chaque nouvelle remontée |
-| Garanties | Renseigner la date de fin, consulter son état (échue, à échéance, en cours, non renseignée) et recevoir une notification dans ASTER lorsque la garantie est échue ou arrive à échéance dans les six mois |
-| Administration et supervision | Aucun accès aux postes, à la supervision des processus, aux listes de processus, à la modification des salles ni aux comptes ASTER |
+| Remontées | Consulter, rechercher et filtrer par bâtiment toutes les remontées de son école ; consulter, télécharger et imprimer les PDF ; passer une remontée de « en attente » à « remplacé » ; recevoir une notification dans ORION à chaque nouvelle remontée |
+| Garanties | Renseigner la date de fin, consulter son état (échue, à échéance, en cours, non renseignée) et recevoir une notification dans ORION lorsque la garantie est échue ou arrive à échéance dans les six mois |
+| Administration et supervision | Aucun accès aux postes, à la supervision des processus, aux listes de processus, à la modification des salles ni aux comptes ORION |
 
 Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-DROITS.md).
 
@@ -28,12 +28,12 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 ### Scénario nominal
 
 1. Le gestionnaire recherche un matériel, ouvre l'inventaire ou consulte les salles par bâtiment et par étage pour voir le matériel présent dans une salle.
-2. ASTER limite les résultats à son école.
+2. ORION limite les résultats à son école.
 3. Le gestionnaire consulte une fiche, crée un matériel ou modifie ses informations.
 4. Pour une création, il renseigne le modèle, la date de réception et l'état hors service ; le type, la marque, le numéro de série, l'affectation et la date de fin de garantie restent facultatifs.
-5. ASTER attribue automatiquement l'identifiant interne et enregistre le matériel.
+5. ORION attribue automatiquement l'identifiant interne et enregistre le matériel.
 6. Le gestionnaire peut ensuite affecter ou déplacer un ou plusieurs matériels vers une salle de son école.
-7. ASTER applique immédiatement l'affectation ou le déplacement.
+7. ORION applique immédiatement l'affectation ou le déplacement.
 8. Pour affecter, il sélectionne un ou plusieurs matériels et choisit une salle ou le stock, depuis l'inventaire ou en déplaçant les matériels vers une salle ou vers le stock.
 
 ### Variantes et limites
@@ -48,7 +48,7 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 
 ### Résultats attendus
 
-- Le matériel possède un identifiant ASTER et respecte les données obligatoires.
+- Le matériel possède un identifiant ORION et respecte les données obligatoires.
 - Il est affecté au maximum à une salle ou reste en stock.
 - Une opération peut porter sur plusieurs matériels.
 
@@ -69,13 +69,13 @@ RG-03 à RG-10, RG-16 à RG-18, RG-25 à RG-29, RG-69 et RG-72.
 
 ### Scénario nominal
 
-1. Lorsqu'une remontée est créée, ASTER crée une notification destinée au gestionnaire.
-2. Le gestionnaire reçoit cette notification dans ASTER.
+1. Lorsqu'une remontée est créée, ORION crée une notification destinée au gestionnaire.
+2. Le gestionnaire reçoit cette notification dans ORION.
 3. Le gestionnaire ouvre le tableau de bord ou la liste des remontées (en attente, traitées ou toutes), qu'il peut rechercher et filtrer par bâtiment.
 4. Il consulte la remontée, son suivi, les matériels concernés, leur localisation éventuelle et le PDF d'état des lieux.
 5. Il peut télécharger ou imprimer le PDF.
 6. Il fait passer une remontée de « en attente » à « remplacé ». Le passage à « corrigé » est réservé aux administrateurs.
-7. ASTER enregistre le statut commun à toute la remontée et crée la notification destinée à son auteur formateur.
+7. ORION enregistre le statut commun à toute la remontée et crée la notification destinée à son auteur formateur.
 
 ### Variantes et limites
 
@@ -89,7 +89,7 @@ RG-03 à RG-10, RG-16 à RG-18, RG-25 à RG-29, RG-69 et RG-72.
 
 - Le gestionnaire peut consulter et télécharger tous les PDF de son école.
 - Le statut modifié s'applique à l'ensemble de la remontée.
-- L'auteur formateur est informé dans ASTER lors du changement de statut.
+- L'auteur formateur est informé dans ORION lors du changement de statut.
 
 ### Questions ouvertes
 
@@ -108,23 +108,23 @@ Les maquettes ci-dessous illustrent les écrans de gestion des matériels.
 
 ### Tableau de bord du parc
 
-![Tableau de bord du parc dans la maquette ASTER](assets/fiches-descriptives/IHM-MAQUETTE-TABLEAU-DE-BORD.png)
+![Tableau de bord du parc dans la maquette ORION](assets/fiches-descriptives/IHM-MAQUETTE-TABLEAU-DE-BORD.png)
 
 ### Liste des matériels
 
-![Liste des matériels dans la maquette ASTER](assets/fiches-descriptives/IHM-MAQUETTE-LISTE-MATERIELS.png)
+![Liste des matériels dans la maquette ORION](assets/fiches-descriptives/IHM-MAQUETTE-LISTE-MATERIELS.png)
 
 ### Ajout d'un matériel
 
-![Ajout d'un matériel dans la maquette ASTER](assets/fiches-descriptives/IHM-MAQUETTE-AJOUT-MATERIEL.png)
+![Ajout d'un matériel dans la maquette ORION](assets/fiches-descriptives/IHM-MAQUETTE-AJOUT-MATERIEL.png)
 
 ### Fiche matériel
 
-![Fiche d'un matériel dans la maquette ASTER](assets/fiches-descriptives/IHM-MAQUETTE-FICHE-MATERIEL.png)
+![Fiche d'un matériel dans la maquette ORION](assets/fiches-descriptives/IHM-MAQUETTE-FICHE-MATERIEL.png)
 
 ### Affectation
 
-![Affectation des matériels dans la maquette ASTER](assets/fiches-descriptives/IHM-MAQUETTE-AFFECTATION.png)
+![Affectation des matériels dans la maquette ORION](assets/fiches-descriptives/IHM-MAQUETTE-AFFECTATION.png)
 
 ## Besoins en interface
 
@@ -136,7 +136,7 @@ Les maquettes ci-dessous illustrent les écrans de gestion des matériels.
 - Interface d'affectation d'un ou plusieurs matériels à une salle ou au stock.
 - Import JSON avec description du format attendu.
 - Tableau de bord et liste des remontées avec accès aux PDF.
-- Vue de traitement d'une remontée et affichage des notifications dans ASTER.
+- Vue de traitement d'une remontée et affichage des notifications dans ORION.
 - Aucune action de suppression, d'administration des postes, de supervision ou de gestion des comptes.
 
 ## Contraintes transversales

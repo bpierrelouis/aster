@@ -4,32 +4,32 @@ import { identityFromClaims, userFromAccount } from './profiles.js';
 import { readConfig } from './config.js';
 
 test('le fournisseur transmet une identité ; le profil ne vient pas des claims', () => {
-  const identity = identityFromClaims({ sub: 'id-1', email: ' Formateur@Aster.Demo ', name: 'Formateur ASTER', aster_roles: ['super_admin'] });
-  assert.deepEqual(identity, { sub: 'id-1', email: 'formateur@aster.demo', name: 'Formateur ASTER' });
-  assert.throws(() => identityFromClaims({ email: 'x@aster.demo' }));
+  const identity = identityFromClaims({ sub: 'id-1', email: ' Formateur@Orion.Demo ', name: 'Formateur ORION', orion_roles: ['super_admin'] });
+  assert.deepEqual(identity, { sub: 'id-1', email: 'formateur@orion.demo', name: 'Formateur ORION' });
+  assert.throws(() => identityFromClaims({ email: 'x@orion.demo' }));
   assert.throws(() => identityFromClaims({ sub: '' }));
 });
 
-test('l’utilisateur présenté vient du compte ASTER', () => {
-  const user = userFromAccount({ id: 'cpt-1', nom: 'L. Martin', email: 'formateur@aster.demo', role: 'formateur', ecoleId: 'e-num' }, 'École du numérique');
-  assert.deepEqual(user, { id: 'cpt-1', name: 'L. Martin', email: 'formateur@aster.demo', role: 'formateur', profile: 'Formateur', scope: 'École du numérique' });
+test('l’utilisateur présenté vient du compte ORION', () => {
+  const user = userFromAccount({ id: 'cpt-1', nom: 'L. Martin', email: 'formateur@orion.demo', role: 'formateur', ecoleId: 'e-num' }, 'École du numérique');
+  assert.deepEqual(user, { id: 'cpt-1', name: 'L. Martin', email: 'formateur@orion.demo', role: 'formateur', profile: 'Formateur', scope: 'École du numérique' });
   assert.equal(userFromAccount({ id: 's', nom: 'S', email: 's@x.y', role: 'superadmin', ecoleId: null }).scope, 'Toutes les écoles');
 });
 
 test('les identifiants locaux sont utilisables uniquement hors production', () => {
-  assert.equal(readConfig({}).issuer.pathname, '/realms/aster');
+  assert.equal(readConfig({}).issuer.pathname, '/realms/orion');
   assert.throws(() => readConfig({ NODE_ENV: 'production' }));
   const production = {
-    NODE_ENV: 'production', APP_URL: 'https://aster.example.test', DATABASE_URL: 'postgres://example',
-    OIDC_ISSUER: 'https://identity.example.test/realms/aster', OIDC_CLIENT_ID: 'aster',
+    NODE_ENV: 'production', APP_URL: 'https://orion.example.test', DATABASE_URL: 'postgres://example',
+    OIDC_ISSUER: 'https://identity.example.test/realms/orion', OIDC_CLIENT_ID: 'orion',
     OIDC_CLIENT_SECRET: 'dedicated-client-secret', SESSION_SECRET: 'a'.repeat(48),
     AGENT_TOKEN: 'b'.repeat(40),
   };
   assert.equal(readConfig(production).production, true);
-  assert.throws(() => readConfig({ ...production, OIDC_ISSUER: 'http://localhost:8080/realms/aster' }));
-  assert.throws(() => readConfig({ ...production, OIDC_CLIENT_SECRET: 'aster-client-local' }));
+  assert.throws(() => readConfig({ ...production, OIDC_ISSUER: 'http://localhost:8080/realms/orion' }));
+  assert.throws(() => readConfig({ ...production, OIDC_CLIENT_SECRET: 'orion-client-local' }));
   assert.throws(() => readConfig({ ...production, SESSION_SECRET: 'short' }));
-  assert.throws(() => readConfig({ ...production, AGENT_TOKEN: 'aster-agent-local' }));
+  assert.throws(() => readConfig({ ...production, AGENT_TOKEN: 'orion-agent-local' }));
   // Écoute et création des identités du démonstrateur
   assert.equal(readConfig({}).host, '127.0.0.1');
   assert.equal(readConfig({ HOST: '0.0.0.0' }).host, '0.0.0.0');

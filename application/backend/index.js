@@ -37,7 +37,7 @@ if (config.production) app.set('trust proxy', 1);
 app.use(helmet({ strictTransportSecurity: config.production ? undefined : false, contentSecurityPolicy: config.production ? undefined : false }));
 app.use(['/api', '/auth'], (_req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
 app.use(session({
-  name: 'aster.sid',
+  name: 'orion.sid',
   secret: config.sessionSecret,
   resave: false,
   saveUninitialized: false,
@@ -60,16 +60,16 @@ app.get('/api/health', async (_req, res) => {
 });
 app.get('/api/infos', (_req, res) => res.json(services.infos()));
 app.get('/api/openapi.json', (_req, res) => res.json(openapi));
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openapi, { customSiteTitle: 'API ASTER' }));
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openapi, { customSiteTitle: 'API ORION' }));
 
-// Identités du fournisseur local (démonstrateur) : créées pour les comptes ASTER actifs
+// Identités du fournisseur local (démonstrateur) : créées pour les comptes ORION actifs
 const provisioning = config.identityProvisioning ? createKeycloakProvisioning({ issuer: config.issuer, ...config.keycloakAdmin }) : null;
 const provision = (accounts) => provisioning?.ensure(accounts).catch((error) => console.error('Provisionnement des identités :', error.message));
 provision((await workspaceRepository.snapshot()).comptes);
 workspaceRepository.onCommit((before, after) => { if (JSON.stringify(before.comptes) !== JSON.stringify(after.comptes)) provision(after.comptes); });
 setInterval(() => workspaceRepository.agent.sweep().catch(() => {}), 10_000).unref();
 
-/** Compte ASTER actif de la session ; une session dont le compte est désactivé est fermée. */
+/** Compte ORION actif de la session ; une session dont le compte est désactivé est fermée. */
 async function sessionActor(req) {
   if (!req.session.accountId) return null;
   const actor = req.session.expiresAt > Date.now() ? await workspaceRepository.actor(req.session.accountId) : null;
@@ -113,11 +113,11 @@ app.get('/auth/callback', async (req, res) => {
     });
     const claims = tokens.claims();
     const identity = identityFromClaims(claims);
-    // Rapprochement avec le compte ASTER : profil et école sont attribués dans ASTER
+    // Rapprochement avec le compte ORION : profil et école sont attribués dans ORION
     const account = await workspaceRepository.findAccount(identity);
     if (!account || !account.actif) {
       await destroySession(req);
-      res.clearCookie('aster.sid');
+      res.clearCookie('orion.sid');
       return res.redirect('/?error=compte');
     }
     if (account.sujet !== identity.sub) await workspaceRepository.bindIdentity(account.id, identity.sub);
@@ -130,7 +130,7 @@ app.get('/auth/callback', async (req, res) => {
   } catch (error) {
     console.error('Échec du retour OIDC :', error.code || error.name);
     await destroySession(req);
-    res.clearCookie('aster.sid');
+    res.clearCookie('orion.sid');
     res.redirect('/?error=connexion');
   }
 });
@@ -139,7 +139,7 @@ app.post('/auth/logout', async (req, res) => {
   if (req.get('origin') !== config.appUrl) return res.status(403).send('Origine refusée.');
   const idToken = req.session.idToken;
   await destroySession(req);
-  res.clearCookie('aster.sid');
+  res.clearCookie('orion.sid');
   if (!idToken) return res.redirect(303, '/');
   const url = oidc.buildEndSessionUrl(await identityProvider(), {
     id_token_hint: idToken,
@@ -168,7 +168,7 @@ app.use((error, _req, res, _next) => {
   res.status(503).type('html').send('<!doctype html><html lang="fr"><meta charset="utf-8"><title>Orion — Connexion indisponible</title><h1>Connexion momentanément indisponible</h1><p>Veuillez réessayer dans quelques instants. Si le problème persiste, contactez votre administrateur.</p><a href="/">Retour à la connexion</a></html>');
 });
 
-const server = app.listen(config.port, config.host, () => console.log(`Serveur ASTER : http://${config.host}:${config.port}`));
+const server = app.listen(config.port, config.host, () => console.log(`Serveur ORION : http://${config.host}:${config.port}`));
 for (const signal of ['SIGINT', 'SIGTERM']) {
   process.once(signal, () => server.close(() => pool.end().then(() => process.exit(0))));
 }

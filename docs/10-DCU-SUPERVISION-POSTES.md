@@ -11,7 +11,7 @@ flowchart LR
     administrateur -->|« hérite de »| acteurSupervision
     superAdministrateur -->|« hérite de »| administrateur
 
-    subgraph aster["Application web ASTER — Supervision des postes"]
+    subgraph orion["Application web ORION — Supervision des postes"]
         direction TB
         accederSalle(["Accéder à une salle"])
         consulterEtat(["Consulter l'état des postes"])
@@ -58,5 +58,5 @@ flowchart LR
     class administrationDistante acteurSecondaire
     class accederSalle,consulterEtat,consulterProcessus,arreterProcessus,gererListes,gererReglesGlobales,appliquerRegles,arreterInterdit,consulterAlertes,recevoirAlerte,consulterStatistiques casUtilisation
 
-    style aster fill:none,stroke:#7D8793,stroke-width:1px
+    style orion fill:none,stroke:#7D8793,stroke-width:1px
 ```

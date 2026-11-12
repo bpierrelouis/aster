@@ -375,7 +375,7 @@ button { font: inherit; }
 }
 
 .arch-node img { width: 26%; min-width: 52px; margin-bottom: 8%; }
-.arch-node img[src*="aster-horizontal"] { width: 52%; }
+.arch-node img[src*="orion-horizontal"] { width: 52%; }
 .arch-node.windows { border-top-color: var(--heart); }
 .arch-node.targets { border-top-color: var(--green); }
 
@@ -838,7 +838,7 @@ button { font: inherit; }
 }
 
 .target-node img { width: 25%; max-width: 42px; margin-bottom: 6%; }
-.target-node img[src*="aster-horizontal"] { width: 76%; max-width: 125px; }
+.target-node img[src*="orion-horizontal"] { width: 76%; max-width: 125px; }
 .target-node h3 { margin: 0 0 5%; font-size: clamp(12px, 1.2vw, 21px); }
 .target-node p { margin: 0; color: var(--ink-soft); font-size: clamp(9px, .95vw, 16px); }
 .target-node small { margin-top: 6%; color: var(--iris-dark); font-size: clamp(8px, .8vw, 13px); }

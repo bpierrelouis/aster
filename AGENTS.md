@@ -1,4 +1,4 @@
-# Instructions de travail — ASTER
+# Instructions de travail — ORION
 
 Ces instructions s'appliquent à tout le dépôt.
 
@@ -14,7 +14,7 @@ Ces instructions s'appliquent à tout le dépôt.
 - Commencer par les noms de fichiers, titres et recherches ciblées (`rg`). Élargir si une dépendance, une incertitude ou le périmètre demandé le justifie ; ne pas relire intégralement la documentation à chaque tâche. Réutiliser les passages déjà lus dans le chat tant qu'ils sont disponibles et inchangés.
 - Le cadrage présente les réponses en vigueur en distinguant leur provenance (client, application, orientation de l’utilisateur) : sur un même sujet, la décision du client l’emporte, puis la plus récente remplace les précédentes ; les précisions compatibles restent applicables. Conserver les entretiens datés comme historique, sans modifier leur sens ni présenter les anciennes réponses comme des contradictions à arbitrer.
 - Distinguer réponses recueillies, décisions validées, hypothèses, propositions et questions réellement ouvertes. Ne pas inventer de règle, de fonctionnalité ou de validation ; ne pas laisser ouverte une question déjà résolue.
-- Pour le recueil, la rédaction, la synchronisation ou l'audit documentaire, utiliser le skill [aster-documentation](.agents/skills/aster-documentation/SKILL.md). Ses modèles sont des aides, pas des exigences.
+- Pour le recueil, la rédaction, la synchronisation ou l'audit documentaire, utiliser le skill [orion-documentation](.agents/skills/orion-documentation/SKILL.md). Ses modèles sont des aides, pas des exigences.
 
 ## Classement et représentations
 
@@ -44,11 +44,11 @@ Ces instructions s'appliquent à tout le dépôt.
 - Les journaux centralisés sont lisibles directement sur le système de fichiers de leur VM (dossier monté), jamais dans un volume Docker.
 - Sans DNS pour l’accès externe : services joints par l’IP de la VM 01, un port par service. La résolution de noms interne de Docker reste permise.
 - Express ne garde aucun état qui fasse autorité : l’espace de travail, les sessions et le journal de fusion sont dans PostgreSQL. Ne pas réintroduire d’état en mémoire qui empêcherait plusieurs instances.
-- Ne pas présenter l’architecture comme des microservices : ASTER a un back unique, les briques d’infrastructure sont séparées.
+- Ne pas présenter l’architecture comme des microservices : ORION a un back unique, les briques d’infrastructure sont séparées.
 
 ### Schémas d’architecture
 
-- Deux schémas, générés par `.agents/skills/aster-documentation/scripts/schemas-architecture.mjs` (commandes en tête du fichier) : modifier ce générateur plutôt que redessiner, puis régénérer les deux SVG de `docs/assets/architecture/`.
+- Deux schémas, générés par `.agents/skills/orion-documentation/scripts/schemas-architecture.mjs` (commandes en tête du fichier) : modifier ce générateur plutôt que redessiner, puis régénérer les deux SVG de `docs/assets/architecture/`.
 - Vue simplifiée, dans le style des schémas Azure : zones (Entrée, Application, Données, Services simulés, Journaux), une carte par service (icône, nom, rôle en un ou deux mots, VM), échanges numérotés expliqués dans le § 4.5 du dossier.
 - Vue complète : chaque VM avec son rôle et son badge manager, worker ou hors Swarm ; chaque service avec produit et version, conteneur ou service de l’hôte, image, port d’écoute et nombre d’instances s’il diffère de un ; volumes en vert ; tous les flux réels avec protocole et port.
 - Contenu factuel uniquement : produit, version, exécution, image, port, volume, instances, rôle Swarm. Aucune explication ni justification (« simule… », « non publié », « realm importé », « sans état », « verrou PostgreSQL »…), aucune variable d’environnement, aucun secret. Les explications vont dans le dossier.
@@ -60,8 +60,8 @@ Ces instructions s'appliquent à tout le dépôt.
 - Le guide de référence du code est [application/README.md](application/README.md) : modes de lancement, comptes de démonstration, tables, API des postes, tests. Le tenir à jour à chaque évolution du code ; sauf demande contraire, ne pas modifier la documentation hors de `application/` pour une tâche de code.
 - Deux modes partagent les mêmes règles serveur (`backend/workspace/`, règles dans `rules.js`) : application connectée (`npm run infra:up` puis `npm run dev`) et interface seule (`npm run dev:ui`, sans Docker). Toute règle métier s’écrit côté serveur et doit fonctionner dans les deux modes. Les deux utilisent le port 5173 : ne jamais arrêter un processus lancé par l’utilisateur pour libérer un port ; demander ou utiliser un autre port.
 - Avec l’infrastructure, aucune simulation dans le parcours des données : PostgreSQL pour les données métier, Keycloak pour l’identité ; les états des lieux PDF sont produits par Express à chaque demande. Seuls les postes Windows sont émulés (`backend/demonstrateur/agents.js`), et uniquement au travers de l’API réelle `/api/agent`.
-- Identité : Keycloak tient lieu de MindefConnect (décision du 6 novembre) et ne fait qu’authentifier ; il fédère un annuaire OpenLDAP local, substitut de l’annuaire de MindefConnect, qui ne porte que l’identité. Le profil, l’école et l’état actif sont portés par le compte ASTER (`aster_compte`) ; les rôles Keycloak ne sont pas lus. La création d’identités dans Keycloak (`backend/demonstrateur/identity-provisioning.js`) est une facilité du démonstrateur, désactivée par défaut en mode production et activée explicitement pour le démonstrateur sur VM.
-- Valeurs d’autorité fixées par le serveur, jamais par le navigateur : identifiant ASTER, numéro de remontée, auteur, dates, historique, suivi des interventions. Un navigateur ne voit qu’une partie des données : ne jamais calculer côté client une valeur unique à partir de ce qu’il voit.
+- Identité : Keycloak tient lieu de MindefConnect (décision du 6 novembre) et ne fait qu’authentifier ; il fédère un annuaire OpenLDAP local, substitut de l’annuaire de MindefConnect, qui ne porte que l’identité. Le profil, l’école et l’état actif sont portés par le compte ORION (`orion_compte`) ; les rôles Keycloak ne sont pas lus. La création d’identités dans Keycloak (`backend/demonstrateur/identity-provisioning.js`) est une facilité du démonstrateur, désactivée par défaut en mode production et activée explicitement pour le démonstrateur sur VM.
+- Valeurs d’autorité fixées par le serveur, jamais par le navigateur : identifiant ORION, numéro de remontée, auteur, dates, historique, suivi des interventions. Un navigateur ne voit qu’une partie des données : ne jamais calculer côté client une valeur unique à partir de ce qu’il voit.
 - Processus, détections et installations ne sont alimentés que par les postes ; un utilisateur demande une intervention (opération), le poste l’exécute et renvoie le résultat. Les écritures concurrentes sont fusionnées élément par élément (`rebase`) : ne pas réintroduire de contrôle global de révision qui bloquerait les utilisateurs pendant l’activité des postes.
 - Changer la forme des données de départ impose d’incrémenter `SEED_VERSION` (`shared/seed.js`) : la base et le fichier du mode interface seule sont alors régénérés.
 - Aucun stockage S3 (décision du client du 12 novembre) : un état des lieux PDF est produit par le serveur à la demande, avec les informations actuelles, et n’est pas conservé. Épingler toute image ou dépendance sur une version exacte.

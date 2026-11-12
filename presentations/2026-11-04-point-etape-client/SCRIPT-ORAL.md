@@ -1,4 +1,4 @@
-# ASTER — Script oral du point d’étape client du 4 novembre 2026
+# ORION — Script oral du point d’étape client du 4 novembre 2026
 
 ## Format de l’entretien
 
@@ -24,7 +24,7 @@ Les indications entre crochets sont des gestes ou consignes de répétition ; el
 
 ## Intervenant 1 — Introduction et identité proposée
 
-### Diapositive 1 — ASTER, proposition de cadrage · 00:00 à 00:45
+### Diapositive 1 — ORION, proposition de cadrage · 00:00 à 00:45
 
 Bonjour à toutes et à tous, merci de nous recevoir.
 
@@ -34,9 +34,9 @@ Notre objectif aujourd’hui est de vérifier que nous avançons dans la bonne d
 
 Nous avons prévu vingt minutes de présentation, puis un temps d’échange. Vous pouvez bien sûr nous interrompre pour une incompréhension ; nous garderons les discussions détaillées pour la fin afin de respecter les trente minutes disponibles.
 
-### Diapositive 2 — Le nom ASTER proposé · 00:45 à 01:40
+### Diapositive 2 — Le nom ORION proposé · 00:45 à 01:40
 
-Nous proposons d’appeler l’application ASTER, pour Administration, Supervision et Traçabilité des Équipements et Ressources.
+Nous proposons d’appeler l’application ORION, pour Administration, Supervision et Traçabilité des Équipements et Ressources.
 
 Ce nom rassemble les grandes fonctions du projet : gérer le parc, connaître la situation des équipements et préparer les actions d’administration et de supervision des postes.
 
@@ -90,7 +90,7 @@ Nous proposons donc de commencer par un premier ensemble de fonctions utilisable
 
 Le parcours est volontairement concret : un matériel arrive, il est enregistré ou importé, il peut être recherché et consulté, puis affecté à une salle. Il peut ensuite être déplacé ou remis en stock.
 
-Prenons l’exemple d’un écran. Le gestionnaire l’enregistre avec son modèle et sa date de réception. ASTER lui attribue un identifiant interne. L’écran peut rester en stock sans salle, puis être affecté au moment où il est mis à disposition.
+Prenons l’exemple d’un écran. Le gestionnaire l’enregistre avec son modèle et sa date de réception. ORION lui attribue un identifiant interne. L’écran peut rester en stock sans salle, puis être affecté au moment où il est mis à disposition.
 
 Le but est de vérifier un parcours complet, plutôt que de présenter plusieurs fonctions isolées dont aucune ne répondrait encore au besoin quotidien.
 
@@ -114,13 +114,13 @@ Les indicateurs précis et leurs calculs restent à définir avec vous. Nous che
 
 La liste des matériels constitue l’écran de travail pour retrouver un équipement.
 
-On y voit le modèle, l’identifiant ASTER, le numéro de série lorsqu’il existe, la date de réception, la localisation et l’état du matériel. La recherche et les filtres proposés doivent permettre de réduire rapidement la liste à ce qui intéresse l’utilisateur.
+On y voit le modèle, l’identifiant ORION, le numéro de série lorsqu’il existe, la date de réception, la localisation et l’état du matériel. La recherche et les filtres proposés doivent permettre de réduire rapidement la liste à ce qui intéresse l’utilisateur.
 
 [Montrer la recherche, le filtre de localisation et le filtre d’état. Utiliser un seul exemple si la maquette est manipulée.]
 
 Par exemple, un gestionnaire peut vouloir retrouver les écrans disponibles en stock avant d’équiper une salle. Il doit pouvoir identifier les matériels concernés sans parcourir l’ensemble du parc ligne par ligne.
 
-L’identifiant interne reste distinct du numéro de série : il permet de repérer chaque matériel dans ASTER, y compris lorsqu’aucun numéro de série n’est disponible.
+L’identifiant interne reste distinct du numéro de série : il permet de repérer chaque matériel dans ORION, y compris lorsqu’aucun numéro de série n’est disponible.
 
 Cette vue concerne le parc de l’école du gestionnaire ; son accès n’est pas limité à un seul bâtiment. Nous souhaitons recueillir votre avis sur les colonnes et les recherches que vous effectuez le plus souvent.
 
@@ -164,13 +164,13 @@ L’objectif est de faciliter les opérations courantes, notamment lorsqu’il f
 
 Pour déclarer un problème, le formateur ou l’administrateur sélectionne un ou plusieurs matériels et décrit le problème rencontré.
 
-ASTER génère alors le PDF d’état des lieux à partir de la remontée. La localisation présentée vient des matériels concernés lorsqu’ils sont affectés à une salle.
+ORION génère alors le PDF d’état des lieux à partir de la remontée. La localisation présentée vient des matériels concernés lorsqu’ils sont affectés à une salle.
 
 Le gestionnaire suit le traitement ; l’administrateur peut également intervenir. Les statuts retenus sont « en attente », « remplacé » et « corrigé ». Le statut concerne l’ensemble de la remontée, même si plusieurs matériels sont concernés.
 
 Par exemple, un signalement peut concerner deux écrans. Il reste une seule remontée avec un statut commun ; le suivi ne prévoit pas ici un traitement distinct pour chaque écran.
 
-Le formateur peut suivre ses propres remontées et reçoit une notification dans ASTER lorsque leur statut change. Les transitions détaillées qui ne sont pas encore définies devront être précisées ; nous ne les considérons pas comme acquises à partir de ce schéma.
+Le formateur peut suivre ses propres remontées et reçoit une notification dans ORION lorsque leur statut change. Les transitions détaillées qui ne sont pas encore définies devront être précisées ; nous ne les considérons pas comme acquises à partir de ce schéma.
 
 ### Diapositive 13 — Gestion proposée des processus et applications · 13:45 à 15:00
 
@@ -180,7 +180,7 @@ La supervision porte sur les processus utilisateur des postes d’une salle. Le 
 
 L’administration des applications concerne la consultation des logiciels installés et les opérations d’installation ou de réinstallation. La masterisation consiste à réappliquer une image système à un poste ou à une salle.
 
-Dans les deux cas, ASTER doit utiliser les mécanismes Windows existants, sans installer d’agent ASTER sur les postes. Les services utilisables restent à confirmer. L’intervenant 5 va présenter les conséquences de cette contrainte sur notre conception.
+Dans les deux cas, ORION doit utiliser les mécanismes Windows existants, sans installer d’agent ORION sur les postes. Les services utilisables restent à confirmer. L’intervenant 5 va présenter les conséquences de cette contrainte sur notre conception.
 
 ## Intervenant 5 — Modèle de données et architecture initiale
 
@@ -194,7 +194,7 @@ Le premier ensemble représente l’organisation : les salles appartiennent à u
 
 Le deuxième point important est la distinction entre le matériel suivi dans l’inventaire et le poste utilisé pour la supervision. Un écran ou un câble est un matériel, mais ne se supervise pas comme un poste Windows. La représentation doit rendre cette différence compréhensible.
 
-Pour la supervision, le modèle distingue le poste, le programme concerné et le compte Windows qui l’utilise. Le compte Windows observé sur une machine ne doit pas être confondu avec le compte d’un utilisateur qui se connecte à ASTER.
+Pour la supervision, le modèle distingue le poste, le programme concerné et le compte Windows qui l’utilise. Le compte Windows observé sur une machine ne doit pas être confondu avec le compte d’un utilisateur qui se connecte à ORION.
 
 Nous devons aussi vérifier que le modèle représente correctement les remontées et les droits. En particulier, une remontée doit pouvoir regrouper plusieurs matériels tout en conservant une description et un statut communs.
 
@@ -212,7 +212,7 @@ Pour la connexion, nous prévoyons Keycloak relié à LDAP. Keycloak sera prése
 
 La base de données conserve les informations métier du parc, des profils et des remontées. Les PDF d’état des lieux sont conservés dans un stockage S3, auquel le back accède pour les documents. La solution de stockage et son hébergement restent à préciser.
 
-Enfin, le back s’appuie sur les services Windows autorisés pour agir sur les postes, sans installer d’agent ASTER sur les machines cibles.
+Enfin, le back s’appuie sur les services Windows autorisés pour agir sur les postes, sans installer d’agent ORION sur les machines cibles.
 
 Les composants sont ainsi identifiés, mais les services Windows utilisables, les flux, les hébergements et les modalités d’intégration doivent encore être confirmés. La démonstration simulée ne remplace pas les tests sur l’environnement cible.
 

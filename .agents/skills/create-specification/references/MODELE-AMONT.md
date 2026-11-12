@@ -14,7 +14,7 @@ The specification file must define the requirements, constraints, and interfaces
 - Include examples and edge cases where applicable.
 - Ensure the document is self-contained and does not rely on external context.
 
-Use the ASTER output locations and naming conventions in `SKILL.md`.
+Use the ORION output locations and naming conventions in `SKILL.md`.
 
 The specification file must be formatted in well formed Markdown.
 

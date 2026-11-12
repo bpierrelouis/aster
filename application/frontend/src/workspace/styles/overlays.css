@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ASTER · Sheets, popovers, infobulles, île, parcours de remontée
+   ORION · Sheets, popovers, infobulles, île, parcours de remontée
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -201,7 +201,7 @@
   .stepper-item span { display: none; }
 }
 
-/* ===== ASTER : compléments ===== */
+/* ===== ORION : compléments ===== */
 .pick-grid--salles { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-top: 18px; } /* sous les bâtiments et le stock */
 .pick-room small { margin-left: auto; color: var(--ink-3); font-weight: 650; font-variant-numeric: tabular-nums; }
 .pick-groups { display: flex; flex-direction: column; gap: 14px; max-height: 46vh; overflow: auto; overscroll-behavior: none; padding: 2px; }

@@ -80,9 +80,9 @@ function PreviewRow({ x, on, onToggle, done }) {
   const flagged = x.kind !== 'nouveau';
   const state = importState(x, on, done);
   const chip = { nouveau: <span className="chip">Nouveau</span>,
-    present: <span className="chip chip--warn" data-tip={x.hit?.modele}><Icon name="alertes" size={13} />Déjà présent · {x.hit?.idAster}</span>,
+    present: <span className="chip chip--warn" data-tip={x.hit?.modele}><Icon name="alertes" size={13} />Déjà présent · {x.hit?.idOrion}</span>,
     double: <span className="chip chip--warn"><Icon name="alertes" size={13} />En double dans le fichier</span>,
-    ecole: <span className="chip chip--warn" data-tip={`${x.hit?.modele}, ${x.hit?.idAster}`}><Icon name="school" size={13} />{x.hit?.ecole} · {x.hit?.idAster}</span> }[x.kind];
+    ecole: <span className="chip chip--warn" data-tip={`${x.hit?.modele}, ${x.hit?.idOrion}`}><Icon name="school" size={13} />{x.hit?.ecole} · {x.hit?.idOrion}</span> }[x.kind];
   return <tr className={flagged && !on ? 'is-flagged' : ''}>
     <td>{chip}</td>
     <td><b>{x.m.modele}</b>{x.m.marque && <small className="inv-sub">{x.m.marque}</small>}</td>
@@ -91,7 +91,7 @@ function PreviewRow({ x, on, onToggle, done }) {
     <td>{dateNum(x.m.dateReception)}</td>
     <td>{salle ? salle.nom : 'Stock'}</td>
     <td>{x.kind === 'ecole' && !done
-      ? <span className="inv-transfer"><Switch on={on} onChange={onToggle} disabled={Boolean(x.hit.bloque)} tip={x.hit.bloque ?? undefined} label={`Transférer ${x.hit.idAster} depuis ${x.hit.ecole}`} /><span className={on ? 'inv-add' : ''}>{x.hit.bloque ? 'Bloqué' : on ? state.label : 'Transférer'}</span></span>
+      ? <span className="inv-transfer"><Switch on={on} onChange={onToggle} disabled={Boolean(x.hit.bloque)} tip={x.hit.bloque ?? undefined} label={`Transférer ${x.hit.idOrion} depuis ${x.hit.ecole}`} /><span className={on ? 'inv-add' : ''}>{x.hit.bloque ? 'Bloqué' : on ? state.label : 'Transférer'}</span></span>
       : <span className={state.ok ? 'inv-add' : 'inv-skip'}>{state.label}</span>}</td>
   </tr>;
 }

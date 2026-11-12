@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Spécification OpenAPI de l'API ASTER, servie sur /api/openapi.json et
+   Spécification OpenAPI de l'API ORION, servie sur /api/openapi.json et
    présentée par Swagger UI sur /api/docs.
    ========================================================================== */
 
@@ -11,9 +11,9 @@ const poste = [{ jetonPoste: [] }];
 export const openapi = {
   openapi: '3.1.0',
   info: {
-    title: 'API ASTER',
+    title: 'API ORION',
     version: '1.0.0',
-    description: 'API du serveur ASTER : état et description des services, connexion OIDC, espace de travail des utilisateurs et API des postes Windows.',
+    description: 'API du serveur ORION : état et description des services, connexion OIDC, espace de travail des utilisateurs et API des postes Windows.',
   },
   servers: [{ url: '/' }],
   tags: [
@@ -26,7 +26,7 @@ export const openapi = {
     '/api/health': {
       get: {
         tags: ['Système'], summary: 'État de chaque service',
-        description: 'Contrôle chaque service joint par ASTER : adresse, IP, port et état. Répond 503 si un service requis (base de données, fournisseur d’identité) est indisponible.',
+        description: 'Contrôle chaque service joint par ORION : adresse, IP, port et état. Répond 503 si un service requis (base de données, fournisseur d’identité) est indisponible.',
         responses: { 200: json({ $ref: '#/components/schemas/Etat' }, 'Services requis disponibles'), 503: json({ $ref: '#/components/schemas/Etat' }, 'Service requis indisponible') },
       },
     },
@@ -52,7 +52,7 @@ export const openapi = {
     '/auth/callback': {
       get: {
         tags: ['Connexion'], summary: 'Retour du fournisseur d’identité',
-        description: 'Valide le code, rapproche l’identité d’un compte ASTER actif et ouvre la session.',
+        description: 'Valide le code, rapproche l’identité d’un compte ORION actif et ouvre la session.',
         parameters: [
           { name: 'code', in: 'query', required: true, schema: { type: 'string' } },
           { name: 'state', in: 'query', required: true, schema: { type: 'string' } },
@@ -63,7 +63,7 @@ export const openapi = {
     '/auth/logout': {
       post: {
         tags: ['Connexion'], summary: 'Se déconnecter', security: session,
-        description: 'Ferme la session ASTER puis celle du fournisseur d’identité. Exige l’en-tête `Origin` de l’application.',
+        description: 'Ferme la session ORION puis celle du fournisseur d’identité. Exige l’en-tête `Origin` de l’application.',
         responses: { 303: { description: 'Redirection vers la déconnexion du fournisseur d’identité' }, 403: { description: 'Origine refusée' } },
       },
     },
@@ -188,7 +188,7 @@ export const openapi = {
   },
   components: {
     securitySchemes: {
-      session: { type: 'apiKey', in: 'cookie', name: 'aster.sid', description: 'Session ouverte par /auth/login' },
+      session: { type: 'apiKey', in: 'cookie', name: 'orion.sid', description: 'Session ouverte par /auth/login' },
       jetonPoste: { type: 'http', scheme: 'bearer', description: 'Jeton des postes' },
     },
     schemas: {
@@ -233,7 +233,7 @@ export const openapi = {
       MaterielConnu: {
         type: 'object',
         properties: {
-          idAster: { type: 'string' }, modele: { type: 'string' }, ecoleId: { type: 'string' }, ecole: { type: 'string' },
+          idOrion: { type: 'string' }, modele: { type: 'string' }, ecoleId: { type: 'string' }, ecole: { type: 'string' },
           bloque: { type: ['string', 'null'], description: 'Raison qui empêche le transfert' },
         },
       },

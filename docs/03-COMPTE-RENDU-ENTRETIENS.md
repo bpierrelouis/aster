@@ -1,4 +1,4 @@
-# Compte rendu des entretiens de cadrage — ASTER
+# Compte rendu des entretiens de cadrage — ORION
 
 **Source historique de travail interne, non destinée à la remise aux cadres évaluateurs.** Les propos datés sont conservés tels quels, y compris lorsqu’ils concernent la démonstration ; ils ne doivent pas être recopiés comme exigences de production dans les livrables. Voir le [classement documentaire](../README.md#destination-des-documents).
 
@@ -115,7 +115,7 @@ L’échange a suivi la [présentation du point d’étape client](../presentati
 - Présenter le projet sous l’angle des usages et des bénéfices pour les écoles. Le client attend une présentation qui donne envie et permette de se projeter. Les diagrammes et les explications techniques risquent de faire perdre le fil au public.
 - Faire intervenir chaque membre de l’équipe. Les temps de parole peuvent varier, pourvu que chacun prenne la parole.
 - Montrer la maquette directement pendant la présentation, sans intégrer de captures d’écran au support. Une maquette limitée à son interface convient à ce stade.
-- Le nom ASTER plaît au client. Présenter un second nom pour lui laisser le choix.
+- Le nom ORION plaît au client. Présenter un second nom pour lui laisser le choix.
 
 ### 3.2. Salles, simulation et accès des formateurs
 

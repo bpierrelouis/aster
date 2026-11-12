@@ -14,8 +14,8 @@ export default defineConfig({
     url: 'http://127.0.0.1:5174/api/workspace',
     reuseExistingServer: false,
     env: {
-      ASTER_UI_ROLE: 'admin',
-      ASTER_UI_STATE_FILE: join(tmpdir(), `aster-workspace-test-${process.pid}-${Date.now()}.json`),
+      ORION_UI_ROLE: 'admin',
+      ORION_UI_STATE_FILE: join(tmpdir(), `orion-workspace-test-${process.pid}-${Date.now()}.json`),
     },
   },
 });

@@ -1,4 +1,4 @@
-# Revue de modélisation ASTER
+# Revue de modélisation ORION
 
 Ces critères vérifient la traduction des sources ; ils n'ajoutent aucune fonctionnalité.
 
@@ -32,4 +32,4 @@ Ces critères vérifient la traduction des sources ; ils n'ajoutent aucune fonct
 - Pour une association ternaire d'exécution, vérifier si plusieurs occurrences du même triplet doivent être distinguées dans le temps. Signaler le besoin d'identité sans modifier hors périmètre un modèle validé ou protégé.
 - Examiner les données d'historique requises : identité, date, contexte et résultat. Une donnée temporairement visible peut devoir être conservée dans l'historique.
 - Une restriction de représentation, par exemple l'exclusion des booléens, ne supprime pas le besoin correspondant.
-- Les décisions d'ASTER évoluent : ne pas figer ici une ancienne définition de matériel, poste, session ou remontée.
+- Les décisions d'ORION évoluent : ne pas figer ici une ancienne définition de matériel, poste, session ou remontée.

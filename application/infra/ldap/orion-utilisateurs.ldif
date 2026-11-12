@@ -1,85 +1,85 @@
-# Annuaire local : identités des comptes ASTER de départ (sans profil ni école).
+# Annuaire local : identités des comptes ORION de départ (sans profil ni école).
 
-dn: ou=people,dc=aster,dc=demo
+dn: ou=people,dc=orion,dc=demo
 objectClass: organizationalUnit
 ou: people
 
-dn: uid=superadmin,ou=people,dc=aster,dc=demo
+dn: uid=superadmin,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
 uid: superadmin
 cn:: Uy4gTGVmw6h2cmU=
 givenName: S.
 sn:: TGVmw6h2cmU=
-mail: superadmin@aster.demo
+mail: superadmin@orion.demo
 
-dn: uid=admin,ou=people,dc=aster,dc=demo
+dn: uid=admin,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
 uid: admin
 cn: C. Durand
 givenName: C.
 sn: Durand
-mail: admin@aster.demo
+mail: admin@orion.demo
 
-dn: uid=gestionnaire,ou=people,dc=aster,dc=demo
+dn: uid=gestionnaire,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
 uid: gestionnaire
 cn: G. Bernard
 givenName: G.
 sn: Bernard
-mail: gestionnaire@aster.demo
+mail: gestionnaire@orion.demo
 
-dn: uid=formateur,ou=people,dc=aster,dc=demo
+dn: uid=formateur,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
 uid: formateur
 cn: L. Martin
 givenName: L.
 sn: Martin
-mail: formateur@aster.demo
+mail: formateur@orion.demo
 
-dn: uid=n.petit,ou=people,dc=aster,dc=demo
+dn: uid=n.petit,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
 uid: n.petit
 cn: N. Petit
 givenName: N.
 sn: Petit
-mail: n.petit@aster.demo
+mail: n.petit@orion.demo
 
-dn: uid=r.garcia,ou=people,dc=aster,dc=demo
+dn: uid=r.garcia,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
 uid: r.garcia
 cn: R. Garcia
 givenName: R.
 sn: Garcia
-mail: r.garcia@aster.demo
+mail: r.garcia@orion.demo
 
-dn: uid=m.robert,ou=people,dc=aster,dc=demo
+dn: uid=m.robert,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
 uid: m.robert
 cn: M. Robert
 givenName: M.
 sn: Robert
-mail: m.robert@aster.demo
+mail: m.robert@orion.demo
 
-dn: uid=a.moreau,ou=people,dc=aster,dc=demo
+dn: uid=a.moreau,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
 uid: a.moreau
 cn: A. Moreau
 givenName: A.
 sn: Moreau
-mail: a.moreau@aster.demo
+mail: a.moreau@orion.demo
 
-dn: uid=e.dubois,ou=people,dc=aster,dc=demo
+dn: uid=e.dubois,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
 uid: e.dubois
 cn: E. Dubois
 givenName: E.
 sn: Dubois
-mail: e.dubois@aster.demo
+mail: e.dubois@orion.demo
 
-dn: uid=j.lambert,ou=people,dc=aster,dc=demo
+dn: uid=j.lambert,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
 uid: j.lambert
 cn: J. Lambert
 givenName: J.
 sn: Lambert
-mail: j.lambert@aster.demo
+mail: j.lambert@orion.demo

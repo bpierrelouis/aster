@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Services d'ASTER : description, adresse et contrôle d'état, publiés par
+   Services d'ORION : description, adresse et contrôle d'état, publiés par
    /api/infos et /api/health.
    ========================================================================== */
 
@@ -33,7 +33,7 @@ function address(value) {
 }
 
 /**
- * Services joints par ASTER. Les adresses facultatives (WEB_URL, LDAP_URL,
+ * Services joints par ORION. Les adresses facultatives (WEB_URL, LDAP_URL,
  * SYSLOG_URL) servent seulement au contrôle d'état : sans elles, le service est
  * présenté comme non configuré.
  */
@@ -49,7 +49,7 @@ export function createServices({ config, env = process.env, pool, snapshot, conn
       url: env.WEB_URL, check: http(true),
     },
     {
-      id: 'api', name: 'API ASTER', role: 'Applique les règles métier, la connexion et l’API des postes ; cette instance répond.',
+      id: 'api', name: 'API ORION', role: 'Applique les règles métier, la connexion et l’API des postes ; cette instance répond.',
       url: `http://${config.host}:${config.port}`, ip: localAddresses(), check: async () => {},
     },
     {
@@ -64,7 +64,7 @@ export function createServices({ config, env = process.env, pool, snapshot, conn
       },
     },
     ...(config.identityProvisioning ? [{
-      id: 'identite-admin', name: 'Administration du fournisseur d’identité', role: 'Reçoit la création des identités des comptes ASTER.',
+      id: 'identite-admin', name: 'Administration du fournisseur d’identité', role: 'Reçoit la création des identités des comptes ORION.',
       url: config.keycloakAdmin.adminUrl.href, check: http(false),
     }] : []),
     {
@@ -85,9 +85,9 @@ export function createServices({ config, env = process.env, pool, snapshot, conn
     /** Description du système et des services. */
     infos: () => ({
       application: {
-        name: 'ASTER',
+        name: 'ORION',
         description: 'Gestion du parc informatique des écoles et supervision des postes Windows.',
-        version: env.ASTER_VERSION || null,
+        version: env.ORION_VERSION || null,
         mode: config.production ? 'production' : 'développement',
         startedAt: startedAt.toISOString(),
       },

@@ -7,7 +7,7 @@ flowchart LR
 
     superAdministrateur -->|« hérite de »| administrateur
 
-    subgraph aster["Application web ASTER — Administration des postes"]
+    subgraph orion["Application web ORION — Administration des postes"]
         direction TB
         consulterApplications(["Consulter les applications installées"])
         installerApplication(["Installer une application<br/>sur un poste ou une salle"])
@@ -39,5 +39,5 @@ flowchart LR
     class administrationDistante acteurSecondaire
     class consulterApplications,installerApplication,desinstallerApplication,demanderPoste,demanderSalle,suivreInterventions casUtilisation
 
-    style aster fill:none,stroke:#7D8793,stroke-width:1px
+    style orion fill:none,stroke:#7D8793,stroke-width:1px
 ```

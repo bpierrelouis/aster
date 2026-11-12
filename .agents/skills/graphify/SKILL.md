@@ -5,7 +5,7 @@ description: "Use for any question about a codebase, its architecture, file rela
 
 # /graphify
 
-## Adaptation ASTER
+## Adaptation ORION
 
 Les consignes Graphify d’`AGENTS.md` à la racine priment sur les exemples génériques ci-dessous. Depuis la racine du dépôt, utiliser `py -3 .agents/skills/graphify/scripts/graphify.py` sous Windows ou `python3 .agents/skills/graphify/scripts/graphify.py` sous Linux/macOS, suivi des arguments Graphify. L’argument `--install` installe la version prévue hors du dépôt. Ne pas réinstaller dans le Python système. Pour les blocs Python internes, utiliser l’interpréteur de cet environnement utilisateur : `%LOCALAPPDATA%/graphify/venv/Scripts/python.exe` sous Windows, `${XDG_DATA_HOME:-~/.local/share}/graphify/venv/bin/python` sous Linux et `~/Library/Application Support/graphify/venv/bin/python` sous macOS. Adapter les exemples Bash au terminal disponible sous Windows. Le README fournit les commandes d’installation et d’utilisation.
 

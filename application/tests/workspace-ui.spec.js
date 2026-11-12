@@ -169,7 +169,7 @@ test('les mises à jour reçues ne rejouent pas les animations de la scène', as
   await open(page, '/salles/batiment/C');
   await page.waitForTimeout(1000);
   const running = await page.evaluate(() => new Promise((resolve) => {
-    const unsub = window.aster.store.subscribe((topic) => {
+    const unsub = window.orion.store.subscribe((topic) => {
       if (topic !== 'remote') return;
       unsub();
       requestAnimationFrame(() => requestAnimationFrame(() => resolve(document.getAnimations().filter((a) => a.playState === 'running' && a.effect?.target?.closest?.('.iso')).length)));
@@ -225,7 +225,7 @@ test('un matériel créé est conservé après rechargement', async ({ page, req
   await expect.poll(async () => (await state(request)).materiels.some((m) => m.modele === model)).toBe(true);
   await page.reload();
   await expect(page.locator('#view h1')).toBeAttached();
-  await expect.poll(async () => page.evaluate((name) => window.aster.store.state.materiels.some((m) => m.modele === name), model)).toBe(true);
+  await expect.poll(async () => page.evaluate((name) => window.orion.store.state.materiels.some((m) => m.modele === name), model)).toBe(true);
 });
 
 test('une remontée créée produit un PDF téléchargeable', async ({ page, request }) => {
@@ -612,11 +612,11 @@ test('le gestionnaire suit son travail dans le backlog : en attente, en cours, t
     await page.keyboard.press('Escape');
     // Remontée en cours : le matériel se déclare hors service, puis repart au stock (un déplacement à confirmer)
     const mat = (await state(request)).materiels.find((m) => m.id === report.materielIds[0]);
-    const enService = page.getByRole('switch', { name: `${mat.modele} ${mat.idAster} en service` });
+    const enService = page.getByRole('switch', { name: `${mat.modele} ${mat.idOrion} en service` });
     if (await enService.getAttribute('aria-checked') === 'true') await enService.click();
     await expect(enService).toHaveAttribute('aria-checked', 'false');
     if (mat.salleId && !mat.deplacement) {
-      const remise = page.getByRole('form', { name: `Remise de ${mat.idAster}` });
+      const remise = page.getByRole('form', { name: `Remise de ${mat.idOrion}` });
       await remise.getByLabel('Relocaliser dans le stock').check();
       await remise.getByRole('button', { name: 'Lancer le déplacement' }).click();
       await expect.poll(async () => (await state(request)).materiels.find((m) => m.id === mat.id)?.deplacement?.de).toBe(mat.salleId);
@@ -651,23 +651,23 @@ test('l’import JSON n’ajoute que les nouveaux matériels et, une fois valid�
     await expect(preview.locator('.inv-tally')).toContainText(/1\s*déjà présent dans le parc, non traité/);
     await expect(preview.getByRole('alert').first()).toContainText('autre école');
     await expect(preview.getByRole('alert').nth(1)).toContainText('déjà présent');
-    await expect(preview.locator('tbody tr').first()).toContainText(`École des réseaux · ${ailleurs.idAster}`); // à décider : en premier
-    await expect(preview.locator('tbody tr', { hasText: `Déjà présent · ${ici.idAster}` })).toContainText('Non traité');
+    await expect(preview.locator('tbody tr').first()).toContainText(`École des réseaux · ${ailleurs.idOrion}`); // à décider : en premier
+    await expect(preview.locator('tbody tr', { hasText: `Déjà présent · ${ici.idOrion}` })).toContainText('Non traité');
     await expect(preview.locator('tbody tr', { hasText: /APERCU-0001/ })).toContainText('Prêt à être ajouté');
     await expect(page.getByRole('button', { name: 'Importer 1 matériel' })).toBeEnabled();
-    await preview.getByRole('switch', { name: `Transférer ${ailleurs.idAster} depuis École des réseaux` }).click();
+    await preview.getByRole('switch', { name: `Transférer ${ailleurs.idOrion} depuis École des réseaux` }).click();
     await page.getByRole('button', { name: 'Importer 2 matériels' }).click();
     await expect(page.getByRole('button', { name: 'Import terminé' })).toBeVisible(); // coche, puis bouton initial
     await expect(page.locator('.inv-import [role="status"]')).toContainText('1 matériel ajouté, 1 transféré, 2 non traités');
     await expect(preview).toHaveCount(0);
     const resultat = page.getByRole('region', { name: 'Résultat de l’import' }); // la liste reste, avec le résultat
     await expect(resultat.locator('tbody tr', { hasText: /APERCU-0001/ })).toContainText('Ajouté');
-    await expect(resultat.locator('tbody tr', { hasText: ailleurs.idAster })).toContainText('Transféré');
+    await expect(resultat.locator('tbody tr', { hasText: ailleurs.idOrion })).toContainText('Transféré');
     await expect(page.getByRole('button', { name: 'Importer les matériels' })).toBeDisabled();
     await expect(page.locator('.inv-drop input[type="file"]')).toHaveValue('');
     const after = await state(request);
     expect(after.materiels.filter((m) => m.modele === 'Clavier aperçu')).toHaveLength(1);
-    expect(after.materiels.find((m) => m.id === ailleurs.id)).toMatchObject({ ecoleId: 'e-num', idAster: ailleurs.idAster, salleId: null });
+    expect(after.materiels.find((m) => m.id === ailleurs.id)).toMatchObject({ ecoleId: 'e-num', idOrion: ailleurs.idOrion, salleId: null });
   } finally {
     await asAccount('cpt-num-admin');
   }
@@ -740,7 +740,7 @@ test('en mode interface seule, le menu du compte change d’utilisateur', async 
 
 test('la palette circulaire conserve la couleur du compte dans les deux ambiances', async ({ page }, testInfo) => {
   await open(page, '/materiels/inventaire');
-  await page.evaluate(() => window.aster.store.update('prefs', (s) => { s.prefs.tone = 'auto'; }));
+  await page.evaluate(() => window.orion.store.update('prefs', (s) => { s.prefs.tone = 'auto'; }));
   const saves = [];
   page.on('request', (request) => {
     if (request.method() === 'PUT' && request.url().endsWith('/api/workspace')) saves.push(request.postDataJSON().state);
@@ -770,7 +770,7 @@ test('la palette circulaire conserve la couleur du compte dans les deux ambiance
   const closingDelays = await page.locator('.accent-option').evaluateAll((els) => els.map((el) => parseFloat(getComputedStyle(el).transitionDelay)));
   expect(closingDelays[0]).toBeGreaterThan(closingDelays.at(-1));
   await expect(palette).toBeHidden();
-  await page.evaluate(() => window.aster.store.flush());
+  await page.evaluate(() => window.orion.store.flush());
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-accent', 'violet');
   await page.getByRole('button', { name: 'Compte', exact: true }).click();
@@ -805,7 +805,7 @@ test('la palette circulaire conserve la couleur du compte dans les deux ambiance
       await expect.poll(() => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim())).toBe('#b4477c');
       await page.screenshot({ path: testInfo.outputPath(`apparence-${theme}-${colorScheme}.png`), fullPage: true, animations: 'disabled' });
       if (theme === 'Orion') {
-        await page.evaluate(() => window.aster.store.flush());
+        await page.evaluate(() => window.orion.store.flush());
         const dashboard = await page.context().newPage();
         await dashboard.emulateMedia({ colorScheme });
         await open(dashboard, '/accueil');
@@ -845,7 +845,7 @@ test('la palette circulaire conserve la couleur du compte dans les deux ambiance
   expect(Math.abs(expandedMobile.height - foldedMobile.height)).toBeLessThan(1);
   await page.screenshot({ path: testInfo.outputPath('apparence-mobile.png'), fullPage: true, animations: 'disabled' });
   await ambiance.getByRole('radio', { name: 'Orion', exact: true }).click();
-  await page.evaluate(() => window.aster.store.flush());
+  await page.evaluate(() => window.orion.store.flush());
   expect(saves.length).toBeGreaterThan(0);
   for (const saved of saves) expect(Object.keys(saved).sort()).toEqual(['prefs', 'role']);
 });

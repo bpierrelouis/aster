@@ -11,7 +11,7 @@
 ## Scénario nominal
 
 1. [Action de l'acteur.]
-2. [Réponse fonctionnelle d'ASTER.]
+2. [Réponse fonctionnelle d'ORION.]
 3. [Résultat observable.]
 
 ## Variantes et exceptions confirmées

@@ -21,19 +21,19 @@ const fromTs = (date) => (date == null ? null : new Date(date).getTime());
 /* [colonne, type SQL, propriété, conversion vers SQL, conversion depuis SQL] */
 const ts = [toTs, fromTs];
 const ENTITIES = [
-  { collection: 'ecoles', table: 'aster_ecole', order: 'id', cols: [['id', 'text', 'id'], ['nom', 'text', 'nom']] },
-  { collection: 'etages', table: 'aster_etage', order: 'ecole_id, batiment, niveau', cols: [['id', 'text', 'id'], ['ecole_id', 'text', 'ecoleId'], ['batiment', 'text', 'batiment'], ['niveau', 'integer', 'niveau']] },
-  { collection: 'salles', table: 'aster_salle', order: 'ecole_id, batiment, nom', cols: [['id', 'text', 'id'], ['ecole_id', 'text', 'ecoleId'], ['batiment', 'text', 'batiment'], ['nom', 'text', 'nom'], ['etage', 'integer', 'etage']] },
-  { collection: 'materiels', table: 'aster_materiel', order: 'id_aster', cols: [
-    ['id', 'text', 'id'], ['ecole_id', 'text', 'ecoleId'], ['id_aster', 'text', 'idAster'], ['salle_id', 'text', 'salleId'], ['type', 'text', 'type'],
+  { collection: 'ecoles', table: 'orion_ecole', order: 'id', cols: [['id', 'text', 'id'], ['nom', 'text', 'nom']] },
+  { collection: 'etages', table: 'orion_etage', order: 'ecole_id, batiment, niveau', cols: [['id', 'text', 'id'], ['ecole_id', 'text', 'ecoleId'], ['batiment', 'text', 'batiment'], ['niveau', 'integer', 'niveau']] },
+  { collection: 'salles', table: 'orion_salle', order: 'ecole_id, batiment, nom', cols: [['id', 'text', 'id'], ['ecole_id', 'text', 'ecoleId'], ['batiment', 'text', 'batiment'], ['nom', 'text', 'nom'], ['etage', 'integer', 'etage']] },
+  { collection: 'materiels', table: 'orion_materiel', order: 'id_orion', cols: [
+    ['id', 'text', 'id'], ['ecole_id', 'text', 'ecoleId'], ['id_orion', 'text', 'idOrion'], ['salle_id', 'text', 'salleId'], ['type', 'text', 'type'],
     ['modele', 'text', 'modele'], ['marque', 'text', 'marque'], ['serie', 'text', 'serie'], ['date_reception', 'timestamptz', 'dateReception', ...ts],
     ['garantie_fin', 'timestamptz', 'garantieFin', ...ts], ['hors_service', 'boolean', 'hs'],
   ] },
-  { collection: 'comptes', table: 'aster_compte', order: 'nom, id', cols: [
+  { collection: 'comptes', table: 'orion_compte', order: 'nom, id', cols: [
     ['id', 'text', 'id'], ['nom', 'text', 'nom'], ['email', 'text', 'email'], ['role', 'text', 'role'], ['ecole_id', 'text', 'ecoleId'],
     ['actif', 'boolean', 'actif'], ['sujet', 'text', 'sujet'],
   ] },
-  { collection: 'remontees', table: 'aster_remontee', order: 'created_at DESC, id DESC', cols: [
+  { collection: 'remontees', table: 'orion_remontee', order: 'created_at DESC, id DESC', cols: [
     ['id', 'text', 'id'], ['ecole_id', 'text', 'ecoleId'], ['auteur', 'text', 'auteur'], ['created_at', 'timestamptz', 'createdAt', ...ts],
     ['probleme', 'text', 'probleme'], ['description', 'text', 'description'], ['statut', 'text', 'statut'], ['historique', 'jsonb', 'historique'], ['auteur_id', 'text', 'auteurId'],
   ] },
@@ -47,53 +47,53 @@ function schemaSQL(s) {
   const statuts = REMONTEE_STATUTS.map((x) => `'${x.id}'`).join(', ');
   return `
   CREATE SCHEMA IF NOT EXISTS ${s};
-  CREATE TABLE IF NOT EXISTS ${s}.aster_espace (
+  CREATE TABLE IF NOT EXISTS ${s}.orion_espace (
     id smallint PRIMARY KEY CHECK (id = 1), version_donnees integer NOT NULL, revision integer NOT NULL, initialise_le timestamptz NOT NULL);
-  CREATE TABLE IF NOT EXISTS ${s}.aster_ecole (id text PRIMARY KEY, nom text NOT NULL CHECK (nom <> ''), extra jsonb NOT NULL DEFAULT '{}');
-  CREATE TABLE IF NOT EXISTS ${s}.aster_etage (
-    id text PRIMARY KEY, ecole_id text NOT NULL ${fk('aster_ecole')}, batiment text NOT NULL CHECK (batiment <> ''),
+  CREATE TABLE IF NOT EXISTS ${s}.orion_ecole (id text PRIMARY KEY, nom text NOT NULL CHECK (nom <> ''), extra jsonb NOT NULL DEFAULT '{}');
+  CREATE TABLE IF NOT EXISTS ${s}.orion_etage (
+    id text PRIMARY KEY, ecole_id text NOT NULL ${fk('orion_ecole')}, batiment text NOT NULL CHECK (batiment <> ''),
     niveau integer NOT NULL CHECK (niveau BETWEEN -5 AND 30), extra jsonb NOT NULL DEFAULT '{}',
-    CONSTRAINT aster_etage_unique UNIQUE (ecole_id, batiment, niveau) DEFERRABLE INITIALLY DEFERRED);
-  CREATE TABLE IF NOT EXISTS ${s}.aster_salle (
-    id text PRIMARY KEY, ecole_id text NOT NULL ${fk('aster_ecole')}, batiment text NOT NULL CHECK (batiment <> ''),
+    CONSTRAINT orion_etage_unique UNIQUE (ecole_id, batiment, niveau) DEFERRABLE INITIALLY DEFERRED);
+  CREATE TABLE IF NOT EXISTS ${s}.orion_salle (
+    id text PRIMARY KEY, ecole_id text NOT NULL ${fk('orion_ecole')}, batiment text NOT NULL CHECK (batiment <> ''),
     nom text NOT NULL CHECK (nom <> ''), etage integer CHECK (etage BETWEEN -5 AND 30), extra jsonb NOT NULL DEFAULT '{}');
-  CREATE TABLE IF NOT EXISTS ${s}.aster_materiel (
-    id text PRIMARY KEY, ecole_id text NOT NULL ${fk('aster_ecole')}, id_aster text NOT NULL,
-    salle_id text ${fk('aster_salle')}, type text NOT NULL, modele text NOT NULL CHECK (modele <> ''), marque text, serie text,
+  CREATE TABLE IF NOT EXISTS ${s}.orion_materiel (
+    id text PRIMARY KEY, ecole_id text NOT NULL ${fk('orion_ecole')}, id_orion text NOT NULL,
+    salle_id text ${fk('orion_salle')}, type text NOT NULL, modele text NOT NULL CHECK (modele <> ''), marque text, serie text,
     date_reception timestamptz NOT NULL, garantie_fin timestamptz, hors_service boolean NOT NULL, extra jsonb NOT NULL DEFAULT '{}',
-    CONSTRAINT aster_materiel_id_aster_unique UNIQUE (id_aster) DEFERRABLE INITIALLY DEFERRED);
-  CREATE INDEX IF NOT EXISTS aster_materiel_ecole ON ${s}.aster_materiel (ecole_id);
-  CREATE INDEX IF NOT EXISTS aster_materiel_salle ON ${s}.aster_materiel (salle_id);
-  -- Compte ASTER : profil et école ; le sujet relie le compte à l'identité du fournisseur
-  CREATE TABLE IF NOT EXISTS ${s}.aster_compte (
+    CONSTRAINT orion_materiel_id_orion_unique UNIQUE (id_orion) DEFERRABLE INITIALLY DEFERRED);
+  CREATE INDEX IF NOT EXISTS orion_materiel_ecole ON ${s}.orion_materiel (ecole_id);
+  CREATE INDEX IF NOT EXISTS orion_materiel_salle ON ${s}.orion_materiel (salle_id);
+  -- Compte ORION : profil et école ; le sujet relie le compte à l'identité du fournisseur
+  CREATE TABLE IF NOT EXISTS ${s}.orion_compte (
     id text PRIMARY KEY, nom text NOT NULL CHECK (nom <> ''), email text NOT NULL CHECK (email = lower(email)),
-    role text NOT NULL CHECK (role IN ('superadmin', 'admin', 'gestionnaire', 'formateur')), ecole_id text ${fk('aster_ecole')},
+    role text NOT NULL CHECK (role IN ('superadmin', 'admin', 'gestionnaire', 'formateur')), ecole_id text ${fk('orion_ecole')},
     actif boolean NOT NULL, sujet text, extra jsonb NOT NULL DEFAULT '{}',
     CHECK ((role = 'superadmin') = (ecole_id IS NULL)),
-    CONSTRAINT aster_compte_email_unique UNIQUE (email) DEFERRABLE INITIALLY DEFERRED,
-    CONSTRAINT aster_compte_sujet_unique UNIQUE (sujet) DEFERRABLE INITIALLY DEFERRED);
-  CREATE TABLE IF NOT EXISTS ${s}.aster_preference (
-    compte_id text PRIMARY KEY REFERENCES ${s}.aster_compte(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
+    CONSTRAINT orion_compte_email_unique UNIQUE (email) DEFERRABLE INITIALLY DEFERRED,
+    CONSTRAINT orion_compte_sujet_unique UNIQUE (sujet) DEFERRABLE INITIALLY DEFERRED);
+  CREATE TABLE IF NOT EXISTS ${s}.orion_preference (
+    compte_id text PRIMARY KEY REFERENCES ${s}.orion_compte(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
     affichage jsonb, dispositions jsonb, consultation timestamptz, ecole_affichee text);
-  CREATE TABLE IF NOT EXISTS ${s}.aster_remontee (
-    id text PRIMARY KEY, ecole_id text NOT NULL ${fk('aster_ecole')}, auteur text NOT NULL, created_at timestamptz NOT NULL,
+  CREATE TABLE IF NOT EXISTS ${s}.orion_remontee (
+    id text PRIMARY KEY, ecole_id text NOT NULL ${fk('orion_ecole')}, auteur text NOT NULL, created_at timestamptz NOT NULL,
     probleme text, description text NOT NULL CHECK (description <> ''), statut text NOT NULL,
-    historique jsonb NOT NULL DEFAULT '[]', auteur_id text ${fk('aster_compte')}, extra jsonb NOT NULL DEFAULT '{}');
+    historique jsonb NOT NULL DEFAULT '[]', auteur_id text ${fk('orion_compte')}, extra jsonb NOT NULL DEFAULT '{}');
   -- Statuts du catalogue, contrainte recréée à chaque démarrage : une base existante suit le catalogue
   -- (en cours et validée ajoutés le 11 novembre)
-  ALTER TABLE ${s}.aster_remontee DROP CONSTRAINT IF EXISTS aster_remontee_statut_check;
-  ALTER TABLE ${s}.aster_remontee ADD CONSTRAINT aster_remontee_statut_check CHECK (statut IN (${statuts}));
-  CREATE INDEX IF NOT EXISTS aster_remontee_ecole ON ${s}.aster_remontee (ecole_id, statut);
+  ALTER TABLE ${s}.orion_remontee DROP CONSTRAINT IF EXISTS orion_remontee_statut_check;
+  ALTER TABLE ${s}.orion_remontee ADD CONSTRAINT orion_remontee_statut_check CHECK (statut IN (${statuts}));
+  CREATE INDEX IF NOT EXISTS orion_remontee_ecole ON ${s}.orion_remontee (ecole_id, statut);
   -- Pas de clé étrangère vers le matériel : une remontée reste consultable après la suppression du matériel.
-  CREATE TABLE IF NOT EXISTS ${s}.aster_remontee_materiel (
-    remontee_id text NOT NULL REFERENCES ${s}.aster_remontee(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
+  CREATE TABLE IF NOT EXISTS ${s}.orion_remontee_materiel (
+    remontee_id text NOT NULL REFERENCES ${s}.orion_remontee(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
     rang integer NOT NULL, materiel_id text NOT NULL, PRIMARY KEY (remontee_id, rang));
-  CREATE TABLE IF NOT EXISTS ${s}.aster_donnee (
+  CREATE TABLE IF NOT EXISTS ${s}.orion_donnee (
     collection text NOT NULL, id text NOT NULL, ecole_id text, data jsonb NOT NULL,
     rang bigint GENERATED ALWAYS AS IDENTITY, PRIMARY KEY (collection, id));
   -- Journal des dernières modifications : permet à tout serveur de fusionner les écritures concurrentes.
   -- Type json (et non jsonb) : l'ordre des propriétés, utilisé pour comparer les éléments, est conservé.
-  CREATE TABLE IF NOT EXISTS ${s}.aster_journal (revision integer PRIMARY KEY, cles json NOT NULL);`;
+  CREATE TABLE IF NOT EXISTS ${s}.orion_journal (revision integer PRIMARY KEY, cles json NOT NULL);`;
 }
 
 /* ---------- Correspondance objets ⇄ lignes ---------- */
@@ -131,10 +131,10 @@ async function upsertEntity(db, s, entity, items) {
   await db.query(upsertSQL(s, entity), [JSON.stringify(items.map((x) => toRecord(entity, x)))]);
   if (entity.collection === 'remontees') {
     const ids = items.map((r) => r.id);
-    await db.query(`DELETE FROM ${s}.aster_remontee_materiel WHERE remontee_id = ANY($1::text[])`, [ids]);
+    await db.query(`DELETE FROM ${s}.orion_remontee_materiel WHERE remontee_id = ANY($1::text[])`, [ids]);
     const links = items.flatMap((r) => (r.materielIds ?? []).map((materiel_id, rang) => ({ remontee_id: r.id, rang, materiel_id })));
     if (links.length) {
-      await db.query(`INSERT INTO ${s}.aster_remontee_materiel (remontee_id, rang, materiel_id)
+      await db.query(`INSERT INTO ${s}.orion_remontee_materiel (remontee_id, rang, materiel_id)
         SELECT remontee_id, rang, materiel_id FROM jsonb_to_recordset($1::jsonb) AS x(remontee_id text, rang integer, materiel_id text)`, [JSON.stringify(links)]);
     }
   }
@@ -142,13 +142,13 @@ async function upsertEntity(db, s, entity, items) {
 
 async function upsertGeneric(db, s, collection, items) {
   if (!items.length) return;
-  await db.query(`INSERT INTO ${s}.aster_donnee (collection, id, ecole_id, data)
+  await db.query(`INSERT INTO ${s}.orion_donnee (collection, id, ecole_id, data)
     SELECT $1, x->>'id', x->>'ecoleId', x FROM jsonb_array_elements($2::jsonb) AS x
     ON CONFLICT (collection, id) DO UPDATE SET ecole_id = EXCLUDED.ecole_id, data = EXCLUDED.data`, [collection, JSON.stringify(items)]);
 }
 
 async function writeMeta(db, s, state) {
-  await db.query(`INSERT INTO ${s}.aster_espace (id, version_donnees, revision, initialise_le) VALUES (1, $1, $2, $3)
+  await db.query(`INSERT INTO ${s}.orion_espace (id, version_donnees, revision, initialise_le) VALUES (1, $1, $2, $3)
     ON CONFLICT (id) DO UPDATE SET version_donnees = $1, revision = $2, initialise_le = $3`, [SEED_VERSION, state.revision, toTs(state.seededAt ?? Date.now())]);
 }
 
@@ -157,7 +157,7 @@ async function writePreferences(db, s, before, after) {
   const rows = Object.entries(after.preferences ?? {}).filter(([accountId, p]) => !same(p, before.preferences?.[accountId]))
     .map(([compte_id, p]) => ({ compte_id, affichage: p.prefs ?? null, dispositions: p.layouts ?? null, consultation: toTs(p.seenAt), ecole_affichee: p.ecoleId ?? null }));
   if (!rows.length) return;
-  await db.query(`INSERT INTO ${s}.aster_preference (compte_id, affichage, dispositions, consultation, ecole_affichee)
+  await db.query(`INSERT INTO ${s}.orion_preference (compte_id, affichage, dispositions, consultation, ecole_affichee)
     SELECT compte_id, affichage, dispositions, consultation, ecole_affichee FROM jsonb_to_recordset($1::jsonb)
       AS x(compte_id text, affichage jsonb, dispositions jsonb, consultation timestamptz, ecole_affichee text)
     ON CONFLICT (compte_id) DO UPDATE SET affichage = EXCLUDED.affichage, dispositions = EXCLUDED.dispositions, consultation = EXCLUDED.consultation, ecole_affichee = EXCLUDED.ecole_affichee`, [JSON.stringify(rows)]);
@@ -179,7 +179,7 @@ async function writeDiff(db, s, before, after) {
   for (const c of GENERIC) await upsertGeneric(db, s, c, byName.get(c).upserts);
   for (const c of GENERIC) {
     const { deletes } = byName.get(c);
-    if (deletes.length) await db.query(`DELETE FROM ${s}.aster_donnee WHERE collection = $1 AND id = ANY($2::text[])`, [c, deletes]);
+    if (deletes.length) await db.query(`DELETE FROM ${s}.orion_donnee WHERE collection = $1 AND id = ANY($2::text[])`, [c, deletes]);
   }
   for (const entity of [...ENTITIES].reverse()) {
     const { deletes } = byName.get(entity.collection);
@@ -188,10 +188,10 @@ async function writeDiff(db, s, before, after) {
 }
 
 async function loadState(db, s) {
-  const meta = (await db.query(`SELECT * FROM ${s}.aster_espace WHERE id = 1`)).rows[0];
+  const meta = (await db.query(`SELECT * FROM ${s}.orion_espace WHERE id = 1`)).rows[0];
   if (!meta) return null;
   const state = { version: meta.version_donnees, revision: meta.revision, rev: meta.revision, seededAt: fromTs(meta.initialise_le), preferences: {} };
-  for (const row of (await db.query(`SELECT * FROM ${s}.aster_preference`)).rows) {
+  for (const row of (await db.query(`SELECT * FROM ${s}.orion_preference`)).rows) {
     const p = {};
     if (row.affichage) p.prefs = row.affichage;
     if (row.dispositions) p.layouts = row.dispositions;
@@ -203,12 +203,12 @@ async function loadState(db, s) {
     const { rows } = await db.query(`SELECT * FROM ${s}.${entity.table} ORDER BY ${entity.order}`);
     state[entity.collection] = rows.map((row) => fromRow(entity, row));
   }
-  const links = (await db.query(`SELECT remontee_id, materiel_id FROM ${s}.aster_remontee_materiel ORDER BY remontee_id, rang`)).rows;
+  const links = (await db.query(`SELECT remontee_id, materiel_id FROM ${s}.orion_remontee_materiel ORDER BY remontee_id, rang`)).rows;
   const byReport = new Map();
   for (const l of links) (byReport.get(l.remontee_id) ?? byReport.set(l.remontee_id, []).get(l.remontee_id)).push(l.materiel_id);
   for (const r of state.remontees) r.materielIds = byReport.get(r.id) ?? [];
   for (const c of GENERIC) state[c] = [];
-  for (const row of (await db.query(`SELECT collection, data FROM ${s}.aster_donnee ORDER BY rang`)).rows) state[row.collection]?.push(row.data);
+  for (const row of (await db.query(`SELECT collection, data FROM ${s}.orion_donnee ORDER BY rang`)).rows) state[row.collection]?.push(row.data);
   return { state };
 }
 
@@ -225,7 +225,7 @@ async function transaction(pool, fn) {
   } finally { client.release(); }
 }
 
-const TABLES = (s) => `${s}.aster_preference, ${s}.aster_remontee_materiel, ${s}.aster_remontee, ${s}.aster_materiel, ${s}.aster_salle, ${s}.aster_etage, ${s}.aster_compte, ${s}.aster_ecole, ${s}.aster_donnee, ${s}.aster_journal`;
+const TABLES = (s) => `${s}.orion_preference, ${s}.orion_remontee_materiel, ${s}.orion_remontee, ${s}.orion_materiel, ${s}.orion_salle, ${s}.orion_etage, ${s}.orion_compte, ${s}.orion_ecole, ${s}.orion_donnee, ${s}.orion_journal`;
 
 /**
  * Dépôt de l'espace de travail sur PostgreSQL. schema permet d'isoler les tests.
@@ -240,11 +240,11 @@ export async function createPostgresWorkspaceRepository({ pool, schema = 'public
   // Initialisation sous verrou consultatif : un seul serveur crée le schéma et le jeu de départ
   const init = await pool.connect();
   try {
-    await init.query('SELECT pg_advisory_lock(hashtext($1))', [`aster:${s}`]);
+    await init.query('SELECT pg_advisory_lock(hashtext($1))', [`orion:${s}`]);
     await init.query(schemaSQL(s));
     // Évolutions de schéma des versions précédentes du démonstrateur
-    await init.query(`ALTER TABLE ${s}.aster_espace DROP COLUMN IF EXISTS ecole_affichee, DROP COLUMN IF EXISTS preferences, DROP COLUMN IF EXISTS dispositions, DROP COLUMN IF EXISTS consultations;
-      ALTER TABLE ${s}.aster_remontee ADD COLUMN IF NOT EXISTS auteur_id text, DROP COLUMN IF EXISTS etat_des_lieux_cle`);
+    await init.query(`ALTER TABLE ${s}.orion_espace DROP COLUMN IF EXISTS ecole_affichee, DROP COLUMN IF EXISTS preferences, DROP COLUMN IF EXISTS dispositions, DROP COLUMN IF EXISTS consultations;
+      ALTER TABLE ${s}.orion_remontee ADD COLUMN IF NOT EXISTS auteur_id text, DROP COLUMN IF EXISTS etat_des_lieux_cle`);
     const loaded = await loadState(init, s);
     if (!loaded || loaded.state.version !== SEED_VERSION) {
       // Premier démarrage ou jeu de données d'une version antérieure : initialisation complète
@@ -258,21 +258,21 @@ export async function createPostgresWorkspaceRepository({ pool, schema = 'public
       } catch (error) { await init.query('ROLLBACK').catch(() => {}); throw error; }
     }
   } finally {
-    await init.query('SELECT pg_advisory_unlock(hashtext($1))', [`aster:${s}`]).catch(() => {});
+    await init.query('SELECT pg_advisory_unlock(hashtext($1))', [`orion:${s}`]).catch(() => {});
     init.release();
   }
 
   // Copie de l'état gardée par ce serveur, valable tant que la base porte la même révision
   let cache = null;
   async function current(db, lock = false) {
-    const row = (await db.query(`SELECT revision FROM ${s}.aster_espace WHERE id = 1${lock ? ' FOR UPDATE' : ''}`)).rows[0];
+    const row = (await db.query(`SELECT revision FROM ${s}.orion_espace WHERE id = 1${lock ? ' FOR UPDATE' : ''}`)).rows[0];
     if (cache && row && cache.state.revision === row.revision) return cache;
     const loaded = await loadState(db, s);
     if (!cache || loaded.state.revision >= cache.state.revision) cache = loaded;
     return loaded;
   }
   // Journal : [collection, identifiant, valeur avant modification] ; une valeur absente est enregistrée comme nulle
-  const since = (db) => async (base) => (await db.query(`SELECT revision, cles FROM ${s}.aster_journal WHERE revision > $1 ORDER BY revision`, [base])).rows
+  const since = (db) => async (base) => (await db.query(`SELECT revision, cles FROM ${s}.orion_journal WHERE revision > $1 ORDER BY revision`, [base])).rows
     .map((row) => ({ revision: row.revision, before: new Map(row.cles.map(([c, itemId, v]) => [keyOf(c, itemId), v ?? undefined])) }));
 
   const store = {
@@ -287,8 +287,8 @@ export async function createPostgresWorkspaceRepository({ pool, schema = 'public
           await writeDiff(db, s, before, next);
           await writePreferences(db, s, before, next);
           await writeMeta(db, s, next);
-          await db.query(`INSERT INTO ${s}.aster_journal (revision, cles) VALUES ($1, $2::json)`, [out.entry.revision, JSON.stringify([...out.entry.before].map(([k, v]) => [...k.split('\u0000'), v ?? null]))]);
-          await db.query(`DELETE FROM ${s}.aster_journal WHERE revision <= $1`, [out.entry.revision - JOURNAL_SIZE]);
+          await db.query(`INSERT INTO ${s}.orion_journal (revision, cles) VALUES ($1, $2::json)`, [out.entry.revision, JSON.stringify([...out.entry.before].map(([k, v]) => [...k.split('\u0000'), v ?? null]))]);
+          await db.query(`DELETE FROM ${s}.orion_journal WHERE revision <= $1`, [out.entry.revision - JOURNAL_SIZE]);
           return { before, next, result: out.result };
         });
       } catch (error) {

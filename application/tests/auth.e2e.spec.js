@@ -20,7 +20,7 @@ async function login(page, username) {
   await page.goto('/');
   await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
   await expect(page).toHaveURL(/localhost:8081/);
-  await page.getByLabel('email', { exact: true }).fill(`${username}@aster.demo`);
+  await page.getByLabel('email', { exact: true }).fill(`${username}@orion.demo`);
   await expect(page.locator('#password')).toHaveValue('');
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await expect(page).toHaveURL(/\/accueil$/);
@@ -46,7 +46,7 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
     await expect(page).toHaveURL(/localhost:8081/);
     await expectPublicPresentation(page);
     await expect(page.getByRole('list')).toHaveCount(0);
-    await expect(page.getByText(/superadmin@aster\.demo|gestionnaire@aster\.demo|formateur@aster\.demo/)).toHaveCount(0);
+    await expect(page.getByText(/superadmin@orion\.demo|gestionnaire@orion\.demo|formateur@orion\.demo/)).toHaveCount(0);
     if (username === 'superadmin') {
       await page.setViewportSize({ width: 2048, height: 1118 });
       await page.waitForLoadState('networkidle');
@@ -69,7 +69,7 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
       await expectPublicPresentation(page);
       await page.getByRole('button', { name: 'Fermer', exact: true }).click();
     }
-    await page.getByLabel('email', { exact: true }).fill(`${username}@aster.demo`);
+    await page.getByLabel('email', { exact: true }).fill(`${username}@orion.demo`);
     await expect(page.locator('#password')).toHaveValue('');
     await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
     await expect(page).toHaveURL(/\/accueil$/);
@@ -84,7 +84,7 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
     expect(user).not.toHaveProperty('idToken');
     const workspace = await (await page.request.get('/api/workspace')).json();
     expect(workspace.role).toBe(role);
-    expect(workspace.moi).toMatchObject({ nom, email: `${username}@aster.demo` });
+    expect(workspace.moi).toMatchObject({ nom, email: `${username}@orion.demo` });
     expect(user.name).toBe(nom);
     expect(await page.locator('.rail-item:not([hidden]) .rail-label').allTextContents()).toEqual(modules);
 
@@ -108,13 +108,13 @@ test('administrateur : un matériel créé est enregistré par le serveur réel'
   await dialog.getByLabel('Modèle *', { exact: true }).fill(model);
   await dialog.getByRole('button', { name: 'Enregistrer', exact: true }).click();
   await expect(dialog).toHaveCount(0);
-  await expect.poll(async () => (await (await page.request.get('/api/workspace')).json()).materiels.find((m) => m.modele === model)?.idAster ?? null).toMatch(/^MAT-\d{4}$/);
+  await expect.poll(async () => (await (await page.request.get('/api/workspace')).json()).materiels.find((m) => m.modele === model)?.idOrion ?? null).toMatch(/^MAT-\d{4}$/);
   await page.reload();
   await expect(page.locator('#view h1')).toBeAttached();
-  await expect.poll(() => page.evaluate((name) => window.aster.store.state.materiels.some((m) => m.modele === name), model)).toBe(true);
-  const [row] = await sql('SELECT id_aster, ecole_id, salle_id, hors_service FROM aster_materiel WHERE modele = $1', [model]);
+  await expect.poll(() => page.evaluate((name) => window.orion.store.state.materiels.some((m) => m.modele === name), model)).toBe(true);
+  const [row] = await sql('SELECT id_orion, ecole_id, salle_id, hors_service FROM orion_materiel WHERE modele = $1', [model]);
   expect(row).toMatchObject({ ecole_id: 'e-num', salle_id: null, hors_service: false });
-  expect(row.id_aster).toMatch(/^MAT-\d{4}$/);
+  expect(row.id_orion).toMatch(/^MAT-\d{4}$/);
   await logout(page);
 });
 
@@ -138,9 +138,9 @@ test('formateur : une remontée transmise produit son PDF ; le gestionnaire la t
   expect(pdf.ok()).toBeTruthy();
   expect(pdf.headers()['content-type']).toBe('application/pdf');
   expect((await pdf.body()).subarray(0, 5).toString()).toBe('%PDF-');
-  const [stored] = await sql('SELECT statut, auteur, auteur_id FROM aster_remontee WHERE id = $1', [report.id]);
+  const [stored] = await sql('SELECT statut, auteur, auteur_id FROM orion_remontee WHERE id = $1', [report.id]);
   expect(stored).toMatchObject({ statut: 'attente', auteur: 'L. Martin', auteur_id: 'cpt-num-formateur' });
-  expect((await sql('SELECT materiel_id FROM aster_remontee_materiel WHERE remontee_id = $1 ORDER BY rang', [report.id])).map((r) => r.materiel_id)).toEqual(report.materielIds);
+  expect((await sql('SELECT materiel_id FROM orion_remontee_materiel WHERE remontee_id = $1 ORDER BY rang', [report.id])).map((r) => r.materiel_id)).toEqual(report.materielIds);
   await logout(page);
   expect((await page.request.get(`/api/workspace/reports/${report.id}/pdf`)).status()).toBe(401);
 
@@ -157,12 +157,12 @@ test('formateur : une remontée transmise produit son PDF ; le gestionnaire la t
 async function keycloak(path, options = {}) {
   const tokenResponse = await fetch(`${config.issuer.origin}/realms/master/protocol/openid-connect/token`, { method: 'POST', body: new URLSearchParams({ grant_type: 'password', client_id: 'admin-cli', username: config.keycloakAdmin.adminUser, password: config.keycloakAdmin.adminPassword }) });
   const { access_token: token } = await tokenResponse.json();
-  const response = await fetch(`${config.issuer.origin}/admin/realms/aster${path}`, { ...options, headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } });
+  const response = await fetch(`${config.issuer.origin}/admin/realms/orion${path}`, { ...options, headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } });
   return response.status === 200 ? response.json() : response;
 }
 
 test('administrateur : un compte créé permet de se connecter ; désactivé, il coupe la session', async ({ page, browser }) => {
-  const email = 'nouveau.formateur@aster.demo';
+  const email = 'nouveau.formateur@orion.demo';
   await login(page, 'admin');
   await page.goto('/administration/comptes');
   const row = page.locator('tr', { hasText: email });
@@ -179,7 +179,7 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
     await dialog.getByRole('button', { name: 'Enregistrer', exact: true }).click();
     await expect(dialog).toHaveCount(0);
   }
-  await expect.poll(async () => (await sql('SELECT actif FROM aster_compte WHERE email = $1', [email]))[0]?.actif ?? false).toBe(true);
+  await expect.poll(async () => (await sql('SELECT actif FROM orion_compte WHERE email = $1', [email]))[0]?.actif ?? false).toBe(true);
   // L'identité est créée dans le fournisseur local, puis le nouvel utilisateur se connecte réellement
   await expect.poll(async () => (await keycloak(`/users?email=${encodeURIComponent(email)}&exact=true`)).length ?? 0, { timeout: 10_000 }).toBe(1);
   const other = await browser.newContext();
@@ -187,7 +187,7 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
   await login(newcomer, 'nouveau.formateur');
   const mine = await (await newcomer.request.get('/api/workspace')).json();
   expect(mine.moi).toMatchObject({ nom: 'P. Nouveau', role: 'formateur', ecoleId: 'e-num' });
-  expect((await sql('SELECT sujet FROM aster_compte WHERE email = $1', [email]))[0].sujet).toBeTruthy();
+  expect((await sql('SELECT sujet FROM orion_compte WHERE email = $1', [email]))[0].sujet).toBeTruthy();
 
   // Désactivation par l'administrateur : session coupée et connexion refusée
   await page.reload();
@@ -204,8 +204,8 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
   await logout(page);
 });
 
-test('une identité du fournisseur sans compte ASTER est refusée', async ({ page }) => {
-  const email = 'sans.compte@aster.demo';
+test('une identité du fournisseur sans compte ORION est refusée', async ({ page }) => {
+  const email = 'sans.compte@orion.demo';
   if (!(await keycloak(`/users?email=${encodeURIComponent(email)}&exact=true`)).length) {
     await keycloak('/users', { method: 'POST', body: JSON.stringify({ username: email, email, firstName: 'Sans', lastName: 'Compte', enabled: true, emailVerified: true }) });
   }
@@ -227,7 +227,7 @@ test('formateur : un arrêt de processus est exécuté par le poste', async ({ p
   await expect(page.getByText('Arrêt demandé').first()).toBeVisible();
   // Le poste reçoit la commande, l'exécute et renvoie le résultat
   await expect.poll(async () => (await (await page.request.get('/api/workspace')).json()).operations.find((o) => o.processusId === processId)?.statut, { timeout: 20_000 }).toMatch(/^(terminee|echec)$/);
-  const [op] = (await sql("SELECT data FROM aster_donnee WHERE collection = 'operations' AND data->>'processusId' = $1", [processId])).map((r) => r.data);
+  const [op] = (await sql("SELECT data FROM orion_donnee WHERE collection = 'operations' AND data->>'processusId' = $1", [processId])).map((r) => r.data);
   expect(op).toMatchObject({ type: 'arret', par: 'L. Martin', parId: 'cpt-num-formateur' });
   if (op.statut === 'terminee') expect((await (await page.request.get('/api/workspace')).json()).processus.find((p) => p.id === processId)?.stoppedAt ?? Date.now()).toBeTruthy();
   await logout(page);
@@ -247,9 +247,9 @@ test('une écriture d’une autre origine est refusée', async ({ page }) => {
   await logout(page);
 });
 
-test('un compte inconnu ne crée aucune session ASTER', async ({ page }) => {
+test('un compte inconnu ne crée aucune session ORION', async ({ page }) => {
   await page.goto('/auth/login');
-  await page.getByLabel('email', { exact: true }).fill('inconnu@aster.demo');
+  await page.getByLabel('email', { exact: true }).fill('inconnu@orion.demo');
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await expect(page.getByRole('alert')).toBeVisible();
   expect((await page.request.get('http://localhost:5173/api/me')).status()).toBe(401);

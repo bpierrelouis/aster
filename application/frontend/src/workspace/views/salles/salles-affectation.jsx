@@ -4,7 +4,7 @@
      et à l'équipement d'une salle.
    - Équiper une salle : postes complets (unité centrale, écran et
      périphériques) et matériels secondaires, pris dans le stock en service
-     de l'école, dans l'ordre des identifiants ASTER. Le serveur valide
+     de l'école, dans l'ordre des identifiants ORION. Le serveur valide
      chaque affectation (droits, école de la salle).
    ========================================================================== */
 
@@ -25,7 +25,7 @@ export async function affecter(mats, salleId) {
   if (dest && mats.some((m) => m.ecoleId !== dest.ecoleId)) { notify('Destination dans une autre école', { icon: 'alertes', tone: 'warn' }); return false; }
   store.update('data', (s) => { for (const m of mats) s.materiels.find((x) => x.id === m.id).salleId = salleId ?? null; });
   await store.flush();
-  const label = mats.length > 1 ? `${num(mats.length)} matériels` : mats[0].idAster;
+  const label = mats.length > 1 ? `${num(mats.length)} matériels` : mats[0].idOrion;
   notify(dest ? `${label} affecté${mats.length > 1 ? 's' : ''} à ${dest.nom}, à installer` : `${label} remis en stock, à ranger`, { icon: 'deplacement' }); // déplacement physique à confirmer (Salles › Déplacements)
   return true;
 }
@@ -43,7 +43,7 @@ const SECONDARY_TYPES = DEVICE_TYPES.filter((t) => !POSTE_TYPES.includes(t.id));
     Les matériels déjà rangés passent avant ceux encore à rapatrier (toujours dans leur salle d'origine). */
 function stockOf(materiels, ecoleId) {
   const items = materiels.filter((m) => m.ecoleId === ecoleId && !m.salleId && !m.hs)
-    .sort((a, b) => Number(Boolean(a.deplacement)) - Number(Boolean(b.deplacement)) || a.idAster.localeCompare(b.idAster, 'fr', { numeric: true }));
+    .sort((a, b) => Number(Boolean(a.deplacement)) - Number(Boolean(b.deplacement)) || a.idOrion.localeCompare(b.idOrion, 'fr', { numeric: true }));
   const groups = new Map();
   for (const m of items) {
     const key = m.type === 'uc' || m.type === 'ecran' ? m.type : `${m.type}|${m.modele}`;

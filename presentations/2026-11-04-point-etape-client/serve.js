@@ -3,7 +3,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const repositoryRoot = path.resolve(__dirname, "..", "..");
-const port = Number.parseInt(process.env.ASTER_PRESENTATION_PORT || "4173", 10);
+const port = Number.parseInt(process.env.ORION_PRESENTATION_PORT || "4173", 10);
 const mimeTypes = {
   ".css": "text/css; charset=utf-8",
   ".gif": "image/gif",
@@ -40,5 +40,5 @@ const server = http.createServer((request, response) => {
 });
 
 server.listen(port, "127.0.0.1", () => {
-  console.log(`Présentation ASTER : http://127.0.0.1:${port}/presentations/2026-11-04-point-etape-client/`);
+  console.log(`Présentation ORION : http://127.0.0.1:${port}/presentations/2026-11-04-point-etape-client/`);
 });

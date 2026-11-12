@@ -1,13 +1,13 @@
 /* ==========================================================================
-   ASTER · Jeu d'icônes (grille 24, trait 2, extrémités rondes)
-   Les icônes métier de la charte ASTER (grille 28) sont intégrées telles quelles,
+   ORION · Jeu d'icônes (grille 24, trait 2, extrémités rondes)
+   Les icônes métier de la charte ORION (grille 28) sont intégrées telles quelles,
    avec une couche « verre » pour le style duotone.
    - class "d" : couche « verre » (remplissage translucide)
    - class "f" : remplissage plein (points)
    Rendues par les composants Icon et Tile (ui/icons.jsx)
    ========================================================================== */
 
-/* Icônes métier de la charte ASTER (design/assets/icons), grille 28 */
+/* Icônes métier de la charte ORION (design/assets/icons), grille 28 */
 export const A = {
   materiel: '<rect class="d" x="3.5" y="4.5" width="21" height="15" rx="2"/><path d="M9 23.5h10M12 19.5v4M16 19.5v4"/>',
   salles: '<path class="d" d="M4 24V5.5A1.5 1.5 0 0 1 5.5 4h12A1.5 1.5 0 0 1 19 5.5V24"/><path d="M19 10h3.5A1.5 1.5 0 0 1 24 11.5V24M2.5 24h23"/><path d="M8 8h2M13 8h2M8 12h2M13 12h2M8 16h2M13 16h2"/>',
@@ -100,7 +100,7 @@ export const P = {
   technique: '<rect class="d" x="5" y="2.5" width="14" height="19" rx="2"/><path d="M8.5 6.5h7M8.5 10h7M8.5 13.5h7M8.5 17.5h.01M11.5 17.5h.01"/>',
   stockage: '<path class="d" d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5Z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/>',
 
-  /* ASTER : entités et actions */
+  /* ORION : entités et actions */
   tower: '<rect class="d" x="6.5" y="2.5" width="11" height="19" rx="2"/><path d="M9.5 6.5h5M9.5 9.5h5M12 16.5h.01"/>',
   switch: '<rect class="d" x="2.5" y="9" width="19" height="7.5" rx="2"/><path d="M6 12.75h.01M9 12.75h.01M12 12.75h.01M15 12.75h.01M18 12.75h.01M7 9V6.5h10V9"/>',
   speaker: '<rect class="d" x="5.5" y="2.5" width="13" height="19" rx="2.5"/><circle cx="12" cy="14.5" r="3.5"/><path d="M12 7h.01"/>',

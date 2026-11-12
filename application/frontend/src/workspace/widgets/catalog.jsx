@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Catalogue des widgets ASTER
+   Catalogue des widgets ORION
    Un widget = { type, kind, title, icon, color, sizes, cap?, Body({ size }) }
    Tailles (comme les widgets iOS) : S 1×1, M 2×1, L 2×2, XL 4×2
-   Indicateurs issus des maquettes ASTER et du cadrage (§ 14) ; les calculs
+   Indicateurs issus des maquettes ORION et du cadrage (§ 14) ; les calculs
    détaillés restent à valider avec le client.
    ========================================================================== */
 
@@ -54,7 +54,7 @@ function MaterielRow({ m }) {
     <span className="tile-wrap"><Tile name={dt.icon} color={dt.color} size="m" /></span>
     <span className="row-main">
       <span className="row-title">{m.modele}</span>
-      <span className="row-sub"><LieuChip m={m} /><span className="row-meta">{m.idAster}</span>{m.marque && <span className="row-meta">{m.marque}</span>}</span>
+      <span className="row-sub"><LieuChip m={m} /><span className="row-meta">{m.idOrion}</span>{m.marque && <span className="row-meta">{m.marque}</span>}</span>
     </span>
     <EtatIcon m={m} />
   </Link></li>;
@@ -201,7 +201,7 @@ export const WIDGETS = [
           <tbody>{recents.slice(0, 4).map((m) => {
             const dt = deviceType(m.type);
             return <tr key={m.id}><td><span className="cell-model"><Tile name={dt.icon} color={dt.color} size="s" className="tile--tint" /><span><b>{m.modele}</b><small>{m.marque ?? 'Marque non renseignée'}</small></span></span></td>
-              <td className="mono-num">{m.idAster}</td><td>{dateMed(m.dateReception)}</td><td><LieuChip m={m} /></td><td><EtatPill m={m} /></td></tr>;
+              <td className="mono-num">{m.idOrion}</td><td>{dateMed(m.dateReception)}</td><td><LieuChip m={m} /></td><td><EtatPill m={m} /></td></tr>;
           })}</tbody></table></div>
       </>;
     },

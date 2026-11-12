@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Données de démonstration ASTER, générées de façon déterministe.
+   Données de démonstration ORION, générées de façon déterministe.
    Jeu de travail : une école de quatre bâtiments aux étages et salles
    hétérogènes (de 1 à 8 salles par étage, du sous-sol au 4e étage).
    Une seconde école illustre la vue super administrateur.
@@ -19,24 +19,24 @@ function prng(seed) {
 }
 
 /** Version du jeu de données : un état enregistré plus ancien est régénéré. */
-export const SEED_VERSION = 12;
+export const SEED_VERSION = 13;
 
 /**
- * Comptes ASTER de départ : profil et école de rattachement de chaque personne.
+ * Comptes ORION de départ : profil et école de rattachement de chaque personne.
  * L'identité (connexion) est portée par le fournisseur d'identité ; le compte
- * ASTER est rapproché de cette identité par son adresse électronique.
+ * ORION est rapproché de cette identité par son adresse électronique.
  */
 export const ACCOUNTS = [
-  { id: 'cpt-superadmin', nom: 'S. Lefèvre', email: 'superadmin@aster.demo', role: 'superadmin', ecoleId: null, actif: true },
-  { id: 'cpt-num-admin', nom: 'C. Durand', email: 'admin@aster.demo', role: 'admin', ecoleId: 'e-num', actif: true },
-  { id: 'cpt-num-gestionnaire', nom: 'G. Bernard', email: 'gestionnaire@aster.demo', role: 'gestionnaire', ecoleId: 'e-num', actif: true },
-  { id: 'cpt-num-formateur', nom: 'L. Martin', email: 'formateur@aster.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
-  { id: 'cpt-num-petit', nom: 'N. Petit', email: 'n.petit@aster.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
-  { id: 'cpt-num-garcia', nom: 'R. Garcia', email: 'r.garcia@aster.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
-  { id: 'cpt-num-robert', nom: 'M. Robert', email: 'm.robert@aster.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
-  { id: 'cpt-res-admin', nom: 'A. Moreau', email: 'a.moreau@aster.demo', role: 'admin', ecoleId: 'e-res', actif: true },
-  { id: 'cpt-res-gestionnaire', nom: 'E. Dubois', email: 'e.dubois@aster.demo', role: 'gestionnaire', ecoleId: 'e-res', actif: true },
-  { id: 'cpt-res-formateur', nom: 'J. Lambert', email: 'j.lambert@aster.demo', role: 'formateur', ecoleId: 'e-res', actif: true },
+  { id: 'cpt-superadmin', nom: 'S. Lefèvre', email: 'superadmin@orion.demo', role: 'superadmin', ecoleId: null, actif: true },
+  { id: 'cpt-num-admin', nom: 'C. Durand', email: 'admin@orion.demo', role: 'admin', ecoleId: 'e-num', actif: true },
+  { id: 'cpt-num-gestionnaire', nom: 'G. Bernard', email: 'gestionnaire@orion.demo', role: 'gestionnaire', ecoleId: 'e-num', actif: true },
+  { id: 'cpt-num-formateur', nom: 'L. Martin', email: 'formateur@orion.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
+  { id: 'cpt-num-petit', nom: 'N. Petit', email: 'n.petit@orion.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
+  { id: 'cpt-num-garcia', nom: 'R. Garcia', email: 'r.garcia@orion.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
+  { id: 'cpt-num-robert', nom: 'M. Robert', email: 'm.robert@orion.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
+  { id: 'cpt-res-admin', nom: 'A. Moreau', email: 'a.moreau@orion.demo', role: 'admin', ecoleId: 'e-res', actif: true },
+  { id: 'cpt-res-gestionnaire', nom: 'E. Dubois', email: 'e.dubois@orion.demo', role: 'gestionnaire', ecoleId: 'e-res', actif: true },
+  { id: 'cpt-res-formateur', nom: 'J. Lambert', email: 'j.lambert@orion.demo', role: 'formateur', ecoleId: 'e-res', actif: true },
 ];
 
 /* Catalogue de modèles : [type, modèle, marque, a un n° de série, garantie (années)] */
@@ -122,8 +122,8 @@ export function seed(now = Date.now()) {
   // reçus ces dernières semaines (garanties en cours)
   const LOT = { uc: 20, ecran: 40, clavier: 20, souris: 20, vp: 3, switch: 2, borne: 3, cable: 24, audio: 4, imprimante: 2, autre: 3 };
   for (const [key, n] of Object.entries(LOT)) for (let i = 0; i < n; i++) mkMat('e-num', null, key, 21);
-  // Identifiant ASTER attribué dans l'ordre de réception (RG-03)
-  [...materiels].sort((a, b) => a.dateReception - b.dateReception).forEach((m, i) => { m.idAster = `MAT-${String(i + 1).padStart(4, '0')}`; });
+  // Identifiant ORION attribué dans l'ordre de réception (RG-03)
+  [...materiels].sort((a, b) => a.dateReception - b.dateReception).forEach((m, i) => { m.idOrion = `MAT-${String(i + 1).padStart(4, '0')}`; });
 
   const comptes = structuredClone(ACCOUNTS);
   const gestionnaireDe = (ecoleId) => comptes.find((c) => c.ecoleId === ecoleId && c.role === 'gestionnaire');

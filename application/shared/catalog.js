@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Référentiels ASTER : types de matériel, états, statuts de remontée,
+   Référentiels ORION : types de matériel, états, statuts de remontée,
    profils. Une entité = une icône + une couleur, partout dans l'application.
    Sources : docs/00-GLOSSAIRE, docs/04-REGLES-DE-GESTION, docs/12-MATRICE-DROITS.
    ========================================================================== */
@@ -28,7 +28,7 @@ export const ETATS = {
 export const serieKey = (s) => (typeof s === 'string' && s.trim() ? s.trim().toLowerCase() : null);
 
 /* Installation physique (orientation de l'utilisateur du 11 novembre, à soumettre au client,
-   cadrage § 23). Une affectation enregistrée dans ASTER reste en cours tant que le
+   cadrage § 23). Une affectation enregistrée dans ORION reste en cours tant que le
    déplacement physique n'est pas confirmé (aujourd'hui d'un clic, demain par le scanner).
    Le serveur tient deux champs du matériel : deplacement { de, at, par, parId } (en cours ;
    de : salle d'origine physique, null pour le stock) et installation { de, at, par, parId }

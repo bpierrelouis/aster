@@ -1,10 +1,10 @@
 ---
-name: aster-documentation
+name: orion-documentation
 description: >-
-  Recueillir, rédiger, synchroniser ou auditer la documentation fonctionnelle et de conception d'ASTER. Ne couvre pas le développement de l'application ni les tâches Git seules.
+  Recueillir, rédiger, synchroniser ou auditer la documentation fonctionnelle et de conception d'ORION. Ne couvre pas le développement de l'application ni les tâches Git seules.
 ---
 
-# Documentation ASTER
+# Documentation ORION
 
 Appliquer `AGENTS.md` pour les sources, les protections, le classement et les contrôles. Les demandes de l'utilisateur et les sources du projet priment sur les modèles de ce skill.
 
@@ -37,5 +37,5 @@ Adapter les modèles, omettre les rubriques inutiles et laisser les inconnues ex
 
 - Comparer les affirmations aux sources et représentations concernées, y compris les sources éditables des diagrammes. Un statut « validé » incohérent avec le modèle est un écart à signaler, pas une autorisation d'inventer une règle.
 - Distinguer contradiction, information non répercutée, question déjà résolue, manque de source et livrable absent. Donner pour chaque écart les références, la conséquence et la correction suggérée. Une omission dans une vue volontairement limitée n'est pas automatiquement une erreur.
-- Exécuter depuis la racine `python3 .agents/skills/aster-documentation/scripts/verifier_documentation.py`, puis les contrôles prescrits dans `AGENTS.md`. Un succès structurel ne prouve pas la cohérence métier ; ne pas corriger un autre périmètre pour faire passer le contrôle.
+- Exécuter depuis la racine `python3 .agents/skills/orion-documentation/scripts/verifier_documentation.py`, puis les contrôles prescrits dans `AGENTS.md`. Un succès structurel ne prouve pas la cohérence métier ; ne pas corriger un autre périmètre pour faire passer le contrôle.
 - Rapporter les documents touchés, contrôles, écarts et limites. Pour une reprise de tâche longue, fournir un résumé court : périmètre, sources, décisions référencées, travail effectué et restant. Ne créer une note durable que si utile et autorisé ; elle ne remplace pas le cadrage. Ne pas annoncer le chargement automatique d'un skill modifié dans le chat courant.

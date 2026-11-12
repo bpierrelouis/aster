@@ -2,8 +2,8 @@
    Espace de travail · règles métier communes aux deux modes
    (postes : postes.js ; import JSON : import.js ; moteur d'écriture :
    engine.js ; API : routes.js)
-   - Les droits s'appliquent au compte ASTER connecté (profil, école).
-   - Les valeurs d'autorité (auteur, dates, numéros, identifiants ASTER,
+   - Les droits s'appliquent au compte ORION connecté (profil, école).
+   - Les valeurs d'autorité (auteur, dates, numéros, identifiants ORION,
      suivi des interventions) sont fixées par le serveur.
    - Les processus, détections et installations ne sont alimentés que par
      les postes (API d'agent) ; les utilisateurs demandent des interventions.
@@ -157,7 +157,7 @@ export function mergeState(state, input, actor, now = Date.now()) {
   if (input.role !== actor.role) fail(403, 'Le profil est défini par la connexion.');
   const visible = Object.fromEntries(collections.map((c) => [c, state[c].filter((x) => visibleTo(c, x, state, actor))]));
   const next = structuredClone(state);
-  let lastAsterId = Math.max(0, ...state.materiels.map((m) => Number(String(m.idAster).slice(4)) || 0));
+  let lastOrionId = Math.max(0, ...state.materiels.map((m) => Number(String(m.idOrion).slice(4)) || 0));
   let lastReportId = Math.max(100, ...state.remontees.map((r) => Number(String(r.id).slice(4)) || 0));
   const salles = Array.isArray(input.salles) ? input.salles : visible.salles;
   const materiels = Array.isArray(input.materiels) ? input.materiels : visible.materiels;
@@ -253,8 +253,8 @@ export function mergeState(state, input, actor, now = Date.now()) {
         assert(!x.salleId || salles.some((s) => s.id === x.salleId && s.ecoleId === x.ecoleId), 'Salle inconnue ou hors école.');
         // Un matériel hors service ne peut qu'être remis en service ou renvoyé au stock (orientation de l'utilisateur du 12 novembre)
         if (old && x.hs && x.salleId && x.salleId !== (old.salleId ?? null)) fail(400, 'Un matériel hors service ne peut aller qu’au stock.');
-        if (old) assert(old.idAster === x.idAster, 'Identifiant Orion immuable.');
-        else x.idAster = `MAT-${String(++lastAsterId).padStart(4, '0')}`;
+        if (old) assert(old.idOrion === x.idOrion, 'Identifiant Orion immuable.');
+        else x.idOrion = `MAT-${String(++lastOrionId).padStart(4, '0')}`;
         // Installation physique : toute nouvelle affectation reste en cours (deplacement) jusqu'à la confirmation du
         // déplacement physique, qui devient le dernier déplacement confirmé (installation). Les deux sont tenus ici ;
         // le navigateur peut seulement retirer deplacement (confirmation) et sa valeur d'installation est ignorée.
@@ -277,7 +277,7 @@ export function mergeState(state, input, actor, now = Date.now()) {
     next[c] = [...state[c].filter((x) => !visibleIds.has(x.id)), ...proposed.map((x) => (changes.includes(x) ? x : kept.get(x.id) ?? x))];
   }
 
-  const inventoryIds = next.materiels.map((m) => m.idAster);
+  const inventoryIds = next.materiels.map((m) => m.idOrion);
   assert(new Set(inventoryIds).size === inventoryIds.length, 'Identifiants matériels en doublon.');
   assert(next.materiels.every((m) => !m.salleId || next.salles.some((s) => s.id === m.salleId && s.ecoleId === m.ecoleId)), 'Un matériel est affecté à une salle inconnue.');
   assert(next.postes.every((p) => next.salles.some((s) => s.id === p.salleId)), 'Un poste dépend de cette salle.');

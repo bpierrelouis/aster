@@ -89,7 +89,7 @@ function PostDetail({ id }) {
       <button className="btn btn--primary" type="submit" form="post-install" disabled={!others.length}><Icon name="download" size={18} /><span>Installer</span></button>
     </>}>
     {(close) => p && <>
-      <p className="sheet-text">{emplacement(index().salle.get(p.salleId))}{materiel && ` · ${materiel.idAster}, ${materiel.modele}`}</p>
+      <p className="sheet-text">{emplacement(index().salle.get(p.salleId))}{materiel && ` · ${materiel.idOrion}, ${materiel.modele}`}</p>
       <p className="sheet-text"><PosteEtat p={p} /></p>
       <h3>Applications installées</h3>
       {installed.size

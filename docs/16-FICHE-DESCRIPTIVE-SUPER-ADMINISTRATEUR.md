@@ -23,7 +23,7 @@ Afin d'éviter de dupliquer les scénarios, les parcours fonctionnels détaillé
 | Supervision | Consultation et arrêt des processus utilisateur, détections, notifications de processus blacklisté et statistiques |
 | Règles de processus | Gérer les règles globales en plus des règles d'école, de bâtiment et de salle |
 | Remontées | Création et traitement ; consultation et téléchargement de tous les PDF ; tableau de bord |
-| Comptes ASTER | Création, modification, désactivation et réactivation des comptes de toutes les écoles, y compris des comptes super administrateur |
+| Comptes ORION | Création, modification, désactivation et réactivation des comptes de toutes les écoles, y compris des comptes super administrateur |
 | Notifications de remontée | Aucune notification liée aux remontées |
 
 ## Adaptation des parcours administrateur
@@ -52,9 +52,9 @@ Le parcours [UC-ADMIN-04](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-04--su
 
 Le parcours [UC-ADMIN-05](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-05--créer-consulter-et-traiter-les-remontées) permet de consulter et télécharger les PDF de toutes les écoles et de traiter les remontées accessibles. Une remontée réunit des matériels d'une seule école. Le super administrateur ne reçoit pas de notification liée aux remontées.
 
-### Comptes ASTER
+### Comptes ORION
 
-Le parcours [UC-ADMIN-06](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-06--gérer-les-comptes-aster-de-lécole) est étendu aux comptes de toutes les écoles. Seul le super administrateur peut attribuer le profil super administrateur ; un compte super administrateur n'est rattaché à aucune école. Il ne peut pas modifier son propre profil ni désactiver son propre compte.
+Le parcours [UC-ADMIN-06](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-06--gérer-les-comptes-orion-de-lécole) est étendu aux comptes de toutes les écoles. Seul le super administrateur peut attribuer le profil super administrateur ; un compte super administrateur n'est rattaché à aucune école. Il ne peut pas modifier son propre profil ni désactiver son propre compte.
 
 ## Questions ouvertes propres au périmètre global
 
@@ -66,7 +66,7 @@ Le parcours [UC-ADMIN-06](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-06--g�
 
 La maquette ci-dessous illustre le parcours de gestion du parc d’une école, commun à l’administrateur et au super administrateur. Le super administrateur sélectionne l’école sur laquelle il intervient et dispose d’un périmètre global.
 
-![Liste des matériels dans la maquette ASTER](assets/fiches-descriptives/IHM-MAQUETTE-LISTE-MATERIELS.png)
+![Liste des matériels dans la maquette ORION](assets/fiches-descriptives/IHM-MAQUETTE-LISTE-MATERIELS.png)
 
 Le parcours complet du parc est présenté dans la [fiche Gestionnaire](13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md#ihm-issues-de-la-maquette).
 

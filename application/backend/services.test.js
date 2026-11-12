@@ -15,8 +15,8 @@ async function server(status, body = () => ({})) {
 
 async function setup({ databaseUp = true, env = {} } = {}) {
   const web = await server(200);
-  const oidc = await server(200, (url) => ({ issuer: `${url}/realms/aster` }));
-  const issuerUrl = `${oidc.url}/realms/aster`;
+  const oidc = await server(200, (url) => ({ issuer: `${url}/realms/orion` }));
+  const issuerUrl = `${oidc.url}/realms/orion`;
   const config = readConfig({ APP_URL: web.url, OIDC_ISSUER: issuerUrl, IDENTITY_PROVISIONING: 'false' });
   const pool = { query: async () => { if (!databaseUp) throw Object.assign(new Error('refus'), { code: 'ECONNREFUSED' }); } };
   const snapshot = async () => ({ postes: [{ vuLe: Date.now() }, { vuLe: Date.now() - 60_000 }, {}] });
@@ -38,7 +38,7 @@ test('état : adresse, IP, port et état de chaque service', async () => {
     assert.equal(s.annuaire.status, 'not-configured');
     assert.equal(s.journaux.status, 'not-configured');
     assert.deepEqual([s.postes.status, s.postes.connected, s.postes.total], ['up', 1, 3]);
-    assert.ok(!JSON.stringify(health).includes('aster-local'), 'aucun secret dans la réponse');
+    assert.ok(!JSON.stringify(health).includes('orion-local'), 'aucun secret dans la réponse');
   } finally { close(); }
 });
 
@@ -58,13 +58,13 @@ test('état : service requis indisponible, ou service facultatif indisponible', 
 });
 
 test('description : système et services, sans identifiants', async () => {
-  const { services, close } = await setup({ env: { ASTER_VERSION: 'abc123' } });
+  const { services, close } = await setup({ env: { ORION_VERSION: 'abc123' } });
   try {
     const infos = services.infos();
     assert.equal(infos.application.version, 'abc123');
     assert.equal(infos.application.mode, 'développement');
     assert.ok(infos.services.every((s) => s.name && s.role));
     assert.deepEqual(infos.services.find((s) => s.id === 'base'), { id: 'base', name: 'Base de données', role: infos.services.find((s) => s.id === 'base').role, host: 'localhost', port: 5432, required: true });
-    assert.ok(!JSON.stringify(infos).includes('aster-local'));
+    assert.ok(!JSON.stringify(infos).includes('orion-local'));
   } finally { close(); }
 });

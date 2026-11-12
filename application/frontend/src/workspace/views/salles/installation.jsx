@@ -29,7 +29,7 @@ async function confirmerInstallation(m) {
     delete x.deplacement;
   });
   try { await store.flush(); } catch { return; }
-  notify(`${m.idAster} ${logistique(m).done}`, { icon: 'check', tone: 'ok' });
+  notify(`${m.idOrion} ${logistique(m).done}`, { icon: 'check', tone: 'ok' });
 }
 
 /** Point d'installation d'un matériel (vert une fois à sa place, en salle ou rangé au stock) ; en cours et modifiable, il confirme le déplacement au clic */

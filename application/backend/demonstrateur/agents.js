@@ -4,9 +4,9 @@
    d'un stagiaire au nom fictif, qui lance des programmes), remonte son état
    par l'API d'agent, reçoit les interventions demandées (arrêt de
    processus, installation, désinstallation, réinstallation), les exécute
-   et renvoie le résultat. Seuls les postes sont émulés : ASTER traite
+   et renvoie le résultat. Seuls les postes sont émulés : ORION traite
    leurs rapports comme ceux de postes réels.
-   Lancement autonome : node backend/demonstrateur/agents.js (ASTER_API, AGENT_TOKEN).
+   Lancement autonome : node backend/demonstrateur/agents.js (ORION_API, AGENT_TOKEN).
    ========================================================================== */
 
 import { fileURLToPath } from 'node:url';
@@ -113,7 +113,7 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
   };
 }
 
-/** Transport HTTP vers l'API d'agent d'ASTER. */
+/** Transport HTTP vers l'API d'agent d'ORION. */
 export function httpTransport({ api, token }) {
   const call = async (path, body) => {
     const response = await fetch(`${api}/api/agent${path}`, {
@@ -140,8 +140,8 @@ export const directTransport = (repository) => ({
 });
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const api = process.env.ASTER_API || 'http://127.0.0.1:3001';
-  const token = process.env.AGENT_TOKEN || 'aster-agent-local';
+  const api = process.env.ORION_API || 'http://127.0.0.1:3001';
+  const token = process.env.AGENT_TOKEN || 'orion-agent-local';
   createAgentEmulator({ transport: httpTransport({ api, token }) }).start();
   setInterval(() => {}, 1 << 30); // processus maintenu actif
   console.log(`Postes émulés : rapports vers ${api}/api/agent`);

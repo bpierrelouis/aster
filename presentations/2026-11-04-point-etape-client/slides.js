@@ -1,29 +1,29 @@
 const slides = [
   {
     className: "cover",
-    title: "ASTER, proposition de cadrage",
+    title: "ORION, proposition de cadrage",
     duration: 45,
     notes: "Introduire le support comme une proposition de cadrage. Le déroulé suit les priorités fonctionnelles : matériels, remontées, puis processus et applications.",
     html: `
-      <img class="cover-logo" src="../../design/assets/logos/aster-horizontal-inverse.svg" alt="ASTER">
+      <img class="cover-logo" src="../../design/assets/logos/orion-horizontal-inverse.svg" alt="ORION">
       <div>
         <p class="eyebrow">Présentation client · 4 novembre 2026</p>
-        <h1>ASTER, proposition de cadrage</h1>
+        <h1>ORION, proposition de cadrage</h1>
         <p class="lead">Compréhension du besoin, priorité produit et premières orientations de conception</p>
       </div>
       <div class="flower" aria-hidden="true"></div>`
   },
   {
     className: "name-slide",
-    title: "Le nom ASTER proposé",
+    title: "Le nom ORION proposé",
     duration: 75,
     notes: "Présenter le nom et son acronyme. Vérifier qu'il correspond au vocabulaire du client et qu'il ne crée pas de confusion avec une dénomination existante.",
     html: `
-      <h2>Le nom ASTER proposé</h2>
+      <h2>Le nom ORION proposé</h2>
       <div class="name-logo-stage">
         <svg class="name-logo-animated" viewBox="0 0 440 112" role="img" aria-labelledby="animated-logo-title animated-logo-desc">
-          <title id="animated-logo-title">ASTER</title>
-          <desc id="animated-logo-desc">La fleur ASTER se forme par une explosion de huit pétales violets autour de son cœur doré.</desc>
+          <title id="animated-logo-title">ORION</title>
+          <desc id="animated-logo-desc">La fleur ORION se forme par une explosion de huit pétales violets autour de son cœur doré.</desc>
           <g fill="#6954C0">
             <ellipse class="name-petal" style="--rotation:0deg;--delay:0ms" cx="56" cy="24" rx="7" ry="19"/>
             <ellipse class="name-petal" style="--rotation:45deg;--delay:45ms" cx="56" cy="24" rx="7" ry="19"/>
@@ -35,7 +35,7 @@ const slides = [
             <ellipse class="name-petal" style="--rotation:315deg;--delay:315ms" cx="56" cy="24" rx="7" ry="19"/>
           </g>
           <circle class="name-heart" cx="56" cy="56" r="10" fill="#E8B84E"/>
-          <text class="name-word" x="112" y="76" fill="#17243B" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700" letter-spacing="7">ASTER</text>
+          <text class="name-word" x="112" y="76" fill="#17243B" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700" letter-spacing="7">ORION</text>
         </svg>
       </div>
       <p class="name-acronym"><b>A</b>dministration, <b>S</b>upervision et <b>T</b>raçabilité des <b>É</b>quipements et <b>R</b>essources</p>`
@@ -49,8 +49,8 @@ const slides = [
       <h2>Direction artistique proposée</h2>
       <div class="brand-layout">
         <div class="brand-signatures">
-          <div class="signature-light"><img src="../../design/assets/logos/aster-horizontal.svg" alt="Logo ASTER sur fond clair"></div>
-          <div class="signature-dark"><img src="../../design/assets/logos/aster-horizontal-inverse.svg" alt="Logo ASTER sur fond sombre"></div>
+          <div class="signature-light"><img src="../../design/assets/logos/orion-horizontal.svg" alt="Logo ORION sur fond clair"></div>
+          <div class="signature-dark"><img src="../../design/assets/logos/orion-horizontal-inverse.svg" alt="Logo ORION sur fond sombre"></div>
         </div>
         <div class="palette-line" aria-label="Palette de couleurs">
           <div style="--swatch:#17243B"><span></span><b>Encre</b><small>#17243B</small></div>
@@ -136,8 +136,8 @@ const slides = [
     notes: "Les valeurs affichées sont fictives. Demander si les indicateurs donnent une vue suffisante de l'état du parc et des matériels à traiter.",
     html: `
       <div class="slide-heading"><h2>Tableau de bord du parc</h2></div>
-      <div class="ui-embed" aria-label="Interface ASTER, tableau de bord du parc">
-        <iframe src="../../design/maquettes/gestion-materiels.html?screen=dashboard" title="Tableau de bord du parc dans ASTER" tabindex="-1"></iframe>
+      <div class="ui-embed" aria-label="Interface ORION, tableau de bord du parc">
+        <iframe src="../../design/maquettes/gestion-materiels.html?screen=dashboard" title="Tableau de bord du parc dans ORION" tabindex="-1"></iframe>
       </div>`
   },
   {
@@ -147,8 +147,8 @@ const slides = [
     notes: "Les valeurs affichées sont fictives. Faire réagir le client sur les informations visibles, les filtres et l'action d'ajout.",
     html: `
       <div class="slide-heading"><h2>Liste des matériels</h2></div>
-      <div class="ui-embed" aria-label="Interface ASTER, liste des matériels">
-        <iframe src="../../design/maquettes/gestion-materiels.html?screen=materiels" title="Liste des matériels dans ASTER" tabindex="-1"></iframe>
+      <div class="ui-embed" aria-label="Interface ORION, liste des matériels">
+        <iframe src="../../design/maquettes/gestion-materiels.html?screen=materiels" title="Liste des matériels dans ORION" tabindex="-1"></iframe>
       </div>`
   },
   {
@@ -158,8 +158,8 @@ const slides = [
     notes: "Faire valider les champs et leur caractère obligatoire. Le modèle, la date de réception et l'état sont obligatoires. Le numéro de série et la marque restent facultatifs.",
     html: `
       <div class="slide-heading"><h2>Ajout d'un matériel</h2></div>
-      <div class="ui-embed" aria-label="Interface ASTER, ajout d'un matériel">
-        <iframe src="../../design/maquettes/gestion-materiels.html?screen=ajouter" title="Ajout d'un matériel dans ASTER" tabindex="-1"></iframe>
+      <div class="ui-embed" aria-label="Interface ORION, ajout d'un matériel">
+        <iframe src="../../design/maquettes/gestion-materiels.html?screen=ajouter" title="Ajout d'un matériel dans ORION" tabindex="-1"></iframe>
       </div>`
   },
   {
@@ -169,8 +169,8 @@ const slides = [
     notes: "Présenter les informations conservées sur un matériel et les deux actions disponibles : modifier la fiche ou changer son affectation.",
     html: `
       <div class="slide-heading"><h2>Fiche matériel</h2></div>
-      <div class="ui-embed" aria-label="Interface ASTER, fiche d'un matériel">
-        <iframe src="../../design/maquettes/gestion-materiels.html?screen=fiche" title="Fiche d'un matériel dans ASTER" tabindex="-1"></iframe>
+      <div class="ui-embed" aria-label="Interface ORION, fiche d'un matériel">
+        <iframe src="../../design/maquettes/gestion-materiels.html?screen=fiche" title="Fiche d'un matériel dans ORION" tabindex="-1"></iframe>
       </div>`
   },
   {
@@ -180,15 +180,15 @@ const slides = [
     notes: "Présenter la sélection par ligne et l'affectation immédiate de plusieurs matériels vers une salle ou le stock.",
     html: `
       <div class="slide-heading"><h2>Affectation des matériels</h2></div>
-      <div class="ui-embed" aria-label="Interface ASTER, affectation des matériels">
-        <iframe src="../../design/maquettes/gestion-materiels.html?screen=groupe" title="Affectation des matériels dans ASTER" tabindex="-1"></iframe>
+      <div class="ui-embed" aria-label="Interface ORION, affectation des matériels">
+        <iframe src="../../design/maquettes/gestion-materiels.html?screen=groupe" title="Affectation des matériels dans ORION" tabindex="-1"></iframe>
       </div>`
   },
   {
     className: "remontee-slide",
     title: "Parcours proposé pour les remontées",
     duration: 100,
-    notes: "Présenter un parcours court. Le formateur ou l'administrateur choisit les matériels, décrit le problème et transmet. ASTER produit le PDF. Le gestionnaire suit ensuite le traitement.",
+    notes: "Présenter un parcours court. Le formateur ou l'administrateur choisit les matériels, décrit le problème et transmet. ORION produit le PDF. Le gestionnaire suit ensuite le traitement.",
     html: `
       <h2>Parcours proposé pour les remontées</h2>
       <div class="simple-flow">
@@ -205,7 +205,7 @@ const slides = [
     className: "process-slide",
     title: "Gestion proposée des processus et applications",
     duration: 130,
-    notes: "Distinguer les deux besoins. La supervision concerne les processus utilisateur. L'administration concerne les applications installées et la masterisation. ASTER pilote les actions sans agent propre.",
+    notes: "Distinguer les deux besoins. La supervision concerne les processus utilisateur. L'administration concerne les applications installées et la masterisation. ORION pilote les actions sans agent propre.",
     html: `
       <h2>Gestion proposée des processus et applications</h2>
       <div class="process-columns">
@@ -222,7 +222,7 @@ const slides = [
           <p>Déclencher l'installation prévue ou la réapplication d'une image Windows.</p>
         </div>
       </div>
-      <p class="process-foot">Les actions partent de l'application web ASTER et utilisent les mécanismes Windows, sans agent ASTER sur les postes.</p>`
+      <p class="process-foot">Les actions partent de l'application web ORION et utilisent les mécanismes Windows, sans agent ORION sur les postes.</p>`
   },
   {
     className: "mcd-review-slide",
@@ -231,7 +231,7 @@ const slides = [
     notes: "Le MCD n'est pas validé. Présenter les principaux choix et recueillir les corrections. La connexion s'appuie sur Keycloak relié à LDAP ; la représentation des comptes dans le MCD reste à articuler avec cette architecture.",
     html: `
       <div class="mcd-visual">
-        <img src="../../docs/05-MCD-MERISE.svg" alt="Proposition de modèle conceptuel de données ASTER">
+        <img src="../../docs/05-MCD-MERISE.svg" alt="Proposition de modèle conceptuel de données ORION">
       </div>
       <div class="mcd-copy">
         <h2>MCD proposé</h2>
@@ -247,26 +247,26 @@ const slides = [
     className: "target-architecture-slide",
     title: "Architecture cible initiale",
     duration: 150,
-    notes: "Distinguer serveur front (interface) et serveur back (API, métier et droits). La connexion passe par Keycloak relié à LDAP ; Keycloak est prévu dans tous les cas, mais sa présence sur le réseau cible reste à vérifier. Le back utilise la base de données, le stockage S3 des PDF et les services Windows. Aucun agent ASTER sur les postes. Les services Windows, les flux, les hébergements et les modalités d'intégration restent à préciser.",
+    notes: "Distinguer serveur front (interface) et serveur back (API, métier et droits). La connexion passe par Keycloak relié à LDAP ; Keycloak est prévu dans tous les cas, mais sa présence sur le réseau cible reste à vérifier. Le back utilise la base de données, le stockage S3 des PDF et les services Windows. Aucun agent ORION sur les postes. Les services Windows, les flux, les hébergements et les modalités d'intégration restent à préciser.",
     html: `
       <div class="slide-heading"><h2>Architecture cible initiale</h2></div>
-      <div class="target-map" aria-label="Architecture ASTER : serveurs front et back distincts, Keycloak relié à LDAP, base de données, stockage S3 des PDF et services Windows">
+      <div class="target-map" aria-label="Architecture ORION : serveurs front et back distincts, Keycloak relié à LDAP, base de données, stockage S3 des PDF et services Windows">
         <div class="target-node auth-node"><h3>Keycloak</h3><p>Connexion des utilisateurs</p><small>Existant ou à mettre en place</small></div>
         <span class="target-link directory-link" aria-hidden="true"></span>
         <div class="target-node directory-node"><h3>LDAP</h3><p>Annuaire des utilisateurs</p></div>
         <span class="auth-branch" aria-hidden="true"></span>
         <div class="target-node browser-node"><img src="../../design/assets/icons/recherche.svg" alt=""><h3>Utilisateurs</h3><p>Firefox · réseau interne NP</p></div>
         <span class="target-link browser-link" aria-hidden="true"></span>
-        <div class="target-node front-node"><img src="../../design/assets/logos/aster-horizontal.svg" alt="ASTER"><h3>Serveur front</h3><p>Interface web</p></div>
+        <div class="target-node front-node"><img src="../../design/assets/logos/orion-horizontal.svg" alt="ORION"><h3>Serveur front</h3><p>Interface web</p></div>
         <span class="target-link front-link" aria-hidden="true"></span>
         <div class="target-node back-node"><h3>Serveur back</h3><p>API, fonctions métier et droits</p></div>
         <span class="target-link back-link" aria-hidden="true"></span>
         <div class="target-node windows-node"><img src="../../design/assets/icons/administration.svg" alt=""><h3>Services Windows</h3><p>Administration et déploiement</p></div>
         <span class="target-link posts-link" aria-hidden="true"></span>
-        <div class="target-node posts-node"><img src="../../design/assets/icons/salles.svg" alt=""><h3>Postes Windows</h3><p>Aucun agent ASTER</p></div>
+        <div class="target-node posts-node"><img src="../../design/assets/icons/salles.svg" alt=""><h3>Postes Windows</h3><p>Aucun agent ORION</p></div>
         <span class="storage-branch" aria-hidden="true"></span>
         <div class="target-stores">
-          <div class="target-store"><h3>Base de données ASTER</h3><p>Parc, profils et remontées</p></div>
+          <div class="target-store"><h3>Base de données ORION</h3><p>Parc, profils et remontées</p></div>
           <div class="target-store"><h3>Stockage S3</h3><p>PDF d’état des lieux</p></div>
         </div>
       </div>`

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Shell ASTER
+   Shell ORION
    - Menu principal : rail vertical à gauche (barre basse sur mobile) ; le
      module actif prend la couleur d'accent et son icône grandit légèrement.
    - Menu secondaire : en haut, sous-navigation du module courant.

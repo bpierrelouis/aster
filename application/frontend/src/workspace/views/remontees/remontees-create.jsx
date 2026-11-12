@@ -110,10 +110,10 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }) {
           <section key={t.id} className="pick-group">
             <header><Tile name={t.icon} color={t.color} size="s" /><span>{t.plural}</span><b>{num(l.length)}</b></header>
             <div className="pick-devices">{l.map((m) => (
-              <button key={m.id} className={`pick-device ${selected.has(m.id) ? 'is-on' : ''}`} data-mat={m.id} aria-pressed={selected.has(m.id)} data-tip={`${m.modele}\n${m.idAster}`} onClick={() => toggle(m.id)}>
+              <button key={m.id} className={`pick-device ${selected.has(m.id) ? 'is-on' : ''}`} data-mat={m.id} aria-pressed={selected.has(m.id)} data-tip={`${m.modele}\n${m.idOrion}`} onClick={() => toggle(m.id)}>
                 <span className="pick-check"><Icon name="check" size={12} stroke={3} /></span>
                 <span className="tile-wrap"><Tile name={t.icon} color={t.color} size="m" /><span className={`led led--${m.hs ? 'hs' : 'ok'} tile-led`} /></span>
-                <span className="pick-device-label">{m.idAster.slice(4)}</span>
+                <span className="pick-device-label">{m.idOrion.slice(4)}</span>
               </button>
             ))}</div>
           </section>
@@ -127,7 +127,7 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }) {
     return <>
       <div className="pick-chips">{mats.map((m) => {
         const t = deviceType(m.type);
-        return <span key={m.id} className="mat-chip"><Tile name={t.icon} color={t.color} size="s" /><span>{m.modele}</span><small>{m.idAster}</small></span>;
+        return <span key={m.id} className="mat-chip"><Tile name={t.icon} color={t.color} size="s" /><span>{m.modele}</span><small>{m.idOrion}</small></span>;
       })}</div>
       <div className="problems" role="radiogroup" aria-label="Type de problème">
         {PROBLEMS.map((p) => (

@@ -94,7 +94,7 @@ def audit(root):
 
     paths = [p for p in (root / "README.md", root / "AGENTS.md") if p.is_file()]
     paths += sorted((root / "docs").rglob("*.md"))
-    skill = root / ".agents/skills/aster-documentation"
+    skill = root / ".agents/skills/orion-documentation"
     paths += sorted(skill.rglob("*.md"))
     texts = {}
     local_links = defaultdict(set)
@@ -209,7 +209,7 @@ def audit(root):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[4], help="Racine du dépôt ASTER.")
+    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[4], help="Racine du dépôt ORION.")
     parser.add_argument("--json", action="store_true", help="Résultat structuré.")
     parser.add_argument("--strict-warnings", action="store_true", help="Échec également sur les avertissements.")
     args = parser.parse_args()

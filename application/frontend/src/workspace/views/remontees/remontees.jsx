@@ -130,7 +130,7 @@ function filterRemontees(list, query, bat) {
   const q = query.trim().toLowerCase();
   if (q) out = out.filter((r) => {
     const { mats } = remonteeContext(r);
-    return `${r.id} ${r.description} ${r.auteur} ${mats.map((m) => `${m.modele} ${m.idAster}`).join(' ')}`.toLowerCase().includes(q);
+    return `${r.id} ${r.description} ${r.auteur} ${mats.map((m) => `${m.modele} ${m.idOrion}`).join(' ')}`.toLowerCase().includes(q);
   });
   return out;
 }

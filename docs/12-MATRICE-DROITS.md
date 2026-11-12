@@ -1,6 +1,6 @@
-# Matrice des droits applicatifs — ASTER
+# Matrice des droits applicatifs — ORION
 
-Cette matrice consolide les droits connus des quatre profils ASTER. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
+Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
 
 **Légende :**
 
@@ -53,14 +53,14 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 | Consulter le tableau de bord des remontées | Oui | Non | Oui | Oui | Les indicateurs détaillés restent à définir. | RG-15, RG-24 et RG-36, DCU 11 |
 | Recevoir une notification liée à une remontée | Oui | Oui | Non | Non | Le gestionnaire est notifié à la création d’une remontée. Le formateur est notifié lorsque le statut de l’une de ses propres remontées change. | RG-38, RG-39, RG-66 et RG-67, DCU 11 |
 
-ASTER génère le PDF d’état des lieux à chaque consultation ou téléchargement autorisé, sans le conserver (RG-35). Cette génération constitue un traitement automatique, pas un droit distinct.
+ORION génère le PDF d’état des lieux à chaque consultation ou téléchargement autorisé, sans le conserver (RG-35). Cette génération constitue un traitement automatique, pas un droit distinct.
 
 ## Supervision des postes
 
 | Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
 | --- | --- | --- | --- | --- | --- | --- |
 | Consulter l’état des postes et leurs processus utilisateur | Non | Oui | Oui | Oui | Le formateur accède à toutes les salles de son école, mais doit en sélectionner une et ne dispose pas d’une vue globale. Les processus système sont exclus. | RG-15, RG-19, RG-20, RG-32, RG-59, RG-69 et RG-83, DCU 10 |
-| Arrêter manuellement un processus utilisateur affiché | Non | Oui | Oui | Oui | L’arrêt porte uniquement sur un processus utilisateur en cours présenté par ASTER, avec un seul arrêt en attente ; le résultat est renvoyé par le poste. | RG-15, RG-19, RG-20 et RG-33, DCU 10 |
+| Arrêter manuellement un processus utilisateur affiché | Non | Oui | Oui | Oui | L’arrêt porte uniquement sur un processus utilisateur en cours présenté par ORION, avec un seul arrêt en attente ; le résultat est renvoyé par le poste. | RG-15, RG-19, RG-20 et RG-33, DCU 10 |
 | Gérer les listes de processus autorisés et interdits | Non | Non | Oui | Oui | L’administrateur gère les règles de portée école, bâtiment ou salle de son école et consulte les règles globales ; seul le super administrateur gère les règles globales. | RG-15, RG-47 et RG-50, DCU 10 |
 | Recevoir une alerte de processus blacklisté | Non | Oui | Oui | Oui | Notifiée à l’administrateur et au super administrateur ; le formateur la consulte dans les alertes de la salle qu’il supervise. | RG-55, DCU 10 |
 | Consulter des statistiques d’utilisation | Non | Non | Oui | Oui | Les indicateurs relatifs aux postes et aux processus ainsi que leurs règles de calcul restent à définir. | RG-68, DCU 10 |
@@ -78,7 +78,7 @@ ASTER génère le PDF d’état des lieux à chaque consultation ou télécharge
 
 | Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
 | --- | --- | --- | --- | --- | --- | --- |
-| Créer, modifier, désactiver ou réactiver un compte ASTER | Non | Non | Oui | Oui | L’administrateur gère uniquement les comptes de son école. Le super administrateur gère les comptes de toutes les écoles. Un compte n’est jamais supprimé. Personne ne modifie son propre profil ni ne désactive son propre compte. Seul le super administrateur attribue le profil de super administrateur. | RG-70 et RG-82 |
+| Créer, modifier, désactiver ou réactiver un compte ORION | Non | Non | Oui | Oui | L’administrateur gère uniquement les comptes de son école. Le super administrateur gère les comptes de toutes les écoles. Un compte n’est jamais supprimé. Personne ne modifie son propre profil ni ne désactive son propre compte. Seul le super administrateur attribue le profil de super administrateur. | RG-70 et RG-82 |
 
 ## Gestion des garanties
 
@@ -86,6 +86,6 @@ ASTER génère le PDF d’état des lieux à chaque consultation ou télécharge
 | --- | --- | --- | --- | --- | --- | --- |
 | Renseigner ou modifier la date de fin de garantie | Oui | Non | Oui | Oui | La date de fin de garantie est facultative. | RG-86, DCU 08 |
 | Consulter les indicateurs de garantie | Oui | Non | Oui | Oui | Les garanties proches de l’échéance (six mois) et arrivées à échéance sont distinguées. | RG-36 et RG-86 |
-| Recevoir une alerte de garantie | Oui | Non | Non | Non | L’alerte est affichée dans ASTER ; aucun courriel n’est prévu. | RG-37, RG-38 et RG-86 |
+| Recevoir une alerte de garantie | Oui | Non | Non | Non | L’alerte est affichée dans ORION ; aucun courriel n’est prévu. | RG-37, RG-38 et RG-86 |
 
 Sources générales : [règles de gestion](04-REGLES-DE-GESTION.md), [cadrage consolidé](02-CADRAGE.md), DCU [gestion du parc](08-DCU-GESTION-PARC.md), [administration des postes](09-DCU-ADMINISTRATION-POSTES.md), [supervision des postes](10-DCU-SUPERVISION-POSTES.md) et [remontées utilisateur](11-DCU-REMONTEES-UTILISATEUR.md).

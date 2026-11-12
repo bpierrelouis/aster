@@ -1,6 +1,6 @@
 // Génère les deux schémas de l'architecture réelle (icônes Lucide, licence ISC), depuis la racine du dépôt :
-//   node .agents/skills/aster-documentation/scripts/schemas-architecture.mjs application/node_modules/lucide-react simple docs/assets/architecture/ASTER-VUE-SIMPLIFIEE.svg
-//   node .agents/skills/aster-documentation/scripts/schemas-architecture.mjs application/node_modules/lucide-react complet docs/assets/architecture/ASTER-DEPLOIEMENT-VM.svg
+//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mjs application/node_modules/lucide-react simple docs/assets/architecture/ORION-VUE-SIMPLIFIEE.svg
+//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mjs application/node_modules/lucide-react complet docs/assets/architecture/ORION-DEPLOIEMENT-VM.svg
 // Coordonnées écrites à la main ; règles de contenu et de tracé dans AGENTS.md (Architecture technique).
 import { readFileSync, writeFileSync } from 'node:fs';
 
@@ -38,7 +38,7 @@ let W, H, title, desc;
 
 if (kind === 'simple') {
   W = 1500; H = 810;
-  title = 'ASTER — vue simplifiée de l’architecture réelle';
+  title = 'ORION — vue simplifiée de l’architecture réelle';
   desc = 'Rôles du démonstrateur, regroupés par zone, et principaux échanges numérotés.';
   // Carte façon Azure : icône au-dessus, nom, rôle, VM
   const card = (x, y, ic, name, role, vm, opts = {}) => {
@@ -52,7 +52,7 @@ if (kind === 'simple') {
   const zone = (x, y, w, h, name) => { rect(x, y, w, h, C.zone, C.zoneStroke, { rx: 6 }); text(x + 14, y + 24, name, 'zname'); };
   const step = (x, y, n) => { add(`<circle cx="${x}" cy="${y}" r="11" fill="${C.blue}"/>`); text(x, y + 4.5, n, 'step', 'middle'); };
 
-  text(40, 44, 'Architecture réelle du démonstrateur ASTER', 'title');
+  text(40, 44, 'Architecture réelle du démonstrateur ORION', 'title');
   text(40, 72, 'Sept machines virtuelles Debian 13 sur un réseau privé · services en conteneurs Docker', 'body');
 
   card(20, 300, 'users', 'Utilisateurs', 'Firefox', 'navigateur web', { stroke: C.extStroke, w: 150 });
@@ -95,7 +95,7 @@ if (kind === 'simple') {
   arrow([[170, 664], [228, 664]]); step(199, 664, '7');
 } else {
   W = 1420; H = 1135;
-  title = 'ASTER — architecture réelle complète sur sept VM';
+  title = 'ORION — architecture réelle complète sur sept VM';
   desc = 'Placement des services, conteneurs ou services de l’hôte, rôles Swarm, versions, ports, volumes et flux.';
   const vm = (x, y, w, h, name, role, tone) => {
     rect(x, y, w, h, C.vm, C.vmStroke);
@@ -134,11 +134,11 @@ if (kind === 'simple') {
   // Cluster Swarm
   rect(285, 140, 1095, 835, '#f7fafd', '#7aa7d6', { rx: 12, dashed: true, sw: 1.5 });
   icon('boxes', 300, 152, 22);
-  text(330, 169, 'Cluster Docker Swarm · VM 01 à 07 · réseau overlay « aster »', 'frame');
+  text(330, 169, 'Cluster Docker Swarm · VM 01 à 07 · réseau overlay « orion »', 'frame');
 
   // Colonne A : entrée, Swarm, éléments communs
   vm(305, 195, 275, 425, 'VM 01', 'Entrée', 'manager');
-  svc(318, 245, 249, 270, 'split', 'HAProxy 3.2', ['image officielle', 'réseau de l’hôte', 'HTTPS 443 · ASTER', 'HTTPS 8443 · Keycloak', 'HTTPS 8444 · console Keycloak']);
+  svc(318, 245, 249, 270, 'split', 'HAProxy 3.2', ['image officielle', 'réseau de l’hôte', 'HTTPS 443 · ORION', 'HTTPS 8443 · Keycloak', 'HTTPS 8444 · console Keycloak']);
   svc(318, 530, 249, 72, 'clock', 'chrony', ['paquet Debian', 'NTP 123/UDP'], true);
   rect(305, 640, 275, 115, '#fff', C.vmStroke);
   icon('boxes', 317, 652, 18, '#5b7690');
@@ -168,10 +168,10 @@ if (kind === 'simple') {
   vol(1043, 481, 304, 'pg-data', 'volume Docker · /var/lib/pgsql/data');
   vm(1030, 560, 330, 175, 'VM 07', 'Journaux', 'worker');
   svc(1043, 610, 304, 56, 'scroll-text', 'Logstash 8.19', ['image officielle · TCP TLS 6514']);
-  vol(1043, 676, 304, 'Dossier de la VM', '/var/log/aster · monté, hors volume Docker');
+  vol(1043, 676, 304, 'Dossier de la VM', '/var/log/orion · monté, hors volume Docker');
 
   // Flux du navigateur vers HAProxy
-  [['443 · ASTER', 260], ['8443 · connexion', 295]].forEach(([t, y]) => { arrow([[190, y], [316, y]]); label(196, y - 6, t); });
+  [['443 · ORION', 260], ['8443 · connexion', 295]].forEach(([t, y]) => { arrow([[190, y], [316, y]]); label(196, y - 6, t); });
   // HAProxy → Apache et Express ; Express → HAProxy (adresse publique de Keycloak)
   arrow([[567, 290], [661, 290]]); label(575, 283, '8080');
   arrow([[567, 445], [661, 445]]); label(575, 438, '3001');

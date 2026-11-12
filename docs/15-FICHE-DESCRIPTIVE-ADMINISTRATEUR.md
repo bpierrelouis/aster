@@ -16,7 +16,7 @@
 | Supervision | Consulter les postes et processus de toutes les salles, arrêter un processus utilisateur, gérer les règles d'école, de bâtiment et de salle, consulter les détections, recevoir une notification de processus blacklisté et consulter les statistiques |
 | Remontées | Créer une remontée et suivre les siennes ; passer une remontée de « en attente » à « remplacé » ou « corrigé » ; consulter, télécharger et imprimer tous les PDF ; consulter le tableau de bord des remontées |
 | Tableaux de bord | Consulter son tableau de bord personnel, qu'il peut composer, ainsi que les tableaux de bord du parc et des remontées |
-| Comptes ASTER | Créer, modifier, désactiver et réactiver les comptes rattachés à son école |
+| Comptes ORION | Créer, modifier, désactiver et réactiver les comptes rattachés à son école |
 | Notifications de remontée | Aucune notification liée aux remontées |
 
 Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-DROITS.md).
@@ -31,9 +31,9 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 
 1. L'administrateur recherche ou ouvre un matériel.
 2. Il crée ou modifie sa fiche conformément aux données obligatoires.
-3. ASTER attribue l'identifiant interne lors d'une création.
+3. ORION attribue l'identifiant interne lors d'une création.
 4. L'administrateur affecte ou déplace un ou plusieurs matériels vers une salle ou le stock si nécessaire.
-5. ASTER applique immédiatement l'opération autorisée.
+5. ORION applique immédiatement l'opération autorisée.
 
 ### Variantes et limites
 
@@ -60,9 +60,9 @@ RG-03 à RG-10, RG-15, RG-25 à RG-29, RG-69, RG-72 et RG-73.
 ### Scénario nominal
 
 1. L'administrateur ouvre un poste, ou une application du catalogue (nom, éditeur, version, nombre de postes équipés).
-2. ASTER présente les applications installées, remontées par les postes.
+2. ORION présente les applications installées, remontées par les postes.
 3. Il choisit l'installation ou la désinstallation et la cible : un poste ou une salle entière.
-4. ASTER enregistre la demande d'intervention ; chaque poste cible l'exécute et renvoie son résultat.
+4. ORION enregistre la demande d'intervention ; chaque poste cible l'exécute et renvoie son résultat.
 5. L'administrateur suit la demande : en attente des postes, en cours, terminée ou en échec avec le nombre de postes concernés.
 
 ### Variantes et limites
@@ -82,7 +82,7 @@ RG-15, RG-25, RG-65 et RG-69.
 
 ## UC-ADMIN-03 — Réinstaller un poste ou une salle
 
-- **Objectif :** demander depuis ASTER la réapplication d'une image système.
+- **Objectif :** demander depuis ORION la réapplication d'une image système.
 - **Déclencheur :** l'administrateur sélectionne un ou plusieurs postes, ou une salle, à replaquer.
 - **Préconditions :** les postes appartiennent à son école ; un mécanisme de déploiement est disponible et autorisé.
 
@@ -90,14 +90,14 @@ RG-15, RG-25, RG-65 et RG-69.
 
 1. L'administrateur sélectionne un ou plusieurs postes, éventuellement tous ceux d'une salle.
 2. Il demande leur réinstallation et confirme.
-3. ASTER enregistre la demande avec l'image de référence ; chaque poste l'exécute et renvoie son résultat.
+3. ORION enregistre la demande avec l'image de référence ; chaque poste l'exécute et renvoie son résultat.
 4. L'administrateur suit l'avancement poste par poste.
 
 ### Variantes et limites
 
 - La cible peut être une partie des postes d'une salle ou la salle entière.
-- ASTER ne développe pas son propre moteur d'image.
-- L'annulation et l'interruption ne sont pas demandées dans ASTER.
+- ORION ne développe pas son propre moteur d'image.
+- L'annulation et l'interruption ne sont pas demandées dans ORION.
 
 ### Questions ouvertes
 
@@ -113,18 +113,18 @@ RG-15, RG-22, RG-25, RG-30 et RG-69.
 
 - **Objectif :** superviser les postes de l'école, intervenir sur les processus utilisateur et définir les règles de classement.
 - **Déclencheur :** l'administrateur ouvre une salle, les détections, la gestion des listes ou les statistiques.
-- **Préconditions :** les postes sont connus dans ASTER ; la solution d’administration à distance est disponible.
+- **Préconditions :** les postes sont connus dans ORION ; la solution d’administration à distance est disponible.
 
 ### Scénario nominal
 
 1. L'administrateur sélectionne une salle et consulte l'état de ses postes.
-2. ASTER présente les processus utilisateur et les actualise en quelques secondes.
+2. ORION présente les processus utilisateur et les actualise en quelques secondes.
 3. L'administrateur peut demander l'arrêt manuel d'un processus utilisateur affiché.
 4. Il peut créer, modifier ou supprimer une entrée de whitelist ou de blacklist dans les portées école, bâtiment ou salle ; les règles globales lui sont présentées sans modification.
-5. ASTER applique les règles cumulées et arrête automatiquement un processus blacklisté.
-6. ASTER enregistre la détection et conserve l'historique confirmé.
+5. ORION applique les règles cumulées et arrête automatiquement un processus blacklisté.
+6. ORION enregistre la détection et conserve l'historique confirmé.
 7. L'administrateur consulte les détections de toutes les salles et les statistiques d'utilisation.
-8. Il reçoit une notification dans ASTER pour chaque processus blacklisté détecté.
+8. Il reçoit une notification dans ORION pour chaque processus blacklisté détecté.
 
 ### Variantes et limites
 
@@ -152,10 +152,10 @@ RG-15, RG-31 à RG-33, RG-40 à RG-58, RG-68 et RG-69.
 ### Scénario nominal
 
 1. L'administrateur sélectionne un ou plusieurs matériels, choisit éventuellement un type de problème et saisit la description.
-2. ASTER enregistre la remontée « en attente ».
-3. L'administrateur consulte, télécharge ou imprime le PDF d'état des lieux, qu'ASTER génère à chaque demande avec les informations actuelles de la remontée.
+2. ORION enregistre la remontée « en attente ».
+3. L'administrateur consulte, télécharge ou imprime le PDF d'état des lieux, qu'ORION génère à chaque demande avec les informations actuelles de la remontée.
 4. Il peut traiter la remontée en la passant de « en attente » à « remplacé » ou « corrigé » ; cette transition est unique.
-5. ASTER enregistre le statut commun à toute la remontée.
+5. ORION enregistre le statut commun à toute la remontée.
 
 ### Variantes et limites
 
@@ -173,7 +173,7 @@ RG-15, RG-31 à RG-33, RG-40 à RG-58, RG-68 et RG-69.
 
 RG-11 à RG-15, RG-21, RG-23 à RG-25, RG-34 à RG-39, RG-64, RG-69 et RG-73.
 
-## UC-ADMIN-06 — Gérer les comptes ASTER de l'école
+## UC-ADMIN-06 — Gérer les comptes ORION de l'école
 
 - **Objectif :** créer et maintenir les comptes rattachés à l'école de l'administrateur.
 - **Déclencheur :** un compte doit être créé, modifié, désactivé ou réactivé.
@@ -181,9 +181,9 @@ RG-11 à RG-15, RG-21, RG-23 à RG-25, RG-34 à RG-39, RG-64, RG-69 et RG-73.
 
 ### Scénario nominal
 
-1. L'administrateur renseigne le nom et l'adresse électronique du compte, unique dans ASTER.
+1. L'administrateur renseigne le nom et l'adresse électronique du compte, unique dans ORION.
 2. Il attribue exactement un profil parmi administrateur, gestionnaire et formateur.
-3. ASTER rattache le compte à son école et l'enregistre ; le compte est rapproché de l'identité MindefConnect lors de la connexion.
+3. ORION rattache le compte à son école et l'enregistre ; le compte est rapproché de l'identité MindefConnect lors de la connexion.
 
 ### Variantes et limites
 
@@ -212,7 +212,7 @@ RG-01, RG-15, RG-60, RG-62 et RG-69 à RG-71.
 
 1. L'administrateur ouvre les salles d'un bâtiment.
 2. Il crée ou modifie une salle : nom, bâtiment existant ou nouveau, étage.
-3. ASTER enregistre la salle dans son école.
+3. ORION enregistre la salle dans son école.
 
 ### Variantes et limites
 
@@ -231,11 +231,11 @@ Les maquettes ci-dessous illustrent le volet de gestion du parc commun à l’ad
 
 ### Tableau de bord du parc
 
-![Tableau de bord du parc dans la maquette ASTER](assets/fiches-descriptives/IHM-MAQUETTE-TABLEAU-DE-BORD.png)
+![Tableau de bord du parc dans la maquette ORION](assets/fiches-descriptives/IHM-MAQUETTE-TABLEAU-DE-BORD.png)
 
 ### Fiche matériel
 
-![Fiche d'un matériel dans la maquette ASTER](assets/fiches-descriptives/IHM-MAQUETTE-FICHE-MATERIEL.png)
+![Fiche d'un matériel dans la maquette ORION](assets/fiches-descriptives/IHM-MAQUETTE-FICHE-MATERIEL.png)
 
 Les autres écrans disponibles sont présentés dans la [fiche Gestionnaire](13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md#ihm-issues-de-la-maquette).
 
@@ -248,7 +248,7 @@ Les autres écrans disponibles sont présentés dans la [fiche Gestionnaire](13-
 - Supervision des postes et processus, gestion des listes, détections et statistiques.
 - Création, consultation et traitement des remontées avec accès aux PDF.
 - Gestion des comptes limitée à l'école.
-- Affichage des notifications dans ASTER.
+- Affichage des notifications dans ORION.
 - Aucun écran ne doit laisser penser que l'administrateur possède un périmètre global sur toutes les écoles.
 
 ## Contraintes transversales

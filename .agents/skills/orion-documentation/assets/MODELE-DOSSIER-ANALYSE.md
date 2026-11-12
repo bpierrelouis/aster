@@ -1,4 +1,4 @@
-# Dossier d'analyse ASTER — [version et statut]
+# Dossier d'analyse ORION — [version et statut]
 
 Adapter cette trame aux consignes d'évaluation. Synthétiser et relier les documents de référence ; éviter des copies indépendantes de toutes les règles et de tous les diagrammes.
 

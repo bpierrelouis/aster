@@ -42,7 +42,7 @@ export function applyReports(s, rapports, now = Date.now()) {
       const detection = { id: id('det'), at: now, posteId: p.id, salleId: p.salleId, ecoleId, processus: nom, compte, classement, arret: null };
       s.detections.push(detection);
       // Processus interdit : arrêt automatique demandé au poste
-      if (classement === 'blacklist') s.operations.push({ id: id('op'), type: 'arret', auto: true, cibles: [p.id], processusId: proc.id, detectionId: detection.id, ecoleId, at: now, par: 'ASTER', parId: null, statut: 'enregistree', resultats: { [p.id]: 'en_attente' } });
+      if (classement === 'blacklist') s.operations.push({ id: id('op'), type: 'arret', auto: true, cibles: [p.id], processusId: proc.id, detectionId: detection.id, ecoleId, at: now, par: 'ORION', parId: null, statut: 'enregistree', resultats: { [p.id]: 'en_attente' } });
     }
     if (Array.isArray(r.applications)) {
       const apps = new Set(r.applications.filter((a) => s.applications.some((x) => x.id === a)));

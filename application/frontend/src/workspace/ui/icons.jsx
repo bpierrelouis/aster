@@ -1,15 +1,15 @@
-/* Icônes ASTER en composants React. Les tracés sont les constantes de la charte (core/icons.js). */
+/* Icônes ORION en composants React. Les tracés sont les constantes de la charte (core/icons.js). */
 import { A, P } from '../core/icons.js';
 import { Marianne } from './marianne.jsx';
 import { OrionMark } from '../../connexion/brand.jsx';
 
 export function Icon({ name, size = 24, label, className = '', stroke = 2 }) {
-  const aster = A[name];
-  const vb = aster ? 28 : 24;
+  const orion = A[name];
+  const vb = orion ? 28 : 24;
   const a11y = label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': true };
   return <svg className={`ico ${className}`.trim()} viewBox={`0 0 ${vb} ${vb}`} width={size} height={size} fill="none" stroke="currentColor"
     strokeWidth={(stroke * (vb / 24)).toFixed(2)} strokeLinecap="round" strokeLinejoin="round" {...a11y}
-    dangerouslySetInnerHTML={{ __html: aster ?? P[name] ?? P.other }} />;
+    dangerouslySetInnerHTML={{ __html: orion ?? P[name] ?? P.other }} />;
 }
 
 /** Tuile colorée : size s | m | l | xl */

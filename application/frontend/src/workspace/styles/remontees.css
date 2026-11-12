@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ASTER · Remontées : liste maître-détail, suivi, état des lieux
+   ORION · Remontées : liste maître-détail, suivi, état des lieux
    ========================================================================== */
 
 .rm-layout { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 20px; align-items: start; }

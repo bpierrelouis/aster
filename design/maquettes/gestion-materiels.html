@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ASTER — Gestion du parc</title>
+  <title>ORION — Gestion du parc</title>
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <style>
     :root {
@@ -179,7 +179,7 @@
 <body>
   <div class="app">
     <aside class="sidebar">
-      <a class="brand" href="#" aria-label="Retour au tableau de bord" onclick="show('dashboard'); return false"><img src="../assets/logos/aster-horizontal-inverse.svg" alt="ASTER"></a>
+      <a class="brand" href="#" aria-label="Retour au tableau de bord" onclick="show('dashboard'); return false"><img src="../assets/logos/orion-horizontal-inverse.svg" alt="ORION"></a>
       <div>
         <p class="nav-label">Gestion du parc</p>
         <nav class="nav" aria-label="Navigation principale">
@@ -197,7 +197,7 @@
         <section id="dashboard" class="screen">
           <div class="page-head"><div><div class="eyebrow">École de formation</div><h1>Gestion du parc</h1><p class="sub">Localisation et état des matériels informatiques.</p></div><button class="btn primary" type="button" onclick="show('ajouter')"><span aria-hidden="true">＋</span> Ajouter un matériel</button></div>
           <div class="grid stats">
-            <div class="card stat-card"><div class="stat-top">Matériels <span class="stat-icon"><img src="../assets/icons/materiel.svg" alt=""></span></div><div class="stat-number">248</div><div class="stat-foot">Référencés dans ASTER</div></div>
+            <div class="card stat-card"><div class="stat-top">Matériels <span class="stat-icon"><img src="../assets/icons/materiel.svg" alt=""></span></div><div class="stat-number">248</div><div class="stat-foot">Référencés dans ORION</div></div>
             <div class="card stat-card"><div class="stat-top">Affectés en salle <span class="stat-icon"><img src="../assets/icons/salles.svg" alt=""></span></div><div class="stat-number">185</div><div class="stat-foot">Sur 14 salles</div></div>
             <div class="card stat-card warning"><div class="stat-top">En stock <span class="stat-icon"><img src="../assets/icons/documents.svg" alt=""></span></div><div class="stat-number">49</div><div class="stat-foot">Sans affectation</div></div>
             <div class="card stat-card danger"><div class="stat-top">Hors service <span class="stat-icon"><img src="../assets/icons/alertes.svg" alt=""></span></div><div class="stat-number">14</div><div class="stat-foot">À traiter</div></div>
@@ -206,17 +206,17 @@
             <div class="card"><div class="card-title"><h2>Répartition du matériel</h2><button class="text-link" type="button" onclick="show('materiels')">Voir la liste</button></div><div class="bar-row"><span>Écrans</span><div class="bar"><span style="--size:82%"></span></div><b>92</b></div><div class="bar-row"><span>Claviers</span><div class="bar"><span style="--size:61%"></span></div><b>68</b></div><div class="bar-row"><span>Câbles réseau</span><div class="bar"><span style="--size:48%"></span></div><b>54</b></div><div class="bar-row"><span>Vidéoprojecteurs</span><div class="bar"><span style="--size:30%"></span></div><b>34</b></div></div>
             <div class="card"><div class="card-title"><h2>Salles les plus équipées</h2></div><div class="room-list"><div class="room-line"><span>Salle B203</span><b>28 matériels</b></div><div class="room-line"><span>Salle A112</span><b>24 matériels</b></div><div class="room-line"><span>Salle B204</span><b>21 matériels</b></div><div class="room-line"><span>Atelier 1</span><b>19 matériels</b></div></div></div>
           </div>
-          <div class="card"><div class="card-title"><h2>Matériels récemment enregistrés</h2><button class="text-link" type="button" onclick="show('materiels')">Accéder à la liste</button></div><div class="table-wrap"><table><thead><tr><th>Modèle</th><th>Identifiant ASTER</th><th>Localisation</th><th>État</th></tr></thead><tbody id="recent-rows"></tbody></table></div></div>
+          <div class="card"><div class="card-title"><h2>Matériels récemment enregistrés</h2><button class="text-link" type="button" onclick="show('materiels')">Accéder à la liste</button></div><div class="table-wrap"><table><thead><tr><th>Modèle</th><th>Identifiant ORION</th><th>Localisation</th><th>État</th></tr></thead><tbody id="recent-rows"></tbody></table></div></div>
         </section>
 
         <section id="materiels" class="screen hidden">
           <div class="page-head"><div><div class="eyebrow">Inventaire</div><h1>Matériels</h1><p class="sub">Rechercher, consulter et mettre à jour les matériels.</p></div><button class="btn primary" type="button" onclick="show('ajouter')"><span aria-hidden="true">＋</span> Ajouter un matériel</button></div>
           <div class="toolbar"><div class="search"><img src="../assets/icons/recherche.svg" alt=""><input id="search" aria-label="Rechercher un matériel" placeholder="Modèle, numéro de série ou salle" oninput="renderTable()"></div><select class="filter" id="filterRoom" aria-label="Filtrer par localisation" onchange="renderTable()"><option value="">Toutes les localisations</option><option>Stock</option><option>B203</option><option>A112</option><option>B204</option><option>Atelier 1</option></select><select class="filter" id="filterState" aria-label="Filtrer par état" onchange="renderTable()"><option value="">Tous les états</option><option value="service">En service</option><option value="out">Hors service</option></select><span class="toolbar-meta" id="result-count" aria-live="polite"></span></div>
-          <div class="table-wrap"><table><thead><tr><th>Modèle</th><th>Identifiant ASTER</th><th>N° de série</th><th>Date de réception</th><th>Localisation</th><th>État</th><th></th></tr></thead><tbody id="asset-rows"></tbody></table></div>
+          <div class="table-wrap"><table><thead><tr><th>Modèle</th><th>Identifiant ORION</th><th>N° de série</th><th>Date de réception</th><th>Localisation</th><th>État</th><th></th></tr></thead><tbody id="asset-rows"></tbody></table></div>
         </section>
 
         <section id="ajouter" class="screen hidden">
-          <div class="page-head"><div><div class="eyebrow">Inventaire</div><h1>Ajouter un matériel</h1><p class="sub">L’identifiant ASTER sera attribué automatiquement.</p></div></div>
+          <div class="page-head"><div><div class="eyebrow">Inventaire</div><h1>Ajouter un matériel</h1><p class="sub">L’identifiant ORION sera attribué automatiquement.</p></div></div>
           <div class="card form-card"><form id="addForm"><div class="form-grid">
             <div class="field"><label for="add-model">Modèle *</label><input id="add-model" name="model" required placeholder="Écran 24 pouces"></div>
             <div class="field"><label for="add-brand">Marque</label><input id="add-brand" name="brand" placeholder="Facultative"></div>
@@ -251,7 +251,7 @@
 
         <section id="groupe" class="screen hidden">
           <div class="page-head"><div><div class="eyebrow">Affectation</div><h1>Affecter des matériels</h1><p class="sub">Sélectionner les matériels puis choisir leur destination.</p></div></div>
-          <div class="card"><div class="toolbar"><div class="search"><img src="../assets/icons/recherche.svg" alt=""><input id="group-search" aria-label="Filtrer les matériels" placeholder="Modèle, identifiant ou numéro de série" oninput="renderGroup()"></div></div><div class="bulk-actions"><div><span class="selection-count" id="selected-count">Aucun matériel sélectionné</span><span class="selection-help">Cliquer sur une ligne pour la sélectionner.</span></div><div class="form-actions"><select class="filter" id="group-room" aria-label="Destination" onchange="updateBulkAction()"><option value="">Choisir une destination</option><option>Stock</option><option>B203</option><option>A112</option><option>B204</option><option>Atelier 1</option></select><button class="btn primary" id="bulk-button" type="button" onclick="bulkAssign()" disabled>Affecter</button></div></div><div class="table-wrap"><table><thead><tr><th></th><th>Modèle</th><th>Identifiant ASTER</th><th>N° de série</th><th>Localisation</th><th>État</th></tr></thead><tbody id="group-rows"></tbody></table></div></div>
+          <div class="card"><div class="toolbar"><div class="search"><img src="../assets/icons/recherche.svg" alt=""><input id="group-search" aria-label="Filtrer les matériels" placeholder="Modèle, identifiant ou numéro de série" oninput="renderGroup()"></div></div><div class="bulk-actions"><div><span class="selection-count" id="selected-count">Aucun matériel sélectionné</span><span class="selection-help">Cliquer sur une ligne pour la sélectionner.</span></div><div class="form-actions"><select class="filter" id="group-room" aria-label="Destination" onchange="updateBulkAction()"><option value="">Choisir une destination</option><option>Stock</option><option>B203</option><option>A112</option><option>B204</option><option>Atelier 1</option></select><button class="btn primary" id="bulk-button" type="button" onclick="bulkAssign()" disabled>Affecter</button></div></div><div class="table-wrap"><table><thead><tr><th></th><th>Modèle</th><th>Identifiant ORION</th><th>N° de série</th><th>Localisation</th><th>État</th></tr></thead><tbody id="group-rows"></tbody></table></div></div>
         </section>
       </div>
     </main>
@@ -325,7 +325,7 @@
       const status = document.getElementById("detail-status");
       status.textContent = current.out ? "Hors service" : "En service";
       status.className = `status ${current.out ? "out" : ""}`;
-      document.getElementById("detail-fields").innerHTML = [["Marque", current.brand || "Non renseignée"], ["Numéro de série", current.serial || "Non renseigné"], ["Date de réception", formatDate(current.received)], ["Localisation", current.room], ["Hors service", current.out ? "Oui" : "Non"], ["Identifiant ASTER", current.id]].map(([label, value]) => `<div><small>${escapeHtml(label)}</small><strong>${escapeHtml(value)}</strong></div>`).join("");
+      document.getElementById("detail-fields").innerHTML = [["Marque", current.brand || "Non renseignée"], ["Numéro de série", current.serial || "Non renseigné"], ["Date de réception", formatDate(current.received)], ["Localisation", current.room], ["Hors service", current.out ? "Oui" : "Non"], ["Identifiant ORION", current.id]].map(([label, value]) => `<div><small>${escapeHtml(label)}</small><strong>${escapeHtml(value)}</strong></div>`).join("");
     }
     function editCurrent() {
       show("modifier");

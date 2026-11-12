@@ -1,18 +1,18 @@
-name: aster
+name: orion
 
 services:
   postgres:
     image: postgres:17.7-alpine
     environment:
-      POSTGRES_DB: aster
-      POSTGRES_USER: aster
-      POSTGRES_PASSWORD: aster-local
+      POSTGRES_DB: orion
+      POSTGRES_USER: orion
+      POSTGRES_PASSWORD: orion-local
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U aster -d aster"]
+      test: ["CMD-SHELL", "pg_isready -U orion -d orion"]
       interval: 3s
       timeout: 3s
       retries: 20
@@ -22,16 +22,16 @@ services:
     image: osixia/openldap:1.5.0
     command: ["--copy-service"]
     environment:
-      LDAP_ORGANISATION: ASTER
-      LDAP_DOMAIN: aster.demo
+      LDAP_ORGANISATION: ORION
+      LDAP_DOMAIN: orion.demo
       LDAP_ADMIN_PASSWORD: ldap-admin-local
       LDAP_TLS: "false"
     volumes:
       - ldap-data:/var/lib/ldap
       - ldap-config:/etc/ldap/slapd.d
-      - ./ldap/aster-utilisateurs.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/50-aster-utilisateurs.ldif:ro
+      - ./ldap/orion-utilisateurs.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/50-orion-utilisateurs.ldif:ro
     healthcheck:
-      test: ["CMD", "ldapsearch", "-x", "-H", "ldap://localhost", "-b", "ou=people,dc=aster,dc=demo", "-D", "cn=admin,dc=aster,dc=demo", "-w", "ldap-admin-local", "-s", "base"]
+      test: ["CMD", "ldapsearch", "-x", "-H", "ldap://localhost", "-b", "ou=people,dc=orion,dc=demo", "-D", "cn=admin,dc=orion,dc=demo", "-w", "ldap-admin-local", "-s", "base"]
       interval: 3s
       timeout: 3s
       start_period: 10s
@@ -51,8 +51,8 @@ services:
     ports:
       - "127.0.0.1:8081:8080"
     volumes:
-      - ./keycloak/aster-realm.json:/opt/keycloak/data/import/aster-realm.json:ro
-      - ./keycloak/themes/aster-mindef:/opt/keycloak/themes/aster-mindef:ro
+      - ./keycloak/orion-realm.json:/opt/keycloak/data/import/orion-realm.json:ro
+      - ./keycloak/themes/orion-mindef:/opt/keycloak/themes/orion-mindef:ro
     depends_on:
       ldap:
         condition: service_healthy

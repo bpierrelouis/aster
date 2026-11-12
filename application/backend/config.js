@@ -7,9 +7,9 @@ export function readConfig(env = process.env) {
     throw new Error('En production, renseigner APP_URL, DATABASE_URL, OIDC_ISSUER, OIDC_CLIENT_ID, OIDC_CLIENT_SECRET, SESSION_SECRET et AGENT_TOKEN.');
   }
   const appUrl = new URL(env.APP_URL || 'http://localhost:5173');
-  const issuer = new URL(env.OIDC_ISSUER || 'http://localhost:8081/realms/aster');
-  if (production && (env.AGENT_TOKEN === 'aster-agent-local' || env.AGENT_TOKEN.length < 32)) throw new Error('La production exige un jeton dédié pour les postes (32 caractères minimum).');
-  if (production && (appUrl.protocol !== 'https:' || issuer.protocol !== 'https:' || env.OIDC_CLIENT_SECRET === 'aster-client-local' || env.SESSION_SECRET.length < 32)) {
+  const issuer = new URL(env.OIDC_ISSUER || 'http://localhost:8081/realms/orion');
+  if (production && (env.AGENT_TOKEN === 'orion-agent-local' || env.AGENT_TOKEN.length < 32)) throw new Error('La production exige un jeton dédié pour les postes (32 caractères minimum).');
+  if (production && (appUrl.protocol !== 'https:' || issuer.protocol !== 'https:' || env.OIDC_CLIENT_SECRET === 'orion-client-local' || env.SESSION_SECRET.length < 32)) {
     throw new Error('La production exige HTTPS, un fournisseur hors démonstrateur et des secrets dédiés.');
   }
   // Démonstrateur : création des identités dans le Keycloak local, active hors production ou sur demande explicite
@@ -24,11 +24,11 @@ export function readConfig(env = process.env) {
     host: env.HOST || '127.0.0.1',
     appUrl: appUrl.origin,
     issuer,
-    clientId: env.OIDC_CLIENT_ID || 'aster-web',
-    clientSecret: env.OIDC_CLIENT_SECRET || 'aster-client-local',
-    databaseUrl: env.DATABASE_URL || 'postgres://aster:aster-local@localhost:5432/aster',
+    clientId: env.OIDC_CLIENT_ID || 'orion-web',
+    clientSecret: env.OIDC_CLIENT_SECRET || 'orion-client-local',
+    databaseUrl: env.DATABASE_URL || 'postgres://orion:orion-local@localhost:5432/orion',
     sessionSecret: env.SESSION_SECRET || randomBytes(48).toString('base64url'),
-    agentToken: env.AGENT_TOKEN || 'aster-agent-local',
+    agentToken: env.AGENT_TOKEN || 'orion-agent-local',
     // Démonstrateur : compte d'administration du Keycloak local (création des identités)
     identityProvisioning,
     keycloakAdmin: {

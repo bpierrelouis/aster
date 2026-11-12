@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ASTER · espace de travail (chargé après la connexion)
+   ORION · espace de travail (chargé après la connexion)
    ========================================================================== */
 
 import { useEffect, useState } from 'react';
@@ -32,7 +32,7 @@ import { Administration } from './views/administration/administration.jsx';
 import { Notifications } from './views/notifications/notifications.jsx';
 import { Deplacements } from './views/salles/salles-deplacements.jsx';
 
-window.aster = { store };
+window.orion = { store };
 
 /* Un tableau de bord par onglet : changer d'onglet remonte l'écran */
 function DashboardRoute() {
@@ -51,8 +51,8 @@ export default function Workspace({ loading }) {
       setStatus('ready');
     }, (error) => { if (error.status !== 401) setStatus('error'); }); // 401 : redirection vers la connexion en cours
     const onSaveError = (event) => notify((typeof event.detail === 'string' ? event.detail : event.detail?.message) || 'Enregistrement impossible. Veuillez réessayer.', { tone: 'warn', icon: 'alertes' });
-    addEventListener('aster:save-error', onSaveError);
-    return () => removeEventListener('aster:save-error', onSaveError);
+    addEventListener('orion:save-error', onSaveError);
+    return () => removeEventListener('orion:save-error', onSaveError);
   }, []);
 
   if (status === 'loading') return loading;

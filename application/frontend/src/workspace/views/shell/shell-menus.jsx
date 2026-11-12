@@ -120,10 +120,10 @@ function searchResults(q) {
   }
   if (can('materiel.view')) for (const m of scope().materiels) {
     if (out.length > 40) break;
-    if (`${m.modele} ${m.marque ?? ''} ${m.idAster} ${m.serie ?? ''}`.toLowerCase().includes(q)) {
+    if (`${m.modele} ${m.marque ?? ''} ${m.idOrion} ${m.serie ?? ''}`.toLowerCase().includes(q)) {
       const dt = deviceType(m.type);
       const salle = m.salleId ? ix.salle.get(m.salleId) : null;
-      out.push({ icon: dt.icon, color: dt.color, title: m.modele, sub: `${m.idAster}, ${salle ? salle.nom : 'Stock'}`, href: `/salles/${salle ? `salle/${salle.id}` : 'stock'}?m=${m.id}`, led: m.hs ? 'hs' : 'ok' });
+      out.push({ icon: dt.icon, color: dt.color, title: m.modele, sub: `${m.idOrion}, ${salle ? salle.nom : 'Stock'}`, href: `/salles/${salle ? `salle/${salle.id}` : 'stock'}?m=${m.id}`, led: m.hs ? 'hs' : 'ok' });
     }
   }
   for (const r of remontees().visible) {

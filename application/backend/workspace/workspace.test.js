@@ -19,11 +19,11 @@ const online = (state) => { applyReports(state, state.postes.filter((p) => p.sal
 
 test('identité : rapprochement par sujet puis adresse, compte désactivé sans accès', () => {
   const state = initialState();
-  assert.equal(accountForIdentity(state, { sub: 'kc-1', email: 'Formateur@aster.demo' }).id, TEACHER);
+  assert.equal(accountForIdentity(state, { sub: 'kc-1', email: 'Formateur@orion.demo' }).id, TEACHER);
   state.comptes.find((c) => c.id === TEACHER).sujet = 'kc-1';
-  assert.equal(accountForIdentity(state, { sub: 'kc-1', email: 'autre@aster.demo' }).id, TEACHER);
-  assert.equal(accountForIdentity(state, { sub: 'kc-2', email: 'formateur@aster.demo' }), null, 'adresse déjà reliée à une autre identité');
-  assert.equal(accountForIdentity(state, { sub: 'kc-3', email: 'inconnu@aster.demo' }), null);
+  assert.equal(accountForIdentity(state, { sub: 'kc-1', email: 'autre@orion.demo' }).id, TEACHER);
+  assert.equal(accountForIdentity(state, { sub: 'kc-2', email: 'formateur@orion.demo' }), null, 'adresse déjà reliée à une autre identité');
+  assert.equal(accountForIdentity(state, { sub: 'kc-3', email: 'inconnu@orion.demo' }), null);
   state.comptes.find((c) => c.id === TEACHER).actif = false;
   assert.equal(actorOf(state, TEACHER), null);
 });
@@ -160,9 +160,9 @@ test('import : seuls les nouveaux matériels et les transferts validés sont tra
   const { next, bilan } = importMateriels(state, manager, { ecoleId: 'e-num', materiels: rows, transferts: [ailleurs.serie, ...(cite ? [cite.serie] : [])] }, 1_800_000_000_000);
   assert.deepEqual(bilan, { ajoutes: 1, transferes: 1, ignores: cite ? 4 : 3 }); // répété, déjà présent, transfert non validé, remontée en cours
   const cree = next.materiels.find((m) => m.serie === 'NOUVEAU-1');
-  assert.ok(cree.idAster.startsWith('MAT-') && cree.ecoleId === 'e-num' && !cree.deplacement);
+  assert.ok(cree.idOrion.startsWith('MAT-') && cree.ecoleId === 'e-num' && !cree.deplacement);
   const transfere = next.materiels.find((m) => m.id === ailleurs.id);
-  assert.deepEqual([transfere.ecoleId, transfere.salleId, transfere.idAster], ['e-num', null, ailleurs.idAster]); // identifiant conservé, en stock
+  assert.deepEqual([transfere.ecoleId, transfere.salleId, transfere.idOrion], ['e-num', null, ailleurs.idOrion]); // identifiant conservé, en stock
   assert.equal(next.materiels.find((m) => m.id === autre.id).ecoleId, 'e-res');
   assert.equal(next.materiels.length, state.materiels.length + 1);
   assert.throws(() => importMateriels(state, as(state, TEACHER), { ecoleId: 'e-num', materiels: rows }), { status: 403 });
@@ -170,15 +170,15 @@ test('import : seuls les nouveaux matériels et les transferts validés sont tra
   assert.throws(() => importMateriels(state, manager, { ecoleId: 'e-num', materiels: [row(ici.serie)] }), { status: 400 }); // rien de nouveau
 });
 
-test('parc : gestionnaire sans suppression ni autre école ; identifiant ASTER attribué', () => {
+test('parc : gestionnaire sans suppression ni autre école ; identifiant ORION attribué', () => {
   const state = initialState();
   const manager = as(state, MANAGER);
   const input = scopedState(state, manager);
   input.materiels[0].modele = 'Nouveau modèle';
-  input.materiels.push({ id: 'm-new', ecoleId: 'e-num', idAster: 'MAT-0001', type: 'autre', modele: 'Onduleur', marque: null, serie: null, dateReception: Date.now(), hs: false, salleId: null, garantieFin: null });
+  input.materiels.push({ id: 'm-new', ecoleId: 'e-num', idOrion: 'MAT-0001', type: 'autre', modele: 'Onduleur', marque: null, serie: null, dateReception: Date.now(), hs: false, salleId: null, garantieFin: null });
   const next = mergeState(state, input, manager);
   assert.equal(next.materiels.find((x) => x.id === input.materiels[0].id).modele, 'Nouveau modèle');
-  assert.notEqual(next.materiels.find((x) => x.id === 'm-new').idAster, 'MAT-0001');
+  assert.notEqual(next.materiels.find((x) => x.id === 'm-new').idOrion, 'MAT-0001');
   const deleting = scopedState(state, manager); deleting.materiels.shift();
   assert.throws(() => mergeState(state, deleting, manager), { status: 403 });
   const admin = as(state, ADMIN);
@@ -216,7 +216,7 @@ test('préférences : ambiance, tonalité et verre reconnus, valeur inconnue rem
   input.prefs = { ambiance: 'brume', tone: 'nuit', glass: 'frost', accent: 'inconnue' }; // anciennes valeurs, tonalité inconnue
   next = mergeState(state, input, admin);
   assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'orion', tone: 'auto', glass: 'liquid', accent: 'blue' });
-  input.prefs = { ambiance: 'encre', glass: 'solid' }; // Aube et Encre réunies dans ASTER (11 novembre)
+  input.prefs = { ambiance: 'encre', glass: 'solid' }; // Aube et Encre réunies dans ORION (11 novembre)
   next = mergeState(state, input, admin);
   assert.equal(scopedState(next, admin).prefs.ambiance, 'orion');
   input.prefs = { ambiance: 'etat', glass: 'solid' }; // État renommée Minarm
@@ -229,15 +229,15 @@ test('comptes : création dans son école, adresse unique, pas d’auto-désacti
   state.comptes.find((c) => c.id === TEACHER).sujet = 'kc-teacher';
   const admin = as(state, ADMIN);
   const input = scopedState(state, admin);
-  input.comptes.push({ id: 'cpt-new', nom: 'P. Nouveau', email: 'P.Nouveau@Aster.Demo', role: 'formateur', ecoleId: 'e-num', actif: true });
+  input.comptes.push({ id: 'cpt-new', nom: 'P. Nouveau', email: 'P.Nouveau@Orion.Demo', role: 'formateur', ecoleId: 'e-num', actif: true });
   input.comptes.find((c) => c.id === TEACHER).nom = 'L. Martin-Durand';
   const next = mergeState(state, input, admin);
-  assert.equal(next.comptes.find((c) => c.id === 'cpt-new').email, 'p.nouveau@aster.demo');
+  assert.equal(next.comptes.find((c) => c.id === 'cpt-new').email, 'p.nouveau@orion.demo');
   assert.equal(next.comptes.find((c) => c.id === TEACHER).sujet, 'kc-teacher');
   for (const bad of [
-    { id: 'x1', nom: 'X', email: 'admin@aster.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
-    { id: 'x2', nom: 'X', email: 'x2@aster.demo', role: 'superadmin', ecoleId: null, actif: true },
-    { id: 'x3', nom: 'X', email: 'x3@aster.demo', role: 'formateur', ecoleId: 'e-res', actif: true },
+    { id: 'x1', nom: 'X', email: 'admin@orion.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
+    { id: 'x2', nom: 'X', email: 'x2@orion.demo', role: 'superadmin', ecoleId: null, actif: true },
+    { id: 'x3', nom: 'X', email: 'x3@orion.demo', role: 'formateur', ecoleId: 'e-res', actif: true },
   ]) {
     const attempt = scopedState(state, admin); attempt.comptes.push(bad);
     assert.throws(() => mergeState(state, attempt, admin), (e) => [400, 403].includes(e.status));
@@ -379,7 +379,7 @@ test('écritures concurrentes : fusion élément par élément, conflit seulemen
 });
 
 test('moteur : persistance fichier, révision, rapprochement d’identité et PDF dans le périmètre', async () => {
-  const dir = await mkdtemp(join(tmpdir(), 'aster-backend-test-'));
+  const dir = await mkdtemp(join(tmpdir(), 'orion-backend-test-'));
   try {
     const file = join(dir, 'state.json');
     const repo = await createWorkspaceRepository({ file });

@@ -17,7 +17,7 @@ flowchart LR
     administrateur -->|« hérite de »| acteurAdministrationParc
     superAdministrateur -->|« hérite de »| administrateur
 
-    subgraph aster["Application web ASTER — Gestion du parc"]
+    subgraph orion["Application web ORION — Gestion du parc"]
         direction TB
         consulterSalles(["Consulter les salles par bâtiment<br/>et le matériel de chaque salle"])
         consulter(["Consulter la fiche d'un matériel"])
@@ -62,5 +62,5 @@ flowchart LR
     class consultantParc,acteurGestion,acteurAdministrationParc acteurAbstrait
     class consulterSalles,consulter,recevoirGarantie,rechercher,enregistrer,importer,modifier,renseignerGarantie,affecter,consulterStock,supprimer,gererSalles,consulterTableau casUtilisation
 
-    style aster fill:none,stroke:#7D8793,stroke-width:1px
+    style orion fill:none,stroke:#7D8793,stroke-width:1px
 ```

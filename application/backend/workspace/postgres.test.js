@@ -8,7 +8,7 @@ import { readConfig } from '../config.js';
 const config = readConfig();
 const pool = new pg.Pool({ connectionString: config.databaseUrl, max: 4, connectionTimeoutMillis: 1500 });
 const database = await pool.query('SELECT 1').then(() => true, () => false);
-const schema = `aster_test_${process.pid}`;
+const schema = `orion_test_${process.pid}`;
 const open = () => createPostgresWorkspaceRepository({ pool, schema });
 
 test.after(async () => {
@@ -20,20 +20,20 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   const repo = await open();
   const admin = await repo.actor('cpt-num-admin');
   const teacher = await repo.actor('cpt-num-formateur');
-  const counts = (await pool.query(`SELECT (SELECT count(*) FROM ${schema}.aster_materiel)::int AS materiels, (SELECT count(*) FROM ${schema}.aster_compte)::int AS comptes`)).rows[0];
+  const counts = (await pool.query(`SELECT (SELECT count(*) FROM ${schema}.orion_materiel)::int AS materiels, (SELECT count(*) FROM ${schema}.orion_compte)::int AS comptes`)).rows[0];
   assert.equal(counts.materiels, (await repo.snapshot()).materiels.length);
   assert.equal(counts.comptes, (await repo.snapshot()).comptes.length);
 
   // Administrateur : matériel créé (identifiant attribué), salle supprimée, compte créé, préférences
   const input = await repo.read(admin);
-  input.materiels.push({ id: 'm-test', ecoleId: 'e-num', idAster: 'MAT-0000', type: 'autre', modele: 'Onduleur test', marque: null, serie: null, dateReception: Date.UTC(2026, 9, 1), hs: false, salleId: null, garantieFin: null });
+  input.materiels.push({ id: 'm-test', ecoleId: 'e-num', idOrion: 'MAT-0000', type: 'autre', modele: 'Onduleur test', marque: null, serie: null, dateReception: Date.UTC(2026, 9, 1), hs: false, salleId: null, garantieFin: null });
   input.materiels[0].modele = 'Modèle modifié';
   const { postes } = await repo.snapshot();
   const emptyRoom = input.salles.find((x) => !postes.some((p) => p.salleId === x.id));
   const moved = input.materiels.filter((m) => m.salleId === emptyRoom.id).map((m) => m.id);
   input.materiels.forEach((m) => { if (m.salleId === emptyRoom.id) m.salleId = null; });
   input.salles = input.salles.filter((x) => x.id !== emptyRoom.id);
-  input.comptes.push({ id: 'cpt-test', nom: 'P. Nouveau', email: 'p.nouveau@aster.demo', role: 'formateur', ecoleId: 'e-num', actif: true });
+  input.comptes.push({ id: 'cpt-test', nom: 'P. Nouveau', email: 'p.nouveau@orion.demo', role: 'formateur', ecoleId: 'e-num', actif: true });
   input.prefs = { ambiance: 'minarm', glass: 'solid' };
   await repo.update(input, 0, admin);
   await repo.bindIdentity('cpt-test', 'kc-nouveau');
@@ -64,7 +64,7 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   const reopened = await open();
   const state = await reopened.snapshot();
   assert.equal(state.materiels.find((m) => m.id === 'm-test').modele, 'Onduleur test');
-  assert.match(state.materiels.find((m) => m.id === 'm-test').idAster, /^MAT-\d{4}$/);
+  assert.match(state.materiels.find((m) => m.id === 'm-test').idOrion, /^MAT-\d{4}$/);
   assert.equal(state.materiels.find((m) => m.id === input.materiels[0].id).modele, 'Modèle modifié');
   assert(!state.salles.some((x) => x.id === emptyRoom.id));
   assert(moved.every((id) => state.materiels.find((m) => m.id === id).salleId === null));
@@ -77,10 +77,10 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   assert(state.processus.find((p) => p.nom === 'steam.exe').stoppedAt);
   assert.equal((await reopened.pdf(report.id, teacher)).subarray(0, 5).toString(), '%PDF-');
   await assert.rejects(reopened.pdf(state.remontees.find((r) => r.ecoleId === 'e-res').id, admin), { status: 404 });
-  const row = (await pool.query(`SELECT date_reception FROM ${schema}.aster_materiel WHERE id = 'm-test'`)).rows[0];
+  const row = (await pool.query(`SELECT date_reception FROM ${schema}.orion_materiel WHERE id = 'm-test'`)).rows[0];
   assert.equal(row.date_reception.toISOString(), '2026-10-01T00:00:00.000Z');
-  const account = (await pool.query(`SELECT email, role, ecole_id, sujet FROM ${schema}.aster_compte WHERE id = 'cpt-test'`)).rows[0];
-  assert.deepEqual(account, { email: 'p.nouveau@aster.demo', role: 'formateur', ecole_id: 'e-num', sujet: 'kc-nouveau' });
+  const account = (await pool.query(`SELECT email, role, ecole_id, sujet FROM ${schema}.orion_compte WHERE id = 'cpt-test'`)).rows[0];
+  assert.deepEqual(account, { email: 'p.nouveau@orion.demo', role: 'formateur', ecole_id: 'e-num', sujet: 'kc-nouveau' });
 });
 
 test('PostgreSQL : deux serveurs partagent la même base et fusionnent leurs écritures', { skip: !database && 'PostgreSQL indisponible' }, async () => {

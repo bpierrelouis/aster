@@ -62,17 +62,17 @@ function MaterielForm({ materiel, salleId, ecoleId }) {
     const newId = isNew ? uid('m') : null;
     store.update('data', (s) => {
       if (isNew) {
-        s.materiels.push({ id: newId, ecoleId, idAster: 'MAT-0000', ...data }); // attribué par le serveur
+        s.materiels.push({ id: newId, ecoleId, idOrion: 'MAT-0000', ...data }); // attribué par le serveur
       } else {
         Object.assign(s.materiels.find((m) => m.id === materiel.id), data);
       }
     });
     await store.flush();
-    const idAster = isNew ? store.state.materiels.find((m) => m.id === newId)?.idAster ?? 'Matériel' : materiel.idAster;
-    notify(isNew ? `${idAster} enregistré` : `${idAster} modifié`, { icon: t.icon });
+    const idOrion = isNew ? store.state.materiels.find((m) => m.id === newId)?.idOrion ?? 'Matériel' : materiel.idOrion;
+    notify(isNew ? `${idOrion} enregistré` : `${idOrion} modifié`, { icon: t.icon });
   }
 
-  return <Sheet title={isNew ? 'Ajouter un matériel' : `Modifier ${materiel.idAster}`} size="m" lead={<Tile name={t.icon} color={t.color} size="m" />}
+  return <Sheet title={isNew ? 'Ajouter un matériel' : `Modifier ${materiel.idOrion}`} size="m" lead={<Tile name={t.icon} color={t.color} size="m" />}
     footer={<SheetFormActions form="materiel-form" icon="check" />}>
     <SheetForm id="materiel-form" onSave={save}>
       <div className="field"><span className="field-label">Type</span>
@@ -96,8 +96,8 @@ function MaterielForm({ materiel, salleId, ecoleId }) {
         <label className="field"><span className="field-label">Fin de garantie</span><input name="garantie" type="date" defaultValue={toDate(materiel?.garantieFin)} />
           <span className="field-hint">Facultative.</span></label>
         {materiel
-          ? <div className="field"><span className="field-label">Identifiant Orion</span><output className="id-aster">{materiel.idAster}</output></div>
-          : <div className="field"><span className="field-label">Identifiant Orion</span><output className="id-aster is-muted">Attribué à l’enregistrement</output></div>}
+          ? <div className="field"><span className="field-label">Identifiant Orion</span><output className="id-orion">{materiel.idOrion}</output></div>
+          : <div className="field"><span className="field-label">Identifiant Orion</span><output className="id-orion is-muted">Attribué à l’enregistrement</output></div>}
       </div>
     </SheetForm>
   </Sheet>;

@@ -21,7 +21,7 @@ Use the available sources and conversation first; mark missing information expli
 - Structure for machine parsing and human reference
 - Use coded bullet points only when useful for the requested document
 
-Use the ASTER output locations and naming conventions in `SKILL.md`.
+Use the ORION output locations and naming conventions in `SKILL.md`.
 
 ## Required Documentation Structure
 

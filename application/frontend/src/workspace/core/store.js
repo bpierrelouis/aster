@@ -71,13 +71,13 @@ export const store = {
         const data = await request({ method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ baseRevision: committed.revision, state: snapshot }) });
         committed = data;
         state.revision = data.revision;
-        // Valeurs attribuées par le serveur (identifiants ASTER, numéros de remontée) : reprises si aucune écriture n'attend
+        // Valeurs attribuées par le serveur (identifiants ORION, numéros de remontée) : reprises si aucune écriture n'attend
         if (!pending && serverFields(data) !== serverFields(state)) adopt(data, 'data');
       } catch (error) {
         generation++;
         lastError = error;
         adopt(committed, 'all');
-        window.dispatchEvent(new CustomEvent('aster:save-error', { detail: error.message }));
+        window.dispatchEvent(new CustomEvent('orion:save-error', { detail: error.message }));
       }
     });
     return queue;

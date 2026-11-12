@@ -1,4 +1,4 @@
-# Diagrammes d'activité de l'application ASTER
+# Diagrammes d'activité de l'application ORION
 
 ## Parcours général
 

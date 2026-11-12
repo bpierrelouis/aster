@@ -1,0 +1,4 @@
+interface:
+  display_name: "Documentation ORION"
+  short_description: "Rédiger et vérifier la documentation ORION"
+  default_prompt: "Utilise $orion-documentation pour traiter ma demande documentaire à partir des sources du projet."

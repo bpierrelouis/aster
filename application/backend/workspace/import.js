@@ -9,7 +9,7 @@
      l'importeur l'a validé (échange entre écoles), sauf s'il est cité par
      une remontée en cours de son école ; sinon la ligne n'est pas traitée ;
    - inconnu : un nouveau matériel est créé, avec les contrôles d'une
-     création (identifiant ASTER attribué, salle de l'école).
+     création (identifiant ORION attribué, salle de l'école).
    Un matériel importé ou transféré est là où le fichier le déclare : pas de
    déplacement physique à suivre.
    ========================================================================== */
@@ -49,7 +49,7 @@ export function analyseImport(state, actor, { ecoleId, series } = {}) {
     if (!m) continue;
     const other = m.ecoleId !== ecoleId;
     out[k] = {
-      idAster: m.idAster, modele: m.modele, ecoleId: m.ecoleId, ecole: state.ecoles.find((e) => e.id === m.ecoleId)?.nom ?? '',
+      idOrion: m.idOrion, modele: m.modele, ecoleId: m.ecoleId, ecole: state.ecoles.find((e) => e.id === m.ecoleId)?.nom ?? '',
       bloque: other && open.has(m.id) ? 'Cité par une remontée en cours dans son école' : null,
     };
   }
@@ -83,7 +83,7 @@ export function importMateriels(state, actor, { ecoleId, materiels, transferts }
   // les autres collections et les préférences du compte restent inchangées)
   const created = nouveaux.map((r) => ({ hs: false, salleId: null, marque: null, serie: null, garantieFin: null, type: 'autre', ...r, id: id('m'), ecoleId }));
   const next = mergeState(state, { role: actor.role, materiels: [...scopedState(state, actor).materiels, ...created] }, actor, now);
-  // Transferts : le matériel existant (identifiant ASTER conservé) rejoint l'école de destination
+  // Transferts : le matériel existant (identifiant ORION conservé) rejoint l'école de destination
   for (const t of moves) {
     assert(!t.salleId || next.salles.some((s) => s.id === t.salleId && s.ecoleId === ecoleId), 'Salle inconnue ou hors école.');
     const m = next.materiels.find((x) => x.id === t.id);

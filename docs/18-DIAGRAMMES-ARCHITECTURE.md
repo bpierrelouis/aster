@@ -2,8 +2,8 @@
 
 ## Vue simplifiée
 
-![Vue simplifiée de l’architecture réelle du démonstrateur ASTER](assets/architecture/ASTER-VUE-SIMPLIFIEE.svg)
+![Vue simplifiée de l’architecture réelle du démonstrateur ORION](assets/architecture/ORION-VUE-SIMPLIFIEE.svg)
 
 ## Architecture réelle sur VM
 
-![Déploiement complet du démonstrateur ASTER sur sept VM](assets/architecture/ASTER-DEPLOIEMENT-VM.svg)
+![Déploiement complet du démonstrateur ORION sur sept VM](assets/architecture/ORION-DEPLOIEMENT-VM.svg)

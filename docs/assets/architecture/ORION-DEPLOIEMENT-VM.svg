@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1420" height="1135" viewBox="0 0 1420 1135" role="img" aria-labelledby="title desc">
-<title id="title">ASTER — architecture réelle complète sur sept VM</title>
+<title id="title">ORION — architecture réelle complète sur sept VM</title>
 <desc id="desc">Placement des services, conteneurs ou services de l’hôte, rôles Swarm, versions, ports, volumes et flux.</desc>
 <defs>
 <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f6cbd"/></marker>
@@ -55,7 +55,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="64" y="1084" class="caption" text-anchor="start">d’administration</text>
 <rect x="285" y="140" width="1095" height="835" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-dasharray="7 5" stroke-width="1.5"/>
 <use href="#i-boxes" x="300" y="152" width="22" height="22" style="color:#0f6cbd"/>
-<text x="330" y="169" class="frame" text-anchor="start">Cluster Docker Swarm · VM 01 à 07 · réseau overlay « aster »</text>
+<text x="330" y="169" class="frame" text-anchor="start">Cluster Docker Swarm · VM 01 à 07 · réseau overlay « orion »</text>
 <rect x="305" y="195" width="275" height="425" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
 <use href="#i-server" x="317" y="206" width="16" height="16" style="color:#5b7690"/>
 <text x="339" y="219" class="vm" text-anchor="start">VM 01</text>
@@ -68,7 +68,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="557" y="269" class="tag" text-anchor="end">conteneur</text>
 <text x="356" y="288" class="caption" text-anchor="start">image officielle</text>
 <text x="356" y="304" class="caption" text-anchor="start">réseau de l’hôte</text>
-<text x="356" y="320" class="caption" text-anchor="start">HTTPS 443 · ASTER</text>
+<text x="356" y="320" class="caption" text-anchor="start">HTTPS 443 · ORION</text>
 <text x="356" y="336" class="caption" text-anchor="start">HTTPS 8443 · Keycloak</text>
 <text x="356" y="352" class="caption" text-anchor="start">HTTPS 8444 · console Keycloak</text>
 <rect x="318" y="530" width="249" height="72" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
@@ -178,9 +178,9 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <rect x="1043" y="676" width="304" height="40" rx="8" fill="#e6f4ec" stroke="#8fc4a3"/>
 <use href="#i-hard-drive" x="1053" y="688" width="16" height="16" style="color:#2f7a4f"/>
 <text x="1077" y="693" class="vol" text-anchor="start">Dossier de la VM</text>
-<text x="1077" y="708" class="caption" text-anchor="start">/var/log/aster · monté, hors volume Docker</text>
+<text x="1077" y="708" class="caption" text-anchor="start">/var/log/orion · monté, hors volume Docker</text>
 <path d="M190 260 L316 260" class="flow" marker-end="url(#arrow)"/>
-<text x="196" y="254" class="route" text-anchor="start">443 · ASTER</text>
+<text x="196" y="254" class="route" text-anchor="start">443 · ORION</text>
 <path d="M190 295 L316 295" class="flow" marker-end="url(#arrow)"/>
 <text x="196" y="289" class="route" text-anchor="start">8443 · connexion</text>
 <path d="M567 290 L661 290" class="flow" marker-end="url(#arrow)"/>

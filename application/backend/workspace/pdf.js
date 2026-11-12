@@ -194,7 +194,7 @@ function assemble(pages) {
    -------------------------------------------------------------------------- */
 export function reportPdf(report, state) {
   const cv = canvas();
-  const mats = report.materielIds.map((id) => state.materiels.find((m) => m.id === id) ?? { id, idAster: id, modele: 'Matériel supprimé', deleted: true });
+  const mats = report.materielIds.map((id) => state.materiels.find((m) => m.id === id) ?? { id, idOrion: id, modele: 'Matériel supprimé', deleted: true });
   const roomOf = (m) => state.salles.find((s) => s.id === m.salleId);
   const rooms = [...new Set(mats.map(roomOf).filter(Boolean))];
   const hs = mats.filter((m) => m.hs).length;
@@ -300,7 +300,7 @@ export function reportPdf(report, state) {
     cv.round(colX[0] + 15, y + 15, 8, 8, 2.5, { fill: color });
     cv.text(fit(m.modele, cols[0].w - 46, 9.5, true), colX[0] + 36, y + 16.5, { size: 9.5, bold: true });
     cv.text(fit(m.deleted ? 'Fiche retirée de l’inventaire' : [t.label, m.marque].filter(Boolean).join(' · '), cols[0].w - 46, 8), colX[0] + 36, y + 28.5, { size: 8, color: C.ink2 });
-    cv.text(fit(m.idAster, cols[1].w - 16, 9, true), colX[1] + 10, y + 22.5, { size: 9, bold: true });
+    cv.text(fit(m.idOrion, cols[1].w - 16, 9, true), colX[1] + 10, y + 22.5, { size: 9, bold: true });
     cv.text(fit(m.serie ?? '—', cols[2].w - 16, 9), colX[2] + 10, y + 22.5, { size: 9, color: m.serie ? C.encre : C.ink3 });
     cv.text(fit(room ? room.nom : m.deleted ? '—' : 'Stock', cols[3].w - 16, 9, true), colX[3] + 10, y + 16.5, { size: 9, bold: true });
     if (!m.deleted) cv.text(fit(room ? `Bâtiment ${room.batiment}` : 'Sans localisation', cols[3].w - 16, 8), colX[3] + 10, y + 28.5, { size: 8, color: C.ink2 });
