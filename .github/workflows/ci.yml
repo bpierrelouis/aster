@@ -1,11 +1,21 @@
 # À chaque push sur main : tests, puis images publiées sur Docker Hub s'ils passent.
-# Configuration du dépôt GitHub : variable DOCKERHUB_USERNAME, secret DOCKERHUB_TOKEN (jeton d'accès Docker Hub).
+# Configuration du dépôt GitHub (Settings → Secrets and variables → Actions) :
+# variable DOCKERHUB_USERNAME et secret DOCKERHUB_TOKEN (jeton d'accès Docker Hub en lecture et écriture).
+# Sans cette configuration, les tests s'exécutent et la publication des images est ignorée.
 name: CI
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Un nouveau push annule l'exécution en cours, devenue inutile
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 defaults:
   run:
@@ -14,6 +24,7 @@ defaults:
 jobs:
   tests:
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: actions/setup-node@v7.1.0
@@ -26,9 +37,17 @@ jobs:
       - run: npm run build
       - run: npm run test:ui
       - run: npm run test:workspace
+      # Traces Playwright des tests en échec, téléchargeables depuis la page de l'exécution
+      - if: failure()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: tests-interface
+          path: application/test-results/
+          retention-days: 7
 
   e2e:
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: actions/setup-node@v7.1.0
@@ -38,20 +57,30 @@ jobs:
           cache-dependency-path: application/package-lock.json
       - run: npm ci
       - run: npm run infra:up
-      # Serveur et postes en arrière-plan ; Playwright démarre lui-même l'interface
+      # Serveur et postes en arrière-plan, sans surveillance des fichiers ni .env : les valeurs
+      # par défaut correspondent à l'infrastructure Compose. Playwright démarre lui-même l'interface.
       - run: |
-          npm run dev:backend > serveur.log 2>&1 &
-          npm run dev:postes > postes.log 2>&1 &
-          for i in $(seq 60); do curl -sf http://127.0.0.1:3001/api/health && exit 0; sleep 2; done
+          node backend/index.js > serveur.log 2>&1 &
+          node backend/demonstrateur/agents.js > postes.log 2>&1 &
+          for i in $(seq 60); do curl -sf http://127.0.0.1:3001/api/health > /dev/null && exit 0; sleep 2; done
           cat serveur.log; exit 1
       - run: npm run test:e2e
       - if: failure()
         run: cat serveur.log postes.log
+      - if: failure()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: tests-bout-en-bout
+          path: |
+            application/test-results/
+            application/*.log
+          retention-days: 7
 
   images:
     needs: [tests, e2e]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && vars.DOCKERHUB_USERNAME != ''
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
     strategy:
       matrix:
         image: [web, api, postes]
