@@ -56,7 +56,10 @@ export const store = {
     const before = structuredClone(state);
     try { mutator(state); } catch (error) { state = before; throw error; }
     if (['data', 'ecole'].includes(topic)) state.rev = (state.rev || 0) + 1;
-    const snapshot = structuredClone(state);
+    // Les choix d'apparence ne renvoient pas les rapports des postes.
+    const snapshot = topic === 'prefs'
+      ? { role: state.role, prefs: structuredClone(state.prefs) }
+      : structuredClone(state);
     const batch = generation;
     lastError = null;
     emit(topic);

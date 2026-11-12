@@ -7,11 +7,23 @@
    ========================================================================== */
 
 export const AMBIANCES = [
-  // Orion (défaut) : couleurs de la charte ORION ; blanc, nuit et Bleu Orion en clair, nuit, panneaux et bleus en sombre,
+  // Orion (défaut) : surfaces neutres et halos de la couleur choisie ; noir spatial et étoiles en sombre,
   // selon le réglage de la machine. Une préférence enregistrée « aube » ou « encre » (avant le 11 novembre) revient à ce défaut.
   { id: 'orion', label: 'Orion', tone: 'auto' },
   // Minarm (ministère des Armées) : couleurs du Système de design de l'État (DSFR) et Marianne ; selon le réglage de la machine
   { id: 'minarm', label: 'Minarm', tone: 'auto' },
+];
+
+// Accent personnel, indépendant de la marque et des couleurs des états métier.
+export const ACCENTS = [
+  { id: 'blue', label: 'Bleu', color: '#2563eb' },
+  { id: 'violet', label: 'Violet', color: '#7655ba' },
+  { id: 'pink', label: 'Rose', color: '#b4477c' },
+  { id: 'red', label: 'Rouge', color: '#b94848' },
+  { id: 'orange', label: 'Orange', color: '#a65e24' },
+  { id: 'green', label: 'Vert', color: '#38764c' },
+  { id: 'teal', label: 'Sarcelle', color: '#277c80' },
+  { id: 'slate', label: 'Ardoise', color: '#596b85' },
 ];
 
 export const GLASS = [
@@ -36,4 +48,5 @@ export const displayPrefs = (p = {}) => ({
   ambiance: known(AMBIANCES, RENAMED[p.ambiance] ?? p.ambiance).id,
   tone: known(TONES, p.tone).id,
   glass: known(GLASS, p.glass).id,
+  accent: known(ACCENTS, p.accent).id,
 });

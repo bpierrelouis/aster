@@ -210,12 +210,12 @@ test('préférences : ambiance, tonalité et verre reconnus, valeur inconnue rem
   const state = initialState();
   const admin = as(state, ADMIN);
   const input = scopedState(state, admin);
-  input.prefs = { ambiance: 'minarm', tone: 'dark', glass: 'solid' }; // sombre forcé
+  input.prefs = { ambiance: 'minarm', tone: 'dark', glass: 'solid', accent: 'violet' }; // sombre forcé
   let next = mergeState(state, input, admin);
-  assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'minarm', tone: 'dark', glass: 'solid' });
-  input.prefs = { ambiance: 'brume', tone: 'nuit', glass: 'frost' }; // anciennes valeurs, tonalité inconnue
+  assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'minarm', tone: 'dark', glass: 'solid', accent: 'violet' });
+  input.prefs = { ambiance: 'brume', tone: 'nuit', glass: 'frost', accent: 'inconnue' }; // anciennes valeurs, tonalité inconnue
   next = mergeState(state, input, admin);
-  assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'orion', tone: 'auto', glass: 'liquid' });
+  assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'orion', tone: 'auto', glass: 'liquid', accent: 'blue' });
   input.prefs = { ambiance: 'encre', glass: 'solid' }; // Aube et Encre réunies dans ASTER (11 novembre)
   next = mergeState(state, input, admin);
   assert.equal(scopedState(next, admin).prefs.ambiance, 'orion');

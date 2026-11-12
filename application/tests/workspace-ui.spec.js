@@ -336,7 +336,7 @@ test('deux ambiances ; Orion et Minarm suivent la machine, ou la tonalité forc�
   await expect(html).toHaveAttribute('data-tone', 'light');
 });
 
-test('les tableaux de bord présentent des diagrammes ; indicateurs et diagrammes sans icône', async ({ page, request }) => {
+test('les tableaux de bord présentent des diagrammes ; indicateurs et diagrammes sans icône', async ({ page, request }, testInfo) => {
   await open(page, '/accueil/parc');
   const widget = (type) => page.locator(`.widget[data-type="${type}"]`);
   await expect(widget('chart.parcBatiments').locator('.col')).toHaveCount(4);
@@ -370,8 +370,10 @@ test('les tableaux de bord présentent des diagrammes ; indicateurs et diagramme
   await page.getByRole('button', { name: 'Ajouter un widget', exact: true }).click();
   const gallery = page.getByRole('dialog', { name: 'Ajouter un widget' });
   await gallery.getByRole('tab', { name: 'Graphiques' }).click();
-  for (const title of ['Postes allumés par bâtiment', 'Remontées par jour', 'Hors service par type et par bâtiment', 'Solde hebdomadaire des remontées']) {
+  for (const [i, title] of ['Postes allumés par bâtiment', 'Remontées par jour', 'Hors service par type et par bâtiment', 'Solde hebdomadaire des remontées'].entries()) {
     await expect(gallery.locator('.gal-meta b', { hasText: title })).toHaveCount(1);
+    const preview = gallery.locator('.gal-item').filter({ has: page.locator('.gal-meta b', { hasText: title }) });
+    await preview.screenshot({ path: testInfo.outputPath(`galerie-graphe-${i}.png`), animations: 'disabled' });
   }
 });
 
@@ -733,4 +735,117 @@ test('en mode interface seule, le menu du compte change d’utilisateur', async 
   await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(0);
   await switchTo(admin);
   await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(1);
+});
+
+
+test('la palette circulaire conserve la couleur du compte dans les deux ambiances', async ({ page }, testInfo) => {
+  await open(page, '/materiels/inventaire');
+  await page.evaluate(() => window.aster.store.update('prefs', (s) => { s.prefs.tone = 'auto'; }));
+  const saves = [];
+  page.on('request', (request) => {
+    if (request.method() === 'PUT' && request.url().endsWith('/api/workspace')) saves.push(request.postDataJSON().state);
+  });
+  await page.getByRole('button', { name: 'Compte', exact: true }).click();
+  const trigger = page.getByRole('button', { name: 'Choisir la couleur' });
+  await expect(trigger.locator('svg')).toHaveCount(0);
+  await expect.poll(() => page.locator('.popover').evaluate((el) => el.getAnimations().length)).toBe(0);
+  const dot = await trigger.boundingBox();
+  const account = await page.locator('.account').boundingBox();
+  expect(dot.x - account.x).toBeLessThanOrEqual(4);
+  const menuBefore = await page.locator('.popover').evaluate((el) => ({ height: el.offsetHeight, width: el.offsetWidth }));
+  await trigger.click();
+  const palette = page.getByRole('radiogroup', { name: 'Couleur' });
+  await expect(palette.getByRole('radio')).toHaveCount(8);
+  const menuAfter = await page.locator('.popover').evaluate((el) => ({ height: el.offsetHeight, width: el.offsetWidth }));
+  expect(Math.abs(menuAfter.height - menuBefore.height)).toBeLessThan(1);
+  expect(Math.abs(menuAfter.width - menuBefore.width)).toBeLessThan(1);
+  const openedDot = await trigger.boundingBox();
+  expect(Math.abs(openedDot.x - dot.x)).toBeLessThan(1);
+  expect(Math.abs(openedDot.y - dot.y)).toBeLessThan(1);
+  const openingDelays = await page.locator('.accent-option').evaluateAll((els) => els.map((el) => parseFloat(getComputedStyle(el).transitionDelay)));
+  expect(openingDelays[0]).toBeLessThan(openingDelays.at(-1));
+  await expect(page.locator('.accent-wheel')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  await palette.getByRole('radio', { name: 'Violet', exact: true }).click();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  const closingDelays = await page.locator('.accent-option').evaluateAll((els) => els.map((el) => parseFloat(getComputedStyle(el).transitionDelay)));
+  expect(closingDelays[0]).toBeGreaterThan(closingDelays.at(-1));
+  await expect(palette).toBeHidden();
+  await page.evaluate(() => window.aster.store.flush());
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-accent', 'violet');
+  await page.getByRole('button', { name: 'Compte', exact: true }).click();
+  await trigger.click();
+  await expect(palette.getByRole('radio', { name: 'Violet', exact: true })).toBeChecked();
+  await page.emulateMedia({ colorScheme: 'dark' });
+  const violetHalo = await page.locator('body').evaluate((el) => getComputedStyle(el, '::before').backgroundImage);
+  await palette.getByRole('radio', { name: 'Violet', exact: true }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  await expect(palette).toBeHidden();
+  await expect(page.locator('html')).toHaveAttribute('data-accent', 'pink');
+  await trigger.click();
+  const ambiance = page.getByRole('radiogroup', { name: 'Ambiance' });
+  await expect.poll(() => page.locator('body').evaluate((el) => getComputedStyle(el, '::before').backgroundImage)).not.toBe(violetHalo);
+  const orion = await ambiance.getByRole('radio', { name: 'Orion', exact: true }).boundingBox();
+  const minarm = await ambiance.getByRole('radio', { name: 'Minarm', exact: true }).boundingBox();
+  expect(Math.abs(orion.y - minarm.y)).toBeLessThan(1);
+  expect(minarm.x - orion.x - orion.width).toBeLessThanOrEqual(16);
+  for (const theme of ['Orion', 'Minarm']) {
+    await ambiance.getByRole('radio', { name: theme, exact: true }).click();
+    for (const colorScheme of ['light', 'dark']) {
+      await page.emulateMedia({ colorScheme });
+      await expect(page.locator('html')).toHaveAttribute('data-tone', colorScheme);
+      await expect(page.locator('html')).toHaveAttribute('data-accent', 'pink');
+      await expect(ambiance).toHaveAttribute('data-tone', colorScheme);
+      if (theme === 'Orion' && colorScheme === 'dark') {
+        await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(7, 10, 16)');
+      }
+      await expect(page.locator('.btn--primary').first()).toHaveCSS('background-image', 'none');
+      await expect.poll(() => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim())).toBe('#b4477c');
+      await page.screenshot({ path: testInfo.outputPath(`apparence-${theme}-${colorScheme}.png`), fullPage: true, animations: 'disabled' });
+      if (theme === 'Orion') {
+        await page.evaluate(() => window.aster.store.flush());
+        const dashboard = await page.context().newPage();
+        await dashboard.emulateMedia({ colorScheme });
+        await open(dashboard, '/accueil');
+        await dashboard.screenshot({ path: testInfo.outputPath(`dashboard-${colorScheme}.png`), fullPage: true, animations: 'disabled' });
+        await dashboard.close();
+      }
+    }
+  }
+  await page.setViewportSize({ width: 390, height: 600 });
+  const pop = page.locator('.popover');
+  await expect(palette).toBeVisible();
+  await expect(async () => {
+    for (const option of await palette.getByRole('radio').all()) {
+      const chip = await option.locator('span').boundingBox();
+      expect(chip.x).toBeGreaterThanOrEqual(0);
+      expect(chip.x + chip.width).toBeLessThanOrEqual(390);
+    }
+  }).toPass({ timeout: 3000 });
+  const bounds = await pop.boundingBox();
+  expect(bounds.x).toBeGreaterThanOrEqual(0);
+  expect(bounds.y).toBeGreaterThanOrEqual(0);
+  expect(bounds.x + bounds.width).toBeLessThanOrEqual(390);
+  expect(bounds.y + bounds.height).toBeLessThanOrEqual(600);
+  await palette.getByRole('radio', { name: 'Bleu', exact: true }).click();
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  await expect(palette).toBeHidden();
+  await trigger.click();
+  await page.keyboard.press('Escape');
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  await expect(palette).toBeHidden();
+  await expect(pop).toBeVisible();
+  const foldedMobile = await pop.boundingBox();
+  await trigger.click();
+  const expandedMobile = await pop.boundingBox();
+  expect(Math.abs(expandedMobile.height - foldedMobile.height)).toBeLessThan(1);
+  await page.screenshot({ path: testInfo.outputPath('apparence-mobile.png'), fullPage: true, animations: 'disabled' });
+  await ambiance.getByRole('radio', { name: 'Orion', exact: true }).click();
+  await page.evaluate(() => window.aster.store.flush());
+  expect(saves.length).toBeGreaterThan(0);
+  for (const saved of saves) expect(Object.keys(saved).sort()).toEqual(['prefs', 'role']);
 });

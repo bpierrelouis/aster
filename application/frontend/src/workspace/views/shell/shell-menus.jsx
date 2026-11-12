@@ -4,19 +4,20 @@
    views/notifications), compte et préférences d'affichage, recherche globale.
    ========================================================================== */
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { Link } from 'react-router';
 import { Icon, Tile, Brand } from '../../ui/icons.jsx';
 import { Popover, notify, useSheetClose } from '../../ui/overlays.jsx';
 import { store, me, currentEcole } from '../../core/store.js';
 import { can } from '../../core/permissions.js';
-import { autoTone, systemTone } from '../../core/theme.js';
+import { autoTone, systemTone, subscribeSystemTone } from '../../core/theme.js';
 import { AMBIANCES, GLASS } from '#shared/ambiance.js';
 import { role as roleOf, deviceType, statut } from '#shared/catalog.js';
 import { remontees, batimentLabel, index, scope } from '../../core/selectors.js';
 import { num } from '#shared/format.js';
 import { notificationGroups } from '../../core/notifications.js';
 import { UserSwitch } from './user-switch.jsx';
+import { AppearanceColor } from './appearance-color.jsx';
 
 export const ecoleNom = (e) => (e === 'all' || !e ? 'Toutes les écoles' : index().ecole.get(e)?.nom ?? '');
 /** Initiale du nom de famille du compte connecté (avatar) */
@@ -29,7 +30,8 @@ export function AccountPopover({ anchor, onClose }) {
   const s = store.state;
   const setPref = (key, value) => store.update('prefs', (st) => { st.prefs[key] = value; });
   // Orion et Minarm suivent la machine ; le soleil ou la lune force l'autre tonalité (revenir à celle de la machine la suit de nouveau)
-  const tone = autoTone(s.prefs.tone);
+  const machineTone = useSyncExternalStore(subscribeSystemTone, systemTone);
+  const tone = s.prefs.tone === 'auto' ? machineTone : autoTone(s.prefs.tone);
   const followsMachine = AMBIANCES.find((a) => a.id === s.prefs.ambiance)?.tone === 'auto';
   const switchTone = () => { const next = tone === 'dark' ? 'light' : 'dark'; setPref('tone', next === systemTone() ? 'auto' : next); };
   return <Popover anchor={anchor} onClose={onClose}>
@@ -56,6 +58,7 @@ export function AccountPopover({ anchor, onClose }) {
             className={`seg-btn${s.prefs.glass === g.id ? ' is-on' : ''}`} data-tip={g.tip} onClick={() => setPref('glass', g.id)}>{g.label}</button>)}
         </div>
       </div>
+      <AppearanceColor value={s.prefs.accent} onChange={(value) => setPref('accent', value)} />
       {import.meta.env.MODE === 'ui' && <UserSwitch />}
       <form action="/auth/logout" method="post"><button className="pop-link" type="submit">Se déconnecter</button></form>
     </div>

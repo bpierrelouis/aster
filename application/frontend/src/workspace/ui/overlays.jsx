@@ -130,6 +130,8 @@ export function Popover({ anchor, onClose, align = 'end', className = '', childr
     const pop = ref.current;
     anchor.setAttribute('aria-expanded', 'true');
     const raf = requestAnimationFrame(() => setShown(true));
+    const observer = new ResizeObserver(place);
+    observer.observe(pop);
     pop.querySelector('button, [tabindex], input')?.focus({ preventScroll: true });
     const onDown = (e) => { if (!pop.contains(e.target) && !anchor.contains(e.target)) onCloseRef.current(); };
     const onKey = (e) => { if (e.key === 'Escape') { e.preventDefault(); onCloseRef.current(); anchor.focus(); } }; // la fenêtre dessous reste ouverte (hooks/use-escape.js)
@@ -138,6 +140,7 @@ export function Popover({ anchor, onClose, align = 'end', className = '', childr
     addEventListener('resize', place);
     return () => {
       cancelAnimationFrame(raf);
+      observer.disconnect();
       document.removeEventListener('pointerdown', onDown, true);
       document.removeEventListener('keydown', onKey);
       removeEventListener('resize', place);

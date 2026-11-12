@@ -5,9 +5,10 @@
    survol avec infobulle sur chaque graphique.
    ========================================================================== */
 
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useId, useRef, useState } from 'react';
 import { floatTip } from './tooltips.js';
 import { num } from '#shared/format.js';
+import { ChartPaintDefs, chartPaint } from './charts-paint.jsx';
 
 function niceMax(v) {
   if (v <= 0) return 4;
@@ -22,6 +23,7 @@ function niceMax(v) {
  * @param {{series:{name:string,color:string,values:number[]}[], labels:string[], fmt?:(n:number)=>string}} props
  */
 export function LineChart({ series, labels, fmt = num }) {
+  const paintId = useId();
   const ref = useRef(null);
   const [box, setBox] = useState(null); // { w, h } mesurés
   const [hover, setHover] = useState(null); // index survolé
@@ -53,6 +55,7 @@ export function LineChart({ series, labels, fmt = num }) {
     const line = (values) => path(points(values));
     geo = { X, Y, n };
     svg = <svg width={w} height={h} className="chart-svg" role="img" aria-label={series.map((s) => s.name).join(', ')}>
+      <ChartPaintDefs id={paintId} colors={series.map((s) => s.color)} area />
       {[0, max / 2, max].map((t, k) => <Fragment key={k}>
         <line x1={pad.l} x2={w - pad.r} y1={Y(t)} y2={Y(t)} className="ch-grid" />
         <text x={pad.l - 8} y={Y(t) + 4} className="ch-tick" textAnchor="end">{fmt(t)}</text>
@@ -60,19 +63,19 @@ export function LineChart({ series, labels, fmt = num }) {
       {[0, Math.floor((n - 1) / 2), n - 1].map((i, k) => (
         <text key={k} x={X(i)} y={h - 4} className="ch-tick" textAnchor={i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}>{labels[i]}</text>
       ))}
-      {series.map((s) => {
+      {series.map((s, k) => {
         const d = line(s.values);
         const last = s.values[n - 1];
         return <Fragment key={s.name}>
-          <path d={`${d}L${X(n - 1)} ${Y(0)}L${X(0)} ${Y(0)}Z`} fill={s.color} opacity=".09" />
-          <path d={d} fill="none" stroke={s.color} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
-          <circle cx={X(n - 1)} cy={Y(last)} r="4.5" fill={s.color} className="ch-dot" />
+          <path d={`${d}L${X(n - 1)} ${Y(0)}L${X(0)} ${Y(0)}Z`} fill={`url(#${paintId}-${k}-area)`} />
+          <path d={d} fill="none" stroke={chartPaint(paintId, k)} className="chart-luminous" style={{ color: s.color }} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+          <circle cx={X(n - 1)} cy={Y(last)} r="4.5" fill={chartPaint(paintId, k)} className="ch-dot" />
           <text x={X(n - 1) + 9} y={Y(last) + 4} className="ch-end">{fmt(last)}</text>
         </Fragment>;
       })}
       <line className="ch-cross" y1={pad.t} y2={h - pad.b} x1={hover == null ? 0 : X(hover)} x2={hover == null ? 0 : X(hover)} visibility={hover == null ? 'hidden' : 'visible'} />
       <g className="ch-hover">
-        {hover != null && series.map((s, k) => <circle key={s.name} cx={X(hover)} cy={Y(tops[k][hover])} r="4.5" fill={s.color} className="ch-dot" />)}
+        {hover != null && series.map((s, k) => <circle key={s.name} cx={X(hover)} cy={Y(tops[k][hover])} r="4.5" fill={chartPaint(paintId, k)} className="ch-dot" />)}
       </g>
     </svg>;
   }
@@ -94,6 +97,7 @@ export function LineChart({ series, labels, fmt = num }) {
 
 /** Sparkline : tendance en encre discrète, seul le point courant prend la couleur (état ou accent) */
 export function Sparkline({ values, w = 120, h = 36, color = 'var(--accent)', label = '' }) {
+  const paintId = useId();
   if (!values.length) return null;
   const max = Math.max(...values) || 1;
   const min = Math.min(...values);
@@ -103,8 +107,9 @@ export function Sparkline({ values, w = 120, h = 36, color = 'var(--accent)', la
   const d = values.map((v, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)} ${Y(v).toFixed(1)}`).join('');
   const li = values.length - 1;
   return <svg className="spark" width={w} height={h} viewBox={`0 0 ${w} ${h}`} role="img" aria-label={label}>
-    <path d={`${d}L${X(li)} ${h}L${X(0)} ${h}Z`} className="spark-area" />
-    <path d={d} className="spark-line" />
-    <circle cx={X(li)} cy={Y(values[li])} r="4" fill={color} className="ch-dot" />
+    <ChartPaintDefs id={paintId} colors={[color, 'var(--ink-3)']} area />
+    <path d={`${d}L${X(li)} ${h}L${X(0)} ${h}Z`} className="spark-area" style={{ fill: `url(#${paintId}-1-area)` }} />
+    <path d={d} className="spark-line chart-luminous" style={{ stroke: chartPaint(paintId, 1), color: 'var(--ink-3)' }} />
+    <circle cx={X(li)} cy={Y(values[li])} r="4" fill={chartPaint(paintId)} className="ch-dot" />
   </svg>;
 }

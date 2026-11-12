@@ -6,6 +6,8 @@
    (attributs data-tip), libellé accessible sur chaque diagramme.
    ========================================================================== */
 
+import { useId } from 'react';
+import { ChartPaintDefs, chartPaint } from './charts-paint.jsx';
 import { num, pct } from '#shared/format.js';
 
 /* ---------- Géométrie polaire (angles en degrés depuis midi, sens horaire) ---------- */
@@ -35,18 +37,20 @@ export function ChartLegend({ items }) {
  * Une part « explode » est détachée du centre.
  */
 export function Donut({ parts, hole = .6, label, center = null }) {
+  const paintId = useId();
   const total = parts.reduce((t, p) => t + p.value, 0);
   const shown = parts.filter((p) => p.value);
   const gap = shown.length > 1 ? 1.2 : 0; // espace entre les parts, en degrés
   let a = 0;
   return <div className="radial">
     <svg viewBox="-6 -6 112 112" role="img" aria-label={label}>
-      {total ? shown.map((p) => {
+      <ChartPaintDefs id={paintId} colors={shown.map((p) => p.color)} />
+      {total ? shown.map((p, i) => {
         const sweep = (p.value / total) * 360;
         const a0 = a + gap / 2, a1 = Math.min(a + sweep - gap / 2, a0 + 359.99);
         const [dx, dy] = p.explode ? at(5, a + sweep / 2).map((v) => v - 50) : [0, 0];
         a += sweep;
-        return <path key={p.label} className="radial-part" d={sector(48 * hole, 48, a0, a1)} fill={p.color} transform={`translate(${f(dx)} ${f(dy)})`}
+        return <path key={p.label} className="radial-part" d={sector(48 * hole, 48, a0, a1)} fill={chartPaint(paintId, i)} style={{ color: p.color }} transform={`translate(${f(dx)} ${f(dy)})`}
           data-tip-title={p.label} data-tip={`${num(p.value)}, ${pct(p.value / total)}`} />;
       }) : <circle cx="50" cy="50" r="40" className="radial-track" />}
     </svg>
@@ -56,15 +60,17 @@ export function Donut({ parts, hole = .6, label, center = null }) {
 
 /** Arcs concentriques, du plus grand au plus petit. items : { label, ratio (0 à 1), color, tip } */
 export function Arcs({ items, label }) {
+  const paintId = useId();
   const step = 44 / Math.max(items.length, 1);
   const width = Math.min(step * .64, 8);
   return <div className="radial">
     <svg viewBox="0 0 100 100" role="img" aria-label={label}>
+      <ChartPaintDefs id={paintId} colors={items.map((it) => it.color)} />
       {items.map((it, i) => {
         const r = 49 - width / 2 - i * step;
         return <g key={it.label} data-tip-title={it.label} data-tip={it.tip}>
           <circle cx="50" cy="50" r={r} className="radial-track" strokeWidth={width} />
-          <circle cx="50" cy="50" r={r} className="radial-arc" stroke={it.color} strokeWidth={width} pathLength="100"
+          <circle cx="50" cy="50" r={r} className="radial-arc" stroke={chartPaint(paintId, i)} style={{ color: it.color }} strokeWidth={width} pathLength="100"
             strokeDasharray={`${Math.max(it.ratio * 100, .01)} 100`} transform="rotate(-90 50 50)" />
         </g>;
       })}
@@ -74,11 +80,13 @@ export function Arcs({ items, label }) {
 
 /** Jauge en demi-cercle : ratio entre 0 et 1, valeur affichée au centre */
 export function Gauge({ ratio, value, caption, label }) {
+  const paintId = useId();
   const d = 'M10 50A40 40 0 0 1 90 50';
   return <div className="gauge">
     <svg viewBox="0 0 100 56" role="img" aria-label={label}>
+      <ChartPaintDefs id={paintId} colors={['var(--accent)']} />
       <path d={d} className="radial-track" strokeWidth="11" fill="none" />
-      <path d={d} className="radial-arc gauge-arc" strokeWidth="11" fill="none" pathLength="100" strokeDasharray={`${ratio * 100} 100`} />
+      <path d={d} className="radial-arc gauge-arc" style={{ stroke: chartPaint(paintId), color: 'var(--accent)' }} strokeWidth="11" fill="none" pathLength="100" strokeDasharray={`${ratio * 100} 100`} />
     </svg>
     <div className="gauge-text"><b>{value}</b>{caption && <span>{caption}</span>}</div>
   </div>;
@@ -98,6 +106,7 @@ export function Columns({ items, label }) {
 
 /** Barres et courbe de tendance, sur la même échelle */
 export function ComboBars({ labels, bars, line, barName, lineName, label, fmtLine = num }) {
+  const paintId = useId();
   const max = Math.max(...bars, ...line, 1) * 1.1;
   const n = bars.length;
   const x = (i) => ((i + .5) / n) * 100;
@@ -109,7 +118,8 @@ export function ComboBars({ labels, bars, line, barName, lineName, label, fmtLin
         <span className="combo-bar" style={{ height: `${y(v)}%` }} />
       </span>)}
       <svg className="combo-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        <polyline points={line.map((v, i) => `${f(x(i))},${f(100 - y(v))}`).join(' ')} />
+        <ChartPaintDefs id={paintId} colors={['var(--trend)']} />
+        <polyline className="chart-luminous" style={{ stroke: chartPaint(paintId), color: 'var(--trend)' }} points={line.map((v, i) => `${f(x(i))},${f(100 - y(v))}`).join(' ')} />
       </svg>
       {line.map((v, i) => <span key={i} className="combo-dot" style={{ left: `${x(i)}%`, bottom: `${y(v)}%` }} />)}
     </div>
@@ -119,14 +129,16 @@ export function ComboBars({ labels, bars, line, barName, lineName, label, fmtLin
 
 /** Pyramide : une bande par catégorie, de haut en bas. layers : { label, color, tip } */
 export function Pyramid({ layers, label }) {
+  const paintId = useId();
   const W = 116, H = 100, gap = 2.5;
   const h = (H - gap * (layers.length - 1)) / layers.length;
   const half = (y) => (y / H) * (W / 2);
   return <svg className="pyramid" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label}>
+    <ChartPaintDefs id={paintId} colors={layers.map((l) => l.color)} />
     {layers.map((l, i) => {
       const y0 = i * (h + gap), y1 = y0 + h;
       const pts = [[W / 2 - half(y0), y0], [W / 2 + half(y0), y0], [W / 2 + half(y1), y1], [W / 2 - half(y1), y1]];
-      return <polygon key={l.label} points={pts.map(([px, py]) => `${f(px)},${f(py)}`).join(' ')} fill={l.color} data-tip-title={l.label} data-tip={l.tip} />;
+      return <polygon key={l.label} points={pts.map(([px, py]) => `${f(px)},${f(py)}`).join(' ')} fill={chartPaint(paintId, i)} style={{ color: l.color }} data-tip-title={l.label} data-tip={l.tip} />;
     })}
   </svg>;
 }

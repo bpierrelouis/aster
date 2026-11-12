@@ -39,11 +39,16 @@ a.w-count:hover { background: var(--fill-2); color: var(--ink-1); }
 .spark-area { fill: rgb(var(--ink) / .06); }
 .spark-line { fill: none; stroke: var(--ink-3); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 .kpi-label { margin-top: 6px; font-size: 13.5px; font-weight: 600; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-/* Indicateur en alerte (hors service, en attente) : fond de carte teinté, discret, au lieu d'une pastille.
-   Couche ajoutée sur le verre, liquide ou opaque (sélecteur plus précis que celui du verre opaque). */
-:root .widget .widget-card:has(.kpi--hs) { background-image: linear-gradient(var(--alert-wash), var(--alert-wash)); --alert-wash: color-mix(in srgb, var(--crit) 10%, transparent); }
-:root .widget .widget-card:has(.kpi--wait) { background-image: linear-gradient(var(--alert-wash), var(--alert-wash)); --alert-wash: color-mix(in srgb, var(--wait) 17%, transparent); }
-:root .widget .widget-card:has(.kpi--install) { background-image: linear-gradient(var(--alert-wash), var(--alert-wash)); --alert-wash: color-mix(in srgb, var(--install) 12%, transparent); }
+/* Lavis d'alerte plus present, sans colorer le texte ni masquer les valeurs. */
+:root .widget .widget-card:has(:is(.kpi--hs, .kpi--wait, .kpi--install)) {
+  background-image: linear-gradient(135deg, var(--alert-wash), color-mix(in srgb, var(--alert-wash) 60%, transparent));
+}
+:root .widget .widget-card:has(.kpi--hs) { --alert-wash: color-mix(in srgb, var(--crit) 24%, transparent); }
+:root .widget .widget-card:has(.kpi--wait) { --alert-wash: color-mix(in srgb, var(--wait) 30%, transparent); }
+:root .widget .widget-card:has(.kpi--install) { --alert-wash: color-mix(in srgb, var(--install) 24%, transparent); }
+:root[data-tone="dark"] .widget .widget-card:has(.kpi--hs) { --alert-wash: color-mix(in srgb, var(--crit) 34%, transparent); }
+:root[data-tone="dark"] .widget .widget-card:has(.kpi--wait) { --alert-wash: color-mix(in srgb, var(--wait) 40%, transparent); }
+:root[data-tone="dark"] .widget .widget-card:has(.kpi--install) { --alert-wash: color-mix(in srgb, var(--install) 32%, transparent); }
 .kpi--split { flex-direction: row; align-items: stretch; gap: 22px; }
 .kpi--split > .kpi { flex: 0 0 auto; min-width: 132px; }
 .kpi-side { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 14px; }

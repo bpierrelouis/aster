@@ -16,6 +16,7 @@ import './styles/remontees.css';
 import './styles/overlays.css';
 import './styles/inventaire.css';
 import './styles/operations.css';
+import './styles/chart-finish.css';
 import { store, ready } from './core/store.js';
 import { initGlass } from './core/glass.js';
 import { applyAmbiance } from './core/theme.js';
@@ -44,7 +45,7 @@ export default function Workspace({ loading }) {
 
   useEffect(() => {
     ready.then(() => {
-      applyAmbiance(store.state.prefs.ambiance, store.state.prefs.tone);
+      applyAmbiance(store.state.prefs.ambiance, store.state.prefs.tone, store.state.prefs.accent);
       initGlass(store.state.prefs.glass);
       initTooltips();
       setStatus('ready');

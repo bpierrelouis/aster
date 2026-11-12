@@ -105,9 +105,9 @@ export function Shell() {
 
   // Préférences d'affichage
   useEffect(() => {
-    applyAmbiance(s.prefs.ambiance, s.prefs.tone);
+    applyAmbiance(s.prefs.ambiance, s.prefs.tone, s.prefs.accent);
     setGlassLevel(s.prefs.glass);
-  }, [s.prefs.ambiance, s.prefs.tone, s.prefs.glass]);
+  }, [s.prefs.ambiance, s.prefs.tone, s.prefs.glass, s.prefs.accent]);
 
   // Recherche au clavier
   useEffect(() => {
