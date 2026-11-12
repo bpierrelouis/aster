@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="810" viewBox="0 0 1500 810" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="890" viewBox="0 0 1500 890" role="img" aria-labelledby="title desc">
 <title id="title">ASTER — vue simplifiée de l’architecture réelle</title>
 <desc id="desc">Rôles du démonstrateur, regroupés par zone, et principaux échanges numérotés.</desc>
 <defs>
@@ -36,9 +36,9 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 .flow{fill:none;stroke:#0f6cbd;stroke-width:2}
 .auto{stroke-dasharray:6 4}
 </style>
-<rect width="1500" height="810" fill="#fff"/>
+<rect width="1500" height="890" fill="#fff"/>
 <text x="40" y="44" class="title" text-anchor="start">Architecture réelle du démonstrateur ASTER</text>
-<text x="40" y="72" class="body" text-anchor="start">Sept machines virtuelles Debian 13 sur un réseau privé · services en conteneurs Docker</text>
+<text x="40" y="72" class="body" text-anchor="start">Déploiement proposé · sept VM Debian 13 · réseau privé · services en conteneurs Docker</text>
 <rect x="20" y="300" width="150" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
 <use href="#i-users" x="77" y="314" width="36" height="36" style="color:#0f6cbd"/>
 <text x="95" y="372" class="cname" text-anchor="middle">Utilisateurs</text>
@@ -66,42 +66,50 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <use href="#i-split" x="342" y="314" width="36" height="36" style="color:#0f6cbd"/>
 <text x="360" y="372" class="cname" text-anchor="middle">HAProxy</text>
 <text x="360" y="391" class="crole" text-anchor="middle">entrée</text>
-<text x="360" y="412" class="cvm" text-anchor="middle">VM 01</text>
+<text x="360" y="412" class="cvm" text-anchor="middle">VM ASTER 01</text>
 <rect x="515" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-app-window" x="582" y="226" width="36" height="36" style="color:#0f6cbd"/>
 <text x="600" y="284" class="cname" text-anchor="middle">Apache</text>
 <text x="600" y="303" class="crole" text-anchor="middle">interface web</text>
-<text x="600" y="324" class="cvm" text-anchor="middle">VM 02, 03 ou 06</text>
+<text x="600" y="324" class="cvm" text-anchor="middle">VM ASTER 02, 03 ou 06</text>
 <rect x="515" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-server" x="582" y="414" width="36" height="36" style="color:#0f6cbd"/>
 <text x="600" y="472" class="cname" text-anchor="middle">Express</text>
 <text x="600" y="491" class="crole" text-anchor="middle">API</text>
-<text x="600" y="512" class="cvm" text-anchor="middle">VM 02, 03 ou 06</text>
+<text x="600" y="512" class="cvm" text-anchor="middle">VM ASTER 02, 03 ou 06</text>
 <rect x="760" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-database" x="827" y="414" width="36" height="36" style="color:#0f6cbd"/>
 <text x="845" y="472" class="cname" text-anchor="middle">PostgreSQL</text>
 <text x="845" y="491" class="crole" text-anchor="middle">données</text>
-<text x="845" y="512" class="cvm" text-anchor="middle">VM 04</text>
+<text x="845" y="512" class="cvm" text-anchor="middle">VM ASTER 04</text>
 <rect x="1005" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-key-round" x="1072" y="226" width="36" height="36" style="color:#0f6cbd"/>
 <text x="1090" y="284" class="cname" text-anchor="middle">Keycloak</text>
 <text x="1090" y="303" class="crole" text-anchor="middle">connexion</text>
-<text x="1090" y="324" class="cvm" text-anchor="middle">VM 05</text>
+<text x="1090" y="324" class="cvm" text-anchor="middle">VM ASTER 05</text>
 <rect x="1255" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-book-user" x="1322" y="226" width="36" height="36" style="color:#0f6cbd"/>
 <text x="1340" y="284" class="cname" text-anchor="middle">OpenLDAP</text>
 <text x="1340" y="303" class="crole" text-anchor="middle">annuaire</text>
-<text x="1340" y="324" class="cvm" text-anchor="middle">VM 05</text>
+<text x="1340" y="324" class="cvm" text-anchor="middle">VM ASTER 05</text>
 <rect x="1005" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-monitor" x="1072" y="414" width="36" height="36" style="color:#0f6cbd"/>
 <text x="1090" y="472" class="cname" text-anchor="middle">Postes Windows</text>
 <text x="1090" y="491" class="crole" text-anchor="middle">émulateur</text>
-<text x="1090" y="512" class="cvm" text-anchor="middle">VM 02, 03 ou 06</text>
+<text x="1090" y="512" class="cvm" text-anchor="middle">VM ASTER 02, 03 ou 06</text>
 <rect x="275" y="628" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-scroll-text" x="342" y="642" width="36" height="36" style="color:#0f6cbd"/>
 <text x="360" y="700" class="cname" text-anchor="middle">Logstash</text>
 <text x="360" y="719" class="crole" text-anchor="middle">journaux</text>
-<text x="360" y="740" class="cvm" text-anchor="middle">VM 07</text>
+<text x="360" y="740" class="cvm" text-anchor="middle">VM ASTER 07</text>
+<rect x="255" y="795" width="1195" height="76" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
+<text x="270" y="823" class="caption" text-anchor="start">VM ASTER 01 · 172.16.131.188</text>
+<text x="565" y="823" class="caption" text-anchor="start">VM ASTER 02 · 172.16.131.133</text>
+<text x="860" y="823" class="caption" text-anchor="start">VM ASTER 03 · 172.16.131.193</text>
+<text x="1155" y="823" class="caption" text-anchor="start">VM ASTER 04 · 172.16.131.208</text>
+<text x="270" y="850" class="caption" text-anchor="start">VM ASTER 05 · 172.16.131.142</text>
+<text x="565" y="850" class="caption" text-anchor="start">VM ASTER 06 · 172.16.131.131</text>
+<text x="860" y="850" class="caption" text-anchor="start">VM ASTER 07 · 172.16.131.137</text>
 <path d="M170 364 L273 364" class="flow" marker-end="url(#arrow)"/>
 <circle cx="222" cy="364" r="11" fill="#0f6cbd"/>
 <text x="222" y="368.5" class="step" text-anchor="middle">1</text>

@@ -34,10 +34,12 @@ function pill(xRight, y, s, tone) {
   text(xRight - w / 2, y + 13.5, s, 'badge', 'middle');
 }
 
+const ips = ["172.16.131.188","172.16.131.133","172.16.131.193","172.16.131.208","172.16.131.142","172.16.131.131","172.16.131.137"];
+
 let W, H, title, desc;
 
 if (kind === 'simple') {
-  W = 1500; H = 810;
+  W = 1500; H = 890;
   title = 'ASTER — vue simplifiée de l’architecture réelle';
   desc = 'Rôles du démonstrateur, regroupés par zone, et principaux échanges numérotés.';
   // Carte façon Azure : icône au-dessus, nom, rôle, VM
@@ -53,7 +55,7 @@ if (kind === 'simple') {
   const step = (x, y, n) => { add(`<circle cx="${x}" cy="${y}" r="11" fill="${C.blue}"/>`); text(x, y + 4.5, n, 'step', 'middle'); };
 
   text(40, 44, 'Architecture réelle du démonstrateur ASTER', 'title');
-  text(40, 72, 'Sept machines virtuelles Debian 13 sur un réseau privé · services en conteneurs Docker', 'body');
+  text(40, 72, 'Déploiement proposé · sept VM Debian 13 · réseau privé · services en conteneurs Docker', 'body');
 
   card(20, 300, 'users', 'Utilisateurs', 'Firefox', 'navigateur web', { stroke: C.extStroke, w: 150 });
   card(20, 600, 'user-cog', 'Opérateur', 'SSH, client Docker', 'son propre poste', { stroke: C.extStroke, w: 150 });
@@ -68,15 +70,18 @@ if (kind === 'simple') {
   zone(980, 172, 470, 388, 'Services simulés');
   zone(255, 590, 210, 178, 'Journaux');
 
-  card(275, 300, 'split', 'HAProxy', 'entrée', 'VM 01');
-  card(515, 212, 'app-window', 'Apache', 'interface web', 'VM 02, 03 ou 06');
-  card(515, 400, 'server', 'Express', 'API', 'VM 02, 03 ou 06');
-  card(760, 400, 'database', 'PostgreSQL', 'données', 'VM 04');
-  card(1005, 212, 'key-round', 'Keycloak', 'connexion', 'VM 05');
-  card(1255, 212, 'book-user', 'OpenLDAP', 'annuaire', 'VM 05');
-  card(1005, 400, 'monitor', 'Postes Windows', 'émulateur', 'VM 02, 03 ou 06');
-  card(275, 628, 'scroll-text', 'Logstash', 'journaux', 'VM 07');
+  card(275, 300, 'split', 'HAProxy', 'entrée', 'VM ASTER 01');
+  card(515, 212, 'app-window', 'Apache', 'interface web', 'VM ASTER 02, 03 ou 06');
+  card(515, 400, 'server', 'Express', 'API', 'VM ASTER 02, 03 ou 06');
+  card(760, 400, 'database', 'PostgreSQL', 'données', 'VM ASTER 04');
+  card(1005, 212, 'key-round', 'Keycloak', 'connexion', 'VM ASTER 05');
+  card(1255, 212, 'book-user', 'OpenLDAP', 'annuaire', 'VM ASTER 05');
+  card(1005, 400, 'monitor', 'Postes Windows', 'émulateur', 'VM ASTER 02, 03 ou 06');
+  card(275, 628, 'scroll-text', 'Logstash', 'journaux', 'VM ASTER 07');
 
+  // Adresses des VM
+  rect(255, 795, 1195, 76, C.zone, C.zoneStroke, { rx: 6 });
+  ips.forEach((ip, i) => text(270 + (i % 4) * 295, 823 + Math.floor(i / 4) * 27, `VM ASTER 0${i + 1} · ${ip}`, 'caption'));
   // ① navigateur → entrée
   arrow([[170, 364], [273, 364]]); step(222, 364, '1');
   // ② entrée → interface et API
@@ -100,8 +105,8 @@ if (kind === 'simple') {
   const vm = (x, y, w, h, name, role, tone) => {
     rect(x, y, w, h, C.vm, C.vmStroke);
     icon('server', x + 12, y + 11, 16, '#5b7690');
-    text(x + 34, y + 24, name, 'vm');
-    text(x + 34, y + 41, role, 'caption');
+    text(x + 34, y + 24, `VM ASTER ${name.slice(-2)}`, 'vm');
+    text(x + 34, y + 41, `${role} · ${ips[Number(name.slice(-2)) - 1]}`, 'caption');
     pill(x + w - 10, y + 10, { manager: 'MANAGER', worker: 'WORKER', hors: 'HORS SWARM' }[tone], tone);
   };
   // Service : conteneur (bleu) ou service de l'hôte (ambre)
@@ -126,7 +131,7 @@ if (kind === 'simple') {
   };
 
   text(40, 44, 'Architecture réelle complète sur sept VM', 'title');
-  text(40, 72, 'Debian 13 · Docker · une pile Docker Swarm · accès par l’IP de la VM 01', 'body');
+  text(40, 72, 'Déploiement proposé · Debian 13 · Docker Swarm · accès par 172.16.131.188', 'body');
 
   ext(20, 205, 170, 130, 'users', 'Navigateur', ['Firefox', 'React 19.3.1']);
   ext(20, 1005, 170, 110, 'user-cog', 'Opérateur', ['son poste, sur le', 'réseau', 'd’administration']);
@@ -134,7 +139,7 @@ if (kind === 'simple') {
   // Cluster Swarm
   rect(285, 140, 1095, 835, '#f7fafd', '#7aa7d6', { rx: 12, dashed: true, sw: 1.5 });
   icon('boxes', 300, 152, 22);
-  text(330, 169, 'Cluster Docker Swarm · VM 01 à 07 · réseau overlay « aster »', 'frame');
+  text(330, 169, 'Cluster Docker Swarm · VM ASTER 01 à 07 · réseau overlay « aster »', 'frame');
 
   // Colonne A : entrée, Swarm, éléments communs
   vm(305, 195, 275, 425, 'VM 01', 'Entrée', 'manager');
@@ -143,17 +148,17 @@ if (kind === 'simple') {
   rect(305, 640, 275, 115, '#fff', C.vmStroke);
   icon('boxes', 317, 652, 18, '#5b7690');
   text(343, 667, 'Docker Swarm', 'service');
-  ['Managers : VM 01, 04, 05', 'Workers : VM 02, 03, 06, 07', '2377/TCP · 7946/TCP-UDP · 4789/UDP'].forEach((l, i) => text(317, 689 + i * 16, l, 'caption'));
+  ['Managers : VM ASTER 01, 04, 05', 'Workers : VM ASTER 02, 03, 06, 07', '2377/TCP · 7946/TCP-UDP · 4789/UDP'].forEach((l, i) => text(317, 689 + i * 16, l, 'caption'));
   rect(305, 775, 275, 115, C.amber, C.amberStroke);
   icon('cog', 317, 787, 18, '#a06a00');
   text(343, 802, 'Sur chaque VM', 'service');
-  ['Debian 13 · Docker · OpenSSH (22)', 'systemd-timesyncd → VM 01', 'pilote syslog de Docker → VM 07'].forEach((l, i) => text(317, 824 + i * 16, l, 'caption'));
+  ['Debian 13 · Docker · OpenSSH (22)', 'systemd-timesyncd → VM ASTER 01', 'pilote syslog de Docker → VM ASTER 07'].forEach((l, i) => text(317, 824 + i * 16, l, 'caption'));
 
   // Colonne B : services joints par HAProxy
   vm(650, 195, 300, 150, 'VM 02', 'Interface', 'worker');
-  svc(663, 245, 274, 86, 'app-window', 'Apache 2.4', ['image sur httpd:2.4 · HTTP 8080', 'build React 19.3.1', '2 instances · VM 02, 03, 06']);
+  svc(663, 245, 274, 86, 'app-window', 'Apache 2.4', ['image sur httpd:2.4 · HTTP 8080', 'build React 19.3.1', '2 instances · VM ASTER 02, 03, 06']);
   vm(650, 365, 300, 150, 'VM 03', 'API', 'worker');
-  svc(663, 415, 274, 86, 'server', 'Express 5.3', ['image sur node:22 · HTTP 3001', '2 instances · VM 02, 03, 06']);
+  svc(663, 415, 274, 86, 'server', 'Express 5.3', ['image sur node:22 · HTTP 3001', '2 instances · VM ASTER 02, 03, 06']);
   vm(650, 535, 300, 320, 'VM 05', 'Identité', 'manager');
   svc(663, 585, 274, 56, 'key-round', 'Keycloak 26.7.4', ['image officielle · HTTP 8080']);
   svc(663, 687, 274, 56, 'book-user', 'OpenLDAP 1.5.0', ['image osixia/openldap · LDAP 389']);

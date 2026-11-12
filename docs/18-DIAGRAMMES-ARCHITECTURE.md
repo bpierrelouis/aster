@@ -2,8 +2,8 @@
 
 ## Vue simplifiée
 
-![Vue simplifiée de l’architecture réelle du démonstrateur ASTER](assets/architecture/ASTER-VUE-SIMPLIFIEE.svg)
+![Vue simplifiée avec les IPv4 du déploiement proposé du démonstrateur ASTER](assets/architecture/ASTER-VUE-SIMPLIFIEE.svg)
 
 ## Architecture réelle sur VM
 
-![Déploiement complet du démonstrateur ASTER sur sept VM](assets/architecture/ASTER-DEPLOIEMENT-VM.svg)
+![Déploiement proposé avec les IPv4 : vue complète du démonstrateur ASTER sur sept VM](assets/architecture/ASTER-DEPLOIEMENT-VM.svg)

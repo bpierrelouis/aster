@@ -168,16 +168,33 @@ Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée
 
 #### Réseau, adresses et ports
 
+**Correspondance des machines.** Source : `Copie de liste_machine_wd12.xlsx`, feuille `Feuil1`, correspondances transmises par l’utilisateur le 12 novembre 2026. Le classeur n’a pas été retrouvé dans les emplacements consultés ; ces données reprennent la transmission, avec les virgules des IPv4 normalisées en points. Le numéro architectural suit le suffixe `aster-N`, indépendamment du suffixe du nom technique. Ces affectations concernent le déploiement proposé et ne prouvent aucun déploiement effectif. Aucun masque ni passerelle n’est renseigné. Le montage local et la cible C1NP restent distincts.
+
+| VM du dossier | Nom ASTER | Nom technique dans le tableau | IPv4 | Affectation prévue |
+| --- | --- | --- | --- | --- |
+| 01 | aster-1 | debian-pdi-cont-wd12--294-6 | 172.16.131.188 | HAProxy et horloge chrony |
+| 02 | aster-2 | TPL-DEBIAN-13-PDI-CONTAINER-294-7 | 172.16.131.133 | Groupe sans données : interface |
+| 03 | aster-3 | debian-pdi-cont-wd12--294-9 | 172.16.131.193 | Groupe sans données : API |
+| 04 | aster-4 | debian-pdi-cont-wd12--294-16 | 172.16.131.208 | PostgreSQL |
+| 05 | aster-5 | TPL-DEBIAN-13-PDI-CONTAINER-294-10 | 172.16.131.142 | Keycloak et OpenLDAP |
+| 06 | aster-6 | TPL-DEBIAN-13-PDI-CONTAINER-294-8 | 172.16.131.131 | Groupe sans données : émulateur des postes |
+| 07 | aster-7 | TPL-DEBIAN-13-PDI-CONTAINER-294-18 | 172.16.131.137 | Logstash |
+| — | aster-8 | TPL-DEBIAN-13-PDI-CONTAINER-294-19 | 172.16.131.146 | Aucune |
+
+Les VM 02, 03 et 06 constituent le groupe sans données : les affectations prévues ne fixent pas les conteneurs à un hôte. Apache et Express ont chacun deux instances sur des VM distinctes ; l’émulateur garde une seule instance. Les managers restent les VM 01, 04 et 05. La machine `aster-8`, transmise avec les autres, n’a pas d’affectation depuis le retrait du stockage S3.
+
 Aucun DNS ne permet de joindre les services depuis l’extérieur : seule l’adresse IP fixe de la VM 01 est utilisée, avec un port par service public.
 
 | Adresse | Service | Accès |
 | --- | --- | --- |
-| `https://<IP VM 01>` (port `443`) | ASTER : interface et API | Utilisateurs |
-| `https://<IP VM 01>:8443` | Keycloak : connexion, émetteur OIDC | Utilisateurs et Express |
-| `https://<IP VM 01>:8444` | Console d’administration de Keycloak | Réseau d’administration seulement |
-| `<IP de chaque VM>`, port `22` | Administration par SSH des sept VM | Réseau d’administration seulement |
+| `https://172.16.131.188` (port `443`) | ASTER : interface et API | Utilisateurs |
+| `https://172.16.131.188:8443` | Keycloak : connexion, émetteur OIDC | Utilisateurs et Express |
+| `https://172.16.131.188:8444` | Console d’administration de Keycloak | Réseau d’administration seulement |
+| IPv4 de chaque VM du tableau ci-dessus, port `22/TCP` | Administration par SSH des sept VM | Réseau d’administration seulement |
 
-HAProxy termine le TLS. Son certificat porte l’IP de la VM 01 dans ses noms alternatifs ; son autorité doit être reconnue par Firefox et par Node.js. HAProxy joint les services par leur nom sur le réseau overlay de Swarm, chiffré (option `encrypted`) : `apache:8080`, `api:3001` et `keycloak:8080`. Le port `443` refuse les chemins de la console Keycloak, servie uniquement sur `8444`. Les PDF d’état des lieux passent par le port `443`, comme le reste de l’API.
+L’émetteur OIDC prévu est `https://172.16.131.188:8443/realms/aster` et le retour OIDC est `https://172.16.131.188/auth/callback`. Le collecteur reçoit les journaux sur `172.16.131.137:6514/TCP` avec TLS ; son certificat doit couvrir cette IP et son autorité être reconnue par les clients syslog. L’horloge est jointe sur `172.16.131.188:123/UDP`. SSH utilise chacune des sept IPv4 affectées sur `22/TCP`, depuis le réseau d’administration. Les certificats et le filtrage restent à qualifier pour ce déploiement proposé.
+
+HAProxy termine le TLS. Son certificat porte l’IP `172.16.131.188` de la VM 01 dans ses noms alternatifs ; son autorité doit être reconnue par Firefox et par Node.js. HAProxy joint les services par leur nom sur le réseau overlay de Swarm, chiffré (option `encrypted`) : `apache:8080`, `api:3001` et `keycloak:8080`. Le port `443` refuse les chemins de la console Keycloak, servie uniquement sur `8444`. Les PDF d’état des lieux passent par le port `443`, comme le reste de l’API.
 
 Express utilise pour Keycloak la même adresse que le navigateur : il le joint donc aussi par HAProxy, sur `8443`. Il joint PostgreSQL directement par le réseau overlay (`postgres:5432`), et l’émulateur joint Express par ce même réseau (`api:3001`). Keycloak lit l’annuaire par `ldap:389`. La résolution de noms interne de Docker n’est utilisée qu’à l’intérieur du cluster.
 
@@ -245,7 +262,7 @@ Dans ce déploiement, Express écoute sur toutes les interfaces de son conteneur
 #### Points à qualifier
 
 - Version de Docker installée sur les VM, accès des VM à Internet pour télécharger les images officielles.
-- Réseau : adresses des VM, filtrage, protocole ESP du réseau overlay chiffré, accès SSH et console de l’hyperviseur.
+- Réseau : confirmation des affectations IP fournies, filtrage, protocole ESP du réseau overlay chiffré, accès SSH et console de l’hyperviseur.
 - Capacité CPU, mémoire et disque de chaque VM, dont la machine Java de Logstash.
 - Taille des volumes et durée de conservation des journaux.
 - Accès de l’API d’administration de Keycloak par son adresse interne : réglage du nom d’hôte de Keycloak à vérifier.
