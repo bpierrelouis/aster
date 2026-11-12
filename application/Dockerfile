@@ -45,3 +45,14 @@ RUN sed -i 's/^Listen 80$/Listen 8080/' /usr/local/apache2/conf/httpd.conf \
 COPY --from=build /app/frontend/dist /usr/local/apache2/htdocs/
 EXPOSE 8080
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["wget", "-q", "--spider", "http://127.0.0.1:8080/"]
+
+# Keycloak des VM : realm (réimporté à chaque création du conteneur) et thème de connexion
+FROM quay.io/keycloak/keycloak:26.7.4 AS keycloak
+COPY infra/keycloak/aster-realm.json /opt/keycloak/data/import/aster-realm.json
+COPY infra/keycloak/themes/aster-mindef /opt/keycloak/themes/aster-mindef
+COPY --chmod=755 infra/images/secrets.sh /usr/local/bin/aster-secrets
+ENV KC_HEALTH_ENABLED=true KC_HTTP_ENABLED=true KC_PROXY_HEADERS=xforwarded
+ENTRYPOINT ["aster-secrets", "/opt/keycloak/bin/kc.sh"]
+CMD ["start", "--import-realm"]
+HEALTHCHECK --interval=10s --timeout=5s --start-period=90s --retries=5 \
+  CMD ["bash", "-ec", "exec 3<>/dev/tcp/localhost/9000; printf 'GET /health/ready HTTP/1.0\\r\\n\\r\\n' >&3; grep -q '200 OK' <&3"]

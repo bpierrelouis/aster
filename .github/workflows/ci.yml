@@ -1,7 +1,9 @@
-# À chaque push sur main : tests, puis images publiées sur Docker Hub s'ils passent.
+# À chaque push sur main : tests et vérificateur documentaire, puis images publiées sur Docker Hub s'ils passent,
+# puis déploiement sur les VM du démonstrateur.
 # Configuration du dépôt GitHub (Settings → Secrets and variables → Actions) :
-# variable DOCKERHUB_USERNAME et secret DOCKERHUB_TOKEN (jeton d'accès Docker Hub en lecture et écriture).
-# Sans cette configuration, les tests s'exécutent et la publication des images est ignorée.
+# variable DOCKERHUB_USERNAME et secret DOCKERHUB_TOKEN (jeton d'accès Docker Hub en lecture et écriture) ;
+# variable DEPLOIEMENT_VM = true pour le déploiement, une fois le runner auto-hébergé installé.
+# Sans cette configuration, les tests s'exécutent et la publication des images et le déploiement sont ignorés.
 name: CI
 
 on:
@@ -76,14 +78,25 @@ jobs:
             application/*.log
           retention-days: 7
 
+  # Vérificateur documentaire : condition du déploiement, comme les tests
+  documentation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - run: python3 .agents/skills/aster-documentation/scripts/verifier_documentation.py
+
   images:
-    needs: [tests, e2e]
+    needs: [tests, e2e, documentation]
     if: github.ref == 'refs/heads/main' && vars.DOCKERHUB_USERNAME != ''
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     strategy:
       matrix:
-        image: [web, api, postes]
+        image: [web, api, postes, keycloak]
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: docker/setup-buildx-action@v4.4.1
@@ -100,3 +113,19 @@ jobs:
           tags: ${{ vars.DOCKERHUB_USERNAME }}/aster-${{ matrix.image }}:${{ github.sha }}
           cache-from: type=gha,scope=${{ matrix.image }}
           cache-to: type=gha,mode=max,scope=${{ matrix.image }}
+
+  # Déploiement continu sur les VM du démonstrateur, joignables seulement depuis le réseau privé :
+  # runner auto-hébergé (étiquette « aster ») sur le poste de l'opérateur, qui déploie par SSH sur la VM 01.
+  # Activé par la variable DEPLOIEMENT_VM = true une fois le runner installé (application/README.md).
+  deploiement:
+    needs: images
+    if: github.ref == 'refs/heads/main' && vars.DEPLOIEMENT_VM == 'true'
+    runs-on: [self-hosted, aster]
+    timeout-minutes: 20
+    concurrency:
+      group: deploiement-vm
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - run: bash infra/vm/deployer.sh "${{ vars.DOCKERHUB_USERNAME }}" "${{ github.sha }}"
+        shell: bash

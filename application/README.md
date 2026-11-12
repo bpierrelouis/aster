@@ -211,10 +211,11 @@ application/
 ├── infra/
 │   ├── compose.yaml             # PostgreSQL ASTER, annuaire LDAP, Keycloak
 │   ├── keycloak/                # Realm (fédération LDAP) et thème de connexion
+│   ├── vm/                      # Pile Swarm des VM, HAProxy, Logstash, installation et déploiement
 │   ├── ldap/                    # Identités de départ de l’annuaire (LDIF)
 │   └── images/                  # Lecture des secrets et configuration Apache des images
 ├── tests/                       # Tests d’interface et de bout en bout ; fixtures/ : fichiers d’import
-├── Dockerfile                   # Images web, api et postes
+├── Dockerfile                   # Images web, api, postes et keycloak
 └── .env.example
 ```
 
@@ -258,7 +259,7 @@ Variables complémentaires, notamment pour le démonstrateur déployé sur VM en
 | `ASTER_API` | Adresse du serveur pour l’émulateur des postes (sur les VM : `http://api:3001`) | `http://127.0.0.1:3001` |
 | `WEB_URL` | Serveur web contrôlé par `/api/health` (sur les VM : `http://apache:8080`) | non contrôlé |
 | `LDAP_URL` | Annuaire contrôlé par `/api/health` (sur les VM : `ldap://ldap:389`) | non contrôlé |
-| `SYSLOG_URL` | Collecteur de journaux contrôlé par `/api/health` (sur les VM : `tcp://<IP VM 08>:6514`) | non contrôlé |
+| `SYSLOG_URL` | Collecteur de journaux contrôlé par `/api/health` (sur les VM : `tcp://<IP VM 07>:6514`) | non contrôlé |
 | `ASTER_VERSION` | Version publiée par `/api/infos` ; fixée à la construction de l’image (commit) | aucune |
 
 ### Images et intégration continue
@@ -270,13 +271,36 @@ Le [Dockerfile](Dockerfile) produit une image par cible :
 | `web` | Apache 2.4 et le build React ; toute adresse sans fichier renvoie `index.html` | `8080` | `docker build --target web .` |
 | `api` | Express en mode production, écoute sur `0.0.0.0` | `3001` | `docker build --target api .` |
 | `postes` | Émulateur des postes | aucun | `docker build --target postes .` |
+| `keycloak` | Keycloak des VM avec le realm et le thème de connexion | `8080` | `docker build --target keycloak .` |
 
-Au démarrage, les images `api` et `postes` transmettent chaque secret Docker Swarm `/run/secrets/NOM` au service dans la variable d’environnement `NOM` ([infra/images/secrets.sh](infra/images/secrets.sh)) : le secret porte donc le nom de la variable (`SESSION_SECRET`, `DATABASE_URL`…). Le contrôle de santé de `api` vérifie seulement que le serveur répond, pas que PostgreSQL et Keycloak sont joignables : une panne d’un service voisin ne fait pas relancer les instances d’Express.
+Au démarrage, les images `api`, `postes` et `keycloak` transmettent chaque secret Docker Swarm `/run/secrets/NOM` au service dans la variable d’environnement `NOM` ([infra/images/secrets.sh](infra/images/secrets.sh)) : le secret porte donc le nom de la variable (`SESSION_SECRET`, `DATABASE_URL`…). Le contrôle de santé de `api` vérifie seulement que le serveur répond, pas que PostgreSQL et Keycloak sont joignables : une panne d’un service voisin ne fait pas relancer les instances d’Express.
 
-Le workflow GitHub Actions [ci.yml](../.github/workflows/ci.yml) exécute, à chaque push sur `main` seulement, `npm test`, `npm run build`, `npm run test:ui` et `npm run test:workspace`, puis, dans un second job, `npm run test:e2e` avec l’infrastructure Compose (serveur et postes lancés sans `.env`, sur les valeurs par défaut). Un nouveau push annule l’exécution en cours. En cas d’échec, les traces Playwright et les journaux du serveur sont téléchargeables depuis la page de l’exécution (7 jours). Si les tests passent, il publie les trois images sur Docker Hub en public, sous `<compte>/aster-web`, `<compte>/aster-api` et `<compte>/aster-postes`, avec le SHA du commit pour étiquette.
+Le workflow GitHub Actions [ci.yml](../.github/workflows/ci.yml) exécute, à chaque push sur `main` seulement, `npm test`, `npm run build`, `npm run test:ui` et `npm run test:workspace`, puis, dans un second job, `npm run test:e2e` avec l’infrastructure Compose (serveur et postes lancés sans `.env`, sur les valeurs par défaut). Un nouveau push annule l’exécution en cours. En cas d’échec, les traces Playwright et les journaux du serveur sont téléchargeables depuis la page de l’exécution (7 jours). Un troisième job exécute le vérificateur documentaire. Si les tests et le vérificateur passent, il publie les quatre images sur Docker Hub en public, sous `<compte>/aster-web`, `<compte>/aster-api`, `<compte>/aster-postes` et `<compte>/aster-keycloak`, avec le SHA du commit pour étiquette, puis les déploie sur les VM (voir ci-dessous).
 
 Pour la publication, créer sur Docker Hub un jeton d’accès en lecture et écriture (Account settings → Personal access tokens), puis, dans le dépôt GitHub (Settings → Secrets and variables → Actions), la variable `DOCKERHUB_USERNAME` (nom du compte Docker Hub) et le secret `DOCKERHUB_TOKEN` (le jeton, pas le mot de passe). Sans la variable, les tests s’exécutent et la publication est ignorée.
 
 Les images ne contiennent ni configuration ni secret : sur les VM, chaque service les reçoit au démarrage (variables d’environnement et secrets Docker Swarm). `.env.example` ne sert qu’au poste de développement.
+
+### Déploiement sur les VM
+
+Les VM (adresses dans [infra/vm/vm.sh](infra/vm/vm.sh)) ne sont joignables que depuis le réseau privé : le déploiement continu passe par un runner GitHub auto-hébergé sur le poste de l’opérateur, qui joint la VM 01 par SSH. Rien n’est installé sur les VM en dehors de la pile.
+
+| Fichier | Rôle |
+| --- | --- |
+| [pile.yaml](infra/vm/pile.yaml) | Pile Swarm `aster` : services, placement, instances, secrets, volumes, journaux `syslog` |
+| [haproxy.cfg](infra/vm/haproxy.cfg) | Entrée : TLS, `443` interface et API, `8443` Keycloak (console refusée), `8444` console Keycloak |
+| [logstash.conf](infra/vm/logstash.conf) | Collecteur : syslog RFC 5424 sur TLS `6514`, `/var/log/aster/<service>/<jour>.log` sur la VM 07 |
+| [installer.sh](infra/vm/installer.sh) | Une seule fois : certificats, préparation des VM (horloge, autorité, dossier des journaux), cluster Swarm, secrets |
+| [deployer.sh](infra/vm/deployer.sh) | À chaque version : `docker stack deploy` sur la VM 01, puis contrôle de la version servie par `/api/infos` |
+
+Le realm Keycloak lit `APP_URL`, `OIDC_CLIENT_SECRET` et `LDAP_ADMIN_PASSWORD` s’ils sont définis (`${VARIABLE:valeur locale}`) ; sans eux, il garde les valeurs locales de Compose.
+
+**Installation, une fois.** Depuis Git Bash, avec une clé SSH `~/.ssh/aster_deploy` autorisée pour le compte des VM (`ASTER_SSH_KEY` et `VM_USER` pour en changer) : `infra/vm/installer.sh`. Le mot de passe `sudo` est demandé et n’est enregistré nulle part. Le script est idempotent. Les secrets sont aléatoires et ne sont conservés que dans Swarm ; l’autorité et les certificats restent sur le poste, dans `~/.aster-pki` (hors dépôt). Faire reconnaître `~/.aster-pki/ca.crt` par Firefox (Paramètres → Certificats → Autorités → Importer). Le mot de passe de la console Keycloak (`https://172.16.131.188:8444`, compte `keycloak-admin`) se lit sur la VM 05 : `docker exec $(docker ps -qf name=aster_keycloak) cat /run/secrets/KC_BOOTSTRAP_ADMIN_PASSWORD`.
+
+**Runner, une fois.** Dans GitHub (Settings → Actions → Runners → New self-hosted runner, Windows x64), suivre les commandes proposées sur le poste de l’opérateur et ajouter l’étiquette `aster` lors de `config.cmd` ; le runner s’exécute avec le compte qui possède la clé SSH, Git Bash dans le `PATH`. Créer ensuite la variable `DEPLOIEMENT_VM` = `true`. Le dépôt étant public, restreindre dans Settings → Actions → General les workflows des contributions externes (« Require approval for all outside collaborators ») : un runner auto-hébergé exécute le code des workflows qu’on lui confie.
+
+**Déploiement manuel** (même commande que le runner) : `infra/vm/deployer.sh <compte Docker Hub> <SHA publié>`. État : `ssh user@172.16.131.188 docker stack ps aster`. Journaux : `/var/log/aster` sur la VM 07, ou `docker logs` sur la VM du conteneur.
+
+Le pilote `syslog` de Docker se connecte au collecteur à la création de chaque conteneur : si Logstash est arrêté, les conteneurs créés pendant ce temps échouent et Swarm les relance jusqu’à son retour ; les conteneurs déjà démarrés continuent.
 
 Ne pas utiliser `infra/compose.yaml` en production : il contient le flux sans mot de passe, les comptes locaux, l’émulateur de postes et des secrets publics. Les paramètres d’hébergement et les exigences complémentaires restent à définir dans le cadrage.
