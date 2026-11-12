@@ -14,6 +14,7 @@ import { useStore } from '../../hooks/use-store.js';
 import { scope, index, detections, batiments } from '../../core/selectors.js';
 import { uid } from '../../core/dom.js';
 import { can } from '../../core/permissions.js';
+import { matcher } from '../../core/search.js';
 import { CLASSEMENTS } from '#shared/catalog.js';
 import { processClass, logiciel } from '#shared/operations-data.js';
 import { Icon, Tile } from '../../ui/icons.jsx';
@@ -40,12 +41,6 @@ const TITLES = {
 };
 const SEARCH = { alertes: 'Processus, poste ou compte…', salles: 'Poste, processus ou compte…', listes: 'Processus ou application…', statistiques: 'Processus ou application…' };
 
-// Recherche insensible à la casse, aux accents et aux espaces : chaque mot cherché figure dans l'un des textes
-const fold = (text) => String(text ?? '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
-function matcher(query) {
-  const words = fold(query).split(/\s+/).filter(Boolean);
-  return (...texts) => { const t = fold(texts.join(' ')); return words.every((w) => t.includes(w)); };
-}
 // Un exécutable se cherche aussi par le nom de son application
 const processText = (nom) => `${nom} ${logiciel(nom)?.nom ?? ''}`;
 
