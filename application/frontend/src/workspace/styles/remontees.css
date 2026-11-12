@@ -149,3 +149,15 @@
   .edl { padding: 22px; aspect-ratio: auto; }
   .edl-meta { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Matériels concernés (remontees-materiels.jsx) : la ligne mène à la fiche ; à côté, l'interrupteur qui déclare son état */
+.rm-mat { display: flex; align-items: center; gap: 8px; }
+.rm-mat > .row { flex: 1; min-width: 0; }
+.rm-mat-etat { flex: none; display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+/* Matériel hors service d'une salle : relocalisation dans le stock, remplacement par un matériel du stock, ou les deux */
+.rm-remise { display: flex; flex-direction: column; gap: 10px; margin: 2px 0 8px 52px; padding: 12px 14px; border-radius: 16px; background: var(--fill-1); }
+.rm-remise-choix { display: flex; align-items: center; gap: 10px; min-height: 40px; font-size: 14px; font-weight: 600; }
+.rm-remise-choix input[type=checkbox] { flex: none; width: 17px; height: 17px; padding: 0; box-shadow: none; accent-color: var(--accent); }
+.rm-remise-choix select { flex: 1; min-width: 0; }
+.rm-remise-choix small { color: var(--ink-3); font-weight: 500; }
+.rm-remise .btn { align-self: flex-start; }
