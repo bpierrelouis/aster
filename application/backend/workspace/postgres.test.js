@@ -2,16 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import pg from 'pg';
 import { createPostgresWorkspaceRepository } from './postgres.js';
-import { createMemoryStorage, createS3Storage } from '../storage.js';
 import { readConfig } from '../config.js';
 
-// Tests d'intégration : PostgreSQL et S3 réels (npm run infra:up). Ignorés si l'infrastructure est absente.
+// Tests d'intégration : PostgreSQL réel (npm run infra:up). Ignorés si l'infrastructure est absente.
 const config = readConfig();
 const pool = new pg.Pool({ connectionString: config.databaseUrl, max: 4, connectionTimeoutMillis: 1500 });
 const database = await pool.query('SELECT 1').then(() => true, () => false);
 const schema = `aster_test_${process.pid}`;
-const quiet = { error() {} };
-const open = (storage) => createPostgresWorkspaceRepository({ pool, storage, schema, log: quiet });
+const open = () => createPostgresWorkspaceRepository({ pool, schema });
 
 test.after(async () => {
   if (database) await pool.query(`DROP SCHEMA IF EXISTS ${schema} CASCADE`);
@@ -19,14 +17,12 @@ test.after(async () => {
 });
 
 test('PostgreSQL : comptes, préférences, écritures, postes et états des lieux persistent', { skip: !database && 'PostgreSQL indisponible' }, async () => {
-  const storage = createMemoryStorage();
-  const repo = await open(storage);
+  const repo = await open();
   const admin = await repo.actor('cpt-num-admin');
   const teacher = await repo.actor('cpt-num-formateur');
-  const counts = (await pool.query(`SELECT (SELECT count(*) FROM ${schema}.aster_materiel)::int AS materiels, (SELECT count(*) FROM ${schema}.aster_remontee)::int AS remontees, (SELECT count(*) FROM ${schema}.aster_compte)::int AS comptes`)).rows[0];
+  const counts = (await pool.query(`SELECT (SELECT count(*) FROM ${schema}.aster_materiel)::int AS materiels, (SELECT count(*) FROM ${schema}.aster_compte)::int AS comptes`)).rows[0];
   assert.equal(counts.materiels, (await repo.snapshot()).materiels.length);
   assert.equal(counts.comptes, (await repo.snapshot()).comptes.length);
-  assert.equal(storage.objects.size, counts.remontees, 'un état des lieux déposé par remontée existante');
 
   // Administrateur : matériel créé (identifiant attribué), salle supprimée, compte créé, préférences
   const input = await repo.read(admin);
@@ -38,7 +34,7 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   input.materiels.forEach((m) => { if (m.salleId === emptyRoom.id) m.salleId = null; });
   input.salles = input.salles.filter((x) => x.id !== emptyRoom.id);
   input.comptes.push({ id: 'cpt-test', nom: 'P. Nouveau', email: 'p.nouveau@aster.demo', role: 'formateur', ecoleId: 'e-num', actif: true });
-  input.prefs = { ambiance: 'orion', glass: 'solid' };
+  input.prefs = { ambiance: 'vigie', glass: 'solid' };
   await repo.update(input, 0, admin);
   await repo.bindIdentity('cpt-test', 'kc-nouveau');
 
@@ -48,7 +44,7 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   assert.equal(commandes[0].type, 'arret');
   await repo.agent.resultats([{ operation: commandes[0].operation, poste: poste.nomReseau, statut: 'reussie' }]);
 
-  // Formateur : remontée transmise sur une révision antérieure (fusion), PDF déposé à la transmission
+  // Formateur : remontée transmise sur une révision antérieure (fusion)
   const mine = await repo.read(teacher);
   const mat = mine.materiels.find((m) => m.salleId && m.id !== input.materiels[0].id);
   mine.remontees.unshift({ id: 'tmp-1', ecoleId: mat.ecoleId, materielIds: [mat.id], probleme: 'display', description: 'Écran noir test' });
@@ -57,29 +53,15 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   const report = after.remontees.find((r) => r.description === 'Écran noir test');
   assert.match(report.id, /^REM-\d{4}$/);
   assert.equal(report.auteurId, 'cpt-num-formateur');
-  const first = `etats-des-lieux/${report.ecoleId}/${report.id}/1-attente.pdf`;
-  const snapshot = storage.objects.get(first);
-  assert(snapshot);
-
-  // L'état des lieux reste celui de la transmission même si le matériel change ensuite
+  // L'état des lieux est produit à la demande, avec les informations actuelles
   const later = await repo.read(admin);
   later.materiels.find((m) => m.id === mat.id).modele = 'Renommé après la remontée';
   await repo.update(later, later.revision, admin);
-  assert.deepEqual(await repo.pdf(report.id, teacher), { url: `memoire:///${first}` }, 'lien vers le document déposé, sans transit');
-  assert.deepEqual(storage.objects.get(first), snapshot);
-
-  // Chaque changement de statut dépose une nouvelle version ; les précédentes restent
-  const manager = await repo.actor('cpt-num-gestionnaire');
-  const taken = await repo.read(manager);
-  taken.remontees.find((r) => r.id === report.id).statut = 'encours';
-  await repo.update(taken, taken.revision, manager);
-  const key = `etats-des-lieux/${report.ecoleId}/${report.id}/2-encours.pdf`;
-  assert(storage.objects.get(key));
-  assert.deepEqual(storage.objects.get(first), snapshot);
-  assert.deepEqual(await repo.pdf(report.id, teacher), { url: `memoire:///${key}` }, 'lien vers la dernière version');
+  const pdf = await repo.pdf(report.id, teacher);
+  assert.equal(pdf.subarray(0, 5).toString(), '%PDF-');
 
   // Relecture complète depuis PostgreSQL
-  const reopened = await open(storage);
+  const reopened = await open();
   const state = await reopened.snapshot();
   assert.equal(state.materiels.find((m) => m.id === 'm-test').modele, 'Onduleur test');
   assert.match(state.materiels.find((m) => m.id === 'm-test').idAster, /^MAT-\d{4}$/);
@@ -89,11 +71,11 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   assert.deepEqual(state.remontees.find((r) => r.id === report.id).materielIds, [mat.id]);
   assert.equal(state.materiels.find((m) => m.id === mat.id).modele, 'Renommé après la remontée');
   assert.equal((await reopened.findAccount({ sub: 'kc-nouveau' })).id, 'cpt-test');
-  assert.equal((await reopened.read(admin)).prefs.ambiance, 'orion');
-  assert.equal((await reopened.read(teacher)).prefs.ambiance, 'aster', 'préférences propres à chaque compte');
+  assert.equal((await reopened.read(admin)).prefs.ambiance, 'vigie');
+  assert.equal((await reopened.read(teacher)).prefs.ambiance, 'orion', 'préférences propres à chaque compte');
   assert(state.detections.some((d) => d.processus === 'steam.exe' && d.arret === 'réussi'));
   assert(state.processus.find((p) => p.nom === 'steam.exe').stoppedAt);
-  assert.deepEqual(await reopened.pdf(report.id, teacher), { url: `memoire:///${key}` });
+  assert.equal((await reopened.pdf(report.id, teacher)).subarray(0, 5).toString(), '%PDF-');
   await assert.rejects(reopened.pdf(state.remontees.find((r) => r.ecoleId === 'e-res').id, admin), { status: 404 });
   const row = (await pool.query(`SELECT date_reception FROM ${schema}.aster_materiel WHERE id = 'm-test'`)).rows[0];
   assert.equal(row.date_reception.toISOString(), '2026-10-01T00:00:00.000Z');
@@ -101,25 +83,8 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   assert.deepEqual(account, { email: 'p.nouveau@aster.demo', role: 'formateur', ecole_id: 'e-num', sujet: 'kc-nouveau' });
 });
 
-test('PostgreSQL : un état des lieux manquant est produit puis déposé', { skip: !database && 'PostgreSQL indisponible' }, async () => {
-  const storage = createMemoryStorage();
-  const repo = await open(storage);
-  const admin = await repo.actor('cpt-num-admin');
-  const id = (await repo.read(admin)).remontees[0].id;
-  await pool.query(`UPDATE ${schema}.aster_remontee SET etat_des_lieux_cle = NULL WHERE id = $1`, [id]);
-  storage.objects.clear();
-  const reopened = await open(storage);
-  const { url } = await reopened.pdf(id, admin);
-  assert.equal(storage.objects.size, 1);
-  const [[key, body]] = storage.objects;
-  assert.equal(url, `memoire:///${key}`);
-  assert.equal(body.subarray(0, 5).toString(), '%PDF-');
-  assert((await pool.query(`SELECT etat_des_lieux_cle FROM ${schema}.aster_remontee WHERE id = $1`, [id])).rows[0].etat_des_lieux_cle);
-});
-
 test('PostgreSQL : deux serveurs partagent la même base et fusionnent leurs écritures', { skip: !database && 'PostgreSQL indisponible' }, async () => {
-  const storage = createMemoryStorage();
-  const [a, b] = [await open(storage), await open(storage)];
+  const [a, b] = [await open(), await open()];
   const admin = await a.actor('cpt-num-admin');
   const base = await a.read(admin);
   const [first, second] = [structuredClone(base), structuredClone(base)];
@@ -142,22 +107,3 @@ test('PostgreSQL : deux serveurs partagent la même base et fusionnent leurs éc
   await b.agent.rapports([{ poste: poste.nomReseau, processus: [{ nom: 'notepad.exe', compte: 'stagiaire.02' }] }]);
   assert((await a.snapshot()).processus.some((p) => p.posteId === poste.id && p.nom === 'notepad.exe'));
 });
-
-const s3 = createS3Storage({ ...config.s3, bucket: 'aster-tests' });
-const s3Available = await s3.ensureBucket().then(() => true, () => false);
-test('S3 : dépôt et relecture d’un objet', { skip: !s3Available && 'S3 indisponible' }, async () => {
-  const body = Buffer.from('%PDF-1.4 test');
-  await s3.put('etats-des-lieux/test.pdf', body);
-  assert.deepEqual(await s3.get('etats-des-lieux/test.pdf'), body);
-  await assert.rejects(s3.get('etats-des-lieux/absent.pdf'));
-  const signed = await fetch(await s3.signedUrl('etats-des-lieux/test.pdf', 'test.pdf'));
-  assert.equal(signed.headers.get('content-type'), 'application/pdf');
-  assert.deepEqual(Buffer.from(await signed.arrayBuffer()), body, 'lecture par le lien signé, sans identifiants');
-  const altered = new URL(await s3.signedUrl('etats-des-lieux/test.pdf', 'test.pdf'));
-  altered.pathname = altered.pathname.replace('test.pdf', 'autre.pdf');
-  assert.equal((await fetch(altered)).status, 403, 'signature propre à un objet');
-  const wrong = createS3Storage({ ...config.s3, bucket: 'aster-tests', secretAccessKey: 'faux' });
-  await assert.rejects(wrong.get('etats-des-lieux/test.pdf'));
-  wrong.destroy();
-});
-test.after(() => s3.destroy());

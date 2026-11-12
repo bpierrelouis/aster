@@ -152,8 +152,8 @@ RG-15, RG-31 à RG-33, RG-40 à RG-58, RG-68 et RG-69.
 ### Scénario nominal
 
 1. L'administrateur sélectionne un ou plusieurs matériels, choisit éventuellement un type de problème et saisit la description.
-2. ASTER enregistre la remontée « en attente » et génère automatiquement son PDF d'état des lieux.
-3. L'administrateur consulte, télécharge ou imprime le PDF.
+2. ASTER enregistre la remontée « en attente ».
+3. L'administrateur consulte, télécharge ou imprime le PDF d'état des lieux, qu'ASTER génère à chaque demande avec les informations actuelles de la remontée.
 4. Il peut traiter la remontée en la passant de « en attente » à « remplacé » ou « corrigé » ; cette transition est unique.
 5. ASTER enregistre le statut commun à toute la remontée.
 
@@ -167,7 +167,7 @@ RG-15, RG-31 à RG-33, RG-40 à RG-58, RG-68 et RG-69.
 ### Questions ouvertes
 
 - Qualification, affectation et délais.
-- Archivage, immutabilité et versionnement du PDF.
+- Signature du PDF.
 
 ### Règles applicables
 

@@ -6,4 +6,4 @@
 
 ## Architecture réelle sur VM
 
-![Déploiement complet du démonstrateur ASTER sur huit VM](assets/architecture/ASTER-DEPLOIEMENT-VM.svg)
+![Déploiement complet du démonstrateur ASTER sur sept VM](assets/architecture/ASTER-DEPLOIEMENT-VM.svg)

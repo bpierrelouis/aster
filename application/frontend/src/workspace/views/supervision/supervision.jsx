@@ -21,7 +21,7 @@ import { Icon, Tile } from '../../ui/icons.jsx';
 import { AppIcon } from '../../ui/app-icon.jsx';
 import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.jsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.jsx';
-import { OpsEmpty, OpsTable, PageHead } from '../../widgets/parts.jsx';
+import { OpsEmpty, OpsTable, PageHead, PosteEtat } from '../../widgets/parts.jsx';
 import { dateTime, clock } from '#shared/format.js';
 import { useTitle } from '../../hooks/use-title.js';
 
@@ -118,8 +118,9 @@ function Rooms({ salleId, query, relevant }) {
   });
   if (!shown.length) return <Empty title="Aucun poste" text="Aucun poste ni processus en cours ne correspond à cette recherche." />;
   return <div className="ops-grid">{shown.map(({ p, processes }) => <article key={p.id} className="ops-card glass">
-    <div className="ops-card-top"><Tile name="desktop" color="var(--accent)" size="m" /><div><h2>{p.nomReseau}</h2><p><span className={`led led--${p.connecte ? 'ok' : 'wait'}`}></span> {p.connecte ? 'Connecté' : 'Déconnecté'}</p></div></div>
-    {!p.connecte ? <p className="ops-muted">Aucun processus disponible.</p>
+    <div className="ops-card-top"><Tile name="desktop" color="var(--accent)" size="m" /><div><h2>{p.nomReseau}</h2><p><PosteEtat p={p} /></p></div></div>
+    {!p.allume ? <p className="ops-muted">Aucun processus disponible.</p>
+      : !p.session ? <p className="ops-muted">Aucune session ouverte.</p>
       : !processes.length ? <p className="ops-muted">Aucun processus utilisateur en cours.</p>
         : processes.map((x) => <div key={x.id} className="ops-process">
           <AppIcon name={x.nom} />
@@ -184,7 +185,7 @@ function Rules({ query }) {
 
 function Stats({ relevant, query }) {
   const postes = scope().postes;
-  const connected = postes.filter((p) => p.connecte).length;
+  const allumes = postes.filter((p) => p.allume).length;
   const ds = detections();
   const counts = new Map();
   ds.forEach((d) => counts.set(d.processus, (counts.get(d.processus) || 0) + 1));
@@ -192,7 +193,7 @@ function Stats({ relevant, query }) {
   const matches = matcher(query);
   const shown = [...counts].filter(([nom]) => matches(processText(nom))).sort((x, y) => y[1] - x[1]);
   const metrics = [
-    ['Postes connectés', connected, `${postes.length} postes au total`],
+    ['Postes allumés', allumes, `${postes.length} postes au total`],
     ['Processus utilisateur actifs', relevant.filter((p) => !p.stoppedAt).length, 'Dernier état disponible'],
     ['Détections conservées', ds.length, `${ds.filter((d) => d.classement === 'blacklist').length} processus interdits`],
   ];

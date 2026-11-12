@@ -11,7 +11,6 @@ import { identityFromClaims, userFromAccount } from './profiles.js';
 import { createWorkspaceRouter, createAgentRouter } from './workspace/routes.js';
 import { createKeycloakProvisioning } from './demonstrateur/identity-provisioning.js';
 import { createPostgresWorkspaceRepository } from './workspace/postgres.js';
-import { createS3Storage } from './storage.js';
 import { createServices } from './services.js';
 import { openapi } from './openapi.js';
 import { DISCONNECT_AFTER } from './workspace/postes.js';
@@ -50,9 +49,8 @@ const saveSession = (req) => new Promise((resolve, reject) => req.session.save((
 const regenerateSession = (req) => new Promise((resolve, reject) => req.session.regenerate((error) => error ? reject(error) : resolve()));
 const destroySession = (req) => new Promise((resolve, reject) => req.session.destroy((error) => error ? reject(error) : resolve()));
 
-// Espace de travail : données métier dans PostgreSQL, états des lieux PDF dans le stockage S3.
-const storage = createS3Storage(config.s3);
-const workspaceRepository = await createPostgresWorkspaceRepository({ pool, storage });
+// Espace de travail : données métier dans PostgreSQL ; états des lieux PDF produits à la demande.
+const workspaceRepository = await createPostgresWorkspaceRepository({ pool });
 
 // Système : état et description des services, documentation de l'API
 const services = createServices({ config, pool, snapshot: workspaceRepository.snapshot, connectedAfter: DISCONNECT_AFTER });

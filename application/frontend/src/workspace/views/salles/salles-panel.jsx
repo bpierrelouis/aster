@@ -149,7 +149,7 @@ export function SalleDetail({ x, stageBat, selected, devs, act }) {
   const navigate = useNavigate();
   const closeTo = `/salles${stageBat ? `/batiment/${stageBat}` : ''}`;
   useEscape(() => navigate(closeTo));
-  const v = parc().bySalle.get(x.id) ?? { total: 0, hs: 0, ok: 0, postes: 0, connectes: 0, attente: 0 };
+  const v = parc().bySalle.get(x.id) ?? { total: 0, hs: 0, ok: 0, postes: 0, allumes: 0, attente: 0 };
   const inst = installationOf(x.id);
   const st = inst ? null : salleStatut(x.id, v.total); // en cours d'installation : bloc d'avancement ci-dessous
   const list = materielsOf(x.id);
@@ -169,7 +169,7 @@ export function SalleDetail({ x, stageBat, selected, devs, act }) {
     <ul className="stat-row">
       <li data-tip="Matériels"><Icon name="materiel" size={20} /><b>{num(v.total)}</b></li>
       <li data-tip="Hors service" className={v.hs ? 'is-alert' : ''}><Icon name="power" size={20} /><b>{num(v.hs)}</b></li>
-      <li className={postesLink ? 'stat-link' : ''} data-tip="Postes supervisés connectés"><Icon name="supervision" size={20} /><b>{num(v.connectes)}<small>/{num(v.postes)}</small></b>{postesLink && <Link className="stretched" to={postesLink} aria-label="Superviser les postes" />}</li>
+      <li className={postesLink ? 'stat-link' : ''} data-tip="Postes supervisés allumés"><Icon name="supervision" size={20} /><b>{num(v.allumes)}<small>/{num(v.postes)}</small></b>{postesLink && <Link className="stretched" to={postesLink} aria-label="Superviser les postes" />}</li>
       {v.attente ? <li data-tip="Matériels en remontée" className="is-wait"><Icon name="hourglass" size={20} /><b>{num(v.attente)}</b></li> : null}
     </ul>
     {v.total ? <EtatBar c={v} thin /> : null}

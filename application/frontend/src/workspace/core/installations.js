@@ -11,10 +11,8 @@
    ========================================================================== */
 
 import { cached, scope, index } from './selectors.js';
-import { DAY } from '#shared/format.js';
-import { SALLE_STATUTS } from '#shared/catalog.js';
+import { SALLE_STATUTS, TERMINEES_RECENTES } from '#shared/catalog.js';
 
-const RECENT = 30 * DAY; // installations terminées : le dernier mois
 const key = (de, vers) => `${de ?? ''}>${vers ?? ''}`;
 const progress = (x) => {
   const total = x.enCours.length + x.faits.length;
@@ -59,7 +57,7 @@ export const installations = () => cached('installations', () => {
 
   // Installations terminées récemment : salles sans trajet, avec un déplacement confirmé depuis moins d'un mois
   const finies = new Map();
-  for (const m of confirmes.filter((x) => x.installation.at > now - RECENT)) for (const id of new Set([m.salleId, m.installation.de])) {
+  for (const m of confirmes.filter((x) => x.installation.at > now - TERMINEES_RECENTES)) for (const id of new Set([m.salleId, m.installation.de])) {
     if (!id || !salleIds.has(id) || bySalle.has(id)) continue;
     if (!finies.has(id)) finies.set(id, { salle: index().salle.get(id), enCours: [], aInstaller: [], aRetirer: [], faits: [], fin: 0 });
     const x = finies.get(id);

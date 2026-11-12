@@ -5,14 +5,16 @@
    - Gestionnaire : nouvelles remontées de la semaine, garanties échues ou
      arrivant à échéance (état du parc), matériels à déplacer (installation).
    - Auteur d'une remontée (formateur, administrateurs) : ses remontées
-     traitées, à valider pour les clore, jusqu'à leur validation.
+     terminées (remplacées ou corrigées) cette semaine.
    - Formateur : ses remontées prises en charge par d'autres cette semaine.
-   - Administrateurs : processus interdits lancés cette semaine (arrêtés
-     automatiquement).
+   - Administrateurs : interventions terminées cette semaine (installation,
+     désinstallation, réinstallation, réussies ou en échec) et processus
+     interdits lancés cette semaine (arrêtés automatiquement).
    ========================================================================== */
 
 import { me } from './store.js';
-import { parc, remontees, detections } from './selectors.js';
+import { parc, remontees, detections, treatedAt } from './selectors.js';
+import { interventions } from './interventions.js';
 import { statut } from '#shared/catalog.js';
 import { DAY, plural } from '#shared/format.js';
 
@@ -49,17 +51,16 @@ export function notificationGroups(now = Date.now()) {
   }
 
   if (['formateur', 'admin', 'superadmin'].includes(role)) {
-    // Traitement terminé : l'auteur valide et clôt sa remontée ; rappel jusqu'à la validation
     add({
-      id: 'avalider', icon: 'clipboardCheck', color: 'var(--ok)', href: role === 'formateur' ? '/remontees/traitees' : '/remontees/miennes', period: 'En attente de votre validation',
-      title: (n) => `${plural(n, 'remontée traitée', 'remontées traitées')}, à valider`,
-      items: remontees().mineAValider.map((r) => { const h = r.historique.findLast((x) => statut(x.statut).phase === 'traitee'); return { kind: 'statut', at: h?.at ?? r.createdAt, r, h }; }),
+      id: 'terminees', icon: 'checkCircle', color: 'var(--ok)', href: role === 'formateur' ? '/remontees/terminees' : '/remontees/miennes', period: 'Cette semaine',
+      title: (n) => plural(n, 'remontée terminée', 'remontées terminées'),
+      items: remontees().mine.filter((r) => treatedAt(r) > since).map((r) => { const h = r.historique.findLast((x) => statut(x.statut).phase === 'terminee'); return { kind: 'statut', at: h.at, r, h }; }),
     });
   }
 
   if (role === 'formateur') {
     add({
-      id: 'encours', icon: 'wrench', color: 'var(--c5)', href: '/remontees/encours', period: 'Cette semaine',
+      id: 'encours', icon: 'refresh', color: 'var(--c5)', href: '/remontees/encours', period: 'Cette semaine',
       title: (n) => plural(n, 'remontée prise en charge', 'remontées prises en charge'),
       items: remontees().mine.flatMap((r) => r.historique
         .filter((h) => statut(h.statut).phase === 'encours' && h.parId !== me().id && h.at > since)
@@ -68,6 +69,11 @@ export function notificationGroups(now = Date.now()) {
   }
 
   if (role === 'admin' || role === 'superadmin') {
+    add({
+      id: 'interventions', icon: 'download', color: 'var(--ok)', href: '/administration/interventions', period: 'Cette semaine',
+      title: (n) => plural(n, 'intervention terminée', 'interventions terminées'),
+      items: interventions().filter((x) => ['fait', 'echec'].includes(x.etat) && x.o.termineLe > since).map((x) => ({ kind: 'intervention', at: x.o.termineLe, x })),
+    });
     add({
       id: 'interdits', icon: 'shieldX', color: 'var(--crit)', href: '/supervision/alertes', period: 'Cette semaine, arrêtés automatiquement',
       title: (n) => plural(n, 'processus interdit a été lancé', 'processus interdits ont été lancés'),

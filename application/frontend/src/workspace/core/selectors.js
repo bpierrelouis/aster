@@ -24,6 +24,11 @@ const inScope = (ecoleId) => {
 };
 
 export const batimentLabel = (b) => `Bâtiment ${b}`;
+/** Étage : « Rez-de-chaussée », « 1er étage », « Sous-sol 1 » ; forme courte : RDC, 1er, SS1 */
+export const floorLabel = (n) => n === 0 ? 'Rez-de-chaussée' : n < 0 ? `Sous-sol ${Math.abs(n)}` : `${n}${n === 1 ? 'er' : 'e'} étage`;
+export const floorShort = (n) => n === 0 ? 'RDC' : n < 0 ? `SS${Math.abs(n)}` : `${n}${n === 1 ? 'er' : 'e'}`;
+/** Emplacement d'une salle : bâtiment – étage – salle (« A – 1er – A101 ») */
+export const emplacement = (s) => (s ? `${s.batiment} – ${floorShort(s.etage ?? 0)} – ${s.nom}` : '');
 
 export const index = () => cached('index', () => {
   const s = store.state;
@@ -55,7 +60,7 @@ export const parc = () => cached('parc', () => {
   const now = Date.now();
   const totals = { total: materiels.length, affectes: 0, stock: 0, hs: 0, ok: 0 };
   const byType = Object.fromEntries(DEVICE_TYPES.map((t) => [t.id, blank()]));
-  const bySalle = new Map(salles.map((x) => [x.id, { ...blank(), types: {}, postes: 0, connectes: 0, attente: 0 }]));
+  const bySalle = new Map(salles.map((x) => [x.id, { ...blank(), types: {}, postes: 0, allumes: 0, attente: 0 }]));
   for (const m of materiels) {
     if (m.salleId) totals.affectes++; else totals.stock++;
     if (m.hs) totals.hs++; else totals.ok++;
@@ -63,7 +68,7 @@ export const parc = () => cached('parc', () => {
     const sl = m.salleId && bySalle.get(m.salleId);
     if (sl) { sl.total++; m.hs ? sl.hs++ : sl.ok++; sl.types[m.type] = (sl.types[m.type] ?? 0) + 1; }
   }
-  for (const p of postes) { const sl = bySalle.get(p.salleId); if (sl) { sl.postes++; if (p.connecte) sl.connectes++; } }
+  for (const p of postes) { const sl = bySalle.get(p.salleId); if (sl) { sl.postes++; if (p.allume) sl.allumes++; } }
   for (const r of remontees().attente) for (const id of r.materielIds) {
     const m = index().materiel.get(id); const sl = m?.salleId && bySalle.get(m.salleId);
     if (sl) sl.attente++;
@@ -129,10 +134,10 @@ function echeances(materiels, now) {
 }
 
 /** Date du traitement d'une remontée (remplacé ou corrigé), ou null tant qu'elle est en attente ou en cours */
-export const treatedAt = (r) => r.historique.find((h) => statut(h.statut).phase === 'traitee')?.at ?? null;
+export const treatedAt = (r) => r.historique.find((h) => statut(h.statut).phase === 'terminee')?.at ?? null;
 
 /** Onglet de la liste des remontées qui présente une remontée, selon sa phase */
-const PHASE_TAB = { attente: 'attente', encours: 'encours', traitee: 'traitees', validee: 'validees' };
+const PHASE_TAB = { attente: 'attente', encours: 'encours', terminee: 'terminees' };
 export const remonteePath = (r) => `/remontees/${PHASE_TAB[phaseOf(r)]}/${r.id}`;
 /** Phase d'une remontée à une date : celle de son dernier changement de statut à cette date (null avant sa création) */
 const phaseAt = (r, t) => (r.createdAt > t ? null : statut(r.historique.findLast((h) => h.at <= t)?.statut ?? 'attente').phase);
@@ -180,9 +185,8 @@ export const remontees = () => cached('remontees', () => {
   const inPhase = (list, p) => list.filter((r) => phaseOf(r) === p);
   const attente = inPhase(visible, 'attente');
   const encours = inPhase(visible, 'encours');
-  const traitees = inPhase(visible, 'traitee');   // remplacées ou corrigées, à valider par leur auteur
-  const validees = inPhase(visible, 'validee');   // validées et closes par leur auteur
-  const resolues = visible.filter((r) => treatedAt(r) !== null); // traitées, validées ou non
+  const terminees = inPhase(visible, 'terminee'); // remplacées ou corrigées
+  const resolues = visible.filter((r) => treatedAt(r) !== null);
   const byStatut = Object.fromEntries(REMONTEE_STATUTS.map((s) => [s.id, 0]));
   for (const r of visible) byStatut[r.statut]++;
   const W = 7 * DAY;
@@ -209,10 +213,10 @@ export const remontees = () => cached('remontees', () => {
   }
   const mesRemontees = s.remontees.filter((r) => inScope(r.ecoleId) && mine(r));
   return {
-    visible, attente, encours, traitees, validees, byStatut, weeks, recentTraitees, traiteesAvant, delai, problemes,
+    visible, attente, encours, terminees, byStatut, weeks, recentTraitees, traiteesAvant, delai, problemes,
     attenteAvant: countAt(visible, now - 7 * DAY, 'attente'), // en attente il y a 7 jours
     aTraiter: [...attente, ...encours].sort((a, b) => a.createdAt - b.createdAt), // en attente ou en cours, les plus anciennes d'abord
-    mine: mesRemontees, mineAttente: inPhase(mesRemontees, 'attente'), mineAValider: inPhase(mesRemontees, 'traitee'),
+    mine: mesRemontees, mineAttente: inPhase(mesRemontees, 'attente'),
   };
 });
 

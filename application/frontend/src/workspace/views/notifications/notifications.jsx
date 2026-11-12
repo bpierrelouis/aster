@@ -11,7 +11,8 @@ import { useStore } from '../../hooks/use-store.js';
 import { useTitle } from '../../hooks/use-title.js';
 import { notificationGroups } from '../../core/notifications.js';
 import { index, remonteeContext, remonteePath } from '../../core/selectors.js';
-import { deviceType, statut } from '#shared/catalog.js';
+import { titreIntervention, objetIntervention } from '../../core/interventions.js';
+import { deviceType, statut, intervention, etatIntervention } from '#shared/catalog.js';
 import { ago, dateMed, num } from '#shared/format.js';
 import { GroupCard, GroupGrid, PageHead } from '../../widgets/parts.jsx';
 import { lieuNom } from '../salles/installation.jsx';
@@ -36,6 +37,16 @@ function NotificationRow({ n }) {
       <Tile name={t.icon} color={t.color} size="m" className="tile--tint" />
       <span className="row-main"><span className="row-title">{n.m.modele}</span>
         <span className="row-sub"><span className="row-meta">{n.m.idAster}</span><span className="row-meta">{lieuNom(n.m.deplacement.de)} → {lieuNom(n.m.salleId)}</span></span></span>
+      <span className="row-when">{ago(n.at)}</span>
+    </Link></li>;
+  }
+  if (n.kind === 'intervention') {
+    const { o, n: c } = n.x;
+    return <li><Link className="row" to={`/administration/interventions/${o.id}`}>
+      {o.type === 'reinstallation' ? <Tile name={intervention(o.type).icon} color="var(--accent)" size="m" className="tile--tint" /> : <AppIcon name={objetIntervention(o)} size={32} />}
+      <span className="row-main"><span className="row-title">{titreIntervention(o)}</span>
+        <span className="row-sub"><span className="row-meta">{n.x.cible.label}</span>
+          <span className="row-meta">{etatIntervention(o.type, n.x.etat)}{c.echec ? ` sur ${num(c.echec)} poste${c.echec > 1 ? 's' : ''}` : ''}</span></span></span>
       <span className="row-when">{ago(n.at)}</span>
     </Link></li>;
   }

@@ -1,6 +1,6 @@
 # Dossier d’architecture technique (DAT) — ASTER
 
-**Date de référence :** 11 novembre 2026
+**Date de référence :** 12 novembre 2026
 
 **Périmètre :** contexte et contraintes, justification des briques, démonstrateur local et architecture de son déploiement sur VM, versions des technologies, architecture cible.
 
@@ -13,7 +13,7 @@ Le client a demandé un dossier d’architecture technique (entretien du 23 octo
 - **l’architecture cible**, qui décrit le système attendu dans son environnement d’exploitation ;
 - **l’architecture réelle**, qui correspond au système effectivement développé, conteneurisé et présenté par l’équipe.
 
-L’architecture réelle décrit le montage local exécuté aujourd’hui et son déploiement proposé sur huit VM. Keycloak tient lieu de MindefConnect, SeaweedFS fournit l’API S3 et un processus Node.js émule les postes Windows. Le montage local actuel fédère les identités dans OpenLDAP.
+L’architecture réelle décrit le montage local exécuté aujourd’hui et son déploiement proposé sur sept VM. Keycloak tient lieu de MindefConnect et un processus Node.js émule les postes Windows. Le montage local actuel fédère les identités dans OpenLDAP.
 
 ## 2. Contexte et contraintes structurantes
 
@@ -25,7 +25,7 @@ Les décisions en vigueur imposent ou orientent les éléments suivants :
 - le serveur front expose l’interface en HTTPS et transmet, comme reverse proxy, les requêtes `/api` et `/auth` au serveur back ;
 - le système dispose d’un puits de logs et expose les points d’accès `/api/health` et `/api/info` ;
 - PostgreSQL conserve les données applicatives ;
-- les PDF d’état des lieux sont stockés dans un service compatible S3 ;
+- les PDF d’état des lieux sont produits à la demande par le serveur back et ne sont pas conservés ;
 - les postes administrés utilisent Windows et le navigateur attendu est Firefox ;
 - JavaScript est le langage préféré pour la réalisation ;
 - l’environnement est un réseau interne NP disposant d’un accès à Internet ;
@@ -39,7 +39,7 @@ Les décisions en vigueur imposent ou orientent les éléments suivants :
 | Authentification | MindefConnect | Keycloak local et annuaire OpenLDAP, en OIDC | Obtenir et qualifier le contrat MindefConnect |
 | Profils et droits | Comptes ASTER dans PostgreSQL | Même principe dans la base ASTER | Le fournisseur d’identité authentifie uniquement ; il ne fournit pas les profils applicatifs |
 | Données métier et sessions | PostgreSQL | Conteneur PostgreSQL ASTER | Définir l’offre, les sauvegardes et la disponibilité sur le C1NP |
-| PDF d’état des lieux | Stockage S3, téléchargement direct par l’utilisateur au moyen d’un lien signé | SeaweedFS compatible S3 et liens présignés | Remplacer l’endpoint local par le service retenu, joignable par les navigateurs |
+| PDF d’état des lieux | Produit par le serveur back à chaque demande, après contrôle des droits, sans stockage | Express produit le PDF à chaque demande, avec les informations actuelles de la remontée | Aucun |
 | Administration Windows | Outil ou agent autorisé à déterminer | Émulateur de postes utilisant l’API réelle | Sélectionner puis intégrer la solution d’administration |
 | Points d’accès techniques | `/api/health` et `/api/info` | `/api/health` | Ajouter `/api/info` |
 | Journaux | Puits de logs | Sortie standard des processus | Raccorder les journaux au puits de logs |
@@ -55,9 +55,9 @@ Les décisions en vigueur imposent ou orientent les éléments suivants :
 | Annuaire des identités | Interne à MindefConnect | OpenLDAP fédéré par Keycloak | Porte uniquement l’identité (identifiant, nom, adresse) ; aucun profil ni école n’y est stocké | Composant strictement local |
 | Sessions | Stockage serveur partagé | `express-session` et `connect-pg-simple` dans PostgreSQL ASTER | Le navigateur ne reçoit qu’un cookie HttpOnly ; la session peut être invalidée côté serveur | Durée et purge cibles à fixer |
 | Données structurées | PostgreSQL | PostgreSQL dans un conteneur dédié | Choix du projet ; transactions, contraintes et persistance centralisée | Sauvegarde, réplication et dimensionnement non définis |
-| Documents PDF | API S3 et liens signés | SeaweedFS, AWS SDK S3 et signature des URL | Découple les fichiers binaires de la base relationnelle ; le lien signé, de courte durée et propre à un objet, évite le transit du document par le back sans ouvrir le compartiment | Produit, rétention et chiffrement cibles à déterminer |
+| Documents PDF | Production à la demande par le serveur back | Module d’Express, sans dépendance externe | Le document reprend toujours les informations actuelles de la remontée ; aucun fichier n’est conservé ni exposé, et le back contrôle la session et le périmètre du compte avant de le produire | Modèle officiel, signature et numérotation non définis |
 | Postes Windows | Solution d’administration ou agent autorisé | Émulateur de postes | Le poste reste l’origine des processus, installations et résultats ; toutes les opérations passent par l’API du back | Ne prouve ni l’exécution, ni l’enrôlement, ni la mise à jour sur Windows |
-| Conteneurisation | Mode de déploiement sur le C1NP à déterminer | Docker Compose : quatre conteneurs et quatre volumes | Services reproductibles, persistances séparées, aucune installation manuelle | Conteneurs non confirmés pour la cible |
+| Conteneurisation | Mode de déploiement sur le C1NP à déterminer | Docker Compose : trois conteneurs et trois volumes | Services reproductibles, persistances séparées, aucune installation manuelle | Conteneurs non confirmés pour la cible |
 | Sécurité HTTP | HTTPS terminé par le reverse proxy du serveur front, filtrage | Helmet, écoute sur la boucle locale ; en mode production, HTTPS, cookies sécurisés et secrets dédiés exigés au démarrage | Réduit l’exposition et refuse une configuration de production incomplète | Aucun reverse proxy HTTPS déployé |
 
 Pour le déploiement sur VM, le démonstrateur n’utilise que des produits présents dans la colonne C1NP du cadre de cohérence technique (CCT 2026-2027, version 3.7), hormis Docker et les substituts des services du réseau cible (§ 4.5). Le CCT recommande HAProxy pour le reverse proxy et la répartition de charge, et Apache HTTP Server pour servir les fichiers ; NGINX doit être justifié par rapport à Apache. Apache sert le build React et renvoie `index.html` pour les routes de l’interface. Express, recommandé par le CCT pour les back-ends Node.js, reste le serveur de l’API métier.
@@ -66,20 +66,19 @@ Pour le déploiement sur VM, le démonstrateur n’utilise que des produits pré
 
 ### 4.1. Vue d’ensemble
 
-Le [schéma de l’architecture réelle sur VM](18-DIAGRAMMES-ARCHITECTURE.md#architecture-réelle-sur-vm) présente le déploiement à mettre en place pour le démonstrateur. Le [montage local actuel](../application/README.md) tourne sur un poste de développement. Docker Engine et Docker Compose exécutent PostgreSQL, Keycloak, OpenLDAP et SeaweedFS sur cet hôte. Concurrently lance Vite, Express et l’émulateur dans trois processus distincts.
+Le [schéma de l’architecture réelle sur VM](18-DIAGRAMMES-ARCHITECTURE.md#architecture-réelle-sur-vm) présente le déploiement à mettre en place pour le démonstrateur. Le [montage local actuel](../application/README.md) tourne sur un poste de développement. Docker Engine et Docker Compose exécutent PostgreSQL, Keycloak et OpenLDAP sur cet hôte. Concurrently lance Vite, Express et l’émulateur dans trois processus distincts.
 
-Le navigateur ne contacte jamais PostgreSQL. Pour télécharger un PDF, il appelle une route authentifiée d’Express. Le back contrôle la session et le périmètre du compte, puis le redirige vers une URL S3 présignée, valable 60 secondes et propre à ce document. En local, le navigateur joint SeaweedFS directement. Sur les VM, le reverse proxy relaie le téléchargement. Dans les deux cas, SeaweedFS fournit le PDF au navigateur sans faire transiter le document par Express.
+Le navigateur ne contacte jamais PostgreSQL. Pour obtenir un PDF d’état des lieux, il appelle une route authentifiée d’Express (`GET /api/workspace/reports/{id}/pdf`). Le back contrôle la session et le périmètre du compte, produit le document avec les informations actuelles de la remontée et le renvoie dans sa réponse. Aucun exemplaire n’est conservé : chaque demande produit un nouveau document.
 
 ### 4.2. Services, accès et persistance
 
 | Service | Adresse ou réseau | Persistance | Responsabilité |
 | --- | --- | --- | --- |
 | Vite | `http://localhost:5173` | aucune | Interface et proxy `/api` et `/auth` |
-| Express | `http://localhost:3001` | aucune dans le processus | OIDC, API métier, règles, API des postes, accès aux données et signature des liens de téléchargement |
+| Express | `http://localhost:3001` | aucune dans le processus | OIDC, API métier, règles, API des postes, accès aux données et production des PDF d’état des lieux |
 | Keycloak | `http://localhost:8081` | aucune : configuration réimportée au démarrage | Fournisseur d’identité local |
 | OpenLDAP | réseau Compose uniquement | volumes `ldap-data` et `ldap-config` | Identités : identifiant, nom et adresse électronique |
 | PostgreSQL ASTER | `localhost:5432` | volume `postgres-data` | Base `aster` : données métier et sessions |
-| SeaweedFS | `http://localhost:8333` | volume `s3-data` | Compartiment des PDF d’état des lieux, lu par le navigateur au moyen de liens signés |
 | Émulateur de postes | processus Node.js local | aucune | Rapports, réception des interventions et retour des résultats |
 
 Les ports publiés le sont uniquement sur `127.0.0.1`. L’annuaire OpenLDAP ne publie aucun port sur l’hôte.
@@ -131,8 +130,7 @@ Le montage local conserve les données dans des volumes Docker. Les reprises aut
 ### 4.4. Flux des données et des postes en local
 
 - Le front appelle Express ; Express applique les droits puis écrit dans PostgreSQL ASTER.
-- À la transmission d’une remontée, Express produit le PDF et le dépose dans SeaweedFS via l’API S3.
-- Au téléchargement, Express vérifie les droits et redirige le navigateur vers un lien signé ; le navigateur lit le PDF dans SeaweedFS.
+- À la demande d’un état des lieux, Express vérifie les droits, produit le PDF à partir des données actuelles et le renvoie au navigateur, sans le conserver.
 - L’émulateur publie les processus et applications installées sur `/api/agent/rapports`.
 - Express renvoie dans cette réponse les interventions à exécuter.
 - L’émulateur publie ensuite leur résultat sur `/api/agent/resultats`.
@@ -143,32 +141,30 @@ Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée
 
 **Principes retenus.**
 
-- **Un rôle par VM.** Chaque rôle a sa propre VM : une panne ou une intervention sur l’un ne touche pas les autres. Keycloak et OpenLDAP, qui simulent ensemble MindefConnect, partagent la VM 06.
+- **Un rôle par VM.** Chaque rôle a sa propre VM : une panne ou une intervention sur l’un ne touche pas les autres. Keycloak et OpenLDAP, qui simulent ensemble MindefConnect, partagent la VM 05.
 - **Doublement là où il est simple.** Apache et Express, sans données, ont deux instances actives : la perte de l’une ne coupe pas le service. Les autres services ont une seule instance, relancée automatiquement s’il s’arrête ou au redémarrage de sa VM ; l’émulateur est en plus relancé sur une autre VM si la sienne tombe, les services à volume attendent le retour de leur VM (§ 4.6). Aucune action manuelle n’est nécessaire.
-- **Les VM fournies, telles quelles.** Les huit VM sont sous Debian 13, avec Docker déjà installé. Tous les services sont des conteneurs, gérés par une seule pile Docker Swarm. Aucune VM d’administration ni outil d’automatisation n’est ajouté : l’opérateur administre depuis son poste avec le client Docker, SSH et quelques scripts.
-- **Technologies du CCT.** Seuls des produits présents dans la colonne C1NP de l’annexe « pile logicielle » du CCT 2026-2027 (version 3.7) sont utilisés, à trois exceptions près : le système des VM fournies pour la démonstration (Debian 13, avec Docker déjà installé), qui n’existera pas sur le C1NP, Docker Engine et Swarm, et les substituts des services du réseau cible (Keycloak et OpenLDAP pour MindefConnect, SeaweedFS pour le stockage S3 du ministère, Logstash de la VM 08 pour le service d’observabilité). Les images utilisées sont les images officielles de ces produits ; ASTER construit les siennes à partir des images officielles `httpd:2.4` et `node:22`. OpenSSH, systemd et `systemd-timesyncd` sont traités comme des composants de Debian 13.
+- **Les VM fournies, telles quelles.** Les sept VM sont sous Debian 13, avec Docker déjà installé. Tous les services sont des conteneurs, gérés par une seule pile Docker Swarm. Aucune VM d’administration ni outil d’automatisation n’est ajouté : l’opérateur administre depuis son poste avec le client Docker, SSH et quelques scripts.
+- **Technologies du CCT.** Seuls des produits présents dans la colonne C1NP de l’annexe « pile logicielle » du CCT 2026-2027 (version 3.7) sont utilisés, à trois exceptions près : le système des VM fournies pour la démonstration (Debian 13, avec Docker déjà installé), qui n’existera pas sur le C1NP, Docker Engine et Swarm, et les substituts des services du réseau cible (Keycloak et OpenLDAP pour MindefConnect, Logstash de la VM 07 pour le service d’observabilité). Les images utilisées sont les images officielles de ces produits ; ASTER construit les siennes à partir des images officielles `httpd:2.4` et `node:22`. OpenSSH, systemd et `systemd-timesyncd` sont traités comme des composants de Debian 13.
 
 | VM | Rôle | Service | Exécution | Swarm | Ports d’écoute | Volume |
 | --- | --- | --- | --- | --- | --- | --- |
-| 01 | Entrée et horloge | HAProxy 3.2 ; chrony | Conteneur, réseau de l’hôte ; chrony sur l’hôte | Manager | HTTPS `443`, `8443`, `9443` ; `8444` pour l’administration ; NTP `123/UDP` | — |
+| 01 | Entrée et horloge | HAProxy 3.2 ; chrony | Conteneur, réseau de l’hôte ; chrony sur l’hôte | Manager | HTTPS `443`, `8443` ; `8444` pour l’administration ; NTP `123/UDP` | — |
 | 02 | Interface | Apache HTTP Server 2.4 et build React | Conteneur | Worker, groupe sans données | HTTP `8080`, réseau overlay | — |
 | 03 | API | Express 5 sur Node.js 22 | Conteneur | Worker, groupe sans données | HTTP `3001`, réseau overlay | — |
 | 04 | Base de données | PostgreSQL 17.7 | Conteneur | Manager | TCP `5432`, réseau overlay | Volume Docker `pg-data` |
-| 05 | Fichiers (substitut) | SeaweedFS 4.50 | Conteneur | Manager | S3 HTTP `8333`, réseau overlay | Volume Docker `s3-data` |
-| 06 | Identité (substituts) | Keycloak 26.7.4 et OpenLDAP 1.5.0 | Deux conteneurs | Worker | HTTP `8080` et LDAP `389`, réseau overlay | Volumes Docker `ldap-data`, `ldap-config` |
-| 07 | Postes simulés | Émulateur des postes, Node.js 22 | Conteneur | Worker, groupe sans données | Aucun | — |
-| 08 | Journaux (substitut) | Logstash 8.19 | Conteneur | Worker | TCP TLS `6514`, publié sur l’IP de la VM | Dossier de la VM `/var/log/aster`, monté dans le conteneur |
+| 05 | Identité (substituts) | Keycloak 26.7.4 et OpenLDAP 1.5.0 | Deux conteneurs | Manager | HTTP `8080` et LDAP `389`, réseau overlay | Volumes Docker `ldap-data`, `ldap-config` |
+| 06 | Postes simulés | Émulateur des postes, Node.js 22 | Conteneur | Worker, groupe sans données | Aucun | — |
+| 07 | Journaux (substitut) | Logstash 8.19 | Conteneur | Worker | TCP TLS `6514`, publié sur l’IP de la VM | Dossier de la VM `/var/log/aster`, monté dans le conteneur |
 
 **Échanges numérotés de la vue simplifiée.**
 
 1. Le navigateur joint HAProxy, seule porte d’entrée, par l’adresse IP de la VM 01.
-2. HAProxy sert l’interface (Apache) et transmet les appels `/api` et `/auth` à Express.
+2. HAProxy sert l’interface (Apache) et transmet les appels `/api` et `/auth` à Express, qui produit aussi les états des lieux PDF à la demande.
 3. Express lit et écrit les données dans PostgreSQL.
 4. Pour se connecter, le navigateur passe par HAProxy vers Keycloak, qui vérifie l’identité dans OpenLDAP.
-5. Pour télécharger un état des lieux, le navigateur passe par HAProxy vers SeaweedFS, avec un lien signé fourni par Express.
-6. Les postes simulés envoient leurs rapports à Express et reçoivent les interventions à exécuter.
-7. Les conteneurs envoient leurs journaux au collecteur Logstash.
-8. L’opérateur administre les VM par SSH depuis son poste.
+5. Les postes simulés envoient leurs rapports à Express et reçoivent les interventions à exécuter.
+6. Les conteneurs envoient leurs journaux au collecteur Logstash.
+7. L’opérateur administre les VM par SSH depuis son poste.
 
 #### Réseau, adresses et ports
 
@@ -178,27 +174,26 @@ Aucun DNS ne permet de joindre les services depuis l’extérieur : seule l’ad
 | --- | --- | --- |
 | `https://<IP VM 01>` (port `443`) | ASTER : interface et API | Utilisateurs |
 | `https://<IP VM 01>:8443` | Keycloak : connexion, émetteur OIDC | Utilisateurs et Express |
-| `https://<IP VM 01>:9443` | SeaweedFS : PDF par liens signés | Utilisateurs et Express |
 | `https://<IP VM 01>:8444` | Console d’administration de Keycloak | Réseau d’administration seulement |
-| `<IP de chaque VM>`, port `22` | Administration par SSH des huit VM | Réseau d’administration seulement |
+| `<IP de chaque VM>`, port `22` | Administration par SSH des sept VM | Réseau d’administration seulement |
 
-HAProxy termine le TLS. Son certificat porte l’IP de la VM 01 dans ses noms alternatifs ; son autorité doit être reconnue par Firefox et par Node.js. HAProxy joint les services par leur nom sur le réseau overlay de Swarm, chiffré (option `encrypted`) : `apache:8080`, `api:3001`, `keycloak:8080` et `s3:8333`. Le port `443` refuse les chemins de la console Keycloak, servie uniquement sur `8444`. Pour SeaweedFS, HAProxy conserve l’en-tête `Host`, le chemin et la chaîne de requête utilisés pour la signature.
+HAProxy termine le TLS. Son certificat porte l’IP de la VM 01 dans ses noms alternatifs ; son autorité doit être reconnue par Firefox et par Node.js. HAProxy joint les services par leur nom sur le réseau overlay de Swarm, chiffré (option `encrypted`) : `apache:8080`, `api:3001` et `keycloak:8080`. Le port `443` refuse les chemins de la console Keycloak, servie uniquement sur `8444`. Les PDF d’état des lieux passent par le port `443`, comme le reste de l’API.
 
-Express utilise une seule adresse pour Keycloak et une seule pour le stockage S3, la même que celle du navigateur : il les joint donc aussi par HAProxy, sur `8443` et `9443`. Il joint PostgreSQL directement par le réseau overlay (`postgres:5432`), et l’émulateur joint Express par ce même réseau (`api:3001`). Keycloak lit l’annuaire par `ldap:389`. La résolution de noms interne de Docker n’est utilisée qu’à l’intérieur du cluster.
+Express utilise pour Keycloak la même adresse que le navigateur : il le joint donc aussi par HAProxy, sur `8443`. Il joint PostgreSQL directement par le réseau overlay (`postgres:5432`), et l’émulateur joint Express par ce même réseau (`api:3001`). Keycloak lit l’annuaire par `ldap:389`. La résolution de noms interne de Docker n’est utilisée qu’à l’intérieur du cluster.
 
 Le filtrage autorise :
 
-- `443`, `8443` et `9443` vers la VM 01 depuis le réseau des utilisateurs ;
-- `8444` vers la VM 01 et `22` vers les VM 01 à 08 depuis le réseau d’administration ;
-- entre les VM du cluster (01 à 08) : `2377/TCP` vers les managers, `7946/TCP et UDP`, `4789/UDP` et le protocole IP 50 (ESP) du réseau overlay chiffré ;
-- `6514/TCP` des VM du cluster vers la VM 08 ;
-- `123/UDP` des VM 02 à 08 vers la VM 01, horloge de référence.
+- `443` et `8443` vers la VM 01 depuis le réseau des utilisateurs ;
+- `8444` vers la VM 01 et `22` vers les VM 01 à 07 depuis le réseau d’administration ;
+- entre les VM du cluster (01 à 07) : `2377/TCP` vers les managers, `7946/TCP et UDP`, `4789/UDP` et le protocole IP 50 (ESP) du réseau overlay chiffré ;
+- `6514/TCP` des VM du cluster vers la VM 07 ;
+- `123/UDP` des VM 02 à 07 vers la VM 01, horloge de référence.
 
 #### Docker Swarm
 
-Une seule pile, décrite dans un fichier versionné et déployée avec `docker stack deploy`, contient tous les conteneurs. Chaque service redémarre automatiquement (`restart_policy`) ; au démarrage d’une VM, Docker relance ses conteneurs. Les services liés à une VM y sont fixés par une contrainte de placement : HAProxy à la VM 01, dont l’IP est publiée, PostgreSQL, SeaweedFS, Keycloak et OpenLDAP à la VM de leurs volumes. Apache, Express et l’émulateur n’ont pas de données : ils s’exécutent sur les VM 02, 03 et 07, repérées par une étiquette de nœud Swarm. Apache et Express ont chacun deux instances, que Swarm place sur deux VM différentes du groupe ; l’émulateur en a une, pour ne pas simuler deux fois les mêmes postes. HAProxy répartit les requêtes entre les instances et écarte celle qui ne répond plus. Si une VM du groupe tombe, Swarm recrée ses conteneurs sur les autres ; au retour de la VM, un redéploiement les répartit de nouveau. HAProxy, l’émulateur et Express se joignent par le nom des services : la VM qui les exécute importe peu. Logstash est fixé à la VM 08 : son port est publié sur l’IP de cette VM et il écrit dans un dossier de celle-ci. Les VM 01, 04 et 05 sont managers : elles dirigent le cluster et exécutent aussi leur service. Deux managers sur trois suffisent pour que le cluster continue de fonctionner : la perte de n’importe quelle VM ne l’arrête pas. Les VM 02, 03, 06, 07 et 08 sont workers.
+Une seule pile, décrite dans un fichier versionné et déployée avec `docker stack deploy`, contient tous les conteneurs. Chaque service redémarre automatiquement (`restart_policy`) ; au démarrage d’une VM, Docker relance ses conteneurs. Les services liés à une VM y sont fixés par une contrainte de placement : HAProxy à la VM 01, dont l’IP est publiée, PostgreSQL, Keycloak et OpenLDAP à la VM de leurs volumes. Apache, Express et l’émulateur n’ont pas de données : ils s’exécutent sur les VM 02, 03 et 06, repérées par une étiquette de nœud Swarm. Apache et Express ont chacun deux instances, que Swarm place sur deux VM différentes du groupe ; l’émulateur en a une, pour ne pas simuler deux fois les mêmes postes. HAProxy répartit les requêtes entre les instances et écarte celle qui ne répond plus. Si une VM du groupe tombe, Swarm recrée ses conteneurs sur les autres ; au retour de la VM, un redéploiement les répartit de nouveau. HAProxy, l’émulateur et Express se joignent par le nom des services : la VM qui les exécute importe peu. Logstash est fixé à la VM 07 : son port est publié sur l’IP de cette VM et il écrit dans un dossier de celle-ci. Les VM 01, 04 et 05 sont managers : elles dirigent le cluster et exécutent aussi leur service. Deux managers sur trois suffisent pour que le cluster continue de fonctionner : la perte de n’importe quelle VM ne l’arrête pas. Les VM 02, 03, 06 et 07 sont workers.
 
-Les images d’ASTER (Apache avec le build React, Express, émulateur) sont construites sur le poste de l’opérateur et chargées par SSH sur les VM 02, 03 et 07, qui peuvent les exécuter (`docker save` puis `docker load`) : aucun registre d’images n’est nécessaire. Les images officielles sont téléchargées par chaque VM si elle a accès à Internet, sinon chargées de la même façon. Chaque image est épinglée sur une version exacte et des contrôles de santé (`HEALTHCHECK`) signalent un conteneur défaillant, que Swarm remplace.
+Les images d’ASTER (Apache avec le build React, Express, émulateur) sont construites sur le poste de l’opérateur et chargées par SSH sur les VM 02, 03 et 06, qui peuvent les exécuter (`docker save` puis `docker load`) : aucun registre d’images n’est nécessaire. Les images officielles sont téléchargées par chaque VM si elle a accès à Internet, sinon chargées de la même façon. Chaque image est épinglée sur une version exacte et des contrôles de santé (`HEALTHCHECK`) signalent un conteneur défaillant, que Swarm remplace.
 
 Express ne garde aucun état qui fasse autorité : l’espace de travail et les sessions sont dans PostgreSQL. Chaque écriture verrouille la ligne de révision, relit l’état et fusionne les modifications concurrentes grâce au journal des dernières révisions, conservé en base. Les deux instances servent donc indifféremment n’importe quel utilisateur, et un redémarrage ne déconnecte personne.
 
@@ -206,7 +201,7 @@ Express ne garde aucun état qui fasse autorité : l’espace de travail et les 
 
 Chaque conteneur envoie ses journaux au collecteur par le pilote `syslog` de Docker, au format syslog RFC 5424 exigé par le CCT, sur TCP TLS `6514`. Le pilote fonctionne en mode non bloquant : une panne du collecteur ne bloque jamais un service, mais les journaux émis pendant l’interruption ne sont pas centralisés. Docker en garde une copie locale, consultable sur la VM avec `docker logs`. Les journaux du système de chaque VM restent dans journald, consultables par SSH.
 
-Sur la VM 08, Logstash 8.19 s’exécute dans un conteneur de la pile. Il tient lieu du service d’observabilité du C1NP, fondé sur Elastic. Il écrit les journaux reçus dans le dossier `/var/log/aster` de la VM, monté dans le conteneur, et non dans un volume Docker : un répertoire par service et un fichier par jour, lisibles directement sur le système de fichiers. L’opérateur les lit par SSH. Aucun port de consultation web n’est ouvert. La durée de conservation et la purge des fichiers restent à fixer.
+Sur la VM 07, Logstash 8.19 s’exécute dans un conteneur de la pile. Il tient lieu du service d’observabilité du C1NP, fondé sur Elastic. Il écrit les journaux reçus dans le dossier `/var/log/aster` de la VM, monté dans le conteneur, et non dans un volume Docker : un répertoire par service et un fichier par jour, lisibles directement sur le système de fichiers. L’opérateur les lit par SSH. Aucun port de consultation web n’est ouvert. La durée de conservation et la purge des fichiers restent à fixer.
 
 #### Administration et horloge
 
@@ -214,7 +209,7 @@ L’opérateur administre depuis son poste, sur le réseau d’administration, e
 
 Depuis son poste, l’opérateur pilote le cluster avec le client Docker, relié par SSH à un manager (`docker context`) : création du cluster, secrets et configurations, déploiement de la pile (`docker stack deploy`). Un script court, conservé dans le dépôt avec le fichier de pile, prépare chaque VM une fois : réglage de l’horloge, dépôt des certificats du pilote `syslog` et création des dossiers. Rien de cela n’intervient en cas de panne.
 
-**Horloge.** Aucun serveur de temps n’est disponible. Les VM doivent pourtant avoir la même heure, à quelques secondes près : un lien signé vers un PDF, valable 60 secondes, est créé par Express et vérifié par SeaweedFS sur une autre VM, et les jetons de connexion émis par Keycloak sont contrôlés par Express. La VM 01 sert donc d’horloge de référence : chrony, programme de synchronisation de l’heure, y est installé sur l’hôte et répond en NTP (`123/UDP`). Les VM 02 à 08 s’y règlent avec `systemd-timesyncd`, déjà présent dans Debian 13. L’heure commune peut dériver légèrement de l’heure réelle, sans effet sur ASTER. Si la VM 01 est indisponible, les horloges continuent de fonctionner et ne dérivent que lentement.
+**Horloge.** Aucun serveur de temps n’est disponible. Les VM doivent pourtant avoir la même heure, à quelques secondes près : les jetons de connexion émis par Keycloak sont contrôlés par Express sur une autre VM, et les deux instances d’Express, sur deux VM différentes, datent les enregistrements. La VM 01 sert donc d’horloge de référence : chrony, programme de synchronisation de l’heure, y est installé sur l’hôte et répond en NTP (`123/UDP`). Les VM 02 à 07 s’y règlent avec `systemd-timesyncd`, déjà présent dans Debian 13. L’heure commune peut dériver légèrement de l’heure réelle, sans effet sur ASTER. Si la VM 01 est indisponible, les horloges continuent de fonctionner et ne dérivent que lentement.
 
 Aucune sauvegarde n’est prévue : il s’agit d’une démonstration, et les données de départ sont recréées au premier démarrage.
 
@@ -228,7 +223,6 @@ Les secrets sont des secrets Docker Swarm : chiffrés et répliqués entre les m
 | Secret du client OIDC | Express ; même valeur enregistrée dans le client Keycloak |
 | Secret de session | Express |
 | Jeton des postes | Express et émulateur |
-| Identifiants S3 | Express et SeaweedFS |
 | Compte de liaison LDAP et administration de Keycloak | Keycloak et OpenLDAP |
 | Clé privée et certificat TLS | HAProxy et Logstash |
 
@@ -239,15 +233,14 @@ Les secrets propres aux hôtes (clés SSH, certificat client du pilote `syslog` 
 | Volume | VM et montage | Contenu |
 | --- | --- | --- |
 | Volume Docker `pg-data` | VM 04 → `/var/lib/pgsql/data` | Données métier et sessions ASTER |
-| Volumes Docker `ldap-data` et `ldap-config` | VM 06 → `/var/lib/ldap` et `/etc/ldap/slapd.d` | Identités et configuration de l’annuaire |
-| Volume Docker `s3-data` | VM 05 → `/data` | PDF d’état des lieux et métadonnées |
-| Dossier `/var/log/aster` | VM 08, monté dans le conteneur Logstash | Journaux centralisés, lisibles directement sur la VM |
+| Volumes Docker `ldap-data` et `ldap-config` | VM 05 → `/var/lib/ldap` et `/etc/ldap/slapd.d` | Identités et configuration de l’annuaire |
+| Dossier `/var/log/aster` | VM 07, monté dans le conteneur Logstash | Journaux centralisés, lisibles directement sur la VM |
 
 Aucun volume n’est partagé entre VM. Apache, Express, Keycloak et l’émulateur n’ont pas de données propres : le build React est intégré à l’image d’Apache, le realm et le thème à celle de Keycloak, réimportés à chaque création du conteneur. Keycloak conserve ses sessions dans sa base H2 interne : elles sont perdues à sa recréation et les utilisateurs se reconnectent.
 
 #### Réglages de l’application
 
-Dans ce déploiement, Express écoute sur toutes les interfaces de son conteneur, pour être joint par HAProxy et par l’émulateur. Il continue de créer les identités des comptes actifs dans le Keycloak substitut, en joignant son administration par le réseau overlay plutôt que par le port `8443`, qui refuse ces chemins. Il reconnaît l’autorité des certificats de HAProxy pour joindre Keycloak et le stockage S3. L’émulateur joint Express par `api:3001`. Ces réglages sont décrits dans le [guide de l’application](../application/README.md#production).
+Dans ce déploiement, Express écoute sur toutes les interfaces de son conteneur, pour être joint par HAProxy et par l’émulateur. Il continue de créer les identités des comptes actifs dans le Keycloak substitut, en joignant son administration par le réseau overlay plutôt que par le port `8443`, qui refuse ces chemins. Il reconnaît l’autorité des certificats de HAProxy pour joindre Keycloak. L’émulateur joint Express par `api:3001`. Ces réglages sont décrits dans le [guide de l’application](../application/README.md#production).
 
 #### Points à qualifier
 
@@ -267,13 +260,12 @@ Aucune panne ne demande d’action manuelle : chaque service est relancé automa
 | --- | --- | --- |
 | Un conteneur s’arrête | Swarm le redémarre sur sa VM. | Aucun pour Apache et Express, dont l’autre instance répond ; sinon service indisponible quelques secondes. |
 | Une VM redémarre | Docker relance ses conteneurs. | Service de la VM indisponible pendant le redémarrage. |
-| VM 01 (entrée) indisponible | Aucune : HAProxy est la seule entrée ; les horloges des autres VM continuent sans référence. | ASTER, la connexion et les PDF inaccessibles jusqu’au retour. |
+| VM 01 (entrée) indisponible | Aucune : HAProxy est la seule entrée ; les horloges des autres VM continuent sans référence. | ASTER et la connexion inaccessibles jusqu’au retour. |
 | VM 02 ou 03 indisponible | HAProxy envoie les requêtes aux instances restantes d’Apache et d’Express ; Swarm recrée les instances perdues sur les autres VM du groupe. | Aucun, hormis les requêtes en cours. |
-| VM 04 (base) indisponible | Aucune ; Express se reconnecte au retour. | Lectures et écritures en erreur jusqu’au retour. |
-| VM 05 (fichiers) indisponible | Aucune. | Dépôt et téléchargement des PDF impossibles ; le reste fonctionne. |
-| VM 06 (identité) indisponible | Aucune ; Keycloak réimporte son realm. | Nouvelles connexions impossibles ; sessions ASTER ouvertes valides. |
-| VM 07 (postes simulés) indisponible | Swarm relance l’émulateur sur la VM 02 ou 03. | Rapports de postes interrompus pendant la relance. |
-| VM 08 (journaux) indisponible | Aucune ; les journaux restent consultables sur chaque VM (`docker logs`). | Aucun ; centralisation interrompue. |
+| VM 04 (base) indisponible | Aucune ; Express se reconnecte au retour. | Lectures, écritures et PDF d’état des lieux en erreur jusqu’au retour. |
+| VM 05 (identité) indisponible | Aucune ; Keycloak réimporte son realm. | Nouvelles connexions impossibles ; sessions ASTER ouvertes valides. |
+| VM 06 (postes simulés) indisponible | Swarm relance l’émulateur sur la VM 02 ou 03. | Rapports de postes interrompus pendant la relance. |
+| VM 07 (journaux) indisponible | Aucune ; les journaux restent consultables sur chaque VM (`docker logs`). | Aucun ; centralisation interrompue. |
 | Un manager Swarm indisponible | Les deux autres managers continuent de diriger le cluster. | Celui de son service (VM 01, 04 ou 05). |
 
 Les opérations planifiées (déploiement, mise à jour, rotation des secrets) ne sont pas des reprises automatiques.
@@ -306,14 +298,11 @@ Les §§ 5.1 et 5.2 décrivent le montage local. Les versions npm sont celles ve
 | `express-session` | 1.19.0 | Sessions serveur |
 | `connect-pg-simple` | 10.0.0 | Sessions dans PostgreSQL |
 | `pg` | 8.23.1 | Accès PostgreSQL depuis Node.js |
-| AWS SDK `client-s3` | 3.1164.0 | Accès au stockage objet |
-| AWS SDK `s3-request-presigner` | 3.1164.0 | Signature des liens de téléchargement |
 | Concurrently | 9.2.5 | Lancement coordonné de Vite, Express et de l’émulateur |
 | PostgreSQL | image `postgres:17.7-alpine` | Données métier et sessions |
 | Keycloak | image `quay.io/keycloak/keycloak:26.7.4` | Substitut local de MindefConnect |
 | OpenLDAP | image `osixia/openldap:1.5.0` | Annuaire local des identités |
-| SeaweedFS | image `chrislusf/seaweedfs:4.50` | Stockage objet compatible S3 |
-| Docker et Docker Compose | version installée, non verrouillée | Exécution des quatre conteneurs |
+| Docker et Docker Compose | version installée, non verrouillée | Exécution des trois conteneurs |
 | Firefox | version installée, non verrouillée | Navigateur |
 
 ### 5.2. Construction et vérification
@@ -330,18 +319,17 @@ Les versions des [schémas de déploiement](18-DIAGRAMMES-ARCHITECTURE.md#archit
 
 | Composant | Version proposée | Statut CCT C1NP | Déploiement |
 | --- | --- | --- | --- |
-| Debian | 13 | Exception : système des VM fournies pour la démonstration | Système des huit VM |
-| Docker Engine et Swarm | version installée sur les VM | Exception : exécution des conteneurs | VM 01 à 08 ; client sur le poste de l’opérateur |
+| Debian | 13 | Exception : système des VM fournies pour la démonstration | Système des sept VM |
+| Docker Engine et Swarm | version installée sur les VM | Exception : exécution des conteneurs | VM 01 à 07 ; client sur le poste de l’opérateur |
 | chrony | paquet Debian 13 | R / S (NTPd/Chronyd) | Hôte de la VM 01 : horloge de référence des autres VM |
 | HAProxy | 3.2, image officielle | R / S | VM 01 |
-| Apache HTTP Server | 2.4, image officielle `httpd` | R / S (version 2.4) | Image d’ASTER avec le build React ; VM 02, 03 ou 07 |
-| Node.js | 22 LTS, image officielle `node` | R / S | Images d’Express et de l’émulateur ; VM 02, 03 ou 07 |
+| Apache HTTP Server | 2.4, image officielle `httpd` | R / S (version 2.4) | Image d’ASTER avec le build React ; VM 02, 03 ou 06 |
+| Node.js | 22 LTS, image officielle `node` | R / S | Images d’Express et de l’émulateur ; VM 02, 03 ou 06 |
 | Express | 5.3.0 | R | Image d’Express |
 | PostgreSQL | 17.7, image officielle | R / S | VM 04 |
-| Logstash | 8.19, image officielle | R / S | VM 08 ; substitut du service d’observabilité |
-| SeaweedFS | 4.50, image officielle | Exception : substitut du stockage S3 du ministère | VM 05 |
-| Keycloak | 26.7.4, image officielle | Exception : substitut de MindefConnect | VM 06 |
-| OpenLDAP | 1.5.0, image `osixia/openldap` | Exception : substitut de MindefConnect | VM 06 |
+| Logstash | 8.19, image officielle | R / S | VM 07 ; substitut du service d’observabilité |
+| Keycloak | 26.7.4, image officielle | Exception : substitut de MindefConnect | VM 05 |
+| OpenLDAP | 1.5.0, image `osixia/openldap` | Exception : substitut de MindefConnect | VM 05 |
 
 ## 6. Architecture cible
 
@@ -349,7 +337,7 @@ Les versions des [schémas de déploiement](18-DIAGRAMMES-ARCHITECTURE.md#archit
 
 La cible est décrite dans cette section ; le [schéma unique](18-DIAGRAMMES-ARCHITECTURE.md#architecture-réelle-sur-vm) représente uniquement le déploiement proposé du démonstrateur sur VM.
 
-Cette vue fixe les responsabilités et les contraintes d’hébergement, pas les produits ni le nombre d’instances. Le serveur front est le point d’entrée HTTPS : il sert l’interface et transmet `/api` et `/auth` au serveur back. Le navigateur télécharge les PDF d’état des lieux directement dans le stockage S3, par un lien signé de courte durée que le serveur back délivre après contrôle des droits. Le navigateur n’a aucun accès à PostgreSQL. MindefConnect, hébergé sur le C1NP, authentifie ; ASTER conserve et applique les profils, rattachements et droits.
+Cette vue fixe les responsabilités et les contraintes d’hébergement, pas les produits ni le nombre d’instances. Le serveur front est le point d’entrée HTTPS : il sert l’interface et transmet `/api` et `/auth` au serveur back. Le serveur back produit le PDF d’état des lieux à chaque demande, après contrôle des droits, à partir des données de PostgreSQL ; aucun document n’est stocké. Le navigateur n’a aucun accès à PostgreSQL. MindefConnect, hébergé sur le C1NP, authentifie ; ASTER conserve et applique les profils, rattachements et droits.
 
 ### 6.2. Éléments confirmés et éléments à déterminer
 
@@ -359,7 +347,7 @@ Cette vue fixe les responsabilités et les contraintes d’hébergement, pas les
 | Front et back | Deux responsabilités distinctes ; le serveur front est le reverse proxy HTTPS du back | Produits d’hébergement et nombre d’instances |
 | Identité | MindefConnect sur le C1NP ; aucun mot de passe ASTER | Issuer, client, attributs, redirections, environnements et support |
 | Données | PostgreSQL | Offre, version, chiffrement, réplication et maintenance |
-| Documents | Contrat S3 pour les PDF ; téléchargement direct par lien signé | Fournisseur, endpoint, rétention, versionnage et sauvegarde |
+| Documents | PDF d’état des lieux produits à la demande par le serveur back, sans stockage | Modèle officiel, signature et numérotation |
 | Postes | Windows ; supervision et interventions pilotées par ASTER | Outil ou agent, API, protocoles, enrôlement, authentification et coûts |
 | Navigateur | Firefox | Versions supportées |
 | Réseau | Réseau interne NP avec accès Internet | Zones, flux, DNS, pare-feu et certificats |
@@ -372,7 +360,6 @@ Cette vue fixe les responsabilités et les contraintes d’hébergement, pas les
 | --- | --- | --- |
 | Poste de présentation et Docker Compose | C1NP | Choisir le mode de déploiement et décrire les environnements |
 | Keycloak et annuaire OpenLDAP locaux | MindefConnect | Obtenir le contrat, configurer les environnements et qualifier les attributs et parcours |
-| SeaweedFS local | Service S3 retenu | Configurer endpoint, certificats, identifiants, droits et conservation |
 | Émulateur de postes | Solution d’administration Windows | Étudier l’existant, comparer agent et outils, puis intégrer et tester le contrat réel |
 | Vite et son proxy de développement en local ; Apache et HAProxy prévus sur VM | Serveur front et reverse proxy HTTPS | Confirmer les versions et les modalités de déploiement sur le C1NP |
 | Express sur la boucle locale | Serveur back derrière le reverse proxy | Configurer les contrôles de santé et le déploiement |
@@ -389,11 +376,12 @@ Cette vue fixe les responsabilités et les contraintes d’hébergement, pas les
 - [Règles de gestion](04-REGLES-DE-GESTION.md) ;
 - application : dépendances (`package.json`, `package-lock.json`), infrastructure (`infra/compose.yaml`, realm Keycloak, annuaire LDAP) et serveur (`backend/`) ;
 - répartition des VM, orientation de l’utilisateur du 10 novembre 2026, révisée le 11 novembre 2026 : bascules automatiques sans action manuelle, HAProxy séparé des serveurs web, journaux centralisés sur le système de fichiers de la VM 10 et absence de DNS limitée à l’accès externe ; technologies conformes au CCT, consigne et document transmis le 11 novembre 2026. Absence de DNS sur les VM à la demande de l’utilisateur ; produits de la colonne C1NP du CCT, hormis Docker et les substituts des services du réseau cible, puis architecture simplifiée sans haute disponibilité, un rôle par VM, Keycloak et OpenLDAP regroupés, sans copie hors site, s’agissant d’une démonstration, relance ailleurs des services sans données, VM Debian 13 fournies avec Docker et sans Ansible, précisés le 11 novembre 2026 ; séparation stricte des persistances ASTER et Keycloak, représentation des volumes et accès interne aux journaux précisés le 11 novembre 2026 ;
+- retours du client du 12 novembre 2026, transmis par l’utilisateur : PDF d’état des lieux générés à la demande par le serveur back, sans stockage S3 ;
 - Cadre de cohérence technique du ministère des Armées, CCT 2026-2027, version 3.7, édition 1 du 17 février 2026 (document NP transmis par l’utilisateur) : §§ 3.2.1.2, 3.2.2, 3.3.6, 4.8.3, 5.1.1, 5.1.3 et 5.1.6 et annexe 8.8.2 « pile logicielle », colonne C1NP ;
 - [Identité IP dans les certificats TLS](https://www.rfc-editor.org/rfc/rfc9525.html#section-6.4), [réseau overlay chiffré de Swarm](https://docs.docker.com/engine/network/drivers/overlay/#encrypt-traffic-on-an-overlay-network), [contraintes de placement](https://docs.docker.com/engine/swarm/services/#placement-constraints) et [pilote syslog de Docker](https://docs.docker.com/engine/logging/drivers/syslog/) ;
 - [Manuel HAProxy 3.2](https://docs.haproxy.org/3.2/configuration.html), [routage des chemins React dans Apache](https://httpd.apache.org/docs/2.4/mod/mod_dir.html#fallbackresource) et [Logstash 8.19](https://www.elastic.co/guide/en/logstash/8.19/index.html) ;
 - [Contextes du client Docker](https://docs.docker.com/engine/manage-resources/contexts/) et [montages de dossiers de l’hôte](https://docs.docker.com/engine/storage/bind-mounts/) ;
-- [Keycloak derrière un reverse proxy](https://www.keycloak.org/server/reverseproxy) et [signature des URL S3](https://docs.aws.amazon.com/AmazonS3/latest/developerguide/sigv4-query-string-auth.html) ;
+- [Keycloak derrière un reverse proxy](https://www.keycloak.org/server/reverseproxy) ;
 - [Gestion des utilisateurs et fédération Keycloak](https://www.keycloak.org/docs/latest/server_admin/), [base de données Keycloak](https://www.keycloak.org/server/db) et [limites des exports de realm](https://www.keycloak.org/server/importExport) ;
 - [Secrets Docker Swarm](https://docs.docker.com/engine/swarm/secrets/), [verrouillage des managers](https://docs.docker.com/engine/swarm/swarm_manager_locking/), [déploiement d’une pile Swarm](https://docs.docker.com/engine/swarm/stack-deploy/), [maillage de routage Swarm](https://docs.docker.com/engine/swarm/ingress/) ;
 

@@ -3,8 +3,7 @@
    - Onglets par profil (remontees-tabs.js) : backlogs du gestionnaire, des
      remontées (remontees-backlog.jsx) et des installations des salles
      (remontees-installations.jsx) ; listes maître-détail pour les autres profils
-   - Cycle : en attente → en cours → remplacé ou corrigé → validée, la
-     validation (clôture) étant réservée à l'auteur de la remontée ; le
+   - Cycle : en attente → en cours → remplacé ou corrigé (terminée) ; le
      suivi (shared/catalog.js) est le même dans le détail et l'état des lieux
    - État des lieux (remontees-edl.jsx) et création (remontees-create.jsx)
    ========================================================================== */
@@ -28,6 +27,7 @@ import { openEtatDesLieux } from './remontees-edl.jsx';
 import { TABS, remonteeTabs } from './remontees-tabs.js';
 import { Backlog } from './remontees-backlog.jsx';
 import { InstallationsBoard } from './remontees-installations.jsx';
+import { MaterielsConcernes } from './remontees-materiels.jsx';
 
 /** Une ligne par remontée : son problème et son lieu ; ses matériels sont dans le détail */
 function RemonteeRow({ r, tab, selected }) {
@@ -67,7 +67,7 @@ function RemonteeDetail({ selId, tab }) {
   const current = steps.findLastIndex((s) => !s.todo);
   const phase = phaseOf(r);
   const treat = can('remontee.treat') && (phase === 'attente' || phase === 'encours');
-  const validate = phase === 'traitee' && r.auteurId === me().id; // seul l'auteur valide et clôt
+  const gerer = phase === 'encours' && can('remontee.treat') && can('materiel.move'); // matériels déclarés et remis depuis la remontée
 
   const edl = () => { const x = store.state.remontees.find((y) => y.id === r.id); if (x) openEtatDesLieux(x); };
   const setStatut = async (val) => {
@@ -78,7 +78,7 @@ function RemonteeDetail({ selId, tab }) {
       x.historique.push({ statut: val, at: Date.now(), par: me().nom });
     });
     try { await store.flush(); } catch { return; }
-    notify(`${id} : ${statut(val).label.toLowerCase()}`, { icon: statut(val).icon, tone: ['corrige', 'validee'].includes(val) ? 'ok' : 'info' });
+    notify(`${id} : ${statut(val).label.toLowerCase()}`, { icon: statut(val).icon, tone: val === 'encours' ? 'info' : 'ok' });
   };
 
   return <>
@@ -97,16 +97,7 @@ function RemonteeDetail({ selId, tab }) {
       <blockquote className="rm-quote">{r.description}</blockquote>
       <section className="insp-block">
         <h3 className="insp-section-title"><Icon name="materiel" size={18} />Matériels concernés</h3>
-        <ul className="rows rows--flat">{mats.map((m) => {
-          const t = deviceType(m.type);
-          return <li key={m.id}>
-            <Link className="row" to={`/salles/${m.salleId ? `salle/${m.salleId}` : 'stock'}?m=${m.id}`}>
-              <span className="tile-wrap"><Tile name={t.icon} color={t.color} size="m" /><span className={`led led--${m.hs ? 'hs' : 'ok'} tile-led`} /></span>
-              <span className="row-main"><span className="row-title">{m.modele}</span><span className="row-sub"><LieuChip m={m} /><span className="row-meta">{m.idAster}</span></span></span>
-              <Icon name="chevR" size={16} />
-            </Link>
-          </li>;
-        })}</ul>
+        <MaterielsConcernes r={r} gerer={gerer} />
       </section>
       <section className="insp-block">
         <h3 className="insp-section-title"><Icon name="clock" size={18} />Suivi</h3>
@@ -121,14 +112,13 @@ function RemonteeDetail({ selId, tab }) {
       </section>
     </div>
     <footer className="insp-foot">
-      {treat || validate ? <>
+      {treat ? <>
         <button className="btn btn--glass btn--icon" aria-label="État des lieux" data-tip="État des lieux" onClick={edl}><Icon name="documents" size={20} /></button>
-        {validate ? <button className="btn btn--primary flex-1" onClick={() => setStatut('validee')}><Icon name="checkCircle" size={18} /><span>Valider et clore</span></button>
-          : phase === 'attente' ? <button className="btn btn--primary flex-1" onClick={() => setStatut('encours')}><Icon name="wrench" size={18} /><span>Prendre en charge</span></button>
-            : <>
-              <button className="btn btn--glass flex-1" onClick={() => setStatut('remplace')}><Icon name="swap" size={18} /><span>Remplacé</span></button>
-              <button className="btn btn--primary flex-1" onClick={() => setStatut('corrige')}><Icon name="check" size={18} /><span>Corrigé</span></button>
-            </>}
+        {phase === 'attente' ? <button className="btn btn--primary flex-1" onClick={() => setStatut('encours')}><Icon name="refresh" size={18} /><span>Prendre en charge</span></button>
+          : <>
+            <button className="btn btn--glass flex-1" onClick={() => setStatut('remplace')}><Icon name="swap" size={18} /><span>Remplacé</span></button>
+            <button className="btn btn--primary flex-1" onClick={() => setStatut('corrige')}><Icon name="check" size={18} /><span>Corrigé</span></button>
+          </>}
       </> : <button className="btn btn--glass flex-1" onClick={edl}><Icon name="documents" size={18} /><span>État des lieux</span></button>}
     </footer>
   </>;

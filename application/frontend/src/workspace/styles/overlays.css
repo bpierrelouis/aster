@@ -71,13 +71,13 @@
 .swatch { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(0 0 0 / .1), 0 3px 8px rgb(0 0 0 / .15); transition: box-shadow var(--dur-1), transform var(--dur-1); }
 .swatch-item:hover .swatch { transform: scale(1.05); }
 .swatch-item[aria-checked="true"] .swatch { box-shadow: 0 0 0 3px var(--glass-tint-solid), 0 0 0 5px var(--focus); }
-.swatch--aster { background: #fff; --brand-petal: var(--iris); --brand-heart: var(--coeur); }
-.swatch--orion { background: radial-gradient(circle at 25% 85%, #0b2a6b, #040b1e 75%); }
-.swatch--orion .brand { filter: drop-shadow(0 0 3px #3b82f6); }
+.swatch .twinkle { display: none; } /* étoile ORION seule */
+.swatch--orion { background: #fff; color-scheme: light; }
 .swatch--vigie { background: #edf6f4; }
 .swatch--minarm { background: #fff; }
-/* Aster et Minarm suivent la machine ou la tonalité forcée : l'aperçu prend leur couleur du moment, avec la marque adaptée */
-.swatches[data-tone="dark"] .swatch--aster { background: #0a0a0c; --brand-petal: #d6aa4f; --brand-heart: #f4f1ea; }
+/* Orion et Minarm suivent la machine ou la tonalité forcée : l'aperçu prend leur couleur du moment, avec la marque adaptée
+   (étoile ORION selon la tonalité de la pastille, connexion/connexion.css) */
+.swatches[data-tone="dark"] .swatch--orion { background: radial-gradient(circle at 25% 85%, #0b2a6b, #040b1e 75%); color-scheme: dark; }
 .swatches[data-tone="dark"] .swatch--minarm { background: #161616; }
 .pop-link { display: flex; align-items: center; gap: 10px; padding: 10px; margin: -4px -4px 0; border-radius: 14px; font-size: 14px; font-weight: 600; color: var(--ink-2); }
 .pop-link:hover { background: var(--fill-1); color: var(--ink-1); }
@@ -202,7 +202,7 @@
 }
 
 /* ===== ASTER : compléments ===== */
-.pick-grid--salles { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+.pick-grid--salles { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-top: 18px; } /* sous les bâtiments et le stock */
 .pick-room small { margin-left: auto; color: var(--ink-3); font-weight: 650; font-variant-numeric: tabular-nums; }
 .pick-groups { display: flex; flex-direction: column; gap: 14px; max-height: 46vh; overflow: auto; overscroll-behavior: none; padding: 2px; }
 .pick-group header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13.5px; font-weight: 650; color: var(--ink-2); }

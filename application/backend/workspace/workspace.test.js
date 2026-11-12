@@ -10,6 +10,7 @@ import { createWorkspaceRepository } from './engine.js';
 import { analyseImport, importMateriels } from './import.js';
 import { createWorkspaceRouter, createAgentRouter } from './routes.js';
 import { renameBuilding } from '#shared/buildings.js';
+import { remonteeOuverte } from '#shared/catalog.js';
 import { processClass, logiciel } from '#shared/operations-data.js';
 
 const as = (state, accountId) => actorOf(state, accountId);
@@ -60,7 +61,7 @@ test('remontée : auteur, date, numéro et historique imposés par le serveur', 
   const m = scopedState(next, manager);
   const r = m.remontees.find((x) => x.id === created.id);
   r.statut = 'validee';
-  assert.throws(() => mergeState(next, m, manager), { status: 403 });
+  assert.throws(() => mergeState(next, m, manager), { status: 400 }); // la validation par l'auteur n'existe plus
   r.statut = 'corrige'; // le gestionnaire remplace ou corrige
   r.historique.push({ statut: 'corrige', at: 1, par: 'Faux' });
   const treated = mergeState(next, m, manager).remontees.find((x) => x.id === created.id);
@@ -69,7 +70,7 @@ test('remontée : auteur, date, numéro et historique imposés par le serveur', 
   assert.throws(() => mergeState(next, m, manager), { status: 400 });
 });
 
-test('remontée : prise en charge, traitement, puis validation par son seul auteur', () => {
+test('remontée : prise en charge puis traitement, qui la termine', () => {
   let state = initialState();
   const teacher = as(state, TEACHER);
   const input = scopedState(state, teacher);
@@ -83,17 +84,14 @@ test('remontée : prise en charge, traitement, puis validation par son seul aute
     view.remontees.find((r) => r.id === id).statut = statut;
     return mergeState(state, view, actor);
   };
-  assert.throws(() => move(TEACHER, 'validee'), { status: 400 });   // rien à valider avant le traitement
   assert.throws(() => move(TEACHER, 'encours'), { status: 403 });   // le formateur ne traite pas
   state = move(MANAGER, 'encours');
   assert.throws(() => move(MANAGER, 'attente'), { status: 400 });   // pas de retour en arrière
   state = move(MANAGER, 'remplace');
-  assert.throws(() => move(MANAGER, 'validee'), { status: 403 });   // seul l'auteur valide
-  assert.throws(() => move(ADMIN, 'validee'), { status: 403 });
-  state = move(TEACHER, 'validee');
   const done = state.remontees.find((r) => r.id === id);
-  assert.deepEqual(done.historique.map((h) => [h.statut, h.parId]), [['attente', TEACHER], ['encours', MANAGER], ['remplace', MANAGER], ['validee', TEACHER]]);
-  assert.throws(() => move(MANAGER, 'remplace'), { status: 400 });  // une remontée validée ne change plus
+  assert.deepEqual(done.historique.map((h) => [h.statut, h.parId]), [['attente', TEACHER], ['encours', MANAGER], ['remplace', MANAGER]]);
+  assert.throws(() => move(MANAGER, 'corrige'), { status: 400 });   // une remontée terminée ne change plus
+  assert.throws(() => move(TEACHER, 'validee'), { status: 403 });
 });
 
 test('données de départ : stock récent ; le lot d’import de démonstration ajoute un matériel déjà présent et un d’une autre école', async () => {
@@ -101,7 +99,7 @@ test('données de départ : stock récent ; le lot d’import de démonstration 
   const lot = JSON.parse(await readFile(new URL('../../tests/fixtures/import-stock-salle.json', import.meta.url), 'utf8'));
   const modeles = new Set(state.materiels.map((m) => m.modele));
   const bySerie = new Map(state.materiels.filter((m) => m.serie).map((m) => [m.serie, m]));
-  const open = new Set(state.remontees.filter((r) => r.statut !== 'validee').flatMap((r) => r.materielIds));
+  const open = new Set(state.remontees.filter(remonteeOuverte).flatMap((r) => r.materielIds));
   const connus = lot.filter((m) => bySerie.has(m.serie)).map((m) => bySerie.get(m.serie));
   assert.deepEqual(connus.map((m) => m.ecoleId).sort(), ['e-num', 'e-res']); // non traité / à transférer depuis l'école des réseaux
   assert.ok(connus.every((m) => !open.has(m.id)), 'transfert possible : aucune remontée en cours');
@@ -135,17 +133,18 @@ test('installation : une affectation reste en cours jusqu’à la confirmation, 
   assert.deepEqual(mat(state).installation, { de: null, at: 1_800_000_000_000, par: 'G. Bernard', parId: MANAGER }); // valeur du serveur
   state = move(MANAGER, (v) => { mat(v).hs = true; delete mat(v).installation; }); // autre modification : installation conservée
   assert.equal(mat(state).installation.de, null);
+  assert.throws(() => move(MANAGER, (v) => { mat(v).salleId = a.id; }), { status: 400 }); // hors service : au stock seulement
   state = move(MANAGER, (v) => { mat(v).salleId = null; });             // retour au stock : à déplacer depuis la salle b
   assert.equal(mat(state).deplacement.de, b.id);
   assert.equal(mat(state).installation, undefined);
-  state = move(MANAGER, (v) => { mat(v).salleId = b.id; });             // revenu à son emplacement physique : rien à faire
+  state = move(MANAGER, (v) => { mat(v).hs = false; mat(v).salleId = b.id; }); // remis en service et revenu à son emplacement physique : rien à faire
   assert.equal(mat(state).deplacement, undefined);
 });
 
 test('import : seuls les nouveaux matériels et les transferts validés sont traités', () => {
   const state = initialState();
   const manager = as(state, MANAGER);
-  const open = new Set(state.remontees.filter((r) => r.statut !== 'validee').flatMap((r) => r.materielIds));
+  const open = new Set(state.remontees.filter(remonteeOuverte).flatMap((r) => r.materielIds));
   const ici = state.materiels.find((m) => m.ecoleId === 'e-num' && m.serie);
   const [ailleurs, autre, cite] = [
     ...state.materiels.filter((m) => m.ecoleId === 'e-res' && m.serie && !open.has(m.id)).slice(0, 2),
@@ -216,10 +215,10 @@ test('préférences : ambiance, tonalité et verre reconnus, valeur inconnue rem
   assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'minarm', tone: 'dark', glass: 'solid' });
   input.prefs = { ambiance: 'brume', tone: 'nuit', glass: 'frost' }; // anciennes valeurs, tonalité inconnue
   next = mergeState(state, input, admin);
-  assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'aster', tone: 'auto', glass: 'liquid' });
+  assert.deepEqual(scopedState(next, admin).prefs, { ambiance: 'orion', tone: 'auto', glass: 'liquid' });
   input.prefs = { ambiance: 'encre', glass: 'solid' }; // Aube et Encre réunies dans ASTER (11 novembre)
   next = mergeState(state, input, admin);
-  assert.equal(scopedState(next, admin).prefs.ambiance, 'aster');
+  assert.equal(scopedState(next, admin).prefs.ambiance, 'orion');
   input.prefs = { ambiance: 'etat', glass: 'solid' }; // État renommée Minarm
   next = mergeState(state, input, admin);
   assert.equal(scopedState(next, admin).prefs.ambiance, 'minarm');
@@ -266,19 +265,37 @@ test('supervision : le formateur demande un arrêt ; seuls les postes modifient 
   assert.equal(next.processus.find((p) => p.id === proc.id).stoppedAt, null, 'le processus reste actif jusqu’au résultat du poste');
 });
 
-test('interventions : une salle entière, dont le serveur fixe les postes, ou un seul poste', () => {
+test('interventions : une salle entière, dont le serveur fixe les postes, ou des postes d’une même salle', () => {
   const state = initialState();
+  assert.deepEqual(state.operations.map((o) => [o.type, o.statut]), [['desinstallation', 'enregistree'], ['reinstallation', 'enregistree'], ['installation', 'enregistree']], 'simulation : trois interventions en attente');
   const admin = as(state, ADMIN);
   const salle = 's-e-num-a012';
   const postes = state.postes.filter((p) => p.salleId === salle).map((p) => p.id);
-  const ask = (op) => { const view = scopedState(state, admin); view.operations.push({ id: 'tmp', ...op }); return mergeState(state, view, admin); };
-  const room = ask({ type: 'installation', applicationId: 'app-putty', salleId: salle, cibles: [postes[0]] }).operations[0];
+  const ask = (op) => { const view = scopedState(state, admin); view.operations.push({ id: 'tmp', ...op }); return mergeState(state, view, admin).operations.at(-1); };
+  const room = ask({ type: 'installation', applicationId: 'app-putty', salleId: salle, cibles: [postes[0]] });
   assert.deepEqual([room.salleId, room.cibles, room.statut], [salle, postes, 'enregistree']);
   assert.deepEqual(Object.values(room.resultats), postes.map(() => 'en_attente'));
-  const one = ask({ type: 'reinstallation', cibles: [postes[1]], image: 'Windows' }).operations[0];
-  assert.deepEqual([one.salleId, one.cibles], [undefined, [postes[1]]]);
-  assert.throws(() => ask({ type: 'reinstallation', cibles: postes.slice(0, 2) }), { status: 400 }); // ni salle ni poste seul
+  const some = ask({ type: 'reinstallation', cibles: postes.slice(0, 2), image: 'Windows' });
+  assert.deepEqual([some.salleId, some.cibles], [undefined, postes.slice(0, 2)]);
+  const ailleurs = state.postes.find((p) => p.salleId !== salle && p.salleId.startsWith('s-e-num-')).id;
+  assert.throws(() => ask({ type: 'reinstallation', cibles: [postes[0], ailleurs] }), { status: 400 }); // une seule salle
+  assert.throws(() => ask({ type: 'reinstallation', cibles: [] })); // aucun poste : refusée
   assert.throws(() => ask({ type: 'reinstallation', salleId: 's-inconnue', cibles: [] }), { status: 403 });
+});
+
+test('postes : un poste dont l’unité centrale est hors service reste éteint ; allumé, il peut avoir une session', () => {
+  let state = initialState();
+  const [hs, ok] = ['A014-PC02', 'A014-PC01'].map((nom) => state.postes.find((p) => p.nomReseau === nom));
+  applyReports(state, [{ poste: hs.nomReseau, session: 'camille.durand' }, { poste: ok.nomReseau, session: 'lucas.bernard' }]);
+  assert.deepEqual([hs.allume, ok.allume, ok.session], [false, true, 'lucas.bernard']);
+  applyReports(state, [{ poste: ok.nomReseau }]);
+  assert.deepEqual([ok.allume, ok.session], [true, null], 'allumé sans session');
+  // Unité centrale déclarée hors service : le poste s'éteint
+  const manager = as(state, MANAGER);
+  const view = scopedState(state, manager);
+  view.materiels.find((m) => m.id === ok.materielId).hs = true;
+  state = mergeState(state, view, manager);
+  assert.equal(state.postes.find((p) => p.id === ok.id).allume, false);
 });
 
 test('postes : rapports, détection, arrêt automatique, résultats et déconnexion', () => {
@@ -286,7 +303,7 @@ test('postes : rapports, détection, arrêt automatique, résultats et déconnex
   const poste = state.postes.find((p) => p.salleId === 's-e-num-a012');
   const now = 1_800_000_000_000;
   applyReports(state, [{ poste: poste.nomReseau, processus: [{ nom: 'firefox.exe', compte: 'stagiaire.01' }, { nom: 'steam.exe', compte: 'stagiaire.01' }, { nom: 'vlc.exe', compte: 'stagiaire.01' }], applications: ['app-firefox', 'inconnue'] }], now);
-  assert(poste.connecte);
+  assert(poste.allume);
   assert.equal(state.processus.filter((p) => p.posteId === poste.id).length, 3);
   assert.deepEqual(state.detections.map((d) => [d.processus, d.classement]).sort(), [['steam.exe', 'blacklist'], ['vlc.exe', 'nonref']]);
   const auto = state.operations.find((o) => o.auto);
@@ -302,7 +319,7 @@ test('postes : rapports, détection, arrêt automatique, résultats et déconnex
   applyReports(state, [{ poste: poste.nomReseau, processus: [{ nom: 'firefox.exe', compte: 'stagiaire.01' }] }], now + 2000);
   assert(state.processus.find((p) => p.nom === 'vlc.exe').stoppedAt);
   markDisconnected(state, now + 2000 + DISCONNECT_AFTER);
-  assert.equal(poste.connecte, false);
+  assert.equal(poste.allume, false);
   assert(state.processus.filter((p) => p.posteId === poste.id).every((p) => p.stoppedAt));
 });
 
@@ -380,7 +397,7 @@ test('moteur : persistance fichier, révision, rapprochement d’identité et PD
     assert.equal((await reopened.read(admin)).materiels[2].modele, 'Après un rapport de poste');
     assert.equal((await reopened.findAccount({ sub: 'kc-teacher' })).id, TEACHER);
     const report = (await reopened.read(admin)).remontees[0];
-    assert.equal((await reopened.pdf(report.id, admin)).body.subarray(0, 8).toString(), '%PDF-1.4');
+    assert.equal((await reopened.pdf(report.id, admin)).subarray(0, 8).toString(), '%PDF-1.4');
     const foreign = (await reopened.snapshot()).remontees.find((r) => r.ecoleId === 'e-res');
     await assert.rejects(reopened.pdf(foreign.id, admin), { status: 404 });
     const others = (await reopened.read(admin)).remontees.find((r) => r.auteurId !== TEACHER);

@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router';
 import { store, currentEcole, me } from '../../core/store.js';
 import { useStore } from '../../hooks/use-store.js';
-import { scope, index, parc, batimentLabel } from '../../core/selectors.js';
+import { scope, index, parc, batimentLabel, emplacement } from '../../core/selectors.js';
 import { can } from '../../core/permissions.js';
 import { role } from '#shared/catalog.js';
 import { num, plural } from '#shared/format.js';
@@ -21,7 +21,7 @@ import { openAccountForm, openSchoolForm, openPostDetail } from './administratio
 import { openInterventionForm } from './administration-intervention-form.jsx';
 import { Interventions } from './administration-interventions.jsx';
 import { openBuildingForm } from '../salles/salles-forms.jsx';
-import { DataPanel, OpsEmpty, OpsTable, PageHead, Pagination, paginate } from '../../widgets/parts.jsx';
+import { DataPanel, OpsEmpty, OpsTable, PageHead, Pagination, PosteEtat, paginate } from '../../widgets/parts.jsx';
 import { useTitle } from '../../hooks/use-title.js';
 
 const Empty = ({ text }) => <OpsEmpty icon="desktop" title={text} />;
@@ -53,7 +53,7 @@ export function Administration() {
 
   return <>
     <PageHead title={TITLES[tab] || TITLES.postes}>
-      {tab === 'postes' && <button className="btn btn--primary" onClick={() => openInterventionForm('reinstallation', { salleId })}><Icon name="refresh" size={18} /><span>Réinstaller</span></button>}
+      {tab === 'postes' && <button className="btn btn--primary" onClick={() => openInterventionForm('reinstallation', { salleId: salleId || null })}><Icon name="refresh" size={18} /><span>Réinstaller</span></button>}
       {tab === 'comptes' && <button className="btn btn--primary" onClick={() => openAccountForm()}><Icon name="plus" size={18} /><span>Créer un compte</span></button>}
     </PageHead>
     {tab === 'postes'
@@ -98,16 +98,19 @@ function Posts({ list, salleId, onSalle, query, onQuery }) {
       <label className="field field--search"><Icon name="recherche" size={18} /><input type="search" value={query} onChange={(e) => filter(onQuery)(e.target.value)} placeholder={SEARCH.postes} aria-label="Rechercher un poste" /></label>
       <SalleFilter value={salleId} onChange={filter(onSalle)} />
     </>}
-    selection={<span className="inv-count">{plural(list.length, 'poste')}</span>}
-    head={<><th>Poste</th><th>Salle</th><th>État</th><th>Applications</th><th><span className="sr-only">Actions</span></th></>}
-    footer={<Pagination current={current} pages={pages} onPage={setPage} />}>
-    {rows.length ? rows.map((p) => <tr key={p.id}>
-      <td><strong>{p.nomReseau}</strong></td>
-      <td>{index().salle.get(p.salleId)?.nom}</td>
-      <td><span className="inv-state"><i className={`led led--${p.connecte ? 'ok' : 'wait'}`} />{p.connecte ? 'Connecté' : 'Éteint ou indisponible'}</span></td>
-      <td>{installations.filter((i) => i.posteId === p.id).length}</td>
-      <td><button className="btn btn--ghost" onClick={() => openPostDetail(p.id)}>Ouvrir</button></td>
-    </tr>) : <tr><td colSpan={5}><div className="w-empty w-empty--l">Aucun poste ne correspond aux filtres.</div></td></tr>}
+    head={<><th>Poste</th><th>Emplacement</th><th>Matériel</th><th>État</th><th>Applications</th><th><span className="sr-only">Actions</span></th></>}
+    footer={<Pagination current={current} pages={pages} onPage={setPage} total={plural(list.length, 'poste')} />}>
+    {rows.length ? rows.map((p) => {
+      const m = index().materiel.get(p.materielId);
+      return <tr key={p.id}>
+        <td><strong>{p.nomReseau}</strong></td>
+        <td>{emplacement(index().salle.get(p.salleId))}</td>
+        <td>{m ? <>{m.idAster}<small className="inv-sub">{m.modele}</small></> : <span className="ops-muted">Aucun</span>}</td>
+        <td><PosteEtat p={p} /></td>
+        <td>{installations.filter((i) => i.posteId === p.id).length}</td>
+        <td><button className="btn btn--ghost" onClick={() => openPostDetail(p.id)}>Ouvrir</button></td>
+      </tr>;
+    }) : <tr><td colSpan={6}><div className="w-empty w-empty--l">Aucun poste ne correspond aux filtres.</div></td></tr>}
   </DataPanel>;
 }
 

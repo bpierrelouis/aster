@@ -2,7 +2,7 @@
 
 **ASTER** (_Administration, Supervision et Traçabilité des Équipements et Ressources_) est une application web destinée aux écoles de formation. Elle vise à administrer et superviser les postes Windows à distance. La solution d’administration reste à déterminer.
 
-L’architecture cible distingue un serveur front pour l’interface et un serveur back pour les fonctions métier. La connexion utilise MindefConnect et les PDF d’état des lieux sont destinés à un stockage S3. Les modalités d’intégration restent à préciser dans le cadrage.
+L’architecture cible distingue un serveur front pour l’interface et un serveur back pour les fonctions métier. La connexion utilise MindefConnect ; les PDF d’état des lieux sont produits à la demande par le serveur back, sans stockage. Les modalités d’intégration de MindefConnect restent à préciser dans le cadrage.
 
 Elle vise à remplacer la gestion du parc informatique sous Excel par un outil centralisé couvrant trois besoins principaux :
 
@@ -66,7 +66,7 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 - [Fiche descriptive — Administrateur](docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) : parc, postes, supervision, remontées et comptes de son école.
 - [Fiche descriptive — Super administrateur](docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) : adaptation globale des capacités de l'administrateur à toutes les écoles.
 - [Dossier d’architecture technique](docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) : contexte et contraintes, justification des briques, démonstrateur local et déploiement sur VM, versions et architecture cible sur le C1NP, avec une annexe sur Keycloak.
-- [Diagrammes d’architecture](docs/18-DIAGRAMMES-ARCHITECTURE.md) : vue simplifiée et vue complète du déploiement proposé sur huit VM, avec flux, ports, versions et volumes.
+- [Diagrammes d’architecture](docs/18-DIAGRAMMES-ARCHITECTURE.md) : vue simplifiée et vue complète du déploiement proposé sur sept VM, avec flux, ports, versions et volumes.
 - [Design](design/README.md) : charte graphique, ressources visuelles et maquettes d’interface.
 - [Présentations](presentations/README.md) : supports datés et instructions pour les consulter.
 

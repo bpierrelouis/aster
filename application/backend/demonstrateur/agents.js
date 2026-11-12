@@ -1,6 +1,7 @@
 /* ==========================================================================
    Émulateur de postes Windows (démonstrateur)
-   Chaque poste émulé exécute des programmes utilisateur, remonte son état
+   Chaque poste émulé est éteint, allumé sans session ou connecté (session
+   d'un stagiaire au nom fictif, qui lance des programmes), remonte son état
    par l'API d'agent, reçoit les interventions demandées (arrêt de
    processus, installation, désinstallation, réinstallation), les exécute
    et renvoie le résultat. Seuls les postes sont émulés : ASTER traite
@@ -9,6 +10,7 @@
    ========================================================================== */
 
 import { fileURLToPath } from 'node:url';
+import { UTILISATEURS } from '#shared/seed.js';
 
 // Programmes utilisateur et poids de tirage (les processus système ne sont pas remontés) : surtout des
 // outils de développement et de bureautique autorisés, rarement des programmes non référencés ou interdits
@@ -42,17 +44,25 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
   let running = false;
   let lastRefresh = 0;
 
-  function emulate(nomReseau, index) {
-    const compte = `stagiaire.${String((index % 40) + 1).padStart(2, '0')}`;
-    const online = rnd() > 0.1;
-    const processes = new Set(online ? ['firefox.exe', ...(rnd() < 0.6 ? ['Code.exe'] : [])] : []);
-    const apps = new Set([...IMAGE, ...OPTIONS.filter(([, p]) => rnd() < p).map(([app]) => app)]);
-    return { nomReseau, compte, online, processes, apps };
+  // Session d'un stagiaire (compte Windows fictif) ou poste seulement allumé ; les programmes viennent de la session
+  const ouvrir = (p) => { p.session = rnd() < 0.8 ? UTILISATEURS[p.index % UTILISATEURS.length] : null; p.processes = new Set(p.session ? ['firefox.exe', ...(rnd() < 0.6 ? ['Code.exe'] : [])] : []); };
+  const eteindre = (p) => { p.online = false; p.session = null; p.processes.clear(); };
+
+  function emulate({ nomReseau, horsService }, index) {
+    const p = { nomReseau, index, horsService, online: !horsService && rnd() > 0.1, session: null, processes: new Set() };
+    if (p.online) ouvrir(p);
+    p.apps = new Set([...IMAGE, ...OPTIONS.filter(([, x]) => rnd() < x).map(([app]) => app)]);
+    return p;
   }
 
+  // Un poste dont l'unité centrale est hors service reste éteint
   async function refresh() {
     const list = await transport.postes();
-    list.forEach((p, i) => { if (!postes.has(p.nomReseau)) postes.set(p.nomReseau, emulate(p.nomReseau, i)); });
+    list.forEach((x, i) => {
+      const p = postes.get(x.nomReseau);
+      if (!p) postes.set(x.nomReseau, emulate(x, i));
+      else { p.horsService = x.horsService; if (p.horsService && p.online) eteindre(p); }
+    });
     for (const name of [...postes.keys()]) if (!list.some((p) => p.nomReseau === name)) postes.delete(name);
     lastRefresh = Date.now();
   }
@@ -64,7 +74,7 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
     if (cmd.type === 'arret') { ok = rnd() > 0.03; if (ok) p.processes.delete(cmd.processus?.nom); }
     else if (cmd.type === 'installation') { ok = rnd() > 0.05; if (ok) p.apps.add(cmd.applicationId); }
     else if (cmd.type === 'desinstallation') p.apps.delete(cmd.applicationId);
-    else if (cmd.type === 'reinstallation') { p.apps = new Set(IMAGE); p.processes.clear(); }
+    else if (cmd.type === 'reinstallation') { p.apps = new Set(IMAGE); p.session = null; p.processes.clear(); } // redémarrage : session fermée
     return { operation: cmd.operation, poste: cmd.poste, statut: ok ? 'reussie' : 'echec' };
   }
 
@@ -72,17 +82,18 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
     if (running) return;
     running = true;
     try {
-      if (!postes.size || Date.now() - lastRefresh > 60_000) await refresh();
+      if (!postes.size || Date.now() - lastRefresh > 15_000) await refresh();
       for (const p of postes.values()) {
-        if (!p.online) { if (rnd() < 0.004) { p.online = true; p.processes = new Set(['firefox.exe']); } continue; }
-        if (rnd() < 0.0008) { p.online = false; p.processes.clear(); continue; }
-        if (rnd() < 0.015) {
+        if (!p.online) { if (!p.horsService && rnd() < 0.004) { p.online = true; ouvrir(p); } continue; }
+        if (rnd() < 0.0008) { eteindre(p); continue; }
+        if (rnd() < 0.002) { if (p.session) { p.session = null; p.processes.clear(); } else ouvrir(p); continue; } // fermeture ou ouverture de session
+        if (p.session && rnd() < 0.015) {
           if (p.processes.size && rnd() < 0.45) p.processes.delete([...p.processes][Math.floor(rnd() * p.processes.size)]);
           else p.processes.add(pick());
         }
       }
       const online = [...postes.values()].filter((p) => p.online);
-      const { commandes = [] } = await transport.rapports(online.map((p) => ({ poste: p.nomReseau, processus: [...p.processes].map((nom) => ({ nom, compte: p.compte })), applications: [...p.apps] })));
+      const { commandes = [] } = await transport.rapports(online.map((p) => ({ poste: p.nomReseau, session: p.session, processus: [...p.processes].map((nom) => ({ nom, compte: p.session })), applications: [...p.apps] })));
       const resultats = commandes.map(execute).filter(Boolean);
       if (resultats.length) await transport.resultats(resultats);
     } catch (error) {

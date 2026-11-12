@@ -7,17 +7,19 @@
 
 import { Link } from 'react-router';
 import { ago, num } from '#shared/format.js';
+import { REMONTEE_PHASES } from '#shared/catalog.js';
 import { installations } from '../../core/installations.js';
 import { batimentLabel } from '../../core/selectors.js';
 import { Progress } from '../../widgets/parts.jsx';
 import { resteAFaire } from '../salles/installation.jsx';
 import { BoardColumn } from './remontees-backlog.jsx';
 
-const COLUMNS = [
-  { id: 'afaire', tone: 'attente', icon: 'hourglass', label: 'À faire', hint: 'Déplacements enregistrés, aucun encore confirmé' },
-  { id: 'encours', tone: 'encours', icon: 'refresh', label: 'En cours', hint: 'Installation commencée' },
-  { id: 'terminees', tone: 'traitee', icon: 'checkCircle', label: 'Terminées', hint: 'Salles équipées depuis moins d’un mois' },
-];
+// Mêmes phases que le backlog des remontées : en attente, en cours, terminées
+const HINTS = {
+  attente: 'Déplacements enregistrés, aucun encore confirmé',
+  encours: 'Installation commencée',
+  terminee: 'Salles équipées depuis moins de 30 jours',
+};
 
 function InstallationCard({ x }) {
   const done = !x.enCours.length;
@@ -42,13 +44,13 @@ export function InstallationsBoard({ bat, query }) {
   const q = query.trim().toLowerCase();
   const keep = (x) => (!bat || x.salle.batiment === bat) && (!q || x.salle.nom.toLowerCase().includes(q));
   const items = {
-    afaire: enCours.filter((x) => !x.faits.length && keep(x)),
+    attente: enCours.filter((x) => !x.faits.length && keep(x)),
     encours: enCours.filter((x) => x.faits.length && keep(x)),
-    terminees: terminees.filter(keep),
+    terminee: terminees.filter(keep),
   };
-  return <div className="bl-board bl-board--3">
-    {COLUMNS.map((c) => <BoardColumn key={c.id} {...c} count={items[c.id].length} noun="salle" empty="Aucune salle">
-      {items[c.id].map((x) => <InstallationCard key={x.salle.id} x={x} />)}
+  return <div className="bl-board">
+    {REMONTEE_PHASES.map((phase) => <BoardColumn key={phase.id} phase={phase} hint={HINTS[phase.id]} count={items[phase.id].length} noun="salle" empty="Aucune salle">
+      {items[phase.id].map((x) => <InstallationCard key={x.salle.id} x={x} />)}
     </BoardColumn>)}
   </div>;
 }

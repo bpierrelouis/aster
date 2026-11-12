@@ -19,9 +19,10 @@ import { ETATS_INTERVENTION, intervention, etatIntervention } from '#shared/cata
 import { num, plural, ago, dateLong, dateShort } from '#shared/format.js';
 import { Icon, Tile } from '../../ui/icons.jsx';
 import { AppIcon } from '../../ui/app-icon.jsx';
-import { PageHead, Progress } from '../../widgets/parts.jsx';
+import { PageHead, PosteEtat, Progress } from '../../widgets/parts.jsx';
 
 const BASE = '/administration/interventions';
+const CIBLE_LIBELLE = { salle: 'Salle entière', postes: 'Postes', poste: 'Poste' };
 
 function EtatPill({ type, etat }) {
   const e = ETATS_INTERVENTION[etat];
@@ -34,10 +35,13 @@ function Lead({ o, size = 40, tile = 'm' }) {
   return app ? <AppIcon name={app.nom} size={size} /> : <Tile name={intervention(o.type).icon} color="var(--accent)" size={tile} />;
 }
 
+/** Cible : salle entière ou postes d'une salle (la salle et le nombre de postes), ou un poste */
 function Cible({ x }) {
-  return x.salle
-    ? <><span className="chip chip--pin" data-tip={batimentLabel(x.salle.batiment)}><Icon name="pin" size={13} />{x.salle.nom}</span><span className="row-meta">{plural(x.n.total, 'poste')}</span></>
-    : <span className="chip chip--pin"><Icon name="desktop" size={13} />{x.poste?.nomReseau ?? 'Poste retiré'}</span>;
+  const { kind, salle, label } = x.cible;
+  return kind === 'poste'
+    ? <span className="chip chip--pin"><Icon name="desktop" size={13} />{label}</span>
+    : <><span className="chip chip--pin" data-tip={salle && batimentLabel(salle.batiment)}><Icon name="pin" size={13} />{salle?.nom ?? 'Salle retirée'}</span>
+      <span className="row-meta">{kind === 'salle' ? plural(x.n.total, 'poste') : `${plural(x.n.total, 'poste choisi', 'postes choisis')}`}</span></>;
 }
 
 const avancement = (x) => <Progress value={x.n.fait / x.n.total} label={`Avancement : ${num(x.n.fait)} sur ${plural(x.n.total, 'poste')}`} />;
@@ -50,7 +54,7 @@ function Row({ x, selected }) {
       <span className="rm-main">
         <span className="rm-title">{titreIntervention(o)}</span>
         <span className="row-sub"><Cible x={x} /><span className="row-meta"><Icon name="user" size={13} />{o.par}</span></span>
-        {x.salle && avancement(x)}
+        {x.n.total > 1 && avancement(x)}
       </span>
       <span className="rm-side"><EtatPill type={o.type} etat={x.etat} /><span className="rm-age">{ago(o.at)}</span></span>
     </Link>
@@ -68,7 +72,7 @@ function Timeline({ x }) {
     <li className="tl-item is-done"><span className="tl-dot"><Icon name="documents" size={16} /></span>
       <div className="tl-body"><b>Demande enregistrée</b><span>{dateLong(o.at)}</span><span>{o.par}</span></div></li>
     <li className={`tl-item is-done tl-item--${fini ? 'encours' : `${x.etat} is-current`}`}><span className="tl-dot"><Icon name={t.icon} size={16} /></span>
-      <div className="tl-body"><b>{fini ? `${t.label} sur ${x.salle ? 'les postes' : 'le poste'}` : t.etats[x.etat]}</b><span>{reponses(n)}</span>
+      <div className="tl-body"><b>{fini ? `${t.label} sur ${x.n.total > 1 ? 'les postes' : 'le poste'}` : t.etats[x.etat]}</b><span>{reponses(n)}</span>
         {n.attente > 0 && <span>{plural(n.attente, 'poste éteint ou indisponible', 'postes éteints ou indisponibles')}, en attente de {n.attente > 1 ? 'leur' : 'son'} retour</span>}</div></li>
     {fini
       ? <li className={`tl-item is-done is-current tl-item--${x.etat}`}><span className="tl-dot"><Icon name={ETATS_INTERVENTION[x.etat].icon} size={16} /></span>
@@ -93,7 +97,7 @@ function Detail({ x }) {
     </div>
     <ul className="facts">
       <li><span><Icon name={t.icon} size={18} />Intervention</span><b>{t.label}</b></li>
-      <li><span><Icon name={x.salle ? 'pin' : 'desktop'} size={18} />{x.salle ? 'Salle entière' : 'Poste'}</span><b>{x.salle?.nom ?? x.poste?.nomReseau ?? 'Poste retiré'}</b></li>
+      <li><span><Icon name={x.cible.kind === 'poste' ? 'desktop' : 'pin'} size={18} />{CIBLE_LIBELLE[x.cible.kind]}</span><b>{x.cible.label}</b></li>
       <li><span><Icon name="user" size={18} />Demandée par</span><b>{o.par}</b></li>
       <li><span><Icon name="clock" size={18} />Demandée</span><b>{dateShort(o.at)}</b></li>
     </ul>
@@ -102,12 +106,12 @@ function Detail({ x }) {
       <Timeline x={x} />
     </section>
     <section className="insp-block" aria-label="Postes">
-      <h3 className="insp-section-title"><Icon name="desktop" size={18} />{x.salle ? `Postes de ${x.salle.nom}` : 'Poste'}</h3>
-      {x.salle && avancement(x)}
+      <h3 className="insp-section-title"><Icon name="desktop" size={18} />{x.n.total > 1 ? `Postes de ${x.cible.salle?.nom ?? 'la salle'}` : 'Poste'}</h3>
+      {x.n.total > 1 && avancement(x)}
       <ul className="rows rows--flat">{x.postes.map(({ id, poste, etat }) => <li key={id}>
         <div className="row">
-          <span className="tile-wrap"><Tile name="desktop" color="var(--c1)" size="m" /><span className={`led led--${poste?.connecte ? 'ok' : 'wait'} tile-led`} /></span>
-          <span className="row-main"><span className="row-title">{poste?.nomReseau ?? 'Poste retiré'}</span><span className="row-sub">{poste?.connecte ? 'Connecté' : 'Éteint ou indisponible'}</span></span>
+          <Tile name="desktop" color="var(--c1)" size="m" />
+          <span className="row-main"><span className="row-title">{poste?.nomReseau ?? 'Poste retiré'}</span><span className="row-sub">{poste && <PosteEtat p={poste} />}</span></span>
           <EtatPill type={o.type} etat={etat} />
         </div>
       </li>)}</ul>
@@ -121,7 +125,7 @@ export function Interventions({ id }) {
   const listScroll = usePeek('.rm-panel');
   const all = interventions();
   const matches = matcher(query);
-  const list = all.filter((x) => matches(titreIntervention(x.o), x.salle?.nom, x.postes.map((p) => p.poste?.nomReseau).join(' '), x.o.par));
+  const list = all.filter((x) => matches(titreIntervention(x.o), x.cible.salle?.nom, x.postes.map((p) => p.poste?.nomReseau).join(' '), x.o.par));
   return <>
     <PageHead title="Suivi des interventions" />
     <div className={`rm-layout ${id ? 'has-selection' : ''}`}>

@@ -11,7 +11,6 @@
 <symbol id="i-app-window" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></symbol>
 <symbol id="i-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></symbol>
 <symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
-<symbol id="i-archive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></symbol>
 <symbol id="i-key-round" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
 <symbol id="i-book-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 13a3 3 0 1 0-6 0"/><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><circle cx="12" cy="8" r="2"/></symbol>
 <symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></symbol>
@@ -39,7 +38,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 </style>
 <rect width="1500" height="810" fill="#fff"/>
 <text x="40" y="44" class="title" text-anchor="start">Architecture réelle du démonstrateur ASTER</text>
-<text x="40" y="72" class="body" text-anchor="start">Huit machines virtuelles Debian 13 sur un réseau privé · services en conteneurs Docker</text>
+<text x="40" y="72" class="body" text-anchor="start">Sept machines virtuelles Debian 13 sur un réseau privé · services en conteneurs Docker</text>
 <rect x="20" y="300" width="150" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
 <use href="#i-users" x="77" y="314" width="36" height="36" style="color:#0f6cbd"/>
 <text x="95" y="372" class="cname" text-anchor="middle">Utilisateurs</text>
@@ -52,7 +51,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="95" y="712" class="cvm" text-anchor="middle">son propre poste</text>
 <rect x="230" y="105" width="1240" height="680" rx="8" fill="#fff" stroke="#7aa7d6" stroke-dasharray="7 5" stroke-width="1.5"/>
 <use href="#i-network" x="246" y="117" width="22" height="22" style="color:#0f6cbd"/>
-<text x="276" y="134" class="zname" text-anchor="start">Réseau privé du démonstrateur · 8 VM · accès par adresse IP</text>
+<text x="276" y="134" class="zname" text-anchor="start">Réseau privé du démonstrateur · 7 VM · accès par adresse IP</text>
 <rect x="255" y="172" width="210" height="388" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="269" y="196" class="zname" text-anchor="start">Entrée</text>
 <rect x="490" y="172" width="220" height="388" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
@@ -72,42 +71,37 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <use href="#i-app-window" x="582" y="226" width="36" height="36" style="color:#0f6cbd"/>
 <text x="600" y="284" class="cname" text-anchor="middle">Apache</text>
 <text x="600" y="303" class="crole" text-anchor="middle">interface web</text>
-<text x="600" y="324" class="cvm" text-anchor="middle">VM 02, 03 ou 07</text>
+<text x="600" y="324" class="cvm" text-anchor="middle">VM 02, 03 ou 06</text>
 <rect x="515" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-server" x="582" y="414" width="36" height="36" style="color:#0f6cbd"/>
 <text x="600" y="472" class="cname" text-anchor="middle">Express</text>
 <text x="600" y="491" class="crole" text-anchor="middle">API</text>
-<text x="600" y="512" class="cvm" text-anchor="middle">VM 02, 03 ou 07</text>
+<text x="600" y="512" class="cvm" text-anchor="middle">VM 02, 03 ou 06</text>
 <rect x="760" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-database" x="827" y="414" width="36" height="36" style="color:#0f6cbd"/>
 <text x="845" y="472" class="cname" text-anchor="middle">PostgreSQL</text>
 <text x="845" y="491" class="crole" text-anchor="middle">données</text>
 <text x="845" y="512" class="cvm" text-anchor="middle">VM 04</text>
-<rect x="760" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
-<use href="#i-archive" x="827" y="226" width="36" height="36" style="color:#0f6cbd"/>
-<text x="845" y="284" class="cname" text-anchor="middle">SeaweedFS</text>
-<text x="845" y="303" class="crole" text-anchor="middle">fichiers PDF</text>
-<text x="845" y="324" class="cvm" text-anchor="middle">VM 05</text>
 <rect x="1005" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-key-round" x="1072" y="226" width="36" height="36" style="color:#0f6cbd"/>
 <text x="1090" y="284" class="cname" text-anchor="middle">Keycloak</text>
 <text x="1090" y="303" class="crole" text-anchor="middle">connexion</text>
-<text x="1090" y="324" class="cvm" text-anchor="middle">VM 06</text>
+<text x="1090" y="324" class="cvm" text-anchor="middle">VM 05</text>
 <rect x="1255" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-book-user" x="1322" y="226" width="36" height="36" style="color:#0f6cbd"/>
 <text x="1340" y="284" class="cname" text-anchor="middle">OpenLDAP</text>
 <text x="1340" y="303" class="crole" text-anchor="middle">annuaire</text>
-<text x="1340" y="324" class="cvm" text-anchor="middle">VM 06</text>
+<text x="1340" y="324" class="cvm" text-anchor="middle">VM 05</text>
 <rect x="1005" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-monitor" x="1072" y="414" width="36" height="36" style="color:#0f6cbd"/>
 <text x="1090" y="472" class="cname" text-anchor="middle">Postes Windows</text>
 <text x="1090" y="491" class="crole" text-anchor="middle">émulateur</text>
-<text x="1090" y="512" class="cvm" text-anchor="middle">VM 02, 03 ou 07</text>
+<text x="1090" y="512" class="cvm" text-anchor="middle">VM 02, 03 ou 06</text>
 <rect x="275" y="628" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-scroll-text" x="342" y="642" width="36" height="36" style="color:#0f6cbd"/>
 <text x="360" y="700" class="cname" text-anchor="middle">Logstash</text>
 <text x="360" y="719" class="crole" text-anchor="middle">journaux</text>
-<text x="360" y="740" class="cvm" text-anchor="middle">VM 08</text>
+<text x="360" y="740" class="cvm" text-anchor="middle">VM 07</text>
 <path d="M170 364 L273 364" class="flow" marker-end="url(#arrow)"/>
 <circle cx="222" cy="364" r="11" fill="#0f6cbd"/>
 <text x="222" y="368.5" class="step" text-anchor="middle">1</text>
@@ -122,16 +116,13 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <circle cx="940" cy="150" r="11" fill="#0f6cbd"/>
 <text x="940" y="154.5" class="step" text-anchor="middle">4</text>
 <path d="M1175 276 L1253 276" class="flow" marker-end="url(#arrow)"/>
-<path d="M400 300 L400 160 L845 160 L845 210" class="flow" marker-end="url(#arrow)"/>
-<circle cx="620" cy="160" r="11" fill="#0f6cbd"/>
-<text x="620" y="164.5" class="step" text-anchor="middle">5</text>
 <path d="M1090 528 L1090 545 L640 545 L640 530" class="flow" marker-end="url(#arrow)"/>
 <circle cx="860" cy="545" r="11" fill="#0f6cbd"/>
-<text x="860" y="549.5" class="step" text-anchor="middle">6</text>
+<text x="860" y="549.5" class="step" text-anchor="middle">5</text>
 <path d="M600 530 L600 692 L447 692" class="flow" marker-end="url(#arrow)"/>
 <circle cx="600" cy="610" r="11" fill="#0f6cbd"/>
-<text x="600" y="614.5" class="step" text-anchor="middle">7</text>
+<text x="600" y="614.5" class="step" text-anchor="middle">6</text>
 <path d="M170 664 L228 664" class="flow" marker-end="url(#arrow)"/>
 <circle cx="199" cy="664" r="11" fill="#0f6cbd"/>
-<text x="199" y="668.5" class="step" text-anchor="middle">8</text>
+<text x="199" y="668.5" class="step" text-anchor="middle">7</text>
 </svg>

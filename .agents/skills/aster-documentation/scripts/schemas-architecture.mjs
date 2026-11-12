@@ -53,14 +53,14 @@ if (kind === 'simple') {
   const step = (x, y, n) => { add(`<circle cx="${x}" cy="${y}" r="11" fill="${C.blue}"/>`); text(x, y + 4.5, n, 'step', 'middle'); };
 
   text(40, 44, 'Architecture réelle du démonstrateur ASTER', 'title');
-  text(40, 72, 'Huit machines virtuelles Debian 13 sur un réseau privé · services en conteneurs Docker', 'body');
+  text(40, 72, 'Sept machines virtuelles Debian 13 sur un réseau privé · services en conteneurs Docker', 'body');
 
   card(20, 300, 'users', 'Utilisateurs', 'Firefox', 'navigateur web', { stroke: C.extStroke, w: 150 });
   card(20, 600, 'user-cog', 'Opérateur', 'SSH, client Docker', 'son propre poste', { stroke: C.extStroke, w: 150 });
 
   rect(230, 105, 1240, 680, '#fff', '#7aa7d6', { rx: 8, dashed: true, sw: 1.5 });
   icon('network', 246, 117, 22);
-  text(276, 134, 'Réseau privé du démonstrateur · 8 VM · accès par adresse IP', 'zname');
+  text(276, 134, 'Réseau privé du démonstrateur · 7 VM · accès par adresse IP', 'zname');
 
   zone(255, 172, 210, 388, 'Entrée');
   zone(490, 172, 220, 388, 'Application');
@@ -69,14 +69,13 @@ if (kind === 'simple') {
   zone(255, 590, 210, 178, 'Journaux');
 
   card(275, 300, 'split', 'HAProxy', 'entrée', 'VM 01');
-  card(515, 212, 'app-window', 'Apache', 'interface web', 'VM 02, 03 ou 07');
-  card(515, 400, 'server', 'Express', 'API', 'VM 02, 03 ou 07');
+  card(515, 212, 'app-window', 'Apache', 'interface web', 'VM 02, 03 ou 06');
+  card(515, 400, 'server', 'Express', 'API', 'VM 02, 03 ou 06');
   card(760, 400, 'database', 'PostgreSQL', 'données', 'VM 04');
-  card(760, 212, 'archive', 'SeaweedFS', 'fichiers PDF', 'VM 05');
-  card(1005, 212, 'key-round', 'Keycloak', 'connexion', 'VM 06');
-  card(1255, 212, 'book-user', 'OpenLDAP', 'annuaire', 'VM 06');
-  card(1005, 400, 'monitor', 'Postes Windows', 'émulateur', 'VM 02, 03 ou 07');
-  card(275, 628, 'scroll-text', 'Logstash', 'journaux', 'VM 08');
+  card(1005, 212, 'key-round', 'Keycloak', 'connexion', 'VM 05');
+  card(1255, 212, 'book-user', 'OpenLDAP', 'annuaire', 'VM 05');
+  card(1005, 400, 'monitor', 'Postes Windows', 'émulateur', 'VM 02, 03 ou 06');
+  card(275, 628, 'scroll-text', 'Logstash', 'journaux', 'VM 07');
 
   // ① navigateur → entrée
   arrow([[170, 364], [273, 364]]); step(222, 364, '1');
@@ -88,17 +87,15 @@ if (kind === 'simple') {
   // ④ entrée → connexion (Keycloak), qui lit l'annuaire
   arrow([[340, 300], [340, 150], [1150, 150], [1150, 210]]); step(940, 150, '4');
   arrow([[1175, 276], [1253, 276]]);
-  // ⑤ entrée → PDF
-  arrow([[400, 300], [400, 160], [845, 160], [845, 210]]); step(620, 160, '5');
-  // ⑥ postes → API
-  arrow([[1090, 528], [1090, 545], [640, 545], [640, 530]]); step(860, 545, '6');
-  // ⑦ conteneurs → journaux
-  arrow([[600, 530], [600, 692], [447, 692]]); step(600, 610, '7');
-  // ⑧ opérateur → VM, par SSH depuis son poste
-  arrow([[170, 664], [228, 664]]); step(199, 664, '8');
+  // ⑤ postes → API
+  arrow([[1090, 528], [1090, 545], [640, 545], [640, 530]]); step(860, 545, '5');
+  // ⑥ conteneurs → journaux
+  arrow([[600, 530], [600, 692], [447, 692]]); step(600, 610, '6');
+  // ⑦ opérateur → VM, par SSH depuis son poste
+  arrow([[170, 664], [228, 664]]); step(199, 664, '7');
 } else {
-  W = 1420; H = 1290;
-  title = 'ASTER — architecture réelle complète sur huit VM';
+  W = 1420; H = 1135;
+  title = 'ASTER — architecture réelle complète sur sept VM';
   desc = 'Placement des services, conteneurs ou services de l’hôte, rôles Swarm, versions, ports, volumes et flux.';
   const vm = (x, y, w, h, name, role, tone) => {
     rect(x, y, w, h, C.vm, C.vmStroke);
@@ -128,74 +125,69 @@ if (kind === 'simple') {
     lines.forEach((l, i) => text(x + 44, y + 47 + i * 16, l, 'caption'));
   };
 
-  text(40, 44, 'Architecture réelle complète sur huit VM', 'title');
+  text(40, 44, 'Architecture réelle complète sur sept VM', 'title');
   text(40, 72, 'Debian 13 · Docker · une pile Docker Swarm · accès par l’IP de la VM 01', 'body');
 
   ext(20, 205, 170, 130, 'users', 'Navigateur', ['Firefox', 'React 19.3.1']);
-  ext(20, 1160, 170, 110, 'user-cog', 'Opérateur', ['son poste, sur le', 'réseau', 'd’administration']);
+  ext(20, 1005, 170, 110, 'user-cog', 'Opérateur', ['son poste, sur le', 'réseau', 'd’administration']);
 
   // Cluster Swarm
-  rect(285, 140, 1095, 990, '#f7fafd', '#7aa7d6', { rx: 12, dashed: true, sw: 1.5 });
+  rect(285, 140, 1095, 835, '#f7fafd', '#7aa7d6', { rx: 12, dashed: true, sw: 1.5 });
   icon('boxes', 300, 152, 22);
-  text(330, 169, 'Cluster Docker Swarm · VM 01 à 08 · réseau overlay « aster »', 'frame');
+  text(330, 169, 'Cluster Docker Swarm · VM 01 à 07 · réseau overlay « aster »', 'frame');
 
   // Colonne A : entrée, Swarm, éléments communs
   vm(305, 195, 275, 425, 'VM 01', 'Entrée', 'manager');
-  svc(318, 245, 249, 270, 'split', 'HAProxy 3.2', ['image officielle', 'réseau de l’hôte', 'HTTPS 443 · ASTER', 'HTTPS 8443 · Keycloak', 'HTTPS 9443 · SeaweedFS', 'HTTPS 8444 · console Keycloak']);
+  svc(318, 245, 249, 270, 'split', 'HAProxy 3.2', ['image officielle', 'réseau de l’hôte', 'HTTPS 443 · ASTER', 'HTTPS 8443 · Keycloak', 'HTTPS 8444 · console Keycloak']);
   svc(318, 530, 249, 72, 'clock', 'chrony', ['paquet Debian', 'NTP 123/UDP'], true);
   rect(305, 640, 275, 115, '#fff', C.vmStroke);
   icon('boxes', 317, 652, 18, '#5b7690');
   text(343, 667, 'Docker Swarm', 'service');
-  ['Managers : VM 01, 04, 05', 'Workers : VM 02, 03, 06, 07, 08', '2377/TCP · 7946/TCP-UDP · 4789/UDP'].forEach((l, i) => text(317, 689 + i * 16, l, 'caption'));
+  ['Managers : VM 01, 04, 05', 'Workers : VM 02, 03, 06, 07', '2377/TCP · 7946/TCP-UDP · 4789/UDP'].forEach((l, i) => text(317, 689 + i * 16, l, 'caption'));
   rect(305, 775, 275, 115, C.amber, C.amberStroke);
   icon('cog', 317, 787, 18, '#a06a00');
   text(343, 802, 'Sur chaque VM', 'service');
-  ['Debian 13 · Docker · OpenSSH (22)', 'systemd-timesyncd → VM 01', 'pilote syslog de Docker → VM 08'].forEach((l, i) => text(317, 824 + i * 16, l, 'caption'));
+  ['Debian 13 · Docker · OpenSSH (22)', 'systemd-timesyncd → VM 01', 'pilote syslog de Docker → VM 07'].forEach((l, i) => text(317, 824 + i * 16, l, 'caption'));
 
   // Colonne B : services joints par HAProxy
   vm(650, 195, 300, 150, 'VM 02', 'Interface', 'worker');
-  svc(663, 245, 274, 86, 'app-window', 'Apache 2.4', ['image sur httpd:2.4 · HTTP 8080', 'build React 19.3.1', '2 instances · VM 02, 03, 07']);
+  svc(663, 245, 274, 86, 'app-window', 'Apache 2.4', ['image sur httpd:2.4 · HTTP 8080', 'build React 19.3.1', '2 instances · VM 02, 03, 06']);
   vm(650, 365, 300, 150, 'VM 03', 'API', 'worker');
-  svc(663, 415, 274, 86, 'server', 'Express 5.3', ['image sur node:22 · HTTP 3001', '2 instances · VM 02, 03, 07']);
-  vm(650, 535, 300, 170, 'VM 05', 'Fichiers', 'manager');
-  svc(663, 585, 274, 56, 'archive', 'SeaweedFS 4.50', ['image officielle · S3 HTTP 8333']);
-  vol(663, 651, 274, 's3-data', 'volume Docker · /data');
-  vm(650, 725, 300, 310, 'VM 06', 'Identité', 'worker');
-  svc(663, 775, 274, 56, 'key-round', 'Keycloak 26.7.4', ['image officielle · HTTP 8080']);
-  svc(663, 871, 274, 56, 'book-user', 'OpenLDAP 1.5.0', ['image osixia/openldap · LDAP 389']);
-  vol(663, 937, 274, 'ldap-data', 'volume Docker · /var/lib/ldap');
-  vol(663, 982, 274, 'ldap-config', 'volume Docker · /etc/ldap/slapd.d');
+  svc(663, 415, 274, 86, 'server', 'Express 5.3', ['image sur node:22 · HTTP 3001', '2 instances · VM 02, 03, 06']);
+  vm(650, 535, 300, 320, 'VM 05', 'Identité', 'manager');
+  svc(663, 585, 274, 56, 'key-round', 'Keycloak 26.7.4', ['image officielle · HTTP 8080']);
+  svc(663, 687, 274, 56, 'book-user', 'OpenLDAP 1.5.0', ['image osixia/openldap · LDAP 389']);
+  vol(663, 753, 274, 'ldap-data', 'volume Docker · /var/lib/ldap');
+  vol(663, 798, 274, 'ldap-config', 'volume Docker · /etc/ldap/slapd.d');
 
   // Colonne C : autres services
-  vm(1030, 195, 330, 150, 'VM 07', 'Postes simulés', 'worker');
+  vm(1030, 195, 330, 150, 'VM 06', 'Postes simulés', 'worker');
   svc(1043, 245, 304, 56, 'monitor', 'Émulateur des postes', ['image sur node:22 · 1 instance']);
   vm(1030, 365, 330, 175, 'VM 04', 'Base de données', 'manager');
   svc(1043, 415, 304, 56, 'database', 'PostgreSQL 17.7', ['image officielle · TCP 5432']);
   vol(1043, 481, 304, 'pg-data', 'volume Docker · /var/lib/pgsql/data');
-  vm(1030, 560, 330, 175, 'VM 08', 'Journaux', 'worker');
+  vm(1030, 560, 330, 175, 'VM 07', 'Journaux', 'worker');
   svc(1043, 610, 304, 56, 'scroll-text', 'Logstash 8.19', ['image officielle · TCP TLS 6514']);
   vol(1043, 676, 304, 'Dossier de la VM', '/var/log/aster · monté, hors volume Docker');
 
   // Flux du navigateur vers HAProxy
-  [['443 · ASTER', 260], ['8443 · connexion', 295], ['9443 · PDF', 330]].forEach(([t, y]) => { arrow([[190, y], [316, y]]); label(196, y - 6, t); });
-  // HAProxy → Apache et Express ; Express → HAProxy (adresses publiques de Keycloak et de SeaweedFS)
+  [['443 · ASTER', 260], ['8443 · connexion', 295]].forEach(([t, y]) => { arrow([[190, y], [316, y]]); label(196, y - 6, t); });
+  // HAProxy → Apache et Express ; Express → HAProxy (adresse publique de Keycloak)
   arrow([[567, 290], [661, 290]]); label(575, 283, '8080');
   arrow([[567, 445], [661, 445]]); label(575, 438, '3001');
-  arrow([[663, 485], [569, 485]]); label(575, 478, '8443 · 9443');
-  // HAProxy → SeaweedFS et Keycloak
-  add(`<path d="M567 505 L610 505 L610 803" class="flow"/>`);
-  arrow([[610, 613], [661, 613]]); label(616, 606, '8333');
-  arrow([[610, 803], [661, 803]]); label(616, 796, '8080');
+  arrow([[663, 485], [569, 485]]); label(575, 478, '8443');
+  // HAProxy → Keycloak
+  arrow([[567, 505], [610, 505], [610, 613], [661, 613]]); label(616, 606, '8080');
   // Keycloak → OpenLDAP ; Express → PostgreSQL ; émulateur → Express
-  arrow([[800, 831], [800, 869]]); label(808, 854, 'LDAP 389');
+  arrow([[800, 641], [800, 685]]); label(808, 668, 'LDAP 389');
   arrow([[937, 443], [1041, 443]]); label(948, 436, 'TCP 5432');
   arrow([[1043, 273], [990, 273], [990, 420], [939, 420]]); label(958, 266, 'HTTP 3001');
   // Conteneurs de chaque VM → Logstash ; VM → chrony de la VM 01
-  arrow([[440, 890], [440, 1110], [1195, 1110], [1195, 737]]); label(820, 1104, 'syslog TLS 6514 · conteneurs de chaque VM', 'middle');
+  arrow([[440, 890], [440, 950], [1195, 950], [1195, 737]]); label(820, 944, 'syslog TLS 6514 · conteneurs de chaque VM', 'middle');
   arrow([[305, 830], [295, 830], [295, 566], [316, 566]]);
   // Opérateur → VM (SSH, client Docker vers un manager) et console Keycloak
-  arrow([[190, 1235], [1100, 1235], [1100, 1132]]); label(640, 1228, 'SSH 22 · les 8 VM · client Docker vers un manager', 'middle');
-  arrow([[105, 1160], [105, 1152], [262, 1152], [262, 500], [316, 500]]); label(272, 1148, 'HTTPS 8444 · console Keycloak');
+  arrow([[190, 1080], [1100, 1080], [1100, 977]]); label(640, 1073, 'SSH 22 · les 7 VM · client Docker vers un manager', 'middle');
+  arrow([[105, 1005], [105, 997], [262, 997], [262, 500], [316, 500]]); label(272, 993, 'HTTPS 8444 · console Keycloak');
 }
 
 const defs = [...used].map((n) => `<symbol id="i-${n}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${iconNode(n).map(([tag, attrs]) => `<${tag} ${Object.entries(attrs).map(([k, v]) => `${k}="${v}"`).join(' ')}/>`).join('')}</symbol>`).join('\n');

@@ -15,14 +15,13 @@ async function server(status, body = () => ({})) {
 
 async function setup({ databaseUp = true, env = {} } = {}) {
   const web = await server(200);
-  const s3 = await server(403);
   const oidc = await server(200, (url) => ({ issuer: `${url}/realms/aster` }));
   const issuerUrl = `${oidc.url}/realms/aster`;
-  const config = readConfig({ APP_URL: web.url, OIDC_ISSUER: issuerUrl, S3_ENDPOINT: s3.url, IDENTITY_PROVISIONING: 'false' });
+  const config = readConfig({ APP_URL: web.url, OIDC_ISSUER: issuerUrl, IDENTITY_PROVISIONING: 'false' });
   const pool = { query: async () => { if (!databaseUp) throw Object.assign(new Error('refus'), { code: 'ECONNREFUSED' }); } };
   const snapshot = async () => ({ postes: [{ vuLe: Date.now() }, { vuLe: Date.now() - 60_000 }, {}] });
   const services = createServices({ config, env: { WEB_URL: web.url, ...env }, pool, snapshot, connectedAfter: 30_000 });
-  return { services, close: () => { web.close(); s3.close(); oidc.close(); } };
+  return { services, close: () => { web.close(); oidc.close(); } };
 }
 
 const byId = (health) => Object.fromEntries(health.services.map((s) => [s.id, s]));
@@ -33,7 +32,7 @@ test('état : adresse, IP, port et état de chaque service', async () => {
     const health = await services.health();
     const s = byId(health);
     assert.equal(health.status, 'ok');
-    for (const id of ['entree', 'web', 'api', 'base', 'identite', 'stockage']) assert.equal(s[id].status, 'up', id);
+    for (const id of ['entree', 'web', 'api', 'base', 'identite']) assert.equal(s[id].status, 'up', id);
     assert.equal(s.base.address, 'localhost:5432');
     assert.ok(s.base.ip.length > 0);
     assert.equal(s.annuaire.status, 'not-configured');

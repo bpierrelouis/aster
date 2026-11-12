@@ -33,7 +33,7 @@ export const REMONTEE_WIDGETS = [
       const sub = delai.median === null ? <KpiSub>Aucun traitement sur 12 semaines</KpiSub>
         : delai.avant === null ? <KpiSub>Sur 12 semaines</KpiSub>
           : <Delta diff={Math.round(days(delai.median - delai.avant) * 10) / 10} fmt={(n) => `${dec(n)} j`} period="par rapport aux 12 semaines précédentes" sense="up-bad" />;
-      return <Link className="kpi kpi--link" to="/remontees/traitees"><KpiBody label="Délai médian de traitement" value={value} sub={sub} /></Link>;
+      return <Link className="kpi kpi--link" to="/remontees/terminees"><KpiBody label="Délai médian de traitement" value={value} sub={sub} /></Link>;
     },
   },
   {

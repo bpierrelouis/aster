@@ -1,6 +1,7 @@
 /* ==========================================================================
    État des lieux PDF (RG-14, RG-35) : document A4 autonome, sans dépendance.
-   - Bandeau aux couleurs ASTER : référence, statut, type de problème.
+   - Bandeau aux couleurs de la charte ORION, version imprimée (nuit et
+     Bleu Orion sur blanc) : logotype, référence, statut, type de problème.
    - Cartes : école et déclarant, localisation, matériels concernés.
    - Description, tableau des matériels (type, identifiant, série,
      localisation, état), suivi de la remontée de la transmission à la
@@ -11,18 +12,23 @@
 import { deflateSync } from 'node:zlib';
 import { deviceType, problem, statut, suiviRemontee } from '#shared/catalog.js';
 import { dateFull, dateMed, num } from '#shared/format.js';
+import { ORION_STAR } from '#shared/ambiance.js';
 
 const W = 595.28, H = 841.89, M = 40, CW = W - 2 * M;
 const BOTTOM = H - 62; // limite du contenu, au-dessus du pied de page
 
 const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
 const mix = (c, ratio) => c.map((v) => v * ratio + (1 - ratio)); // teinte claire d'une couleur
-// Charte ASTER (tokens.css) ; les types de matériel suivent la palette catégorielle --c1 à --c8
+// Charte ORION, version imprimée : nuit (encre) et Bleu Orion sur blanc, teintes claires du bleu (tokens.css) ;
+// les types de matériel suivent la palette catégorielle --c1 à --c8
 const C = {
-  encre: hex('#17243b'), iris: hex('#6954c0'), irisDeep: hex('#3b2d8c'), mist: hex('#e6e0fb'), brume: hex('#f6f4fb'),
-  tint: hex('#f2eefc'), line: hex('#e4e0f0'), ink2: hex('#52617b'), ink3: hex('#8a93a6'), coeur: hex('#e8b84e'),
+  encre: hex('#040b1e'), bleu: hex('#2563eb'), mist: hex('#e1eafc'), brume: hex('#f3f6fc'),
+  tint: hex('#eef3fd'), line: hex('#dfe5f0'), ink2: hex('#52617b'), ink3: hex('#8a93a6'),
+  iris: hex('#6954c0'), coeur: hex('#e8b84e'), // statuts « remplacé » et « en attente » (STATUT_COLOR)
   ok: hex('#0ca30c'), okText: hex('#087a08'), crit: hex('#d03b3b'), critText: hex('#b02c2c'), white: [1, 1, 1],
 };
+// Étoile ORION : point de départ, puis quatre courbes de Bézier de trois points, dans un carré de 40
+const STAR = ORION_STAR.match(/[\d.]+/g).map(Number);
 const TYPE_COLOR = { uc: '#6954c0', videoprojecteur: '#eb6834', reseau: '#1baf7a', peripherique: '#d99a1e', ecran: '#2a78d6', audio: '#e87ba4', imprimante: '#008300', autre: '#64748b' };
 const STATUT_COLOR = { attente: C.coeur, encours: hex('#2a78d6'), remplace: C.iris, corrige: C.ok, validee: hex('#7c879b') }; // --c5 et --stock pour « en cours » et « validée »
 
@@ -125,17 +131,18 @@ function canvas() {
     line(x1, y1, x2, y2, stroke, width = 1, dash) { paint(`${f(x1)} ${f(H - y1)} m ${f(x2)} ${f(H - y2)} l`, { stroke, width, dash }); },
     /** Coche blanche centrée sur (cx, cy) */
     check(cx, cy, s) { paint(`${f(cx - s)} ${f(H - cy)} m ${f(cx - s / 3)} ${f(H - cy - s * 0.7)} l ${f(cx + s)} ${f(H - cy + s * 0.65)} l`, { stroke: C.white, width: 1.6 }); },
-    /** Dégradé iris du bandeau */
-    band(top, h) { ops.push(`q 0 ${f(H - top - h)} ${f(W)} ${f(h)} re W n /SH sh Q`); },
-    /** Fleur ASTER : huit pétales et un cœur (alpha : transparence /GA) */
-    flower(cx, cy, size, petal, heart, alpha = false) {
-      const s = size / 112;
-      ops.push(alpha ? 'q /GA gs' : 'q', `${rgb(petal)} rg`);
-      for (let i = 0; i < 8; i++) {
-        const a = (i * Math.PI) / 4;
-        ops.push(`q ${f(Math.cos(a) * s)} ${f(Math.sin(a) * s)} ${f(-Math.sin(a) * s)} ${f(Math.cos(a) * s)} ${f(cx)} ${f(H - cy)} cm ${ellipsePath(0, 32, 7, 19)} f Q`);
-      }
-      ops.push(`${rgb(heart)} rg ${ellipsePath(cx, H - cy, 10 * s, 10 * s)} f Q`);
+    /** Dégradé bleu clair du bandeau, souligné de Bleu Orion */
+    band(top, h) {
+      ops.push(`q 0 ${f(H - top - h)} ${f(W)} ${f(h)} re W n /SH sh Q`);
+      paint(`0 ${f(H - top - h)} ${f(W)} 1.5 re`, { fill: C.bleu });
+    },
+    /** Étoile ORION centrée sur (cx, cy), de côté size (alpha : transparence /GA) */
+    star(cx, cy, size, color, alpha = false) {
+      const s = size / 40;
+      const pt = (i) => `${f(cx + (STAR[i] - 20) * s)} ${f(H - cy - (STAR[i + 1] - 20) * s)}`;
+      let path = `${pt(0)} m`;
+      for (let i = 2; i < STAR.length; i += 6) path += ` ${pt(i)} ${pt(i + 2)} ${pt(i + 4)} c`;
+      ops.push(alpha ? 'q /GA gs' : 'q', `${rgb(color)} rg ${path} h f Q`);
     },
     /** Texte sur sa ligne de base ; align : left | right | center */
     text(s, x, baseline, { size = 10, bold = false, color = C.encre, align = 'left', spacing = 0 } = {}) {
@@ -156,7 +163,7 @@ function assemble(pages) {
     '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
     '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>',
     '<< /Type /ExtGState /ca 0.13 /CA 0.13 >>',
-    `<< /ShadingType 2 /ColorSpace /DeviceRGB /Coords [0 ${f(H)} ${f(W)} ${f(H - 160)}] /Function << /FunctionType 2 /Domain [0 1] /C0 [${rgb(C.iris)}] /C1 [${rgb(C.irisDeep)}] /N 1 >> /Extend [true true] >>`,
+    `<< /ShadingType 2 /ColorSpace /DeviceRGB /Coords [0 ${f(H)} ${f(W)} ${f(H - 160)}] /Function << /FunctionType 2 /Domain [0 1] /C0 [${rgb(C.mist)}] /C1 [${rgb(C.brume)}] /N 1 >> /Extend [true true] >>`,
   ];
   const resources = '/Resources << /Font << /F1 3 0 R /F2 4 0 R >> /ExtGState << /GA 5 0 R >> /Shading << /SH 6 0 R >> >>';
   const kids = [];
@@ -198,34 +205,40 @@ export function reportPdf(report, state) {
   const updated = steps.findLast((s) => !s.todo).at;
   let y = 0;
 
+  // Logotype ORION, version imprimée : capitales espacées, étoile nuit au-dessus du « I », séparée de lui d'un tiers
+  // de corps (capitales Helvetica : 0,718 corps) ; renvoie sa largeur
+  const logo = (x, baseline, size) => {
+    const spacing = size / 2;
+    const width = cv.text('ORION', x, baseline, { size, spacing }) - spacing;
+    cv.star(x + textWidth('OR', size, false, spacing) + textWidth('I', size) / 2, baseline - size * (0.718 + 0.32 + 0.33), size * 0.66, C.encre);
+    return width;
+  };
   const firstHeader = () => {
     cv.band(0, 152);
-    cv.flower(W - 64, 64, 250, C.white, C.white, true);
-    cv.flower(M + 17, 42, 36, C.white, C.coeur);
-    cv.text('ASTER', M + 44, 47, { size: 19, bold: true, color: C.white, spacing: 3.5 });
-    cv.text('État des lieux', M + 44, 62, { size: 9.5, color: C.mist });
-    cv.text('Remontée', W - M, 34, { size: 8.5, color: C.mist, align: 'right' });
-    cv.text(report.id, W - M, 58, { size: 21, bold: true, color: C.white, align: 'right' });
+    cv.star(W - 84, 76, 150, C.bleu, true);
+    logo(M, 47, 19);
+    cv.text('État des lieux', M, 66, { size: 9.5, color: C.ink2 });
+    cv.text('Remontée', W - M, 34, { size: 8.5, color: C.ink2, align: 'right' });
+    cv.text(report.id, W - M, 58, { size: 21, bold: true, align: 'right' });
     const pw = textWidth(st.label, 8.5, true) + 28;
-    cv.round(W - M - pw, 68, pw, 20, 10, { fill: C.white });
+    cv.round(W - M - pw, 68, pw, 20, 10, { fill: C.white, stroke: C.line, width: 0.8 });
     cv.circle(W - M - pw + 12, 78, 3.6, { fill: STATUT_COLOR[st.id] });
     cv.text(st.label, W - M - pw + 20, 81, { size: 8.5, bold: true });
-    cv.text(fit(pb.label, CW, 22, true), M, 114, { size: 22, bold: true, color: C.white });
-    cv.text(fit(`Transmise le ${dateFull(report.createdAt)} par ${report.auteur}`, CW, 10), M, 134, { size: 10, color: C.mist });
+    cv.text(fit(pb.label, CW, 22, true), M, 114, { size: 22, bold: true });
+    cv.text(fit(`Transmise le ${dateFull(report.createdAt)} par ${report.auteur}`, CW, 10), M, 134, { size: 10, color: C.ink2 });
     y = 170;
   };
   const nextHeader = () => {
     cv.band(0, 50);
-    cv.flower(M + 10, 25, 22, C.white, C.coeur);
-    cv.text('ASTER', M + 28, 30, { size: 11, bold: true, color: C.white, spacing: 2 });
-    cv.text('État des lieux', M + 82, 30, { size: 9, color: C.mist });
-    cv.text(report.id, W - M, 30, { size: 11, bold: true, color: C.white, align: 'right' });
+    const width = logo(M, 32, 11);
+    cv.text('État des lieux', M + width + 12, 32, { size: 9, color: C.ink2 });
+    cv.text(report.id, W - M, 32, { size: 11, bold: true, align: 'right' });
     y = 74;
   };
   const ensure = (h) => { if (y + h > BOTTOM) { cv.newPage(); nextHeader(); } };
   const section = (title, next) => {
     ensure(26 + next);
-    cv.round(M, y, 4, 14, 2, { fill: C.iris });
+    cv.round(M, y, 4, 14, 2, { fill: C.bleu });
     cv.text(title, M + 12, y + 11.5, { size: 12, bold: true });
     y += 24;
   };
@@ -235,7 +248,7 @@ export function reportPdf(report, state) {
 
   // Cartes : école et déclarant, localisation, matériels
   const cards = [
-    { label: 'ÉCOLE', value: ecole, sub: `Déclarée par ${report.auteur}`, color: C.iris },
+    { label: 'ÉCOLE', value: ecole, sub: `Déclarée par ${report.auteur}`, color: C.bleu },
     { label: 'LOCALISATION', value: rooms.length ? rooms.map((r) => r.nom).join(', ') : 'Stock', sub: rooms.length ? [...new Set(rooms.map((r) => `Bâtiment ${r.batiment}`))].join(', ') : 'Sans localisation', color: hex(TYPE_COLOR.reseau) },
     { label: 'MATÉRIELS', value: `${num(mats.length)} matériel${mats.length > 1 ? 's' : ''}`, sub: hs ? `dont ${num(hs)} hors service` : 'Tous en service', color: hs ? C.crit : C.ok },
   ];
@@ -258,7 +271,7 @@ export function reportPdf(report, state) {
     const chunk = lines.slice(i, i + Math.max(1, Math.floor((BOTTOM - y - 26) / 15)));
     const h = chunk.length * 15 + 22;
     cv.round(M, y, CW, h, 10, { fill: C.tint });
-    cv.round(M + 12, y + 11, 3, h - 22, 1.5, { fill: C.iris });
+    cv.round(M + 12, y + 11, 3, h - 22, 1.5, { fill: C.bleu });
     chunk.forEach((l, k) => cv.text(l, M + 26, y + 22 + k * 15, { size: 10.5 }));
     y += h + 8;
     i += chunk.length;
@@ -306,9 +319,9 @@ export function reportPdf(report, state) {
     ensure(ROW);
     const cx = M + 12, cy = y + 12;
     const next = steps[i + 1];
-    if (next && y + 2 * ROW <= BOTTOM) cv.line(cx, cy + 11, cx, cy + ROW - 11, next.todo ? C.line : C.iris, 2, next.todo ? [3, 3] : null);
+    if (next && y + 2 * ROW <= BOTTOM) cv.line(cx, cy + 11, cx, cy + ROW - 11, next.todo ? C.line : C.bleu, 2, next.todo ? [3, 3] : null);
     if (s.todo) cv.circle(cx, cy, 9, { fill: C.white, stroke: C.ink3, width: 1.2, dash: [2.5, 2] });
-    else { cv.circle(cx, cy, 9, { fill: STATUT_COLOR[s.statut] ?? C.iris }); cv.check(cx, cy, 3.6); }
+    else { cv.circle(cx, cy, 9, { fill: STATUT_COLOR[s.statut] ?? C.bleu }); cv.check(cx, cy, 3.6); }
     cv.text(s.label, M + 32, y + 9.5, { size: 10, bold: true, color: s.todo ? C.ink2 : C.encre });
     cv.text(fit(s.todo ? `À venir · ${s.sub}` : `${dateFull(s.at)} · ${s.par}`, CW - 32, 8.5), M + 32, y + 22.5, { size: 8.5, color: C.ink2 });
     y += ROW;
@@ -319,7 +332,7 @@ export function reportPdf(report, state) {
   for (let i = 0; i < total; i++) {
     cv.select(i);
     cv.line(M, H - 46, W - M, H - 46, C.line, 0.6);
-    cv.flower(M + 6, H - 28.5, 12, C.iris, C.coeur);
+    cv.star(M + 5, H - 28.5, 11, C.encre);
     cv.text(fit(`Document établi par ASTER le ${dateMed(report.createdAt)}${updated > report.createdAt ? `, mis à jour le ${dateMed(updated)}` : ''}${ecole ? ` · ${ecole}` : ''}`, CW - 120, 8), M + 17, H - 25.5, { size: 8, color: C.ink2 });
     cv.text(`${report.id} · page ${i + 1} sur ${total}`, W - M, H - 25.5, { size: 8, color: C.ink2, align: 'right' });
   }

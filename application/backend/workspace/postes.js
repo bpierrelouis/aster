@@ -7,17 +7,24 @@ import { processClass } from '#shared/operations-data.js';
 import { DAY } from '#shared/format.js';
 import { id, schoolOf } from './rules.js';
 
-export const DISCONNECT_AFTER = 30_000; // poste sans rapport depuis ce délai : déconnecté
+export const DISCONNECT_AFTER = 30_000; // poste sans rapport depuis ce délai : éteint ou indisponible
 
-/** Rapports des postes : processus utilisateur en cours et applications installées. */
+/**
+ * Rapports des postes : session ouverte (compte Windows, ou aucune si le poste est seulement allumé), processus
+ * utilisateur en cours et applications installées. Le rapport d'un poste dont l'unité centrale est hors service
+ * est ignoré : ce poste ne peut être ni allumé ni connecté (rules.js, eteindreHorsService).
+ */
 export function applyReports(s, rapports, now = Date.now()) {
   const byName = new Map(s.postes.map((p) => [p.nomReseau, p]));
+  const hs = new Set(s.materiels.filter((m) => m.hs).map((m) => m.id));
   const unknown = [];
   for (const r of rapports) {
     const p = byName.get(r?.poste);
     if (!p) { unknown.push(r?.poste); continue; }
+    if (hs.has(p.materielId)) continue;
     const ecoleId = schoolOf(p, s);
-    p.connecte = true;
+    p.allume = true;
+    p.session = typeof r.session === 'string' && r.session.trim() ? r.session.trim().slice(0, 120) : null;
     p.vuLe = now;
     const reported = new Map((Array.isArray(r.processus) ? r.processus : []).slice(0, 200)
       .filter((x) => typeof x?.nom === 'string' && x.nom.length <= 120)
@@ -52,8 +59,8 @@ export function applyReports(s, rapports, now = Date.now()) {
 
 export function markDisconnected(s, now = Date.now()) {
   for (const p of s.postes) {
-    if (!p.connecte || (p.vuLe && now - p.vuLe < DISCONNECT_AFTER)) continue;
-    p.connecte = false;
+    if (!p.allume || (p.vuLe && now - p.vuLe < DISCONNECT_AFTER)) continue;
+    Object.assign(p, { allume: false, session: null });
     for (const proc of s.processus) if (proc.posteId === p.id && !proc.stoppedAt) proc.stoppedAt = now;
   }
 }

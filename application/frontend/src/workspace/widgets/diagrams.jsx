@@ -91,7 +91,7 @@ export const DIAGRAMS = [
     },
   },
   {
-    type: 'chart.postes', kind: 'chart', title: 'Postes connectés par bâtiment', icon: 'ring', color: 'var(--accent)', sizes: ['M', 'L'], cap: 'supervision.view',
+    type: 'chart.postes', kind: 'chart', title: 'Postes allumés par bâtiment', icon: 'ring', color: 'var(--accent)', sizes: ['M', 'L'], cap: 'supervision.view',
     Body() {
       const groups = new Map();
       for (const p of scope().postes) {
@@ -99,16 +99,16 @@ export const DIAGRAMS = [
         if (!b) continue;
         const g = groups.get(b) ?? { total: 0, on: 0 };
         g.total++;
-        if (p.connecte) g.on++;
+        if (p.allume) g.on++;
         groups.set(b, g);
       }
       const items = [...groups].sort(([a], [b]) => byName(a, b)).map(([b, g], i, all) => ({
-        label: batimentLabel(b), ratio: g.on / g.total, color: accentShade(i, all.length), tip: `${num(g.on)} postes connectés sur ${num(g.total)}`,
+        label: batimentLabel(b), ratio: g.on / g.total, color: accentShade(i, all.length), tip: `${num(g.on)} postes allumés sur ${num(g.total)}`,
       }));
       return <>
-        <WidgetHead title="Postes connectés par bâtiment" />
+        <WidgetHead title="Postes allumés par bâtiment" />
         {items.length ? <div className="diagram">
-          <Arcs items={items} label={`Postes connectés : ${items.map((x) => `${x.label} ${pct(x.ratio)}`).join(', ')}`} />
+          <Arcs items={items} label={`Postes allumés : ${items.map((x) => `${x.label} ${pct(x.ratio)}`).join(', ')}`} />
           <ChartLegend items={items.map((x) => ({ label: x.label, color: x.color, value: pct(x.ratio) }))} />
         </div> : <WidgetEmpty ic="desktop" text="Aucun poste supervisé" />}
       </>;

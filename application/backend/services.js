@@ -72,10 +72,6 @@ export function createServices({ config, env = process.env, pool, snapshot, conn
       url: env.LDAP_URL, check: tcp,
     },
     {
-      id: 'stockage', name: 'Stockage S3', role: 'Conserve les états des lieux PDF, téléchargés par lien signé.',
-      url: config.s3.endpoint, check: http(false),
-    },
-    {
       id: 'journaux', name: 'Collecteur de journaux', role: 'Reçoit les journaux des conteneurs (syslog RFC 5424 sur TLS).',
       url: env.SYSLOG_URL, check: tcp,
     },

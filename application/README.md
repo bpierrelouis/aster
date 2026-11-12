@@ -39,7 +39,7 @@ PostgreSQL et JavaScript répondent à la demande de l’utilisateur du 6 novemb
 
 | Mode | Commande | Ce qui est réel |
 | --- | --- | --- |
-| Application connectée | `npm run infra:up` puis `npm run dev` | Connexion OIDC, comptes ASTER, données dans PostgreSQL, états des lieux dans S3, API des postes |
+| Application connectée | `npm run infra:up` puis `npm run dev` | Connexion OIDC, comptes ASTER, données dans PostgreSQL, états des lieux PDF produits à la demande, API des postes |
 | Interface seule | `npm run dev:ui` | Mêmes règles et même API, sans Docker : données dans un fichier temporaire, utilisateur fixé par `ASTER_UI_ROLE` |
 
 Les deux modes ne peuvent pas tourner en même temps : ils utilisent le port 5173.
@@ -65,9 +65,8 @@ npm run dev
 | Console Keycloak | http://localhost:8081/admin | Administration technique du fournisseur |
 | PostgreSQL ASTER | localhost:5432 | Base `aster` : données métier et sessions |
 | Annuaire LDAP (OpenLDAP, `osixia/openldap` 1.5.0) | réseau Docker uniquement | Identités des utilisateurs (`ou=people,dc=aster,dc=demo`), fédérées par Keycloak |
-| Stockage S3 (SeaweedFS 4.50) | http://localhost:8333 | Compartiment `aster-etats-des-lieux` |
 
-Utiliser le nom d’hôte `localhost`, qui correspond aux redirections OIDC déclarées. Le port 8081 évite le port 8080 déjà utilisé sur la machine. Les conteneurs exposent leurs ports uniquement sur la boucle locale. Les images MinIO n’étant plus distribuées publiquement, le stockage compatible S3 local est SeaweedFS (licence Apache 2.0), avec authentification par clés ([infra/seaweedfs/s3.json](infra/seaweedfs/s3.json)).
+Utiliser le nom d’hôte `localhost`, qui correspond aux redirections OIDC déclarées. Le port 8081 évite le port 8080 déjà utilisé sur la machine. Les conteneurs exposent leurs ports uniquement sur la boucle locale.
 
 Les valeurs de développement sont fournies par défaut. Pour les modifier, copier `.env.example` vers `.env` dans `application/` et adapter la configuration. Les secrets de démonstration sont publics et destinés exclusivement au démarrage local.
 
@@ -125,7 +124,7 @@ Le serveur applique les droits à chaque écriture ([backend/workspace/rules.js]
 | --- | --- |
 | `aster_ecole`, `aster_etage`, `aster_salle` | Écoles, étages par bâtiment, salles |
 | `aster_materiel` | Matériels ; identifiant ASTER unique, salle facultative (stock) |
-| `aster_remontee`, `aster_remontee_materiel` | Remontées, auteur, statut (contrainte tirée du catalogue des statuts, remplacée au démarrage), historique, clé de l’état des lieux S3 ; matériels concernés |
+| `aster_remontee`, `aster_remontee_materiel` | Remontées, auteur, statut (contrainte tirée du catalogue des statuts, remplacée au démarrage), historique ; matériels concernés |
 | `aster_compte`, `aster_preference` | Comptes ASTER (profil, école, actif, sujet OIDC) ; préférences par compte |
 | `aster_donnee` | Postes, processus, détections, applications, installations, règles, interventions (JSONB) |
 | `aster_espace` | Version du jeu de données et numéro de révision, verrouillé à chaque écriture |
@@ -133,7 +132,7 @@ Le serveur applique les droits à chaque écriture ([backend/workspace/rules.js]
 
 Au premier démarrage, ou quand la version du jeu de données change, les tables sont initialisées avec une école de quatre bâtiments (1 à 5 niveaux, jusqu’à 8 salles par étage), une seconde école, l’inventaire, les remontées passées (à tous les stades : en attente, en cours, traitées, validées par leur auteur) et les comptes ci-dessus. Installation physique : l’Atelier 2 reçoit huit matériels du stock (trois déjà installés), deux écrans sont à déplacer de C201 vers C202, trois matériels de l’Atelier 1 sont à rapatrier au stock et la B203 a fini d’être équipée il y a trois jours. Le stock de l’École du numérique contient de quoi équiper une nouvelle salle, reçu ces dernières semaines (garanties en cours) : 20 unités centrales, 40 écrans, 20 claviers, 20 souris et des matériels secondaires (vidéoprojecteurs, commutateurs, bornes Wi-Fi, câbles, audio, imprimantes, onduleurs ou stations d’accueil). Matériels › Import JSON (orientation de l’utilisateur du 11 novembre, à soumettre au client, cadrage § 23) vérifie le fichier dès qu’il est choisi (ou le JSON dès qu’il est collé), puis le serveur rapproche ses numéros de série de tout le parc, toutes écoles comprises (`POST /api/workspace/import/analyse`, [backend/workspace/import.js](backend/workspace/import.js)) ; le navigateur, qui ne voit que son école, ne pourrait pas le faire. Le fichier se choisit en un geste ; le JSON à coller est facultatif, replié comme l’exemple. Pendant l’analyse, la fleur ASTER respire comme à l’ouverture de l’application ([Loader](frontend/src/workspace/widgets/parts.jsx), affiché au moins un instant). L’aperçu, sur toute la largeur ([views/inventaire/inventaire-import.jsx](frontend/src/workspace/views/inventaire/inventaire-import.jsx)), met en avant son bilan (nouveaux matériels prêts à être ajoutés, matériels d’une autre école à accepter ou non, déjà présents et en double, non traités), puis présente d’abord les incohérences, avec une alerte : un matériel d’une autre école porte un interrupteur « Transférer » (échange entre écoles), désactivé s’il est cité par une remontée en cours dans son école ; un matériel déjà présent dans l’école, ou une ligne qui répète un numéro de série du fichier, est « Non traité » ; les autres sont « Prêts à être ajoutés ». `POST /api/workspace/import` n’ajoute que les nouveaux matériels (identifiant ASTER attribué) et transfère les matériels validés, qui gardent leur identifiant et rejoignent l’école à l’emplacement indiqué par le fichier ; le serveur refait le rapprochement et renvoie le bilan (ajoutés, transférés, non traités). Le tableau de l’aperçu, à colonnes fixes, s’affiche en entier par pages de 25 et défile avec la page, sans défilement intérieur. Pendant l’import, le bouton montre un chargement, puis une coche tracée sur fond vert (« Import terminé »), avant de revenir à son état initial, sans fichier sélectionné ; la liste reste affichée avec le résultat de chaque ligne (« Ajouté », « Transféré », « Non traité »). Pour l’essayer, [tests/fixtures/import-stock-salle.json](tests/fixtures/import-stock-salle.json) contient un autre lot de 139 matériels : 137 absents des données de départ (d’autres modèles, HP ProDesk 400 G9, écrans Iiyama ProLite, claviers K120…, et des numéros de série inédits, sans salle : ils entrent en stock), un écran déjà présent dans l’École du numérique (non traité) et une unité centrale de l’École des réseaux (à accepter ou non). Un test serveur vérifie ces deux matériels connus et l’absence de tout autre modèle existant. L’activité des postes (processus, détections, installations) part de zéro et n’est alimentée que par les postes.
 
-L’état des lieux PDF d’une remontée est produit à la transmission puis à chaque changement de statut, avec les informations de cet instant, et chaque version est déposée dans S3 sans remplacer les précédentes (`etats-des-lieux/<école>/<remontée>/<étape>-<statut>.pdf`, par exemple `1-attente.pdf`, `2-encours.pdf`) ; la table des remontées garde la clé de la dernière. Le document A4 ([backend/workspace/pdf.js](backend/workspace/pdf.js), sans dépendance) comprend un bandeau ASTER (référence, statut, type de problème), l’école et le déclarant, la localisation, la description, le tableau des matériels concernés (type, identifiant ASTER, numéro de série, salle, état), le suivi de la transmission à la clôture et un pied de page numéroté portant la date de la dernière étape ; il passe sur plusieurs pages si nécessaire. Le document ne transite pas par le serveur : `GET /api/workspace/reports/:id/pdf` contrôle la session et le périmètre du compte, puis répond par une redirection 303 vers une URL S3 présignée de la dernière version, valable 60 secondes et propre à cet objet ([backend/storage.js](backend/storage.js)) ; le navigateur télécharge le PDF directement dans S3. Si la version de l’étape en cours manque (dépôt échoué, document d’une version antérieure de l’application), elle est produite puis déposée avant la signature ; si S3 est indisponible, l’API répond 503. `S3_ENDPOINT` doit donc être joignable par les navigateurs comme par le serveur. En mode interface seule, sans stockage, le serveur produit le document à la demande. Le contrat d’intégration avec le S3 cible reste à établir : seules les opérations de dépôt, de lecture et de lecture signée sont utilisées.
+L’état des lieux PDF d’une remontée n’est pas conservé : le serveur le produit à chaque demande, avec les informations actuelles (`GET /api/workspace/reports/:id/pdf`, après contrôle de la session et du périmètre du compte ; [backend/workspace/engine.js](backend/workspace/engine.js)). Le document A4 ([backend/workspace/pdf.js](backend/workspace/pdf.js), sans dépendance) comprend un bandeau ASTER (référence, statut, type de problème), l’école et le déclarant, la localisation, la description, le tableau des matériels concernés (type, identifiant ASTER, numéro de série, salle, état), le suivi de la transmission à la clôture et un pied de page numéroté portant la date de la dernière étape ; il passe sur plusieurs pages si nécessaire. Les deux modes procèdent de la même façon.
 
 Le serveur ne garde aucun état qui fasse autorité : plusieurs serveurs Express peuvent partager la même base. Chaque écriture verrouille la ligne de révision (`aster_espace`), relit l’état, applique les règles puis enregistre ; un serveur ne réutilise sa copie de l’état que si la base porte toujours la même révision. Les écritures concurrentes sont fusionnées élément par élément à partir du journal des 2 000 dernières révisions, conservé en base (`aster_journal`) : une écriture préparée sur une révision antérieure n’échoue que si le même élément a été modifié entre-temps. Les éléments sont comparés indépendamment de l’ordre de leurs propriétés. Le navigateur reprend toutes les quatre secondes les modifications des autres utilisateurs et des postes (requête conditionnelle par ETag).
 
@@ -162,7 +161,7 @@ Ces routes sont publiques, sans connexion (application connectée seulement) :
 | `GET /api/docs/` | Documentation interactive (Swagger UI) |
 | `GET /api/openapi.json` | Spécification OpenAPI 3.1 de toutes les routes ([backend/openapi.js](backend/openapi.js)) |
 
-Les services et leurs contrôles sont définis dans [backend/services.js](backend/services.js) : réponse HTTP pour le point d’entrée (`APP_URL`), le serveur web, le fournisseur d’identité, son administration et le stockage S3 ; requête SQL pour la base ; connexion TCP pour l’annuaire et le collecteur de journaux. Dans Docker Swarm, l’IP d’un service joint par son nom est son adresse virtuelle sur le réseau overlay. Aucun identifiant n’est publié. Toute route ajoutée au serveur est décrite dans `backend/openapi.js`.
+Les services et leurs contrôles sont définis dans [backend/services.js](backend/services.js) : réponse HTTP pour le point d’entrée (`APP_URL`), le serveur web, le fournisseur d’identité et son administration ; requête SQL pour la base ; connexion TCP pour l’annuaire et le collecteur de journaux. Dans Docker Swarm, l’IP d’un service joint par son nom est son adresse virtuelle sur le réseau overlay. Aucun identifiant n’est publié. Toute route ajoutée au serveur est décrite dans `backend/openapi.js`.
 
 ## Structure
 
@@ -199,7 +198,6 @@ application/
 │   ├── start-production.js
 │   ├── config.js
 │   ├── profiles.js              # Profils ASTER et utilisateur présenté au navigateur
-│   ├── storage.js               # Stockage S3
 │   ├── services.js              # Description et état des services (/api/infos, /api/health)
 │   ├── openapi.js               # Spécification OpenAPI (Swagger UI sur /api/docs)
 │   ├── workspace/
@@ -213,10 +211,9 @@ application/
 │       ├── identity-provisioning.js  # Identités dans l’annuaire via Keycloak
 │       └── agents.js            # Postes émulés
 ├── infra/
-│   ├── compose.yaml             # PostgreSQL ASTER, annuaire LDAP, Keycloak, stockage S3
+│   ├── compose.yaml             # PostgreSQL ASTER, annuaire LDAP, Keycloak
 │   ├── keycloak/                # Realm (fédération LDAP) et thème de connexion
 │   ├── ldap/                    # Identités de départ de l’annuaire (LDIF)
-│   ├── seaweedfs/               # Clés d'accès S3 locales
 │   └── images/                  # Lecture des secrets et configuration Apache des images
 ├── tests/                       # Tests d’interface et de bout en bout ; fixtures/ : fichiers d’import
 ├── Dockerfile                   # Images web, api et postes
@@ -225,18 +222,18 @@ application/
 
 Les classes CSS étant partagées entre écrans (tableaux `ops-`, contenus de widgets `w-`), les feuilles de style restent regroupées dans `styles/` et chargées dans un ordre fixe, qui détermine la cascade. Les tests du serveur (`*.test.js`) sont placés à côté des modules qu’ils vérifient.
 
-Les volumes Docker du projet Compose `aster` séparent et conservent les données PostgreSQL d’ASTER, l’annuaire LDAP (`ldap-data`, `ldap-config`) et les objets S3. Le fichier LDIF n’est chargé que si l’annuaire est vide : pour le recharger, supprimer les deux volumes LDAP. `npm run infra:down` arrête les services sans supprimer les données. Keycloak réimporte son realm à chaque recréation de son conteneur ; les identités manquantes sont créées dans l’annuaire par le serveur au démarrage. Ne pas supprimer un volume sans vérifier les données qu’il contient.
+Les volumes Docker du projet Compose `aster` séparent et conservent les données PostgreSQL d’ASTER, l’annuaire LDAP (`ldap-data`, `ldap-config`). Le fichier LDIF n’est chargé que si l’annuaire est vide : pour le recharger, supprimer les deux volumes LDAP. `npm run infra:down` arrête les services sans supprimer les données. Keycloak réimporte son realm à chaque recréation de son conteneur ; les identités manquantes sont créées dans l’annuaire par le serveur au démarrage. Ne pas supprimer un volume sans vérifier les données qu’il contient.
 
 ## Vérifications
 
 ```sh
-npm test               # Règles, API, identité ; intégration PostgreSQL et S3 si l'infrastructure est démarrée
+npm test               # Règles, API, identité ; intégration PostgreSQL si l'infrastructure est démarrée
 npm run build
 npm run test:ui        # Page de connexion
 npm run test:workspace # Écrans de l'espace de travail en mode interface seule (port 5174)
 ```
 
-Les tests d’intégration utilisent un schéma PostgreSQL temporaire, supprimé à la fin, et le compartiment S3 `aster-tests` ; ils sont ignorés si l’infrastructure est absente. Les tests Playwright utilisent Google Chrome s’il est installé (comme sur les machines de la CI), sinon le Chromium de Playwright, à installer une fois avec `npx playwright install chromium` ([tests/navigateur.js](tests/navigateur.js)). `npm run test:ui` démarre l’interface sur le port 5173, ou réutilise celle qui y tourne déjà : il doit s’agir de `npm run dev:frontend`, pas du mode interface seule.
+Les tests d’intégration utilisent un schéma PostgreSQL temporaire, supprimé à la fin ; ils sont ignorés si l’infrastructure est absente. Les tests Playwright utilisent Google Chrome s’il est installé (comme sur les machines de la CI), sinon le Chromium de Playwright, à installer une fois avec `npx playwright install chromium` ([tests/navigateur.js](tests/navigateur.js)). `npm run test:ui` démarre l’interface sur le port 5173, ou réutilise celle qui y tourne déjà : il doit s’agir de `npm run dev:frontend`, pas du mode interface seule.
 
 Avec l’infrastructure et `npm run dev` démarrés :
 
@@ -244,13 +241,13 @@ Avec l’infrastructure et `npm run dev` démarrés :
 npm run test:e2e
 ```
 
-Ces tests passent réellement par Keycloak pour chaque profil et vérifient : l’identité et les modules par profil, la session persistante et la déconnexion ; la création d’un compte puis la connexion de ce nouvel utilisateur, la coupure de session à sa désactivation ; le refus d’une identité sans compte ASTER ; l’enregistrement d’un matériel en base ; une remontée transmise avec son PDF dans S3, téléchargé par un lien signé sans transit par le serveur ; un arrêt de processus exécuté par un poste ; le refus des écritures d’une autre origine, d’un state incorrect et d’un retour sans demande préalable.
+Ces tests passent réellement par Keycloak pour chaque profil et vérifient : l’identité et les modules par profil, la session persistante et la déconnexion ; la création d’un compte puis la connexion de ce nouvel utilisateur, la coupure de session à sa désactivation ; le refus d’une identité sans compte ASTER ; l’enregistrement d’un matériel en base ; une remontée transmise et son état des lieux PDF, produit à la demande ; un arrêt de processus exécuté par un poste ; le refus des écritures d’une autre origine, d’un state incorrect et d’un retour sans demande préalable.
 
 ## Production
 
 La cible est le véritable MindefConnect. Son contrat d’intégration, ses accès, les attributs d’identité transmis et les redirections doivent être obtenus. L’adaptateur OIDC configurable ne constitue pas une intégration MindefConnect validée. Aucun déploiement de production n’est effectué ici.
 
-`npm run build` produit l’interface dans `frontend/dist/`. `npm start` démarre le serveur en mode production et sert cette interface ; il exige `APP_URL`, `DATABASE_URL`, `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`, un `SESSION_SECRET` d’au moins 32 caractères, la configuration S3 (`S3_ENDPOINT` en HTTPS, joignable par les navigateurs, `S3_BUCKET`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`) et un `AGENT_TOKEN` d’au moins 32 caractères. Les valeurs de démonstration sont refusées et le provisionnement des identités est désactivé. Le serveur écoute sur la boucle locale et attend un proxy HTTPS de confiance devant lui.
+`npm run build` produit l’interface dans `frontend/dist/`. `npm start` démarre le serveur en mode production et sert cette interface ; il exige `APP_URL`, `DATABASE_URL`, `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`, un `SESSION_SECRET` d’au moins 32 caractères et un `AGENT_TOKEN` d’au moins 32 caractères. Les valeurs de démonstration sont refusées et le provisionnement des identités est désactivé. Le serveur écoute sur la boucle locale et attend un proxy HTTPS de confiance devant lui.
 
 Variables complémentaires, notamment pour le démonstrateur déployé sur VM en conteneurs :
 
@@ -259,7 +256,7 @@ Variables complémentaires, notamment pour le démonstrateur déployé sur VM en
 | `HOST` | Adresse d’écoute du serveur ; `0.0.0.0` dans un conteneur, pour être joint par le proxy et par l’émulateur | `127.0.0.1` |
 | `IDENTITY_PROVISIONING` | `true` : crée dans le Keycloak local les identités des comptes actifs, même en mode production ; exige alors un `KEYCLOAK_ADMIN_PASSWORD` dédié | actif hors production seulement |
 | `KEYCLOAK_ADMIN_URL` | Adresse de l’API d’administration de Keycloak, si elle diffère de l’émetteur (sur les VM : `http://keycloak:8080`) | origine de `OIDC_ISSUER` |
-| `NODE_EXTRA_CA_CERTS` | Fichier de l’autorité de certification à reconnaître pour joindre Keycloak et le stockage S3 en HTTPS (variable native de Node.js) | aucune |
+| `NODE_EXTRA_CA_CERTS` | Fichier de l’autorité de certification à reconnaître pour joindre Keycloak en HTTPS (variable native de Node.js) | aucune |
 | `ASTER_API` | Adresse du serveur pour l’émulateur des postes (sur les VM : `http://api:3001`) | `http://127.0.0.1:3001` |
 | `WEB_URL` | Serveur web contrôlé par `/api/health` (sur les VM : `http://apache:8080`) | non contrôlé |
 | `LDAP_URL` | Annuaire contrôlé par `/api/health` (sur les VM : `ldap://ldap:389`) | non contrôlé |

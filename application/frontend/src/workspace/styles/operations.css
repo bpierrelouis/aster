@@ -49,3 +49,4 @@
 .ops-check { accent-color:var(--accent); width:17px; height:17px; }
 @media(max-width:700px) { .ops-metrics{grid-template-columns:1fr}.ops-table th,.ops-table td{padding:13px}.ops-grid{grid-template-columns:1fr}.ops-toolbar .field{max-width:none} }
 .ops-building { display:inline-flex; align-items:center; gap:10px; white-space:nowrap; }
+.poste-session { display:inline-flex; align-items:center; gap:3px; margin-left:4px; color:var(--ink-2); font-weight:600; } /* utilisateur de la session ouverte */

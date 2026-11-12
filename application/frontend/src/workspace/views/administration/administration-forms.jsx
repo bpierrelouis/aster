@@ -7,7 +7,8 @@
 import { useState } from 'react';
 import { store, currentEcole, me } from '../../core/store.js';
 import { useStore } from '../../hooks/use-store.js';
-import { index } from '../../core/selectors.js';
+import { index, emplacement } from '../../core/selectors.js';
+import { PosteEtat } from '../../widgets/parts.jsx';
 import { uid } from '../../core/dom.js';
 import { ROLES } from '#shared/catalog.js';
 import { Icon, Tile } from '../../ui/icons.jsx';
@@ -77,6 +78,7 @@ export function openPostDetail(id) {
 function PostDetail({ id }) {
   const state = useStore();
   const p = index().poste.get(id);
+  const materiel = index().materiel.get(p?.materielId);
   const installed = new Set((state.installations || []).filter((i) => i.posteId === id).map((i) => i.applicationId));
   const others = state.applications.filter((a) => !installed.has(a.id));
   const [choice, setChoice] = useState(others[0]?.id);
@@ -87,7 +89,8 @@ function PostDetail({ id }) {
       <button className="btn btn--primary" type="submit" form="post-install" disabled={!others.length}><Icon name="download" size={18} /><span>Installer</span></button>
     </>}>
     {(close) => p && <>
-      <p className="sheet-text">{index().salle.get(p.salleId)?.nom} · {p.connecte ? 'Connecté' : 'Éteint ou indisponible'}</p>
+      <p className="sheet-text">{emplacement(index().salle.get(p.salleId))}{materiel && ` · ${materiel.idAster}, ${materiel.modele}`}</p>
+      <p className="sheet-text"><PosteEtat p={p} /></p>
       <h3>Applications installées</h3>
       {installed.size
         ? <ul className="pop-list-plain">{state.applications.filter((a) => installed.has(a.id)).map((a) => <li key={a.id} className="ops-process">

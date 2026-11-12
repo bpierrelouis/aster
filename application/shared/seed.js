@@ -19,7 +19,7 @@ function prng(seed) {
 }
 
 /** Version du jeu de données : un état enregistré plus ancien est régénéré. */
-export const SEED_VERSION = 10;
+export const SEED_VERSION = 11;
 
 /**
  * Comptes ASTER de départ : profil et école de rattachement de chaque personne.
@@ -142,14 +142,19 @@ export function seed(now = Date.now()) {
   materiels.filter((m) => m.salleId === salleNommee('Atelier 1') && ['uc', 'ecran'].includes(m.type)).slice(0, 3).forEach((m) => plan(m, null));
   materiels.filter((m) => m.salleId === salleNommee('B203') && ['uc', 'ecran'].includes(m.type)).slice(0, 4).forEach((m) => installe(m, null, now - 3 * DAY + between(0, 4) * HOUR));
 
-  // Postes de supervision (domaine distinct du parc, RG-40)
+  // Postes de supervision, chacun rattaché à une unité centrale de sa salle (orientation de l'utilisateur du
+  // 12 novembre ; RG-40 séparait les deux domaines)
   const postes = [];
   for (const s of salles) {
+    const ucs = materiels.filter((m) => m.salleId === s.id && m.type === 'uc' && !m.deplacement);
     for (let i = 0; i < s.profil; i++) {
-      postes.push({ id: `p-${postes.length + 1}`, salleId: s.id, nomReseau: `${s.nom.replace(/\s+/g, '').toUpperCase()}-PC${String(i + 1).padStart(2, '0')}`, connecte: rnd() > 0.12 });
+      postes.push({ id: `p-${postes.length + 1}`, salleId: s.id, nomReseau: `${s.nom.replace(/\s+/g, '').toUpperCase()}-PC${String(i + 1).padStart(2, '0')}`, materielId: ucs[i]?.id ?? null, allume: rnd() > 0.12 });
     }
   }
   for (const s of salles) delete s.profil;
+  // Simulation : unités centrales hors service, dont les postes ne peuvent pas s'allumer ; les interventions qui
+  // les visent restent en attente (interventionsDeDepart)
+  for (const nom of SIMULATION.horsService) materiels.find((m) => m.id === postes.find((p) => p.nomReseau === nom).materielId).hs = true;
 
   /* Remontées : 12 semaines d'historique, statut commun à la remontée (RG-13) */
   const DESCRIPTIONS = {
@@ -181,7 +186,7 @@ export function seed(now = Date.now()) {
     const gest = gestionnaireDe(first.ecoleId);
     const step = (statut, at, by = gest) => historique.push({ statut, at, par: by.nom, parId: by.id });
     let st = 'attente';
-    // Cycle : en attente → en cours (prise en charge) → remplacé ou corrigé → validée par l'auteur
+    // Cycle : en attente → en cours (prise en charge) → remplacé ou corrigé (terminée)
     if (open) {
       if (rnd() < 0.45) { st = 'encours'; step(st, Math.min(now - HOUR, createdAt + between(1, 30) * HOUR)); }
     } else {
@@ -189,7 +194,6 @@ export function seed(now = Date.now()) {
       if (rnd() < 0.8) step('encours', createdAt + (treatedAt - createdAt) * (0.2 + rnd() * 0.5));
       st = rnd() < 0.55 ? 'remplace' : 'corrige';
       step(st, treatedAt);
-      if (treatedAt < now - 2 * HOUR && rnd() < 0.7) { st = 'validee'; step(st, Math.min(now - HOUR / 2, treatedAt + between(2, 96) * HOUR), auteur); }
     }
     remontees.push({
       id: '', ecoleId: first.ecoleId, auteur: auteur.nom, auteurId: auteur.id, createdAt, materielIds: ids, probleme: prob,
@@ -204,12 +208,12 @@ export function seed(now = Date.now()) {
   /* Détections de processus (historique RG-56) */
   const procs = [['steam.exe', 'blacklist'], ['discord.exe', 'blacklist'], ['torrent.exe', 'blacklist'], ['vlc.exe', 'nonref'], ['notepad++.exe', 'nonref'], ['spotify.exe', 'blacklist'], ['putty.exe', 'nonref']];
   const detections = [];
-  const onlinePostes = postes.filter((p) => p.connecte);
+  const onlinePostes = postes.filter((p) => p.allume);
   for (let i = 0; i < 14; i++) {
     const p = pick(onlinePostes);
     const [nom, classement] = pick(procs);
     const at = now - Math.pow(rnd(), 1.4) * 9 * DAY;
-    detections.push({ id: `d-${i + 1}`, at, posteId: p.id, salleId: p.salleId, processus: nom, compte: `stagiaire.${between(10, 48)}`, classement, arret: classement === 'blacklist' ? (rnd() < 0.92 ? 'réussi' : 'échec') : null });
+    detections.push({ id: `d-${i + 1}`, at, posteId: p.id, salleId: p.salleId, processus: nom, compte: pick(UTILISATEURS), classement, arret: classement === 'blacklist' ? (rnd() < 0.92 ? 'réussi' : 'échec') : null });
   }
   detections.sort((a, b) => b.at - a.at);
 
@@ -225,8 +229,40 @@ export function seed(now = Date.now()) {
     remontees,
     comptes,
     detections,
+    operations: interventionsDeDepart(postes, salles, comptes, now),
     seededAt: now,
   };
+}
+
+/** Comptes Windows fictifs des stagiaires, pour les sessions des postes (émulateur) et les détections */
+export const UTILISATEURS = [
+  'camille.durand', 'lucas.bernard', 'chloe.moreau', 'hugo.lefebvre', 'lea.garnier', 'nathan.roux', 'manon.faure', 'theo.girard',
+  'ines.mercier', 'louis.blanc', 'jade.guerin', 'gabriel.boyer', 'emma.lambert', 'arthur.fontaine', 'lina.chevalier', 'jules.robin',
+  'sarah.masson', 'adam.sanchez', 'clara.muller', 'raphael.henry', 'zoe.perrin', 'mael.morin', 'alice.mathieu', 'noah.clement',
+  'eva.gauthier', 'tom.dumont', 'lou.lopez', 'sacha.fournier', 'rose.nicolas', 'enzo.picard', 'anna.colin', 'leo.vidal',
+];
+
+/* Simulation : postes dont l'unité centrale est hors service, et interventions qui les attendent (une
+   désinstallation sur une salle, une réinstallation sur une salle, une installation sur un poste) */
+const SIMULATION = {
+  horsService: ['B104-PC07', 'B104-PC08', 'A105-PC03', 'A014-PC02'],
+  interventions: [
+    { type: 'desinstallation', applicationId: 'app-libreoffice', salle: 'B104', heures: 5 },
+    { type: 'reinstallation', image: 'Windows — configuration de référence', salle: 'A105', heures: 26 },
+    { type: 'installation', applicationId: 'app-postman', poste: 'A014-PC02', heures: 2 },
+  ],
+};
+
+function interventionsDeDepart(postes, salles, comptes, now) {
+  const admin = comptes.find((c) => c.id === 'cpt-num-admin');
+  return SIMULATION.interventions.map(({ salle, poste, heures, ...x }, i) => {
+    const s = salle && salles.find((y) => y.ecoleId === admin.ecoleId && y.nom === salle);
+    const cibles = s ? postes.filter((p) => p.salleId === s.id).map((p) => p.id) : [postes.find((p) => p.nomReseau === poste).id];
+    return {
+      id: `op-depart-${i + 1}`, ...x, ...(s && { salleId: s.id }), cibles, ecoleId: admin.ecoleId, at: now - heures * HOUR,
+      par: admin.nom, parId: admin.id, statut: 'enregistree', resultats: Object.fromEntries(cibles.map((pid) => [pid, 'en_attente'])),
+    };
+  });
 }
 
 /* Dispositions par profil et par tableau de bord (RG-36 : tableaux spécialisés) */

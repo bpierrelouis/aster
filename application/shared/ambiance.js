@@ -7,12 +7,11 @@
    ========================================================================== */
 
 export const AMBIANCES = [
-  // Aster : Aube (blanc, encre, iris) en clair, Encre (noir, blanc, or) en sombre, selon le réglage de la machine.
-  // Une préférence enregistrée « aube » ou « encre » (avant le 11 novembre) revient à ce défaut.
-  { id: 'aster', label: 'Aster', tone: 'auto' },
+  // Orion (défaut) : couleurs de la charte ORION ; blanc, nuit et Bleu Orion en clair, nuit, panneaux et bleus en sombre,
+  // selon le réglage de la machine. Une préférence enregistrée « aube » ou « encre » (avant le 11 novembre) revient à ce défaut.
+  { id: 'orion', label: 'Orion', tone: 'auto' },
   // Minarm (ministère des Armées) : couleurs du Système de design de l'État (DSFR) et Marianne ; selon le réglage de la machine
   { id: 'minarm', label: 'Minarm', tone: 'auto' },
-  { id: 'orion', label: 'Orion', tone: 'dark' },
   { id: 'vigie', label: 'Vigie', tone: 'light' },
 ];
 
@@ -21,11 +20,16 @@ export const GLASS = [
   { id: 'solid', label: 'Opaque', tip: 'Surfaces pleines, sans transparence' },
 ];
 
-// Tonalité des ambiances « auto » (Aster, Minarm) : celle de la machine, ou forcée en clair ou en sombre
+// Tonalité des ambiances « auto » (Orion, Minarm) : celle de la machine, ou forcée en clair ou en sombre
 export const TONES = [{ id: 'auto' }, { id: 'light' }, { id: 'dark' }];
 
+// Étoile ORION à quatre branches (charte ORION), marque de l'application : tracé SVG dans un carré de 40,
+// dessiné par l'interface (frontend/src/connexion/brand.jsx) et par l'état des lieux PDF (backend/workspace/pdf.js)
+export const ORION_STAR = 'M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z';
+
 const known = (list, id) => list.find((x) => x.id === id) ?? list[0];
-const RENAMED = { etat: 'minarm' }; // ambiance État renommée Minarm le 11 novembre
+// Ambiance État renommée Minarm le 11 novembre ; l'ambiance par défaut « aster » devient « orion », nom de l'application, le 12 novembre
+const RENAMED = { etat: 'minarm', aster: 'orion' };
 
 /** Préférences valides : une valeur inconnue (ancienne ambiance, verre givré) revient au défaut. */
 export const displayPrefs = (p = {}) => ({

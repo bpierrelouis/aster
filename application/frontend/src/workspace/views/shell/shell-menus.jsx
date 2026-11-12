@@ -28,7 +28,7 @@ export const initiale = () => me().nom.split(' ').at(-1).slice(0, 1);
 export function AccountPopover({ anchor, onClose }) {
   const s = store.state;
   const setPref = (key, value) => store.update('prefs', (st) => { st.prefs[key] = value; });
-  // Aster et Minarm suivent la machine ; le soleil ou la lune force l'autre tonalité (revenir à celle de la machine la suit de nouveau)
+  // Orion et Minarm suivent la machine ; le soleil ou la lune force l'autre tonalité (revenir à celle de la machine la suit de nouveau)
   const tone = autoTone(s.prefs.tone);
   const followsMachine = AMBIANCES.find((a) => a.id === s.prefs.ambiance)?.tone === 'auto';
   const switchTone = () => { const next = tone === 'dark' ? 'light' : 'dark'; setPref('tone', next === systemTone() ? 'auto' : next); };

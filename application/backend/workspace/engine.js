@@ -33,7 +33,7 @@ function diffKeys(before, after) {
  *   { before, next, result }. journalDepuis(base) donne les entrées de révision supérieure à base.
  * onCommit(before, after) est appelé après chaque enregistrement fait par ce serveur.
  */
-export function createEngine({ store, pdf }) {
+export function createEngine({ store }) {
   const listeners = new Set();
   async function write(change) {
     const { before, next, result } = await store.write(async (state, since) => {
@@ -68,19 +68,23 @@ export function createEngine({ store, pdf }) {
       const { next, bilan } = importMateriels(state, actor, input, Date.now());
       return { next, result: { ...bilan, state: scopedState(next, actor) } };
     }),
+    /** État des lieux PDF, produit à la demande avec les informations actuelles, dans le périmètre du compte */
     async pdf(reportId, actor) {
       const state = await store.read();
       const report = scopedState(state, actor).remontees.find((r) => r.id === reportId);
       if (!report) fail(404, 'État des lieux introuvable.');
-      // Avec stockage : lien signé ; interface seule (sans stockage) : document produit à la demande
-      return pdf ? pdf(report, state) : { body: reportPdf(report, state) };
+      return reportPdf(report, state);
     },
     agent: {
-      postes: async () => (await store.read()).postes.map((p) => ({ id: p.id, nomReseau: p.nomReseau, salleId: p.salleId, connecte: p.connecte })),
+      postes: async () => {
+        const s = await store.read();
+        const hs = new Set(s.materiels.filter((m) => m.hs).map((m) => m.id));
+        return s.postes.map((p) => ({ id: p.id, nomReseau: p.nomReseau, salleId: p.salleId, allume: p.allume, horsService: hs.has(p.materielId) }));
+      },
       rapports: (rapports) => system((s) => { const unknown = applyReports(s, rapports); return { inconnus: unknown, commandes: pendingCommands(s, rapports.map((r) => r.poste)) }; }),
       resultats: (resultats) => system((s) => { applyResults(s, resultats); }),
       async sweep() {
-        const stale = (await store.read()).postes.some((p) => p.connecte && (!p.vuLe || Date.now() - p.vuLe >= DISCONNECT_AFTER));
+        const stale = (await store.read()).postes.some((p) => p.allume && (!p.vuLe || Date.now() - p.vuLe >= DISCONNECT_AFTER));
         if (stale) await system((s) => markDisconnected(s));
       },
     },

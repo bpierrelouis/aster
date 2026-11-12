@@ -137,9 +137,8 @@ export const openapi = {
         tags: ['Espace de travail'], summary: 'Télécharger l’état des lieux d’une remontée', security: session,
         parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
         responses: {
-          303: { description: 'Redirection vers un lien signé du stockage S3, valable 60 secondes' },
-          200: { description: 'Document PDF', content: { 'application/pdf': { schema: { type: 'string', format: 'binary' } } } },
-          401: error, 403: error, 404: error, 503: error,
+          200: { description: 'Document PDF, produit à la demande avec les informations actuelles', content: { 'application/pdf': { schema: { type: 'string', format: 'binary' } } } },
+          401: error, 403: error, 404: error,
         },
       },
     },
@@ -147,7 +146,7 @@ export const openapi = {
       get: {
         tags: ['Postes'], summary: 'Lister les postes', security: poste,
         responses: { 200: json({ type: 'object', properties: { postes: { type: 'array', items: {
-          type: 'object', properties: { id: { type: 'string' }, nomReseau: { type: 'string' }, salleId: { type: 'string' }, connecte: { type: 'boolean' } },
+          type: 'object', properties: { id: { type: 'string' }, nomReseau: { type: 'string' }, salleId: { type: 'string' }, allume: { type: 'boolean', description: 'Rapport reçu depuis moins de 30 secondes' }, horsService: { type: 'boolean', description: 'Unité centrale du poste hors service : le poste ne peut pas s’allumer' } },
         } } } }), 401: error },
       },
     },
@@ -161,6 +160,7 @@ export const openapi = {
             type: 'object', required: ['poste'],
             properties: {
               poste: { type: 'string', description: 'Nom réseau du poste' },
+              session: { type: ['string', 'null'], description: 'Compte Windows de la session ouverte ; absent ou null si le poste est seulement allumé' },
               processus: { type: 'array', maxItems: 200, items: { type: 'object', properties: { nom: { type: 'string', maxLength: 120 }, compte: { type: 'string', description: 'Compte Windows' } } } },
               applications: { type: 'array', items: { type: 'string', description: 'Identifiant d’application' } },
             },

@@ -41,8 +41,7 @@ export function createWorkspaceRouter({ repository, actor }) {
   router.get('/reports/:id/pdf', async (req, res, next) => {
     try {
       const pdf = await repository.pdf(req.params.id, res.locals.actor);
-      if (pdf.url) return res.redirect(303, pdf.url);
-      res.type('application/pdf').set('Content-Disposition', `inline; filename="${req.params.id.replace(/[^a-zA-Z0-9-]/g, '')}.pdf"`).send(pdf.body);
+      res.type('application/pdf').set('Content-Disposition', `inline; filename="${req.params.id.replace(/[^a-zA-Z0-9-]/g, '')}.pdf"`).send(pdf);
     } catch (e) { next(e); }
   });
   router.use(errorHandler('Espace de travail'));

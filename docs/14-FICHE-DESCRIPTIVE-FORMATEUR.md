@@ -106,10 +106,9 @@ RG-38, RG-52 à RG-54, RG-56 et RG-69.
 2. ASTER affiche la localisation de chaque matériel lorsqu'elle est renseignée.
 3. Il choisit éventuellement un type de problème (ne s'allume pas, pas d'image, connexion, casse, fonctionnement anormal, autre) et saisit la description obligatoire.
 4. ASTER attribue le numéro de la remontée, enregistre le formateur comme auteur et le statut « en attente ».
-5. ASTER génère automatiquement le PDF d'état des lieux.
-6. Le formateur peut consulter, télécharger ou imprimer ce PDF.
-7. Il suit l'avancement et l'historique de ses propres remontées.
-8. Lorsqu'un statut change, il reçoit une notification dans ASTER.
+5. Le formateur peut consulter, télécharger ou imprimer le PDF d'état des lieux, qu'ASTER génère à chaque demande avec les informations actuelles de la remontée.
+6. Il suit l'avancement et l'historique de ses propres remontées.
+7. Lorsqu'un statut change, il reçoit une notification dans ASTER.
 
 ### Variantes et limites
 
@@ -124,13 +123,13 @@ RG-38, RG-52 à RG-54, RG-56 et RG-69.
 ### Résultats attendus
 
 - La remontée conserve un auteur unique et les matériels concernés.
-- Le PDF est généré automatiquement.
+- Le PDF est généré à chaque demande, sans être conservé.
 - Le formateur suit uniquement ses propres remontées et reçoit leurs notifications de changement de statut.
 
 ### Questions ouvertes
 
 - Priorités, pièces jointes et complément après création.
-- Signature, archivage et immutabilité du PDF.
+- Signature du PDF.
 
 ### Règles applicables
 

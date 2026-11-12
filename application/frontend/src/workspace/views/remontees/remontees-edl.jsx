@@ -5,7 +5,8 @@
    déposé dans S3 à chaque étape.
    ========================================================================== */
 
-import { Icon, Tile, Flower } from '../../ui/icons.jsx';
+import { Icon, Tile } from '../../ui/icons.jsx';
+import { OrionLogo } from '../../../connexion/brand.jsx';
 import { Sheet, openSheet, notify } from '../../ui/overlays.jsx';
 import { dateLong, dateShort } from '#shared/format.js';
 import { deviceType, problem, suiviRemontee } from '#shared/catalog.js';
@@ -33,7 +34,7 @@ export function openEtatDesLieux(r) {
       </>}>
       <article className="edl" aria-label={`État des lieux ${r.id}`}>
         <header className="edl-head">
-          <span className="edl-brand"><Flower size={40} /><b>ASTER</b></span>
+          <span className="edl-brand"><OrionLogo /></span>
           <div className="edl-ref"><span>État des lieux</span><b>{r.id}</b></div>
         </header>
         <dl className="edl-meta">

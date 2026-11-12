@@ -19,7 +19,7 @@ Les limites du périmètre, les questions ouvertes et les réponses historiques 
 - **RG-11 — Contenu d'une remontée.** Une remontée concerne un ou plusieurs matériels et comporte obligatoirement une description du problème.
 - **RG-12 — Localisation d'une remontée.** La localisation présentée pour une remontée provient du ou des matériels concernés.
 - **RG-13 — Statut de la remontée.** Le statut d'une remontée est « en attente », « remplacé » ou « corrigé ». Il est commun à la remontée entière, quel que soit le nombre de matériels concernés ; aucun statut de traitement distinct n’est porté par chaque matériel de cette remontée.
-- **RG-14 — Contenu de l'état des lieux.** Le PDF d'état des lieux contient le matériel ou son type, le type de problème, sa description et la localisation du ou des matériels lorsqu'elle est renseignée. Il indique également le numéro de la remontée, son auteur et sa date de création, avec les informations connues à la transmission (application, 9 novembre).
+- **RG-14 — Contenu de l'état des lieux.** Le PDF d'état des lieux contient le matériel ou son type, le type de problème, sa description et la localisation du ou des matériels lorsqu'elle est renseignée. Il indique également le numéro de la remontée, son auteur et sa date de création (application, 9 novembre). Il reprend les informations du moment où il est produit, selon RG-35 (application, 12 novembre).
 
 ## 2. Règles relatives aux droits
 
@@ -46,7 +46,7 @@ Les limites du périmètre, les questions ouvertes et les réponses historiques 
 - **RG-32 — Filtrage des processus.** Les processus internes du système d'exploitation sont exclus des données de supervision présentées au formateur.
 - **RG-33 — Arrêt d'un processus.** L'arrêt demandé depuis l'application web par un utilisateur autorisé porte uniquement sur un processus utilisateur présenté par ASTER et est exécuté à distance sur le poste concerné. Seul un processus en cours peut être arrêté, et un seul arrêt peut être en attente pour un même processus. Le poste renvoie le résultat de l'arrêt, réussi ou en échec, qui est affiché dans ASTER (application, 9 novembre).
 - **RG-34 — Détermination de la localisation de la remontée.** ASTER présente la localisation de chaque matériel concerné lorsqu'elle est renseignée.
-- **RG-35 — Génération de l'état des lieux.** La transmission d'une remontée génère automatiquement son document d'état des lieux au format PDF.
+- **RG-35 — Génération de l'état des lieux.** Le document d'état des lieux d'une remontée est généré au format PDF par le serveur ASTER, à chaque demande d'un utilisateur autorisé à le consulter (RG-23). Il n'est pas conservé (client, 12 novembre).
 - **RG-36 — Tableaux de bord spécialisés.** ASTER propose plusieurs tableaux de bord spécialisés, dont un tableau de bord du parc et un tableau de bord des remontées. Le tableau de bord du parc présente l'état des stocks et permet un filtrage par salle (client, 22 octobre).
 - **RG-37 — Affichage des notifications.** Une notification est affichée dans ASTER sous la forme d'une fenêtre contextuelle lors de la connexion de son destinataire (client, 23 octobre).
 - **RG-38 — Canal de notification.** ASTER n'envoie pas les notifications par courriel.

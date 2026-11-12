@@ -61,7 +61,8 @@ kbd { font: inherit; font-size: 11px; font-weight: 600; padding: 1px 6px; border
 }
 .btn:active:not([disabled]):not([aria-disabled="true"]) { transform: scale(.96); }
 .btn--primary {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 88%, white), var(--accent));
+  /* Couleur sous le dégradé : au survol, le dégradé disparaît sans laisser le bouton transparent un instant (clignotement) */
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 88%, white), var(--accent)) var(--accent);
   color: var(--accent-fg);
   box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--accent) 55%, transparent), inset 0 1px 0 rgb(255 255 255 / .22);
 }
@@ -262,6 +263,7 @@ input:focus, textarea:focus { outline: none; background: var(--glass-tint-solid)
 
 /* Pied de tableau paginé (inventaire, administration des postes) */
 .pagination { display: flex; justify-content: flex-end; align-items: center; gap: 18px; padding: 16px 22px; font-size: 13px; border-top: 1px solid var(--hairline); }
+.pagination-total { margin-right: auto; color: var(--ink-2); } /* nombre de lignes, en bas à gauche */
 
 .stepper-num { display: inline-flex; align-items: center; gap: 4px; padding: 4px; border-radius: var(--r-pill); background: var(--fill-1); align-self: flex-start; }
 .stepper-num button { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: var(--ink-1); background: var(--glass-tint-solid); box-shadow: 0 1px 2px rgb(var(--ink) / .12); }

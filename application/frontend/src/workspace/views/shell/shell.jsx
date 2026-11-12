@@ -60,9 +60,8 @@ function subnav(navId) {
     ];
     case 'remontees': return remonteeTabs().map((id) => ({
       path: `/remontees/${id}`, label: TABS[id].label, icon: TABS[id].icon,
-      // nouvelles remontées à prendre en charge ; salles en cours d'installation ; remontées de l'auteur à valider
-      count: ['attente', 'backlog'].includes(id) ? remontees().attente.length : id === 'installations' ? installations().enCours.length
-        : id === (me().role === 'formateur' ? 'traitees' : 'miennes') ? remontees().mineAValider.length : undefined,
+      // nouvelles remontées à prendre en charge ; salles en cours d'installation
+      count: ['attente', 'backlog'].includes(id) ? remontees().attente.length : id === 'installations' ? installations().enCours.length : undefined,
     }));
     case 'supervision': return [
       { path: '/supervision/alertes', label: 'Alertes', icon: 'alertes' },

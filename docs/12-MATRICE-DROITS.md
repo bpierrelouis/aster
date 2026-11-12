@@ -53,7 +53,7 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 | Consulter le tableau de bord des remontées | Oui | Non | Oui | Oui | Les indicateurs détaillés restent à définir. | RG-15, RG-24 et RG-36, DCU 11 |
 | Recevoir une notification liée à une remontée | Oui | Oui | Non | Non | Le gestionnaire est notifié à la création d’une remontée. Le formateur est notifié lorsque le statut de l’une de ses propres remontées change. | RG-38, RG-39, RG-66 et RG-67, DCU 11 |
 
-La transmission d’une remontée génère automatiquement son PDF d’état des lieux. Cette génération constitue un traitement automatique, pas un droit distinct.
+ASTER génère le PDF d’état des lieux à chaque consultation ou téléchargement autorisé, sans le conserver (RG-35). Cette génération constitue un traitement automatique, pas un droit distinct.
 
 ## Supervision des postes
 

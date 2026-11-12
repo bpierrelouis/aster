@@ -32,12 +32,22 @@ const isAdmin = (actor) => ['admin', 'superadmin'].includes(actor.role);
 export const id = (prefix) => `${prefix}-${randomUUID().slice(0, 8)}`;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/** Données de départ : référentiels et parc ; aucune activité de poste avant le premier rapport. */
+/** Données de départ : référentiels, parc et interventions de la simulation ; aucune activité de poste avant le premier rapport. */
 export function initialState() {
   const state = initializeOperations(seed());
-  Object.assign(state, { processus: [], detections: [], operations: [], installations: [], revision: 0 });
-  for (const p of state.postes) { p.connecte = false; p.vuLe = null; }
+  Object.assign(state, { processus: [], detections: [], installations: [], revision: 0 });
+  for (const p of state.postes) { p.allume = false; p.session = null; p.vuLe = null; }
   return state;
+}
+
+/** Un poste dont l'unité centrale est hors service ne peut être ni allumé ni connecté : il s'éteint, ses processus s'arrêtent. */
+export function eteindreHorsService(s, now = Date.now()) {
+  const hs = new Set(s.materiels.filter((m) => m.hs).map((m) => m.id));
+  for (const p of s.postes) {
+    if (!p.allume || !hs.has(p.materielId)) continue;
+    Object.assign(p, { allume: false, session: null });
+    for (const proc of s.processus) if (proc.posteId === p.id && !proc.stoppedAt) proc.stoppedAt = now;
+  }
 }
 
 /* ---------- Comptes et identité ---------- */
@@ -201,18 +211,18 @@ export function mergeState(state, input, actor, now = Date.now()) {
         if (old) fail(403, 'Le suivi d’une intervention est mis à jour par les postes.');
         assert(OPERATION_TYPES.includes(x.type), 'Intervention inconnue.');
         if (!isAdmin(actor)) assert(actor.role === 'formateur' && x.type === 'arret', 'Action réservée aux administrateurs.');
-        // Cible : une salle entière, dont le serveur fixe les postes, ou un seul poste
+        // Cible : une salle entière, dont le serveur fixe les postes, ou des postes d'une même salle
         if (x.salleId && x.type !== 'arret') {
           x.cibles = next.postes.filter((p) => p.salleId === x.salleId).map((p) => p.id);
           assert(x.cibles.length, 'Cette salle ne compte aucun poste.');
         } else {
           delete x.salleId;
-          assert(Array.isArray(x.cibles) && x.cibles.length === 1, 'Une intervention vise une salle entière ou un seul poste.');
+          assert(Array.isArray(x.cibles) && x.cibles.length, 'Choisissez au moins un poste.');
         }
         assert(x.cibles.length <= 500 && new Set(x.cibles).size === x.cibles.length, 'Postes cibles invalides.');
         const postes = x.cibles.map((pid) => next.postes.find((p) => p.id === pid));
         assert(postes.every((p) => p && (actor.role === 'superadmin' || schoolOf(p, next) === actor.ecoleId)), 'Postes hors périmètre.');
-        assert(new Set(postes.map((p) => schoolOf(p, next))).size === 1, 'Une intervention concerne une seule école.');
+        assert(new Set(postes.map((p) => p.salleId)).size === 1, 'Une intervention concerne une seule salle.');
         if (x.type === 'arret') {
           const proc = next.processus.find((p) => p.id === x.processusId);
           assert(x.cibles.length === 1 && proc && !proc.stoppedAt && proc.posteId === x.cibles[0], 'Seul un processus en cours peut être arrêté.');
@@ -226,11 +236,10 @@ export function mergeState(state, input, actor, now = Date.now()) {
           if (actor.role === 'gestionnaire') fail(403, 'Création de remontée non autorisée.');
           Object.assign(x, { auteur: actor.nom, auteurId: actor.id, createdAt: now, statut: 'attente', historique: [{ statut: 'attente', at: now, par: actor.nom, parId: actor.id }] });
         } else {
-          // Cycle : en attente → en cours → remplacé ou corrigé (traitement, gestionnaire ou administrateur) → validée, par l'auteur seul
+          // Cycle : en attente → en cours → remplacé ou corrigé (traitement, gestionnaire ou administrateur) : terminée
           const treatment = ['remplace', 'corrige'];
-          const possibles = { attente: ['encours', ...treatment], encours: treatment, remplace: ['validee'], corrige: ['validee'] }[old.statut] ?? [];
-          if (x.statut === 'validee') { if (old.auteurId !== actor.id) fail(403, 'Seul l’auteur de la remontée peut la valider et la clore.'); }
-          else if (actor.role === 'formateur') fail(403, 'Traitement non autorisé.');
+          const possibles = { attente: ['encours', ...treatment], encours: treatment }[old.statut] ?? [];
+          if (actor.role === 'formateur') fail(403, 'Traitement non autorisé.');
           assert(possibles.includes(x.statut), 'Transition de statut indisponible.');
           const stable = (r) => Object.fromEntries(Object.entries(r).filter(([k]) => !['statut', 'historique'].includes(k)));
           assert(same(stable(old), stable(x)), 'Seul le traitement peut être modifié.');
@@ -242,6 +251,8 @@ export function mergeState(state, input, actor, now = Date.now()) {
       if (c === 'materiels') {
         assert(typeof x.modele === 'string' && x.modele.trim() && x.modele.length <= 250 && Number.isFinite(x.dateReception) && typeof x.hs === 'boolean');
         assert(!x.salleId || salles.some((s) => s.id === x.salleId && s.ecoleId === x.ecoleId), 'Salle inconnue ou hors école.');
+        // Un matériel hors service ne peut qu'être remis en service ou renvoyé au stock (orientation de l'utilisateur du 12 novembre)
+        if (old && x.hs && x.salleId && x.salleId !== (old.salleId ?? null)) fail(400, 'Un matériel hors service ne peut aller qu’au stock.');
         if (old) assert(old.idAster === x.idAster, 'Identifiant ASTER immuable.');
         else x.idAster = `MAT-${String(++lastAsterId).padStart(4, '0')}`;
         // Installation physique : toute nouvelle affectation reste en cours (deplacement) jusqu'à la confirmation du
@@ -270,6 +281,7 @@ export function mergeState(state, input, actor, now = Date.now()) {
   assert(new Set(inventoryIds).size === inventoryIds.length, 'Identifiants matériels en doublon.');
   assert(next.materiels.every((m) => !m.salleId || next.salles.some((s) => s.id === m.salleId && s.ecoleId === m.ecoleId)), 'Un matériel est affecté à une salle inconnue.');
   assert(next.postes.every((p) => next.salles.some((s) => s.id === p.salleId)), 'Un poste dépend de cette salle.');
+  eteindreHorsService(next, now);
 
   // Préférences du compte connecté uniquement
   const prefs = { ...(next.preferences?.[actor.id] ?? {}) };

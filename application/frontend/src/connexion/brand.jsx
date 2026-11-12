@@ -1,4 +1,7 @@
-/* Marques des pages publiques : symbole MindefConnect et fleur ASTER */
+/* Marques : symbole MindefConnect (bouton de connexion) et marque ORION (charte ORION) : étoile, étoile scintillante et
+   logotype, communs aux pages publiques et à l'espace de travail. Styles dans connexion.css, chargé pour toute l'application. */
+import { useState } from 'react';
+import { ORION_STAR } from '#shared/ambiance.js';
 
 export function MinDefSymbol() {
   const nodes = [[30, 12], [70, 12], [90, 50], [70, 88], [30, 88], [10, 50]];
@@ -15,12 +18,39 @@ export function MinDefSymbol() {
   </svg>;
 }
 
-/** Fleur ASTER : seize pétales iris et un cœur doré, comme la signature de la charte. */
-export function AsterFlower({ className }) {
-  return <svg className={className} viewBox="0 0 128 128" aria-hidden="true">
-    {Array.from({ length: 16 }, (_, i) => <g key={i} transform={`rotate(${i * 22.5} 64 64)`}>
-      <path className="petal" style={{ '--i': i }} fill={['#6954C0', '#8670CD', '#A28ADC'][i % 3]} d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z" />
-    </g>)}
-    <circle className="flower-heart" cx="64" cy="64" r="11" fill="#E8B84E" />
-  </svg>;
+/** Étoile ORION à quatre branches, de la taille du texte (1em) : Bleu Orion en clair, blanche avec lueur bleue en sombre. */
+export function OrionStar({ className = '' }) {
+  return <svg className={`orion-star ${className}`.trim()} viewBox="0 0 40 40" aria-hidden="true"><path d={ORION_STAR} /></svg>;
+}
+
+/** Petites étoiles tirées au hasard : direction et distance au centre (en tailles d'étoile), taille, durée et phase du scintillement. */
+const scatter = (count) => Array.from({ length: count }, () => {
+  const angle = Math.random() * 2 * Math.PI;
+  const distance = 0.75 + Math.random() * 0.75;
+  return {
+    '--x': (Math.cos(angle) * distance).toFixed(3),
+    '--y': (Math.sin(angle) * distance).toFixed(3),
+    '--s': (0.4 + Math.random() * 0.6).toFixed(2),
+    '--t': `${(1.8 + Math.random() * 2.4).toFixed(2)}s`,
+    '--d': `${(-Math.random() * 4).toFixed(2)}s`, // délai négatif : chaque étoile part d'un moment différent de son cycle
+  };
+});
+
+/**
+ * Étoile ORION entourée de petites étoiles qui scintillent, tirées une fois au montage (rien si le système demande de
+ * réduire les animations). Taille : `size` en pixels, sinon celle du texte.
+ */
+export function OrionMark({ className = '', size, count = 12 }) {
+  const [stars] = useState(() => scatter(count));
+  return <span className={`orion-mark ${className}`.trim()} style={size ? { fontSize: size } : undefined} aria-hidden="true">
+    {stars.map((style, i) => <svg key={i} className="twinkle" viewBox="0 0 40 40" style={style}><path d={ORION_STAR} /></svg>)}
+    <OrionStar />
+  </span>;
+}
+
+/** Logotype ORION : capitales larges espacées, étoile toujours au-dessus du « I » ; `animated` : étoiles qui scintillent autour. */
+export function OrionLogo({ animated = false }) {
+  return <span className="orion-logo" role="img" aria-label="ORION">
+    <span>O</span><span>R</span><span className="orion-logo-i">I{animated ? <OrionMark count={14} /> : <OrionStar />}</span><span>O</span><span>N</span>
+  </span>;
 }

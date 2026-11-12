@@ -1,32 +1,33 @@
 /* ==========================================================================
-   ASTER · Design tokens
-   Charte ASTER (direction artistique 01) :
-   Encre #17243B · Iris #6954C0 · Lilas #B8A3EA · Brume #F6F4FB · Cœur #E8B84E
-   Quatre ambiances, choisies par compte (<html data-ambiance="…">) :
-   - aster : blanc, encre et iris en clair (Aube), noir, blanc et or en
-             sombre (Encre), selon le réglage de la machine (défaut)
-   - orion : bleus de la charte ORION sur un ciel nocturne
-   - vigie : bleu pétrole et signal de la charte VIGIE
+   ORION · Design tokens
+   Charte ORION (design/charte-graphique/charte-graphique-orion.html) :
+   Nuit profonde #040B1E · Panneau #0A1630 · Contour #1B2E5C ·
+   Bleu Orion #2563EB (actions) · Bleu lumière #3B82F6 (lueurs, graphes) ;
+   états : succès #22C55E, attention #F59E0B, critique #EF4444 ;
+   texte #FFFFFF et #9FB0D0 sur la nuit
+   Trois ambiances, choisies par compte (<html data-ambiance="…">) :
+   - orion : blanc, nuit et Bleu Orion en clair ; nuit, panneaux, bleus et
+             lueur des cadres en sombre ; selon le réglage de la machine (défaut)
    - minarm : couleurs du DSFR et Marianne, clair ou sombre selon la machine
+   - vigie : bleu pétrole et signal de la charte VIGIE
    <html data-tone="light|dark"> regroupe les ambiances claires et sombres.
    Les ambiances ne redéfinissent que des tokens ; les composants utilisent
-   --accent (interaction), jamais une couleur de charte en dur.
+   --accent (interaction), jamais une couleur de charte en dur. Les couleurs
+   de la marque (étoile ORION) sont dans connexion/connexion.css.
    ========================================================================== */
 
 :root {
-  /* Charte ASTER (constantes : logo, documents) */
-  --encre: #17243b;
-  --iris: #6954c0;
-  --iris-2: #8670cd;
-  --iris-3: #a28adc;
-  --lilas: #b8a3ea;
-  --brume: #f6f4fb;
-  --coeur: #e8b84e;
+  /* Charte ORION (constantes) */
+  --nuit: #040b1e;
+  --panneau: #0a1630;
+  --contour: #1b2e5c;
+  --bleu-orion: #2563eb;
+  --bleu-lumiere: #3b82f6;
+  --encre: var(--nuit); /* couleur du profil super administrateur (shared/catalog.js) */
 
   /* Typographie : polices système (SF Pro sur Apple, Segoe UI Variable sur Windows) */
   --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
   --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
-  --font-brand: Arial, Helvetica, sans-serif;
 
   --fs-2xs: 11px;
   --fs-xs: 12px;
@@ -73,12 +74,13 @@
   --rail-gap: 20px;
   --top-h: 92px; /* bas de la barre haute : début du contenu */
 
-  /* États (réservés, toujours accompagnés d'une icône et d'un libellé) */
-  --ok: #0ca30c;      /* en service, corrigé */
-  --crit: #d03b3b;    /* hors service */
-  --wait: #e8b84e;    /* remontée en attente (cœur) */
+  /* États (réservés, toujours accompagnés d'une icône et d'un libellé) : succès, critique et attention
+     de la charte ORION, vert et rouge un ton plus sombres sur les fonds clairs pour rester lisibles */
+  --ok: #16a34a;      /* en service, corrigé */
+  --crit: #dc2626;    /* hors service */
+  --wait: #f59e0b;    /* remontée en attente */
   --stock: #7c879b;   /* en stock, sans localisation */
-  --warn: #fab219;    /* garantie proche de l'échéance */
+  --warn: #f59e0b;    /* garantie proche de l'échéance */
 
   /* Catégorielle (ordre fixe, validée daltonisme) : la couleur suit le type de matériel */
   --c1: #6954c0; /* unité centrale  */
@@ -111,30 +113,30 @@
 }
 
 /* --------------------------------------------------------------------------
-   ASTER clair (« Aube », défaut) : blanc, encre et iris
+   Orion clair (défaut) : blanc, nuit et Bleu Orion
    -------------------------------------------------------------------------- */
 :root {
   color-scheme: light;
-  --ink: 23 36 59;            /* encre */
-  --accent: #6954c0;
-  --accent-2: #8670cd;
-  --accent-text: #6954c0;
+  --ink: 4 11 30;             /* nuit profonde */
+  --accent: #2563eb;          /* Bleu Orion */
+  --accent-2: #3b82f6;        /* Bleu lumière */
+  --accent-text: #2563eb;
   --accent-fg: #fff;
-  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236954c0' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); /* flèche des listes déroulantes, couleur --accent-text */
-  --shade: 52 36 110;         /* ombres teintées */
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); /* flèche des listes déroulantes, couleur --accent-text */
+  --shade: 11 42 107;         /* ombres teintées de bleu nuit */
 
-  --base: #f6f5fa;
-  /* Fond « flux » (façon menu PS4), discret : halos blanc et lilas, vague lumineuse floue, sans trait */
+  --base: #f5f8fe;
+  /* Fond « flux » (façon menu PS4), discret : halos blanc et bleu lumière, vague lumineuse floue, sans trait */
   --backdrop:
-    radial-gradient(60vmax 40vmax at 12% 8%, color-mix(in srgb, var(--lilas) 55%, transparent), transparent 70%),
-    radial-gradient(50vmax 34vmax at 92% 96%, color-mix(in srgb, var(--iris) 30%, transparent), transparent 70%),
-    linear-gradient(170deg, #fbfaff 0%, var(--base) 55%, #ece6fa 100%);
-  --backdrop-waves: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23FFFFFF' stop-opacity='0'/%3E%3Cstop offset='.5' stop-color='%23FFFFFF' stop-opacity='0.45'/%3E%3Cstop offset='1' stop-color='%23FFFFFF' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23B8A3EA' stop-opacity='0'/%3E%3Cstop offset='.6' stop-color='%23B8A3EA' stop-opacity='0.28'/%3E%3Cstop offset='1' stop-color='%23B8A3EA' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='f' x='-10%25' y='-50%25' width='120%25' height='200%25'%3E%3CfeGaussianBlur stdDeviation='42'/%3E%3C/filter%3E%3C/defs%3E%3Cpath filter='url(%23f)' fill='url(%23a)' d='M0 560C260 470 540 700 840 610S1350 420 1600 520V660C1340 590 1100 780 790 710S250 630 0 710Z'/%3E%3Cpath filter='url(%23f)' fill='url(%23b)' d='M0 640C320 550 620 780 930 670S1420 530 1600 600V720C1360 670 1060 830 760 770S260 730 0 790Z'/%3E%3C/svg%3E");
+    radial-gradient(60vmax 40vmax at 12% 8%, rgb(147 197 253 / .4), transparent 70%),
+    radial-gradient(50vmax 34vmax at 92% 96%, color-mix(in srgb, var(--bleu-orion) 18%, transparent), transparent 70%),
+    linear-gradient(170deg, #fbfcff 0%, var(--base) 55%, #e5edfc 100%);
+  --backdrop-waves: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23FFFFFF' stop-opacity='0'/%3E%3Cstop offset='.5' stop-color='%23FFFFFF' stop-opacity='0.45'/%3E%3Cstop offset='1' stop-color='%23FFFFFF' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%2393C5FD' stop-opacity='0'/%3E%3Cstop offset='.6' stop-color='%2393C5FD' stop-opacity='0.24'/%3E%3Cstop offset='1' stop-color='%2393C5FD' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='f' x='-10%25' y='-50%25' width='120%25' height='200%25'%3E%3CfeGaussianBlur stdDeviation='42'/%3E%3C/filter%3E%3C/defs%3E%3Cpath filter='url(%23f)' fill='url(%23a)' d='M0 560C260 470 540 700 840 610S1350 420 1600 520V660C1340 590 1100 780 790 710S250 630 0 710Z'/%3E%3Cpath filter='url(%23f)' fill='url(%23b)' d='M0 640C320 550 620 780 930 670S1420 530 1600 600V720C1360 670 1060 830 760 770S260 730 0 790Z'/%3E%3C/svg%3E");
   --backdrop-edge: none;
 
   /* Verre : liquide (clair) ou opaque */
   --glass-tint: rgb(255 255 255 / .2);
-  --glass-tint-strong: rgb(252 251 255 / .66);
+  --glass-tint-strong: rgb(251 252 255 / .66);
   --glass-tint-solid: #fff;
   --glass-blur: 22px;
   --glass-sat: 1.7;
@@ -151,90 +153,23 @@
     0 22px 44px -12px rgb(var(--shade) / .3),
     0 50px 90px -30px rgb(var(--shade) / .3);
 
-  --solid-chip-bg: var(--encre);
+  --solid-chip-bg: var(--nuit);
   --solid-chip-fg: #fff;
-  --scrim: rgb(226 218 246 / .38);
+  --scrim: rgb(214 226 250 / .38);
   --lens-bg: rgb(255 255 255 / .66);
-  --brand-petal: var(--iris);   /* marque ASTER (ui/icons.jsx) */
-  --brand-heart: var(--coeur);
-  --room: #b8a3ea;            /* salles de la vue éclatée */
+  --room: #93c5fd;            /* salles de la vue éclatée */
   --room-on: var(--accent);   /* salle choisie */
 }
 
 /* --------------------------------------------------------------------------
-   ASTER sombre (« Encre ») : noir, blanc et or, quand la machine est en mode sombre
+   Orion sombre : nuit profonde, panneaux, bleus et lueur des cadres de la
+   charte ORION, quand la machine est en mode sombre
    -------------------------------------------------------------------------- */
-:root[data-ambiance="aster"][data-tone="dark"] {
-  color-scheme: dark;
-  --brand-petal: #d6aa4f;
-  --brand-heart: #f4f1ea;
-  --ink: 244 241 234;
-  --ink-2: rgb(var(--ink) / .7);
-  --ink-3: rgb(var(--ink) / .48);
-  --hairline: rgb(var(--ink) / .1);
-  --fill-1: rgb(var(--ink) / .06);
-  --fill-2: rgb(var(--ink) / .11);
-  --accent: #d6aa4f;
-  --accent-2: #ecc777;
-  --accent-text: #e9c06a;
-  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e9c06a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  --accent-fg: #1b1404;
-  --shade: 0 0 0;
-
-  --base: #0a0a0c;
-  /* Fond « flux » transposé, discret : halos et vague lumineuse floue dorés sur le noir */
-  --backdrop:
-    radial-gradient(60vmax 40vmax at 12% 8%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%),
-    radial-gradient(50vmax 34vmax at 92% 96%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
-    linear-gradient(170deg, #121014 0%, var(--base) 55%, #17120a 100%);
-  --backdrop-waves: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23D6AA4F' stop-opacity='0'/%3E%3Cstop offset='.5' stop-color='%23D6AA4F' stop-opacity='0.14'/%3E%3Cstop offset='1' stop-color='%23D6AA4F' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ECC777' stop-opacity='0'/%3E%3Cstop offset='.6' stop-color='%23ECC777' stop-opacity='0.1'/%3E%3Cstop offset='1' stop-color='%23ECC777' stop-opacity='0'/%3E%3C/linearGradient%3E%3Cfilter id='f' x='-10%25' y='-50%25' width='120%25' height='200%25'%3E%3CfeGaussianBlur stdDeviation='42'/%3E%3C/filter%3E%3C/defs%3E%3Cpath filter='url(%23f)' fill='url(%23a)' d='M0 560C260 470 540 700 840 610S1350 420 1600 520V660C1340 590 1100 780 790 710S250 630 0 710Z'/%3E%3Cpath filter='url(%23f)' fill='url(%23b)' d='M0 640C320 550 620 780 930 670S1420 530 1600 600V720C1360 670 1060 830 760 770S260 730 0 790Z'/%3E%3C/svg%3E");
-
-  --glass-tint: rgb(255 255 255 / .035);
-  --glass-tint-strong: rgb(26 26 30 / .82);
-  --glass-tint-solid: #18181c;
-  --glass-blur: 24px;
-  --glass-sat: 1.4;
-  --rim-hi: rgb(255 255 255 / .55);
-  --rim-mid: rgb(255 255 255 / .16);
-  --rim-lo: rgb(255 255 255 / .05);
-  --sheen: rgb(255 255 255 / .06);
-  --glass-shadow:
-    0 1px 1px rgb(0 0 0 / .4),
-    0 14px 30px -10px rgb(0 0 0 / .6),
-    0 40px 70px -30px rgb(0 0 0 / .7);
-  --glass-shadow-lift:
-    0 2px 2px rgb(0 0 0 / .45),
-    0 26px 50px -12px rgb(0 0 0 / .7),
-    0 60px 100px -30px rgb(0 0 0 / .7);
-
-  --solid-chip-bg: rgb(244 241 234 / .94);
-  --solid-chip-fg: #111113;
-  --scrim: rgb(0 0 0 / .58);
-  --lens-bg: rgb(255 255 255 / .1);
-  --room: #8d8a84;
-  --room-on: var(--accent);
-
-  --wait: #f0953c; /* distinct de l'or de l'interaction */
-
-  /* catégorielle : pas sombres validés pour la surface sombre */
-  --c1: #8670cd;
-  --c2: #d95926;
-  --c3: #199e70;
-  --c4: #c98500;
-  --c5: #3987e5;
-  --c6: #d55181;
-  --c7: #1f9a1f;
-  --c8: #7c8aa0;
-}
-
-/* --------------------------------------------------------------------------
-   Orion : nuit profonde, panneaux et bleus de la charte ORION
-   -------------------------------------------------------------------------- */
-:root[data-ambiance="orion"] {
+:root[data-ambiance="orion"][data-tone="dark"] {
   color-scheme: dark;
   --ink: 255 255 255;
-  --ink-2: #9fb0d0;
-  --ink-3: #6f82a8;
+  --ink-2: #9fb0d0;           /* texte secondaire de la charte */
+  --ink-3: #7d90b5;
   --hairline: rgb(59 104 196 / .28);
   --fill-1: rgb(59 130 246 / .08);
   --fill-2: rgb(59 130 246 / .15);
@@ -277,10 +212,10 @@
   --room: #2f56a6;
   --room-on: #60a5fa;
 
+  /* États de la charte, tels quels sur la nuit */
   --ok: #22c55e;
   --crit: #ef4444;
-  --wait: #f59e0b;
-  --warn: #f59e0b;
+  /* catégorielle : pas sombres validés pour la surface sombre */
   --c1: #8670cd;
   --c2: #d95926;
   --c3: #199e70;

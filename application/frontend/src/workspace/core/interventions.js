@@ -2,9 +2,9 @@
    Suivi des interventions sur les postes (installation, désinstallation,
    réinstallation ; shared/catalog.js), d'après les demandes et les résultats
    renvoyés par les postes, tenus par le serveur.
-   - Une demande vise une salle entière (salleId) ou un seul poste.
+   - Une demande vise une salle entière (salleId) ou des postes d'une salle.
    - Poste : fait ou échec selon son résultat ; sans résultat, en cours s'il
-     est connecté (il l'exécute à son prochain rapport), en attente s'il est
+     est allumé (il l'exécute à son prochain rapport), en attente s'il est
      éteint ou indisponible.
    - Demande : faite quand tous ses postes l'ont faite ; en échec quand tous
      ont répondu, dont un en échec ; en cours tant qu'un poste connecté
@@ -21,7 +21,7 @@ const etatPoste = (o, posteId) => {
   const r = o.resultats?.[posteId];
   if (r === 'reussie') return 'fait';
   if (r === 'echec') return 'echec';
-  return index().poste.get(posteId)?.connecte ? 'encours' : 'attente';
+  return index().poste.get(posteId)?.allume ? 'encours' : 'attente';
 };
 
 function suivi(o) {
@@ -30,7 +30,15 @@ function suivi(o) {
   const n = { total: postes.length, fait: 0, echec: 0, encours: 0, attente: 0 };
   for (const p of postes) n[p.etat]++;
   const etat = n.fait === n.total ? 'fait' : n.fait + n.echec === n.total ? 'echec' : n.encours ? 'encours' : 'attente';
-  return { o, postes, n, etat, salle: o.salleId ? index().salle.get(o.salleId) : null, poste: o.salleId ? null : postes[0]?.poste ?? null };
+  return { o, postes, n, etat, cible: cibleDe(o, postes) };
+}
+
+/** Cible d'une demande : salle entière, postes d'une salle ou un poste ; label : texte court */
+function cibleDe(o, postes) {
+  const salle = index().salle.get(o.salleId ?? postes[0]?.poste?.salleId);
+  if (o.salleId) return { kind: 'salle', salle, label: salle?.nom ?? 'Salle retirée' };
+  if (postes.length > 1) return { kind: 'postes', salle, label: `${postes.length} postes · ${salle?.nom ?? ''}` };
+  return { kind: 'poste', salle, poste: postes[0]?.poste, label: postes[0]?.poste?.nomReseau ?? 'Poste retiré' };
 }
 
 /** Interventions du périmètre, les plus récentes d'abord */
@@ -56,5 +64,9 @@ export function titreIntervention(o) {
   return `${intervention(o.type).label} ${/^[aeiouyéèêàâîôû]/i.test(nom) ? 'd’' : 'de '}${nom}`;
 }
 
-/** « la salle A101 » ou le nom du poste */
-export const cibleIntervention = ({ salleId, posteId }) => (salleId ? `la salle ${index().salle.get(salleId)?.nom}` : index().poste.get(posteId)?.nomReseau);
+/** Cible demandée, pour le message de confirmation : « la salle A101 », le nom du poste ou « 3 postes de A101 » */
+export function cibleIntervention({ salleId, postes = [] }) {
+  if (salleId) return `la salle ${index().salle.get(salleId)?.nom}`;
+  const premier = index().poste.get(postes[0]);
+  return postes.length > 1 ? `${postes.length} postes de ${index().salle.get(premier?.salleId)?.nom}` : premier?.nomReseau;
+}

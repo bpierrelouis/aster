@@ -11,7 +11,7 @@ import { Link, useNavigate } from 'react-router';
 import { Icon } from '../../ui/icons.jsx';
 import { num } from '#shared/format.js';
 import { clamp } from '../../core/dom.js';
-import { parc, sallesOf, batimentLabel } from '../../core/selectors.js';
+import { parc, sallesOf, batimentLabel, floorLabel, floorShort } from '../../core/selectors.js';
 
 export const ISO = { rx: 56, rz: -24 };
 const TW = 5, TH = 4, GAP = 1.5, PAD = 1.2; // en cellules
@@ -19,8 +19,7 @@ const RAD = Math.PI / 180;
 const SX = Math.sin(ISO.rx * RAD), CX = Math.cos(ISO.rx * RAD);
 const SZ = Math.abs(Math.sin(ISO.rz * RAD)), CZ = Math.cos(ISO.rz * RAD);
 
-export const floorLabel = (n) => n === 0 ? 'Rez-de-chaussée' : n < 0 ? `Sous-sol ${Math.abs(n)}` : `${n}${n === 1 ? 'er' : 'e'} étage`;
-export const floorShort = (n) => n === 0 ? 'RDC' : n < 0 ? `SS${Math.abs(n)}` : `${n}${n === 1 ? 'er' : 'e'}`;
+export { floorLabel, floorShort }; // définis dans core/selectors.js, partagés avec l'administration
 
 /** Disposition d'un étage : salles accolées en grille, le nombre de colonnes donnant l'emprise la plus carrée. */
 function floorLayout(rooms) {
@@ -150,8 +149,8 @@ function batTotals(b) {
   return c;
 }
 
-// Données affichées par l'écran : salles, étages, matériels, remontées en attente, postes connectés
-export const signature = (st) => JSON.stringify([st.salles, st.materiels, st.remontees.map((r) => [r.id, r.statut, r.materielIds]), st.postes.map((p) => [p.id, p.connecte]), st.ecoleId]);
+// Données affichées par l'écran : salles, étages, matériels, remontées en attente, postes allumés
+export const signature = (st) => JSON.stringify([st.salles, st.materiels, st.remontees.map((r) => [r.id, r.statut, r.materielIds]), st.postes.map((p) => [p.id, p.allume]), st.ecoleId]);
 
 export function BatCard({ b, scene }) {
   const navigate = useNavigate();

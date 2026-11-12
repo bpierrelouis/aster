@@ -1,6 +1,6 @@
 import { AMBIANCES } from '#shared/ambiance.js';
 
-// Tonalité « auto » (ambiances Aster et Minarm) : celle forcée par le compte, sinon celle du système, suivie quand elle change
+// Tonalité « auto » (ambiances Orion et Minarm) : celle forcée par le compte, sinon celle du système, suivie quand elle change
 const systemDark = matchMedia('(prefers-color-scheme: dark)');
 let current = AMBIANCES[0];
 let forced = 'auto';

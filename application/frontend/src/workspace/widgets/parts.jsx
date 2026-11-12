@@ -1,10 +1,11 @@
 /* Éléments d'affichage partagés par plusieurs écrans. */
 import { createContext, useContext, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Icon, Brand } from '../ui/icons.jsx';
+import { Icon } from '../ui/icons.jsx';
+import { OrionMark } from '../../connexion/brand.jsx';
 import { usePeek } from '../ui/peek.js';
 import { num, pct } from '#shared/format.js';
-import { ETATS, statut } from '#shared/catalog.js';
+import { ETATS, statut, etatPoste } from '#shared/catalog.js';
 import { index, batimentLabel } from '../core/selectors.js';
 
 /** État d'un matériel : icône seule */
@@ -22,6 +23,12 @@ export function EtatPill({ m }) {
 export function StatutPill({ r }) {
   const s = statut(r.statut);
   return <span className={`pill pill--${s.id}`}><Icon name={s.icon} size={14} />{s.label}</span>;
+}
+
+/** État d'un poste supervisé (éteint, allumé, connecté, matériel hors service) et, connecté, l'utilisateur de sa session */
+export function PosteEtat({ p }) {
+  const e = etatPoste(p, index().materiel.get(p?.materielId));
+  return <span className="inv-state"><i className={`led led--${e.led}`} />{e.label}{e.id === 'connecte' && <span className="poste-session"><Icon name="user" size={13} />{p.session}</span>}</span>;
 }
 
 /** Localisation d'un matériel : salle ou stock */
@@ -115,15 +122,15 @@ export function OpsTable({ head, scroll = true, children }) {
 
 /**
  * Tableau de données dans une carte (Matériels › Inventaire, Administration › Postes) :
- * filtres, barre de sélection, tableau défilant à en-tête fixe, pied (pagination).
+ * filtres, barre de sélection facultative, tableau défilant à en-tête fixe, pied (pagination).
  * La zone défilante tient compte de ce qui la suit dans la carte. Styles : styles/inventaire.css.
  */
-export function DataPanel({ filters, selection, head, children, footer = null }) {
+export function DataPanel({ filters, selection = null, head, children, footer = null }) {
   const scroll = usePeek('.inv-panel');
   return <section className="inv-panel glass">
     <div className="inv-filters">{filters}</div>
     <div>
-      <div className="inv-selection">{selection}</div>
+      {selection && <div className="inv-selection">{selection}</div>}
       <div ref={scroll} className="inv-table-scroll"><table className="inv-table">
         <thead><tr>{head}</tr></thead>
         <tbody>{children}</tbody>
@@ -140,9 +147,10 @@ export function paginate(list, page, size) {
   return { pages, current, rows: list.slice((current - 1) * size, current * size) };
 }
 
-/** Pied de tableau paginé : Précédent, page courante, Suivant */
-export function Pagination({ current, pages, onPage }) {
+/** Pied de tableau paginé : nombre de lignes à gauche (facultatif), puis Précédent, page courante, Suivant */
+export function Pagination({ current, pages, onPage, total = null }) {
   return <footer className="pagination">
+    {total && <span className="pagination-total">{total}</span>}
     <button className="btn btn--ghost" disabled={current <= 1} onClick={() => onPage(current - 1)}>Précédent</button>
     <span>Page {current} sur {pages}</span>
     <button className="btn btn--ghost" disabled={current >= pages} onClick={() => onPage(current + 1)}>Suivant</button>
@@ -196,10 +204,10 @@ export function GroupGrid({ items, weight, render }) {
   </div>;
 }
 
-/** Chargement : fleur ASTER (marque de l'ambiance Aster, iris ou or) qui respire, comme à l'ouverture de l'application, et libellé */
+/** Chargement : étoile ORION entourée de petites étoiles qui scintillent, comme à l'ouverture de l'application, et libellé */
 export function Loader({ label }) {
   return <div className="w-loader glass" role="status">
-    <span className="w-loader-flower"><Brand ambiance="aster" size={56} /></span>
+    <OrionMark className="loading-mark" />
     <span>{label}</span>
   </div>;
 }

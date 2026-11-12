@@ -1,48 +1,96 @@
-/* Pages publiques (connexion, chargement) : charte ASTER (encre, iris, lilas, brume, cœur) et bouton MindefConnect de référence.
-   Limitées à .public : l'espace de travail a ses propres variables. */
+/* Pages publiques (connexion, chargement) : charte ORION (nuit, Bleu Orion, bleu lumière) et bouton MindefConnect de référence.
+   Palette limitée à .public : l'espace de travail a ses propres variables. La marque ORION (connexion/brand.jsx) sert à toute
+   l'application : ce fichier est chargé par main.jsx. */
 .public {
-  --ink: #17243b; --ink-2: #4a5470; --iris: #6954c0; --lilas: #b8a3ea; --brume: #f6f4fb; --coeur: #e8b84e;
+  --ink: #040b1e; --ink-2: #48546e; --accent: #2563eb; --fond: #f5f8fe;
+  --halo-1: rgb(147 197 253 / .45); --halo-2: rgb(37 99 235 / .18);
   --surface: rgb(255 255 255 / .62); --rim: rgb(255 255 255 / .9);
+  --card-shadow: 0 30px 60px -30px rgb(11 42 107 / .3);
   color-scheme: light;
   font-family: system-ui, -apple-system, "Segoe UI Variable", "Segoe UI", Roboto, sans-serif;
-  color: var(--ink); background: var(--brume);
+  color: var(--ink); background: var(--fond);
   font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased;
 }
+/* Sombre : nuit profonde, panneau et lueur bleue des cadres de la charte */
 @media (prefers-color-scheme: dark) {
-  .public { --ink: #eeecfa; --ink-2: #b4b0cf; --brume: #0c1222; --surface: rgb(23 32 56 / .6); --rim: rgb(184 163 234 / .25); color-scheme: dark; }
+  .public {
+    --ink: #fff; --ink-2: #9fb0d0; --accent: #6ea8ff; --fond: #040b1e;
+    --halo-1: rgb(11 42 107 / .95); --halo-2: rgb(37 99 235 / .2);
+    --surface: rgb(10 22 48 / .62); --rim: rgb(59 130 246 / .32);
+    --card-shadow: 0 0 14px 1px rgb(11 42 107 / .75), 0 0 34px 6px rgb(37 99 235 / .16);
+    color-scheme: dark;
+  }
 }
 * { box-sizing: border-box; }
 body { margin: 0; }
 .public button, .public input { font: inherit; }
 .public a { color: inherit; }
 .public button, .public a { -webkit-tap-highlight-color: transparent; }
-.public :focus-visible { outline: 3px solid #0a76f6; outline-offset: 5px; }
+.public :focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
 
+/* --------------------------------------------------------------------------
+   Marque ORION (connexion/brand.jsx), pour toute l'application. Couleurs selon la tonalité de l'élément (color-scheme) :
+   étoile Bleu Orion en clair, blanche avec lueur bleue en sombre ; petites étoiles en bleu lumière.
+   -------------------------------------------------------------------------- */
+:root {
+  --brand-star: light-dark(#2563eb, #fff);
+  --brand-glow: light-dark(rgb(59 130 246 / .35), #3b82f6);
+  --twinkle: light-dark(#3b82f6, #93c5fd);
+}
+.orion-star { display: block; width: 1em; height: 1em; fill: var(--brand-star); filter: drop-shadow(0 0 .16em var(--brand-glow)); }
+/* Étoile scintillante : petites étoiles autour du centre, à une distance comptée en --spread-x et --spread-y (une taille
+   d'étoile par défaut), chacune avec sa taille, sa durée et sa phase */
+.orion-mark { position: relative; display: inline-grid; place-items: center; width: 1em; height: 1em; }
+.twinkle {
+  position: absolute; left: calc(50% + var(--x) * var(--spread-x, 1em)); top: calc(50% + var(--y) * var(--spread-y, 1em));
+  width: calc(var(--s) * .4em); height: calc(var(--s) * .4em); translate: -50% -50%;
+  fill: var(--twinkle); opacity: 0; animation: twinkle var(--t) ease-in-out var(--d) infinite;
+}
+@keyframes twinkle {
+  0% { opacity: 0; scale: .2; rotate: -45deg; }
+  50% { opacity: 1; scale: 1; rotate: 0deg; }
+  100% { opacity: 0; scale: .2; rotate: 45deg; }
+}
+/* Logotype : capitales larges espacées, étoile au-dessus du « I ». Aucune police téléchargée (réseau fermé) : à défaut de
+   Michroma, une police système large dont le « I » est un simple trait. Ses petites étoiles s'étendent au-dessus du mot
+   sans descendre sur les lettres */
+.orion-logo { display: inline-flex; gap: .5em; font-family: "Lucida Sans Unicode", "Lucida Grande", "DejaVu Sans", sans-serif; font-weight: 400; line-height: 1; }
+.orion-logo-i { position: relative; }
+.orion-logo-i > :is(.orion-star, .orion-mark) { position: absolute; left: 50%; bottom: calc(100% + .5em); translate: -50% 0; font-size: .7em; }
+.orion-logo .orion-mark { --spread-x: 2.4em; --spread-y: .7em; }
+/* Chargement (pages publiques et Loader de l'espace, workspace/widgets/parts.jsx) : l'étoile respire au-dessus du libellé */
+.loading-mark { font-size: 56px; margin: 40px 0 32px; --spread-x: .8em; --spread-y: .8em; }
+.loading-mark > .orion-star { animation: orion-breathe 2.4s ease-in-out infinite; }
+@keyframes orion-breathe { 50% { scale: .84; } }
+
+/* --------------------------------------------------------------------------
+   Page de connexion
+   -------------------------------------------------------------------------- */
 .welcome {
   position: relative; isolation: isolate; overflow: hidden;
   min-height: 100vh; min-height: 100dvh;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: 48px 16px 32px;
   background:
-    radial-gradient(60vmax 40vmax at 12% 8%, color-mix(in srgb, var(--lilas) 55%, transparent), transparent 70%),
-    radial-gradient(50vmax 34vmax at 92% 96%, color-mix(in srgb, var(--iris) 30%, transparent), transparent 70%),
-    radial-gradient(22vmax 22vmax at 84% 84%, color-mix(in srgb, var(--coeur) 26%, transparent), transparent 70%),
-    var(--brume);
+    radial-gradient(60vmax 40vmax at 12% 8%, var(--halo-1), transparent 70%),
+    radial-gradient(50vmax 34vmax at 92% 96%, var(--halo-2), transparent 70%),
+    var(--fond);
 }
 .welcome-watermark {
-  position: absolute; z-index: -1; right: -14vmax; bottom: -16vmax; width: 62vmax; height: 62vmax;
-  opacity: .1; filter: blur(2px); transform: rotate(12deg); pointer-events: none;
+  position: absolute; z-index: -1; right: -14vmax; bottom: -16vmax; font-size: 62vmax;
+  fill: #3b82f6; opacity: .1; filter: blur(2px); transform: rotate(12deg); pointer-events: none;
 }
 .welcome-main {
   display: flex; flex-direction: column; align-items: center; text-align: center;
   width: min(100%, 460px); padding: 44px 32px 36px; border-radius: 34px;
-  background: var(--surface); box-shadow: inset 0 0 0 1px var(--rim), 0 30px 60px -30px rgb(52 36 110 / .35);
+  background: var(--surface); box-shadow: inset 0 0 0 1px var(--rim), var(--card-shadow);
   -webkit-backdrop-filter: blur(24px) saturate(1.4); backdrop-filter: blur(24px) saturate(1.4);
 }
-.welcome-flower { width: 84px; height: 84px; margin-bottom: 18px; }
-.welcome-title { margin: 0; font: 700 44px/1 Arial, Helvetica, sans-serif; letter-spacing: 8px; padding-left: 8px; color: var(--ink); }
-.welcome-signature { margin: 12px 0 0; font-size: 12px; font-weight: 650; letter-spacing: 1.6px; text-transform: uppercase; color: var(--iris); }
-@media (prefers-color-scheme: dark) { .welcome-signature { color: var(--lilas); } }
+/* Logotype : l'étoile du « I » apparaît une fois, puis de petites étoiles scintillent autour */
+.welcome-title { margin: 48px 0 0; font-size: 44px; font-weight: 400; color: var(--ink); }
+.welcome-title .orion-star { animation: orion-rise .9s cubic-bezier(.34, 1.42, .64, 1) .1s both; }
+@keyframes orion-rise { from { opacity: 0; scale: 0; rotate: -90deg; } }
+.welcome-signature { margin: 14px 0 0; font-size: 12px; font-weight: 650; letter-spacing: 1.6px; text-transform: uppercase; color: var(--accent); }
 .welcome-lead { margin: 22px 0 30px; max-width: 30ch; font-size: 16px; line-height: 1.5; color: var(--ink-2); }
 .welcome-footer { margin-top: 28px; font-size: 13px; color: var(--ink-2); text-align: center; }
 
@@ -55,17 +103,11 @@ body { margin: 0; }
 .mindef-symbol { flex: 0 0 48px; width: 48px; height: 48px; }
 .login-error { margin: 22px 0 0; max-width: 360px; border-left: 4px solid #ce0500; border-radius: 0 10px 10px 0; padding: 13px 15px; background: #fff1f0; color: #3a0d0b; text-align: left; font-size: 14px; line-height: 1.5; }
 
-/* Éclosion : les pétales se déploient un à un, une seule fois */
-.welcome-flower .petal { transform-origin: 64px 64px; transform-box: view-box; animation: bloom .7s cubic-bezier(.2, .8, .2, 1.2) both; animation-delay: calc(var(--i) * 35ms); }
-.welcome-flower .flower-heart { transform-origin: 64px 64px; transform-box: view-box; animation: bloom .5s .5s cubic-bezier(.2, .8, .2, 1.3) both; }
-@keyframes bloom { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-.loading { min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; align-content: center; gap: 16px; background: var(--brume); color: var(--ink-2); font-size: 15px; font-weight: 600; }
-.loading-flower { width: 64px; height: 64px; animation: breathe 2.4s ease-in-out infinite; }
-@keyframes breathe { 50% { transform: scale(.9) rotate(11deg); } }
+.loading { min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; align-content: center; gap: 16px; background: var(--fond); color: var(--ink-2); font-size: 15px; font-weight: 600; }
 
 @media (prefers-reduced-motion: reduce) {
-  .welcome-flower .petal, .welcome-flower .flower-heart, .loading-flower { animation: none; }
+  .twinkle { display: none; }
+  .orion-star { animation: none; }
   .mindef-button { transition: none; }
 }
 @media (max-width: 480px) {

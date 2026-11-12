@@ -14,7 +14,7 @@
    déplacement physique à suivre.
    ========================================================================== */
 
-import { serieKey } from '#shared/catalog.js';
+import { serieKey, remonteeOuverte } from '#shared/catalog.js';
 import { assert, fail, id, mergeState, scopedState } from './rules.js';
 
 const FIELDS = ['type', 'modele', 'marque', 'serie', 'dateReception', 'garantieFin', 'hs', 'salleId'];
@@ -25,7 +25,7 @@ function checkTarget(state, actor, ecoleId) {
 }
 
 /** Matériels cités par une remontée pas encore validée : leur école doit pouvoir la traiter jusqu'au bout */
-const inOpenReport = (state) => new Set(state.remontees.filter((r) => r.statut !== 'validee').flatMap((r) => r.materielIds));
+const inOpenReport = (state) => new Set(state.remontees.filter(remonteeOuverte).flatMap((r) => r.materielIds));
 
 /** Matériel connu par numéro de série, celui de l'école de destination en priorité */
 function knownSeries(state, ecoleId) {

@@ -4,7 +4,7 @@ const routes = [
   '/accueil', '/accueil/parc', '/accueil/remontees', '/salles',
   '/salles/batiment/A', '/salles/stock',
   '/materiels/inventaire', '/materiels/import',
-  '/remontees/attente', '/remontees/encours', '/remontees/traitees', '/remontees/validees', '/remontees/toutes', '/remontees/miennes',
+  '/remontees/attente', '/remontees/encours', '/remontees/terminees', '/remontees/toutes', '/remontees/miennes',
   '/supervision/salles', '/supervision/alertes', '/supervision/listes', '/supervision/statistiques',
   '/administration/postes', '/administration/applications', '/administration/interventions', '/administration/batiments', '/administration/comptes',
   '/salles/deplacements', '/notifications',
@@ -376,7 +376,7 @@ test('les tableaux de bord présentent des diagrammes ; indicateurs et diagramme
   await page.getByRole('button', { name: 'Ajouter un widget', exact: true }).click();
   const gallery = page.getByRole('dialog', { name: 'Ajouter un widget' });
   await gallery.getByRole('tab', { name: 'Graphiques' }).click();
-  for (const title of ['Postes connectés par bâtiment', 'Remontées par jour', 'Hors service par type et par bâtiment', 'Solde hebdomadaire des remontées']) {
+  for (const title of ['Postes allumés par bâtiment', 'Remontées par jour', 'Hors service par type et par bâtiment', 'Solde hebdomadaire des remontées']) {
     await expect(gallery.locator('.gal-meta b', { hasText: title })).toHaveCount(1);
   }
 });
@@ -510,7 +510,7 @@ test('les postes de l’administration sont paginés, sans les demandes d’inte
   }
 });
 
-test('une application s’installe sur une salle entière, un poste se réinstalle ; un seul suivi, une ligne par demande', async ({ page, request }) => {
+test('une application s’installe sur une salle entière, des postes se réinstallent ; un seul suivi, une ligne par demande', async ({ page, request }) => {
   const data = await state(request);
   const salle = data.salles.find((s) => s.id === 's-e-num-a012');
   const postes = data.postes.filter((p) => p.salleId === salle.id).sort((a, b) => a.nomReseau.localeCompare(b.nomReseau));
@@ -521,6 +521,7 @@ test('une application s’installe sur une salle entière, un poste se réinstal
   await card.getByRole('button', { name: 'Installer', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Installer PuTTY' });
   await expect(dialog.getByRole('radio', { name: 'Salle entière' })).toHaveAttribute('aria-checked', 'true');
+  await expect(dialog.getByRole('combobox', { name: 'Salle', exact: true })).toHaveValue(''); // aucune salle filtrée : à choisir
   await dialog.getByRole('combobox', { name: 'Salle', exact: true }).selectOption(salle.id);
   await expect(dialog.locator('.ops-summary')).toContainText(`${postes.length} postes visés, toute la salle`);
   await dialog.getByRole('button', { name: 'Installer', exact: true }).click();
@@ -535,18 +536,28 @@ test('une application s’installe sur une salle entière, un poste se réinstal
   const detail = page.locator('.rm-detail');
   await expect(detail.locator('.rows .row')).toHaveCount(postes.length);
   await expect(detail.locator('.rows .pill').first()).toHaveText(/En cours d’installation|En attente d’installation|Installé|Échec/);
-  // Réinstallation demandée depuis les postes, pour un seul poste
+  // Simulation : une installation attend un poste dont l'unité centrale est hors service
+  await expect(page.locator('.rm-row', { hasText: 'Installation de Postman' })).toContainText('En attente d’installation');
+  await expect(page.locator('.rm-row', { hasText: 'Désinstallation de LibreOffice' })).toHaveCount(1);
+  // Postes : emplacement, matériel et état ; le total en bas à gauche, sans bandeau au-dessus du tableau
   await open(page, '/administration/postes');
   await expect(page.locator('.inv-table input[type="checkbox"]')).toHaveCount(0);
+  await expect(page.locator('.inv-selection')).toHaveCount(0);
+  await expect(page.locator('.pagination-total')).toHaveText(/^\d+ postes$/);
+  await expect(page.locator('.inv-table thead th')).toHaveText(['Poste', 'Emplacement', 'Matériel', 'État', 'Applications', 'Actions']);
+  await expect(page.locator('.inv-table tbody tr').first().locator('td').nth(1)).toHaveText(/^[A-Z] – (RDC|\d+e?r?|SS\d) – .+$/);
+  // Réinstallation : la salle filtrée est proposée ; plusieurs postes choisis
+  await page.getByRole('combobox', { name: 'Filtrer par salle' }).selectOption(salle.id);
   await page.getByRole('button', { name: 'Réinstaller', exact: true }).click();
   const reinstall = page.getByRole('dialog', { name: 'Réinstaller Windows' });
-  await reinstall.getByRole('radio', { name: 'Un poste' }).click();
-  await reinstall.getByRole('combobox', { name: 'Salle', exact: true }).selectOption(salle.id);
-  await reinstall.getByRole('radio', { name: postes[0].nomReseau }).click();
+  await expect(reinstall.getByRole('combobox', { name: 'Salle', exact: true })).toHaveValue(salle.id);
+  await reinstall.getByRole('radio', { name: 'Postes' }).click();
+  for (const p of postes.slice(0, 2)) await reinstall.getByRole('button', { name: p.nomReseau, exact: true }).click();
+  await expect(reinstall.locator('.ops-summary')).toContainText('2 postes visés');
   await reinstall.getByRole('button', { name: 'Réinstaller', exact: true }).click();
   await expect(reinstall).toHaveCount(0);
   await open(page, '/administration/interventions');
-  await expect(page.locator('.rm-row', { hasText: 'Réinstallation de Windows' })).toContainText(postes[0].nomReseau);
+  await expect(page.locator('.rm-row', { hasText: 'Réinstallation de Windows' }).filter({ hasText: '2 postes choisis' })).toHaveCount(1);
 });
 
 test('le menu principal n’a pas de bulle ; les règles de processus portent le logo de leur application', async ({ page }) => {
@@ -577,7 +588,7 @@ test('supervision : Alertes par défaut ; la recherche ignore casse et espaces, 
   expect(new Set(await names.allTextContents())).toEqual(new Set(['firefox.exe']));
 });
 
-test('le gestionnaire suit son travail dans le backlog ; seul l’auteur valide et clôt', async ({ page, request }) => {
+test('le gestionnaire suit son travail dans le backlog : en attente, en cours, terminées ; il déclare et remet le matériel', async ({ page, request }) => {
   const comptes = (await state(request)).comptes.filter((c) => c.actif);
   const admin = comptes.find((c) => c.role === 'admin');
   const manager = comptes.find((c) => c.role === 'gestionnaire');
@@ -589,7 +600,7 @@ test('le gestionnaire suit son travail dans le backlog ; seul l’auteur valide 
     await page.goto('/remontees');
     await expect(page).toHaveURL(/\/remontees\/backlog$/);
     await expect(page.locator('.subnav .seg-btn')).toHaveText([/Remontées/, /Installations/, /Toutes/]);
-    await expect(page.locator('.bl-col')).toHaveCount(4);
+    await expect(page.locator('.bl-col .bl-head b')).toHaveText(['En attente', 'En cours', 'Terminées']);
     await expect(col('attente').locator('.bl-title').first()).toHaveText(/^(Ne s’allume pas|Pas d’image|Connexion|Casse|Fonctionnement anormal|Autre)$/); // la remontée, pas ses matériels
     await col('attente').locator('.bl-card', { hasText: report.id }).click();
     await page.getByRole('button', { name: 'Prendre en charge' }).click();
@@ -598,18 +609,22 @@ test('le gestionnaire suit son travail dans le backlog ; seul l’auteur valide 
     // L'état des lieux suit la remontée de la transmission à la clôture
     await page.getByRole('button', { name: 'État des lieux', exact: true }).click();
     const suivi = page.getByRole('dialog', { name: `État des lieux ${report.id}` }).getByRole('table', { name: 'Suivi de la remontée' });
-    await expect(suivi.locator('tbody tr')).toHaveText([/^Transmise, en attente/, new RegExp(`^En cours.*${manager.nom}$`), /^Remplacé ou corrigéÀ venir/, /^ValidéeÀ venir/]);
+    await expect(suivi.locator('tbody tr')).toHaveText([/^Transmise, en attente/, new RegExp(`^En cours.*${manager.nom}$`), /^Remplacé ou corrigéÀ venir/]);
     await page.keyboard.press('Escape');
+    // Remontée en cours : le matériel se déclare hors service, puis repart au stock (un déplacement à confirmer)
+    const mat = (await state(request)).materiels.find((m) => m.id === report.materielIds[0]);
+    const enService = page.getByRole('switch', { name: `${mat.modele} ${mat.idAster} en service` });
+    if (await enService.getAttribute('aria-checked') === 'true') await enService.click();
+    await expect(enService).toHaveAttribute('aria-checked', 'false');
+    if (mat.salleId && !mat.deplacement) {
+      const remise = page.getByRole('form', { name: `Remise de ${mat.idAster}` });
+      await remise.getByLabel('Relocaliser dans le stock').check();
+      await remise.getByRole('button', { name: 'Lancer le déplacement' }).click();
+      await expect.poll(async () => (await state(request)).materiels.find((m) => m.id === mat.id)?.deplacement?.de).toBe(mat.salleId);
+    }
     await page.getByRole('button', { name: 'Remplacé', exact: true }).click();
-    await expect(col('traitee').locator('.bl-card', { hasText: report.id })).toHaveCount(1);
-    await expect(page.getByRole('button', { name: 'Valider et clore' })).toHaveCount(0); // le gestionnaire n'en est pas l'auteur
-    await asAccount(report.auteurId);
-    await open(page, '/accueil'); // l'auteur est invité à valider le traitement
-    await page.getByRole('button', { name: 'Notifications', exact: true }).click();
-    await expect(page.locator('.popover--list .pop-row', { hasText: /traitées?, à valider/ })).toHaveCount(1);
-    await open(page, `/remontees/traitees/${report.id}`);
-    await page.getByRole('button', { name: 'Valider et clore' }).click();
-    await expect.poll(async () => (await state(request)).remontees.find((r) => r.id === report.id)?.statut).toBe('validee');
+    await expect(col('terminee').locator('.bl-card', { hasText: report.id })).toHaveCount(1);
+    await expect(page.getByRole('button', { name: /Valider/ })).toHaveCount(0); // la validation par l'auteur n'existe plus
   } finally {
     await asAccount(admin.id);
   }
@@ -620,7 +635,7 @@ test('l’import JSON n’ajoute que les nouveaux matériels et, une fois valid�
   try {
     await asAccount('cpt-superadmin'); // toutes les écoles, pour choisir les matériels du fichier
     const all = await state(request);
-    const cited = new Set(all.remontees.filter((r) => r.statut !== 'validee').flatMap((r) => r.materielIds));
+    const cited = new Set(all.remontees.filter((r) => ['attente', 'encours'].includes(r.statut)).flatMap((r) => r.materielIds));
     const ici = all.materiels.find((m) => m.ecoleId === 'e-num' && m.serie);
     const ailleurs = all.materiels.find((m) => m.ecoleId === 'e-res' && m.serie && !cited.has(m.id));
     await asAccount('cpt-num-admin');
@@ -668,8 +683,9 @@ test('le gestionnaire suit l’installation des salles dans un second backlog ; 
     await asAccount(manager.id);
     await open(page, '/remontees/installations');
     await expect(page.locator('.bl-col')).toHaveCount(3);
-    await expect(page.locator('.bl-col--terminees .bl-card', { hasText: 'B203' }).getByRole('progressbar')).toHaveAttribute('aria-valuenow', '100');
-    await page.locator('.bl-col--afaire .bl-card', { hasText: 'C202' }).click();
+    await expect(page.locator('.bl-col .bl-head b')).toHaveText(['En attente', 'En cours', 'Terminées']); // mêmes colonnes que les remontées
+    await expect(page.locator('.bl-col--terminee .bl-card', { hasText: 'B203' }).getByRole('progressbar')).toHaveAttribute('aria-valuenow', '100');
+    await page.locator('.bl-col--attente .bl-card', { hasText: 'C202' }).click();
     await expect(page).toHaveURL(/\/salles\/deplacements\?salle=/);
     await expect(page.getByRole('region', { name: 'C201 vers C202' })).toContainText('2 matériels à installer');
     await open(page, '/salles/deplacements');

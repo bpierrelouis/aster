@@ -1,14 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { expectPublicPresentation } from './presentation.js';
 import pg from 'pg';
-import { createS3Storage } from '../backend/storage.js';
 import { readConfig } from '../backend/config.js';
 
-// Contrôles directs de la persistance : PostgreSQL et stockage S3 de l'infrastructure locale
+// Contrôles directs de la persistance : PostgreSQL de l'infrastructure locale
 const config = readConfig();
 const sql = async (text, values) => { const client = new pg.Client({ connectionString: config.databaseUrl }); await client.connect(); try { return (await client.query(text, values)).rows; } finally { await client.end(); } };
-const s3 = createS3Storage(config.s3);
-test.afterAll(() => s3.destroy());
 
 // Requires real PostgreSQL, Keycloak and the Express server. No mocked authentication.
 // Modules visibles par profil (rail principal) et profil appliqué par le serveur à l'espace de travail.
@@ -135,20 +132,15 @@ test('formateur : une remontée transmise produit son PDF ; le gestionnaire la t
   await expect(dialog).toHaveCount(0);
   let report;
   await expect.poll(async () => { report = (await (await page.request.get('/api/workspace')).json()).remontees.find((r) => r.description === description); return Boolean(report); }).toBe(true);
-  // Le serveur contrôle les droits puis redirige vers un lien signé : le PDF ne transite pas par lui
-  const link = await page.request.get(`/api/workspace/reports/${report.id}/pdf`, { maxRedirects: 0 });
-  expect(link.status()).toBe(303);
-  expect(link.headers().location).toContain(`${config.s3.endpoint}/${config.s3.bucket}/etats-des-lieux/`);
-  expect(link.headers().location).toContain('X-Amz-Signature=');
-  const pdf = await page.request.get(link.headers().location);
+  // Le serveur contrôle les droits puis produit le PDF à la demande
+  const pdf = await page.request.get(`/api/workspace/reports/${report.id}/pdf`);
   expect(report.id).toMatch(/^REM-\d{4}$/);
   expect(pdf.ok()).toBeTruthy();
   expect(pdf.headers()['content-type']).toBe('application/pdf');
   expect((await pdf.body()).subarray(0, 5).toString()).toBe('%PDF-');
-  const [stored] = await sql('SELECT etat_des_lieux_cle, statut, auteur, auteur_id FROM aster_remontee WHERE id = $1', [report.id]);
-  expect(stored).toMatchObject({ etat_des_lieux_cle: `etats-des-lieux/${report.ecoleId}/${report.id}/1-attente.pdf`, statut: 'attente', auteur: 'L. Martin', auteur_id: 'cpt-num-formateur' });
+  const [stored] = await sql('SELECT statut, auteur, auteur_id FROM aster_remontee WHERE id = $1', [report.id]);
+  expect(stored).toMatchObject({ statut: 'attente', auteur: 'L. Martin', auteur_id: 'cpt-num-formateur' });
   expect((await sql('SELECT materiel_id FROM aster_remontee_materiel WHERE remontee_id = $1 ORDER BY rang', [report.id])).map((r) => r.materiel_id)).toEqual(report.materielIds);
-  expect(await s3.get(stored.etat_des_lieux_cle)).toEqual(await pdf.body());
   await logout(page);
   expect((await page.request.get(`/api/workspace/reports/${report.id}/pdf`)).status()).toBe(401);
 

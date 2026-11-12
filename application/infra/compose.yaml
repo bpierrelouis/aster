@@ -63,24 +63,7 @@ services:
       start_period: 40s
       retries: 30
 
-  # Stockage objet compatible S3 (états des lieux PDF), substitut local du S3 cible
-  s3:
-    image: chrislusf/seaweedfs:4.50
-    command: ["server", "-dir=/data", "-ip.bind=0.0.0.0", "-s3", "-s3.port=8333", "-s3.config=/etc/seaweedfs/s3.json"]
-    ports:
-      - "127.0.0.1:8333:8333"
-    volumes:
-      - s3-data:/data
-      - ./seaweedfs/s3.json:/etc/seaweedfs/s3.json:ro
-    healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8333/healthz"]
-      interval: 3s
-      timeout: 3s
-      start_period: 10s
-      retries: 30
-
 volumes:
   postgres-data:
   ldap-data:
   ldap-config:
-  s3-data:

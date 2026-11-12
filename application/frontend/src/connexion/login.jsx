@@ -1,4 +1,4 @@
-import { AsterFlower, MinDefSymbol } from './brand.jsx';
+import { MinDefSymbol, OrionLogo, OrionMark, OrionStar } from './brand.jsx';
 
 const ERRORS = {
   session: 'La demande de connexion a expiré. Veuillez recommencer.',
@@ -11,10 +11,9 @@ export function Login({ unavailable }) {
   const message = unavailable ? 'La connexion est momentanément indisponible. Veuillez réessayer dans quelques instants.'
     : error ? ERRORS[error] ?? 'La connexion a échoué. Veuillez réessayer ou contacter votre administrateur.' : null;
   return <div className="public welcome">
-    <AsterFlower className="welcome-watermark" />
+    <OrionStar className="welcome-watermark" />
     <main className="welcome-main">
-      <AsterFlower className="welcome-flower" />
-      <h1 className="welcome-title">ASTER</h1>
+      <h1 className="welcome-title"><OrionLogo animated /></h1>
       <p className="welcome-signature">Gestion · Administration · Supervision</p>
       <p className="welcome-lead">Le parc informatique de votre école, ses salles et ses postes, au même endroit.</p>
       <a className="mindef-button" href="/auth/login">
@@ -29,5 +28,5 @@ export function Login({ unavailable }) {
 
 /** Page d'attente : chargement de la session ou de l'espace. */
 export function Loading({ label }) {
-  return <main className="public loading" role="status"><AsterFlower className="loading-flower" />{label}</main>;
+  return <main className="public loading" role="status"><OrionMark className="loading-mark" />{label}</main>;
 }

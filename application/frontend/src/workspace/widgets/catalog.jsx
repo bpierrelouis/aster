@@ -239,7 +239,7 @@ export const WIDGETS = [
     Body() {
       const rm = remontees();
       const delta = <Delta diff={rm.recentTraitees.length - rm.traiteesAvant} period="par rapport aux 30 jours précédents" sense="up-good" />;
-      return <Link className="kpi kpi--link" to="/remontees/traitees"><KpiBody label="Traitées sur 30 jours" value={num(rm.recentTraitees.length)} sub={delta} /></Link>;
+      return <Link className="kpi kpi--link" to="/remontees/terminees"><KpiBody label="Traitées sur 30 jours" value={num(rm.recentTraitees.length)} sub={delta} /></Link>;
     },
   },
   {
