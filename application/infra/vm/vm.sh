@@ -8,7 +8,7 @@ DOMAINE=orion.internal
 DNS_FORMATION=172.16.143.251   # DNS du réseau de formation : dernier recours des VM ; BIND lui transmet les autres noms
 SECOURS=9                      # VM de secours de PostgreSQL, de l'identité et de Logstash
 VM_USER="${VM_USER:-user}"
-CLE_SSH="${ASTER_SSH_KEY:-$HOME/.ssh/aster_deploy}"
+CLE_SSH="${ORION_SSH_KEY:-$HOME/.ssh/orion_deploy}"
 
 # ssh_vm N commande… : exécute une commande sur la VM N
 ssh_vm() { local n=$1; shift; ssh -i "$CLE_SSH" -o BatchMode=yes -o StrictHostKeyChecking=accept-new "$VM_USER@${VM[$n]}" "$@"; }

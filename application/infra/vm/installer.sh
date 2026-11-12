@@ -6,12 +6,12 @@
 # DISQUE_DONNEES et DISQUE_LOGS : disques de données et de logs d'orion-10, formatés en ext4 s'ils sont vierges (/dev/sdb et /dev/sdc par défaut).
 # Idempotent : relancer le script ne recrée ni le cluster, ni les secrets, ni les certificats existants ; il amène un cluster
 # existant à la répartition prévue (managers, workers, étiquettes), fait quitter le cluster à orion-10 et à toute VM
-# membre d'un autre cluster, et retire l'ancienne pile « aster ».
+# membre d'un autre cluster, et retire toute autre pile que « orion ».
 set -euo pipefail
 cd "$(dirname "$0")"
 . ./vm.sh
 
-PKI="${ASTER_PKI:-$HOME/.aster-pki}"
+PKI="${ORION_PKI:-$HOME/.orion-pki}"
 # Git Bash : chemin Windows pour openssl, dont les sujets /O=… ne doivent pas être convertis (MSYS_NO_PATHCONV)
 if command -v cygpath >/dev/null; then PKI=$(cygpath -m "$PKI"); fi
 
@@ -41,7 +41,6 @@ for n in 1 2 3 4 5 6 7 8 9 10; do
   echo "== orion-$n (${VM[$n]})"
   { printf '%s\n' "$SUDO_PASSWORD"; cat "$PKI/ca.crt"; } | ssh_vm "$n" "sudo -S -p '' bash -c '
     set -e
-    rm -f /etc/docker/aster-ca.pem /etc/chrony/conf.d/aster.conf /etc/systemd/timesyncd.conf.d/aster.conf
     install -D -m 644 /dev/stdin /etc/docker/orion-ca.pem
     if [ \"\$(hostname)\" != orion-$n ]; then echo orion-$n > /etc/hostname; hostname orion-$n; fi
     grep -q \"^127.0.1.1 orion-$n\$\" /etc/hosts || { sed -i \"/^127.0.1.1 /d\" /etc/hosts; echo \"127.0.1.1 orion-$n\" >> /etc/hosts; }
@@ -131,8 +130,10 @@ if [ "$(etat 10)" = active ]; then
   if grep -qx "$id" <<<"$NOEUDS"; then docker_vm node rm --force "$id" >/dev/null; fi
 fi
 # Étiquettes : groupe (entrée, application) et rôles isolés ; orion-9 porte les trois rôles isolés, pour les reprendre
-for n in 1 2 3 4 5 6 7 8 9; do
-  for etiquette in aster orion dns pg identite logs; do docker_vm node update --label-rm "$etiquette" "orion-$n" >/dev/null 2>&1 || true; done
+for n in 1 2 3 4 5 6 7 8 9; do   # retrait de toutes les étiquettes existantes, puis pose des étiquettes prévues
+  for etiquette in $(docker_vm node inspect -f '{{range $k, $v := .Spec.Labels}}{{$k}} {{end}}' "orion-$n"); do
+    docker_vm node update --label-rm "$etiquette" "orion-$n" >/dev/null
+  done
 done
 for n in 1 2; do docker_vm node update --label-add orion=entree "orion-$n" >/dev/null; done
 for n in 4 5; do docker_vm node update --label-add orion=application "orion-$n" >/dev/null; done
@@ -140,17 +141,18 @@ docker_vm node update --label-add pg=true orion-6 >/dev/null
 docker_vm node update --label-add identite=true orion-7 >/dev/null
 docker_vm node update --label-add logs=true orion-8 >/dev/null
 docker_vm node update --label-add pg=true --label-add identite=true --label-add logs=true "orion-$SECOURS" >/dev/null
-if docker_vm stack ls --format '{{.Name}}' | grep -qx aster; then
-  echo "== retrait de l'ancienne pile « aster »"
-  docker_vm stack rm aster >/dev/null
-fi
+for pile in $(docker_vm stack ls --format '{{.Name}}'); do
+  [ "$pile" = orion ] && continue
+  echo "== retrait de la pile « $pile », remplacée par « orion »"
+  docker_vm stack rm "$pile" >/dev/null
+done
 
 # 5. Secrets Swarm, créés une fois avec des valeurs aléatoires (aucune copie sur le poste, sauf les certificats)
 aleatoire() { openssl rand -hex 32; }
 secret() { # nom valeur
   docker_vm secret inspect "$1" >/dev/null 2>&1 || printf '%s' "$2" | docker_vm secret create "$1" - >/dev/null
 }
-# Base orion : mot de passe et adresse de connexion créés ensemble (les secrets de l'ancienne base aster ne servent plus)
+# Base orion : mot de passe et adresse de connexion créés ensemble (noms propres à la base orion)
 if ! docker_vm secret inspect orion_postgres_password >/dev/null 2>&1; then
   pg=$(aleatoire)
   secret orion_postgres_password "$pg"
