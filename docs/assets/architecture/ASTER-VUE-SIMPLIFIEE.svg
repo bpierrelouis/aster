@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="890" viewBox="0 0 1500 890" role="img" aria-labelledby="title desc">
-<title id="title">ASTER — vue simplifiée de l’architecture réelle</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="935" viewBox="0 0 1500 935" role="img" aria-labelledby="title desc">
+<title id="title">ORION — vue simplifiée de l’architecture réelle</title>
 <desc id="desc">Rôles du démonstrateur, regroupés par zone, et principaux échanges numérotés.</desc>
 <defs>
 <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f6cbd"/></marker>
@@ -8,12 +8,15 @@
 <symbol id="i-user-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="m21.7 16.4-.9-.3"/><path d="m15.2 13.9-.9-.3"/><path d="m16.6 18.7.3-.9"/><path d="m19.1 12.2.3-.9"/><path d="m19.6 18.7-.4-1"/><path d="m16.8 12.3-.4-1"/><path d="m14.3 16.6 1-.4"/><path d="m20.7 13.8 1-.4"/></symbol>
 <symbol id="i-network" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></symbol>
 <symbol id="i-split" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
 <symbol id="i-app-window" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></symbol>
 <symbol id="i-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></symbol>
+<symbol id="i-hard-drive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></symbol>
 <symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
 <symbol id="i-key-round" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
 <symbol id="i-book-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 13a3 3 0 1 0-6 0"/><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><circle cx="12" cy="8" r="2"/></symbol>
 <symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></symbol>
+<symbol id="i-boxes" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42Z"/><path d="m7 16.5-4.74-2.85"/><path d="m7 16.5 5-3"/><path d="M7 16.5v5.17"/><path d="M12 13.5V19l3.97 2.38a2 2 0 0 0 2.06 0l3-1.8a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L17 10.5l-5 3Z"/><path d="m17 16.5-5-3"/><path d="m17 16.5 4.74-2.85"/><path d="M17 16.5v5.17"/><path d="M7.97 4.42A2 2 0 0 0 7 6.13v4.37l5 3 5-3V6.13a2 2 0 0 0-.97-1.71l-3-1.8a2 2 0 0 0-2.06 0l-3 1.8Z"/><path d="M12 8 7.26 5.15"/><path d="m12 8 4.74-2.85"/><path d="M12 13.5V8"/></symbol>
 <symbol id="i-scroll-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 12h-5"/><path d="M15 8h-5"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></symbol>
 </defs>
 <style>
@@ -36,22 +39,22 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 .flow{fill:none;stroke:#0f6cbd;stroke-width:2}
 .auto{stroke-dasharray:6 4}
 </style>
-<rect width="1500" height="890" fill="#fff"/>
-<text x="40" y="44" class="title" text-anchor="start">Architecture réelle du démonstrateur ASTER</text>
-<text x="40" y="72" class="body" text-anchor="start">Déploiement proposé · sept VM Debian 13 · réseau privé · services en conteneurs Docker</text>
-<rect x="20" y="300" width="150" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
-<use href="#i-users" x="77" y="314" width="36" height="36" style="color:#0f6cbd"/>
-<text x="95" y="372" class="cname" text-anchor="middle">Utilisateurs</text>
-<text x="95" y="391" class="crole" text-anchor="middle">Firefox</text>
-<text x="95" y="412" class="cvm" text-anchor="middle">navigateur web</text>
-<rect x="20" y="600" width="150" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
-<use href="#i-user-cog" x="77" y="614" width="36" height="36" style="color:#0f6cbd"/>
-<text x="95" y="672" class="cname" text-anchor="middle">Opérateur</text>
-<text x="95" y="691" class="crole" text-anchor="middle">SSH, client Docker</text>
-<text x="95" y="712" class="cvm" text-anchor="middle">son propre poste</text>
-<rect x="230" y="105" width="1240" height="680" rx="8" fill="#fff" stroke="#7aa7d6" stroke-dasharray="7 5" stroke-width="1.5"/>
+<rect width="1500" height="935" fill="#fff"/>
+<text x="40" y="44" class="title" text-anchor="start">Architecture réelle du démonstrateur ORION</text>
+<text x="40" y="72" class="body" text-anchor="start">Déploiement proposé · dix VM Debian 13 · réseau privé · conteneurs Docker, DNS et stockage NFS</text>
+<rect x="20" y="240" width="150" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
+<use href="#i-users" x="77" y="254" width="36" height="36" style="color:#0f6cbd"/>
+<text x="95" y="312" class="cname" text-anchor="middle">Utilisateurs</text>
+<text x="95" y="331" class="crole" text-anchor="middle">Firefox</text>
+<text x="95" y="352" class="cvm" text-anchor="middle">navigateur web</text>
+<rect x="20" y="625" width="150" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
+<use href="#i-user-cog" x="77" y="639" width="36" height="36" style="color:#0f6cbd"/>
+<text x="95" y="697" class="cname" text-anchor="middle">Opérateur</text>
+<text x="95" y="716" class="crole" text-anchor="middle">SSH, client Docker</text>
+<text x="95" y="737" class="cvm" text-anchor="middle">son propre poste</text>
+<rect x="230" y="105" width="1240" height="695" rx="8" fill="#fff" stroke="#7aa7d6" stroke-dasharray="7 5" stroke-width="1.5"/>
 <use href="#i-network" x="246" y="117" width="22" height="22" style="color:#0f6cbd"/>
-<text x="276" y="134" class="zname" text-anchor="start">Réseau privé du démonstrateur · 7 VM · accès par adresse IP</text>
+<text x="276" y="134" class="zname" text-anchor="start">Réseau privé du démonstrateur · 10 VM · accès par orion.internal</text>
 <rect x="255" y="172" width="210" height="388" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="269" y="196" class="zname" text-anchor="start">Entrée</text>
 <rect x="490" y="172" width="220" height="388" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
@@ -60,77 +63,107 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="749" y="196" class="zname" text-anchor="start">Données</text>
 <rect x="980" y="172" width="470" height="388" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="994" y="196" class="zname" text-anchor="start">Services simulés</text>
-<rect x="255" y="590" width="210" height="178" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
-<text x="269" y="614" class="zname" text-anchor="start">Journaux</text>
-<rect x="275" y="300" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
-<use href="#i-split" x="342" y="314" width="36" height="36" style="color:#0f6cbd"/>
-<text x="360" y="372" class="cname" text-anchor="middle">HAProxy</text>
-<text x="360" y="391" class="crole" text-anchor="middle">entrée</text>
-<text x="360" y="412" class="cvm" text-anchor="middle">VM ASTER 01</text>
+<rect x="255" y="600" width="210" height="178" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
+<text x="269" y="624" class="zname" text-anchor="start">Pilotage</text>
+<rect x="275" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
+<use href="#i-split" x="342" y="226" width="36" height="36" style="color:#0f6cbd"/>
+<text x="360" y="284" class="cname" text-anchor="middle">HAProxy</text>
+<text x="360" y="303" class="crole" text-anchor="middle">entrée</text>
+<text x="360" y="324" class="cvm" text-anchor="middle">orion-1 et orion-2</text>
+<rect x="275" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
+<use href="#i-globe" x="342" y="414" width="36" height="36" style="color:#0f6cbd"/>
+<text x="360" y="472" class="cname" text-anchor="middle">BIND</text>
+<text x="360" y="491" class="crole" text-anchor="middle">DNS</text>
+<text x="360" y="512" class="cvm" text-anchor="middle">orion-1 et orion-2</text>
 <rect x="515" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-app-window" x="582" y="226" width="36" height="36" style="color:#0f6cbd"/>
 <text x="600" y="284" class="cname" text-anchor="middle">Apache</text>
 <text x="600" y="303" class="crole" text-anchor="middle">interface web</text>
-<text x="600" y="324" class="cvm" text-anchor="middle">VM ASTER 02, 03 ou 06</text>
+<text x="600" y="324" class="cvm" text-anchor="middle">orion-4 et orion-5</text>
 <rect x="515" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-server" x="582" y="414" width="36" height="36" style="color:#0f6cbd"/>
 <text x="600" y="472" class="cname" text-anchor="middle">Express</text>
 <text x="600" y="491" class="crole" text-anchor="middle">API</text>
-<text x="600" y="512" class="cvm" text-anchor="middle">VM ASTER 02, 03 ou 06</text>
+<text x="600" y="512" class="cvm" text-anchor="middle">orion-4 et orion-5</text>
+<rect x="760" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
+<use href="#i-hard-drive" x="827" y="226" width="36" height="36" style="color:#0f6cbd"/>
+<text x="845" y="284" class="cname" text-anchor="middle">Stockage</text>
+<text x="845" y="303" class="crole" text-anchor="middle">NFS</text>
+<text x="845" y="324" class="cvm" text-anchor="middle">orion-10</text>
 <rect x="760" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-database" x="827" y="414" width="36" height="36" style="color:#0f6cbd"/>
 <text x="845" y="472" class="cname" text-anchor="middle">PostgreSQL</text>
 <text x="845" y="491" class="crole" text-anchor="middle">données</text>
-<text x="845" y="512" class="cvm" text-anchor="middle">VM ASTER 04</text>
+<text x="845" y="512" class="cvm" text-anchor="middle">orion-6 · secours 9</text>
 <rect x="1005" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-key-round" x="1072" y="226" width="36" height="36" style="color:#0f6cbd"/>
 <text x="1090" y="284" class="cname" text-anchor="middle">Keycloak</text>
 <text x="1090" y="303" class="crole" text-anchor="middle">connexion</text>
-<text x="1090" y="324" class="cvm" text-anchor="middle">VM ASTER 05</text>
+<text x="1090" y="324" class="cvm" text-anchor="middle">orion-7 · secours 9</text>
 <rect x="1255" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-book-user" x="1322" y="226" width="36" height="36" style="color:#0f6cbd"/>
 <text x="1340" y="284" class="cname" text-anchor="middle">OpenLDAP</text>
 <text x="1340" y="303" class="crole" text-anchor="middle">annuaire</text>
-<text x="1340" y="324" class="cvm" text-anchor="middle">VM ASTER 05</text>
+<text x="1340" y="324" class="cvm" text-anchor="middle">orion-7 · secours 9</text>
 <rect x="1005" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-monitor" x="1072" y="414" width="36" height="36" style="color:#0f6cbd"/>
 <text x="1090" y="472" class="cname" text-anchor="middle">Postes Windows</text>
 <text x="1090" y="491" class="crole" text-anchor="middle">émulateur</text>
-<text x="1090" y="512" class="cvm" text-anchor="middle">VM ASTER 02, 03 ou 06</text>
-<rect x="275" y="628" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
-<use href="#i-scroll-text" x="342" y="642" width="36" height="36" style="color:#0f6cbd"/>
-<text x="360" y="700" class="cname" text-anchor="middle">Logstash</text>
-<text x="360" y="719" class="crole" text-anchor="middle">journaux</text>
-<text x="360" y="740" class="cvm" text-anchor="middle">VM ASTER 07</text>
-<rect x="255" y="795" width="1195" height="76" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
-<text x="270" y="823" class="caption" text-anchor="start">VM ASTER 01 · 172.16.131.188</text>
-<text x="565" y="823" class="caption" text-anchor="start">VM ASTER 02 · 172.16.131.133</text>
-<text x="860" y="823" class="caption" text-anchor="start">VM ASTER 03 · 172.16.131.193</text>
-<text x="1155" y="823" class="caption" text-anchor="start">VM ASTER 04 · 172.16.131.208</text>
-<text x="270" y="850" class="caption" text-anchor="start">VM ASTER 05 · 172.16.131.142</text>
-<text x="565" y="850" class="caption" text-anchor="start">VM ASTER 06 · 172.16.131.131</text>
-<text x="860" y="850" class="caption" text-anchor="start">VM ASTER 07 · 172.16.131.137</text>
-<path d="M170 364 L273 364" class="flow" marker-end="url(#arrow)"/>
-<circle cx="222" cy="364" r="11" fill="#0f6cbd"/>
-<text x="222" y="368.5" class="step" text-anchor="middle">1</text>
-<path d="M445 340 L480 340 L480 276 L513 276" class="flow" marker-end="url(#arrow)"/>
-<path d="M445 390 L480 390 L480 464 L513 464" class="flow" marker-end="url(#arrow)"/>
-<circle cx="480" cy="304" r="11" fill="#0f6cbd"/>
-<text x="480" y="308.5" class="step" text-anchor="middle">2</text>
+<text x="1090" y="512" class="cvm" text-anchor="middle">orion-4 ou orion-5</text>
+<rect x="275" y="638" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
+<use href="#i-boxes" x="342" y="652" width="36" height="36" style="color:#0f6cbd"/>
+<text x="360" y="710" class="cname" text-anchor="middle">Swarm</text>
+<text x="360" y="729" class="crole" text-anchor="middle">managers</text>
+<text x="360" y="750" class="cvm" text-anchor="middle">orion-1, 2 et 3</text>
+<rect x="1255" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
+<use href="#i-scroll-text" x="1322" y="414" width="36" height="36" style="color:#0f6cbd"/>
+<text x="1340" y="472" class="cname" text-anchor="middle">Logstash</text>
+<text x="1340" y="491" class="crole" text-anchor="middle">logs</text>
+<text x="1340" y="512" class="cvm" text-anchor="middle">orion-8 · secours 9</text>
+<rect x="255" y="815" width="1195" height="100" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
+<text x="270" y="843" class="caption" text-anchor="start">orion-1 · 172.16.131.188</text>
+<text x="565" y="843" class="caption" text-anchor="start">orion-2 · 172.16.131.133</text>
+<text x="860" y="843" class="caption" text-anchor="start">orion-3 · 172.16.131.193</text>
+<text x="1155" y="843" class="caption" text-anchor="start">orion-4 · 172.16.131.208</text>
+<text x="270" y="870" class="caption" text-anchor="start">orion-5 · 172.16.131.142</text>
+<text x="565" y="870" class="caption" text-anchor="start">orion-6 · 172.16.131.131</text>
+<text x="860" y="870" class="caption" text-anchor="start">orion-7 · 172.16.131.137</text>
+<text x="1155" y="870" class="caption" text-anchor="start">orion-8 · 172.16.131.146</text>
+<text x="270" y="897" class="caption" text-anchor="start">orion-9 · 172.16.131.190</text>
+<text x="565" y="897" class="caption" text-anchor="start">orion-10 · 172.16.131.197</text>
+<path d="M170 276 L273 276" class="flow" marker-end="url(#arrow)"/>
+<circle cx="210" cy="276" r="11" fill="#0f6cbd"/>
+<text x="210" y="280.5" class="step" text-anchor="middle">1</text>
+<path d="M170 340 L240 340 L240 464 L273 464" class="flow" marker-end="url(#arrow)"/>
+<circle cx="240" cy="402" r="11" fill="#0f6cbd"/>
+<text x="240" y="406.5" class="step" text-anchor="middle">1</text>
+<path d="M445 276 L513 276" class="flow" marker-end="url(#arrow)"/>
+<circle cx="479" cy="276" r="11" fill="#0f6cbd"/>
+<text x="479" y="280.5" class="step" text-anchor="middle">2</text>
+<path d="M445 320 L480 320 L480 464 L513 464" class="flow" marker-end="url(#arrow)"/>
+<circle cx="480" cy="392" r="11" fill="#0f6cbd"/>
+<text x="480" y="396.5" class="step" text-anchor="middle">2</text>
 <path d="M685 464 L758 464" class="flow" marker-end="url(#arrow)"/>
 <circle cx="722" cy="464" r="11" fill="#0f6cbd"/>
 <text x="722" y="468.5" class="step" text-anchor="middle">3</text>
-<path d="M340 300 L340 150 L1150 150 L1150 210" class="flow" marker-end="url(#arrow)"/>
+<path d="M845 400 L845 342" class="flow" marker-end="url(#arrow)"/>
+<circle cx="845" cy="371" r="11" fill="#0f6cbd"/>
+<text x="845" y="375.5" class="step" text-anchor="middle">4</text>
+<path d="M1340 340 L1340 370 L900 370 L900 342" class="flow" marker-end="url(#arrow)"/>
+<path d="M1300 400 L1300 370 L900 370 L900 342" class="flow" marker-end="url(#arrow)"/>
+<circle cx="1120" cy="370" r="11" fill="#0f6cbd"/>
+<text x="1120" y="374.5" class="step" text-anchor="middle">4</text>
+<path d="M340 212 L340 150 L1150 150 L1150 210" class="flow" marker-end="url(#arrow)"/>
 <circle cx="940" cy="150" r="11" fill="#0f6cbd"/>
-<text x="940" y="154.5" class="step" text-anchor="middle">4</text>
+<text x="940" y="154.5" class="step" text-anchor="middle">5</text>
 <path d="M1175 276 L1253 276" class="flow" marker-end="url(#arrow)"/>
 <path d="M1090 528 L1090 545 L640 545 L640 530" class="flow" marker-end="url(#arrow)"/>
 <circle cx="860" cy="545" r="11" fill="#0f6cbd"/>
-<text x="860" y="549.5" class="step" text-anchor="middle">5</text>
-<path d="M600 530 L600 692 L447 692" class="flow" marker-end="url(#arrow)"/>
-<circle cx="600" cy="610" r="11" fill="#0f6cbd"/>
-<text x="600" y="614.5" class="step" text-anchor="middle">6</text>
-<path d="M170 664 L228 664" class="flow" marker-end="url(#arrow)"/>
-<circle cx="199" cy="664" r="11" fill="#0f6cbd"/>
-<text x="199" y="668.5" class="step" text-anchor="middle">7</text>
+<text x="860" y="549.5" class="step" text-anchor="middle">6</text>
+<path d="M600 530 L600 580 L1340 580 L1340 530" class="flow" marker-end="url(#arrow)"/>
+<circle cx="970" cy="580" r="11" fill="#0f6cbd"/>
+<text x="970" y="584.5" class="step" text-anchor="middle">7</text>
+<path d="M170 702 L273 702" class="flow" marker-end="url(#arrow)"/>
+<circle cx="222" cy="702" r="11" fill="#0f6cbd"/>
+<text x="222" y="706.5" class="step" text-anchor="middle">8</text>
 </svg>

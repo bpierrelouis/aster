@@ -6,4 +6,4 @@
 
 ## Architecture réelle sur VM
 
-![Déploiement proposé avec les IPv4 : vue complète du démonstrateur ASTER sur sept VM](assets/architecture/ASTER-DEPLOIEMENT-VM.svg)
+![Déploiement proposé avec les IPv4 : vue complète du démonstrateur ASTER sur dix VM](assets/architecture/ASTER-DEPLOIEMENT-VM.svg)
