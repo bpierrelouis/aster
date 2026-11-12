@@ -18,7 +18,7 @@
   --contour: #1b2e5c;
   --bleu-orion: #2563eb;
   --bleu-lumiere: #3b82f6;
-  --encre: var(--nuit); /* couleur du profil super administrateur (shared/catalog.js) */
+  --encre: var(--nuit); /* couleur du profil super administrateur (shared/catalog.ts) */
 
   /* Typographie : polices système (SF Pro sur Apple, Segoe UI Variable sur Windows) */
   --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
@@ -101,7 +101,7 @@
   --focus: var(--accent-text);
   --grid-dot: rgb(var(--ink) / .16);
   --chart-grid: rgb(var(--ink) / .08);
-  /* Teintes de l'accent dans les graphiques (ui/charts-bars.jsx, accentShade) : l'accent
+  /* Teintes de l'accent dans les graphiques (ui/charts-bars.tsx, accentShade) : l'accent
      s'éclaircit vers le blanc (ambiances claires) ou vers l'encre claire (ambiances sombres) */
   --ramp-base: #fff;
   --room-wait: color-mix(in srgb, var(--wait) 80%, white);
@@ -220,7 +220,7 @@
 /* --------------------------------------------------------------------------
    Minarm : couleurs du Système de design de l'État (DSFR), celles des sites
    ministériels (impots.gouv.fr…). Clair ou sombre selon le réglage de la
-   machine (core/theme.js). Valeurs du paquet officiel @gouvfr/dsfr 1.15.4
+   machine (core/theme.ts). Valeurs du paquet officiel @gouvfr/dsfr 1.15.4
    (licence Etalab 2.0, systeme-de-design.gouv.fr) : jetons background-*,
    text-*, border-* et action-*-blue-france, couleurs système (succès, erreur,
    avertissement) et illustratives pour les catégories. Surfaces pleines,

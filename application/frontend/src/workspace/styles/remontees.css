@@ -150,7 +150,7 @@
   .edl-meta { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Matériels concernés (remontees-materiels.jsx) : la ligne mène à la fiche ; à côté, l'interrupteur qui déclare son état */
+/* Matériels concernés (remontees-materiels.tsx) : la ligne mène à la fiche ; à côté, l'interrupteur qui déclare son état */
 .rm-mat { display: flex; align-items: center; gap: 8px; }
 .rm-mat > .row { flex: 1; min-width: 0; }
 .rm-mat-etat { flex: none; display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: var(--ink-2); }

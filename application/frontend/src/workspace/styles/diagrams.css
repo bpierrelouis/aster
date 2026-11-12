@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ORION · Diagrammes du tableau de bord (ui/charts-shapes.jsx)
+   ORION · Diagrammes du tableau de bord (ui/charts-shapes.tsx)
    ========================================================================== */
 
 /* Les diagrammes prennent la place disponible sans agrandir le widget (contain: size) */
@@ -67,7 +67,7 @@
 .pyramid polygon:hover { opacity: .82; }
 
 /* ==========================================================================
-   Diagrammes issus des maquettes (ui/charts-bars.jsx, ui/charts-heat.jsx)
+   Diagrammes issus des maquettes (ui/charts-bars.tsx, ui/charts-heat.tsx)
    ========================================================================== */
 .rbars, .bullets, .vbars, .multiples, .heatcal, .heatmx { contain: size; flex: 1; min-height: 0; }
 

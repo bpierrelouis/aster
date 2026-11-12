@@ -1,6 +1,6 @@
 /* Pages publiques (connexion, chargement) : charte ORION (nuit, Bleu Orion, bleu lumière) et bouton MindefConnect de référence.
-   Palette limitée à .public : l'espace de travail a ses propres variables. La marque ORION (connexion/brand.jsx) sert à toute
-   l'application : ce fichier est chargé par main.jsx. */
+   Palette limitée à .public : l'espace de travail a ses propres variables. La marque ORION (connexion/brand.tsx) sert à toute
+   l'application : ce fichier est chargé par main.tsx. */
 .public {
   --ink: #040b1e; --ink-2: #48546e; --accent: #2563eb; --fond: #f5f8fe;
   --halo-1: rgb(147 197 253 / .45); --halo-2: rgb(37 99 235 / .18);
@@ -29,7 +29,7 @@ body { margin: 0; }
 .public :focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
 
 /* --------------------------------------------------------------------------
-   Marque ORION (connexion/brand.jsx), pour toute l'application. Couleurs selon la tonalité de l'élément (color-scheme) :
+   Marque ORION (connexion/brand.tsx), pour toute l'application. Couleurs selon la tonalité de l'élément (color-scheme) :
    étoile Bleu Orion en clair, blanche avec lueur bleue en sombre ; petites étoiles en bleu lumière.
    -------------------------------------------------------------------------- */
 :root {
@@ -58,7 +58,7 @@ body { margin: 0; }
 .orion-logo-i { position: relative; }
 .orion-logo-i > :is(.orion-star, .orion-mark) { position: absolute; left: 50%; bottom: calc(100% + .5em); translate: -50% 0; font-size: .7em; }
 .orion-logo .orion-mark { --spread-x: 2.4em; --spread-y: .7em; }
-/* Chargement (pages publiques et Loader de l'espace, workspace/widgets/parts.jsx) : l'étoile respire au-dessus du libellé */
+/* Chargement (pages publiques et Loader de l'espace, workspace/widgets/parts.tsx) : l'étoile respire au-dessus du libellé */
 .loading-mark { font-size: 56px; margin: 40px 0 32px; --spread-x: .8em; --spread-y: .8em; }
 .loading-mark > .orion-star { animation: orion-breathe 2.4s ease-in-out infinite; }
 @keyframes orion-breathe { 50% { scale: .84; } }

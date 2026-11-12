@@ -25,7 +25,7 @@
 .inv-details { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
 .inv-details dt { color:var(--ink-2); font-size:12px; margin-bottom:7px; }
 .inv-details dd { margin:0; font-weight:550; }
-/* Import JSON : formulaire, puis aperçu des matériels (views/inventaire/inventaire-import.jsx) */
+/* Import JSON : formulaire, puis aperçu des matériels (views/inventaire/inventaire-import.tsx) */
 .inv-import-view { display:flex; flex-direction:column; gap:22px; }
 .inv-import { border-radius:28px; padding:32px; display:grid; grid-template-columns: .8fr 1.2fr; gap:32px; }
 .inv-import h2 { font-size:25px; letter-spacing:-.035em; margin:24px 0 14px; }

@@ -10,18 +10,19 @@
   },
   "scripts": {
     "dev": "concurrently -k -n serveur,interface,postes \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:postes\"",
-    "dev:postes": "node --env-file-if-exists=.env backend/demonstrateur/agents.js",
-    "dev:backend": "node --watch --env-file-if-exists=.env backend/index.js",
-    "dev:frontend": "vite --config frontend/vite.config.js --host 127.0.0.1",
-    "build": "vite build --config frontend/vite.config.js",
-    "start": "node --env-file-if-exists=.env backend/start-production.js",
+    "dev:postes": "node --env-file-if-exists=.env backend/demonstrateur/agents.ts",
+    "dev:backend": "node --watch --env-file-if-exists=.env backend/index.ts",
+    "dev:frontend": "vite --config frontend/vite.config.ts --host 127.0.0.1",
+    "build": "vite build --config frontend/vite.config.ts",
+    "start": "node --env-file-if-exists=.env backend/start-production.ts",
     "infra:up": "docker compose -f infra/compose.yaml up -d --wait",
     "infra:down": "docker compose -f infra/compose.yaml down",
-    "test": "node --test \"backend/**/*.test.js\"",
-    "test:ui": "playwright test tests/login-ui.spec.js",
-    "test:e2e": "playwright test tests/auth.e2e.spec.js",
-    "test:workspace": "playwright test -c playwright.workspace.config.js",
-    "dev:ui": "vite --config frontend/vite.config.js --mode ui --host 127.0.0.1"
+    "test": "node --test \"backend/**/*.test.ts\"",
+    "test:ui": "playwright test tests/login-ui.spec.ts",
+    "test:e2e": "playwright test tests/auth.e2e.spec.ts",
+    "test:workspace": "playwright test -c playwright.workspace.config.ts",
+    "dev:ui": "vite --config frontend/vite.config.ts --mode ui --host 127.0.0.1",
+    "typecheck": "tsc -p tsconfig.json && tsc -p frontend/tsconfig.json"
   },
   "dependencies": {
     "connect-pg-simple": "^10.0.0",
@@ -38,8 +39,17 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
+    "@types/connect-pg-simple": "7.0.3",
+    "@types/express": "5.0.6",
+    "@types/express-session": "1.19.0",
+    "@types/node": "22.20.5",
+    "@types/pg": "8.23.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/swagger-ui-express": "4.1.8",
     "@vitejs/plugin-react": "^6.0.0",
     "concurrently": "^9.2.1",
+    "typescript": "7.0.2",
     "vite": "^8.3.6"
   }
 }

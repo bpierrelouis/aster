@@ -15,7 +15,7 @@
 .rail-brand { display: grid; place-items: center; width: 54px; height: 54px; margin-bottom: 30px; border-radius: 18px; transition: transform var(--dur-2) var(--ease-spring); }
 .rail-brand:hover { transform: rotate(-12deg) scale(1.05); }
 /* Marianne (ambiance Minarm) : une marque officielle ne pivote pas ; au survol, le médaillon grandit légèrement et un
-   reflet le traverse (ui/marianne.jsx) */
+   reflet le traverse (ui/marianne.tsx) */
 .rail-brand:has(.brand--minarm):hover { transform: none; }
 .rail-brand > .brand--minarm { display: block; position: relative; z-index: 1; transition: transform var(--dur-2) var(--ease-spring); }
 .rail-brand:hover > .brand--minarm { transform: scale(1.1); }
@@ -24,7 +24,7 @@
 @keyframes marianne-reflet { from { opacity: 1; translate: 0 0; } 85% { opacity: 1; } to { opacity: 0; translate: 40px 0; } }
 @media (prefers-reduced-motion: reduce) { .rail-brand:hover .marianne-reflet { animation: none; } }
 .rail-brand > svg { filter: drop-shadow(0 4px 10px color-mix(in srgb, var(--accent) 35%, transparent)); }
-/* Étoile ORION (connexion/brand.jsx) : au survol, elle fait un quart de tour et de petites étoiles scintillent autour */
+/* Étoile ORION (connexion/brand.tsx) : au survol, elle fait un quart de tour et de petites étoiles scintillent autour */
 .rail-brand:has(.brand--orion):hover { transform: none; }
 .rail-brand > .brand--orion { --spread-x: .85em; --spread-y: .85em; }
 .rail-brand .orion-star { transition: rotate var(--dur-3) var(--ease-spring), scale var(--dur-3) var(--ease-spring); }

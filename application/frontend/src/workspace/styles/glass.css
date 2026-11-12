@@ -6,7 +6,7 @@
               réfraction réelle des bords des barres fixes (filtre SVG, Chromium)
    - solid  : surface pleine, filet net, sans reflet ni flou
    La lumière (--la angle, --lx/--ly position, --li intensité) est pilotée
-   par core/glass.js et suit le pointeur dans les ambiances claires.
+   par core/glass.ts et suit le pointeur dans les ambiances claires.
    ========================================================================== */
 
 .glass {

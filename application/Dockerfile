@@ -20,11 +20,11 @@ ENV HOST=0.0.0.0 PORT=3001
 EXPOSE 3001
 HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=3 \
   CMD ["node", "-e", "fetch('http://127.0.0.1:3001/api/health').then(() => process.exit(0), () => process.exit(1))"]
-CMD ["node", "backend/start-production.js"]
+CMD ["node", "backend/start-production.ts"]
 
 # Émulateur des postes Windows
 FROM node AS postes
-CMD ["node", "backend/demonstrateur/agents.js"]
+CMD ["node", "backend/demonstrateur/agents.ts"]
 
 # Build React
 FROM node:22.22.3-alpine3.24 AS build

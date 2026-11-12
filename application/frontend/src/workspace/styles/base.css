@@ -24,7 +24,7 @@ body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-even
 body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--backdrop-waves) 0 0 / 100% 100% no-repeat; }
 
 /* Aucune barre de défilement visible : la suite d'une liste se devine à
-   l'élément suivant, coupé entre le tiers et la moitié (ui/peek.js). */
+   l'élément suivant, coupé entre le tiers et la moitié (ui/peek.ts). */
 * { scrollbar-width: none; }
 *::-webkit-scrollbar { display: none; }
 
@@ -88,7 +88,7 @@ kbd { font: inherit; font-size: 11px; font-weight: 600; padding: 1px 6px; border
 .btn-check { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 20; stroke-dashoffset: 20; animation: btn-check .45s var(--ease-out) .05s forwards; }
 @keyframes btn-check { to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .btn-spinner { animation-duration: 1.6s; } .btn-check { animation: none; stroke-dashoffset: 0; } }
-/* Interrupteur (ui/forms.jsx) : vert une fois activé */
+/* Interrupteur (ui/forms.tsx) : vert une fois activé */
 .switch { position: relative; flex: none; width: 42px; height: 26px; border-radius: 13px; background: var(--fill-2); box-shadow: inset 0 0 0 1px var(--hairline); transition: background var(--dur-1); }
 .switch[aria-checked="true"] { background: var(--ok); box-shadow: none; }
 .switch:disabled { opacity: .4; cursor: not-allowed; }
@@ -227,7 +227,7 @@ input:focus, textarea:focus { outline: none; background: var(--glass-tint-solid)
 :is(.inv-table, .ops-table) tbody tr.is-selected:hover { background: color-mix(in srgb, var(--accent) 19%, transparent); }
 :is(.inv-table, .ops-table) tbody tr.is-selected > td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
 
-/* Icône d'application (ui/app-icon.jsx) et cellule de tableau qui l'accompagne */
+/* Icône d'application (ui/app-icon.tsx) et cellule de tableau qui l'accompagne */
 .app-icon { flex: none; display: block; object-fit: contain; }
 .app-icon--none { color: var(--ink-3); }
 /* Logo noir ou très sombre en ambiance sombre : posé sur un disque blanc, qui l'entoure d'un contour et remplit ses parties
@@ -236,7 +236,7 @@ input:focus, textarea:focus { outline: none; background: var(--glass-tint-solid)
 .app-cell { display: inline-flex; align-items: center; gap: 12px; }
 .app-cell > span { display: flex; flex-direction: column; }
 
-/* Cartes de groupe (widgets/parts.jsx, GroupCard) : espace Notifications, déplacements à faire */
+/* Cartes de groupe (widgets/parts.tsx, GroupCard) : espace Notifications, déplacements à faire */
 .group-view { max-width: 1320px; margin-inline: auto; }
 .group-lead { margin: 0 0 16px; font-size: 14px; color: var(--ink-2); }
 .row-when { flex: none; font-size: 12.5px; color: var(--ink-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
@@ -252,10 +252,10 @@ input:focus, textarea:focus { outline: none; background: var(--glass-tint-solid)
 .row.is-done .row-title { color: var(--ink-2); }
 .group-scroll { overflow: auto; } /* enchaîne sur la page, qui défile avec les cartes */
 .group-empty { padding: 48px 24px; --radius: var(--r-l); }
-/* Zone qui déborde (ui/peek.js) : fondu au bas tant qu'il reste à lire */
+/* Zone qui déborde (ui/peek.ts) : fondu au bas tant qu'il reste à lire */
 .has-more { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent); }
 /* Chargement (Loader) : la fleur respire comme à l'ouverture de l'application (animation breathe de connexion/connexion.css,
-   chargée par main.jsx pour toute l'application) */
+   chargée par main.tsx pour toute l'application) */
 .w-loader { display: grid; place-items: center; align-content: center; gap: 14px; min-height: 260px; padding: 32px; font-size: 15px; font-weight: 600; color: var(--ink-2); --radius: var(--r-l); }
 .w-loader-flower { display: grid; animation: breathe 2.4s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .w-loader-flower { animation: none; } }
