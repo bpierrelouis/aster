@@ -310,7 +310,7 @@ Les opérations planifiées (déploiement, mise à jour, rotation des secrets) n
 
 ### 4.7. Traitement des rapports de postes
 
-Le code sépare les routes HTTP, le traitement des postes (`postes.js`), le moteur d’écriture (`engine.js`) et le dépôt (`postgres.js`). Le moteur ne garde aucun état qui fasse autorité : les rapports et les écritures métier passent par le même verrou PostgreSQL sur la ligne de révision, quelle que soit l’instance d’Express qui les reçoit, et le journal des modifications est conservé en base. Plusieurs instances partagent donc la charge des requêtes, mais leurs écritures restent sérialisées par ce verrou.
+Le code sépare les routes HTTP, le traitement des postes (`postes.ts`), le moteur d’écriture (`engine.ts`) et le dépôt (`postgres.ts`). Le moteur ne garde aucun état qui fasse autorité : les rapports et les écritures métier passent par le même verrou PostgreSQL sur la ligne de révision, quelle que soit l’instance d’Express qui les reçoit, et le journal des modifications est conservé en base. Plusieurs instances partagent donc la charge des requêtes, mais leurs écritures restent sérialisées par ce verrou.
 
 Le premier essai garde le moteur actuel et mesure la mise en lots et la réduction des écritures à 1 000 postes puis au-delà. Relever l’attente du verrou, le temps de traitement et de transaction, et la latence des écritures utilisateur sous charge.
 
