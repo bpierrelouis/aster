@@ -115,7 +115,7 @@ jobs:
           cache-to: type=gha,mode=max,scope=${{ matrix.image }}
 
   # Déploiement continu sur les VM du démonstrateur, joignables seulement depuis le réseau privé :
-  # runner auto-hébergé (étiquette « aster ») sur le poste de l'opérateur, qui déploie par SSH sur la VM 01.
+  # runner auto-hébergé (étiquette « aster ») sur le poste de l'opérateur, qui déploie la pile orion par SSH sur le manager orion-1.
   # Activé par la variable DEPLOIEMENT_VM = true une fois le runner installé (application/README.md).
   deploiement:
     needs: images

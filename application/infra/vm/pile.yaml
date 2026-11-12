@@ -1,13 +1,16 @@
-# Pile Docker Swarm du démonstrateur sur les sept VM (dossier d'architecture, § 4.5).
-# Déployée par deployer.sh, qui fournit ASTER_IMAGES, ASTER_TAG et les empreintes des configurations.
+# Pile Docker Swarm « orion » du démonstrateur (dossier d'architecture, § 4.5) : managers orion-1 à orion-3 ; HAProxy et DNS sur orion-1 et orion-2 ;
+# application orion-4 et orion-5, PostgreSQL orion-6, identité orion-7, Logstash orion-8, VM de secours orion-9 ;
+# données, logs et DNS sur le stockage NFS d'orion-10, hors Swarm.
+# Déployée par deployer.sh, qui fournit ORION_IMAGES, ORION_TAG et les empreintes des configurations.
+# Les images, le realm, la base et l'annuaire portent encore le nom de l'application, aster.
 
-x-journaux: &journaux
+x-logs: &logs
   logging:
     driver: syslog
     options:
-      syslog-address: tcp+tls://172.16.131.137:6514
+      syslog-address: tcp+tls://orion.internal:6514
       syslog-format: rfc5424
-      syslog-tls-ca-cert: /etc/docker/aster-ca.pem
+      syslog-tls-ca-cert: /etc/docker/orion-ca.pem
       tag: '{{.Name}}'
       mode: non-blocking
 
@@ -16,9 +19,48 @@ x-relance: &relance
     condition: any
     delay: 5s
 
+# DNS du domaine orion.internal (configuration du formateur) : deux serveurs, chacun fixé à sa VM, déclarés tous deux
+# par les postes et les VM ; chacun a ses volumes NFS
+x-bind: &bind
+  <<: *logs
+  image: internetsystemsconsortium/bind9:9.20@sha256:66092edb53c081fa11b1fa8219e99065b0f497cb38f568ba789702a4c10e2590
+  ports:
+    - { target: 53, published: 53, protocol: tcp, mode: host }
+    - { target: 53, published: 53, protocol: udp, mode: host }
+  configs:
+    - source: bind
+      target: /etc/bind/named.conf
+    - source: zone
+      target: /etc/bind/orion.internal.zone
+
+# Volumes NFSv4 d'orion-10 (stockage, hors Swarm), montés par la VM qui exécute le service
+x-nfs: &nfs
+  type: nfs
+  o: addr=172.16.131.197,nfsvers=4.2,hard
+
 services:
+  bind-1:
+    <<: *bind
+    volumes:
+      - bind-1-cache-nfs:/var/cache/bind
+      - bind-1-lib-nfs:/var/lib/bind
+      - bind-1-logs-nfs:/var/log/bind
+    deploy:
+      <<: *relance
+      placement: { constraints: [node.hostname == orion-1] }
+
+  bind-2:
+    <<: *bind
+    volumes:
+      - bind-2-cache-nfs:/var/cache/bind
+      - bind-2-lib-nfs:/var/lib/bind
+      - bind-2-logs-nfs:/var/log/bind
+    deploy:
+      <<: *relance
+      placement: { constraints: [node.hostname == orion-2] }
+
   haproxy:
-    <<: *journaux
+    <<: *logs
     image: haproxy:3.2.16-alpine
     ports:
       - { target: 443, published: 443, mode: host }
@@ -30,35 +72,38 @@ services:
     secrets:
       - source: tls_entree
         target: /usr/local/etc/haproxy/entree.pem
-    networks: [aster]
-    deploy:
-      <<: *relance
-      placement: { constraints: [node.hostname == aster-1] }
-
-  apache:
-    <<: *journaux
-    image: ${ASTER_IMAGES}/aster-web:${ASTER_TAG}
-    networks: [aster]
+    networks: [orion]
     deploy:
       <<: *relance
       replicas: 2
       placement:
-        constraints: [node.labels.aster == sans-donnees]
+        constraints: [node.labels.orion == entree]
+        max_replicas_per_node: 1
+
+  apache:
+    <<: *logs
+    image: ${ORION_IMAGES}/aster-web:${ORION_TAG}
+    networks: [orion]
+    deploy:
+      <<: *relance
+      replicas: 2
+      placement:
+        constraints: [node.labels.orion == application]
         max_replicas_per_node: 1
 
   api:
-    <<: *journaux
-    image: ${ASTER_IMAGES}/aster-api:${ASTER_TAG}
+    <<: *logs
+    image: ${ORION_IMAGES}/aster-api:${ORION_TAG}
     environment:
-      APP_URL: https://172.16.131.188
-      OIDC_ISSUER: https://172.16.131.188:8443/realms/aster
+      APP_URL: https://orion.internal
+      OIDC_ISSUER: https://orion.internal:8443/realms/aster
       OIDC_CLIENT_ID: aster-web
       IDENTITY_PROVISIONING: 'true'
       KEYCLOAK_ADMIN_URL: http://keycloak:8080
-      NODE_EXTRA_CA_CERTS: /etc/ssl/aster/ca.pem
+      NODE_EXTRA_CA_CERTS: /etc/ssl/orion/ca.pem
       WEB_URL: http://apache:8080
       LDAP_URL: ldap://ldap:389
-      SYSLOG_URL: tcp://172.16.131.137:6514
+      SYSLOG_URL: tcp://logstash:6514
     secrets:
       - DATABASE_URL
       - OIDC_CLIENT_SECRET
@@ -67,28 +112,28 @@ services:
       - source: keycloak_admin
         target: KEYCLOAK_ADMIN_PASSWORD
       - source: ca
-        target: /etc/ssl/aster/ca.pem
-    networks: [aster]
+        target: /etc/ssl/orion/ca.pem
+    networks: [orion]
     deploy:
       <<: *relance
       replicas: 2
       placement:
-        constraints: [node.labels.aster == sans-donnees]
+        constraints: [node.labels.orion == application]
         max_replicas_per_node: 1
 
   postes:
-    <<: *journaux
-    image: ${ASTER_IMAGES}/aster-postes:${ASTER_TAG}
+    <<: *logs
+    image: ${ORION_IMAGES}/aster-postes:${ORION_TAG}
     environment:
       ASTER_API: http://api:3001
     secrets: [AGENT_TOKEN]
-    networks: [aster]
+    networks: [orion]
     deploy:
       <<: *relance
-      placement: { constraints: [node.labels.aster == sans-donnees] }
+      placement: { constraints: [node.labels.orion == application] }
 
   postgres:
-    <<: *journaux
+    <<: *logs
     image: postgres:17.7-alpine
     environment:
       POSTGRES_DB: aster
@@ -98,17 +143,18 @@ services:
       - source: postgres_password
         target: postgres
     volumes:
-      - pg-data:/var/lib/postgresql/data
-    networks: [aster]
+      - pg-nfs:/var/lib/postgresql/data
+    networks: [orion]
     healthcheck:
       test: [CMD-SHELL, pg_isready -U aster -d aster]
       interval: 10s
     deploy:
       <<: *relance
-      placement: { constraints: [node.hostname == aster-4] }
+      # orion-6, ou orion-9 (secours) si orion-6 tombe
+      placement: { constraints: [node.labels.pg == true] }
 
   ldap:
-    <<: *journaux
+    <<: *logs
     image: osixia/openldap:1.5.0
     command: [--copy-service]
     environment:
@@ -121,20 +167,21 @@ services:
       - source: ldap_utilisateurs
         target: /container/service/slapd/assets/config/bootstrap/ldif/custom/50-aster-utilisateurs.ldif
     volumes:
-      - ldap-data:/var/lib/ldap
-      - ldap-config:/etc/ldap/slapd.d
-    networks: [aster]
+      - ldap-data-nfs:/var/lib/ldap
+      - ldap-config-nfs:/etc/ldap/slapd.d
+    networks: [orion]
     deploy:
       <<: *relance
-      placement: { constraints: [node.hostname == aster-5] }
+      # orion-7, ou orion-9 (secours) si orion-7 tombe
+      placement: { constraints: [node.labels.identite == true] }
 
   keycloak:
-    <<: *journaux
-    image: ${ASTER_IMAGES}/aster-keycloak:${ASTER_TAG}
+    <<: *logs
+    image: ${ORION_IMAGES}/aster-keycloak:${ORION_TAG}
     environment:
-      APP_URL: https://172.16.131.188
-      KC_HOSTNAME: https://172.16.131.188:8443
-      KC_HOSTNAME_ADMIN: https://172.16.131.188:8444
+      APP_URL: https://orion.internal
+      KC_HOSTNAME: https://orion.internal:8443
+      KC_HOSTNAME_ADMIN: https://orion.internal:8444
       KC_BOOTSTRAP_ADMIN_USERNAME: keycloak-admin
     secrets:
       - OIDC_CLIENT_SECRET
@@ -142,10 +189,10 @@ services:
         target: LDAP_ADMIN_PASSWORD
       - source: keycloak_admin
         target: KC_BOOTSTRAP_ADMIN_PASSWORD
-    networks: [aster]
+    networks: [orion]
     deploy:
       <<: *relance
-      placement: { constraints: [node.hostname == aster-5] }
+      placement: { constraints: [node.labels.identite == true] }
 
   logstash:
     image: docker.elastic.co/logstash/logstash:8.19.14
@@ -156,41 +203,64 @@ services:
       - source: logstash
         target: /usr/share/logstash/pipeline/logstash.conf
     secrets:
-      - source: tls_journaux_cle
-        target: journaux.key
-      - source: tls_journaux_cert
-        target: journaux.crt
+      - source: tls_collecteur_cle
+        target: collecteur.key
+      - source: tls_collecteur_cert
+        target: collecteur.crt
+    # Maillage de routage : le pilote syslog de chaque VM joint orion.internal:6514, quelle que soit la VM de Logstash
     ports:
-      - { target: 6514, published: 6514, mode: host }
+      - { target: 6514, published: 6514, mode: ingress }
     volumes:
-      - type: bind
-        source: /var/log/aster
-        target: /var/log/aster
-    networks: [aster]
+      - logs-nfs:/var/log/orion
+    networks: [orion]
     deploy:
       <<: *relance
-      placement: { constraints: [node.hostname == aster-7] }
+      # orion-8, ou orion-9 (secours) si orion-8 tombe
+      placement: { constraints: [node.labels.logs == true] }
 
 networks:
-  aster:
+  orion:
     driver: overlay
     driver_opts:
       encrypted: 'true'
 
 volumes:
-  pg-data:
-  ldap-data:
-  ldap-config:
+  pg-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/donnees/postgres' }
+  ldap-data-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/donnees/ldap-data' }
+  ldap-config-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/donnees/ldap-config' }
+  bind-1-cache-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/donnees/bind/1/cache' }
+  bind-1-lib-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/donnees/bind/1/lib' }
+  bind-2-cache-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/donnees/bind/2/cache' }
+  bind-2-lib-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/donnees/bind/2/lib' }
+  logs-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/logs/conteneurs' }
+  bind-1-logs-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/logs/bind/1' }
+  bind-2-logs-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/logs/bind/2' }
 
 configs:
   haproxy:
-    name: aster-haproxy-${EMPREINTE_HAPROXY}
+    name: orion-haproxy-${EMPREINTE_HAPROXY}
     file: ./haproxy.cfg
   logstash:
-    name: aster-logstash-${EMPREINTE_LOGSTASH}
+    name: orion-logstash-${EMPREINTE_LOGSTASH}
     file: ./logstash.conf
+  bind:
+    name: orion-bind-${EMPREINTE_BIND}
+    file: ./bind/named.conf
+  zone:
+    name: orion-zone-${EMPREINTE_ZONE}
+    file: ./bind/orion.internal.zone
   ldap_utilisateurs:
-    name: aster-ldap-${EMPREINTE_LDAP}
+    name: orion-ldap-${EMPREINTE_LDAP}
     file: ../ldap/aster-utilisateurs.ldif
 
 secrets:
@@ -202,6 +272,6 @@ secrets:
   postgres_password: { external: true }
   ldap_admin: { external: true }
   ca: { external: true }
-  tls_entree: { external: true }
-  tls_journaux_cle: { external: true }
-  tls_journaux_cert: { external: true }
+  tls_entree: { external: true, name: orion_tls_entree }
+  tls_collecteur_cle: { external: true, name: orion_tls_collecteur_cle }
+  tls_collecteur_cert: { external: true, name: orion_tls_collecteur_cert }
