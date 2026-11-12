@@ -34,10 +34,12 @@ function pill(xRight, y, s, tone) {
   text(xRight - w / 2, y + 13.5, s, 'badge', 'middle');
 }
 
+const ips = ["172.16.131.188","172.16.131.133","172.16.131.193","172.16.131.208","172.16.131.142","172.16.131.131","172.16.131.137","172.16.131.146","172.16.131.190","172.16.131.197"];
+
 let W, H, title, desc;
 
 if (kind === 'simple') {
-  W = 1500; H = 810;
+  W = 1500; H = 935;
   title = 'ORION — vue simplifiée de l’architecture réelle';
   desc = 'Rôles du démonstrateur, regroupés par zone, et principaux échanges numérotés.';
   // Carte façon Azure : icône au-dessus, nom, rôle, VM
@@ -53,55 +55,67 @@ if (kind === 'simple') {
   const step = (x, y, n) => { add(`<circle cx="${x}" cy="${y}" r="11" fill="${C.blue}"/>`); text(x, y + 4.5, n, 'step', 'middle'); };
 
   text(40, 44, 'Architecture réelle du démonstrateur ORION', 'title');
-  text(40, 72, 'Sept machines virtuelles Debian 13 sur un réseau privé · services en conteneurs Docker', 'body');
+  text(40, 72, 'Déploiement proposé · dix VM Debian 13 · réseau privé · conteneurs Docker, DNS et stockage NFS', 'body');
 
-  card(20, 300, 'users', 'Utilisateurs', 'Firefox', 'navigateur web', { stroke: C.extStroke, w: 150 });
-  card(20, 600, 'user-cog', 'Opérateur', 'SSH, client Docker', 'son propre poste', { stroke: C.extStroke, w: 150 });
+  card(20, 240, 'users', 'Utilisateurs', 'Firefox', 'navigateur web', { stroke: C.extStroke, w: 150 });
+  card(20, 625, 'user-cog', 'Opérateur', 'SSH, client Docker', 'son propre poste', { stroke: C.extStroke, w: 150 });
 
-  rect(230, 105, 1240, 680, '#fff', '#7aa7d6', { rx: 8, dashed: true, sw: 1.5 });
+  rect(230, 105, 1240, 695, '#fff', '#7aa7d6', { rx: 8, dashed: true, sw: 1.5 });
   icon('network', 246, 117, 22);
-  text(276, 134, 'Réseau privé du démonstrateur · 7 VM · accès par adresse IP', 'zname');
+  text(276, 134, 'Réseau privé du démonstrateur · 10 VM · accès par orion.internal', 'zname');
 
   zone(255, 172, 210, 388, 'Entrée');
   zone(490, 172, 220, 388, 'Application');
   zone(735, 172, 220, 388, 'Données');
   zone(980, 172, 470, 388, 'Services simulés');
-  zone(255, 590, 210, 178, 'Journaux');
+  zone(255, 600, 210, 178, 'Pilotage');
 
-  card(275, 300, 'split', 'HAProxy', 'entrée', 'VM 01');
-  card(515, 212, 'app-window', 'Apache', 'interface web', 'VM 02, 03 ou 06');
-  card(515, 400, 'server', 'Express', 'API', 'VM 02, 03 ou 06');
-  card(760, 400, 'database', 'PostgreSQL', 'données', 'VM 04');
-  card(1005, 212, 'key-round', 'Keycloak', 'connexion', 'VM 05');
-  card(1255, 212, 'book-user', 'OpenLDAP', 'annuaire', 'VM 05');
-  card(1005, 400, 'monitor', 'Postes Windows', 'émulateur', 'VM 02, 03 ou 06');
-  card(275, 628, 'scroll-text', 'Logstash', 'journaux', 'VM 07');
+  card(275, 212, 'split', 'HAProxy', 'entrée', 'orion-1 et orion-2');
+  card(275, 400, 'globe', 'BIND', 'DNS', 'orion-1 et orion-2');
+  card(515, 212, 'app-window', 'Apache', 'interface web', 'orion-4 et orion-5');
+  card(515, 400, 'server', 'Express', 'API', 'orion-4 et orion-5');
+  card(760, 212, 'hard-drive', 'Stockage', 'NFS', 'orion-10');
+  card(760, 400, 'database', 'PostgreSQL', 'données', 'orion-6 · secours 9');
+  card(1005, 212, 'key-round', 'Keycloak', 'connexion', 'orion-7 · secours 9');
+  card(1255, 212, 'book-user', 'OpenLDAP', 'annuaire', 'orion-7 · secours 9');
+  card(1005, 400, 'monitor', 'Postes Windows', 'émulateur', 'orion-4 ou orion-5');
+  card(275, 638, 'boxes', 'Swarm', 'managers', 'orion-1, 2 et 3');
+  card(1255, 400, 'scroll-text', 'Logstash', 'logs', 'orion-8 · secours 9');
 
-  // ① navigateur → entrée
-  arrow([[170, 364], [273, 364]]); step(222, 364, '1');
+  // Adresses des VM
+  rect(255, 815, 1195, 100, C.zone, C.zoneStroke, { rx: 6 });
+  ips.forEach((ip, i) => text(270 + (i % 4) * 295, 843 + Math.floor(i / 4) * 27, `orion-${i + 1} · ${ip}`, 'caption'));
+  // ① navigateur → DNS, puis entrée
+  arrow([[170, 276], [273, 276]]); step(210, 276, '1');
+  arrow([[170, 340], [240, 340], [240, 464], [273, 464]]); step(240, 402, '1');
   // ② entrée → interface et API
-  arrow([[445, 340], [480, 340], [480, 276], [513, 276]]);
-  arrow([[445, 390], [480, 390], [480, 464], [513, 464]]); step(480, 304, '2');
+  arrow([[445, 276], [513, 276]]); step(479, 276, '2');
+  arrow([[445, 320], [480, 320], [480, 464], [513, 464]]); step(480, 392, '2');
   // ③ API → base
   arrow([[685, 464], [758, 464]]); step(722, 464, '3');
-  // ④ entrée → connexion (Keycloak), qui lit l'annuaire
-  arrow([[340, 300], [340, 150], [1150, 150], [1150, 210]]); step(940, 150, '4');
+  // ④ base, annuaire et collecteur → stockage
+  arrow([[845, 400], [845, 342]]); step(845, 371, '4');
+  arrow([[1340, 340], [1340, 370], [900, 370], [900, 342]]);
+  arrow([[1300, 400], [1300, 370], [900, 370], [900, 342]]); step(1120, 370, '4');
+  // ⑤ entrée → connexion (Keycloak), qui lit l'annuaire
+  arrow([[340, 212], [340, 150], [1150, 150], [1150, 210]]); step(940, 150, '5');
   arrow([[1175, 276], [1253, 276]]);
-  // ⑤ postes → API
-  arrow([[1090, 528], [1090, 545], [640, 545], [640, 530]]); step(860, 545, '5');
-  // ⑥ conteneurs → journaux
-  arrow([[600, 530], [600, 692], [447, 692]]); step(600, 610, '6');
-  // ⑦ opérateur → VM, par SSH depuis son poste
-  arrow([[170, 664], [228, 664]]); step(199, 664, '7');
+  // ⑥ postes → API
+  arrow([[1090, 528], [1090, 545], [640, 545], [640, 530]]); step(860, 545, '6');
+  // ⑦ conteneurs → logs
+  arrow([[600, 530], [600, 580], [1340, 580], [1340, 530]]); step(970, 580, '7');
+  // ⑧ opérateur → VM, par SSH depuis son poste
+  arrow([[170, 702], [273, 702]]); step(222, 702, '8');
 } else {
-  W = 1420; H = 1135;
-  title = 'ORION — architecture réelle complète sur sept VM';
-  desc = 'Placement des services, conteneurs ou services de l’hôte, rôles Swarm, versions, ports, volumes et flux.';
-  const vm = (x, y, w, h, name, role, tone) => {
+  W = 1420; H = 1440;
+  title = 'ORION — architecture réelle complète sur dix VM';
+  desc = 'Placement des services par VM ou groupe de VM, conteneurs ou services de l’hôte, rôles Swarm, versions, ports, volumes et flux.';
+  // VM ou groupe de VM : rôle en titre, puis une ligne par VM (nom d'hôte et IPv4)
+  const groupe = (x, y, w, h, role, vms, tone) => {
     rect(x, y, w, h, C.vm, C.vmStroke);
     icon('server', x + 12, y + 11, 16, '#5b7690');
-    text(x + 34, y + 24, name, 'vm');
-    text(x + 34, y + 41, role, 'caption');
+    text(x + 34, y + 24, role, 'vm');
+    vms.forEach((n, i) => text(x + 34, y + 41 + i * 17, `orion-${n} · ${ips[n - 1]}`, 'caption'));
     pill(x + w - 10, y + 10, { manager: 'MANAGER', worker: 'WORKER', hors: 'HORS SWARM' }[tone], tone);
   };
   // Service : conteneur (bleu) ou service de l'hôte (ambre)
@@ -112,11 +126,11 @@ if (kind === 'simple') {
     text(x + w - 10, y + 24, host ? 'service hôte' : 'conteneur', host ? 'tag host' : 'tag', 'end');
     lines.forEach((l, i) => text(x + 38, y + 43 + i * 16, l, 'caption'));
   };
-  const vol = (x, y, w, name, path) => {
-    rect(x, y, w, 40, C.green, C.greenStroke, { rx: 8 });
+  const vol = (x, y, w, name, lines) => {
+    rect(x, y, w, 25 + lines.length * 15, C.green, C.greenStroke, { rx: 8 });
     icon('hard-drive', x + 10, y + 12, 16, '#2f7a4f');
     text(x + 34, y + 17, name, 'vol');
-    text(x + 34, y + 32, path, 'caption');
+    lines.forEach((l, i) => text(x + 34, y + 32 + i * 15, l, 'caption'));
   };
   const ext = (x, y, w, h, ic, name, lines) => {
     rect(x, y, w, h, C.ext, C.extStroke);
@@ -125,71 +139,77 @@ if (kind === 'simple') {
     lines.forEach((l, i) => text(x + 44, y + 47 + i * 16, l, 'caption'));
   };
 
-  text(40, 44, 'Architecture réelle complète sur sept VM', 'title');
-  text(40, 72, 'Debian 13 · Docker · une pile Docker Swarm · accès par l’IP de la VM 01', 'body');
+  text(40, 44, 'Architecture réelle complète sur dix VM', 'title');
+  text(40, 72, 'Déploiement proposé · Debian 13 · Docker Swarm · DNS BIND · stockage NFS · accès par orion.internal', 'body');
 
-  ext(20, 205, 170, 130, 'users', 'Navigateur', ['Firefox', 'React 19.3.1']);
-  ext(20, 1005, 170, 110, 'user-cog', 'Opérateur', ['son poste, sur le', 'réseau', 'd’administration']);
+  ext(20, 280, 170, 170, 'users', 'Navigateur', ['Firefox', 'React 19.3.1', 'DNS : orion-1, orion-2']);
+  ext(20, 1150, 170, 110, 'user-cog', 'Opérateur', ['son poste, sur le', 'réseau', 'd’administration']);
 
   // Cluster Swarm
-  rect(285, 140, 1095, 835, '#f7fafd', '#7aa7d6', { rx: 12, dashed: true, sw: 1.5 });
+  rect(285, 140, 1095, 1005, '#f7fafd', '#7aa7d6', { rx: 12, dashed: true, sw: 1.5 });
   icon('boxes', 300, 152, 22);
-  text(330, 169, 'Cluster Docker Swarm · VM 01 à 07 · réseau overlay « orion »', 'frame');
+  text(330, 169, 'Cluster Docker Swarm « orion » · orion-1 à orion-9 · réseau overlay « orion »', 'frame');
 
-  // Colonne A : entrée, Swarm, éléments communs
-  vm(305, 195, 275, 425, 'VM 01', 'Entrée', 'manager');
-  svc(318, 245, 249, 270, 'split', 'HAProxy 3.2', ['image officielle', 'réseau de l’hôte', 'HTTPS 443 · ORION', 'HTTPS 8443 · Keycloak', 'HTTPS 8444 · console Keycloak']);
-  svc(318, 530, 249, 72, 'clock', 'chrony', ['paquet Debian', 'NTP 123/UDP'], true);
-  rect(305, 640, 275, 115, '#fff', C.vmStroke);
-  icon('boxes', 317, 652, 18, '#5b7690');
-  text(343, 667, 'Docker Swarm', 'service');
-  ['Managers : VM 01, 04, 05', 'Workers : VM 02, 03, 06, 07', '2377/TCP · 7946/TCP-UDP · 4789/UDP'].forEach((l, i) => text(317, 689 + i * 16, l, 'caption'));
-  rect(305, 775, 275, 115, C.amber, C.amberStroke);
-  icon('cog', 317, 787, 18, '#a06a00');
-  text(343, 802, 'Sur chaque VM', 'service');
-  ['Debian 13 · Docker · OpenSSH (22)', 'systemd-timesyncd → VM 01', 'pilote syslog de Docker → VM 07'].forEach((l, i) => text(317, 824 + i * 16, l, 'caption'));
+  // Colonne A : managers, entrée et DNS ; éléments communs
+  groupe(305, 195, 275, 585, 'Managers et entrée', [1, 2, 3], 'manager');
+  svc(318, 285, 249, 72, 'globe', 'BIND 9.20', ['DNS 53/TCP-UDP · port de l’hôte', '2 instances · orion-1, orion-2']);
+  svc(318, 367, 249, 250, 'split', 'HAProxy 3.2', ['image officielle', 'ports publiés sur l’hôte', 'HTTPS 443 · ORION', 'HTTPS 8443 · Keycloak', 'HTTPS 8444 · console Keycloak', '2 instances · orion-1, orion-2', 'Swarm 2377/TCP']);
+  svc(318, 632, 249, 72, 'clock', 'chrony', ['paquet Debian · orion-1', 'NTP 123/UDP'], true);
+  vol(318, 714, 249, 'Volumes NFS de BIND', ['bind-1-*-nfs (orion-1)', 'bind-2-*-nfs (orion-2)']);
+  rect(305, 960, 275, 110, C.amber, C.amberStroke);
+  icon('cog', 317, 972, 18, '#a06a00');
+  text(343, 987, 'Sur chaque VM', 'service');
+  ['Debian 13 · Docker · OpenSSH (22)', 'systemd-timesyncd → orion-1', 'DNS → orion-1, orion-2 · syslog 6514', '7946/TCP-UDP · 4789/UDP · ESP'].forEach((l, i) => text(317, 1009 + i * 16, l, 'caption'));
 
-  // Colonne B : services joints par HAProxy
-  vm(650, 195, 300, 150, 'VM 02', 'Interface', 'worker');
-  svc(663, 245, 274, 86, 'app-window', 'Apache 2.4', ['image sur httpd:2.4 · HTTP 8080', 'build React 19.3.1', '2 instances · VM 02, 03, 06']);
-  vm(650, 365, 300, 150, 'VM 03', 'API', 'worker');
-  svc(663, 415, 274, 86, 'server', 'Express 5.3', ['image sur node:22 · HTTP 3001', '2 instances · VM 02, 03, 06']);
-  vm(650, 535, 300, 320, 'VM 05', 'Identité', 'manager');
-  svc(663, 585, 274, 56, 'key-round', 'Keycloak 26.7.4', ['image officielle · HTTP 8080']);
-  svc(663, 687, 274, 56, 'book-user', 'OpenLDAP 1.5.0', ['image osixia/openldap · LDAP 389']);
-  vol(663, 753, 274, 'ldap-data', 'volume Docker · /var/lib/ldap');
-  vol(663, 798, 274, 'ldap-config', 'volume Docker · /etc/ldap/slapd.d');
+  // Colonnes B et C : application (services joints par HAProxy), rôles isolés et secours
+  groupe(650, 195, 710, 375, 'Application', [4, 5], 'worker');
+  svc(663, 375, 274, 86, 'app-window', 'Apache 2.4', ['image sur httpd:2.4 · HTTP 8080', 'build React 19.3.1', '2 instances · une par VM']);
+  svc(663, 471, 274, 86, 'server', 'Express 5.3', ['image sur node:22 · HTTP 3001', '2 instances · une par VM']);
+  svc(1043, 435, 304, 72, 'monitor', 'Émulateur des postes', ['image sur node:22', '1 instance · orion-4 ou orion-5']);
+  groupe(650, 590, 300, 325, 'Identité', [7], 'worker');
+  svc(663, 650, 274, 72, 'key-round', 'Keycloak 26.7.4', ['image officielle · HTTP 8080', '1 instance · secours orion-9']);
+  svc(663, 768, 274, 72, 'book-user', 'OpenLDAP 1.5.0', ['image osixia/openldap · LDAP 389', '1 instance · secours orion-9']);
+  vol(663, 850, 274, 'Volumes NFS', ['ldap-data-nfs → /var/lib/ldap', 'ldap-config-nfs → /etc/ldap/slapd.d']);
+  groupe(650, 935, 300, 192, 'Logs', [8], 'worker');
+  svc(663, 995, 274, 72, 'scroll-text', 'Logstash 8.19', ['TCP TLS 6514 · maillage Swarm', '1 instance · secours orion-9']);
+  vol(663, 1077, 274, 'logs-nfs', ['volume NFS · /var/log/orion']);
+  groupe(1030, 590, 330, 195, 'PostgreSQL', [6], 'worker');
+  svc(1043, 650, 304, 72, 'database', 'PostgreSQL 17.7', ['image officielle · TCP 5432', '1 instance · secours orion-9']);
+  vol(1043, 732, 304, 'pg-nfs', ['volume NFS · /var/lib/postgresql/data']);
+  groupe(1030, 805, 240, 130, 'Secours', [9], 'worker');
+  ['étiquettes pg, identite, logs', 'reprend PostgreSQL,', 'l’identité ou Logstash'].forEach((l, i) => text(1064, 875 + i * 16, l, 'caption'));
 
-  // Colonne C : autres services
-  vm(1030, 195, 330, 150, 'VM 06', 'Postes simulés', 'worker');
-  svc(1043, 245, 304, 56, 'monitor', 'Émulateur des postes', ['image sur node:22 · 1 instance']);
-  vm(1030, 365, 330, 175, 'VM 04', 'Base de données', 'manager');
-  svc(1043, 415, 304, 56, 'database', 'PostgreSQL 17.7', ['image officielle · TCP 5432']);
-  vol(1043, 481, 304, 'pg-data', 'volume Docker · /var/lib/pgsql/data');
-  vm(1030, 560, 330, 175, 'VM 07', 'Journaux', 'worker');
-  svc(1043, 610, 304, 56, 'scroll-text', 'Logstash 8.19', ['image officielle · TCP TLS 6514']);
-  vol(1043, 676, 304, 'Dossier de la VM', '/var/log/orion · monté, hors volume Docker');
+  // Stockage, hors Swarm
+  groupe(650, 1180, 710, 235, 'Stockage', [10], 'hors');
+  svc(663, 1235, 684, 72, 'folder-sync', 'Serveur NFS', ['paquet nfs-kernel-server · NFSv4.2 · TCP 2049', 'partages /srv/orion/donnees et /srv/orion/logs'], true);
+  vol(663, 1320, 330, 'Disque des données · ext4', ['/srv/orion/donnees : postgres, ldap-data, ldap-config', 'bind/1, bind/2 (cache et données des DNS)']);
+  vol(1010, 1320, 337, 'Disque des logs · ext4', ['/srv/orion/logs : conteneurs, bind']);
 
-  // Flux du navigateur vers HAProxy
-  [['443 · ORION', 260], ['8443 · connexion', 295]].forEach(([t, y]) => { arrow([[190, y], [316, y]]); label(196, y - 6, t); });
+  // Flux du navigateur : DNS (BIND), puis HAProxy, sur un des managers
+  [['DNS 53', 320], ['443 · ORION', 400], ['8443 · connexion', 435]].forEach(([t, y]) => { arrow([[190, y], [316, y]]); label(196, y - 6, t); });
   // HAProxy → Apache et Express ; Express → HAProxy (adresse publique de Keycloak)
-  arrow([[567, 290], [661, 290]]); label(575, 283, '8080');
-  arrow([[567, 445], [661, 445]]); label(575, 438, '3001');
-  arrow([[663, 485], [569, 485]]); label(575, 478, '8443');
+  arrow([[567, 418], [661, 418]]); label(575, 411, '8080');
+  arrow([[567, 500], [661, 500]]); label(575, 493, '3001');
+  arrow([[663, 540], [569, 540]]); label(575, 533, '8443');
   // HAProxy → Keycloak
-  arrow([[567, 505], [610, 505], [610, 613], [661, 613]]); label(616, 606, '8080');
+  arrow([[567, 600], [610, 600], [610, 686], [661, 686]]); label(616, 679, '8080');
   // Keycloak → OpenLDAP ; Express → PostgreSQL ; émulateur → Express
-  arrow([[800, 641], [800, 685]]); label(808, 668, 'LDAP 389');
-  arrow([[937, 443], [1041, 443]]); label(948, 436, 'TCP 5432');
-  arrow([[1043, 273], [990, 273], [990, 420], [939, 420]]); label(958, 266, 'HTTP 3001');
-  // Conteneurs de chaque VM → Logstash ; VM → chrony de la VM 01
-  arrow([[440, 890], [440, 950], [1195, 950], [1195, 737]]); label(820, 944, 'syslog TLS 6514 · conteneurs de chaque VM', 'middle');
-  arrow([[305, 830], [295, 830], [295, 566], [316, 566]]);
+  arrow([[800, 722], [800, 766]]); label(808, 749, 'LDAP 389');
+  arrow([[937, 540], [1000, 540], [1000, 686], [1041, 686]]); label(943, 533, 'TCP 5432');
+  arrow([[1043, 490], [939, 490]]); label(958, 483, 'HTTP 3001');
+  // Volumes de BIND, de l'identité, des logs et de la base → serveur NFS d'orion-10
+  arrow([[567, 741], [625, 741], [625, 1270], [661, 1270]]); label(633, 1166, 'NFS 2049');
+  arrow([[937, 878], [990, 878], [990, 1233]]); label(998, 1166, 'NFS 2049');
+  arrow([[900, 1117], [900, 1233]]); label(908, 1166, 'NFS 2049');
+  arrow([[1310, 772], [1310, 1160], [1230, 1160], [1230, 1233]]); label(1302, 1100, 'NFS 2049', 'end');
+  // Conteneurs de chaque VM → Logstash (maillage de routage) ; VM → chrony d'orion-1
+  arrow([[580, 1040], [661, 1040]]); label(588, 1033, '6514');
+  arrow([[305, 985], [295, 985], [295, 668], [316, 668]]);
   // Opérateur → VM (SSH, client Docker vers un manager) et console Keycloak
-  arrow([[190, 1080], [1100, 1080], [1100, 977]]); label(640, 1073, 'SSH 22 · les 7 VM · client Docker vers un manager', 'middle');
-  arrow([[105, 1005], [105, 997], [262, 997], [262, 500], [316, 500]]); label(272, 993, 'HTTPS 8444 · console Keycloak');
+  arrow([[190, 1200], [560, 1200], [560, 1147]]); label(196, 1193, 'SSH 22 · client Docker vers un manager');
+  arrow([[105, 1260], [105, 1390], [648, 1390]]); label(196, 1383, 'SSH 22');
+  arrow([[105, 1150], [105, 1142], [262, 1142], [262, 580], [316, 580]]); label(255, 1137, 'HTTPS 8444 · console Keycloak', 'end');
 }
-
 const defs = [...used].map((n) => `<symbol id="i-${n}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${iconNode(n).map(([tag, attrs]) => `<${tag} ${Object.entries(attrs).map(([k, v]) => `${k}="${v}"`).join(' ')}/>`).join('')}</symbol>`).join('\n');
 writeFileSync(out, `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="title desc">
 <title id="title">${esc(title)}</title>

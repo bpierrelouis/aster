@@ -1,0 +1,22 @@
+; Zone orion.internal, servie par les deux DNS (orion-1 et orion-2) : l'application sur orion-1 et orion-2 (HAProxy),
+; puis une adresse par VM.
+; Incrémenter le numéro de série à chaque modification.
+$ORIGIN orion.internal.
+$TTL 60
+@         IN SOA ns1 hostmaster ( 2026111204 3600 600 86400 60 )
+          IN NS  ns1
+          IN NS  ns2
+          IN A   172.16.131.188
+          IN A   172.16.131.133
+ns1       IN A   172.16.131.188
+ns2       IN A   172.16.131.133
+orion-1   IN A   172.16.131.188
+orion-2   IN A   172.16.131.133
+orion-3   IN A   172.16.131.193
+orion-4   IN A   172.16.131.208
+orion-5   IN A   172.16.131.142
+orion-6   IN A   172.16.131.131
+orion-7   IN A   172.16.131.137
+orion-8   IN A   172.16.131.146
+orion-9   IN A   172.16.131.190
+orion-10  IN A   172.16.131.197

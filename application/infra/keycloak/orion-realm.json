@@ -24,20 +24,20 @@
       "enabled": true,
       "protocol": "openid-connect",
       "publicClient": false,
-      "secret": "orion-client-local",
+      "secret": "${OIDC_CLIENT_SECRET:orion-client-local}",
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": false,
       "serviceAccountsEnabled": false,
       "redirectUris": [
-        "http://localhost:5173/auth/callback"
+        "${APP_URL:http://localhost:5173}/auth/callback"
       ],
       "webOrigins": [
-        "http://localhost:5173"
+        "${APP_URL:http://localhost:5173}"
       ],
       "attributes": {
         "pkce.code.challenge.method": "S256",
-        "post.logout.redirect.uris": "http://localhost:5173/"
+        "post.logout.redirect.uris": "${APP_URL:http://localhost:5173}/"
       },
       "defaultClientScopes": [
         "profile",
@@ -221,7 +221,7 @@
             "cn=admin,dc=orion,dc=demo"
           ],
           "bindCredential": [
-            "ldap-admin-local"
+            "${LDAP_ADMIN_PASSWORD:ldap-admin-local}"
           ],
           "usersDn": [
             "ou=people,dc=orion,dc=demo"
