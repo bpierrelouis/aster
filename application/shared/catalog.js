@@ -106,7 +106,8 @@ export const ROLES = [
 export const INTERVENTIONS = [
   { id: 'installation', label: 'Installation', verbe: 'Installer', icon: 'download', etats: { attente: 'En attente d’installation', encours: 'En cours d’installation', fait: 'Installé' } },
   { id: 'desinstallation', label: 'Désinstallation', verbe: 'Désinstaller', icon: 'trash', etats: { attente: 'En attente de désinstallation', encours: 'En cours de désinstallation', fait: 'Désinstallé' } },
-  { id: 'reinstallation', label: 'Réinstallation', verbe: 'Réinstaller', icon: 'refresh', etats: { attente: 'En attente de réinstallation', encours: 'En cours de réinstallation', fait: 'Réinstallé' } },
+  // Réinitialisation (nommée réinstallation jusqu'au 12 novembre ; identifiant inchangé) : image de référence réappliquée
+  { id: 'reinstallation', label: 'Réinitialisation', verbe: 'Réinitialiser', icon: 'refresh', etats: { attente: 'En attente de réinitialisation', encours: 'En cours de réinitialisation', fait: 'Réinitialisé' } },
 ];
 export const ETATS_INTERVENTION = {
   attente: { id: 'attente', tone: 'attente', icon: 'hourglass' },

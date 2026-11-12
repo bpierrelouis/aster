@@ -1,14 +1,16 @@
 /* ==========================================================================
    Suivi des interventions sur les postes (installation, désinstallation,
-   réinstallation ; shared/catalog.js), d'après les demandes et les résultats
+   réinitialisation ; shared/catalog.js), d'après les demandes et les résultats
    renvoyés par les postes, tenus par le serveur.
    - Une demande vise une salle entière (salleId) ou des postes d'une salle.
    - Poste : fait ou échec selon son résultat ; sans résultat, en cours s'il
      est allumé (il l'exécute à son prochain rapport), en attente s'il est
      éteint ou indisponible.
    - Demande : faite quand tous ses postes l'ont faite ; en échec quand tous
-     ont répondu, dont un en échec ; en cours tant qu'un poste connecté
-     l'exécute ; en attente quand il ne reste que des postes indisponibles.
+     ont répondu, dont un en échec ; en cours dès qu'un poste l'exécute ou y a
+     répondu, tant que tous n'ont pas fini (installation commencée dans une
+     salle dont des postes sont éteints) ; en attente tant qu'aucun poste n'a
+     commencé, tous étant éteints ou indisponibles.
    ========================================================================== */
 
 import { store } from './store.js';
@@ -29,7 +31,7 @@ function suivi(o) {
     .sort((a, b) => ORDRE[a.etat] - ORDRE[b.etat] || (a.poste?.nomReseau ?? '').localeCompare(b.poste?.nomReseau ?? '', 'fr', { numeric: true }));
   const n = { total: postes.length, fait: 0, echec: 0, encours: 0, attente: 0 };
   for (const p of postes) n[p.etat]++;
-  const etat = n.fait === n.total ? 'fait' : n.fait + n.echec === n.total ? 'echec' : n.encours ? 'encours' : 'attente';
+  const etat = n.fait === n.total ? 'fait' : n.fait + n.echec === n.total ? 'echec' : n.attente < n.total ? 'encours' : 'attente';
   return { o, postes, n, etat, cible: cibleDe(o, postes) };
 }
 
@@ -55,10 +57,10 @@ export const interventionsOuvertes = () => interventions().filter((x) => x.etat 
 
 const application = (id) => (store.state.applications ?? []).find((a) => a.id === id);
 
-/** Objet de l'intervention : l'application, ou Windows pour une réinstallation */
+/** Objet de l'intervention : l'application, ou Windows pour une réinitialisation */
 export const objetIntervention = (o) => (o.type === 'reinstallation' ? 'Windows' : application(o.applicationId)?.nom ?? 'l’application');
 
-/** « Installation de Firefox », « Désinstallation d'Eclipse », « Réinstallation de Windows » */
+/** « Installation de Firefox », « Désinstallation d'Eclipse », « Réinitialisation de Windows » */
 export function titreIntervention(o) {
   const nom = objetIntervention(o);
   return `${intervention(o.type).label} ${/^[aeiouyéèêàâîôû]/i.test(nom) ? 'd’' : 'de '}${nom}`;

@@ -19,7 +19,7 @@ function prng(seed) {
 }
 
 /** Version du jeu de données : un état enregistré plus ancien est régénéré. */
-export const SEED_VERSION = 11;
+export const SEED_VERSION = 12;
 
 /**
  * Comptes ASTER de départ : profil et école de rattachement de chaque personne.
@@ -242,14 +242,20 @@ export const UTILISATEURS = [
   'eva.gauthier', 'tom.dumont', 'lou.lopez', 'sacha.fournier', 'rose.nicolas', 'enzo.picard', 'anna.colin', 'leo.vidal',
 ];
 
-/* Simulation : postes dont l'unité centrale est hors service, et interventions qui les attendent (une
-   désinstallation sur une salle, une réinstallation sur une salle, une installation sur un poste) */
+/* Simulation : salles fermées, dont l'émulateur garde les postes éteints (backend/demonstrateur/agents.js) ;
+   identifiées par le début du nom réseau de leurs postes */
+export const SALLES_FERMEES = ['A105', 'C203'];
+
+/* Simulation : postes dont l'unité centrale est hors service, et interventions de départ :
+   - en attente : une désinstallation et une réinstallation sur une salle fermée, une installation sur un poste hors service ;
+   - en cours : une installation sur B104, faite par les postes allumés, que ses deux postes hors service ne finissent pas. */
 const SIMULATION = {
-  horsService: ['B104-PC07', 'B104-PC08', 'A105-PC03', 'A014-PC02'],
+  horsService: ['B104-PC07', 'B104-PC08', 'A014-PC02'],
   interventions: [
-    { type: 'desinstallation', applicationId: 'app-libreoffice', salle: 'B104', heures: 5 },
+    { type: 'desinstallation', applicationId: 'app-libreoffice', salle: 'C203', heures: 5 },
     { type: 'reinstallation', image: 'Windows — configuration de référence', salle: 'A105', heures: 26 },
     { type: 'installation', applicationId: 'app-postman', poste: 'A014-PC02', heures: 2 },
+    { type: 'installation', applicationId: 'app-intellij', salle: 'B104', heures: 1 },
   ],
 };
 

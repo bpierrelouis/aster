@@ -10,7 +10,7 @@
    ========================================================================== */
 
 import { fileURLToPath } from 'node:url';
-import { UTILISATEURS } from '#shared/seed.js';
+import { UTILISATEURS, SALLES_FERMEES } from '#shared/seed.js';
 
 // Programmes utilisateur et poids de tirage (les processus système ne sont pas remontés) : surtout des
 // outils de développement et de bureautique autorisés, rarement des programmes non référencés ou interdits
@@ -48,14 +48,18 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
   const ouvrir = (p) => { p.session = rnd() < 0.8 ? UTILISATEURS[p.index % UTILISATEURS.length] : null; p.processes = new Set(p.session ? ['firefox.exe', ...(rnd() < 0.6 ? ['Code.exe'] : [])] : []); };
   const eteindre = (p) => { p.online = false; p.session = null; p.processes.clear(); };
 
+  // Poste d'une salle fermée (simulation, shared/seed.js) : reste éteint
+  const fermee = (nomReseau) => SALLES_FERMEES.some((salle) => nomReseau.startsWith(`${salle}-`));
+
   function emulate({ nomReseau, horsService }, index) {
-    const p = { nomReseau, index, horsService, online: !horsService && rnd() > 0.1, session: null, processes: new Set() };
+    const p = { nomReseau, index, horsService, fermee: fermee(nomReseau), session: null, processes: new Set() };
+    p.online = !horsService && !p.fermee && rnd() > 0.1;
     if (p.online) ouvrir(p);
     p.apps = new Set([...IMAGE, ...OPTIONS.filter(([, x]) => rnd() < x).map(([app]) => app)]);
     return p;
   }
 
-  // Un poste dont l'unité centrale est hors service reste éteint
+  // Un poste dont l'unité centrale est hors service, ou d'une salle fermée, reste éteint
   async function refresh() {
     const list = await transport.postes();
     list.forEach((x, i) => {
@@ -84,7 +88,7 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
     try {
       if (!postes.size || Date.now() - lastRefresh > 15_000) await refresh();
       for (const p of postes.values()) {
-        if (!p.online) { if (!p.horsService && rnd() < 0.004) { p.online = true; ouvrir(p); } continue; }
+        if (!p.online) { if (!p.horsService && !p.fermee && rnd() < 0.004) { p.online = true; ouvrir(p); } continue; }
         if (rnd() < 0.0008) { eteindre(p); continue; }
         if (rnd() < 0.002) { if (p.session) { p.session = null; p.processes.clear(); } else ouvrir(p); continue; } // fermeture ou ouverture de session
         if (p.session && rnd() < 0.015) {

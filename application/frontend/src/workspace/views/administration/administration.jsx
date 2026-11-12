@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Administration : postes (réinstallation d'une salle ou d'un poste),
+   Administration : postes (réinitialisation d'une salle ou de postes),
    applications (installation, désinstallation), suivi des interventions
    (administration-interventions.jsx), bâtiments (renommage), comptes et
    écoles. L'utilisateur demande une intervention (administration-
@@ -53,7 +53,7 @@ export function Administration() {
 
   return <>
     <PageHead title={TITLES[tab] || TITLES.postes}>
-      {tab === 'postes' && <button className="btn btn--primary" onClick={() => openInterventionForm('reinstallation', { salleId: salleId || null })}><Icon name="refresh" size={18} /><span>Réinstaller</span></button>}
+      {tab === 'postes' && <button className="btn btn--primary" onClick={() => openInterventionForm('reinstallation', { salleId: salleId || null })}><Icon name="refresh" size={18} /><span>Réinitialiser</span></button>}
       {tab === 'comptes' && <button className="btn btn--primary" onClick={() => openAccountForm()}><Icon name="plus" size={18} /><span>Créer un compte</span></button>}
     </PageHead>
     {tab === 'postes'
@@ -87,7 +87,7 @@ function SalleFilter({ value, onChange }) {
 }
 
 /** Postes : même carte que l'inventaire (filtres, tableau, pagination) ; un filtre revient à la première page.
-    La réinstallation (salle entière ou poste) se demande depuis la barre haute. */
+    La réinitialisation (salle entière ou postes) se demande depuis la barre haute. */
 function Posts({ list, salleId, onSalle, query, onQuery }) {
   const [page, setPage] = useState(1);
   const filter = (set) => (value) => { set(value); setPage(1); };

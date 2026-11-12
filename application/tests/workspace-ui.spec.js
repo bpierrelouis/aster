@@ -299,15 +299,16 @@ test('la légende des salles reste visible pendant le défilement ; le panneau g
   expect((await panel.boundingBox()).height).toBe(height);
 });
 
-test('quatre ambiances ; Aster et Minarm suivent la machine, ou la tonalité forcée par le soleil ou la lune', async ({ page }) => {
+test('deux ambiances ; Orion et Minarm suivent la machine, ou la tonalité forcée par le soleil ou la lune', async ({ page }) => {
   await open(page, '/accueil');
   await page.getByRole('button', { name: 'Compte' }).click();
   const group = page.getByRole('radiogroup', { name: 'Ambiance' });
   const html = page.locator('html');
-  await expect(group.getByRole('radio')).toHaveText(['Aster', 'Minarm', 'Orion', 'Vigie']);
+  await expect(group.getByRole('radio')).toHaveText(['Orion', 'Minarm']);
   await expect(page.getByRole('radiogroup', { name: 'Verre' }).getByRole('radio')).toHaveText(['Liquide', 'Opaque']);
-  // Aster (défaut) : Aube en clair, Encre en sombre, en direct
-  await expect(html).toHaveAttribute('data-ambiance', 'aster');
+  // Orion (défaut) : clair ou sombre selon la machine, en direct
+  await expect(html).toHaveAttribute('data-ambiance', 'orion');
+  await expect(page.locator('.rail-brand .brand--orion')).toHaveCount(1);
   await page.emulateMedia({ colorScheme: 'dark' });
   await expect(html).toHaveAttribute('data-tone', 'dark');
   await page.emulateMedia({ colorScheme: 'light' });
@@ -322,14 +323,7 @@ test('quatre ambiances ; Aster et Minarm suivent la machine, ou la tonalité for
   await expect(html).toHaveAttribute('data-tone', 'light');
   await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(246, 246, 246)'); // background-alt-grey du DSFR
   await group.getByRole('radio', { name: 'Orion' }).click();
-  await expect(html).toHaveAttribute('data-tone', 'dark');
-  await expect(page.locator('.rail-brand .brand--orion')).toHaveCount(1);
-  await expect(page.locator('.tone-switch')).toHaveCount(0); // tonalité propre à l'ambiance
-  await group.getByRole('radio', { name: 'Vigie' }).click();
-  await expect(html).toHaveAttribute('data-tone', 'light');
-  await expect(page.locator('.rail-brand .brand--vigie')).toHaveCount(1);
-  await group.getByRole('radio', { name: 'Aster' }).click();
-  await expect(html).toHaveAttribute('data-ambiance', 'aster');
+  await expect(html).toHaveAttribute('data-ambiance', 'orion');
   // Soleil ou lune : force l'autre tonalité ; revenir à celle de la machine la suit de nouveau
   await expect(page.getByText(/Chrome ou Edge/)).toHaveCount(0);
   await page.getByRole('button', { name: 'Passer en sombre' }).click();
@@ -510,7 +504,7 @@ test('les postes de l’administration sont paginés, sans les demandes d’inte
   }
 });
 
-test('une application s’installe sur une salle entière, des postes se réinstallent ; un seul suivi, une ligne par demande', async ({ page, request }) => {
+test('une application s’installe sur une salle entière, des postes se réinitialisent ; un seul suivi, une ligne par demande', async ({ page, request }) => {
   const data = await state(request);
   const salle = data.salles.find((s) => s.id === 's-e-num-a012');
   const postes = data.postes.filter((p) => p.salleId === salle.id).sort((a, b) => a.nomReseau.localeCompare(b.nomReseau));
@@ -536,9 +530,12 @@ test('une application s’installe sur une salle entière, des postes se réinst
   const detail = page.locator('.rm-detail');
   await expect(detail.locator('.rows .row')).toHaveCount(postes.length);
   await expect(detail.locator('.rows .pill').first()).toHaveText(/En cours d’installation|En attente d’installation|Installé|Échec/);
-  // Simulation : une installation attend un poste dont l'unité centrale est hors service
+  // Simulation : une installation attend un poste dont l'unité centrale est hors service ; une désinstallation et une
+  // réinitialisation attendent une salle fermée ; une installation est commencée sur B104
   await expect(page.locator('.rm-row', { hasText: 'Installation de Postman' })).toContainText('En attente d’installation');
-  await expect(page.locator('.rm-row', { hasText: 'Désinstallation de LibreOffice' })).toHaveCount(1);
+  await expect(page.locator('.rm-row', { hasText: 'Désinstallation de LibreOffice' })).toContainText('En attente de désinstallation');
+  await expect(page.locator('.rm-row', { hasText: 'Réinitialisation de Windows' }).filter({ hasText: 'A105' })).toContainText('En attente de réinitialisation');
+  await expect(page.locator('.rm-row', { hasText: 'Installation d’IntelliJ IDEA' })).toContainText('B104');
   // Postes : emplacement, matériel et état ; le total en bas à gauche, sans bandeau au-dessus du tableau
   await open(page, '/administration/postes');
   await expect(page.locator('.inv-table input[type="checkbox"]')).toHaveCount(0);
@@ -546,18 +543,18 @@ test('une application s’installe sur une salle entière, des postes se réinst
   await expect(page.locator('.pagination-total')).toHaveText(/^\d+ postes$/);
   await expect(page.locator('.inv-table thead th')).toHaveText(['Poste', 'Emplacement', 'Matériel', 'État', 'Applications', 'Actions']);
   await expect(page.locator('.inv-table tbody tr').first().locator('td').nth(1)).toHaveText(/^[A-Z] – (RDC|\d+e?r?|SS\d) – .+$/);
-  // Réinstallation : la salle filtrée est proposée ; plusieurs postes choisis
+  // Réinitialisation : la salle filtrée est proposée ; plusieurs postes choisis
   await page.getByRole('combobox', { name: 'Filtrer par salle' }).selectOption(salle.id);
-  await page.getByRole('button', { name: 'Réinstaller', exact: true }).click();
-  const reinstall = page.getByRole('dialog', { name: 'Réinstaller Windows' });
+  await page.getByRole('button', { name: 'Réinitialiser', exact: true }).click();
+  const reinstall = page.getByRole('dialog', { name: 'Réinitialiser Windows' });
   await expect(reinstall.getByRole('combobox', { name: 'Salle', exact: true })).toHaveValue(salle.id);
   await reinstall.getByRole('radio', { name: 'Postes' }).click();
   for (const p of postes.slice(0, 2)) await reinstall.getByRole('button', { name: p.nomReseau, exact: true }).click();
   await expect(reinstall.locator('.ops-summary')).toContainText('2 postes visés');
-  await reinstall.getByRole('button', { name: 'Réinstaller', exact: true }).click();
+  await reinstall.getByRole('button', { name: 'Réinitialiser', exact: true }).click();
   await expect(reinstall).toHaveCount(0);
   await open(page, '/administration/interventions');
-  await expect(page.locator('.rm-row', { hasText: 'Réinstallation de Windows' }).filter({ hasText: '2 postes choisis' })).toHaveCount(1);
+  await expect(page.locator('.rm-row', { hasText: 'Réinitialisation de Windows' }).filter({ hasText: '2 postes choisis' })).toHaveCount(1);
 });
 
 test('le menu principal n’a pas de bulle ; les règles de processus portent le logo de leur application', async ({ page }) => {

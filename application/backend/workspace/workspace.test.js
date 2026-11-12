@@ -267,7 +267,7 @@ test('supervision : le formateur demande un arrêt ; seuls les postes modifient 
 
 test('interventions : une salle entière, dont le serveur fixe les postes, ou des postes d’une même salle', () => {
   const state = initialState();
-  assert.deepEqual(state.operations.map((o) => [o.type, o.statut]), [['desinstallation', 'enregistree'], ['reinstallation', 'enregistree'], ['installation', 'enregistree']], 'simulation : trois interventions en attente');
+  assert.deepEqual(state.operations.map((o) => [o.type, o.statut]), [['desinstallation', 'enregistree'], ['reinstallation', 'enregistree'], ['installation', 'enregistree'], ['installation', 'enregistree']], 'simulation : quatre interventions enregistrées');
   const admin = as(state, ADMIN);
   const salle = 's-e-num-a012';
   const postes = state.postes.filter((p) => p.salleId === salle).map((p) => p.id);

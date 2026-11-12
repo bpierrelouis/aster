@@ -1,6 +1,6 @@
 /* ==========================================================================
    Administration › Interventions : suivi des installations, désinstallations
-   et réinstallations demandées (core/interventions.js), comme celui des
+   et réinitialisations demandées (core/interventions.js), comme celui des
    remontées. Une ligne par demande : une salle entière tient sur une ligne,
    avec son avancement ; le détail suit l'intervention et chacun des postes.
    Seul écran de suivi des interventions.
@@ -139,7 +139,7 @@ export function Interventions({ id }) {
           {list.length
             ? <ul className="rm-list">{list.map((x) => <Row key={x.o.id} x={x} selected={x.o.id === id} />)}</ul>
             : <div className="w-empty w-empty--l"><Icon name={query ? 'recherche' : 'download'} size={32} />
-              <span>{query ? 'Aucune intervention ne correspond à cette recherche.' : 'Aucune intervention demandée. Installez ou désinstallez une application depuis Applications, réinstallez des postes depuis Postes.'}</span></div>}
+              <span>{query ? 'Aucune intervention ne correspond à cette recherche.' : 'Aucune intervention demandée. Installez ou désinstallez une application depuis Applications, réinitialisez des postes depuis Postes.'}</span></div>}
         </div>
       </section>
       <aside className="rm-detail glass" aria-live="polite"><Detail x={all.find((x) => x.o.id === id)} /></aside>

@@ -8,7 +8,7 @@
      terminées (remplacées ou corrigées) cette semaine.
    - Formateur : ses remontées prises en charge par d'autres cette semaine.
    - Administrateurs : interventions terminées cette semaine (installation,
-     désinstallation, réinstallation, réussies ou en échec) et processus
+     désinstallation, réinitialisation, réussies ou en échec) et processus
      interdits lancés cette semaine (arrêtés automatiquement).
    ========================================================================== */
 

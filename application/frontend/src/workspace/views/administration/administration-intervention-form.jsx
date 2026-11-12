@@ -1,6 +1,6 @@
 /* ==========================================================================
    Administration · demande d'intervention : installer ou désinstaller une
-   application (Applications, fiche d'un poste), réinstaller Windows (Postes),
+   application (Applications, fiche d'un poste), réinitialiser Windows (Postes),
    sur une salle entière ou un seul poste. Le titre et le bouton reprennent
    l'intervention choisie ; le résumé indique les postes visés, ceux qui la
    commencent aussitôt (connectés) et ceux qui l'attendront (indisponibles).
@@ -20,7 +20,7 @@ import { AppIcon } from '../../ui/app-icon.jsx';
 import { Sheet, openSheet, notify } from '../../ui/overlays.jsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.jsx';
 
-const IMAGE = 'Windows — configuration de référence'; // image réappliquée par une réinstallation
+const IMAGE = 'Windows — configuration de référence'; // image réappliquée par une réinitialisation
 const CIBLES = [['salle', 'Salle entière'], ['postes', 'Postes']];
 
 /** type : installation, desinstallation ou reinstallation ; salleId (salle filtrée dans la fenêtre principale) ou posteId :
