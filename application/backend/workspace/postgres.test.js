@@ -34,7 +34,7 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   input.materiels.forEach((m) => { if (m.salleId === emptyRoom.id) m.salleId = null; });
   input.salles = input.salles.filter((x) => x.id !== emptyRoom.id);
   input.comptes.push({ id: 'cpt-test', nom: 'P. Nouveau', email: 'p.nouveau@aster.demo', role: 'formateur', ecoleId: 'e-num', actif: true });
-  input.prefs = { ambiance: 'vigie', glass: 'solid' };
+  input.prefs = { ambiance: 'minarm', glass: 'solid' };
   await repo.update(input, 0, admin);
   await repo.bindIdentity('cpt-test', 'kc-nouveau');
 
@@ -71,7 +71,7 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   assert.deepEqual(state.remontees.find((r) => r.id === report.id).materielIds, [mat.id]);
   assert.equal(state.materiels.find((m) => m.id === mat.id).modele, 'Renommé après la remontée');
   assert.equal((await reopened.findAccount({ sub: 'kc-nouveau' })).id, 'cpt-test');
-  assert.equal((await reopened.read(admin)).prefs.ambiance, 'vigie');
+  assert.equal((await reopened.read(admin)).prefs.ambiance, 'minarm');
   assert.equal((await reopened.read(teacher)).prefs.ambiance, 'orion', 'préférences propres à chaque compte');
   assert(state.detections.some((d) => d.processus === 'steam.exe' && d.arret === 'réussi'));
   assert(state.processus.find((p) => p.nom === 'steam.exe').stoppedAt);

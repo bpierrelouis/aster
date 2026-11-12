@@ -5,11 +5,10 @@
    Bleu Orion #2563EB (actions) · Bleu lumière #3B82F6 (lueurs, graphes) ;
    états : succès #22C55E, attention #F59E0B, critique #EF4444 ;
    texte #FFFFFF et #9FB0D0 sur la nuit
-   Trois ambiances, choisies par compte (<html data-ambiance="…">) :
+   Deux ambiances, choisies par compte (<html data-ambiance="…">) :
    - orion : blanc, nuit et Bleu Orion en clair ; nuit, panneaux, bleus et
              lueur des cadres en sombre ; selon le réglage de la machine (défaut)
    - minarm : couleurs du DSFR et Marianne, clair ou sombre selon la machine
-   - vigie : bleu pétrole et signal de la charte VIGIE
    <html data-tone="light|dark"> regroupe les ambiances claires et sombres.
    Les ambiances ne redéfinissent que des tokens ; les composants utilisent
    --accent (interaction), jamais une couleur de charte en dur. Les couleurs
@@ -224,41 +223,6 @@
   --c6: #d55181;
   --c7: #1f9a1f;
   --c8: #7c8aa0;
-}
-
-/* --------------------------------------------------------------------------
-   Vigie : brume claire, bleu pétrole (balise), signal et alerte corail
-   -------------------------------------------------------------------------- */
-:root[data-ambiance="vigie"] {
-  color-scheme: light;
-  --ink: 16 45 54;            /* nuit VIGIE */
-  --accent: #0b6173;
-  --accent-2: #1b8296;
-  --accent-text: #0b6173;
-  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b6173' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  --accent-fg: #fff;
-  --shade: 16 45 54;
-
-  --base: #edf6f4;
-  /* Charte VIGIE : quadrillage cartographique de 32 px sur la brume */
-  --backdrop:
-    linear-gradient(rgb(11 97 115 / .045) 1px, transparent 1px) 0 0 / 32px 32px,
-    linear-gradient(90deg, rgb(11 97 115 / .045) 1px, transparent 1px) 0 0 / 32px 32px,
-    #f8fbfa;
-  --backdrop-waves: none;
-
-  --glass-tint: rgb(255 255 255 / .22);
-  --glass-tint-strong: rgb(251 254 253 / .7);
-  --glass-tint-solid: #fbfdfc;
-
-  --solid-chip-bg: #102d36;
-  --solid-chip-fg: #fff;
-  --scrim: rgb(16 45 54 / .24);
-  --lens-bg: rgb(255 255 255 / .72);
-  --room: #77d7d0;            /* signal */
-  --room-on: var(--accent);
-
-  --crit: #e5533d;            /* alerte corail */
 }
 
 /* --------------------------------------------------------------------------

@@ -20,16 +20,9 @@ export function Tile({ name, color, size = 'm', className = '' }) {
 /**
  * Marque de l'ambiance (shared/ambiance.js) : étoile ORION, Bleu Orion en clair et
  * blanche avec lueur bleue en sombre, entourée de petites étoiles qui scintillent
- * au survol du menu ; Marianne (Minarm) ; repère de la charte VIGIE.
+ * au survol du menu ; Marianne (Minarm).
  */
 export function Brand({ ambiance, size = 32 }) {
-  if (ambiance === 'vigie') {
-    return <svg className="brand brand--vigie" viewBox="6 6 116 116" width={size} height={size} fill="none" strokeLinecap="round" aria-hidden="true">
-      <circle cx="64" cy="64" r="48" stroke="#0b6173" strokeWidth="10" />
-      <circle cx="64" cy="64" r="26" stroke="#77d7d0" strokeWidth="9" />
-      <path d="M64 64 101 32" stroke="#f06449" strokeWidth="12" />
-    </svg>;
-  }
   if (ambiance === 'minarm') return <Marianne size={size} />;
   return <OrionMark className="brand brand--orion" size={size} count={8} />;
 }

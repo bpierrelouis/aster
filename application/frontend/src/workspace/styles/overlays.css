@@ -73,7 +73,6 @@
 .swatch-item[aria-checked="true"] .swatch { box-shadow: 0 0 0 3px var(--glass-tint-solid), 0 0 0 5px var(--focus); }
 .swatch .twinkle { display: none; } /* étoile ORION seule */
 .swatch--orion { background: #fff; color-scheme: light; }
-.swatch--vigie { background: #edf6f4; }
 .swatch--minarm { background: #fff; }
 /* Orion et Minarm suivent la machine ou la tonalité forcée : l'aperçu prend leur couleur du moment, avec la marque adaptée
    (étoile ORION selon la tonalité de la pastille, connexion/connexion.css) */
