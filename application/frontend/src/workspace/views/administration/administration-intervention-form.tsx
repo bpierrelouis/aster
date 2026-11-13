@@ -7,6 +7,7 @@
    Le suivi est dans Administration › Interventions.
    ========================================================================== */
 
+import { FilterSelect } from '../../ui/filter-select.tsx';
 import { useState } from 'react';
 import { store } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
@@ -75,14 +76,10 @@ function InterventionForm({ type, app, salleId, posteId }: { type: InterventionT
     <div className="seg seg--wide" role="radiogroup" aria-label="Cible">
       {CIBLES.map(([id, label]) => <button key={id} type="button" role="radio" aria-checked={mode === id} className={`seg-btn ${mode === id ? 'is-on' : ''}`} onClick={() => setMode(id)}>{label}</button>)}
     </div>
-    <label className="field"><span className="field-label">Salle</span>
-      <select value={salle} required onChange={(e) => { setSalle(e.target.value); setChoisis(new Set()); }}>
-        <option value="" disabled>Choisir une salle</option>
-        {[...new Set(salles.map((s) => s.batiment))].sort().map((b) => <optgroup key={b} label={batimentLabel(b)}>
-          {salles.filter((s) => s.batiment === b).map((s) => <option key={s.id} value={s.id}>{s.nom} · {plural(scope().postes.filter((p) => p.salleId === s.id).length, 'poste')}</option>)}
-        </optgroup>)}
-      </select>
-    </label>
+    <div className="field"><span className="field-label">Salle</span>
+      <FilterSelect aria-label="Salle" value={salle} required onChange={(e) => { setSalle(e.target.value); setChoisis(new Set()); }}
+        options={[{ value: '', label: 'Choisir une salle', disabled: true }, ...salles.map((s) => ({ value: s.id, label: `${s.nom} · ${plural(scope().postes.filter((p) => p.salleId === s.id).length, 'poste')}`, group: batimentLabel(s.batiment) }))]} />
+    </div>
     {mode === 'postes' && salle && <div className="field">
       <span className="field-label" id="intervention-postes">Postes</span>
       <div className="pick-devices" role="group" aria-labelledby="intervention-postes">{postes.map((p) => {

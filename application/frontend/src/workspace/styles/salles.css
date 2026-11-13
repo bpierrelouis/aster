@@ -293,7 +293,7 @@ a.inst-block:hover { background: var(--fill-2); }
 .st-btn--hs .ico { color: var(--crit); }
 .dev-card-actions { display: flex; align-items: center; gap: 4px; }
 .move-row { display: flex; gap: 8px; align-items: center; }
-.move-row select { flex: 1; min-width: 0; }
+.move-row > .filter-select { flex: 1; }
 
 .drag-ghost { position: fixed; left: 0; top: 0; z-index: 400; pointer-events: none; filter: drop-shadow(0 16px 22px rgb(var(--shade) / .38)); }
 .drag-ghost .tile-led { right: -3px; bottom: -3px; }

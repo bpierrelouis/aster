@@ -11,6 +11,7 @@
    avec le résultat de chaque ligne (ajouté, transféré, non traité).
    ========================================================================== */
 
+import { FilterSelect } from '../../ui/filter-select.tsx';
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { uid } from '../../core/dom.ts';
@@ -213,7 +214,7 @@ export function ImportPanel() {
     <section className="inv-import glass">
       <div><Tile name="importJson" color="var(--accent)" size="l" /><h2>Votre inventaire, en une fois.</h2><p>Importez un tableau JSON. Chaque nouveau matériel reçoit un identifiant Orion. Le fichier est analysé dès qu’il est choisi : l’aperçu signale les matériels déjà présents, non traités, et ceux d’une autre école, à accepter s’il s’agit d’un échange.</p></div>
       <form className="form" onSubmit={submit}>
-        <label className="field"><span className="field-label">École</span><select name="ecole" value={ecoleId} onChange={(e) => { setEcoleId(e.target.value); setTransferts(new Set()); }}>{ecoles.map((e) => <option key={e.id} value={e.id}>{e.nom}</option>)}</select></label>
+        <div className="field"><span className="field-label">École</span><FilterSelect aria-label="École" name="ecole" value={ecoleId} onChange={(e) => { setEcoleId(e.target.value); setTransferts(new Set()); }} options={ecoles.map((e) => ({ value: e.id, label: e.nom }))} /></div>
         <label className="inv-drop field"><span className="field-label">Fichier JSON</span><input name="file" type="file" accept=".json,application/json" onChange={readFile} /><span className="field-hint">{fileName ? `${fileName}, analysé ci-dessous.` : '2 000 matériels maximum, 2 Mo maximum.'}</span></label>
         <details className="inv-paste"><summary>Ou coller le JSON</summary>
           <label className="field"><span className="field-label">JSON</span><textarea name="json" rows={8} spellCheck={false} value={text} onChange={(e) => { load(e.target.value); setSuccess(''); setError(''); }} placeholder='[{"modele":"Écran 24 pouces","dateReception":"2026-11-08","type":"ecran","hs":false}]' /></label>

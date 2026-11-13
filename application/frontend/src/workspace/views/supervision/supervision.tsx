@@ -7,11 +7,12 @@
    exécutable (« libreoffice » trouve soffice.exe).
    ========================================================================== */
 
+import { FilterSelect } from '../../ui/filter-select.tsx';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router';
 import { store, currentEcole, me } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
-import { scope, index, detections, batiments, batimentLabel } from '../../core/selectors.ts';
+import { scope, index, optionsSalles, detections, batiments, batimentLabel } from '../../core/selectors.ts';
 import { uid } from '../../core/dom.ts';
 import { can } from '../../core/permissions.ts';
 import { matcher } from '../../core/search.ts';
@@ -77,12 +78,9 @@ export function Supervision() {
         : <span className="ops-status"><span className="led led--ok"></span><span>Actualisé à {stamp}</span></span>}
     </PageHead>
     <div className="ops-toolbar">
-      {['salles', 'alertes'].includes(tab) && <label className="field"><span className="field-label">Salle à superviser</span>
-        <select aria-label="Salle à superviser" value={salleId} onChange={(e) => setSalleId(e.target.value)}>
-          <option value="">Choisir une salle</option>
-          {scope().salles.map((s) => <option key={s.id} value={s.id}>{s.nom} · Bâtiment {s.batiment}</option>)}
-        </select>
-      </label>}
+      {['salles', 'alertes'].includes(tab) && <div className="field"><span className="field-label">Salle à superviser</span>
+        <FilterSelect aria-label="Salle à superviser" value={salleId} onChange={(e) => setSalleId(e.target.value)} options={[{ value: '', label: 'Choisir une salle' }, ...optionsSalles()]} />
+      </div>}
       <label className="field"><span className="field-label">Rechercher</span>
         <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={SEARCH[tab]} aria-label="Rechercher" />
       </label>
@@ -251,15 +249,15 @@ function RuleForm({ rule }: { rule: Regle | null }) {
           {((me().role === 'superadmin' ? ['global', 'ecole', 'batiment', 'salle'] : ['ecole', 'batiment', 'salle']) as Portee[]).map((p) => <option key={p} value={p}>{PORTEES[p]}</option>)}
         </select>
       </label>
-      <label className="field"><span className="field-label">École</span>
-        <select name="ecoleId" defaultValue={(rule?.ecoleId || ecole) ?? undefined}>{state.ecoles.map((e) => <option key={e.id} value={e.id}>{e.nom}</option>)}</select>
-      </label>
-      <label className="field"><span className="field-label">Bâtiment</span>
-        <select name="batiment" defaultValue={rule?.batiment}>{batiments().map((b) => <option key={b}>{b}</option>)}</select>
-      </label>
-      <label className="field"><span className="field-label">Salle</span>
-        <select name="salleId" defaultValue={rule?.salleId}>{scope().salles.map((s) => <option key={s.id} value={s.id}>{s.nom}</option>)}</select>
-      </label>
+      <div className="field"><span className="field-label">École</span>
+        <FilterSelect aria-label="École" name="ecoleId" defaultValue={(rule?.ecoleId || ecole) ?? undefined} options={state.ecoles.map((e) => ({ value: e.id, label: e.nom }))} />
+      </div>
+      <div className="field"><span className="field-label">Bâtiment</span>
+        <FilterSelect aria-label="Bâtiment" name="batiment" defaultValue={rule?.batiment} options={batiments().map((b) => ({ value: b, label: b }))} />
+      </div>
+      <div className="field"><span className="field-label">Salle</span>
+        <FilterSelect aria-label="Salle" name="salleId" defaultValue={rule?.salleId} options={optionsSalles()} />
+      </div>
     </div>
   </SheetForm>;
 }

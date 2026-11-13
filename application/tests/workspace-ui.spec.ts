@@ -236,6 +236,8 @@ test('une remontée créée produit un PDF téléchargeable', async ({ page, req
   await open(page, '/remontees/attente');
   await page.getByRole('button', { name: 'Signaler un problème', exact: true }).last().click();
   const dialog = page.getByRole('dialog', { name: 'Signaler un problème', exact: true });
+  await dialog.getByRole('searchbox', { name: 'Rechercher une salle' }).fill('a012');
+  await expect(dialog.locator('.pick-room')).toHaveCount(1);
   await dialog.locator('[data-salle]').filter({ hasText: 'A012' }).click();
   await dialog.locator('[data-mat]').first().click();
   await dialog.getByRole('button', { name: 'Continuer', exact: true }).click();
@@ -244,7 +246,11 @@ test('une remontée créée produit un PDF téléchargeable', async ({ page, req
   const customType = dialog.getByLabel('Précisez le type de problème *');
   await expect(customType).toBeVisible();
   await expect(dialog.getByRole('button', { name: 'Transmettre la remontée', exact: true })).toBeDisabled();
-  await customType.fill(problemType);
+  await customType.fill('bRUIT# DE VENTILATION!');
+  await expect(customType).toHaveValue(problemType);
+  await expect(dialog.locator('#probleme-autre-info')).toContainText('Les caractères non autorisés ont été retirés.');
+  await customType.fill(problemType.toLocaleUpperCase('fr-FR'));
+  await expect(dialog.locator('#probleme-autre-info')).not.toContainText('ont été retirés');
   await page.screenshot({ path: testInfo.outputPath('signalement-autre-desktop.png'), fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(customType).toBeVisible();
@@ -590,7 +596,7 @@ test('supervision : Alertes par défaut ; la recherche ignore casse et espaces, 
   await open(page, '/supervision/inconnu');
   await expect(page.locator('#view h1')).toHaveText('Alertes & détections');
   await open(page, '/supervision/listes');
-  const search = page.getByRole('searchbox', { name: 'Rechercher' });
+  const search = page.getByRole('searchbox', { name: 'Rechercher', exact: true });
   await search.fill('  LibreOffice ');
   await expect(page.locator('.ops-table tbody tr')).toHaveText([/soffice\.exe/, /soffice\.bin/]);
   await search.fill('blacklist STEAM');
@@ -872,4 +878,40 @@ test('la palette Orion conserve la couleur du compte et Minarm garde les couleur
   await page.evaluate(() => window.orion.store.flush());
   expect(saves.length).toBeGreaterThan(0);
   for (const saved of saves) expect(Object.keys(saved).sort()).toEqual(['prefs', 'role']);
+});
+
+
+test('les listes longues se filtrent sans perdre la sélection ni la valeur du formulaire', async ({ page, request }, testInfo) => {
+  await open(page, '/materiels/inventaire');
+  const salle = (await state(request)).salles.find((s) => s.nom === 'C201')!;
+  const location = page.getByRole('combobox', { name: 'Localisation', exact: true });
+  const search = page.getByRole('searchbox', { name: 'Rechercher dans : Localisation', exact: true });
+  await search.fill('batiment c C201');
+  await expect(location.locator('option:not([hidden])')).toHaveText(['C201']);
+  await location.selectOption(salle.id);
+  await search.fill('introuvable');
+  await expect(location).toHaveValue(salle.id);
+  await expect(location.locator('option:not([hidden])')).toHaveCount(0);
+  await expect(page.locator('.filter-select').filter({ has: search })).toContainText('Aucun résultat');
+  await search.fill('');
+  await expect(location).toHaveValue(salle.id);
+  await page.getByRole('button', { name: 'Ajouter un matériel', exact: true }).first().click();
+  const dialog = page.getByRole('dialog', { name: 'Ajouter un matériel', exact: true });
+  const affectation = dialog.getByRole('combobox', { name: 'Affectation', exact: true });
+  const filter = dialog.getByRole('searchbox', { name: 'Rechercher dans : Affectation', exact: true });
+  await filter.fill('c201');
+  await affectation.selectOption(salle.id);
+  await filter.fill('aucune correspondance');
+  await expect(affectation).toHaveValue(salle.id);
+  expect(await dialog.locator('form').evaluate((form: HTMLFormElement) => new FormData(form).get('salle'))).toBe(salle.id);
+  await dialog.getByLabel('Modèle *', { exact: true }).fill('Matériel de vérification');
+  await filter.press('Enter');
+  await expect(dialog).toBeVisible();
+  await filter.fill('c201');
+  await page.screenshot({ path: testInfo.outputPath('liste-filtrable-desktop.png'), fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(filter).toBeVisible();
+  const panel = (await dialog.locator('.sheet-panel').boundingBox())!;
+  expect(panel.x + panel.width).toBeLessThanOrEqual(391);
+  await page.screenshot({ path: testInfo.outputPath('liste-filtrable-mobile.png'), fullPage: true });
 });

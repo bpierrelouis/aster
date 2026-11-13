@@ -7,11 +7,13 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { Sheet, openSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm } from '../../ui/forms.tsx';
+import { matcher } from '../../core/search.ts';
 import { uid } from '../../core/dom.ts';
 import { store, me } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
 import { can, why } from '../../core/permissions.ts';
 import { num, plural } from '#shared/format.ts';
+import { normalizeProblemLabel, PROBLEM_LABEL_HELP } from '#shared/problem-label.ts';
 import { DEVICE_TYPES, PROBLEMS, deviceType } from '#shared/catalog.ts';
 import { batiments, batimentLabel, sallesOf, materielsOf, index, traceProvisoire } from '../../core/selectors.ts';
 import type { Id, Materiel, ProblemId } from '#shared/types.ts';
@@ -30,9 +32,11 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
   const [step, setStep] = useState(materielIds.length ? 3 : initialSalle ? 2 : 1);
   const [salleId, setSalleId] = useState(initialSalle ?? (materielIds[0] ? ix.materiel.get(materielIds[0])?.salleId : null));
   const [batiment, setBatiment] = useState(() => (salleId ? ix.salle.get(salleId)?.batiment : batiments()[0]));
+  const [salleQuery, setSalleQuery] = useState('');
   const [selected, setSelected] = useState(() => new Set(materielIds));
   const [probleme, setProbleme] = useState<ProblemId | null>(null);
   const [problemeAutre, setProblemeAutre] = useState('');
+  const [problemeAutreInfo, setProblemeAutreInfo] = useState('');
   const [description, setDescription] = useState('');
   const descRef = useRef<HTMLTextAreaElement>(null);
   const focusDesc = useRef(false);
@@ -79,22 +83,28 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
     </ol>
   );
 
+  const matchesSalle = matcher(salleQuery);
+  const matchingRooms = (salleQuery.trim() ? sallesOf() : sallesOf(batiment)).filter((s) => matchesSalle(s.nom, batimentLabel(s.batiment)));
   const stepSalle = () => <>
-    <div className="seg seg--chips" role="tablist" aria-label="Bâtiments">
+    <label className="field field--search"><Icon name="recherche" size={18} />
+      <input type="search" aria-label="Rechercher une salle" placeholder="Rechercher une salle, un bâtiment…" value={salleQuery} onChange={(e) => setSalleQuery(e.target.value)} />
+    </label>
+    {!salleQuery.trim() && <div className="seg seg--chips" role="tablist" aria-label="Bâtiments">
       {batiments().map((b) => (
         <button key={b} role="tab" className={`seg-btn ${b === batiment ? 'is-on' : ''}`} aria-selected={b === batiment} onClick={() => setBatiment(b)}>
           <span className="code-badge">{b}</span>{batimentLabel(b)}
         </button>
       ))}
-    </div>
+    </div>}
     <button className="btn btn--glass" data-salle="stock" onClick={() => chooseSalle('stock')}><Icon name="stockage" size={18} />Stock</button>
     <div className="pick-grid pick-grid--salles">
-      {sallesOf(batiment).map((x) => (
+      {matchingRooms.map((x) => (
         <button key={x.id} className={`pick-room ${x.id === salleId ? 'is-on' : ''}`} data-salle={x.id} onClick={() => chooseSalle(x.id)}>
           <Tile name="salles" color="var(--c3)" size="s" className="tile--tint" /><span>{x.nom}</span><small>{num(materielsOf(x.id).length)}</small>
         </button>
       ))}
     </div>
+    {!matchingRooms.length && <p className="field-hint" role="status">Aucune salle ne correspond à votre recherche.</p>}
   </>;
 
   const stepMateriels = () => {
@@ -140,7 +150,12 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
       {probleme === 'other' && <label className="field">
         <span className="field-label">Précisez le type de problème *</span>
         <input type="text" name="problemeAutre" maxLength={100} required autoFocus placeholder="Ex. : bruit inhabituel"
-          value={problemeAutre} onChange={(e) => setProblemeAutre(e.target.value)} />
+          aria-describedby="probleme-autre-info" value={problemeAutre} onChange={(e) => {
+            const label = normalizeProblemLabel(e.target.value);
+            setProblemeAutre(label.value);
+            setProblemeAutreInfo(label.invalid ? 'Les caractères non autorisés ont été retirés. ' : '');
+          }} />
+        <span className="field-hint" id="probleme-autre-info" role="status">{problemeAutreInfo}{PROBLEM_LABEL_HELP}</span>
       </label>}
       <label className="field">
         <span className="field-label">Description du problème *</span>

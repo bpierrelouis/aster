@@ -5,6 +5,7 @@
    « ui », ce composant est donc absent du build de production.
    ========================================================================== */
 
+import { FilterSelect } from '../../ui/filter-select.tsx';
 import { useEffect, useState } from 'react';
 import { notify } from '../../ui/overlays.tsx';
 import { role as roleOf } from '#shared/catalog.ts';
@@ -28,13 +29,9 @@ export function UserSwitch() {
     else notify('Changement d’utilisateur impossible', { tone: 'warn', icon: 'alertes' });
   }
 
-  const ecoles = [...new Set(data.comptes.map((c) => c.ecole ?? 'Toutes les écoles'))];
-  return <label className="pop-group">
+  return <div className="pop-group">
     <span className="pop-note">Changer d’utilisateur</span>
-    <select value={data.courant} onChange={(e) => change(e.target.value)}>
-      {ecoles.map((e) => <optgroup key={e} label={e}>
-        {data.comptes.filter((c) => (c.ecole ?? 'Toutes les écoles') === e).map((c) => <option key={c.id} value={c.id}>{c.nom} · {roleOf(c.role).label}</option>)}
-      </optgroup>)}
-    </select>
-  </label>;
+    <FilterSelect aria-label="Changer d’utilisateur" value={data.courant} onChange={(e) => change(e.target.value)}
+      options={data.comptes.map((c) => ({ value: c.id, label: `${c.nom} · ${roleOf(c.role).label}`, group: c.ecole ?? 'Toutes les écoles' }))} />
+  </div>;
 }

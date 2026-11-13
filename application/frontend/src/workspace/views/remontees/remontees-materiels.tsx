@@ -8,6 +8,7 @@
    déplacement, confirmé comme les autres (Salles › Déplacements).
    ========================================================================== */
 
+import { FilterSelect } from '../../ui/filter-select.tsx';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { store } from '../../core/store.ts';
@@ -68,13 +69,12 @@ function Remise({ m }: { m: MaterielData }) {
 
   return <form className="rm-remise" onSubmit={submit} aria-label={`Remise de ${m.idOrion}`}>
     <label className="rm-remise-choix"><input type="checkbox" checked={stock} onChange={(e) => setStock(e.target.checked)} />Relocaliser dans le stock</label>
-    <label className="rm-remise-choix"><input type="checkbox" checked={remplacer} disabled={!candidats.length} onChange={(e) => setRemplacer(e.target.checked)} />Remplacer par
+    <div className="rm-remise-choix"><label><input type="checkbox" checked={remplacer} disabled={!candidats.length} onChange={(e) => setRemplacer(e.target.checked)} />Remplacer par</label>
       {candidats.length
-        ? <select value={remplacant} disabled={!remplacer} onChange={(e) => setRemplacant(e.target.value)} aria-label="Matériel de remplacement">
-          {candidats.map((x) => <option key={x.id} value={x.id}>{x.modele} · {x.idOrion}</option>)}
-        </select>
+        ? <FilterSelect value={remplacant} disabled={!remplacer} onChange={(e) => setRemplacant(e.target.value)} aria-label="Matériel de remplacement"
+          options={candidats.map((x) => ({ value: x.id, label: `${x.modele} · ${x.idOrion}` }))} />
         : <small>aucun {deviceType(m.type).label.toLowerCase()} en service au stock</small>}
-    </label>
+    </div>
     <button type="submit" className="btn btn--primary" disabled={!n}><Icon name="refresh" size={17} /><span>{n === 2 ? 'Lancer les 2 déplacements' : 'Lancer le déplacement'}</span></button>
   </form>;
 }

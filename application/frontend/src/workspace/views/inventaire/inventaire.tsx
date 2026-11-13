@@ -1,3 +1,4 @@
+import { FilterSelect } from '../../ui/filter-select.tsx';
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router';
 import { Icon, Tile } from '../../ui/icons.tsx';
@@ -5,9 +6,9 @@ import { outsideControls } from '../../core/dom.ts';
 import { store } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
 import { can } from '../../core/permissions.ts';
-import { scope, index, batimentLabel, garantie, GARANTIES } from '../../core/selectors.ts';
+import { scope, index, optionsSalles, affectationOptions, batimentLabel, garantie, GARANTIES } from '../../core/selectors.ts';
 import { DEVICE_TYPES, deviceType, logistique } from '#shared/catalog.ts';
-import { openMaterielForm, AffectationOptions, suppressionRefusee } from './inventaire-materiel.tsx';
+import { openMaterielForm, suppressionRefusee } from './inventaire-materiel.tsx';
 import { affecter } from '../salles/salles-affectation.tsx';
 import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
@@ -105,7 +106,7 @@ export function Inventaire() {
         <label className="field field--search"><Icon name="recherche" size={18} /><input type="search" value={q} onChange={filter(setQ)} placeholder="Modèle, identifiant, série…" aria-label="Rechercher un matériel" /></label>
         <select aria-label="Type" value={type} onChange={filter(setType)}><option value="">Tous les types</option>{DEVICE_TYPES.map((t) => <option key={t.id} value={t.id}>{t.plural}</option>)}</select>
         <select aria-label="État" value={status} onChange={filter(setStatus)}><option value="">Tous les états</option><option value="ok">En service</option><option value="hs">Hors service</option></select>
-        <select aria-label="Localisation" value={location} onChange={filter(setLocation)}><option value="">Toutes les salles</option><option value="stock">Stock</option>{scope().salles.map((s) => <option key={s.id} value={s.id}>{s.nom}</option>)}</select>
+        <FilterSelect aria-label="Localisation" value={location} onChange={filter(setLocation)} options={[{ value: '', label: 'Toutes les salles' }, { value: 'stock', label: 'Stock' }, ...optionsSalles()]} />
         <select aria-label="Garantie" value={guarantee} onChange={filter(setGuarantee)}><option value="">Toutes les garanties</option>{GARANTIES.map((v) => <option key={v}>{v}</option>)}</select>
       </>}
       selection={<>
@@ -147,7 +148,7 @@ function MoveSheet({ items, onDone }: { items: Materiel[]; onDone: () => void })
     footer={<SheetFormActions form="move-form" label="Enregistrer l’affectation" />}>
     <p className="sheet-text">Choisissez leur nouvelle salle ou replacez-les en stock.</p>
     <SheetForm id="move-form" onSave={save}>
-      <label className="field"><span className="field-label">Destination</span><select name="destination" defaultValue=""><AffectationOptions ecoleId={items[0].ecoleId} /></select></label>
+      <div className="field"><span className="field-label">Destination</span><FilterSelect aria-label="Destination" name="destination" defaultValue="" options={affectationOptions(items[0].ecoleId)} /></div>
     </SheetForm>
   </Sheet>;
 }

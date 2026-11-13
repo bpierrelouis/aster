@@ -1,9 +1,11 @@
 .inv-view { max-width: 1600px; margin-inline: auto; }
 .inv-panel { border-radius:26px; overflow:hidden; }
-.inv-filters { padding:22px; display:flex; flex-wrap:wrap; gap:12px; border-bottom:1px solid var(--hairline); }
+.inv-filters { padding:22px; display:flex; align-items:flex-start; flex-wrap:wrap; gap:12px; border-bottom:1px solid var(--hairline); }
 .inv-filters .field { margin:0; flex:1 1 250px; }
 /* Listes déroulantes du style commun (base.css), à la hauteur du champ de recherche */
 .inv-filters select { min-width:0; flex:1 1 14rem; padding-block:14px; border-radius:16px; }
+.inv-filters .filter-select { flex:1 1 14rem; }
+.inv-filters .filter-select > select { flex:none; }
 .inv-selection { display:flex; align-items:center; flex-wrap:wrap; gap:10px; min-height:64px; padding:10px 22px; font-size: 1rem; }
 .inv-count { margin-left:auto; color:var(--ink-2); }
 .inv-table-scroll { overflow:auto; overscroll-behavior:none; }
