@@ -47,7 +47,13 @@ async function identityProvider() {
 const app = express();
 app.disable('x-powered-by');
 if (config.production) app.set('trust proxy', 1);
-app.use(helmet({ strictTransportSecurity: config.production ? undefined : false, contentSecurityPolicy: config.production ? undefined : false }));
+// Referrer-Policy same-origin, comme Apache : avec no-referrer (défaut d'Helmet), le navigateur envoie « Origin: null »
+// sur les POST de l'interface, que le contrôle d'origine refuse
+app.use(helmet({
+  strictTransportSecurity: config.production ? undefined : false,
+  contentSecurityPolicy: config.production ? undefined : false,
+  referrerPolicy: { policy: 'same-origin' },
+}));
 app.use(['/api', '/auth'], (_req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
 app.use(session({
   name: 'orion.sid',

@@ -4,9 +4,9 @@ Document de travail interne, établi le 13 novembre 2026 à l’issue du contrô
 
 ## Avant le prochain déploiement sur les VM
 
-- [ ] Lancer `application/infra/vm/installer.sh` pour créer le secret Swarm `PROVISIONING_CLIENT_SECRET` (compte de service de création des identités), absent des VM déjà installées.
+- [x] Lancer `application/infra/vm/installer.sh` pour créer le secret Swarm `PROVISIONING_CLIENT_SECRET` (compte de service de création des identités), absent des VM déjà installées.
 - [ ] Prévoir la réinitialisation des données de démonstration : `SEED_VERSION` passe à 15 et `SEED_RESET=true` sur les VM ; les comptes ORION se relient aux nouveaux identifiants stables des utilisateurs de l’annuaire.
-- [ ] Vérifier après déploiement : connexion des quatre profils, création d’un compte, réception des rapports des postes émulés, `https://orion.internal/api/infos` (version servie).
+- [ ] Vérifier après déploiement : connexion des quatre profils, création d’un compte, réception des rapports des postes émulés, `https://172.16.131.188/api/infos` (version servie).
 
 ## Après la présentation finale au client
 
@@ -23,8 +23,7 @@ Document de travail interne, établi le 13 novembre 2026 à l’issue du contrô
 | En-têtes de l’interface | Seuls `frame-ancestors`, `object-src`, `base-uri`, `nosniff` et `Referrer-Policy` sont posés par Apache | Politique CSP complète (`script-src`, `style-src`) et HSTS, après essai de l’interface | Démonstrateur et cible |
 | OpenLDAP | Image `osixia/openldap:1.5.0` non maintenue depuis 2021, sans TLS | Image maintenue, LDAP sur TLS | Démonstrateur |
 | Image Apache | Processus maître lancé en root | Image ou configuration sans root | Démonstrateur |
-| BIND | `dnssec-validation no` | Validation DNSSEC si le DNS du réseau de formation le permet | Démonstrateur |
-| CI | Le runner auto-hébergé, sur le poste de l’opérateur, exécute tout push sur `main` | Protéger la branche `main` sur GitHub | Démonstrateur |
+| CI | Le runner auto-hébergé, sur orion-3, exécute tout push sur `main` | Protéger la branche `main` sur GitHub | Démonstrateur |
 | Configuration de production | La valeur de développement de `DATABASE_URL` n’est pas explicitement refusée | Refuser `orion-local` en production, comme les autres secrets | Cible |
 | Identité des postes (cible) | Jeton propre à chaque poste en place | Certificat client si le mécanisme d’administration des postes le permet | Cible |
 

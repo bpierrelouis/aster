@@ -2,7 +2,7 @@
 # puis déploiement sur les VM du démonstrateur.
 # Configuration du dépôt GitHub (Settings → Secrets and variables → Actions) :
 # variable DOCKERHUB_USERNAME et secret DOCKERHUB_TOKEN (jeton d'accès Docker Hub en lecture et écriture) ;
-# variable DEPLOIEMENT_VM = true pour le déploiement, une fois le runner auto-hébergé installé.
+# variable DEPLOIEMENT_VM = true pour le déploiement, une fois le runner auto-hébergé installé sur orion-3.
 # Sans cette configuration, les tests s'exécutent et la publication des images et le déploiement sont ignorés.
 name: CI
 
@@ -117,7 +117,7 @@ jobs:
           cache-to: type=gha,mode=max,scope=${{ matrix.image }}
 
   # Déploiement continu sur les VM du démonstrateur, joignables seulement depuis le réseau privé :
-  # runner auto-hébergé (étiquette « orion ») sur le poste de l'opérateur, qui déploie la pile orion par SSH sur le manager orion-1.
+  # runner auto-hébergé (étiquette « orion ») sur la VM orion-3 (infra/vm/runner.sh), qui déploie la pile orion par SSH sur le manager orion-1.
   # Activé par la variable DEPLOIEMENT_VM = true une fois le runner installé (application/README.md).
   deploiement:
     needs: images

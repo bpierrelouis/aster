@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Installation des VM orion-1 à orion-10, depuis le poste de l'opérateur (Git Bash, Linux ou macOS).
 # Prérequis : clé SSH de l'opérateur autorisée pour le compte VM_USER sur chaque VM (voir application/README.md) ;
-# deux disques vierges ajoutés à orion-10 pour le stockage.
-# Le mot de passe sudo est demandé une fois et n'est enregistré nulle part.
-# DISQUE_DONNEES et DISQUE_LOGS : disques de données et de logs d'orion-10, formatés en ext4 s'ils sont vierges (/dev/sdb et /dev/sdc par défaut).
+# deux disques vierges ajoutés à orion-10 pour le stockage, à défaut deux fichiers image sur son disque système.
+# Le mot de passe sudo est lu dans SUDO_PASSWORD, sinon demandé une fois ; il n'est enregistré nulle part.
+# DISQUE_DONNEES et DISQUE_LOGS : disques de données et de logs d'orion-10, formatés en ext4 s'ils sont vierges (/dev/sdb et /dev/sdc par défaut) ;
+# un disque absent est remplacé par un fichier image ext4 (6 Go pour les données, 4 Go pour les logs) dans /srv/orion/disques.
 # Idempotent : relancer le script ne recrée ni le cluster, ni les secrets, ni les certificats existants ; il amène un cluster
 # existant à la répartition prévue (managers, workers, étiquettes), fait quitter le cluster à orion-10 et à toute VM
 # membre d'un autre cluster, et retire toute autre pile que « orion ».
@@ -17,26 +18,25 @@ if command -v cygpath >/dev/null; then PKI=$(cygpath -m "$PKI"); fi
 
 if [ -z "${SUDO_PASSWORD:-}" ]; then read -rsp "Mot de passe sudo des VM : " SUDO_PASSWORD; echo; fi
 
-# 1. Certificats, conservés hors du dépôt : autorité locale, entrée (HAProxy) et collecteur de logs (Logstash),
-#    tous deux joints par orion.internal, c'est-à-dire par orion-1 ou orion-2
+# 1. Certificats, conservés hors du dépôt : autorité locale, entrée (HAProxy), jointe par l'adresse d'orion-1, et collecteur
+#    de logs (Logstash), joint par chaque VM sur sa propre adresse locale (maillage de routage de Swarm)
 mkdir -p "$PKI" && chmod 700 "$PKI"
-certificat() { # nom noms_alternatifs
+certificat() { # nom adresse_ip
   [ -f "$PKI/$1.crt" ] && return
-  MSYS_NO_PATHCONV=1 openssl req -new -newkey rsa:3072 -nodes -keyout "$PKI/$1.key" -out "$PKI/$1.csr" -subj "/O=ORION/CN=$DOMAINE"
-  printf 'subjectAltName=%s\nextendedKeyUsage=serverAuth\n' "$2" > "$PKI/$1.ext"
+  MSYS_NO_PATHCONV=1 openssl req -new -newkey rsa:3072 -nodes -keyout "$PKI/$1.key" -out "$PKI/$1.csr" -subj "/O=ORION/CN=$2"
+  printf 'subjectAltName=IP:%s\nextendedKeyUsage=serverAuth\n' "$2" > "$PKI/$1.ext"
   openssl x509 -req -in "$PKI/$1.csr" -CA "$PKI/ca.crt" -CAkey "$PKI/ca.key" -CAcreateserial -days 825 -sha256 -extfile "$PKI/$1.ext" -out "$PKI/$1.crt"
   rm "$PKI/$1.csr" "$PKI/$1.ext"
 }
 [ -f "$PKI/ca.crt" ] || MSYS_NO_PATHCONV=1 openssl req -x509 -newkey rsa:3072 -nodes -days 3650 -sha256 \
   -keyout "$PKI/ca.key" -out "$PKI/ca.crt" -subj "/O=ORION/CN=Autorite ORION" \
   -addext basicConstraints=critical,CA:TRUE -addext keyUsage=critical,keyCertSign,cRLSign
-NOMS_ENTREE="DNS:$DOMAINE,IP:${VM[1]},IP:${VM[2]}"
-certificat orion-entree "$NOMS_ENTREE"
-certificat orion-collecteur "$NOMS_ENTREE"
+certificat orion-entree-ip "$ENTREE"
+certificat orion-collecteur-ip 127.0.0.1
 
 # 2. Préparation de chaque VM : nom d'hôte orion-N (Docker relancé tant qu'il ne porte pas ce nom, avant le cluster),
-#    résolution des noms par les deux DNS (orion-1, orion-2) puis celui du réseau, horloge, autorité pour le pilote syslog,
-#    client NFS des VM qui montent le stockage (orion-1 et orion-2 pour BIND, PostgreSQL, identité, Logstash, secours)
+#    résolution des noms par le DNS du réseau, horloge, autorité pour le pilote syslog,
+#    client NFS des VM qui montent le stockage (PostgreSQL, identité, Logstash, secours)
 for n in 1 2 3 4 5 6 7 8 9 10; do
   echo "== orion-$n (${VM[$n]})"
   { printf '%s\n' "$SUDO_PASSWORD"; cat "$PKI/ca.crt"; } | ssh_vm "$n" "sudo -S -p '' bash -c '
@@ -44,7 +44,8 @@ for n in 1 2 3 4 5 6 7 8 9 10; do
     install -D -m 644 /dev/stdin /etc/docker/orion-ca.pem
     if [ \"\$(hostname)\" != orion-$n ]; then echo orion-$n > /etc/hostname; hostname orion-$n; fi
     grep -q \"^127.0.1.1 orion-$n\$\" /etc/hosts || { sed -i \"/^127.0.1.1 /d\" /etc/hosts; echo \"127.0.1.1 orion-$n\" >> /etc/hosts; }
-    printf \"search $DOMAINE formation\nnameserver ${VM[1]}\nnameserver ${VM[2]}\nnameserver $DNS_FORMATION\noptions timeout:1 attempts:1\n\" > /etc/resolv.conf
+    # DNS du réseau seulement (retire les DNS d’ORION, que dhcpcd plaçait en tête par resolv.conf.head)
+    if [ -f /etc/resolv.conf.head ]; then rm /etc/resolv.conf.head; printf \"domain formation\nnameserver $DNS_FORMATION\n\" > /etc/resolv.conf; fi
     if [ \"\$(docker info --format {{.Name}})\" != orion-$n ]; then systemctl restart docker; fi
     if [ $n = 1 ]; then
       command -v chronyd >/dev/null || DEBIAN_FRONTEND=noninteractive apt-get install -y -q chrony >/dev/null
@@ -56,7 +57,7 @@ for n in 1 2 3 4 5 6 7 8 9 10; do
       printf \"[Time]\nNTP=${VM[1]}\nFallbackNTP=\n\" > /etc/systemd/timesyncd.conf.d/orion.conf
       systemctl restart systemd-timesyncd
     fi
-    case $n in 1|2|6|7|8|9)
+    case $n in 6|7|8|9)
       command -v mount.nfs >/dev/null || DEBIAN_FRONTEND=noninteractive apt-get install -y -q nfs-common >/dev/null ;;
     esac
   '"
@@ -67,27 +68,31 @@ done
 #    Un disque qui porte déjà une table de partitions ou un autre système de fichiers n'est jamais formaté.
 DISQUE_DONNEES="${DISQUE_DONNEES:-/dev/sdb}" DISQUE_LOGS="${DISQUE_LOGS:-/dev/sdc}"
 echo "== orion-10 (${VM[10]}) : données sur $DISQUE_DONNEES, logs sur $DISQUE_LOGS"
-{ printf '%s\n' "$SUDO_PASSWORD"; cat <<'FIN'; } | ssh_vm 10 "sudo -S -p '' env DISQUE_DONNEES=$DISQUE_DONNEES DISQUE_LOGS=$DISQUE_LOGS CLIENTS='${VM[1]} ${VM[2]} ${VM[6]} ${VM[7]} ${VM[8]} ${VM[9]}' bash -s"
+{ printf '%s\n' "$SUDO_PASSWORD"; cat <<'FIN'; } | ssh_vm 10 "sudo -S -p '' env DISQUE_DONNEES=$DISQUE_DONNEES DISQUE_LOGS=$DISQUE_LOGS CLIENTS='${VM[6]} ${VM[7]} ${VM[8]} ${VM[9]}' bash -s"
 set -e
-monter() { # disque point_de_montage étiquette
+monter() { # disque point_de_montage étiquette taille_sans_disque
   mountpoint -q "$2" && return
-  [ -b "$1" ] || { echo "Disque $1 introuvable : ajouter le disque ou préciser DISQUE_DONNEES et DISQUE_LOGS" >&2; exit 1; }
-  type=$(blkid -p -o value -s TYPE "$1" || true)
-  if [ -z "$type" ]; then
-    if blkid -p "$1" >/dev/null 2>&1; then echo "$1 porte des partitions : préciser DISQUE_DONNEES ou DISQUE_LOGS" >&2; exit 1; fi
-    mkfs.ext4 -q -L "$3" "$1"
-  elif [ "$type" != ext4 ]; then
-    echo "$1 contient un système de fichiers $type" >&2; exit 1
+  if [ -b "$1" ]; then
+    type=$(blkid -p -o value -s TYPE "$1" || true)
+    if [ -z "$type" ]; then
+      if blkid -p "$1" >/dev/null 2>&1; then echo "$1 porte des partitions : préciser DISQUE_DONNEES ou DISQUE_LOGS" >&2; exit 1; fi
+      mkfs.ext4 -q -L "$3" "$1"
+    elif [ "$type" != ext4 ]; then
+      echo "$1 contient un système de fichiers $type" >&2; exit 1
+    fi
+    source="UUID=$(blkid -o value -s UUID "$1")" options=defaults,nofail
+  else
+    # Sans disque ajouté : fichier image ext4 de taille fixe sur le disque système, monté comme un disque
+    source=/srv/orion/disques/$3.img options=loop,nofail
+    echo "Disque $1 absent : $2 sur le fichier image $source ($4)"
+    if [ ! -f "$source" ]; then install -d /srv/orion/disques; fallocate -l "$4" "$source"; mkfs.ext4 -q -F -L "$3" "$source"; fi
   fi
-  grep -q " $2 " /etc/fstab || echo "UUID=$(blkid -o value -s UUID "$1") $2 ext4 defaults,nofail 0 2" >> /etc/fstab
+  grep -q " $2 " /etc/fstab || echo "$source $2 ext4 $options 0 2" >> /etc/fstab
   mkdir -p "$2" && mount "$2"
 }
-monter "$DISQUE_DONNEES" /srv/orion/donnees orion-donnees
-monter "$DISQUE_LOGS" /srv/orion/logs orion-logs
+monter "$DISQUE_DONNEES" /srv/orion/donnees orion-donnees 6G
+monter "$DISQUE_LOGS" /srv/orion/logs orion-logs 4G
 install -d /srv/orion/donnees/postgres /srv/orion/donnees/ldap-data /srv/orion/donnees/ldap-config
-for n in 1 2; do   # compte de BIND, un jeu de dossiers par serveur DNS
-  install -d -o 53 -g 53 /srv/orion/donnees/bind/$n/cache /srv/orion/donnees/bind/$n/lib /srv/orion/logs/bind/$n
-done
 install -d -o 1000 -g 1000 /srv/orion/logs/conteneurs                                                    # compte de Logstash
 command -v exportfs >/dev/null || DEBIAN_FRONTEND=noninteractive apt-get install -y -q nfs-kernel-server >/dev/null
 mkdir -p /etc/nfs.conf.d /etc/exports.d
@@ -99,7 +104,7 @@ systemctl restart nfs-server
 exportfs -ra
 FIN
 
-# 4. Cluster Swarm : managers orion-1 à orion-3 (HAProxy et DNS sur orion-1 et orion-2) ; workers orion-4 à orion-9 ; orion-10 hors Swarm.
+# 4. Cluster Swarm : managers orion-1 à orion-3 (entrée sur orion-1, administration sur orion-3) ; workers orion-4 à orion-9 ; orion-10 hors Swarm.
 #    Un cluster existant est repris : nouveaux managers promus avant la rétrogradation des anciens (quorum conservé).
 etat() { ssh_vm "$1" "docker info --format '{{.Swarm.LocalNodeState}}'"; }
 dirige() { [ "$(ssh_vm "$1" "docker info --format '{{.Swarm.ControlAvailable}}'")" = true ]; }
@@ -129,18 +134,19 @@ if [ "$(etat 10)" = active ]; then
   ssh_vm 10 "docker swarm leave --force" >/dev/null
   if grep -qx "$id" <<<"$NOEUDS"; then docker_vm node rm --force "$id" >/dev/null; fi
 fi
-# Étiquettes : groupe (entrée, application) et rôles isolés ; orion-9 porte les trois rôles isolés, pour les reprendre
-for n in 1 2 3 4 5 6 7 8 9; do   # retrait de toutes les étiquettes existantes, puis pose des étiquettes prévues
-  for etiquette in $(docker_vm node inspect -f '{{range $k, $v := .Spec.Labels}}{{$k}} {{end}}' "orion-$n"); do
-    docker_vm node update --label-rm "$etiquette" "orion-$n" >/dev/null
-  done
+# Étiquettes : entrée (orion-1), application et rôles isolés ; orion-9 porte les trois rôles isolés, pour les reprendre
+# Seules les étiquettes en trop sont retirées et les manquantes ajoutées : une relance ne déplace aucun service
+etiquettes() { case $1 in
+  1) echo orion=entree ;; 4|5) echo orion=application ;; 6) echo pg=true ;; 7) echo identite=true ;; 8) echo logs=true ;;
+  "$SECOURS") echo pg=true identite=true logs=true ;;
+esac; }
+for n in 1 2 3 4 5 6 7 8 9; do
+  voulues=" $(etiquettes "$n") " actuelles=" $(docker_vm node inspect -f '{{range $k, $v := .Spec.Labels}}{{$k}}={{$v}} {{end}}' "orion-$n") "
+  modifications=()
+  for e in $actuelles; do [[ $voulues == *" ${e%%=*}="* ]] || modifications+=(--label-rm "${e%%=*}"); done
+  for e in $voulues; do [[ $actuelles == *" $e "* ]] || modifications+=(--label-add "$e"); done
+  [ ${#modifications[@]} -eq 0 ] || docker_vm node update "${modifications[@]}" "orion-$n" >/dev/null
 done
-for n in 1 2; do docker_vm node update --label-add orion=entree "orion-$n" >/dev/null; done
-for n in 4 5; do docker_vm node update --label-add orion=application "orion-$n" >/dev/null; done
-docker_vm node update --label-add pg=true orion-6 >/dev/null
-docker_vm node update --label-add identite=true orion-7 >/dev/null
-docker_vm node update --label-add logs=true orion-8 >/dev/null
-docker_vm node update --label-add pg=true --label-add identite=true --label-add logs=true "orion-$SECOURS" >/dev/null
 for pile in $(docker_vm stack ls --format '{{.Name}}'); do
   [ "$pile" = orion ] && continue
   echo "== retrait de la pile « $pile », remplacée par « orion »"
@@ -165,10 +171,10 @@ secret PROVISIONING_CLIENT_SECRET "$(aleatoire)"
 secret keycloak_admin "$(aleatoire)"
 secret ldap_admin "$(aleatoire)"
 secret ca "$(cat "$PKI/ca.crt")"
-secret orion_tls_entree "$(cat "$PKI/orion-entree.crt" "$PKI/ca.crt" "$PKI/orion-entree.key")"
-secret orion_tls_collecteur_cert "$(cat "$PKI/orion-collecteur.crt" "$PKI/ca.crt")"
-secret orion_tls_collecteur_cle "$(cat "$PKI/orion-collecteur.key")"
+secret orion_tls_entree_ip "$(cat "$PKI/orion-entree-ip.crt" "$PKI/ca.crt" "$PKI/orion-entree-ip.key")"
+secret orion_tls_collecteur_cert_ip "$(cat "$PKI/orion-collecteur-ip.crt" "$PKI/ca.crt")"
+secret orion_tls_collecteur_cle_ip "$(cat "$PKI/orion-collecteur-ip.key")"
 
 docker_vm node ls
 echo "Installation terminée. Autorité à faire reconnaître par les navigateurs : $PKI/ca.crt"
-echo "Postes des utilisateurs : serveurs DNS ${VM[1]} et ${VM[2]}, puis https://$DOMAINE"
+echo "Adresse des utilisateurs : https://$ENTREE"
