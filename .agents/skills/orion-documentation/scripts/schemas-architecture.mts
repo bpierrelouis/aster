@@ -60,7 +60,7 @@ if (kind === 'simple') {
   const step = (x: number, y: number, n: string | number) => { add(`<circle cx="${x}" cy="${y}" r="11" fill="${C.blue}"/>`); text(x, y + 4.5, n, 'step', 'middle'); };
 
   text(40, 44, 'Architecture réelle du démonstrateur ORION', 'title');
-  text(40, 72, 'Déploiement proposé · dix VM Debian 13 · réseau privé · conteneurs Docker, DNS et stockage NFS', 'body');
+  text(40, 72, 'Déploiement proposé · dix VM Debian 13 · réseau privé · conteneurs Docker et stockage NFS', 'body');
 
   card(20, 240, 'users', 'Utilisateurs', 'Firefox', 'navigateur web', { stroke: C.extStroke, w: 150 });
   card(20, 625, 'user-cog', 'Opérateur', 'SSH, client Docker', 'son propre poste', { stroke: C.extStroke, w: 150 });
@@ -68,7 +68,7 @@ if (kind === 'simple') {
 
   rect(230, 105, 1240, 695, '#fff', '#7aa7d6', { rx: 8, dashed: true, sw: 1.5 });
   icon('network', 246, 117, 22);
-  text(276, 134, 'Réseau privé du démonstrateur · 10 VM · accès par orion.internal', 'zname');
+  text(276, 134, 'Réseau privé du démonstrateur · 10 VM · accès par https://172.16.131.188', 'zname');
 
   zone(255, 172, 210, 388, 'Entrée');
   zone(490, 172, 220, 388, 'Application');
@@ -76,8 +76,7 @@ if (kind === 'simple') {
   zone(980, 172, 470, 388, 'Services simulés');
   zone(255, 600, 455, 178, 'Pilotage');
 
-  card(275, 212, 'split', 'HAProxy', 'entrée', 'orion-1 et orion-2');
-  card(275, 400, 'globe', 'BIND', 'DNS', 'orion-1 et orion-2');
+  card(275, 212, 'split', 'HAProxy', 'entrée', 'orion-1');
   card(515, 212, 'app-window', 'Apache', 'interface web', 'orion-4 et orion-5');
   card(515, 400, 'server', 'Express', 'API', 'orion-4 et orion-5');
   card(760, 212, 'hard-drive', 'Stockage', 'NFS', 'orion-10');
@@ -92,9 +91,8 @@ if (kind === 'simple') {
   // Adresses des VM
   rect(255, 955, 1195, 100, C.zone, C.zoneStroke, { rx: 6 });
   ips.forEach((ip, i) => text(270 + (i % 4) * 295, 983 + Math.floor(i / 4) * 27, `orion-${i + 1} · ${ip}`, 'caption'));
-  // ① navigateur → DNS, puis entrée
+  // ① navigateur → entrée, par son adresse
   arrow([[170, 276], [273, 276]]); step(210, 276, '1');
-  arrow([[170, 340], [240, 340], [240, 464], [273, 464]]); step(240, 402, '1');
   // ② entrée → interface et API
   arrow([[445, 276], [513, 276]]); step(479, 276, '2');
   arrow([[445, 320], [480, 320], [480, 464], [513, 464]]); step(480, 392, '2');
@@ -150,12 +148,12 @@ if (kind === 'simple') {
   };
 
   text(40, 44, 'Architecture réelle complète sur dix VM', 'title');
-  text(40, 72, 'Déploiement proposé · Debian 13 · Docker Swarm · DNS BIND · stockage NFS · accès par orion.internal', 'body');
+  text(40, 72, 'Déploiement proposé · Debian 13 · Docker Swarm · stockage NFS · accès par https://172.16.131.188', 'body');
   // Contenu décalé sous le titre, pour placer GitHub au-dessus du cluster
   add('<g transform="translate(0 70)">');
   ext(1010, 25, 280, 90, 'github', 'GitHub', ['dépôt et GitHub Actions', 'par le proxy 172.16.0.1:8080']);
 
-  ext(20, 280, 170, 170, 'users', 'Navigateur', ['Firefox', 'React 19.3.1', 'DNS : orion-1, orion-2']);
+  ext(20, 280, 170, 170, 'users', 'Navigateur', ['Firefox', 'React 19.3.1', 'entrée :', '172.16.131.188']);
   ext(20, 1150, 170, 110, 'user-cog', 'Opérateur', ['son poste, sur le', 'réseau', 'd’administration']);
 
   // Cluster Swarm
@@ -163,16 +161,14 @@ if (kind === 'simple') {
   icon('boxes', 300, 152, 22);
   text(330, 169, 'Cluster Docker Swarm « orion » · orion-1 à orion-9 · réseau overlay « orion »', 'frame');
 
-  // Colonne A : managers, entrée et DNS ; éléments communs
-  groupe(305, 195, 275, 585, 'Managers et entrée', [1, 2], 'manager');
-  svc(318, 285, 249, 72, 'globe', 'BIND 9.20', ['DNS 53/TCP-UDP · port de l’hôte', '2 instances · orion-1, orion-2']);
-  svc(318, 367, 249, 250, 'split', 'HAProxy 3.2', ['image officielle', 'ports publiés sur l’hôte', 'HTTPS 443 · ORION', 'HTTPS 8443 · Keycloak', 'HTTPS 8444 · console Keycloak', '2 instances · orion-1, orion-2', 'Swarm 2377/TCP']);
+  // Colonne A : managers et entrée ; éléments communs
+  groupe(305, 195, 275, 525, 'Managers et entrée', [1, 2], 'manager');
+  svc(318, 367, 249, 250, 'split', 'HAProxy 3.2', ['image officielle', 'ports publiés sur l’hôte', 'HTTPS 443 · ORION, connexion', 'HTTPS 8444 · console Keycloak', '1 instance · orion-1', 'Swarm 2377/TCP']);
   svc(318, 632, 249, 72, 'clock', 'chrony', ['paquet Debian · orion-1', 'NTP 123/UDP'], true);
-  vol(318, 714, 249, 'Volumes NFS de BIND', ['bind-1-*-nfs (orion-1)', 'bind-2-*-nfs (orion-2)']);
   rect(305, 960, 275, 110, C.amber, C.amberStroke);
   icon('cog', 317, 972, 18, '#a06a00');
   text(343, 987, 'Sur chaque VM', 'service');
-  ['Debian 13 · Docker · OpenSSH (22)', 'systemd-timesyncd → orion-1', 'DNS → orion-1, orion-2 · syslog 6514', '7946/TCP-UDP · 4789/UDP · ESP'].forEach((l, i) => text(317, 1009 + i * 16, l, 'caption'));
+  ['Debian 13 · Docker · OpenSSH (22)', 'systemd-timesyncd → orion-1', 'DNS du réseau · syslog 127.0.0.1:6514', '7946/TCP-UDP · 4789/UDP · ESP'].forEach((l, i) => text(317, 1009 + i * 16, l, 'caption'));
 
   // Colonnes B et C : application (services joints par HAProxy), rôles isolés et secours
   groupe(650, 195, 710, 100, 'Manager et administration', [3], 'manager');
@@ -197,23 +193,22 @@ if (kind === 'simple') {
   // Stockage, hors Swarm
   groupe(650, 1180, 710, 235, 'Stockage', [10], 'hors');
   svc(663, 1235, 684, 72, 'folder-sync', 'Serveur NFS', ['paquet nfs-kernel-server · NFSv4.2 · TCP 2049', 'partages /srv/orion/donnees et /srv/orion/logs'], true);
-  vol(663, 1320, 330, 'Données · ext4 · fichier image 6 Go', ['/srv/orion/donnees : postgres, ldap-data, ldap-config', 'bind/1, bind/2 (cache et données des DNS)']);
-  vol(1010, 1320, 337, 'Logs · ext4 · fichier image 4 Go', ['/srv/orion/logs : conteneurs, bind']);
+  vol(663, 1320, 330, 'Données · ext4 · fichier image 6 Go', ['/srv/orion/donnees : postgres, ldap-data, ldap-config']);
+  vol(1010, 1320, 337, 'Logs · ext4 · fichier image 4 Go', ['/srv/orion/logs : conteneurs']);
 
-  // Flux du navigateur : DNS (BIND), puis HAProxy, sur un des managers
-  ([['DNS 53', 320], ['443 · ORION', 400], ['8443 · connexion', 435]] as const).forEach(([t, y]) => { arrow([[190, y], [316, y]]); label(196, y - 6, t); });
+  // Flux du navigateur : HAProxy d'orion-1, par son adresse
+  arrow([[190, 400], [316, 400]]); label(196, 394, 'HTTPS 443');
   // HAProxy → Apache et Express ; Express → HAProxy (adresse publique de Keycloak)
   arrow([[567, 418], [661, 418]]); label(575, 411, '8080');
   arrow([[567, 500], [661, 500]]); label(575, 493, '3001');
-  arrow([[663, 540], [569, 540]]); label(575, 533, '8443');
+  arrow([[663, 540], [569, 540]]); label(575, 533, '443');
   // HAProxy → Keycloak
   arrow([[567, 600], [610, 600], [610, 686], [661, 686]]); label(616, 679, '8080');
   // Keycloak → OpenLDAP ; Express → PostgreSQL ; émulateur → Express
   arrow([[800, 722], [800, 766]]); label(808, 749, 'LDAP 389');
   arrow([[937, 540], [1000, 540], [1000, 686], [1041, 686]]); label(943, 533, 'TCP 5432');
   arrow([[1043, 490], [939, 490]]); label(958, 483, 'HTTP 3001');
-  // Volumes de BIND, de l'identité, des logs et de la base → serveur NFS d'orion-10
-  arrow([[567, 741], [625, 741], [625, 1270], [661, 1270]]); label(633, 1166, 'NFS 2049');
+  // Volumes de l'identité, des logs et de la base → serveur NFS d'orion-10
   arrow([[937, 878], [990, 878], [990, 1233]]); label(998, 1166, 'NFS 2049');
   arrow([[900, 1117], [900, 1233]]); label(908, 1166, 'NFS 2049');
   arrow([[1310, 772], [1310, 1160], [1230, 1160], [1230, 1233]]); label(1302, 1100, 'NFS 2049', 'end');

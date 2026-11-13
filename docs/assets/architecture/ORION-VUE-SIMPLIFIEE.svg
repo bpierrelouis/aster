@@ -9,7 +9,6 @@
 <symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
 <symbol id="i-network" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></symbol>
 <symbol id="i-split" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></symbol>
-<symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
 <symbol id="i-app-window" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></symbol>
 <symbol id="i-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></symbol>
 <symbol id="i-hard-drive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></symbol>
@@ -43,7 +42,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 </style>
 <rect width="1500" height="1075" fill="#fff"/>
 <text x="40" y="44" class="title" text-anchor="start">Architecture réelle du démonstrateur ORION</text>
-<text x="40" y="72" class="body" text-anchor="start">Déploiement proposé · dix VM Debian 13 · réseau privé · conteneurs Docker, DNS et stockage NFS</text>
+<text x="40" y="72" class="body" text-anchor="start">Déploiement proposé · dix VM Debian 13 · réseau privé · conteneurs Docker et stockage NFS</text>
 <rect x="20" y="240" width="150" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
 <use href="#i-users" x="77" y="254" width="36" height="36" style="color:#0f6cbd"/>
 <text x="95" y="312" class="cname" text-anchor="middle">Utilisateurs</text>
@@ -61,7 +60,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="95" y="912" class="cvm" text-anchor="middle">Internet, par proxy</text>
 <rect x="230" y="105" width="1240" height="695" rx="8" fill="#fff" stroke="#7aa7d6" stroke-dasharray="7 5" stroke-width="1.5"/>
 <use href="#i-network" x="246" y="117" width="22" height="22" style="color:#0f6cbd"/>
-<text x="276" y="134" class="zname" text-anchor="start">Réseau privé du démonstrateur · 10 VM · accès par orion.internal</text>
+<text x="276" y="134" class="zname" text-anchor="start">Réseau privé du démonstrateur · 10 VM · accès par https://172.16.131.188</text>
 <rect x="255" y="172" width="210" height="388" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="269" y="196" class="zname" text-anchor="start">Entrée</text>
 <rect x="490" y="172" width="220" height="388" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
@@ -76,12 +75,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <use href="#i-split" x="342" y="226" width="36" height="36" style="color:#0f6cbd"/>
 <text x="360" y="284" class="cname" text-anchor="middle">HAProxy</text>
 <text x="360" y="303" class="crole" text-anchor="middle">entrée</text>
-<text x="360" y="324" class="cvm" text-anchor="middle">orion-1 et orion-2</text>
-<rect x="275" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
-<use href="#i-globe" x="342" y="414" width="36" height="36" style="color:#0f6cbd"/>
-<text x="360" y="472" class="cname" text-anchor="middle">BIND</text>
-<text x="360" y="491" class="crole" text-anchor="middle">DNS</text>
-<text x="360" y="512" class="cvm" text-anchor="middle">orion-1 et orion-2</text>
+<text x="360" y="324" class="cvm" text-anchor="middle">orion-1</text>
 <rect x="515" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-app-window" x="582" y="226" width="36" height="36" style="color:#0f6cbd"/>
 <text x="600" y="284" class="cname" text-anchor="middle">Apache</text>
@@ -146,9 +140,6 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <path d="M170 276 L273 276" class="flow" marker-end="url(#arrow)"/>
 <circle cx="210" cy="276" r="11" fill="#0f6cbd"/>
 <text x="210" y="280.5" class="step" text-anchor="middle">1</text>
-<path d="M170 340 L240 340 L240 464 L273 464" class="flow" marker-end="url(#arrow)"/>
-<circle cx="240" cy="402" r="11" fill="#0f6cbd"/>
-<text x="240" y="406.5" class="step" text-anchor="middle">1</text>
 <path d="M445 276 L513 276" class="flow" marker-end="url(#arrow)"/>
 <circle cx="479" cy="276" r="11" fill="#0f6cbd"/>
 <text x="479" y="280.5" class="step" text-anchor="middle">2</text>
