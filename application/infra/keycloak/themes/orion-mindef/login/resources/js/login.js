@@ -12,3 +12,10 @@ for (const button of document.querySelectorAll('[data-help]')) {
     document.getElementById('help-dialog').showModal();
   });
 }
+// Démonstrateur (présentation au client) : un jeton remplit l'adresse du compte et lance la connexion
+for (const token of document.querySelectorAll('[data-compte]')) {
+  token.addEventListener('click', () => {
+    document.getElementById('username').value = token.dataset.compte;
+    document.getElementById('login-form').requestSubmit();
+  });
+}

@@ -116,6 +116,8 @@ Les tests de bout en bout utilisent aussi `nouveau.formateur@orion.demo` (créé
 
 La consigne de présentation du 6 novembre impose de conserver ces modalités dans ce guide interne : aucune liste de comptes, indication de mot de passe vide, étiquette de démonstration ou aide technique de démarrage ne doit apparaître dans l’interface ou dans les productions remises aux cadres.
 
+**Exception pour la présentation finale au client (demande de l’utilisateur du 13 novembre), à retirer pour la mise en production :** la page de connexion du Keycloak local affiche un encadré « Accès de présentation » avec trois jetons (Administrateur, Gestionnaire, Formateur) qui remplissent l’adresse du compte et lancent la connexion ([thème](infra/keycloak/themes/orion-mindef/login/login-username.ftl)). L’encadré n’apparaît que si `ORION_COMPTES_PRESENTATION=true` dans l’environnement de Keycloak (Compose et pile des VM) ; le retirer revient à supprimer cette variable, ou le bloc du thème, ses styles et son script.
+
 Le compte technique de la console Keycloak est `keycloak-admin` avec le mot de passe local `keycloak-admin-local`. Il est distinct du super administrateur ORION. Les sessions ORION expirent au plus tard à l’expiration du jeton d’identité, ou après une heure ; une déconnexion détruit la session ORION puis termine la session Keycloak.
 
 ## Données

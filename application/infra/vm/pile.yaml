@@ -183,6 +183,7 @@ services:
       KC_HOSTNAME: https://orion.internal:8443
       KC_HOSTNAME_ADMIN: https://orion.internal:8444
       KC_BOOTSTRAP_ADMIN_USERNAME: keycloak-admin
+      ORION_COMPTES_PRESENTATION: 'true' # jetons de présentation au client, retirés en production
     secrets:
       - OIDC_CLIENT_SECRET
       - PROVISIONING_CLIENT_SECRET

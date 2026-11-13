@@ -11,6 +11,17 @@
   <main class="login-panel">
     <h1>MindefConnect</h1>
     <h2>Se connecter avec son compte</h2>
+    <#-- Démonstrateur uniquement (présentation au client) : retiré pour la mise en production -->
+    <#if properties.comptesPresentation?? && properties.comptesPresentation == "true">
+      <section class="demo-access" aria-labelledby="demo-access-title">
+        <p class="demo-access-title" id="demo-access-title">Accès de présentation</p>
+        <div class="demo-access-tokens">
+          <button type="button" class="demo-token" data-compte="admin@orion.demo"><span class="demo-token-badge">A</span><span>Administrateur</span></button>
+          <button type="button" class="demo-token" data-compte="gestionnaire@orion.demo"><span class="demo-token-badge">G</span><span>Gestionnaire</span></button>
+          <button type="button" class="demo-token" data-compte="formateur@orion.demo"><span class="demo-token-badge">F</span><span>Formateur</span></button>
+        </div>
+      </section>
+    </#if>
     <form action="${url.loginAction}" method="post" id="login-form">
       <#if message?has_content && message.type = 'error'>
         <p class="error" role="alert">${kcSanitize(message.summary)?no_esc}</p>

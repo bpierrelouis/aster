@@ -35,3 +35,11 @@ dialog::backdrop { background: #0006; }
   .separator { margin-left: 0; margin-right: 0; gap: 20px; }
   .no-account { margin-left: 0; margin-right: 0; }
 }
+/* Démonstrateur (présentation au client) : jetons d'accès, volontairement hors charte pour rester distincts */
+.demo-access { margin: 6px -60px 26px; padding: 14px 16px 16px; border: 1.5px dashed #c77c02; border-radius: 10px; background: #fff8e8; }
+.demo-access-title { margin: 0 0 12px; color: #8a5300; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.demo-access-tokens { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.demo-token { display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px 5px 5px; border: 1px solid #e3bd6d; border-radius: 999px; background: #fff; color: #5c3a00; font-size: 14px; cursor: pointer; transition: background .15s, box-shadow .15s; }
+.demo-token:hover, .demo-token:focus-visible { background: #ffefc6; box-shadow: 0 0 0 3px rgba(199, 124, 2, .25); outline: none; }
+.demo-token-badge { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #c77c02; color: #fff; font-size: 13px; font-weight: 700; }
+@media (max-width: 600px) { .demo-access { margin: 6px 0 22px; } }

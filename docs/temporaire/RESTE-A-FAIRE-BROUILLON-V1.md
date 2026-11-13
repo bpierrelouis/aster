@@ -8,6 +8,10 @@ Document de travail interne, établi le 13 novembre 2026 à l’issue du contrô
 - [ ] Prévoir la réinitialisation des données de démonstration : `SEED_VERSION` passe à 15 et `SEED_RESET=true` sur les VM ; les comptes ORION se relient aux nouveaux identifiants stables des utilisateurs de l’annuaire.
 - [ ] Vérifier après déploiement : connexion des quatre profils, création d’un compte, réception des rapports des postes émulés, `https://orion.internal/api/infos` (version servie).
 
+## Après la présentation finale au client
+
+- [ ] Retirer les jetons « Accès de présentation » de la page de connexion du Keycloak local : variable `ORION_COMPTES_PRESENTATION` (Compose, pile des VM) et bloc du thème `orion-mindef` (gabarit, styles, script).
+
 ## Sécurité — à décider ou à réaliser
 
 | Sujet | Constat | Proposition | Portée |
