@@ -1077,6 +1077,12 @@
         "version": "1.0",
         "date": "2026-11-09",
         "modification": "Ajouter les diagrammes d'états de la remontée et des interventions",
+        "archive": "DIAGRAMMES-ETATS-BROUILLON-V1/DIAGRAMMES-ETATS-BROUILLON-V1-v1.0-2026-11-09.md"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-13",
+        "modification": "Aligner sur l’application : état « en cours », traitement direct possible, PDF à la demande, type obligatoire, interventions sur une seule salle",
         "archive": null
       }
     ]
