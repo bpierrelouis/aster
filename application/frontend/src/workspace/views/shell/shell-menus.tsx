@@ -10,6 +10,7 @@ import { Icon, Tile, Brand } from '../../ui/icons.tsx';
 import { Popover, notify, useSheetClose } from '../../ui/overlays.tsx';
 import { store, me, currentEcole } from '../../core/store.ts';
 import { can } from '../../core/permissions.ts';
+import { composing } from '../../core/dom.ts';
 import { autoTone, systemTone, subscribeSystemTone } from '../../core/theme.ts';
 import { AMBIANCES, GLASS } from '#shared/ambiance.ts';
 import { role as roleOf, deviceType, statut } from '#shared/catalog.ts';
@@ -149,7 +150,7 @@ export function Spotlight({ navigate }: { navigate: NavigateFunction }) {
   return <>
     <label className="field field--search"><Icon name="recherche" size={22} />
       <input ref={input} type="search" placeholder="Salle, modèle, identifiant Orion, n° de série, remontée…" autoComplete="off" aria-label="Recherche"
-        value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter' && results[0]) open(results[0]); }} />
+        value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter' && !composing(e) && results[0]) open(results[0]); }} />
     </label>
     <ul className="results" role="listbox">
       {results.map((r, i) => <li key={i}><button type="button" className="pop-row" role="option" aria-selected="false" onClick={() => open(r)}>

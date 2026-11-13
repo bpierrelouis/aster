@@ -12,7 +12,9 @@
   background: transparent; color: inherit;
 }
 .sheet:not([open]) { display: none; }
+.sheet:modal { overscroll-behavior: contain; } /* le défilement ne passe pas à la page dessous */
 .sheet::backdrop {
+  overflow: hidden; overscroll-behavior: contain;
   background: var(--scrim);
   -webkit-backdrop-filter: blur(5px) saturate(1.15);
   backdrop-filter: blur(5px) saturate(1.15);

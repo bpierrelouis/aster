@@ -1,5 +1,6 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import type { ComponentProps, KeyboardEvent } from 'react';
+import { composing } from '../core/dom.ts';
 import { matcher } from '../core/search.ts';
 import { Icon } from './icons.tsx';
 import '../styles/filter-select.css';
@@ -89,6 +90,7 @@ export function FilterSelect({ options, value, defaultValue, onChange, id, disab
     native.current!.dispatchEvent(new Event('change', { bubbles: true }));
   }
   function navigate(event: KeyboardEvent<HTMLElement>) {
+    if (composing(event)) return;
     if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); close(); return; }
     if (event.key === 'Tab') { requestAnimationFrame(() => close(false)); return; }
     if (event.target === search.current && (event.key === 'Home' || event.key === 'End' || event.ctrlKey || event.metaKey)) return;

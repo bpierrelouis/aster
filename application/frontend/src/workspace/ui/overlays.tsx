@@ -55,6 +55,7 @@ export function Sheet({ title, lead = null, size = 'm', footer = null, children,
   const slot = useContext(SlotContext);
   const [shown, setShown] = useState(false);
   const closing = useRef(false);
+  const pressedOutside = useRef(false); // un clic commencé dans le panneau (sélection de texte) ne ferme pas le sheet
 
   const close = useCallback((result?: boolean) => {
     if (closing.current) return;
@@ -82,7 +83,8 @@ export function Sheet({ title, lead = null, size = 'm', footer = null, children,
     <CloseContext.Provider value={close}>
       <dialog ref={ref} className={`sheet sheet--${size}${shown ? ' is-open' : ''}`} aria-label={title}
         onCancel={(e) => { e.preventDefault(); close(); }}
-        onClick={(e) => { if (e.target === ref.current || (e.target as Element).closest('[data-sheet-close]')) close(); }}>
+        onPointerDown={(e) => { pressedOutside.current = e.target === ref.current; }}
+        onClick={(e) => { if ((e.target === ref.current && pressedOutside.current) || (e.target as Element).closest('[data-sheet-close]')) close(); }}>
         <div className="sheet-panel glass glass--strong" data-lens="">
           <header className="sheet-head">
             {lead}
