@@ -540,6 +540,19 @@
         "version": "1.3",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
+        "archive": null,
+        "commit": "0078180"
+      }
+    ],
+    "retire": "Retiré le 13/11/2026 : Remplacé par la source draw.io"
+  },
+  "docs/05-MCD-MERISE.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-13",
+        "modification": "Source draw.io du MCD",
         "archive": null
       }
     ]
@@ -571,6 +584,13 @@
         "version": "1.3",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
+        "archive": null,
+        "commit": "0078180"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-13",
+        "modification": "Refaire le MCD avec draw.io : historique des statuts, poste et unité centrale, IP, MAC, dates du compte, verbes d’un mot",
         "archive": null
       }
     ]
@@ -1194,6 +1214,13 @@
         "version": "2.1",
         "date": "2026-11-13",
         "modification": "Diagrammes 06 et 07 à reprendre avec les collègues",
+        "archive": null,
+        "commit": "6d33a1f"
+      },
+      {
+        "version": "2.2",
+        "date": "2026-11-13",
+        "modification": "MCD refait ; MAC et RG-40 à suivre",
         "archive": null
       }
     ]

@@ -16,8 +16,8 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) | Source de travail interne | [3.0](#02-cadrage) | 13/11/2026 |
 | [docs/03-COMPTE-RENDU-ENTRETIENS.md](../docs/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.0](#03-compte-rendu-entretiens) | 13/11/2026 |
 | [docs/04-REGLES-DE-GESTION.md](../docs/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [1.7](#04-regles-de-gestion) | 13/11/2026 |
-| [docs/05-MCD-MERISE-MOCODO.url](../docs/05-MCD-MERISE-MOCODO.url) | Production destinée à la remise | [1.3](#05-mcd-merise-mocodo) | 12/11/2026 |
-| [docs/05-MCD-MERISE.svg](../docs/05-MCD-MERISE.svg) | Production destinée à la remise | [1.3](#05-mcd-merise) | 12/11/2026 |
+| [docs/05-MCD-MERISE.drawio](../docs/05-MCD-MERISE.drawio) | Production destinée à la remise | [1.0](#05-mcd-merise) | 13/11/2026 |
+| [docs/05-MCD-MERISE.svg](../docs/05-MCD-MERISE.svg) | Production destinée à la remise | [2.0](#05-mcd-merise) | 13/11/2026 |
 | [docs/06-DIAGRAMME-CONTEXTE.md](../docs/06-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [1.2](#06-diagramme-contexte) | 13/11/2026 |
 | [docs/07-DIAGRAMMES-ACTIVITE.md](../docs/07-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [1.4](#07-diagrammes-activite) | 13/11/2026 |
 | [docs/08-DCU-GESTION-PARC.md](../docs/08-DCU-GESTION-PARC.md) | Production destinée à la remise | [1.3](#08-dcu-gestion-parc) | 12/11/2026 |
@@ -36,7 +36,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md) | Brouillon interne | [1.1](#19-suivi-backlog-brouillon-v1) | 13/11/2026 |
 | [docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) | Brouillon interne | [1.1](#diagrammes-activite-cas-utilisation-brouillon-v2) | 12/11/2026 |
 | [docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md) | Brouillon interne | [2.0](#diagrammes-etats-brouillon-v1) | 13/11/2026 |
-| [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md) | Brouillon interne | [2.1](#reste-a-faire-brouillon-v1) | 13/11/2026 |
+| [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md) | Brouillon interne | [2.2](#reste-a-faire-brouillon-v1) | 13/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -149,16 +149,13 @@ Fichier : [docs/04-REGLES-DE-GESTION.md](../docs/04-REGLES-DE-GESTION.md) · Pro
 | 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
 | 1.0 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | `a9aa9cd` | — |
 
-### 05-MCD-MERISE-MOCODO
+### 05-MCD-MERISE
 
-Fichier : [docs/05-MCD-MERISE-MOCODO.url](../docs/05-MCD-MERISE-MOCODO.url) · Production destinée à la remise
+Fichier : [docs/05-MCD-MERISE.drawio](../docs/05-MCD-MERISE.drawio) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur | — |
-| 1.2 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` | — |
-| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
-| 1.0 | 02/11/2026 | Mcd ; Maj mcd | `e0cf540` | — |
+| 1.0 | 13/11/2026 | Source draw.io du MCD | en vigueur | — |
 
 ### 05-MCD-MERISE
 
@@ -166,7 +163,8 @@ Fichier : [docs/05-MCD-MERISE.svg](../docs/05-MCD-MERISE.svg) · Production dest
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur | — |
+| 2.0 | 13/11/2026 | Refaire le MCD avec draw.io : historique des statuts, poste et unité centrale, IP, MAC, dates du compte, verbes d’un mot | en vigueur | — |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | — |
 | 1.2 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` | — |
 | 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
 | 1.0 | 02/11/2026 | Mcd ; Maj mcd | `e0cf540` | — |
@@ -384,7 +382,8 @@ Fichier : [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RES
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | Diagrammes 06 et 07 à reprendre avec les collègues | en vigueur | — |
+| 2.2 | 13/11/2026 | MCD refait ; MAC et RG-40 à suivre | en vigueur | — |
+| 2.1 | 13/11/2026 | Diagrammes 06 et 07 à reprendre avec les collègues | `6d33a1f` | — |
 | 2.0 | 13/11/2026 | Ajouter DCU à compléter, modèle de données, points documentaires oubliés et plan d’organisation du code | `6768d09` | — |
 | 1.0 | 13/11/2026 | Recenser ce qui reste à faire après le contrôle du 13 novembre ; Ajouter des jetons d'accès pour la présentation au client ; Décrire l'entrée unique par adresse IP, sans DNS | `83658a3` | — |
 
@@ -451,3 +450,14 @@ Ancien emplacement : `design/maquettes/maquette-dashboard-proposition-c-analyse.
 | --- | --- | --- | --- | --- |
 | 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design-maquettes-maquette-dashboard-proposition-c-analyse/maquette-dashboard-proposition-c-analyse-v1.1-2026-11-12.html) |
 | 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design-maquettes-maquette-dashboard-proposition-c-analyse/maquette-dashboard-proposition-c-analyse-v1.0-2026-11-10.html) |
+
+### 05-MCD-MERISE-MOCODO
+
+Ancien emplacement : `docs/05-MCD-MERISE-MOCODO.url`. Retiré le 13/11/2026 : Remplacé par la source draw.io
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | — |
+| 1.2 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` | — |
+| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
+| 1.0 | 02/11/2026 | Mcd ; Maj mcd | `e0cf540` | — |

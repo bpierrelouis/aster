@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | Brouillon interne | Diagrammes 06 et 07 à reprendre avec les collègues | [3 versions](../../archive/README.md#reste-a-faire-brouillon-v1) |
+| 2.2 | 13/11/2026 | Brouillon interne | MCD refait ; MAC et RG-40 à suivre | [4 versions](../../archive/README.md#reste-a-faire-brouillon-v1) |
 <!-- version:fin -->
 
 Document de travail interne, établi le 13 novembre 2026 à l’issue du contrôle du renommage, de la conversion en TypeScript, de la revue de qualité et de l’analyse de sécurité. Il recense ce qui n’a pas été traité. Les décisions et questions ouvertes font foi dans le [cadrage](../02-CADRAGE.md) (§ 19) ; ce document n’en est qu’un aide-mémoire.
@@ -65,7 +65,9 @@ Ajouts identifiés le 13 novembre en comparant les DCU à l’application ; à r
 
 ## Modèle de données
 
-- [ ] [MCD](../05-MCD-MERISE.svg) : historique des statuts d’une remontée (date, statut, auteur) ; lien entre le poste et le matériel de son unité centrale ; adresse IP du poste (simulée par l’émulateur des postes) ; adresse MAC du matériel, en cours d’ajout par un collègue avec le scanner de matrice ; type de problème obligatoire (cardinalité 1,1 conservée). À réaliser après accord de l’utilisateur.
+- [x] [MCD](../05-MCD-MERISE.svg) refait avec draw.io (13 novembre) : étapes de la remontée (historique des statuts), poste constitué de son unité centrale, adresse IP du poste, adresse MAC du matériel, dates de dernière connexion et de désactivation du compte.
+- [ ] Adresse MAC : présente dans le MCD, absente du code ; à reprendre avec le collègue qui l’ajoute (scanner de matrice).
+- [ ] Règle RG-40 et glossaire (« le poste ne spécialise pas le matériel ») à nuancer avec l’association CONSTITUER, après accord de l’utilisateur.
 
 ## Organisation du code : démonstrateur et espace de travail
 
