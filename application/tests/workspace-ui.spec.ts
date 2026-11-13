@@ -83,11 +83,16 @@ test('les noms de toutes les salles sont visibles dans la vue d’ensemble', asy
 });
 
 test('les onglets trop larges se réduisent à leur icône, avec une infobulle', async ({ page }) => {
-  await page.setViewportSize({ width: 1000, height: 820 });
+  // Police embarquée (Marianne) : la largeur des onglets ne dépend pas de la police du système (CI Linux)
+  await page.setViewportSize({ width: 1100, height: 820 });
   await open(page, '/salles');
+  await page.evaluate(async () => {
+    document.documentElement.style.setProperty('--font-text', 'Marianne');
+    await document.fonts.ready;
+  });
+  await page.setViewportSize({ width: 1000, height: 820 });
   const sub = page.locator('.subnav');
   await expect(sub).toHaveClass(/is-tight/);
-  // Débordement non vérifié ici : à cette largeur, il dépend de la police du système
   const stock = sub.getByRole('link', { name: 'Stock' });
   expect(await stock.locator(':scope > span').evaluate((n) => n.getBoundingClientRect().width)).toBeLessThanOrEqual(1);
   await expect(stock).toHaveAttribute('data-tip', 'Stock');
