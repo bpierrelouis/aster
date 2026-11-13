@@ -4,8 +4,10 @@
    d'un stagiaire au nom fictif, qui lance des programmes), remonte son état
    par l'API d'agent, reçoit les interventions demandées (arrêt de
    processus, installation, désinstallation, réinstallation), les exécute
-   et renvoie le résultat. Seuls les postes sont émulés : ORION traite
-   leurs rapports comme ceux de postes réels.
+   et renvoie le résultat. Chaque poste reçoit une adresse IPv4 stable,
+   attribuée par salle (adressesIp), qu'il remonte dans ses rapports.
+   Seuls les postes sont émulés : ORION traite leurs rapports comme ceux
+   de postes réels.
    Lancement autonome : node backend/demonstrateur/agents.ts (ORION_API, AGENT_TOKEN).
    ========================================================================== */
 
@@ -14,7 +16,7 @@ import { UTILISATEURS, SALLES_FERMEES, prng } from '#shared/seed.ts';
 import type { Commande, Rapport, Resultat } from '../workspace/postes.ts';
 
 /* Échanges avec l'API d'agent (backend/workspace/postes.ts), vus depuis le poste */
-export type PosteAgent = { nomReseau: string; horsService: boolean };
+export type PosteAgent = { nomReseau: string; horsService: boolean; salleId: string; ecoleId: string | null };
 export type AgentTransport = {
   postes(): Promise<PosteAgent[]>;
   rapports(rapports: Rapport[]): Promise<{ commandes?: Commande[] }>;
@@ -22,7 +24,7 @@ export type AgentTransport = {
 };
 
 /** Poste émulé */
-type PosteEmule = PosteAgent & { index: number; fermee: boolean; online: boolean; session: string | null; processes: Set<string>; apps: Set<string> };
+type PosteEmule = PosteAgent & { index: number; adresseIp: string; fermee: boolean; online: boolean; session: string | null; processes: Set<string>; apps: Set<string> };
 
 // Programmes utilisateur et poids de tirage (les processus système ne sont pas remontés) : surtout des
 // outils de développement et de bureautique autorisés, rarement des programmes non référencés ou interdits
@@ -41,7 +43,27 @@ const OPTIONS: [string, number][] = [['app-libreoffice', 0.3], ['app-notepadpp',
   ['app-pycharm', 0.15], ['app-eclipse', 0.1], ['app-docker', 0.1], ['app-postman', 0.1], ['app-dbeaver', 0.1], ['app-winscp', 0.1]];
 
 /**
- * transport : { postes() → [{ nomReseau }], rapports(liste) → { commandes }, resultats(liste) }.
+ * Plan d'adressage simulé, un réseau par salle : 10.<école>.<salle>.<10 + rang du poste dans la salle>, école et
+ * salle numérotées à partir de 1 dans l'ordre de la liste des postes (stable : les nouveaux postes s'y ajoutent).
+ */
+export function adressesIp(list: Pick<PosteAgent, 'nomReseau' | 'salleId' | 'ecoleId'>[]) {
+  const ecoles = new Map<string | null, Map<string, number>>(); // école → salle → nombre de postes déjà numérotés
+  const out = new Map<string, string>();
+  for (const p of list) {
+    if (!ecoles.has(p.ecoleId)) ecoles.set(p.ecoleId, new Map());
+    const salles = ecoles.get(p.ecoleId)!;
+    if (!salles.has(p.salleId)) salles.set(p.salleId, 0);
+    const rang = salles.get(p.salleId)! + 1;
+    salles.set(p.salleId, rang);
+    const ecole = [...ecoles.keys()].indexOf(p.ecoleId) + 1;
+    const salle = [...salles.keys()].indexOf(p.salleId) + 1;
+    out.set(p.nomReseau, `10.${ecole % 256}.${salle % 256}.${(10 + rang) % 256}`);
+  }
+  return out;
+}
+
+/**
+ * transport : { postes() → [{ nomReseau, horsService, salleId, ecoleId }], rapports(liste) → { commandes }, resultats(liste) }.
  */
 export function createAgentEmulator({ transport, interval = 3000, seed = 20261108, log = console }: {
   transport: AgentTransport; interval?: number; seed?: number; log?: Partial<Pick<Console, 'error'>>;
@@ -60,9 +82,9 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
   // Poste d'une salle fermée (simulation, shared/seed.ts) : reste éteint
   const fermee = (nomReseau: string) => SALLES_FERMEES.some((salle) => nomReseau.startsWith(`${salle}-`));
 
-  function emulate({ nomReseau, horsService }: PosteAgent, index: number) {
-    const p = { nomReseau, index, horsService, fermee: fermee(nomReseau), session: null, processes: new Set() } as PosteEmule; // online et apps ajoutés ci-dessous
-    p.online = !horsService && !p.fermee && rnd() > 0.1;
+  function emulate(agent: PosteAgent, index: number, adresseIp: string) {
+    const p = { ...agent, index, adresseIp, fermee: fermee(agent.nomReseau), session: null, processes: new Set() } as PosteEmule; // online et apps ajoutés ci-dessous
+    p.online = !agent.horsService && !p.fermee && rnd() > 0.1;
     if (p.online) ouvrir(p);
     p.apps = new Set([...IMAGE, ...OPTIONS.filter(([, x]) => rnd() < x).map(([app]) => app)]);
     return p;
@@ -71,9 +93,10 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
   // Un poste dont l'unité centrale est hors service, ou d'une salle fermée, reste éteint
   async function refresh() {
     const list = await transport.postes();
+    const ips = adressesIp(list);
     list.forEach((x, i) => {
       const p = postes.get(x.nomReseau);
-      if (!p) postes.set(x.nomReseau, emulate(x, i));
+      if (!p) postes.set(x.nomReseau, emulate(x, i, ips.get(x.nomReseau)!)); // adresse conservée tant que le poste existe
       else { p.horsService = x.horsService; if (p.horsService && p.online) eteindre(p); }
     });
     for (const name of [...postes.keys()]) if (!list.some((p) => p.nomReseau === name)) postes.delete(name);
@@ -106,7 +129,7 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
         }
       }
       const online = [...postes.values()].filter((p) => p.online);
-      const { commandes = [] } = await transport.rapports(online.map((p) => ({ poste: p.nomReseau, session: p.session, processus: [...p.processes].map((nom) => ({ nom, compte: p.session })), applications: [...p.apps] })));
+      const { commandes = [] } = await transport.rapports(online.map((p) => ({ poste: p.nomReseau, adresseIp: p.adresseIp, session: p.session, processus: [...p.processes].map((nom) => ({ nom, compte: p.session })), applications: [...p.apps] })));
       const resultats = commandes.map(execute).filter(Boolean) as Resultat[];
       if (resultats.length) await transport.resultats(resultats);
     } catch (error) {

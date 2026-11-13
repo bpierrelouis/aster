@@ -42,7 +42,7 @@ const TITLES = {
   statistiques: 'Utilisation du parc',
 };
 type Tab = keyof typeof TITLES;
-const SEARCH: Record<Tab, string> = { alertes: 'Processus, poste ou compte…', salles: 'Poste, processus ou compte…', listes: 'Processus ou application…', statistiques: 'Processus ou application…' };
+const SEARCH: Record<Tab, string> = { alertes: 'Processus, poste, adresse IP ou compte…', salles: 'Poste, processus ou compte…', listes: 'Processus ou application…', statistiques: 'Processus ou application…' };
 
 // Un exécutable se cherche aussi par le nom de son application
 const processText = (nom: string) => `${nom} ${logiciel(nom)?.nom ?? ''}`;
@@ -136,13 +136,14 @@ function Rooms({ salleId, query, relevant }: { salleId: Id; query: string; relev
 function Alerts({ salleId, query }: { salleId: Id; query: string }) {
   if (!can('administration.view') && !salleId) return <Empty title="Choisissez votre salle" text="Les alertes concernent la salle que vous supervisez." />;
   const matches = matcher(query);
-  const items = detections().filter((d) => (!salleId || d.salleId === salleId)
-    && matches(processText(d.processus), index().poste.get(d.posteId)?.nomReseau, index().salle.get(d.salleId)?.nom, d.compte));
+  const items = detections().map((d) => ({ d, poste: index().poste.get(d.posteId) })).filter(({ d, poste }) => (!salleId || d.salleId === salleId)
+    && matches(processText(d.processus), poste?.nomReseau, poste?.adresseIp, index().salle.get(d.salleId)?.nom, d.compte));
   if (!items.length) return <Empty title="Aucune détection" text="Aucun événement ne correspond à votre sélection." />;
-  return <OpsTable head={['Processus', 'Poste / salle', 'Compte Windows', 'Détection', 'Résultat']}>
-    {items.map((d) => <tr key={d.id}>
+  return <OpsTable head={['Processus', 'Poste / salle', 'Adresse IP', 'Compte Windows', 'Détection', 'Résultat']}>
+    {items.map(({ d, poste }) => <tr key={d.id}>
       <td><span className="app-cell"><AppIcon name={d.processus} /><span><strong>{d.processus}</strong><small><Status c={d.classement} /></small></span></span></td>
-      <td>{index().poste.get(d.posteId)?.nomReseau}<small>{index().salle.get(d.salleId)?.nom}</small></td>
+      <td>{poste?.nomReseau}<small>{index().salle.get(d.salleId)?.nom}</small></td>
+      <td>{poste?.adresseIp ?? '—'}</td>
       <td>{d.compte}</td>
       <td>{dateTime(d.at)}</td>
       <td>{d.arret ? `Arrêt ${d.arret}` : d.classement === 'blacklist' ? 'Arrêt en cours' : 'Historisé'}</td>

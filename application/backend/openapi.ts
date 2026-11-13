@@ -146,14 +146,14 @@ export const openapi = {
       get: {
         tags: ['Postes'], summary: 'Lister les postes', security: poste,
         responses: { 200: json({ type: 'object', properties: { postes: { type: 'array', items: {
-          type: 'object', properties: { id: { type: 'string' }, nomReseau: { type: 'string' }, salleId: { type: 'string' }, allume: { type: 'boolean', description: 'Rapport reçu depuis moins de 30 secondes' }, horsService: { type: 'boolean', description: 'Unité centrale du poste hors service : le poste ne peut pas s’allumer' } },
+          type: 'object', properties: { id: { type: 'string' }, nomReseau: { type: 'string' }, salleId: { type: 'string' }, ecoleId: { type: ['string', 'null'], description: 'École de la salle du poste' }, allume: { type: 'boolean', description: 'Rapport reçu depuis moins de 30 secondes' }, horsService: { type: 'boolean', description: 'Unité centrale du poste hors service : le poste ne peut pas s’allumer' } },
         } } } }), 401: error },
       },
     },
     '/api/agent/rapports': {
       post: {
         tags: ['Postes'], summary: 'Envoyer les rapports d’activité', security: poste,
-        description: 'Processus utilisateur en cours et applications installées, 2 000 rapports au plus. La réponse donne les interventions à exécuter.',
+        description: 'Adresse IP, session, processus utilisateur en cours et applications installées, 2 000 rapports au plus. La réponse donne les interventions à exécuter.',
         requestBody: { required: true, content: { 'application/json': { schema: {
           type: 'object', required: ['rapports'],
           properties: { rapports: { type: 'array', maxItems: 2000, items: {
@@ -161,6 +161,7 @@ export const openapi = {
             properties: {
               poste: { type: 'string', description: 'Nom réseau du poste' },
               session: { type: ['string', 'null'], description: 'Compte Windows de la session ouverte ; absent ou null si le poste est seulement allumé' },
+              adresseIp: { type: 'string', format: 'ipv4', description: 'Adresse IPv4 du poste, enregistrée sur le poste ; une valeur absente ou invalide laisse l’adresse connue inchangée' },
               processus: { type: 'array', maxItems: 200, items: { type: 'object', properties: { nom: { type: 'string', maxLength: 120 }, compte: { type: 'string', description: 'Compte Windows' } } } },
               applications: { type: 'array', items: { type: 'string', description: 'Identifiant d’application' } },
             },

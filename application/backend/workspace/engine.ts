@@ -8,7 +8,7 @@
 import { readFile, writeFile, rename, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { SEED_VERSION } from '#shared/seed.ts';
-import { collections, same, fail, initialState, actorOf, accountForIdentity, scopedState, mergeState } from './rules.ts';
+import { collections, same, fail, initialState, actorOf, accountForIdentity, scopedState, mergeState, schoolOf } from './rules.ts';
 import { keyOf, rebase } from './fusion.ts';
 import { DISCONNECT_AFTER, applyReports, applyResults, markDisconnected, pendingCommands } from './postes.ts';
 import { reportPdf } from './pdf.ts';
@@ -96,7 +96,7 @@ export function createEngine({ store }: { store: Store }) {
       postes: async () => {
         const s = await store.read();
         const hs = new Set<Id | null>(s.materiels.filter((m) => m.hs).map((m) => m.id));
-        return s.postes.map((p) => ({ id: p.id, nomReseau: p.nomReseau, salleId: p.salleId, allume: p.allume, horsService: hs.has(p.materielId) }));
+        return s.postes.map((p) => ({ id: p.id, nomReseau: p.nomReseau, salleId: p.salleId, ecoleId: schoolOf(p, s) ?? null, allume: p.allume, horsService: hs.has(p.materielId) }));
       },
       rapports: (rapports: Rapport[]) => system((s) => { const unknown = applyReports(s, rapports); return { inconnus: unknown, commandes: pendingCommands(s, rapports.map((r) => r.poste)) }; }),
       resultats: (resultats: Resultat[]) => system((s) => { applyResults(s, resultats); }),

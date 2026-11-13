@@ -65,6 +65,8 @@ export interface Materiel {
   dateReception: Timestamp;
   garantieFin: Timestamp | null;
   hs: boolean;
+  /** Date de mise hors service, fixée par le serveur ; absente pour un matériel en service */
+  dateHs?: Timestamp;
   /** Affectation enregistrée, déplacement physique non encore confirmé */
   deplacement?: Mouvement;
   /** Dernier déplacement physique confirmé */
@@ -81,6 +83,8 @@ export interface Poste {
   /** Compte Windows connecté */
   session?: string | null;
   vuLe?: Timestamp | null;
+  /** Adresse IPv4 remontée par le poste dans ses rapports ; jamais saisie par un utilisateur */
+  adresseIp?: string;
 }
 
 export interface Compte {
@@ -105,7 +109,8 @@ export interface Remontee {
   auteurId?: Id;
   createdAt: Timestamp;
   materielIds: Id[];
-  probleme: string | null;
+  /** Type de problème proposé (ProblemId) ou libellé précisé pour « Autre » ; obligatoire */
+  probleme: string;
   description: string;
   statut: RemonteeStatut;
   historique: EtapeRemontee[];

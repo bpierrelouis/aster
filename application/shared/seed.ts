@@ -23,7 +23,7 @@ export function prng(seed: number) {
 }
 
 /** Version du jeu de données : un état enregistré plus ancien est régénéré. */
-export const SEED_VERSION = 15;
+export const SEED_VERSION = 16;
 
 /**
  * Comptes ORION de départ : profil et école de rattachement de chaque personne.
@@ -214,6 +214,13 @@ export function seed(now = Date.now()) {
   remontees.reverse();
   // Matériels concernés par une remontée non traitée : souvent hors service
   for (const r of remontees) if (['attente', 'encours'].includes(r.statut) && rnd() < 0.5) { const m = materiels.find((x) => x.id === r.materielIds[0]); if (m) m.hs = true; }
+  // Date de mise hors service : peu après la plus ancienne remontée ouverte qui le cite, sinon depuis sa réception (60 jours au plus)
+  for (const m of materiels) {
+    if (!m.hs) continue;
+    const signal = remontees.findLast((r) => ['attente', 'encours'].includes(r.statut) && r.materielIds.includes(m.id));
+    const from = signal?.createdAt ?? Math.max(m.dateReception, now - 60 * DAY);
+    m.dateHs = Math.min(now - HOUR, signal ? from + between(1, 24) * HOUR : Math.round(from + rnd() * (now - from)));
+  }
 
   return {
     // Préférences, dispositions et dernière consultation : propres à chaque compte

@@ -39,12 +39,25 @@ test('problème libre : libellé conservé, catégorie Autre et contenu du PDF',
 test('problème libre : le serveur refuse les libellés vides, trop longs ou non textuels', () => {
   const state = initialState();
   const actor = actorOf(state, TEACHER)!;
-  for (const invalid of ['', '   ', 'x'.repeat(101), 42, { label: 'Bruit' }]) {
+  for (const invalid of ['x'.repeat(101), 42, { label: 'Bruit' }]) {
     const input: Ecriture = scopedState(state, actor);
     const mat = input.materiels.find((m) => m.salleId)!;
     input.remontees.unshift({ id: 'tmp-other', ecoleId: mat.ecoleId, materielIds: [mat.id], probleme: invalid as string, description: 'Un bruit continu.' });
     assert.throws(() => mergeState(state, input, actor), { status: 400, message: 'Type de problème invalide.' });
   }
+});
+
+test('type de problème : obligatoire pour créer une remontée', () => {
+  const state = initialState();
+  const actor = actorOf(state, TEACHER)!;
+  for (const missing of [undefined, null, '', '   ']) {
+    const input: Ecriture = scopedState(state, actor);
+    const mat = input.materiels.find((m) => m.salleId)!;
+    input.remontees.unshift({ id: 'tmp-sans-type', ecoleId: mat.ecoleId, materielIds: [mat.id], probleme: missing as string, description: 'Un bruit continu.' });
+    if (missing === undefined) delete input.remontees[0].probleme;
+    assert.throws(() => mergeState(state, input, actor), { status: 400, message: 'Type de problème obligatoire : choisissez un type ou précisez le problème.' });
+  }
+  assert.ok(state.remontees.every((r) => typeof r.probleme === 'string' && r.probleme.trim()), 'jeu de départ : chaque remontée a un type');
 });
 
 

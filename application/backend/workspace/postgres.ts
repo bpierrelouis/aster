@@ -38,6 +38,7 @@ const ENTITIES: Entity[] = [
     ['id', 'text', 'id'], ['ecole_id', 'text', 'ecoleId'], ['id_orion', 'text', 'idOrion'], ['salle_id', 'text', 'salleId'], ['type', 'text', 'type'],
     ['modele', 'text', 'modele'], ['marque', 'text', 'marque'], ['serie', 'text', 'serie'], ['date_reception', 'timestamptz', 'dateReception', ...ts],
     ['garantie_fin', 'timestamptz', 'garantieFin', ...ts], ['hors_service', 'boolean', 'hs'],
+    ['date_hors_service', 'timestamptz', 'dateHs', ...ts],
   ] },
   { collection: 'comptes', table: 'orion_compte', order: 'nom, id', cols: [
     ['id', 'text', 'id'], ['nom', 'text', 'nom'], ['email', 'text', 'email'], ['role', 'text', 'role'], ['ecole_id', 'text', 'ecoleId'],
@@ -67,7 +68,7 @@ type EntityRow = Record<string, unknown> & { extra: Record<string, unknown> };
 type EspaceRow = { version_donnees: number; revision: number; initialise_le: Date };
 type PreferenceRow = { compte_id: Id; affichage: DisplayPrefs | null; dispositions: Layout | null; consultation: Date | null; ecole_affichee: EcoleChoisie | null };
 
-const OPTIONAL = new Set<string>(['sujet', 'auteurId']); // propriétés absentes plutôt que nulles
+const OPTIONAL = new Set<string>(['sujet', 'auteurId', 'dateHs']); // propriétés absentes plutôt que nulles
 
 function fromRow(entity: Entity, row: EntityRow) {
   const item: Record<string, unknown> = {};

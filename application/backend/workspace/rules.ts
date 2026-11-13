@@ -165,7 +165,12 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
     for (const x of changes) {
       if (c === 'remontees' && !before.has(x.id)) x.id = numeroRemontee(++lastReportId);
       if (c === 'operations' && !before.has(x.id)) x.id = id('op');
-      if (c === 'postes') delete x.ecoleId; // l'école d'un poste est celle de sa salle
+      if (c === 'postes') {
+        delete x.ecoleId; // l'école d'un poste est celle de sa salle
+        // Adresse IP : remontée par le poste lui-même (postes.ts), jamais saisie par le navigateur
+        const ip = state.postes.find((p) => p.id === x.id)?.adresseIp;
+        if (ip) x.adresseIp = ip; else delete x.adresseIp;
+      }
       const old = before.get(x.id);
       if (!old && state[c].some((other) => other.id === x.id)) fail(409, 'Cet identifiant existe déjà.');
       const global = ['ecoles', 'applications'].includes(c) || (c === 'regles' && x.portee === 'global' && actor.role === 'superadmin') || (c === 'comptes' && x.role === 'superadmin' && actor.role === 'superadmin');
@@ -227,6 +232,8 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
           assert(same(stable(old), stable(x)), 'Seul le traitement peut être modifié.');
           x.historique = [...old.historique!, { statut: x.statut as RemonteeStatut, at: now, par: actor.nom, parId: actor.id }];
         }
+        // Type de problème obligatoire à la création : un type proposé, ou le libellé précisé pour « Autre »
+        if (!old) assert(x.probleme != null && String(x.probleme).trim(), 'Type de problème obligatoire : choisissez un type ou précisez le problème.');
         if (x.probleme != null) {
           assert(typeof x.probleme === 'string' && x.probleme.trim() && x.probleme.length <= 100, 'Type de problème invalide.');
           if (!old && !PROBLEMS.some((p) => p.id === x.probleme)) {
@@ -243,6 +250,10 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
         assert(!x.salleId || salles.some((s) => s.id === x.salleId && s.ecoleId === x.ecoleId), 'Salle inconnue ou hors école.');
         // Un matériel hors service ne peut qu'être remis en service ou renvoyé au stock (orientation de l'utilisateur du 12 novembre)
         if (old && x.hs && x.salleId && x.salleId !== (old.salleId ?? null)) fail(400, 'Un matériel hors service ne peut aller qu’au stock.');
+        // Date de mise hors service : fixée au passage hors service, conservée tant qu'il dure, retirée au retour en service
+        if (!x.hs) delete x.dateHs;
+        else if (old?.hs) { if (old.dateHs) x.dateHs = old.dateHs; else delete x.dateHs; }
+        else x.dateHs = now;
         if (old) assert(old.idOrion === x.idOrion, 'Identifiant Orion immuable.');
         else x.idOrion = numeroMateriel(++lastOrionId);
         // Installation physique : toute nouvelle affectation reste en cours (deplacement) jusqu'à la confirmation du

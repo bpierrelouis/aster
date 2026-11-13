@@ -9,11 +9,16 @@ import { id, schoolOf } from './rules.ts';
 import type { Id, OperationType, Processus, ResultatPoste, WorkspaceState } from '#shared/types.ts';
 
 export const DISCONNECT_AFTER = 30_000; // poste sans rapport depuis ce délai : éteint ou indisponible
+/** Adresse IPv4 en notation décimale pointée (quatre octets de 0 à 255, sans zéro initial) */
+const IPV4 = /^(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$/;
+export const isIpv4 = (value: unknown): value is string => typeof value === 'string' && IPV4.test(value);
 
 /** Rapport d'un poste, tel que l'envoie l'agent ; chaque champ est contrôlé ici */
 export interface Rapport {
   poste: string;
   session?: string | null;
+  /** Adresse IPv4 du poste */
+  adresseIp?: string;
   processus?: { nom: string; compte?: string | null }[];
   applications?: Id[];
 }
@@ -30,9 +35,9 @@ export interface Commande {
 }
 
 /**
- * Rapports des postes : session ouverte (compte Windows, ou aucune si le poste est seulement allumé), processus
- * utilisateur en cours et applications installées. Le rapport d'un poste dont l'unité centrale est hors service
- * est ignoré : ce poste ne peut être ni allumé ni connecté (rules.ts, eteindreHorsService).
+ * Rapports des postes : session ouverte (compte Windows, ou aucune si le poste est seulement allumé), adresse IP
+ * (conservée si absente ou invalide), processus utilisateur en cours et applications installées. Le rapport d'un
+ * poste dont l'unité centrale est hors service est ignoré : ce poste ne peut être ni allumé ni connecté (rules.ts, eteindreHorsService).
  */
 export function applyReports(s: WorkspaceState, rapports: Rapport[], now = Date.now()) {
   const byName = new Map(s.postes.map((p) => [p.nomReseau, p]));
@@ -46,6 +51,7 @@ export function applyReports(s: WorkspaceState, rapports: Rapport[], now = Date.
     p.allume = true;
     p.session = typeof r.session === 'string' && r.session.trim() ? r.session.trim().slice(0, 120) : null;
     p.vuLe = now;
+    if (isIpv4(r.adresseIp)) p.adresseIp = r.adresseIp;
     const reported = new Map((Array.isArray(r.processus) ? r.processus : []).slice(0, 200)
       .filter((x) => typeof x?.nom === 'string' && x.nom.length <= 120)
       .map((x) => [`${x.nom.toLowerCase()}|${String(x.compte ?? '').slice(0, 120)}`, { nom: x.nom, compte: String(x.compte ?? '').slice(0, 120) }]));

@@ -11,6 +11,7 @@ import { applyReports, pendingCommands, applyResults, markDisconnected, DISCONNE
 import { createWorkspaceRepository } from './engine.ts';
 import { analyseImport, importMateriels } from './import.ts';
 import { createWorkspaceRouter, createAgentRouter, jetonPoste } from './routes.ts';
+import { adressesIp } from '../demonstrateur/agents.ts';
 import { renameBuilding } from '#shared/buildings.ts';
 import { remonteeOuverte } from '#shared/catalog.ts';
 import { processClass, logiciel, IMAGE_REFERENCE } from '#shared/operations-data.ts';
@@ -147,6 +148,23 @@ test('installation : une affectation reste en cours jusqu’à la confirmation, 
   assert.equal(mat(state).installation, undefined);
   state = move(MANAGER, (v) => { mat(v).hs = false; mat(v).salleId = b.id; }); // remis en service et revenu à son emplacement physique : rien à faire
   assert.equal(mat(state).deplacement, undefined);
+});
+
+test('matériel : date de mise hors service fixée par le serveur, retirée au retour en service', () => {
+  let state = initialState();
+  const manager = as(state, MANAGER);
+  const write = (at: number, mutate: (m: LooseItem) => void) => {
+    const view: Ecriture = scopedState(state, manager);
+    mutate(view.materiels.find((m) => m.id === id)!);
+    state = mergeState(state, view, manager, at);
+    return state.materiels.find((m) => m.id === id)!;
+  };
+  const id = state.materiels.find((m) => m.ecoleId === 'e-num' && !m.hs && !m.salleId)!.id;
+  assert.equal(write(1_800_000_000_000, (m) => { m.hs = true; m.dateHs = 1; }).dateHs, 1_800_000_000_000, 'valeur du navigateur ignorée');
+  assert.equal(write(1_800_000_100_000, (m) => { m.modele = 'Écran renommé'; m.dateHs = 2; }).dateHs, 1_800_000_000_000, 'conservée tant qu’il est hors service');
+  assert.equal(write(1_800_000_200_000, (m) => { m.hs = false; m.dateHs = 3; }).dateHs, undefined, 'retirée au retour en service');
+  assert.equal(write(1_800_000_300_000, (m) => { m.dateHs = 4; }).dateHs, undefined, 'jamais fixée par le navigateur');
+  assert.ok(initialState().materiels.filter((m) => m.hs).every((m) => m.dateHs && m.dateHs >= m.dateReception && m.dateHs < Date.now()), 'jeu de départ : date plausible');
 });
 
 test('import : seuls les nouveaux matériels et les transferts validés sont traités', () => {
@@ -341,6 +359,33 @@ test('postes : un poste dont l’unité centrale est hors service reste éteint 
   both.postes.find((p) => p.id === hs.id)!.nomReseau = 'A014-PC02B';
   const next = mergeState(state, both, admin);
   assert.deepEqual([state.postes.find((p) => p.id === ok.id)!.allume, next.postes.find((p) => p.id === ok.id)!.allume], [true, false]);
+});
+
+test('postes : adresse IP remontée par le poste, validée et jamais saisie par le navigateur', () => {
+  let state = initialState();
+  const poste = state.postes.find((p) => p.salleId === 's-e-num-a012')!;
+  applyReports(state, [{ poste: poste.nomReseau, adresseIp: '10.1.3.11' }]);
+  assert.equal(poste.adresseIp, '10.1.3.11');
+  for (const invalid of ['10.1.3.256', '10.1.3', '010.1.3.11', 'poste.local', 42]) {
+    applyReports(state, [{ poste: poste.nomReseau, adresseIp: invalid as string }]);
+    assert.equal(poste.adresseIp, '10.1.3.11', `adresse invalide ignorée : ${invalid}`);
+  }
+  const admin = as(state, ADMIN);
+  const view: Ecriture = scopedState(state, admin);
+  const mine = view.postes.find((p) => p.id === poste.id)!;
+  Object.assign(mine, { nomReseau: `${poste.nomReseau}B`, adresseIp: '192.168.0.1' });
+  view.postes.push({ id: 'p-nouveau', salleId: poste.salleId, nomReseau: 'A012-PC99', materielId: null, allume: false, adresseIp: '192.168.0.2' });
+  state = mergeState(state, view, admin);
+  assert.equal(state.postes.find((p) => p.id === poste.id)!.adresseIp, '10.1.3.11');
+  assert.equal(state.postes.find((p) => p.id === 'p-nouveau')!.adresseIp, undefined);
+});
+
+test('émulateur : une adresse IP stable par poste, un réseau par salle', () => {
+  const ips = adressesIp([
+    { nomReseau: 'A012-PC01', salleId: 's-a', ecoleId: 'e-1' }, { nomReseau: 'A012-PC02', salleId: 's-a', ecoleId: 'e-1' },
+    { nomReseau: 'A014-PC01', salleId: 's-b', ecoleId: 'e-1' }, { nomReseau: 'R101-PC01', salleId: 's-r', ecoleId: 'e-2' },
+  ]);
+  assert.deepEqual([...ips.values()], ['10.1.1.11', '10.1.1.12', '10.1.2.11', '10.2.1.11']);
 });
 
 test('postes : rapports, détection, arrêt automatique, résultats et déconnexion', () => {

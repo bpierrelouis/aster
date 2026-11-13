@@ -96,7 +96,7 @@ function PostDetail({ id }: { id: Id }) {
     </>}>
     {(close) => p && <>
       <p className="sheet-text">{emplacement(index().salle.get(p.salleId))}{materiel && ` · ${materiel.idOrion}, ${materiel.modele}`}</p>
-      <p className="sheet-text"><PosteEtat p={p} /></p>
+      <p className="sheet-text"><PosteEtat p={p} />{p.adresseIp && ` · Adresse IP ${p.adresseIp}`}</p>
       <h3>Applications installées</h3>
       {installed.size
         ? <ul className="pop-list-plain">{state.applications.filter((a) => installed.has(a.id)).map((a) => <li key={a.id} className="ops-process">

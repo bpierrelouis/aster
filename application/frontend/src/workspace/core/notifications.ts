@@ -4,12 +4,13 @@
    la garantie est échue »…), l'espace Notifications le détail de chacune.
    - Gestionnaire : nouvelles remontées de la semaine, garanties échues ou
      arrivant à échéance (état du parc), matériels à déplacer (installation).
-   - Auteur d'une remontée (formateur, administrateurs) : ses remontées
-     terminées (remplacées ou corrigées) cette semaine.
-   - Formateur : ses remontées prises en charge par d'autres cette semaine.
-   - Administrateurs : interventions terminées cette semaine (installation,
-     désinstallation, réinitialisation, réussies ou en échec) et processus
-     interdits lancés cette semaine (arrêtés automatiquement).
+   - Auteur d'une remontée (formateur, administrateurs) : évolution de ses
+     remontées cette semaine, prises en charge par d'autres ou terminées
+     (remplacées ou corrigées).
+   - Administrateurs : interventions qu'ils ont demandées (installation,
+     désinstallation, réinitialisation), terminées cette semaine, réussies ou
+     en échec, et processus interdits lancés cette semaine (arrêtés
+     automatiquement).
    ========================================================================== */
 
 import { me } from './store.ts';
@@ -72,17 +73,17 @@ export function notificationGroups(now = Date.now()): NotificationGroup[] {
     });
   }
 
+  // Évolution des remontées de l'auteur : même règle pour le formateur et les administrateurs ; le formateur les retrouve
+  // dans l'onglet de leur phase, les administrateurs (qui voient toutes les remontées) dans « Mes remontées »
   if (['formateur', 'admin', 'superadmin'].includes(role)) {
+    const tab = (phase: string) => (role === 'formateur' ? `/remontees/${phase}` : '/remontees/miennes');
     add({
-      id: 'terminees', icon: 'checkCircle', color: 'var(--ok)', href: role === 'formateur' ? '/remontees/terminees' : '/remontees/miennes', period: 'Cette semaine',
+      id: 'terminees', icon: 'checkCircle', color: 'var(--ok)', href: tab('terminees'), period: 'Cette semaine',
       title: (n) => plural(n, 'remontée terminée', 'remontées terminées'),
       items: remontees().mine.filter((r) => treatedAt(r)! > since).map((r) => { const h = r.historique.findLast((x) => statut(x.statut).phase === 'terminee')!; return { kind: 'statut', at: h.at, r, h }; }),
     });
-  }
-
-  if (role === 'formateur') {
     add({
-      id: 'encours', icon: 'refresh', color: 'var(--c5)', href: '/remontees/encours', period: 'Cette semaine',
+      id: 'encours', icon: 'refresh', color: 'var(--c5)', href: tab('encours'), period: 'Cette semaine',
       title: (n) => plural(n, 'remontée prise en charge', 'remontées prises en charge'),
       items: remontees().mine.flatMap((r) => r.historique
         .filter((h) => statut(h.statut).phase === 'encours' && h.parId !== me().id && h.at > since)
@@ -91,10 +92,11 @@ export function notificationGroups(now = Date.now()): NotificationGroup[] {
   }
 
   if (role === 'admin' || role === 'superadmin') {
+    // Interventions (installation, désinstallation, réinitialisation ; interventions()) demandées par le compte connecté
     add({
       id: 'interventions', icon: 'download', color: 'var(--ok)', href: '/administration/interventions', period: 'Cette semaine',
       title: (n) => plural(n, 'intervention terminée', 'interventions terminées'),
-      items: interventions().filter((x) => ['fait', 'echec'].includes(x.etat) && x.o.termineLe! > since).map((x) => ({ kind: 'intervention', at: x.o.termineLe!, x })),
+      items: interventions().filter((x) => x.o.parId === me().id && ['fait', 'echec'].includes(x.etat) && x.o.termineLe! > since).map((x) => ({ kind: 'intervention', at: x.o.termineLe!, x })),
     });
     add({
       id: 'interdits', icon: 'shieldX', color: 'var(--crit)', href: '/supervision/alertes', period: 'Cette semaine, arrêtés automatiquement',

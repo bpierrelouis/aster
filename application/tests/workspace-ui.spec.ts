@@ -254,6 +254,8 @@ test('une remontée créée produit un PDF téléchargeable', async ({ page, req
   await dialog.locator('[data-mat]').first().click();
   await dialog.getByRole('button', { name: 'Continuer', exact: true }).click();
   await dialog.getByLabel('Description du problème *').fill(description);
+  // Type de problème obligatoire : pas de transmission sans type choisi, ni sans libellé pour « Autre »
+  await expect(dialog.getByRole('button', { name: 'Transmettre la remontée', exact: true })).toBeDisabled();
   await dialog.getByRole('radio', { name: 'Autre', exact: true }).click();
   const customType = dialog.getByLabel('Précisez le type de problème *');
   await expect(customType).toBeVisible();
@@ -623,6 +625,17 @@ test('supervision : Alertes par défaut ; la recherche ignore casse et espaces, 
   const names = page.locator('.ops-process strong');
   await expect(names.first()).toBeVisible();
   expect(new Set(await names.allTextContents())).toEqual(new Set(['firefox.exe']));
+  // Alertes : l'adresse IP remontée par le poste (API des postes) figure à côté du poste ; A105 est une salle fermée,
+  // dont l'émulateur n'envoie aucun rapport
+  const rapport = await page.request.post('/api/agent/rapports', {
+    headers: { Authorization: 'Bearer orion-agent-local' },
+    data: { rapports: [{ poste: 'A105-PC01', adresseIp: '10.1.9.21', session: 'camille.durand', processus: [{ nom: 'steam.exe', compte: 'camille.durand' }] }] },
+  });
+  expect(rapport.ok()).toBeTruthy();
+  await open(page, '/supervision/alertes');
+  await search.fill('A105-PC01');
+  await expect(page.locator('.ops-table thead th').nth(2)).toHaveText('Adresse IP');
+  await expect(page.locator('.ops-table tbody tr').first().locator('td').nth(2)).toHaveText('10.1.9.21');
 });
 
 test('le gestionnaire suit son travail dans le backlog : en attente, en cours, terminées ; il déclare et remet le matériel', async ({ page, request }) => {
