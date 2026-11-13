@@ -13,7 +13,7 @@ import { num, dateMed } from '#shared/format.ts';
 import { DEVICE_TYPES, deviceType, logistique } from '#shared/catalog.ts';
 import { parc, affectationOptions, batiments, batimentLabel, sallesOf, materielsOf, index } from '../../core/selectors.ts';
 import { installationOf, salleStatut, lieuNom, resteAFaire } from '../../core/installations.ts';
-import { EtatBar, Progress, avancement } from '../../widgets/parts.tsx';
+import { EtatBar, Progress, avancement, etatMateriel } from '../../widgets/parts.tsx';
 import { InstallDot } from './salles-installation.tsx';
 import { openMaterielForm } from '../inventaire/inventaire-materiel.tsx';
 import { openNewRemontee } from '../remontees/remontees-create.tsx';
@@ -126,6 +126,7 @@ export function DevCard({ ids, mode, salleId, act }: { ids: Id[]; mode: Mode; sa
       <li data-tip="Numéro de série"><Icon name="key" size={16} /><span>{m.serie ?? 'Sans numéro'}</span></li>
       <li data-tip="Date de réception"><Icon name="calendar" size={16} /><span>{dateMed(m.dateReception)}</span></li>
       {m.garantieFin ? <li data-tip="Fin de garantie" className={m.garantieFin < Date.now() ? 'is-late' : ''}><Icon name="calendarWarn" size={16} /><span>{dateMed(m.garantieFin)}</span></li> : null}
+      {m.hs ? <li data-tip="État" className="is-late"><Icon name="power" size={16} /><span>{etatMateriel(m)}</span></li> : null}
       {m.salleId || m.deplacement ? <li className="dev-fact-inst"><InstallDot m={m} /><span>{logistique(m).label}{m.deplacement ? ` (${lieuNom(m.deplacement.de)} → ${lieuNom(m.salleId)})` : ''}</span></li> : null}
     </ul>
     <div className="seg seg--status" role="radiogroup" aria-label="Hors service">

@@ -42,6 +42,8 @@ export function schemaSQL(s: string) {
     CHECK ((role = 'superadmin') = (ecole_id IS NULL)),
     CONSTRAINT orion_compte_email_unique UNIQUE (email) DEFERRABLE INITIALLY DEFERRED,
     CONSTRAINT orion_compte_sujet_unique UNIQUE (sujet) DEFERRABLE INITIALLY DEFERRED);
+  -- Dernière connexion et date de désactivation, fixées par le serveur (colonnes ajoutées à une base existante)
+  ALTER TABLE ${s}.orion_compte ADD COLUMN IF NOT EXISTS derniere_connexion timestamptz, ADD COLUMN IF NOT EXISTS date_desactivation timestamptz;
   CREATE TABLE IF NOT EXISTS ${s}.orion_preference (
     compte_id text PRIMARY KEY REFERENCES ${s}.orion_compte(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
     affichage jsonb, dispositions jsonb, consultation timestamptz, ecole_affichee text);

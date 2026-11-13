@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import { Icon } from '../ui/icons.tsx';
 import { OrionMark } from '../../connexion/brand.tsx';
 import { usePeek } from '../hooks/use-peek.ts';
-import { num, pct } from '#shared/format.ts';
+import { dateNum, num, pct } from '#shared/format.ts';
 import { ETATS, statut, etatPoste } from '#shared/catalog.ts';
 import { index, batimentLabel } from '../core/selectors.ts';
 import type { NumberFormat } from '../ui/charts.tsx';
@@ -22,6 +22,9 @@ export function EtatIcon({ m }: { m: Pick<Materiel, 'hs'> }) {
 export function EtatPill({ m }: { m: Pick<Materiel, 'hs'> }) {
   return <span className={`pill pill--${m.hs ? 'hs' : 'ok'}`}>{m.hs ? 'Hors service' : 'En service'}</span>;
 }
+
+/** État d'un matériel en toutes lettres, avec sa date de mise hors service : « Hors service depuis le 08/11/2026 » */
+export const etatMateriel = (m: Pick<Materiel, 'hs' | 'dateHs'>) => (!m.hs ? 'En service' : m.dateHs ? `Hors service depuis le ${dateNum(m.dateHs)}` : 'Hors service');
 
 /** Pastille de statut d'une remontée */
 export function StatutPill({ r }: { r: Pick<Remontee, 'statut'> }) {

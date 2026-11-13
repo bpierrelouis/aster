@@ -194,13 +194,18 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
   await login(newcomer, 'nouveau.formateur');
   const mine = await (await newcomer.request.get('/api/workspace')).json();
   expect(mine.moi).toMatchObject({ nom: 'P. Nouveau', role: 'formateur', ecoleId: 'e-num' });
-  expect((await sql('SELECT sujet FROM orion_compte WHERE email = $1', [email]))[0].sujet).toBeTruthy();
+  const connecte = (await sql('SELECT sujet, derniere_connexion, date_desactivation FROM orion_compte WHERE email = $1', [email]))[0];
+  expect(connecte.sujet).toBeTruthy();
+  expect(Date.now() - new Date(connecte.derniere_connexion).getTime()).toBeLessThan(5 * 60_000); // dernière connexion fixée par le serveur
+  expect(connecte.date_desactivation).toBeNull(); // effacée à la réactivation
 
   // Désactivation par l'administrateur : session coupée et connexion refusée
   await page.reload();
   await page.locator('tr', { hasText: email }).getByRole('button', { name: 'Désactiver' }).click();
   await page.getByRole('dialog').getByRole('button', { name: 'Désactiver', exact: true }).click();
   await expect.poll(async () => (await newcomer.request.get('/api/me')).status()).toBe(401);
+  expect((await sql('SELECT date_desactivation FROM orion_compte WHERE email = $1', [email]))[0].date_desactivation).toBeTruthy();
+  await expect(page.locator('tr', { hasText: email })).toContainText(/Désactivé\s*le \d{2}\/\d{2}\/\d{4}/);
   await newcomer.goto('/');
   await newcomer.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
   await newcomer.getByLabel('email', { exact: true }).fill(email);

@@ -38,6 +38,11 @@ export type HttpError = Error & { status?: number; code?: string };
 export const collections: CollectionName[] = ['ecoles', 'salles', 'etages', 'materiels', 'postes', 'remontees', 'detections', 'applications', 'comptes', 'regles', 'operations', 'processus', 'installations'];
 const OPERATION_TYPES: readonly string[] = ['installation', 'desinstallation', 'reinstallation', 'arret'] satisfies OperationType[];
 const SERVER_FIELDS: Partial<Record<CollectionName, Exclude<keyof LooseItem, 'id'>[]>> = { comptes: ['sujet'] }; // jamais transmis au navigateur
+/** Valeurs tenues par le serveur seul (connexion, désactivation) ou remontées par les postes (API des postes) : une valeur du navigateur est ignorée */
+const SERVER_HELD: Partial<Record<CollectionName, Exclude<keyof LooseItem, 'id'>[]>> = {
+  comptes: ['derniereConnexion', 'dateDesactivation'],
+  postes: ['allume', 'session', 'vuLe', 'adresseIp'],
+};
 
 // Comparaison indépendante de l'ordre des propriétés : un élément relu en base ne garde pas l'ordre
 // dans lequel le navigateur l'a envoyé, et plusieurs serveurs peuvent servir le même espace.
@@ -103,6 +108,24 @@ export function visibleTo(collection: CollectionName, item: LooseItem | undefine
   return true;
 }
 
+/** Élément sans les valeurs tenues par le serveur : ce que le navigateur peut modifier (fusion des écritures) */
+export const editable = <T extends LooseItem>(collection: CollectionName, item: T | undefined): T | undefined => {
+  const fields = SERVER_HELD[collection];
+  if (!item || !fields) return item;
+  const copy = { ...item };
+  for (const f of fields) delete copy[f];
+  return copy;
+};
+
+/** Élément proposé par le navigateur, avec les valeurs tenues par le serveur reprises de l'élément enregistré */
+function withServerHeld<T extends LooseItem>(collection: CollectionName, item: T, stored: LooseItem | undefined): T {
+  const fields = SERVER_HELD[collection];
+  if (!fields) return item;
+  const copy: LooseItem = { ...item };
+  for (const f of fields) { if (stored?.[f] !== undefined) Object.assign(copy, { [f]: stored[f] }); else delete copy[f]; }
+  return copy as T;
+}
+
 export const strip = <T extends LooseItem>(collection: CollectionName, item: T): T => {
   const fields = SERVER_FIELDS[collection];
   if (!fields) return item;
@@ -141,10 +164,12 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
   const materiels = Array.isArray(input.materiels) ? input.materiels : visible.materiels;
 
   for (const c of collections) {
-    const proposed: LooseItem[] = input[c] ?? visible[c].map((x) => strip(c, x));
-    assert(Array.isArray(proposed) && proposed.length <= 20000);
+    const sent: LooseItem[] = input[c] ?? visible[c].map((x) => strip(c, x));
+    assert(Array.isArray(sent) && sent.length <= 20000);
     const ids = new Set<unknown>();
-    for (const x of proposed) { assert(x && typeof x.id === 'string' && x.id.length < 150 && !ids.has(x.id)); ids.add(x.id); }
+    for (const x of sent) { assert(x && typeof x.id === 'string' && x.id.length < 150 && !ids.has(x.id)); ids.add(x.id); }
+    const stored = new Map<Id, LooseItem>(state[c].map((x) => [x.id, x]));
+    const proposed = sent.map((x) => withServerHeld(c, x, stored.get(x.id)));
     const before = new Map<Id, LooseItem>(visible[c].map((x) => [x.id, x]));
     const changes = proposed.filter((x) => !same(x, before.has(x.id) ? strip(c, before.get(x.id)!) : undefined));
     const deleted: LooseItem[] = visible[c].filter((x) => !ids.has(x.id));
@@ -167,9 +192,8 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
       if (c === 'operations' && !before.has(x.id)) x.id = id('op');
       if (c === 'postes') {
         delete x.ecoleId; // l'école d'un poste est celle de sa salle
-        // Adresse IP : remontée par le poste lui-même (postes.ts), jamais saisie par le navigateur
-        const ip = state.postes.find((p) => p.id === x.id)?.adresseIp;
-        if (ip) x.adresseIp = ip; else delete x.adresseIp;
+        // État, session, dernier rapport et adresse IP : remontés par le poste lui-même (postes.ts) ; un nouveau poste est éteint
+        if (!stored.has(x.id)) Object.assign(x, { allume: false, session: null, vuLe: null });
       }
       const old = before.get(x.id);
       if (!old && state[c].some((other) => other.id === x.id)) fail(409, 'Cet identifiant existe déjà.');
@@ -189,9 +213,12 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
         if (actor.role !== 'superadmin' && x.ecoleId !== actor.ecoleId) fail(403, 'Ressource hors de votre école.');
         assert(!state.comptes.some((o) => o.id !== x.id && o.email.toLowerCase() === x.email), 'Cette adresse est déjà utilisée par un autre compte.');
         if (old?.id === actor.id) assert(x.actif && x.role === old.role && (x.ecoleId ?? null) === (old.ecoleId ?? null), 'Vous ne pouvez pas modifier votre propre profil ni désactiver votre compte.');
-        const stored = state.comptes.find((o) => o.id === x.id);
+        const account = stored.get(x.id);
         // Identité rapprochée : fixée par le serveur seul, conservée tant que l'adresse ne change pas
-        if (stored?.sujet && stored.email.toLowerCase() === x.email) x.sujet = stored.sujet; else delete x.sujet;
+        if (account?.sujet && account.email!.toLowerCase() === x.email) x.sujet = account.sujet; else delete x.sujet;
+        // Date de désactivation : fixée à la désactivation, conservée tant qu'elle dure, retirée à la réactivation
+        if (x.actif) delete x.dateDesactivation;
+        else if (!account || account.actif) x.dateDesactivation = now;
       }
       if (c === 'operations') {
         if (old) fail(403, 'Le suivi d’une intervention est mis à jour par les postes.');

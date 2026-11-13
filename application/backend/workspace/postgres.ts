@@ -43,6 +43,7 @@ const ENTITIES: Entity[] = [
   { collection: 'comptes', table: 'orion_compte', order: 'nom, id', cols: [
     ['id', 'text', 'id'], ['nom', 'text', 'nom'], ['email', 'text', 'email'], ['role', 'text', 'role'], ['ecole_id', 'text', 'ecoleId'],
     ['actif', 'boolean', 'actif'], ['sujet', 'text', 'sujet'],
+    ['derniere_connexion', 'timestamptz', 'derniereConnexion', ...ts], ['date_desactivation', 'timestamptz', 'dateDesactivation', ...ts],
   ] },
   { collection: 'remontees', table: 'orion_remontee', order: 'created_at DESC, id DESC', cols: [
     ['id', 'text', 'id'], ['ecole_id', 'text', 'ecoleId'], ['auteur', 'text', 'auteur'], ['created_at', 'timestamptz', 'createdAt', ...ts],
@@ -68,7 +69,7 @@ type EntityRow = Record<string, unknown> & { extra: Record<string, unknown> };
 type EspaceRow = { version_donnees: number; revision: number; initialise_le: Date };
 type PreferenceRow = { compte_id: Id; affichage: DisplayPrefs | null; dispositions: Layout | null; consultation: Date | null; ecole_affichee: EcoleChoisie | null };
 
-const OPTIONAL = new Set<string>(['sujet', 'auteurId', 'dateHs']); // propriétés absentes plutôt que nulles
+const OPTIONAL = new Set<string>(['sujet', 'auteurId', 'dateHs', 'derniereConnexion', 'dateDesactivation']); // propriétés absentes plutôt que nulles
 
 function fromRow(entity: Entity, row: EntityRow) {
   const item: Record<string, unknown> = {};

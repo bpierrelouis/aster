@@ -380,6 +380,58 @@ test('postes : adresse IP remontée par le poste, validée et jamais saisie par 
   assert.equal(state.postes.find((p) => p.id === 'p-nouveau')!.adresseIp, undefined);
 });
 
+test('postes : état, session et dernier rapport remontés par le poste, jamais écrits par le navigateur', () => {
+  let state = initialState();
+  const [allume, eteint] = state.postes.filter((p) => p.salleId === 's-e-num-a012');
+  applyReports(state, [{ poste: allume.nomReseau, session: 'stagiaire.01' }]);
+  const vu = allume.vuLe;
+  const admin = as(state, ADMIN);
+  const view: Ecriture = scopedState(state, admin);
+  Object.assign(view.postes.find((p) => p.id === allume.id)!, { allume: false, session: 'pirate', vuLe: 1 });
+  Object.assign(view.postes.find((p) => p.id === eteint.id)!, { allume: true, session: 'pirate', vuLe: Date.now() });
+  view.postes.push({ id: 'p-nouveau', salleId: allume.salleId, nomReseau: 'A012-PC99', materielId: null, allume: true, session: 'pirate', vuLe: Date.now() });
+  state = mergeState(state, view, admin);
+  const lu = (pid: Id) => state.postes.find((p) => p.id === pid)!;
+  assert.deepEqual([lu(allume.id).allume, lu(allume.id).session, lu(allume.id).vuLe], [true, 'stagiaire.01', vu]);
+  assert.deepEqual([lu(eteint.id).allume, lu(eteint.id).session, lu(eteint.id).vuLe], [false, null, null]);
+  assert.deepEqual([lu('p-nouveau').allume, lu('p-nouveau').session, lu('p-nouveau').vuLe], [false, null, null], 'un nouveau poste est éteint');
+  // Seule une écriture qui ne change que ces valeurs n'est pas une modification : le formateur n'est pas refusé
+  const teacher = as(state, TEACHER);
+  const lecture: Ecriture = scopedState(state, teacher);
+  lecture.postes.forEach((p) => Object.assign(p, { allume: !p.allume, vuLe: 1 }));
+  assert.equal(mergeState(state, lecture, teacher).postes.find((p) => p.id === allume.id)!.allume, true);
+});
+
+test('comptes : dernière connexion et date de désactivation fixées par le serveur', async () => {
+  let state = initialState();
+  const admin = as(state, ADMIN);
+  const edit: Ecriture = scopedState(state, admin);
+  Object.assign(edit.comptes.find((c) => c.id === TEACHER)!, { actif: false, derniereConnexion: 1, dateDesactivation: 2 });
+  edit.comptes.push({ id: 'cpt-new', nom: 'P. Nouveau', email: 'p.nouveau@orion.demo', role: 'formateur', ecoleId: 'e-num', actif: true, derniereConnexion: 3, dateDesactivation: 4 });
+  state = mergeState(state, edit, admin, 1_000);
+  const compte = (cid: Id) => state.comptes.find((c) => c.id === cid)!;
+  assert.deepEqual([compte(TEACHER).derniereConnexion, compte(TEACHER).dateDesactivation], [undefined, 1_000], 'date de désactivation posée');
+  assert.deepEqual([compte('cpt-new').derniereConnexion, compte('cpt-new').dateDesactivation], [undefined, undefined]);
+  const rename: Ecriture = scopedState(state, admin);
+  rename.comptes.find((c) => c.id === TEACHER)!.nom = 'L. Martin-Durand';
+  state = mergeState(state, rename, admin, 2_000);
+  assert.equal(compte(TEACHER).dateDesactivation, 1_000, 'conservée tant que le compte reste désactivé');
+  const back: Ecriture = scopedState(state, admin);
+  back.comptes.find((c) => c.id === TEACHER)!.actif = true;
+  state = mergeState(state, back, admin, 3_000);
+  assert.equal(compte(TEACHER).dateDesactivation, undefined, 'effacée à la réactivation');
+  // Connexion : date fixée par le serveur ; une écriture préparée avant elle n'entre pas en conflit
+  const repo = await createWorkspaceRepository({ initialState: state });
+  const stale = await repo.read(admin);
+  const avant = Date.now();
+  await repo.connexion(TEACHER, 'kc-teacher');
+  stale.comptes.find((c) => c.id === TEACHER)!.nom = 'L. Martin';
+  await repo.update(stale, stale.revision, admin);
+  const apres = (await repo.snapshot()).comptes.find((c) => c.id === TEACHER)!;
+  assert.equal(apres.nom, 'L. Martin');
+  assert.ok(apres.derniereConnexion! >= avant);
+});
+
 test('émulateur : une adresse IP stable par poste, un réseau par salle', () => {
   const ips = adressesIp([
     { nomReseau: 'A012-PC01', salleId: 's-a', ecoleId: 'e-1' }, { nomReseau: 'A012-PC02', salleId: 's-a', ecoleId: 'e-1' },
@@ -466,6 +518,13 @@ test('écritures concurrentes : fusion élément par élément, conflit seulemen
   conflict.materiels[1].modele = 'Concurrente';
   assert.throws(() => rebase(after, conflict, state.revision, log, admin), { status: 409 });
   assert.throws(() => rebase(after, edit, state.revision - 5, log, admin), { status: 409 });
+  // Un poste modifié par l'administrateur pendant ses rapports : pas de conflit, l'état remonté est conservé
+  const reporting = after.postes[0];
+  assert.ok(reporting.vuLe && base.postes.some((p) => p.id === reporting.id));
+  const poste = structuredClone(base);
+  poste.postes.find((p) => p.id === reporting.id)!.nomReseau = 'RENOMME-01';
+  const renamed = mergeState(after, rebase(after, poste, state.revision, log, admin), admin).postes.find((p) => p.id === reporting.id)!;
+  assert.deepEqual([renamed.nomReseau, renamed.vuLe], ['RENOMME-01', reporting.vuLe]);
 });
 
 test('moteur : persistance fichier, révision, rapprochement d’identité et PDF dans le périmètre', async () => {
@@ -481,11 +540,12 @@ test('moteur : persistance fichier, révision, rapprochement d’identité et PD
     await repo.agent.rapports([{ poste: (await repo.snapshot()).postes[0].nomReseau, processus: [] }]); // révision 3
     stale.materiels[2].modele = 'Après un rapport de poste';
     await repo.update(stale, 2, admin);
-    await repo.bindIdentity(TEACHER, 'kc-teacher');
+    await repo.connexion(TEACHER, 'kc-teacher');
     const reopened = await createWorkspaceRepository({ file });
     assert.equal((await reopened.read(admin)).materiels[0].modele, 'Persisté');
     assert.equal((await reopened.read(admin)).materiels[2].modele, 'Après un rapport de poste');
     assert.equal((await reopened.findAccount({ sub: 'kc-teacher' }))?.id, TEACHER);
+    assert.ok((await reopened.findAccount({ sub: 'kc-teacher' }))?.derniereConnexion, 'dernière connexion conservée');
     const report = (await reopened.read(admin)).remontees[0];
     assert.equal((await reopened.pdf(report.id, admin)).subarray(0, 8).toString(), '%PDF-1.4');
     const foreign = (await reopened.snapshot()).remontees.find((r) => r.ecoleId === 'e-res')!;

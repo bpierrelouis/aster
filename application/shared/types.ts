@@ -79,6 +79,7 @@ export interface Poste {
   nomReseau: string;
   /** Unité centrale du poste */
   materielId: Id | null;
+  /** allume, session, vuLe et adresseIp : remontés par le poste (API des postes), jamais écrits par le navigateur */
   allume: boolean;
   /** Compte Windows connecté */
   session?: string | null;
@@ -94,6 +95,10 @@ export interface Compte {
   role: RoleId;
   ecoleId: Id | null;
   actif: boolean;
+  /** Dernière connexion réussie, fixée par le serveur ; absente si le compte ne s'est jamais connecté */
+  derniereConnexion?: Timestamp;
+  /** Date de désactivation, fixée par le serveur ; absente pour un compte actif */
+  dateDesactivation?: Timestamp;
   /** Sujet OIDC de l'identité rapprochée ; jamais transmis au navigateur */
   sujet?: string;
 }

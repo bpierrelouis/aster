@@ -52,7 +52,7 @@ export const openapi = {
     '/auth/callback': {
       get: {
         tags: ['Connexion'], summary: 'Retour du fournisseur d’identité',
-        description: 'Valide le code, rapproche l’identité d’un compte ORION actif et ouvre la session.',
+        description: 'Valide le code, rapproche l’identité d’un compte ORION actif, enregistre la date de dernière connexion et ouvre la session.',
         parameters: [
           { name: 'code', in: 'query', required: true, schema: { type: 'string' } },
           { name: 'state', in: 'query', required: true, schema: { type: 'string' } },
@@ -80,7 +80,7 @@ export const openapi = {
       },
       put: {
         tags: ['Espace de travail'], summary: 'Enregistrer l’espace de travail', security: session,
-        description: 'Applique les droits de l’utilisateur, puis fusionne élément par élément avec les écritures intervenues depuis `baseRevision`. Exige l’en-tête `Origin` de l’application.',
+        description: 'Applique les droits de l’utilisateur, puis fusionne élément par élément avec les écritures intervenues depuis `baseRevision`. Les valeurs tenues par le serveur sont ignorées : état, session, dernier rapport et adresse IP des postes (API des postes), dernière connexion et date de désactivation des comptes. Exige l’en-tête `Origin` de l’application.',
         requestBody: {
           required: true,
           content: { 'application/json': { schema: {

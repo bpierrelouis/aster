@@ -78,7 +78,13 @@ export function createEngine({ store }: { store: Store }) {
       const next = mergeState(state, rebase(state, input, baseRevision, await since(baseRevision), actor), actor);
       return { next, result: scopedState(next, actor) };
     }),
-    bindIdentity: (accountId: Id, sub: string) => system((s) => { const c = s.comptes.find((x) => x.id === accountId); if (c) c.sujet = sub; }),
+    /** Connexion réussie : identité rapprochée (sujet OIDC, absent en mode interface seule) et date de dernière connexion, fixées par le serveur */
+    connexion: (accountId: Id, sub?: string) => system((s) => {
+      const c = s.comptes.find((x) => x.id === accountId);
+      if (!c) return;
+      if (sub) c.sujet = sub;
+      c.derniereConnexion = Date.now();
+    }),
     /** Import JSON : rapprochement des numéros de série avec tout le parc, puis import (import.ts) */
     importAnalyse: async (actor: Actor, input: ImportAnalyseInput) => analyseImport(await store.read(), actor, input),
     importMateriels: (actor: Actor, input: ImportInput) => write((state) => {

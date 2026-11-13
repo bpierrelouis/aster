@@ -44,7 +44,8 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   input.comptes.push({ id: 'cpt-test', nom: 'P. Nouveau', email: 'p.nouveau@orion.demo', role: 'formateur', ecoleId: 'e-num', actif: true });
   input.prefs = { ambiance: 'minarm', glass: 'solid' };
   await repo.update(input, 0, admin);
-  await repo.bindIdentity('cpt-test', 'kc-nouveau');
+  const avantConnexion = Date.now();
+  await repo.connexion('cpt-test', 'kc-nouveau');
 
   // Postes : rapport, arrêt automatique d'un processus interdit, résultat
   const poste = (await repo.snapshot()).postes.find((p) => p.salleId === 's-e-num-a012')!;
@@ -78,7 +79,9 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   assert(moved.every((id) => state.materiels.find((m) => m.id === id)!.salleId === null));
   assert.deepEqual(state.remontees.find((r) => r.id === report.id)!.materielIds, [mat.id]);
   assert.equal(state.materiels.find((m) => m.id === mat.id)!.modele, 'Renommé après la remontée');
-  assert.equal((await reopened.findAccount({ sub: 'kc-nouveau' }))?.id, 'cpt-test');
+  const connecte = await reopened.findAccount({ sub: 'kc-nouveau' });
+  assert.equal(connecte?.id, 'cpt-test');
+  assert.ok(connecte!.derniereConnexion! >= avantConnexion && !("dateDesactivation" in connecte!), 'dernière connexion relue en base ; compte actif sans date de désactivation');
   assert.equal((await reopened.read(admin)).prefs.ambiance, 'minarm');
   assert.equal((await reopened.read(teacher)).prefs.ambiance, 'orion', 'préférences propres à chaque compte');
   assert(state.detections.some((d) => d.processus === 'steam.exe' && d.arret === 'réussi'));
@@ -87,8 +90,8 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   await assert.rejects(reopened.pdf(state.remontees.find((r) => r.ecoleId === 'e-res')!.id, admin), { status: 404 });
   const row = (await pool.query(`SELECT date_reception FROM ${schema}.orion_materiel WHERE id = 'm-test'`)).rows[0];
   assert.equal(row.date_reception.toISOString(), '2026-10-01T00:00:00.000Z');
-  const account = (await pool.query(`SELECT email, role, ecole_id, sujet FROM ${schema}.orion_compte WHERE id = 'cpt-test'`)).rows[0];
-  assert.deepEqual(account, { email: 'p.nouveau@orion.demo', role: 'formateur', ecole_id: 'e-num', sujet: 'kc-nouveau' });
+  const account = (await pool.query(`SELECT email, role, ecole_id, sujet, derniere_connexion IS NOT NULL AS connecte FROM ${schema}.orion_compte WHERE id = 'cpt-test'`)).rows[0];
+  assert.deepEqual(account, { email: 'p.nouveau@orion.demo', role: 'formateur', ecole_id: 'e-num', sujet: 'kc-nouveau', connecte: true });
 });
 
 test('PostgreSQL : deux serveurs partagent la même base et fusionnent leurs écritures', { skip: !database && 'PostgreSQL indisponible' }, async () => {

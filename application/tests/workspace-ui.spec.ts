@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { role as roleOf } from '#shared/catalog.ts';
+import { dateNum, dateTime } from '#shared/format.ts';
 import type { APIRequestContext, Locator, Page } from '@playwright/test';
 import type { Compte, Materiel, WorkspaceView } from '#shared/types.ts';
 
@@ -615,7 +616,7 @@ test('supervision : Alertes par défaut ; la recherche ignore casse et espaces, 
   const search = page.getByRole('searchbox', { name: 'Rechercher', exact: true });
   await search.fill('  LibreOffice ');
   await expect(page.locator('.ops-table tbody tr')).toHaveText([/soffice\.exe/, /soffice\.bin/]);
-  await search.fill('blacklist STEAM');
+  await search.fill('liste noire STEAM');
   await expect(page.locator('.ops-table tbody tr')).toHaveText([/steam\.exe/]);
   await search.fill('processus-absent');
   await expect(page.locator('.ops-table tbody tr')).toHaveText([/Aucune règle/]);
@@ -786,6 +787,19 @@ test('en mode interface seule, le menu du compte change d’utilisateur', async 
   await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(0);
   await switchTo(admin);
   await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(1);
+  // Chaque changement d'utilisateur est une connexion : sa date, fixée par le serveur, figure dans Administration › Comptes
+  const connecte = (await state(request)).comptes.find((c) => c.id === formateur.id)!;
+  expect(connecte.derniereConnexion).toBeGreaterThan(Date.now() - 5 * 60_000);
+  await open(page, '/administration/comptes');
+  await expect(page.locator('.ops-table thead')).toContainText('Dernière connexion');
+  await expect(page.locator('.ops-table tbody tr', { hasText: formateur.email })).toContainText(dateTime(connecte.derniereConnexion!));
+});
+
+test('la fiche d’un matériel hors service dans la vue Salles indique depuis quand', async ({ page, request }) => {
+  const m = (await state(request)).materiels.find((x) => x.hs && x.salleId && x.dateHs)!;
+  await open(page, `/salles/salle/${m.salleId}`);
+  await page.locator(`.dev[aria-label*="${m.idOrion}"]`).click();
+  await expect(page.locator('.dev-card .dev-facts')).toContainText(`Hors service depuis le ${dateNum(m.dateHs!)}`);
 });
 
 

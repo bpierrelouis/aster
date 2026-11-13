@@ -15,8 +15,8 @@ import { createPostgresWorkspaceRepository } from './workspace/postgres.ts';
 import { createServices } from './services.ts';
 import { openapi } from './openapi.ts';
 import { DISCONNECT_AFTER } from './workspace/postes.ts';
-import { same } from './workspace/rules.ts';
-import type { Compte, Id } from '#shared/types.ts';
+import { editable, same } from './workspace/rules.ts';
+import type { Compte, Id, WorkspaceState } from '#shared/types.ts';
 
 declare module 'express-session' {
   interface SessionData {
@@ -91,7 +91,9 @@ app.use('/api/docs', connected, swaggerUi.serve, swaggerUi.setup(openapi, { cust
 const provisioning = config.identityProvisioning ? createKeycloakProvisioning({ issuer: config.issuer, ...config.provisioning }) : null;
 const provision = (accounts: Compte[]) => provisioning?.ensure(accounts).catch((error) => console.error('Provisionnement des identités :', error.message));
 provision((await workspaceRepository.snapshot()).comptes);
-workspaceRepository.onCommit((before, after) => { if (!same(before.comptes, after.comptes)) provision(after.comptes); });
+// Comptes modifiés par un administrateur (une connexion ne change que des valeurs tenues par le serveur)
+const comptesGeres = (s: WorkspaceState) => s.comptes.map((c) => editable('comptes', c));
+workspaceRepository.onCommit((before, after) => { if (!same(comptesGeres(before), comptesGeres(after))) provision(after.comptes); });
 setInterval(() => workspaceRepository.agent.sweep().catch(() => {}), 10_000).unref();
 
 /** Compte ORION actif de la session ; une session dont le compte est désactivé est fermée. */
@@ -145,7 +147,7 @@ app.get('/auth/callback', async (req, res) => {
       res.clearCookie('orion.sid');
       return res.redirect('/?error=compte');
     }
-    if (account.sujet !== identity.sub) await workspaceRepository.bindIdentity(account.id, identity.sub);
+    await workspaceRepository.connexion(account.id, identity.sub);
     await regenerateSession(req);
     req.session.accountId = account.id;
     req.session.idToken = tokens.id_token;

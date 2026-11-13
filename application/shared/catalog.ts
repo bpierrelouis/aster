@@ -158,9 +158,9 @@ export const etatPoste = (p: Pick<Poste, 'allume' | 'session'> | null | undefine
 
 /* Classement d'un processus (RG-45) */
 export const CLASSEMENTS = {
-  blacklist: { label: 'Blacklist', icon: 'shieldX', led: 'hs' },
+  blacklist: { label: 'Liste noire', icon: 'shieldX', led: 'hs' },
   nonref: { label: 'Non référencé', icon: 'malfunction', led: 'wait' },
-  whitelist: { label: 'Whitelist', icon: 'shield', led: 'ok' },
+  whitelist: { label: 'Liste blanche', icon: 'shield', led: 'ok' },
 };
 
 export const byId = <T extends { id: string }>(list: readonly T[], id: unknown): T | undefined => list.find((x) => x.id === id);

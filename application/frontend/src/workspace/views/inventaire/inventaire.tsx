@@ -14,7 +14,7 @@ import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
 import { accord, dateNum, num, plural } from '#shared/format.ts';
 import { useTitle } from '../../hooks/use-title.ts';
-import { PageHead, DataPanel, LieuChip, Pagination, paginate } from '../../widgets/parts.tsx';
+import { PageHead, DataPanel, LieuChip, Pagination, etatMateriel, paginate } from '../../widgets/parts.tsx';
 import { ImportPanel } from './inventaire-import.tsx';
 import type { ChangeEvent } from 'react';
 import type { SheetClose } from '../../ui/overlays.tsx';
@@ -156,7 +156,7 @@ function MoveSheet({ items, onDone }: { items: Materiel[]; onDone: () => void })
 /** Fiche d'un matériel, avec modification et suppression selon les droits */
 function DetailSheet({ m, onDelete }: { m: Materiel; onDelete: () => void }) {
   const t = deviceType(m.type), room = index().salle.get(m.salleId!);
-  const rows = [['Identifiant Orion', m.idOrion], ['Type', t.label], ['Marque', m.marque || '—'], ['Numéro de série', m.serie || '—'], ['Réception', date(m.dateReception)], ['Localisation', room ? `${room.nom} · ${batimentLabel(room.batiment)}` : 'Stock'], ['État', !m.hs ? 'En service' : m.dateHs ? `Hors service depuis le ${dateNum(m.dateHs)}` : 'Hors service'], ['Garantie', `${garantie(m)} · ${date(m.garantieFin)}`]];
+  const rows = [['Identifiant Orion', m.idOrion], ['Type', t.label], ['Marque', m.marque || '—'], ['Numéro de série', m.serie || '—'], ['Réception', date(m.dateReception)], ['Localisation', room ? `${room.nom} · ${batimentLabel(room.batiment)}` : 'Stock'], ['État', etatMateriel(m)], ['Garantie', `${garantie(m)} · ${date(m.garantieFin)}`]];
   const ensuite = useRef<(() => void) | null>(null); // action ouverte une fois la fiche fermée
   const puis = (close: SheetClose, action: () => void) => { ensuite.current = action; close(); };
   return <Sheet title={m.modele} lead={<Tile name={t.icon} color={t.color} size="m" />} onClose={() => ensuite.current?.()}

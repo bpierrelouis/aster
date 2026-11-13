@@ -25,6 +25,7 @@ export function uiDevelopment(): Plugin {
       const initial = await repository.snapshot();
       let account = initial.comptes.find((c) => c.actif && c.role === role && (role === 'superadmin' || c.ecoleId === initial.ecoles[0]?.id));
       if (!account) throw new Error(`Aucun compte actif pour le profil ${role}.`);
+      await repository.connexion(account.id); // ouverture de session simulée : dernière connexion fixée par le serveur
       const actor = () => repository.actor(account!.id);
       if (process.env.ORION_UI_AGENTS !== '0') createAgentEmulator({ transport: directTransport(repository) }).start();
 
@@ -55,6 +56,7 @@ export function uiDevelopment(): Plugin {
         const next = (await repository.snapshot()).comptes.find((c) => c.id === req.body?.id && c.actif);
         if (!next) return res.status(400).json({ error: 'Compte inconnu ou inactif.' });
         account = next;
+        await repository.connexion(next.id);
         res.json({ ok: true });
       });
       const agentToken = process.env.AGENT_TOKEN || 'orion-agent-local';

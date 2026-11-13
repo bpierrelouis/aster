@@ -14,7 +14,7 @@ import { useStore } from '../../hooks/use-store.ts';
 import { scope, index, optionsSalles, parc, batimentLabel, emplacement } from '../../core/selectors.ts';
 import { can } from '../../core/permissions.ts';
 import { role } from '#shared/catalog.ts';
-import { num, plural } from '#shared/format.ts';
+import { dateNum, dateTime, num, plural } from '#shared/format.ts';
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { AppIcon } from '../../ui/app-icon.tsx';
 import { confirmSheet, notify } from '../../ui/overlays.tsx';
@@ -172,12 +172,13 @@ async function toggleAccount(id: Id) {
 function Accounts({ query }: { query: string }) {
   const list = (store.state.comptes || []).filter((c) => (currentEcole() === 'all' || c.ecoleId === currentEcole()) && `${c.nom} ${c.email}`.toLowerCase().includes(query));
   if (!list.length) return <Empty text="Aucun compte trouvé" />;
-  return <OpsTable head={['Utilisateur', 'Profil', 'École', 'État', 'Actions']}>
+  return <OpsTable head={['Utilisateur', 'Profil', 'École', 'État', 'Dernière connexion', 'Actions']}>
     {list.map((c) => <tr key={c.id}>
       <td><strong>{c.nom}</strong><small>{c.email}</small></td>
       <td>{role(c.role).label}</td>
       <td>{index().ecole.get(c.ecoleId!)?.nom || 'Toutes les écoles'}</td>
-      <td><span className="ops-status"><span className={`led led--${c.actif ? 'ok' : 'wait'}`}></span>{c.actif ? 'Actif' : 'Désactivé'}</span></td>
+      <td><span className="ops-status"><span className={`led led--${c.actif ? 'ok' : 'wait'}`}></span>{c.actif ? 'Actif' : 'Désactivé'}</span>{!c.actif && c.dateDesactivation ? <small>le {dateNum(c.dateDesactivation)}</small> : null}</td>
+      <td>{c.derniereConnexion ? dateTime(c.derniereConnexion) : 'Jamais'}</td>
       <td>
         <button className="icon-btn" onClick={() => openAccountForm(store.state.comptes.find((x) => x.id === c.id))} aria-label={`Modifier ${c.nom}`}><Icon name="pencil" size={17} /></button>
         {c.id !== me().id && <button className="btn btn--ghost" onClick={() => toggleAccount(c.id)}>{c.actif ? 'Désactiver' : 'Réactiver'}</button>}

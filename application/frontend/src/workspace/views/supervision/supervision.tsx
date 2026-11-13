@@ -1,6 +1,6 @@
 /* ==========================================================================
    Supervision : alertes (onglet par défaut), processus des postes par
-   salle, règles de classement (whitelist / blacklist) et statistiques
+   salle, règles de classement (liste blanche / liste noire) et statistiques
    d'utilisation. Processus et détections ne sont alimentés que par les
    postes ; l'utilisateur demande un arrêt, le poste l'exécute. La recherche
    ignore casse et accents et reconnaît le nom de l'application d'un
@@ -243,7 +243,7 @@ function RuleForm({ rule }: { rule: Regle | null }) {
     <label className="field"><span className="field-label">Nom du processus *</span><input name="nom" defaultValue={rule?.nom || ''} required maxLength={100} placeholder="application.exe" /></label>
     <div className="form-2">
       <div className="field"><span className="field-label">Classement</span>
-        <FilterSelect aria-label="Classement" name="classement" defaultValue={rule?.classement} options={[{ value: 'whitelist', label: 'Autorisé (whitelist)' }, { value: 'blacklist', label: 'Interdit (blacklist)' }]} />
+        <FilterSelect aria-label="Classement" name="classement" defaultValue={rule?.classement} options={[{ value: 'whitelist', label: 'Autorisé (liste blanche)' }, { value: 'blacklist', label: 'Interdit (liste noire)' }]} />
       </div>
       <div className="field"><span className="field-label">Portée</span>
         <FilterSelect aria-label="Portée" name="portee" defaultValue={rule?.portee}
