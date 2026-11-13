@@ -10,7 +10,7 @@ import { rebase } from './fusion.ts';
 import { applyReports, pendingCommands, applyResults, markDisconnected, DISCONNECT_AFTER } from './postes.ts';
 import { createWorkspaceRepository } from './engine.ts';
 import { analyseImport, importMateriels } from './import.ts';
-import { createWorkspaceRouter, createAgentRouter } from './routes.ts';
+import { createWorkspaceRouter, createAgentRouter, jetonPoste } from './routes.ts';
 import { renameBuilding } from '#shared/buildings.ts';
 import { remonteeOuverte } from '#shared/catalog.ts';
 import { processClass, logiciel, IMAGE_REFERENCE } from '#shared/operations-data.ts';
@@ -450,11 +450,11 @@ test('moteur : persistance fichier, révision, rapprochement d’identité et PD
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
 
-test('routeurs : session obligatoire, ETag, jeton des postes', async () => {
+test('routeurs : session obligatoire, ETag, jeton de passerelle et jeton propre à chaque poste', async () => {
   const repository = await createWorkspaceRepository();
   let accountId: Id | null = null;
   const app = express()
-    .use('/api/workspace', createWorkspaceRouter({ repository, actor: async () => (accountId ? repository.actor(accountId) : null) }))
+    .use('/api/workspace', createWorkspaceRouter({ repository, actor: async () => (accountId ? repository.actor(accountId) : null), agentToken: 'jeton-de-test' }))
     .use('/api/agent', createAgentRouter({ repository, token: 'jeton-de-test' }));
   const server = app.listen(0, '127.0.0.1');
   await new Promise<void>((resolve) => server.once('listening', resolve));
@@ -474,6 +474,20 @@ test('routeurs : session obligatoire, ETag, jeton des postes', async () => {
     const reply = await (await fetch(`${url}/api/agent/rapports`, { method: 'POST', headers: auth, body: JSON.stringify({ rapports: [{ poste: postes[0].nomReseau, processus: [{ nom: 'steam.exe', compte: 's' }] }] }) })).json();
     assert.equal(reply.commandes[0].type, 'arret');
     assert.equal((await fetch(`${url}/api/workspace`, { headers: { 'If-None-Match': first.headers.get('ETag')! } })).status, 200, 'nouvelle révision après le rapport');
+    // Jeton propre à un poste : obtenu par un administrateur de son école, valable pour ce seul poste
+    const depart = initialState();
+    const visibles = scopedState(depart, as(depart, ADMIN)).postes;
+    const [moi, autre] = postes.filter((p: { id: Id }) => visibles.some((x) => x.id === p.id));
+    assert.equal((await fetch(`${url}/api/workspace/postes/${moi.id}/jeton`)).status, 403, 'formateur : refusé');
+    accountId = ADMIN;
+    const { jeton } = await (await fetch(`${url}/api/workspace/postes/${moi.id}/jeton`)).json();
+    assert.equal(jeton, jetonPoste('jeton-de-test', moi.nomReseau));
+    const sien = { Authorization: `Bearer ${jeton}`, 'Content-Type': 'application/json' };
+    assert.equal((await fetch(`${url}/api/agent/postes`, { headers: sien })).status, 403, 'liste réservée à la passerelle');
+    assert.equal((await fetch(`${url}/api/agent/rapports`, { method: 'POST', headers: sien, body: JSON.stringify({ rapports: [{ poste: moi.nomReseau }] }) })).status, 200);
+    assert.equal((await fetch(`${url}/api/agent/rapports`, { method: 'POST', headers: sien, body: JSON.stringify({ rapports: [{ poste: autre.nomReseau }] }) })).status, 403, 'pas de rapport pour un autre poste');
+    assert.equal((await fetch(`${url}/api/agent/resultats`, { method: 'POST', headers: sien, body: JSON.stringify({ resultats: [{ operation: 'op', poste: autre.nomReseau, statut: 'reussie' }] }) })).status, 403);
+    assert.equal((await fetch(`${url}/api/agent/rapports`, { method: 'POST', headers: { ...sien, Authorization: `Bearer ${autre.nomReseau}:${jeton.split(':')[1]}` }, body: '{}' })).status, 401, 'signature d’un autre poste');
     accountId = 'inconnu';
     assert.equal((await fetch(`${url}/api/workspace`)).status, 401);
   } finally { server.close(); }

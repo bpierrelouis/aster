@@ -57,8 +57,9 @@ export function uiDevelopment(): Plugin {
         account = next;
         res.json({ ok: true });
       });
-      app.use('/api/workspace', createWorkspaceRouter({ repository, actor }));
-      app.use('/api/agent', createAgentRouter({ repository, token: process.env.AGENT_TOKEN || 'orion-agent-local' }));
+      const agentToken = process.env.AGENT_TOKEN || 'orion-agent-local';
+      app.use('/api/workspace', createWorkspaceRouter({ repository, actor, agentToken }));
+      app.use('/api/agent', createAgentRouter({ repository, token: agentToken }));
       app.use('/api', (_req, res) => res.status(404).json({ error: 'Adresse inconnue.' }));
       server.middlewares.use(app);
     },

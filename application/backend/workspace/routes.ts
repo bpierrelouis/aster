@@ -4,15 +4,15 @@
    ========================================================================== */
 
 import express from 'express';
-import { timingSafeEqual } from 'node:crypto';
+import { createHmac, timingSafeEqual } from 'node:crypto';
 import { assert } from './rules.ts';
 import type { NextFunction, Request, Response } from 'express';
 import type { Actor } from '#shared/types.ts';
 import type { HttpError } from './rules.ts';
 import type { Engine } from './engine.ts';
 
-/** actor : fonction (req) => utilisateur agissant, ou null sans session valide. */
-export function createWorkspaceRouter({ repository, actor }: { repository: Engine; actor: (req: Request) => Promise<Actor | null> }) {
+/** actor : fonction (req) => utilisateur agissant, ou null sans session valide ; agentToken : secret des postes. */
+export function createWorkspaceRouter({ repository, actor, agentToken }: { repository: Engine; actor: (req: Request) => Promise<Actor | null>; agentToken: string }) {
   const router = express.Router();
   router.use(async (req, res, next) => {
     res.set('Cache-Control', 'no-store');
@@ -42,6 +42,16 @@ export function createWorkspaceRouter({ repository, actor }: { repository: Engin
   router.post('/import', async (req, res, next) => {
     try { res.json(await repository.importMateriels(res.locals.actor, req.body)); } catch (e) { next(e); }
   });
+  // Jeton à installer sur un poste de son périmètre (administrateur, super administrateur)
+  router.get('/postes/:id/jeton', async (req, res, next) => {
+    try {
+      const current: Actor = res.locals.actor;
+      if (!['admin', 'superadmin'].includes(current.role)) return res.status(403).json({ error: 'Action réservée aux administrateurs.' });
+      const poste = (await repository.read(current)).postes.find((p) => p.id === req.params.id);
+      if (!poste) return res.status(404).json({ error: 'Poste introuvable.' });
+      res.json({ poste: poste.nomReseau, jeton: jetonPoste(agentToken, poste.nomReseau) });
+    } catch (e) { next(e); }
+  });
   router.get('/reports/:id/pdf', async (req, res, next) => {
     try {
       const pdf = await repository.pdf(req.params.id, res.locals.actor);
@@ -52,24 +62,42 @@ export function createWorkspaceRouter({ repository, actor }: { repository: Engin
   return router;
 }
 
-/** API des postes : authentification par jeton porteur. */
+const equal = (a: string, b: string) => { const x = Buffer.from(a), y = Buffer.from(b); return x.length === y.length && timingSafeEqual(x, y); };
+
+/** Jeton propre à un poste : NOM:signature, signature HMAC-SHA256 du nom réseau (en capitales) par le secret des postes */
+export const jetonPoste = (secret: string, nomReseau: string) => {
+  const nom = nomReseau.trim().toUpperCase();
+  return `${nom}:${createHmac('sha256', secret).update(nom).digest('base64url')}`;
+};
+
+/**
+ * API des postes, par jeton porteur :
+ * - jeton propre à un poste (jetonPoste) : ses seuls rapports et résultats ;
+ * - secret des postes : passerelle de confiance (émulateur du démonstrateur), liste des postes et envois groupés.
+ */
 export function createAgentRouter({ repository, token }: { repository: Engine; token: string }) {
-  const expected = Buffer.from(String(token));
   const router = express.Router();
   router.use((req, res, next) => {
     res.set('Cache-Control', 'no-store');
-    const given = Buffer.from(String(req.get('Authorization') ?? '').replace(/^Bearer /, ''));
-    if (given.length !== expected.length || !timingSafeEqual(given, expected)) return res.status(401).json({ error: 'Poste non authentifié.' });
+    const given = String(req.get('Authorization') ?? '').replace(/^Bearer /, '');
+    const nom = given.slice(0, Math.max(0, given.lastIndexOf(':')));
+    if (equal(given, String(token))) res.locals.poste = null; // passerelle
+    else if (nom && equal(given, jetonPoste(token, nom))) res.locals.poste = nom;
+    else return res.status(401).json({ error: 'Poste non authentifié.' });
     next();
   });
   router.use(express.json({ limit: '4mb' })); // corps lu seulement pour un poste authentifié
+  /** Un poste authentifié n'agit que pour lui-même */
+  const own = (res: Response, items: { poste?: unknown }[]) => res.locals.poste === null || items.every((x) => String(x?.poste ?? '').toUpperCase() === res.locals.poste);
   router.get('/postes', async (_req, res, next) => {
+    if (res.locals.poste !== null) return res.status(403).json({ error: 'Liste réservée à la passerelle des postes.' });
     try { res.json({ postes: await repository.agent.postes() }); } catch (e) { next(e); }
   });
   router.post('/rapports', async (req, res, next) => {
     try {
       const rapports = req.body?.rapports;
       assert(Array.isArray(rapports) && rapports.length <= 2000, 'Rapports invalides.');
+      if (!own(res, rapports)) return res.status(403).json({ error: 'Un poste ne rapporte que pour lui-même.' });
       res.json(await repository.agent.rapports(rapports));
     } catch (e) { next(e); }
   });
@@ -77,6 +105,7 @@ export function createAgentRouter({ repository, token }: { repository: Engine; t
     try {
       const resultats = req.body?.resultats;
       assert(Array.isArray(resultats) && resultats.length <= 5000, 'Résultats invalides.');
+      if (!own(res, resultats)) return res.status(403).json({ error: 'Un poste ne rapporte que pour lui-même.' });
       await repository.agent.resultats(resultats);
       res.json({ ok: true });
     } catch (e) { next(e); }

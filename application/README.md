@@ -140,11 +140,14 @@ Le serveur ne garde aucun état qui fasse autorité : plusieurs serveurs Express
 
 ## Postes
 
-Les postes communiquent par l’API `/api/agent` du serveur, authentifiée par un jeton porteur (`AGENT_TOKEN`) :
+Les postes communiquent par l’API `/api/agent` du serveur, authentifiée par un jeton porteur ([backend/workspace/routes.ts](backend/workspace/routes.ts)) :
+
+- **Jeton propre à un poste** : `NOM:signature`, signature HMAC-SHA256 du nom réseau par le secret `AGENT_TOKEN`, que le poste ne connaît pas. Un administrateur l’obtient pour un poste de son périmètre par `GET /api/workspace/postes/:id/jeton`. Le poste n’envoie que ses propres rapports et résultats ; un jeton extrait d’un poste ne permet pas d’agir au nom d’un autre.
+- **Secret `AGENT_TOKEN`** : réservé à une passerelle de confiance qui rapporte pour plusieurs postes en un envoi (l’émulateur du démonstrateur) ; seul à lister les postes.
 
 | Route | Rôle |
 | --- | --- |
-| `GET /api/agent/postes` | Postes connus d’ORION |
+| `GET /api/agent/postes` | Postes connus d’ORION (passerelle seulement) |
 | `POST /api/agent/rapports` | Processus utilisateur en cours et applications installées ; réponse : interventions à exécuter |
 | `POST /api/agent/resultats` | Résultat de chaque intervention (`reussie` ou `echec`) |
 

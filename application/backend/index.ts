@@ -167,6 +167,7 @@ app.use('/api/workspace', (req, res, next) => {
 }, createWorkspaceRouter({
   repository: workspaceRepository,
   actor: sessionActor,
+  agentToken: config.agentToken,
 }));
 // Postes : rapports d'activité et résultats d'intervention
 app.use('/api/agent', createAgentRouter({ repository: workspaceRepository, token: config.agentToken }));
