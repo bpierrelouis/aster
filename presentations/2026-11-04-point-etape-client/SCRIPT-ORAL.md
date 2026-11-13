@@ -266,6 +266,6 @@ Merci pour ces précisions. Nous allons consigner les décisions prises aujourd�
 - [Entretiens historiques](../../docs/03-COMPTE-RENDU-ENTRETIENS.md) : origine du besoin, à lire avec les précisions plus récentes du cadrage.
 - [Règles de gestion](../../docs/04-REGLES-DE-GESTION.md) : champs, droits et traitements confirmés.
 - [Source éditable du MCD proposé](../../docs/05-MCD-MERISE-MOCODO.url) : vocabulaire et représentation actuels, sans validation globale.
-- [Contenu du diaporama et notes existantes](slides.js) et [maquette de gestion des matériels](../../design/maquettes/gestion-materiels.html).
+- [Contenu du diaporama et notes existantes](slides.js) et [maquette de gestion des matériels](maquette-gestion-materiels.html).
 
 Ce script prépare la prise de parole ; il ne remplace ni le cadrage ni le compte rendu des décisions qui seront prises pendant l’entretien.

@@ -8,15 +8,9 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 
 | Fichier | Destination | Version | Mise à jour |
 | --- | --- | --- | --- |
-| [design/README.md](../design/README.md) | Ressource de préparation | [1.3](#design-readme) | 12/11/2026 |
-| [design/charte-graphique-vigie/index.html](../design/charte-graphique-vigie/index.html) | Ressource de préparation | [1.1](#design-charte-graphique-vigie-index) | 12/11/2026 |
-| [design/charte-graphique/charte-graphique-orion.html](../design/charte-graphique/charte-graphique-orion.html) | Ressource de préparation | [1.0](#design-charte-graphique-charte-graphique-orion) | 09/11/2026 |
-| [design/charte-graphique/index.html](../design/charte-graphique/index.html) | Ressource de préparation | [1.2](#design-charte-graphique-index) | 12/11/2026 |
-| [design/maquettes/gestion-materiels.html](../design/maquettes/gestion-materiels.html) | Ressource de préparation | [1.2](#design-maquettes-gestion-materiels) | 12/11/2026 |
-| [design/maquettes/maquette-dashboard-orion.html](../design/maquettes/maquette-dashboard-orion.html) | Ressource de préparation | [1.0](#design-maquettes-maquette-dashboard-orion) | 09/11/2026 |
-| [design/maquettes/maquette-dashboard-proposition-a-cockpit.html](../design/maquettes/maquette-dashboard-proposition-a-cockpit.html) | Ressource de préparation | [1.1](#design-maquettes-maquette-dashboard-proposition-a-cockpit) | 12/11/2026 |
-| [design/maquettes/maquette-dashboard-proposition-b-a-traiter.html](../design/maquettes/maquette-dashboard-proposition-b-a-traiter.html) | Ressource de préparation | [1.1](#design-maquettes-maquette-dashboard-proposition-b-a-traiter) | 12/11/2026 |
-| [design/maquettes/maquette-dashboard-proposition-c-analyse.html](../design/maquettes/maquette-dashboard-proposition-c-analyse.html) | Ressource de préparation | [1.1](#design-maquettes-maquette-dashboard-proposition-c-analyse) | 12/11/2026 |
+| [design/README.md](../design/README.md) | Ressource de préparation | [2.0](#design-readme) | 13/11/2026 |
+| [design/charte-graphique/index.html](../design/charte-graphique/index.html) | Ressource de préparation | [2.0](#design-charte-graphique-index) | 13/11/2026 |
+| [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [1.0](#design-maquettes-index) | 13/11/2026 |
 | [docs/00-GLOSSAIRE.md](../docs/00-GLOSSAIRE.md) | Production destinée à la remise | [1.8](#00-glossaire) | 13/11/2026 |
 | [docs/01-CONSIGNES.md](../docs/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.3](#01-consignes) | 13/11/2026 |
 | [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) | Source de travail interne | [3.0](#02-cadrage) | 13/11/2026 |
@@ -52,27 +46,11 @@ Fichier : [design/README.md](../design/README.md) · Ressource de préparation
 
 | Version | Date | Modification | Fichier |
 | --- | --- | --- | --- |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
+| 2.0 | 13/11/2026 | Présenter l'identité ORION conforme à l'application et archiver les anciennes directions | en vigueur |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-README/README-v1.3-2026-11-12.md) |
 | 1.2 | 10/11/2026 | Proposer trois maquettes du tableau de bord | [archive](design-README/README-v1.2-2026-11-10.md) |
 | 1.1 | 06/11/2026 | Proposer l'identité VIGIE ; Ajouter les références visuelles MindefConnect ; Réduire le formulaire et centrer le bouton | [archive](design-README/README-v1.1-2026-11-06.md) |
 | 1.0 | 03/11/2026 | Organiser les livrables et intégrer la maquette | [archive](design-README/README-v1.0-2026-11-03.md) |
-
-### design-charte-graphique-vigie-index
-
-Fichier : [design/charte-graphique-vigie/index.html](../design/charte-graphique-vigie/index.html) · Ressource de préparation
-
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
-| 1.0 | 06/11/2026 | Proposer l'identité VIGIE | [archive](design-charte-graphique-vigie-index/index-v1.0-2026-11-06.html) |
-
-### design-charte-graphique-charte-graphique-orion
-
-Fichier : [design/charte-graphique/charte-graphique-orion.html](../design/charte-graphique/charte-graphique-orion.html) · Ressource de préparation
-
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.0 | 09/11/2026 | Ajouter la maquette et la charte graphique ORION | en vigueur |
 
 ### design-charte-graphique-index
 
@@ -80,54 +58,18 @@ Fichier : [design/charte-graphique/index.html](../design/charte-graphique/index.
 
 | Version | Date | Modification | Fichier |
 | --- | --- | --- | --- |
-| 1.2 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
+| 2.0 | 13/11/2026 | Refondre la charte sur l'application : étoile ORION, palette, ambiances Orion et Minarm, composants | en vigueur |
+| 1.2 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-charte-graphique-index/index-v1.2-2026-11-12.html) |
 | 1.1 | 03/11/2026 | Organiser les livrables et intégrer la maquette | [archive](design-charte-graphique-index/index-v1.1-2026-11-03.html) |
 | 1.0 | 21/10/2026 | Apercu + loader | [archive](design-charte-graphique-index/index-v1.0-2026-10-21.html) |
 
-### design-maquettes-gestion-materiels
+### design-maquettes-index
 
-Fichier : [design/maquettes/gestion-materiels.html](../design/maquettes/gestion-materiels.html) · Ressource de préparation
-
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.2 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
-| 1.1 | 06/11/2026 | Adapter les écrans et captures à la cible | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.1-2026-11-06.html) |
-| 1.0 | 03/11/2026 | Organiser les livrables et intégrer la maquette | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.0-2026-11-03.html) |
-
-### design-maquettes-maquette-dashboard-orion
-
-Fichier : [design/maquettes/maquette-dashboard-orion.html](../design/maquettes/maquette-dashboard-orion.html) · Ressource de préparation
+Fichier : [design/maquettes/index.html](../design/maquettes/index.html) · Ressource de préparation
 
 | Version | Date | Modification | Fichier |
 | --- | --- | --- | --- |
-| 1.0 | 09/11/2026 | Ajouter la maquette et la charte graphique ORION | en vigueur |
-
-### design-maquettes-maquette-dashboard-proposition-a-cockpit
-
-Fichier : [design/maquettes/maquette-dashboard-proposition-a-cockpit.html](../design/maquettes/maquette-dashboard-proposition-a-cockpit.html) · Ressource de préparation
-
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
-| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | [archive](design-maquettes-maquette-dashboard-proposition-a-cockpit/maquette-dashboard-proposition-a-cockpit-v1.0-2026-11-10.html) |
-
-### design-maquettes-maquette-dashboard-proposition-b-a-traiter
-
-Fichier : [design/maquettes/maquette-dashboard-proposition-b-a-traiter.html](../design/maquettes/maquette-dashboard-proposition-b-a-traiter.html) · Ressource de préparation
-
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
-| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | [archive](design-maquettes-maquette-dashboard-proposition-b-a-traiter/maquette-dashboard-proposition-b-a-traiter-v1.0-2026-11-10.html) |
-
-### design-maquettes-maquette-dashboard-proposition-c-analyse
-
-Fichier : [design/maquettes/maquette-dashboard-proposition-c-analyse.html](../design/maquettes/maquette-dashboard-proposition-c-analyse.html) · Ressource de préparation
-
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
-| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | [archive](design-maquettes-maquette-dashboard-proposition-c-analyse/maquette-dashboard-proposition-c-analyse-v1.0-2026-11-10.html) |
+| 1.0 | 13/11/2026 | Présenter les écrans de l'application par module et par profil | en vigueur |
 
 ### 00-GLOSSAIRE
 
@@ -440,3 +382,67 @@ Fichier : [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RES
 | --- | --- | --- | --- |
 | 2.0 | 13/11/2026 | Ajouter DCU à compléter, modèle de données, points documentaires oubliés et plan d’organisation du code | en vigueur |
 | 1.0 | 13/11/2026 | Recenser ce qui reste à faire après le contrôle du 13 novembre ; Ajouter des jetons d'accès pour la présentation au client ; Décrire l'entrée unique par adresse IP, sans DNS | [archive](RESTE-A-FAIRE-BROUILLON-V1/RESTE-A-FAIRE-BROUILLON-V1-v1.0-2026-11-13.md) |
+
+## Fichiers retirés
+
+### design-charte-graphique-vigie-index
+
+Ancien emplacement : `design/charte-graphique-vigie/index.html`. Retiré le 13/11/2026 : Direction artistique VIGIE non retenue ; identité ORION conforme à l'application
+
+| Version | Date | Modification | Fichier |
+| --- | --- | --- | --- |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-charte-graphique-vigie-index/index-v1.1-2026-11-12.html) |
+| 1.0 | 06/11/2026 | Proposer l'identité VIGIE | [archive](design-charte-graphique-vigie-index/index-v1.0-2026-11-06.html) |
+
+### design-charte-graphique-charte-graphique-orion
+
+Ancien emplacement : `design/charte-graphique/charte-graphique-orion.html`. Retiré le 13/11/2026 : Direction florale ORION remplacée par la charte 2.0 conforme à l'application
+
+| Version | Date | Modification | Fichier |
+| --- | --- | --- | --- |
+| 1.0 | 09/11/2026 | Ajouter la maquette et la charte graphique ORION | [archive](design-charte-graphique-charte-graphique-orion/charte-graphique-orion-v1.0-2026-11-09.html) |
+
+### design-maquettes-gestion-materiels
+
+Ancien emplacement : `design/maquettes/gestion-materiels.html`. Retiré le 13/11/2026 : Maquette remplacée par les captures de l'application (design/maquettes/index.html)
+
+| Version | Date | Modification | Fichier |
+| --- | --- | --- | --- |
+| 1.2 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.2-2026-11-12.html) |
+| 1.1 | 06/11/2026 | Adapter les écrans et captures à la cible | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.1-2026-11-06.html) |
+| 1.0 | 03/11/2026 | Organiser les livrables et intégrer la maquette | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.0-2026-11-03.html) |
+
+### design-maquettes-maquette-dashboard-orion
+
+Ancien emplacement : `design/maquettes/maquette-dashboard-orion.html`. Retiré le 13/11/2026 : Maquette remplacée par les captures de l'application (design/maquettes/index.html)
+
+| Version | Date | Modification | Fichier |
+| --- | --- | --- | --- |
+| 1.0 | 09/11/2026 | Ajouter la maquette et la charte graphique ORION | [archive](design-maquettes-maquette-dashboard-orion/maquette-dashboard-orion-v1.0-2026-11-09.html) |
+
+### design-maquettes-maquette-dashboard-proposition-a-cockpit
+
+Ancien emplacement : `design/maquettes/maquette-dashboard-proposition-a-cockpit.html`. Retiré le 13/11/2026 : Proposition de tableau de bord remplacée par les captures de l'application
+
+| Version | Date | Modification | Fichier |
+| --- | --- | --- | --- |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-maquettes-maquette-dashboard-proposition-a-cockpit/maquette-dashboard-proposition-a-cockpit-v1.1-2026-11-12.html) |
+| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | [archive](design-maquettes-maquette-dashboard-proposition-a-cockpit/maquette-dashboard-proposition-a-cockpit-v1.0-2026-11-10.html) |
+
+### design-maquettes-maquette-dashboard-proposition-b-a-traiter
+
+Ancien emplacement : `design/maquettes/maquette-dashboard-proposition-b-a-traiter.html`. Retiré le 13/11/2026 : Proposition de tableau de bord remplacée par les captures de l'application
+
+| Version | Date | Modification | Fichier |
+| --- | --- | --- | --- |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-maquettes-maquette-dashboard-proposition-b-a-traiter/maquette-dashboard-proposition-b-a-traiter-v1.1-2026-11-12.html) |
+| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | [archive](design-maquettes-maquette-dashboard-proposition-b-a-traiter/maquette-dashboard-proposition-b-a-traiter-v1.0-2026-11-10.html) |
+
+### design-maquettes-maquette-dashboard-proposition-c-analyse
+
+Ancien emplacement : `design/maquettes/maquette-dashboard-proposition-c-analyse.html`. Retiré le 13/11/2026 : Proposition de tableau de bord remplacée par les captures de l'application
+
+| Version | Date | Modification | Fichier |
+| --- | --- | --- | --- |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-maquettes-maquette-dashboard-proposition-c-analyse/maquette-dashboard-proposition-c-analyse-v1.1-2026-11-12.html) |
+| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | [archive](design-maquettes-maquette-dashboard-proposition-c-analyse/maquette-dashboard-proposition-c-analyse-v1.0-2026-11-10.html) |

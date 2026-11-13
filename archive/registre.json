@@ -25,6 +25,12 @@
         "version": "1.3",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
+        "archive": "design-README/README-v1.3-2026-11-12.md"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-13",
+        "modification": "Présenter l'identité ORION conforme à l'application et archiver les anciennes directions",
         "archive": null
       }
     ]
@@ -42,9 +48,10 @@
         "version": "1.1",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "archive": null
+        "archive": "design-charte-graphique-vigie-index/index-v1.1-2026-11-12.html"
       }
-    ]
+    ],
+    "retire": "Retiré le 13/11/2026 : Direction artistique VIGIE non retenue ; identité ORION conforme à l'application"
   },
   "design/charte-graphique/charte-graphique-orion.html": {
     "destination": "Ressource de préparation",
@@ -53,9 +60,10 @@
         "version": "1.0",
         "date": "2026-11-09",
         "modification": "Ajouter la maquette et la charte graphique ORION",
-        "archive": null
+        "archive": "design-charte-graphique-charte-graphique-orion/charte-graphique-orion-v1.0-2026-11-09.html"
       }
-    ]
+    ],
+    "retire": "Retiré le 13/11/2026 : Direction florale ORION remplacée par la charte 2.0 conforme à l'application"
   },
   "design/charte-graphique/index.html": {
     "destination": "Ressource de préparation",
@@ -76,6 +84,12 @@
         "version": "1.2",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
+        "archive": "design-charte-graphique-index/index-v1.2-2026-11-12.html"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-13",
+        "modification": "Refondre la charte sur l'application : étoile ORION, palette, ambiances Orion et Minarm, composants",
         "archive": null
       }
     ]
@@ -99,6 +113,18 @@
         "version": "1.2",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
+        "archive": "design-maquettes-gestion-materiels/gestion-materiels-v1.2-2026-11-12.html"
+      }
+    ],
+    "retire": "Retiré le 13/11/2026 : Maquette remplacée par les captures de l'application (design/maquettes/index.html)"
+  },
+  "design/maquettes/index.html": {
+    "destination": "Ressource de préparation",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-13",
+        "modification": "Présenter les écrans de l'application par module et par profil",
         "archive": null
       }
     ]
@@ -110,9 +136,10 @@
         "version": "1.0",
         "date": "2026-11-09",
         "modification": "Ajouter la maquette et la charte graphique ORION",
-        "archive": null
+        "archive": "design-maquettes-maquette-dashboard-orion/maquette-dashboard-orion-v1.0-2026-11-09.html"
       }
-    ]
+    ],
+    "retire": "Retiré le 13/11/2026 : Maquette remplacée par les captures de l'application (design/maquettes/index.html)"
   },
   "design/maquettes/maquette-dashboard-proposition-a-cockpit.html": {
     "destination": "Ressource de préparation",
@@ -127,9 +154,10 @@
         "version": "1.1",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "archive": null
+        "archive": "design-maquettes-maquette-dashboard-proposition-a-cockpit/maquette-dashboard-proposition-a-cockpit-v1.1-2026-11-12.html"
       }
-    ]
+    ],
+    "retire": "Retiré le 13/11/2026 : Proposition de tableau de bord remplacée par les captures de l'application"
   },
   "design/maquettes/maquette-dashboard-proposition-b-a-traiter.html": {
     "destination": "Ressource de préparation",
@@ -144,9 +172,10 @@
         "version": "1.1",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "archive": null
+        "archive": "design-maquettes-maquette-dashboard-proposition-b-a-traiter/maquette-dashboard-proposition-b-a-traiter-v1.1-2026-11-12.html"
       }
-    ]
+    ],
+    "retire": "Retiré le 13/11/2026 : Proposition de tableau de bord remplacée par les captures de l'application"
   },
   "design/maquettes/maquette-dashboard-proposition-c-analyse.html": {
     "destination": "Ressource de préparation",
@@ -161,9 +190,10 @@
         "version": "1.1",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "archive": null
+        "archive": "design-maquettes-maquette-dashboard-proposition-c-analyse/maquette-dashboard-proposition-c-analyse-v1.1-2026-11-12.html"
       }
-    ]
+    ],
+    "retire": "Retiré le 13/11/2026 : Proposition de tableau de bord remplacée par les captures de l'application"
   },
   "docs/00-GLOSSAIRE.md": {
     "destination": "Production destinée à la remise",

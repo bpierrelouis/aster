@@ -137,7 +137,7 @@ const slides = [
     html: `
       <div class="slide-heading"><h2>Tableau de bord du parc</h2></div>
       <div class="ui-embed" aria-label="Interface ORION, tableau de bord du parc">
-        <iframe src="../../design/maquettes/gestion-materiels.html?screen=dashboard" title="Tableau de bord du parc dans ORION" tabindex="-1"></iframe>
+        <iframe src="maquette-gestion-materiels.html?screen=dashboard" title="Tableau de bord du parc dans ORION" tabindex="-1"></iframe>
       </div>`
   },
   {
@@ -148,7 +148,7 @@ const slides = [
     html: `
       <div class="slide-heading"><h2>Liste des matériels</h2></div>
       <div class="ui-embed" aria-label="Interface ORION, liste des matériels">
-        <iframe src="../../design/maquettes/gestion-materiels.html?screen=materiels" title="Liste des matériels dans ORION" tabindex="-1"></iframe>
+        <iframe src="maquette-gestion-materiels.html?screen=materiels" title="Liste des matériels dans ORION" tabindex="-1"></iframe>
       </div>`
   },
   {
@@ -159,7 +159,7 @@ const slides = [
     html: `
       <div class="slide-heading"><h2>Ajout d'un matériel</h2></div>
       <div class="ui-embed" aria-label="Interface ORION, ajout d'un matériel">
-        <iframe src="../../design/maquettes/gestion-materiels.html?screen=ajouter" title="Ajout d'un matériel dans ORION" tabindex="-1"></iframe>
+        <iframe src="maquette-gestion-materiels.html?screen=ajouter" title="Ajout d'un matériel dans ORION" tabindex="-1"></iframe>
       </div>`
   },
   {
@@ -170,7 +170,7 @@ const slides = [
     html: `
       <div class="slide-heading"><h2>Fiche matériel</h2></div>
       <div class="ui-embed" aria-label="Interface ORION, fiche d'un matériel">
-        <iframe src="../../design/maquettes/gestion-materiels.html?screen=fiche" title="Fiche d'un matériel dans ORION" tabindex="-1"></iframe>
+        <iframe src="maquette-gestion-materiels.html?screen=fiche" title="Fiche d'un matériel dans ORION" tabindex="-1"></iframe>
       </div>`
   },
   {
@@ -181,7 +181,7 @@ const slides = [
     html: `
       <div class="slide-heading"><h2>Affectation des matériels</h2></div>
       <div class="ui-embed" aria-label="Interface ORION, affectation des matériels">
-        <iframe src="../../design/maquettes/gestion-materiels.html?screen=groupe" title="Affectation des matériels dans ORION" tabindex="-1"></iframe>
+        <iframe src="maquette-gestion-materiels.html?screen=groupe" title="Affectation des matériels dans ORION" tabindex="-1"></iframe>
       </div>`
   },
   {

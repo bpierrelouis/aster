@@ -1,18 +1,617 @@
-<!DOCTYPE html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ORION — Direction artistique 01</title><base href="../assets/"><link rel="icon" href="favicon.svg" type="image/svg+xml"><style>
-:root{--ink:#17243B;--violet:#6954C0;--paper:#F6F4FB}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1100px;margin:auto;padding:48px 28px}header{display:flex;justify-content:space-between;gap:20px;font-size:12px;text-transform:uppercase;letter-spacing:2px}h1{font-size:clamp(32px,6vw,60px);line-height:1.08;max-width:760px;letter-spacing:-2px;margin:45px 0 18px}p{max-width:680px}h2{font-size:13px;text-transform:uppercase;letter-spacing:2px;margin:0 0 24px}.muted{color:#52617B}.hero{padding:44px 0 52px}.hero svg{width:min(100%,440px);height:auto;display:block}.versions{display:grid;grid-template-columns:1fr 1fr;gap:20px}.sample{padding:32px;background:white;border-radius:20px;min-width:0}.sample.dark{background:var(--ink);color:white}.sample img{display:block;width:100%;height:86px;object-fit:contain}.sample small{display:block;margin-top:20px}.section{padding:36px 0;border-top:1px solid #DCDCE7}.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}.swatch{display:block;height:64px;border-radius:8px;border:1px solid #DCDCE7}.palette strong,.palette code{display:block;font-size:12px;margin-top:7px}.icons{display:grid;grid-template-columns:repeat(4,1fr);gap:25px}.icon{display:flex;align-items:center;gap:12px;font-size:14px}.icon img{width:28px;height:28px}.loading{display:grid;grid-template-columns:1fr 1fr;gap:20px}.loader-demo{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:35px;gap:16px;min-height:210px}button{font:inherit;border:1px solid #6954C0;border-radius:8px;background:white;color:#47358B;padding:10px 18px;cursor:pointer}button:focus-visible{outline:3px solid #6954C0;outline-offset:4px}footer{font-size:12px;margin-top:25px;color:#52617B}@media(max-width:600px){main{padding:26px 20px}.versions,.loading{grid-template-columns:1fr}.palette{grid-template-columns:repeat(3,1fr)}.icons{grid-template-columns:repeat(2,1fr)}.icon{font-size:12px}header{flex-wrap:wrap}.sample{padding:24px}h1{letter-spacing:-1px}}
-/* ORION / Éclosion : ajout, respiration et retrait des pétales. */
-.orion-loader{width:88px;height:88px;display:block;overflow:visible}
-.orion-loader .petal{transform-origin:64px 51px;animation:orion-bloom 5.2s ease-in-out infinite both;animation-delay:calc(var(--i) * .105s)}
-@keyframes orion-bloom{
-  0%,3%{opacity:0;transform:translate(0px,6px) rotate(-13deg) scale(.28,.04)}
-  9%{opacity:.85;transform:translate(0px,1px) rotate(-6deg) scale(.65,.62)}
-  17%{opacity:1;transform:translate(0px,0px) rotate(1.8deg) scale(1.04,1.035)}
-  23%{opacity:1;transform:translate(0px,0px) rotate(0deg) scale(1,1)}
-  37%{opacity:1;transform:translate(0px,0px) rotate(-1.6deg) scale(.99,1.015)}
-  49%{opacity:1;transform:translate(0px,0px) rotate(0deg) scale(1,1)}
-  55%{opacity:.85;transform:translate(1px,2px) rotate(6deg) scale(.72,.76)}
-  64%,100%{opacity:0;transform:translate(4px,8px) rotate(14deg) scale(.25,.04)}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ORION — Charte graphique</title>
+<link rel="icon" href="../assets/logos/orion-icone-application.svg" type="image/svg+xml">
+<style>
+/* Marianne officielle (DSFR 1.15.4), servie depuis les ressources de l'application : ambiance Minarm */
+@font-face { font-family: Marianne; src: url(../../application/frontend/src/workspace/assets/fonts/Marianne-Regular.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: Marianne; src: url(../../application/frontend/src/workspace/assets/fonts/Marianne-Medium.woff2) format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: Marianne; src: url(../../application/frontend/src/workspace/assets/fonts/Marianne-Bold.woff2) format("woff2"); font-weight: 700; font-display: swap; }
+
+/* Valeurs reprises de application/frontend/src/workspace/styles/tokens.css (ambiance Orion claire) */
+:root {
+  --nuit: #040b1e; --panneau: #0a1630; --contour: #1b2e5c; --bleu-orion: #2563eb; --bleu-lumiere: #3b82f6;
+  --ink: 4 11 30; --ink-1: rgb(var(--ink)); --ink-2: rgb(var(--ink) / .66); --ink-3: rgb(var(--ink) / .46);
+  --hairline: rgb(var(--ink) / .09); --fill-1: rgb(var(--ink) / .05); --fill-2: rgb(var(--ink) / .09);
+  --accent: #2563eb; --accent-text: #2563eb; --base: #f6f7f9; --shade: 24 27 32;
+  --ok: #16a34a; --crit: #dc2626; --wait: #f59e0b; --stock: #7c879b; --warn: #f59e0b;
+  --install: color-mix(in srgb, var(--warn) 80%, var(--crit));
+  --c1: #6954c0; --c2: #eb6834; --c3: #1baf7a; --c4: #d99a1e; --c5: #2a78d6; --c6: #e87ba4; --c7: #008300; --c8: #64748b;
+  --satin: linear-gradient(145deg, rgb(255 255 255 / .14), rgb(255 255 255 / .025) 42%, transparent 65%);
+  --glass-tint-solid: #fff; --glass-tint-strong: rgb(251 252 255 / .66);
+  --glass-shadow: 0 1px 1px rgb(var(--shade) / .05), 0 10px 28px -10px rgb(var(--shade) / .2), 0 34px 64px -28px rgb(var(--shade) / .24);
+  --r-xs: 8px; --r-s: 12px; --r-m: 18px; --r-l: 28px; --r-xl: 34px; --r-pill: 999px;
+  --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  --logo-font: "Lucida Sans Unicode", "Lucida Grande", "DejaVu Sans", sans-serif;
+  --star: "M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z";
+  color-scheme: light;
 }
-.orion-loader.is-paused .petal{animation-play-state:paused}
-@media(prefers-reduced-motion:reduce){.orion-loader .petal{animation:none;opacity:1;transform:none}}
-</style><main><header><span>ORION / Identité visuelle</span><span>Exploration 01 · animation revue</span></header><h1>Un parc connecté.<br>Une identité qui éclot.</h1><p class="muted">Une première proposition pour l’outil de gestion, d’administration et de supervision du parc informatique des écoles de formation.</p><div class="hero"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 128" role="img" aria-label="ORION"><title>ORION</title><g><g transform="rotate(0.0 64 64)"><path class="petal" style="--i:0" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(22.5 64 64)"><path class="petal" style="--i:1" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(45.0 64 64)"><path class="petal" style="--i:2" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(67.5 64 64)"><path class="petal" style="--i:3" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(90.0 64 64)"><path class="petal" style="--i:4" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(112.5 64 64)"><path class="petal" style="--i:5" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(135.0 64 64)"><path class="petal" style="--i:6" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(157.5 64 64)"><path class="petal" style="--i:7" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(180.0 64 64)"><path class="petal" style="--i:8" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(202.5 64 64)"><path class="petal" style="--i:9" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(225.0 64 64)"><path class="petal" style="--i:10" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(247.5 64 64)"><path class="petal" style="--i:11" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(270.0 64 64)"><path class="petal" style="--i:12" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(292.5 64 64)"><path class="petal" style="--i:13" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(315.0 64 64)"><path class="petal" style="--i:14" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><g transform="rotate(337.5 64 64)"><path class="petal" style="--i:15" fill="#6954C0" d="M64 9 C72 9 71 29 67 44 Q64 49 61 44 C57 29 56 9 64 9Z"/></g><circle cx="64" cy="64" r="11" fill="#E8B84E"/></g><text x="156" y="88" fill="#17243B" font-family="Arial,Helvetica,sans-serif" font-size="68" font-weight="700" letter-spacing="8">ORION</text></svg></div><div class="versions"><div class="sample"><h2>Signature principale</h2><img src="logos/orion-horizontal.svg" alt="ORION, fleur violette au cœur doré"><small>Gestion · Administration · Supervision</small></div><div class="sample dark"><h2>Signature sur fond sombre</h2><img src="logos/orion-horizontal-inverse.svg" alt="ORION, signature blanche sur fond encre"><small>Une fleur, un point de repère commun.</small></div></div><section class="section" style="margin-top:36px"><h2>01 / Palette</h2><div class="palette"><div><span class="swatch" style="background:#17243B"></span><strong>Encre</strong><code>#17243B</code></div><div><span class="swatch" style="background:#6954C0"></span><strong>Iris</strong><code>#6954C0</code></div><div><span class="swatch" style="background:#B8A3EA"></span><strong>Lilas</strong><code>#B8A3EA</code></div><div><span class="swatch" style="background:#F6F4FB"></span><strong>Brume</strong><code>#F6F4FB</code></div><div><span class="swatch" style="background:#E8B84E"></span><strong>Cœur</strong><code>#E8B84E</code></div></div></section><section class="section"><h2>02 / Icônes métier</h2><div class="icons"><div class="icon"><img src="icons/materiel.svg" alt=""/><span>Matériel</span></div><div class="icon"><img src="icons/salles.svg" alt=""/><span>Salles</span></div><div class="icon"><img src="icons/administration.svg" alt=""/><span>Administration</span></div><div class="icon"><img src="icons/supervision.svg" alt=""/><span>Supervision</span></div><div class="icon"><img src="icons/alertes.svg" alt=""/><span>Alertes</span></div><div class="icon"><img src="icons/documents.svg" alt=""/><span>Documents</span></div><div class="icon"><img src="icons/recherche.svg" alt=""/><span>Recherche</span></div><div class="icon"><img src="icons/deplacement.svg" alt=""/><span>Déplacement</span></div></div><p class="muted">Des traits arrondis pour les fonctions métier. La fleur reste la signature de marque.</p></section><section class="section"><h2>03 / Chargement — animation réelle</h2><div class="loading"><div class="sample loader-demo" role="status"><svg xmlns="http://www.w3.org/2000/svg" class="orion-loader" viewBox="0 0 128 128" aria-hidden="true"><g transform="rotate(0.0 64 64)"><path class="petal" style="--i:0" fill="#6954C0" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(22.5 64 64)"><path class="petal" style="--i:1" fill="#8670CD" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(45.0 64 64)"><path class="petal" style="--i:2" fill="#A28ADC" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(67.5 64 64)"><path class="petal" style="--i:3" fill="#6954C0" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(90.0 64 64)"><path class="petal" style="--i:4" fill="#8670CD" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(112.5 64 64)"><path class="petal" style="--i:5" fill="#A28ADC" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(135.0 64 64)"><path class="petal" style="--i:6" fill="#6954C0" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(157.5 64 64)"><path class="petal" style="--i:7" fill="#8670CD" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(180.0 64 64)"><path class="petal" style="--i:8" fill="#A28ADC" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(202.5 64 64)"><path class="petal" style="--i:9" fill="#6954C0" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(225.0 64 64)"><path class="petal" style="--i:10" fill="#8670CD" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(247.5 64 64)"><path class="petal" style="--i:11" fill="#A28ADC" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(270.0 64 64)"><path class="petal" style="--i:12" fill="#6954C0" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(292.5 64 64)"><path class="petal" style="--i:13" fill="#8670CD" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(315.0 64 64)"><path class="petal" style="--i:14" fill="#A28ADC" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(337.5 64 64)"><path class="petal" style="--i:15" fill="#6954C0" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><circle cx="64" cy="64" r="11" fill="#E8B84E"/></svg><span>Chargement d’ORION…</span></div><div class="sample loader-demo dark" role="status"><svg xmlns="http://www.w3.org/2000/svg" class="orion-loader" viewBox="0 0 128 128" aria-hidden="true"><g transform="rotate(0.0 64 64)"><path class="petal" style="--i:0" fill="#6954C0" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(22.5 64 64)"><path class="petal" style="--i:1" fill="#8670CD" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(45.0 64 64)"><path class="petal" style="--i:2" fill="#A28ADC" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(67.5 64 64)"><path class="petal" style="--i:3" fill="#6954C0" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(90.0 64 64)"><path class="petal" style="--i:4" fill="#8670CD" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(112.5 64 64)"><path class="petal" style="--i:5" fill="#A28ADC" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(135.0 64 64)"><path class="petal" style="--i:6" fill="#6954C0" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(157.5 64 64)"><path class="petal" style="--i:7" fill="#8670CD" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(180.0 64 64)"><path class="petal" style="--i:8" fill="#A28ADC" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(202.5 64 64)"><path class="petal" style="--i:9" fill="#6954C0" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(225.0 64 64)"><path class="petal" style="--i:10" fill="#8670CD" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(247.5 64 64)"><path class="petal" style="--i:11" fill="#A28ADC" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(270.0 64 64)"><path class="petal" style="--i:12" fill="#6954C0" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(292.5 64 64)"><path class="petal" style="--i:13" fill="#8670CD" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(315.0 64 64)"><path class="petal" style="--i:14" fill="#A28ADC" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><g transform="rotate(337.5 64 64)"><path class="petal" style="--i:15" fill="#6954C0" d="M64 50 C56 41 53 17 62 9 C71 8 75 30 67 46 Q65 50 64 50Z"/></g><circle cx="64" cy="64" r="11" fill="#E8B84E"/></svg><span>Chargement d’ORION…</span></div></div><p><button type="button" id="motion" aria-pressed="false">Mettre en pause</button></p><p class="muted">Les pétales se déploient un à un, respirent doucement puis se replient vers le cœur. Cycle de 5,2 secondes, sans pourcentage simulé. Le réglage système de réduction des animations est respecté.</p></section><footer>Proposition graphique à discuter en équipe. Aucun développement de l’acronyme ni symbole institutionnel n’est présumé validé. Les aperçus de texte utilisent les polices locales.</footer></main><script>const b=document.getElementById('motion');b.addEventListener('click',()=>{const p=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',String(p));document.querySelectorAll('.orion-loader').forEach(e=>e.classList.toggle('is-paused',p));b.textContent=p?'Reprendre l’animation':'Mettre en pause';});</script></html>
+* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.55 var(--font-text); color: var(--ink-1); -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(60vmax 40vmax at 12% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%),
+    linear-gradient(170deg, #fff 0%, var(--base) 55%, color-mix(in srgb, var(--accent) 5%, #f6f7f9) 100%) fixed; }
+main { max-width: 1160px; margin: 0 auto; padding: 32px 28px 72px; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -.015em; }
+h2 { font-size: 1.75rem; margin-bottom: 6px; }
+h3 { font-size: 1.05rem; margin: 26px 0 12px; }
+p { margin: 0 0 12px; max-width: 74ch; }
+code { font: .82rem/1.3 ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--ink-2); }
+a { color: var(--accent-text); }
+.lead { color: var(--ink-2); font-size: 1.08rem; }
+.muted { color: var(--ink-2); }
+.small { font-size: .875rem; }
+
+/* En-tête */
+.version { display: inline-flex; gap: 8px; align-items: center; font-size: .8rem; color: var(--ink-3); padding: 4px 12px; border-radius: var(--r-pill); background: var(--fill-1); box-shadow: inset 0 0 0 1px var(--hairline); }
+.hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; padding: 40px 0 28px; }
+.hero h1 { font-size: clamp(2rem, 4.6vw, 3.1rem); line-height: 1.08; margin: 18px 0 14px; }
+.toc { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; padding: 0; list-style: none; }
+.toc a { display: inline-block; padding: 6px 12px; border-radius: var(--r-pill); background: var(--fill-1); color: var(--ink-1); text-decoration: none; font-size: .875rem; font-weight: 600; }
+.toc a:hover { background: var(--fill-2); }
+
+section { padding: 44px 0 8px; border-top: 1px solid var(--hairline); margin-top: 36px; }
+.kicker { display: block; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 6px; }
+.grid { display: grid; gap: 18px; }
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.card { background: #fff; border-radius: var(--r-l); box-shadow: var(--glass-shadow), inset 0 0 0 1px rgb(255 255 255 / .6); padding: 22px; min-width: 0; }
+.card.dark { background: radial-gradient(ellipse at 50% 40%, #101f38, #070a10 80%); color: #f8f8fa; }
+.card.dark .muted, .card.dark code { color: #c4c5cb; }
+.card h4 { margin: 0 0 4px; font-size: 1rem; }
+
+/* Marque (connexion/brand.tsx, connexion.css) */
+.star { display: block; width: 1em; height: 1em; fill: var(--bleu-orion); filter: drop-shadow(0 0 .16em rgb(59 130 246 / .35)); }
+.dark .star, .star--white { fill: #fff; filter: drop-shadow(0 0 .16em #3b82f6); }
+.logo { display: inline-flex; gap: .5em; font: 400 44px/1 var(--logo-font); color: var(--nuit); padding-top: .9em; }
+.dark .logo { color: #fff; }
+.logo-i { position: relative; }
+.logo-i > .star { position: absolute; left: 50%; bottom: calc(100% + .5em); translate: -50% 0; font-size: .7em; }
+.mark { position: relative; display: inline-grid; place-items: center; width: 1em; height: 1em; }
+.mark .tw { position: absolute; width: .22em; height: .22em; fill: #3b82f6; animation: twinkle 3s ease-in-out infinite; }
+.dark .mark .tw { fill: #93c5fd; }
+@keyframes twinkle { 0% { opacity: 0; scale: .2; rotate: -45deg; } 50% { opacity: 1; scale: 1; rotate: 0deg; } 100% { opacity: 0; scale: .2; rotate: 45deg; } }
+.breathe { animation: breathe 2.4s ease-in-out infinite; }
+@keyframes breathe { 50% { scale: .84; } }
+@media (prefers-reduced-motion: reduce) { .mark .tw { animation: none; opacity: .7; } .breathe { animation: none; } }
+.brand-stage { display: grid; place-items: center; min-height: 190px; border-radius: var(--r-m); }
+.signature { margin-top: 14px; font-size: .875rem; font-weight: 650; letter-spacing: 1.6px; text-transform: uppercase; color: var(--bleu-orion); text-align: center; }
+.dark .signature { color: #6ea8ff; }
+.app-icon { width: 64px; height: 64px; }
+.mindef { display: flex; align-items: center; justify-content: center; gap: 16px; min-height: 64px; padding: 12px 22px; border-radius: 5px; background: #000091; color: #fff; font-size: 17px; line-height: 1.25; max-width: 300px; }
+.mindef strong { letter-spacing: .4px; }
+.rules { margin: 0; padding-left: 18px; color: var(--ink-2); }
+.rules li { margin: 4px 0; }
+
+/* Nuanciers */
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+.sw { border-radius: var(--r-m); overflow: hidden; background: #fff; box-shadow: 0 0 0 1px var(--hairline), 0 6px 16px -10px rgb(var(--shade) / .3); }
+.sw i { display: block; height: 62px; }
+.sw div { padding: 9px 12px 11px; font-size: .86rem; line-height: 1.35; }
+.sw b { display: block; }
+.sw code { display: block; font-size: .76rem; }
+
+/* Typographie */
+.type-row { display: grid; grid-template-columns: 170px 1fr; gap: 18px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--hairline); }
+.type-row:last-child { border-bottom: 0; }
+.marianne { font-family: Marianne, Arial, sans-serif; }
+
+/* Icônes (core/icons.ts, ui/icons.tsx) */
+.icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 10px; }
+.icons figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 8px 10px; border-radius: var(--r-m); background: #fff; box-shadow: 0 0 0 1px var(--hairline); text-align: center; font-size: .84rem; line-height: 1.25; }
+.icons figcaption code { display: block; font-size: .72rem; margin-top: 2px; color: var(--ink-3); }
+.ico { width: 26px; height: 26px; }
+.ico .d { fill: currentColor; fill-opacity: .16; }
+.ico .f { fill: currentColor; stroke: none; }
+.glyph { color: var(--ink-1); display: grid; place-items: center; width: 40px; height: 40px; }
+.tile { --c: var(--c8); --size: 40px; display: inline-grid; place-items: center; width: var(--size); height: var(--size); border-radius: calc(var(--size) * .3);
+  color: color-mix(in srgb, var(--c) 82%, var(--ink-1)); background: var(--satin), color-mix(in srgb, var(--c) 11%, transparent);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .18), inset 0 0 0 1px color-mix(in srgb, var(--c) 16%, transparent); }
+.tile .ico { width: 58%; height: 58%; }
+
+/* Composants (styles/base.css, glass.css, overlays.css) */
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 42px; padding: 0 18px; border: 0; border-radius: var(--r-pill); font: 650 1rem/1 var(--font-text); letter-spacing: -.005em; color: var(--ink-1); cursor: default; }
+.btn--primary { background: color-mix(in srgb, var(--accent) 10%, #fff); color: var(--accent-text); box-shadow: inset 0 1px 0 rgb(255 255 255 / .2), inset 0 -1px 0 rgb(var(--shade) / .08), inset 0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent); }
+.btn--glass { background: #fff; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .6), 0 0 0 1px var(--hairline), 0 6px 16px -8px rgb(var(--shade) / .3); }
+.btn--ghost { background: var(--fill-1); }
+.btn--danger { background: var(--crit); color: #fff; }
+.btn--danger-ghost { color: var(--crit); background: color-mix(in srgb, var(--crit) 11%, transparent); }
+.btn--s { height: 32px; padding: 0 12px; }
+.btn[disabled] { opacity: .38; }
+.btn .ico { width: 18px; height: 18px; }
+.seg { display: inline-flex; gap: 2px; padding: 4px; border-radius: var(--r-pill); background: var(--fill-1); }
+.seg span { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: var(--r-pill); font-weight: 650; color: var(--ink-2); }
+.seg .on { color: var(--ink-1); background: #fff; box-shadow: 0 1px 1px rgb(var(--ink) / .06), 0 6px 14px -6px rgb(var(--ink) / .25); }
+.code-badge { display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 8px; background: var(--accent); color: #fff; font-size: .875rem; font-weight: 750; }
+.chip { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border-radius: var(--r-pill); font-size: .875rem; font-weight: 650; background: var(--fill-1); color: var(--ink-2); }
+.chip .ico { width: 14px; height: 14px; }
+.chip--warn { background: color-mix(in srgb, var(--warn) 22%, transparent); color: var(--ink-1); } .chip--warn .ico { color: #b77600; }
+.chip--good { background: color-mix(in srgb, var(--ok) 15%, transparent); color: var(--ink-1); } .chip--good .ico { color: var(--ok); }
+.chip--bad { background: color-mix(in srgb, var(--crit) 14%, transparent); color: var(--ink-1); } .chip--bad .ico { color: var(--crit); }
+.chip--move { background: color-mix(in srgb, var(--install) 14%, transparent); color: var(--ink-1); }
+.led { --led: var(--ok); display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / .9) 0 14%, transparent 42%), var(--led); box-shadow: 0 0 0 1.5px rgb(255 255 255 / .55), 0 0 8px 1px color-mix(in srgb, var(--led) 70%, transparent); }
+.led--wait { --led: var(--wait); } .led--hs { --led: var(--crit); } .led--stock { --led: var(--stock); } .led--off { --led: rgb(var(--ink) / .25); }
+.status { display: inline-flex; align-items: center; gap: 8px; margin-right: 18px; }
+.progress { display: flex; align-items: center; gap: 10px; }
+.progress i { flex: 1; height: 6px; border-radius: 3px; background: var(--fill-2); overflow: hidden; }
+.progress i b { display: block; height: 100%; border-radius: 3px; background: var(--install); }
+.progress.done i b { background: var(--ok); }
+.switch { position: relative; width: 42px; height: 26px; border-radius: 13px; background: var(--fill-2); box-shadow: inset 0 0 0 1px var(--hairline); }
+.switch.on { background: var(--ok); box-shadow: none; }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgb(0 0 0 / .3); }
+.switch.on::after { transform: translateX(16px); }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-weight: 650; color: var(--ink-2); }
+.input { padding: 11px 14px; border-radius: 14px; background: var(--fill-1); box-shadow: inset 0 0 0 1px var(--hairline); color: var(--ink-3); }
+.input.focus { background: #fff; box-shadow: inset 0 0 0 2px var(--accent-text); color: var(--ink-1); }
+.search { display: flex; align-items: center; gap: 10px; padding: 14px; border-radius: 16px; background: var(--fill-1); box-shadow: inset 0 0 0 1px var(--hairline); color: var(--ink-3); font-size: 1.125rem; }
+.table { width: 100%; border-collapse: collapse; font-size: 1rem; text-align: left; }
+.table th { color: var(--ink-2); font-size: .875rem; font-weight: 600; background: var(--fill-1); }
+.table th, .table td { padding: 12px 16px; border-bottom: 1px solid var(--hairline); }
+.table tr.sel { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.table tr.sel td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+.kpi { border-radius: var(--r-l); padding: 22px; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: var(--glass-shadow); background: #fff; }
+.kpi span { color: var(--ink-2); font-weight: 600; }
+.kpi b { font-family: var(--font-display); font-size: 2.5rem; line-height: 1; }
+.kpi--hs { background: linear-gradient(160deg, color-mix(in srgb, var(--crit) 14%, #fff), color-mix(in srgb, var(--crit) 6%, #fff)); }
+.kpi--wait { background: linear-gradient(160deg, color-mix(in srgb, var(--wait) 22%, #fff), color-mix(in srgb, var(--wait) 9%, #fff)); }
+.sheet { border-radius: var(--r-xl); background: #fff; box-shadow: var(--glass-shadow); overflow: hidden; }
+.sheet-head { display: flex; align-items: center; gap: 12px; padding: 18px 16px 6px 20px; }
+.sheet-head b { flex: 1; font-size: 21px; font-weight: 760; letter-spacing: -.018em; }
+.sheet-body { padding: 12px 20px 20px; color: var(--ink-2); }
+.sheet-foot { display: flex; justify-content: flex-end; gap: 10px; padding: 14px 20px 18px; border-top: 1px solid var(--hairline); }
+.scrim { padding: 26px; border-radius: var(--r-l); background: rgb(214 226 250 / .38); }
+.island { display: inline-flex; align-items: center; gap: 10px; padding: 7px 18px 7px 7px; border-radius: var(--r-pill); background: #fff; box-shadow: var(--glass-shadow); font-weight: 650; }
+.island .tile { --size: 32px; border-radius: 50%; }
+
+/* Échelles */
+.scale { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; }
+.scale div { text-align: center; font-size: .82rem; }
+.radius-demo { width: 76px; height: 56px; background: color-mix(in srgb, var(--accent) 12%, #fff); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 45%, transparent); margin-bottom: 6px; }
+.space-demo { height: 14px; background: var(--accent); border-radius: 3px; margin: 0 auto 6px; }
+.shadow-demo { height: 90px; border-radius: var(--r-l); background: #fff; display: grid; place-items: center; font-size: .86rem; color: var(--ink-2); }
+
+/* Ambiances */
+.amb img, .shot img { display: block; width: 100%; height: auto; border-radius: var(--r-m); box-shadow: 0 0 0 1px var(--hairline), 0 14px 30px -18px rgb(var(--shade) / .5); }
+.amb figcaption, .shot figcaption { margin-top: 10px; font-size: .9rem; color: var(--ink-2); }
+.amb figcaption b, .shot figcaption b { color: var(--ink-1); }
+figure.amb, figure.shot { margin: 0; }
+.accents { display: flex; flex-wrap: wrap; gap: 14px; }
+.accents div { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: .82rem; }
+.accents i { width: 44px; height: 44px; border-radius: 50%; box-shadow: inset 0 0 0 3px rgb(255 255 255 / .55), 0 4px 12px -6px rgb(0 0 0 / .4); }
+.note { padding: 14px 18px; border-radius: var(--r-m); background: color-mix(in srgb, var(--accent) 7%, #fff); box-shadow: inset 3px 0 0 var(--accent); color: var(--ink-2); font-size: .94rem; }
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--hairline); font-size: .86rem; color: var(--ink-3); }
+
+@media (max-width: 900px) { .hero, .g2, .g3, .g4 { grid-template-columns: 1fr; } .type-row { grid-template-columns: 1fr; gap: 4px; } }
+@media (max-width: 560px) { main { padding: 20px 16px 48px; } .logo { font-size: 32px; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs><path id="star" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/></defs>
+</svg>
+<main>
+  <span class="version">Version 2.0 — 13/11/2026 — conforme à l’application</span>
+
+  <div class="hero">
+    <div>
+      <h1>ORION, la charte de l’application.</h1>
+      <p class="lead">Outil de Recensement, d’Intervention et d’Observation Numérique : le parc informatique des écoles, leurs salles et leurs postes, au même endroit. Cette charte décrit l’identité visuelle telle qu’elle est appliquée dans l’interface : marque, couleurs, typographie, icônes, matériau, composants et ambiances.</p>
+      <ul class="toc">
+        <li><a href="#marque">Marque</a></li><li><a href="#couleurs">Couleurs</a></li><li><a href="#typographie">Typographie</a></li>
+        <li><a href="#icones">Icônes</a></li><li><a href="#materiau">Matériau et mesures</a></li><li><a href="#composants">Composants</a></li>
+        <li><a href="#ambiances">Ambiances</a></li><li><a href="#chargement">Chargement</a></li><li><a href="#situation">Mise en situation</a></li>
+      </ul>
+    </div>
+    <div class="card dark brand-stage" style="min-height:280px">
+      <div>
+        <span class="logo" role="img" aria-label="ORION"><span>O</span><span>R</span><span class="logo-i">I<span class="mark star-holder" style="position:absolute;left:50%;bottom:calc(100% + .5em);translate:-50% 0;font-size:.7em"><svg class="star" viewBox="0 0 40 40"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 2.52em);top:calc(50% + 0.23em);translate:-50% -50%;width:0.32em;height:0.32em;animation-duration:2.6s;animation-delay:-0.4s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 1.22em);top:calc(50% + 0.91em);translate:-50% -50%;width:0.20em;height:0.20em;animation-duration:3.4s;animation-delay:-1.9s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -1.09em);top:calc(50% + 0.54em);translate:-50% -50%;width:0.36em;height:0.36em;animation-duration:2.2s;animation-delay:-3.1s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -3.03em);top:calc(50% + 0.22em);translate:-50% -50%;width:0.24em;height:0.24em;animation-duration:3.9s;animation-delay:-0.8s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -2.04em);top:calc(50% + -0.37em);translate:-50% -50%;width:0.28em;height:0.28em;animation-duration:2.9s;animation-delay:-2.4s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -0.73em);top:calc(50% + -0.99em);translate:-50% -50%;width:0.18em;height:0.18em;animation-duration:3.1s;animation-delay:-1.2s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 1.26em);top:calc(50% + -0.55em);translate:-50% -50%;width:0.34em;height:0.34em;animation-duration:2.4s;animation-delay:-3.6s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 2.89em);top:calc(50% + -0.34em);translate:-50% -50%;width:0.22em;height:0.22em;animation-duration:3.6s;animation-delay:-0.2s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 1.19em);top:calc(50% + 0.44em);translate:-50% -50%;width:0.24em;height:0.24em;animation-duration:4s;animation-delay:-2.8s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -3.55em);top:calc(50% + -0.17em);translate:-50% -50%;width:0.20em;height:0.20em;animation-duration:2.7s;animation-delay:-1.6s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 0.54em);top:calc(50% + -0.83em);translate:-50% -50%;width:0.30em;height:0.30em;animation-duration:3.3s;animation-delay:-0.9s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -0.39em);top:calc(50% + 0.87em);translate:-50% -50%;width:0.26em;height:0.26em;animation-duration:2.5s;animation-delay:-3.9s"><use href="#star"/></svg></span></span><span>O</span><span>N</span></span>
+        <p class="signature">Gestion · Administration · Supervision</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <section id="marque">
+    <span class="kicker">01 · Marque</span>
+    <h2>L’étoile et le logotype</h2>
+    <p class="muted">L’univers est celui du ciel nocturne : une étoile à quatre branches sert de repère, comme la constellation d’Orion. Le tracé est unique et partagé par l’interface et l’état des lieux PDF (<code>ORION_STAR</code>, <code>shared/ambiance.ts</code>).</p>
+    <div class="grid g3">
+      <div class="card"><div class="brand-stage" style="background:#fff"><span class="logo" role="img" aria-label="ORION"><span>O</span><span>R</span><span class="logo-i">I<svg class="star" viewBox="0 0 40 40"><use href="#star"/></svg></span><span>O</span><span>N</span></span></div>
+        <h4>Logotype sur fond clair</h4><p class="small muted">Capitales larges espacées de 0,5 em, étoile Bleu Orion au-dessus du « I ». Couleur du texte : nuit <code>#040B1E</code>.</p></div>
+      <div class="card dark"><div class="brand-stage"><span class="logo" role="img" aria-label="ORION"><span>O</span><span>R</span><span class="logo-i">I<svg class="star" viewBox="0 0 40 40"><use href="#star"/></svg></span><span>O</span><span>N</span></span></div>
+        <h4>Logotype sur fond sombre</h4><p class="small muted">Texte blanc, étoile blanche avec une lueur bleu lumière <code>#3B82F6</code>.</p></div>
+      <div class="card"><div class="brand-stage" style="gap:26px;grid-auto-flow:column">
+          <span style="font-size:54px"><svg class="star" viewBox="0 0 40 40"><use href="#star"/></svg></span>
+          <img class="app-icon" src="../assets/logos/orion-icone-application.svg" alt="Icône de l’application : étoile blanche sur carré nuit">
+        </div>
+        <h4>Étoile seule et icône d’application</h4><p class="small muted">L’étoile seule marque le menu latéral. L’icône d’onglet place l’étoile blanche sur un carré nuit aux angles de 14 px (sur 64). Fichiers : <a href="../assets/logos/orion-etoile.svg">orion-etoile.svg</a>, <a href="../assets/logos/orion-icone-application.svg">orion-icone-application.svg</a>.</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:18px">
+      <div class="card">
+        <h4>Règles d’usage</h4>
+        <ul class="rules small">
+          <li>L’étoile reste toujours au-dessus du « I », centrée, à 70 % de la hauteur des capitales.</li>
+          <li>Police du logotype : <code>"Lucida Sans Unicode", "Lucida Grande", "DejaVu Sans"</code>, graisse 400. Aucune police téléchargée : le réseau est fermé.</li>
+          <li>En clair, l’étoile suit la couleur d’accent choisie par l’utilisateur ; en sombre, elle reste blanche.</li>
+          <li>Signature : « Gestion · Administration · Supervision », capitales espacées de 1,6 px, 0,875 rem, graisse 650, couleur d’accent.</li>
+          <li>Ne pas déformer l’étoile, ne pas la remplacer par un autre symbole, ne pas ajouter de contour.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Accès par MindefConnect</h4>
+        <p class="small muted">La page de connexion présente la marque ORION puis le bouton de référence MindefConnect, seul mode d’accès : fond bleu France <code>#000091</code> (survol <code>#1212A9</code>), angles de 5 px, texte blanc de 20 px.</p>
+        <div class="mindef" aria-hidden="true">
+          <svg viewBox="0 0 100 100" width="44" height="44"><g stroke="#007ac1" stroke-width="2.5" stroke-linecap="round"><path d="M30 12 70 12 90 50 70 88 30 88 10 50Z" fill="none"/></g><circle cx="50" cy="50" r="25" fill="#4caf50"/><g fill="#01a9f4"><circle cx="30" cy="12" r="6"/><circle cx="70" cy="12" r="6"/><circle cx="90" cy="50" r="6"/><circle cx="70" cy="88" r="6"/><circle cx="30" cy="88" r="6"/><circle cx="10" cy="50" r="6"/></g><path d="M48 47a10 10 0 1 1 8 8l-18 18-7-7 5-5 4 2 3-3-2-4Z" fill="#01a9f4" stroke="#000091" stroke-width="3" stroke-linejoin="round"/></svg>
+          <span>S’identifier avec<br><strong>MinDefConnect</strong></span>
+        </div>
+        <p class="small muted" style="margin-top:12px">Dans l’ambiance Minarm, la marque du menu devient le médaillon Marianne du Système de design de l’État (emploi réservé aux services de l’État).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section id="couleurs">
+    <span class="kicker">02 · Couleurs</span>
+    <h2>Palette</h2>
+    <p class="muted">Les composants n’emploient jamais une couleur de charte en dur : ils lisent des variables CSS (<code>styles/tokens.css</code>) que chaque ambiance redéfinit. Les couleurs d’état sont réservées et toujours accompagnées d’une icône et d’un libellé.</p>
+
+    <h3>Couleurs de la charte ORION</h3>
+    <div class="swatches">
+      <div class="sw"><i style="background:#040b1e"></i><div><b>Nuit</b><code>--nuit · #040B1E</code></div></div>
+      <div class="sw"><i style="background:#0a1630"></i><div><b>Panneau</b><code>--panneau · #0A1630</code></div></div>
+      <div class="sw"><i style="background:#1b2e5c"></i><div><b>Contour</b><code>--contour · #1B2E5C</code></div></div>
+      <div class="sw"><i style="background:#2563eb"></i><div><b>Bleu Orion</b><code>--bleu-orion · #2563EB</code></div></div>
+      <div class="sw"><i style="background:#3b82f6"></i><div><b>Bleu lumière</b><code>--bleu-lumiere · #3B82F6</code></div></div>
+      <div class="sw"><i style="background:#f6f7f9"></i><div><b>Fond clair</b><code>--base · #F6F7F9</code></div></div>
+      <div class="sw"><i style="background:#070a10"></i><div><b>Fond sombre</b><code>--base · #070A10</code></div></div>
+      <div class="sw"><i style="background:#13243d"></i><div><b>Verre sombre</b><code>--glass-tint-solid · #13243D</code></div></div>
+    </div>
+
+    <h3>États métier</h3>
+    <div class="swatches">
+      <div class="sw"><i style="background:#16a34a"></i><div><b>En service, corrigé</b><code>--ok · #16A34A</code><code>sombre #4AC77A</code></div></div>
+      <div class="sw"><i style="background:#dc2626"></i><div><b>Hors service</b><code>--crit · #DC2626</code><code>sombre #F47474</code></div></div>
+      <div class="sw"><i style="background:#f59e0b"></i><div><b>En attente, garantie proche</b><code>--wait / --warn · #F59E0B</code></div></div>
+      <div class="sw"><i style="background:color-mix(in srgb,#f59e0b 80%,#dc2626)"></i><div><b>Installation en cours</b><code>--install · 80 % warn + crit</code></div></div>
+      <div class="sw"><i style="background:#7c879b"></i><div><b>En stock</b><code>--stock · #7C879B</code></div></div>
+    </div>
+
+    <h3>Types de matériel (ordre fixe, contrôlé pour le daltonisme)</h3>
+    <div class="swatches">
+      <div class="sw"><i style="background:#6954c0"></i><div><b>Unité centrale</b><code>--c1 · #6954C0</code></div></div>
+      <div class="sw"><i style="background:#eb6834"></i><div><b>Vidéoprojecteur</b><code>--c2 · #EB6834</code></div></div>
+      <div class="sw"><i style="background:#1baf7a"></i><div><b>Réseau</b><code>--c3 · #1BAF7A</code></div></div>
+      <div class="sw"><i style="background:#d99a1e"></i><div><b>Périphérique</b><code>--c4 · #D99A1E</code></div></div>
+      <div class="sw"><i style="background:#2a78d6"></i><div><b>Écran</b><code>--c5 · #2A78D6</code></div></div>
+      <div class="sw"><i style="background:#e87ba4"></i><div><b>Audio et vidéo</b><code>--c6 · #E87BA4</code></div></div>
+      <div class="sw"><i style="background:#008300"></i><div><b>Imprimante</b><code>--c7 · #008300</code></div></div>
+      <div class="sw"><i style="background:#64748b"></i><div><b>Autre</b><code>--c8 · #64748B</code></div></div>
+    </div>
+    <p class="small muted" style="margin-top:10px">En sombre : <code>#A193CC</code>, <code>#DC956E</code>, <code>#64B997</code>, <code>#D1AD59</code>, <code>#7CA7DC</code>, <code>#CE91AE</code>, <code>#8EB67B</code>, <code>#9BA1AD</code>.</p>
+
+    <h3>Accent personnel (ambiance Orion)</h3>
+    <p class="small muted">Chaque compte choisit sa couleur d’accent (<code>ACCENTS</code>, <code>shared/ambiance.ts</code>). Elle colore les interactions, la sélection, les halos du fond et l’étoile, sans jamais toucher aux couleurs d’état.</p>
+    <div class="accents">
+      <div><i style="background:#2563eb"></i>Bleu<code>#2563EB</code></div>
+      <div><i style="background:#7655ba"></i>Violet<code>#7655BA</code></div>
+      <div><i style="background:#b4477c"></i>Rose<code>#B4477C</code></div>
+      <div><i style="background:#b94848"></i>Rouge<code>#B94848</code></div>
+      <div><i style="background:#a65e24"></i>Orange<code>#A65E24</code></div>
+      <div><i style="background:#38764c"></i>Vert<code>#38764C</code></div>
+      <div><i style="background:#277c80"></i>Sarcelle<code>#277C80</code></div>
+      <div><i style="background:#596b85"></i>Ardoise<code>#596B85</code></div>
+    </div>
+
+    <h3>Encre et dérivés</h3>
+    <p class="small muted">Le texte et les filets dérivent d’une encre unique <code>--ink</code> (nuit <code>4 11 30</code> en clair, <code>248 248 250</code> en sombre) : texte principal 100 %, secondaire 66 %, tertiaire 46 %, filet 9 %, remplissages 5 % et 9 %.</p>
+    <div class="swatches">
+      <div class="sw"><i style="background:rgb(4 11 30)"></i><div><b>Texte principal</b><code>--ink-1</code></div></div>
+      <div class="sw"><i style="background:rgb(4 11 30 / .66)"></i><div><b>Texte secondaire</b><code>--ink-2 · 66 %</code></div></div>
+      <div class="sw"><i style="background:rgb(4 11 30 / .46)"></i><div><b>Texte tertiaire</b><code>--ink-3 · 46 %</code></div></div>
+      <div class="sw"><i style="background:rgb(4 11 30 / .09)"></i><div><b>Filet</b><code>--hairline · 9 %</code></div></div>
+      <div class="sw"><i style="background:rgb(4 11 30 / .05)"></i><div><b>Remplissage</b><code>--fill-1 · 5 %</code></div></div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section id="typographie">
+    <span class="kicker">03 · Typographie</span>
+    <h2>Polices système et Marianne</h2>
+    <p class="muted">ORION n’embarque aucune police pour l’ambiance Orion : il emploie la police du système, SF Pro sur les postes Apple et Segoe UI Variable sous Windows. L’ambiance Minarm emploie Marianne, la police de l’État, servie localement (DSFR 1.15.4).</p>
+    <div class="grid g2">
+      <div class="card">
+        <h4>Ambiance Orion</h4>
+        <p class="small"><code>--font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif</code></p>
+        <p class="small"><code>--font-display</code> : même pile, variantes « Display » pour les titres.</p>
+        <p style="font-size:2rem;font-weight:700;letter-spacing:-.02em;margin:14px 0 4px">Remontées à traiter</p>
+        <p class="muted">Corps 16 px, interligne 1,5, lissage des polices activé.</p>
+      </div>
+      <div class="card marianne">
+        <h4>Ambiance Minarm</h4>
+        <p class="small"><code>--font-text / --font-display: Marianne, Arial, sans-serif</code></p>
+        <p class="small">Graisses 400, 500 et 700, romain et italique (licence dans <code>assets/fonts/</code>).</p>
+        <p style="font-size:2rem;font-weight:700;margin:14px 0 4px">Remontées à traiter</p>
+        <p class="muted">Corps 16 px, interligne 1,5.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h4>Échelle des tailles</h4>
+      <div class="type-row"><code>--fs-title · 2,25 rem</code><span style="font:700 2.25rem/1.1 var(--font-display)">Titre d’écran</span></div>
+      <div class="type-row"><code>--fs-3xl · 2,5 rem</code><span style="font:700 2.5rem/1 var(--font-display)">1 277</span></div>
+      <div class="type-row"><code>--fs-2xl · 2 rem</code><span style="font:700 2rem/1.1 var(--font-display)">Indicateur</span></div>
+      <div class="type-row"><code>--fs-xl · 1,5 rem</code><span style="font:700 1.5rem/1.2 var(--font-display)">Titre de panneau</span></div>
+      <div class="type-row"><code>--fs-l · 1,25 rem</code><span style="font:650 1.25rem/1.3 var(--font-display)">Titre de fenêtre (21 px, graisse 760)</span></div>
+      <div class="type-row"><code>--fs-m / --fs-s · 1 rem</code><span>Texte courant, boutons (graisse 650), champs.</span></div>
+      <div class="type-row"><code>--fs-xs / --fs-2xs · 0,875 rem</code><span style="font-size:.875rem;color:var(--ink-2)">Mentions, puces, en-têtes de tableau.</span></div>
+    </div>
+    <p class="small muted" style="margin-top:10px">Chiffres tabulaires (<code>font-variant-numeric: tabular-nums</code>) pour les compteurs et identifiants ; dates et nombres au format français (<code>shared/format.ts</code>).</p>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section id="icones">
+    <span class="kicker">04 · Iconographie</span>
+    <h2>Un jeu d’icônes propre à ORION</h2>
+    <p class="muted">Les icônes sont dessinées pour ORION (<code>core/icons.ts</code>, rendues par <code>ui/icons.tsx</code>) : trait de 2 px, extrémités et angles arrondis, et une couche « verre » translucide (remplissage à 16 %) qui leur donne un relief duotone. Les icônes métier, issues de la première charte, suivent une grille de 28 ; les autres une grille de 24. Une entité garde partout la même icône et la même couleur, affichée dans une tuile teintée.</p>
+<h3>Icônes métier (grille 28)</h3>
+<div class="icons">
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.33" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="3.5" y="4.5" width="21" height="15" rx="2"/><path d="M9 23.5h10M12 19.5v4M16 19.5v4"/></svg></span><figcaption>Matériel<code>materiel</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.33" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="d" d="M4 24V5.5A1.5 1.5 0 0 1 5.5 4h12A1.5 1.5 0 0 1 19 5.5V24"/><path d="M19 10h3.5A1.5 1.5 0 0 1 24 11.5V24M2.5 24h23"/><path d="M8 8h2M13 8h2M8 12h2M13 12h2M8 16h2M13 16h2"/></svg></span><figcaption>Salles<code>salles</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.33" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="d" cx="14" cy="14" r="4"/><path d="M14 3.5v3M14 21.5v3M3.5 14h3M21.5 14h3M6.6 6.6l2.1 2.1M19.3 19.3l2.1 2.1M21.4 6.6l-2.1 2.1M8.7 19.3l-2.1 2.1"/></svg></span><figcaption>Administration<code>administration</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.33" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="d" d="M2.8 14s4.2-6.5 11.2-6.5S25.2 14 25.2 14 21 20.5 14 20.5 2.8 14 2.8 14Z"/><circle cx="14" cy="14" r="3.2"/></svg></span><figcaption>Supervision<code>supervision</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.33" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="d" d="M14 3.5 25 23H3L14 3.5Z"/><path d="M14 10v6M14 20h.01"/></svg></span><figcaption>Alertes<code>alertes</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.33" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="d" d="M7 3.5h9l5 5V24.5H7Z"/><path d="M16 3.5v5h5M10.5 13h7M10.5 17h7M10.5 21h4.5"/></svg></span><figcaption>Documents<code>documents</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.33" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="d" cx="12.5" cy="12.5" r="7.5"/><path d="m18 18 6 6"/></svg></span><figcaption>Recherche<code>recherche</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.33" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v22M3 14h22M10 7l4-4 4 4M10 21l4 4 4-4M7 10l-4 4 4 4M21 10l4 4-4 4"/></svg></span><figcaption>Déplacement<code>deplacement</code></figcaption></figure>
+</div>
+<h3>Navigation et actions</h3>
+<div class="icons">
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="3" y="3" width="8" height="8" rx="2.5"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="10.5" width="8" height="10.5" rx="2.5"/><rect x="3" y="13.5" width="8" height="7.5" rx="2.5"/></svg></span><figcaption>Accueil<code>home</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="d" d="M3.5 7A1.5 1.5 0 0 1 5 5.5h14A1.5 1.5 0 0 1 20.5 7v2.3a2.7 2.7 0 0 0 0 5.4V17a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 17v-2.3a2.7 2.7 0 0 0 0-5.4Z"/><path d="M14.5 8v1.2M14.5 11.4v1.2M14.5 14.8V16"/></svg></span><figcaption>Remontées<code>ticket</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h8M18 7h2M4 17h2M12 17h8"/><circle class="d" cx="15" cy="7" r="2.75"/><circle class="d" cx="9" cy="17" r="2.75"/></svg></span><figcaption>Administration<code>sliders</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="d" d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/></svg></span><figcaption>Supervision<code>eye</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><figcaption>Ajouter<code>plus</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="d" d="M15.6 4.4a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/><path d="m13.6 6.4 3 3"/></svg></span><figcaption>Modifier<code>pencil</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V5.2A1.2 1.2 0 0 1 10.7 4h2.6a1.2 1.2 0 0 1 1.2 1.2V7"/><path class="d" d="m6 7 .9 12.1a2 2 0 0 0 2 1.9h6.2a2 2 0 0 0 2-1.9L18 7"/><path d="M10 11v6M14 11v6"/></svg></span><figcaption>Supprimer<code>trash</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="d" cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg></span><figcaption>Rechercher<code>search</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="d" d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15Z"/><path d="M10 21.2h4"/></svg></span><figcaption>Notifications<code>bell</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v10.5M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 19.5h15"/></svg></span><figcaption>Installer<code>download</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5"/><path class="d" d="M3.5 14.5v4a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-4"/></svg></span><figcaption>Import JSON<code>importJson</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.3-4.6L4 8.5M4 13a8 8 0 0 0 14.3 4.6L20 15.5"/><path d="M4 4v4.5h4.5M20 20v-4.5h-4.5"/></svg></span><figcaption>Actualiser<code>refresh</code></figcaption></figure>
+</div>
+<h3>Types de matériel</h3>
+<div class="icons">
+<figure><span class="tile" style="--c:var(--c1)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="6.5" y="2.5" width="11" height="19" rx="2"/><path d="M9.5 6.5h5M9.5 9.5h5M12 16.5h.01"/></svg></span><figcaption>Unité centrale<code>tower</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--c2)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="2.5" y="8.5" width="19" height="8.5" rx="2.5"/><circle cx="15.5" cy="12.75" r="2.4"/><path d="M6 12.75h3.5M6 17v2.2M18 17v2.2M15.5 4v2M12 5l1 1.5M19 5l-1 1.5"/></svg></span><figcaption>Vidéoprojecteur<code>projector</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--c3)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="2.5" y="9" width="19" height="7.5" rx="2"/><path d="M6 12.75h.01M9 12.75h.01M12 12.75h.01M15 12.75h.01M18 12.75h.01M7 9V6.5h10V9"/></svg></span><figcaption>Réseau<code>switch</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--c4)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="2.5" y="10.5" width="13" height="9" rx="1.8"/><path d="M5.5 13.5h.01M8.5 13.5h.01M11.5 13.5h.01M6 16.5h6"/><rect x="17.5" y="7.5" width="4.5" height="12" rx="2.25"/><path d="M19.75 9.8v2"/></svg></span><figcaption>Périphérique<code>periph</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--c5)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M12 16.5v3.8M8 20.5h8"/></svg></span><figcaption>Écran<code>monitor</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--c6)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="5.5" y="2.5" width="13" height="19" rx="2.5"/><circle cx="12" cy="14.5" r="3.5"/><path d="M12 7h.01"/></svg></span><figcaption>Audio et vidéo<code>speaker</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--c7)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8.5V3.5h10v5"/><rect class="d" x="2.5" y="8.5" width="19" height="8.5" rx="2"/><rect x="7" y="14" width="10" height="6.5" rx="1"/><path d="M17.5 11.5h.01"/></svg></span><figcaption>Imprimante<code>printer</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--c8)"><svg class="ico" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.33" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="3.5" y="4.5" width="21" height="15" rx="2"/><path d="M9 23.5h10M12 19.5v4M16 19.5v4"/></svg></span><figcaption>Autre<code>materiel</code></figcaption></figure>
+</div>
+<h3>États et statuts</h3>
+<div class="icons">
+<figure><span class="tile" style="--c:var(--ok)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="d" cx="12" cy="12" r="9"/><path d="m8 12.3 2.8 2.8L16.2 9.5"/></svg></span><figcaption>En service<code>checkCircle</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--crit)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v8"/><path d="M7.1 6.3a7.5 7.5 0 1 0 9.8 0"/></svg></span><figcaption>Hors service<code>power</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--wait)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11M6.5 20.5h11"/><path class="d" d="M7.5 3.5c0 4 4.5 5.5 4.5 8.5s-4.5 4.5-4.5 8.5h9c0-4-4.5-5.5-4.5-8.5s4.5-4.5 4.5-8.5Z"/></svg></span><figcaption>En attente<code>hourglass</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--c5)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.3-4.6L4 8.5M4 13a8 8 0 0 0 14.3 4.6L20 15.5"/><path d="M4 4v4.5h4.5M20 20v-4.5h-4.5"/></svg></span><figcaption>En cours<code>refresh</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--accent)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h15l-3.5-3.5M20 16H5l3.5 3.5"/></svg></span><figcaption>Remplacé<code>swap</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--ok)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span><figcaption>Corrigé<code>check</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--stock)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="d" d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5Z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/></svg></span><figcaption>En stock<code>stockage</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--crit)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="d" d="M12 3 4.5 6v5.5c0 4.6 3.2 8.2 7.5 9.5 4.3-1.3 7.5-4.9 7.5-9.5V6Z"/><path d="m9.5 9.5 5 5M14.5 9.5l-5 5"/></svg></span><figcaption>Processus interdit<code>shieldX</code></figcaption></figure>
+</div>
+<h3>Problèmes signalés</h3>
+<div class="icons">
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2.5v4M15 2.5v4"/><path class="d" d="M6.5 6.5h11v4a5.5 5.5 0 0 1-11 0Z"/><path d="M12 16v5.5"/></svg></span><figcaption>Ne s’allume pas<code>noPower</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M12 16.5v3.8M8 20.5h8M9.5 7.5l5 5M14.5 7.5l-5 5"/></svg></span><figcaption>Pas d’image<code>noDisplay</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 9a14 14 0 0 1 4.2-2.6M10.4 5.6A14 14 0 0 1 21.5 9M5.6 12.4a9.5 9.5 0 0 1 3.6-2M14.6 10.8a9.5 9.5 0 0 1 3.8 1.6M8.7 15.8a5 5 0 0 1 6.6 0"/><circle class="f" cx="12" cy="19.2" r="1.6"/><path d="M3.5 3.5l17 17"/></svg></span><figcaption>Connexion<code>noNetwork</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M12.5 3.5 10 9l4 3-3 4 1 4.5"/></svg></span><figcaption>Casse<code>broken</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="d" cx="12" cy="12" r="9"/><path d="M12 7v5.5M12 16.5h.01"/></svg></span><figcaption>Fonctionnement anormal<code>malfunction</code></figcaption></figure>
+<figure><span class="glyph"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="d" cx="12" cy="12" r="9"/><circle class="f" cx="8" cy="12" r="1.3"/><circle class="f" cx="12" cy="12" r="1.3"/><circle class="f" cx="16" cy="12" r="1.3"/></svg></span><figcaption>Autre<code>other</code></figcaption></figure>
+</div>
+<h3>Profils</h3>
+<div class="icons">
+<figure><span class="tile" style="--c:var(--accent)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="d" d="M12 3 4.5 6v5.5c0 4.6 3.2 8.2 7.5 9.5 4.3-1.3 7.5-4.9 7.5-9.5V6Z"/><path d="m9 12 2 2 4-4"/></svg></span><figcaption>Administrateur<code>shield</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--c5)"><svg class="ico" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.33" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="3.5" y="4.5" width="21" height="15" rx="2"/><path d="M9 23.5h10M12 19.5v4M16 19.5v4"/></svg></span><figcaption>Gestionnaire<code>materiel</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--c3)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="d" cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg></span><figcaption>Formateur<code>user</code></figcaption></figure>
+<figure><span class="tile" style="--c:var(--nuit)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.00" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="d" d="M2.5 9 12 4.5 21.5 9 12 13.5Z"/><path d="M6.5 11v4.5c0 1.5 2.5 3 5.5 3s5.5-1.5 5.5-3V11M21.5 9v5"/></svg></span><figcaption>Super administrateur<code>school</code></figcaption></figure>
+</div>
+
+    <p class="small muted" style="margin-top:12px">Les logiciels installés sur les postes sont représentés par leur logo d’éditeur (<code>assets/apps/</code>, sources dans <code>SOURCES.md</code>).</p>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section id="materiau">
+    <span class="kicker">05 · Matériau et mesures</span>
+    <h2>Le verre, les rayons, les espacements</h2>
+    <p class="muted">Les surfaces sont en verre (<code>styles/glass.css</code>). Deux niveaux au choix de l’utilisateur : <b>Liquide</b>, verre clair presque transparent (flou 22 px, saturation 1,7 en clair) avec un liseré lumineux et un reflet qui suit le pointeur ; <b>Opaque</b>, surface pleine, filet net, sans flou ni reflet. Le système respecte la réduction de transparence.</p>
+
+    <h3>Rayons hiérarchiques</h3>
+    <div class="scale">
+      <div><div class="radius-demo" style="border-radius:8px"></div><code>--r-xs · 8</code></div>
+      <div><div class="radius-demo" style="border-radius:12px"></div><code>--r-s · 12</code></div>
+      <div><div class="radius-demo" style="border-radius:18px"></div><code>--r-m · 18</code></div>
+      <div><div class="radius-demo" style="border-radius:28px"></div><code>--r-l · 28</code></div>
+      <div><div class="radius-demo" style="border-radius:34px"></div><code>--r-xl · 34</code></div>
+      <div><div class="radius-demo" style="border-radius:999px"></div><code>--r-pill</code></div>
+    </div>
+    <p class="small muted" style="margin-top:8px">Cartes et panneaux : 28 px ; fenêtres : 34 px ; champs : 14 px ; boutons, puces et contrôles segmentés : pilule.</p>
+
+    <h3>Espacements</h3>
+    <div class="scale">
+      <div><div class="space-demo" style="width:4px"></div><code>--sp-1 · 4</code></div>
+      <div><div class="space-demo" style="width:8px"></div><code>--sp-2 · 8</code></div>
+      <div><div class="space-demo" style="width:12px"></div><code>--sp-3 · 12</code></div>
+      <div><div class="space-demo" style="width:16px"></div><code>--sp-4 · 16</code></div>
+      <div><div class="space-demo" style="width:20px"></div><code>--sp-5 · 20</code></div>
+      <div><div class="space-demo" style="width:24px"></div><code>--sp-6 · 24</code></div>
+      <div><div class="space-demo" style="width:32px"></div><code>--sp-7 · 32</code></div>
+      <div><div class="space-demo" style="width:40px"></div><code>--sp-8 · 40</code></div>
+      <div><div class="space-demo" style="width:56px"></div><code>--sp-9 · 56</code></div>
+    </div>
+    <p class="small muted" style="margin-top:8px">Mise en page : menu latéral de 120 px séparé du contenu par 20 px, barre haute de 92 px ; tableaux de bord sur 4 colonnes, rangées de 172 px, gouttière de 18 px.</p>
+
+    <h3>Ombres et mouvement</h3>
+    <div class="grid g3">
+      <div class="shadow-demo" style="box-shadow:0 1px 1px rgb(24 27 32 / .05), 0 10px 28px -10px rgb(24 27 32 / .2), 0 34px 64px -28px rgb(24 27 32 / .24)"><span><code>--glass-shadow</code><br>cartes au repos</span></div>
+      <div class="shadow-demo" style="box-shadow:0 2px 2px rgb(24 27 32 / .06), 0 22px 44px -12px rgb(24 27 32 / .3), 0 50px 90px -30px rgb(24 27 32 / .3)"><span><code>--glass-shadow-lift</code><br>carte soulevée, glisser</span></div>
+      <div class="shadow-demo" style="box-shadow:0 0 0 1px rgb(4 11 30 / .09), 0 1px 2px rgb(24 27 32 / .06), 0 10px 24px -14px rgb(24 27 32 / .28)"><span>Verre opaque<br>filet + ombre courte</span></div>
+    </div>
+    <p class="small muted" style="margin-top:12px">Durées : 160, 280 et 460 ms (<code>--dur-1</code> à <code>--dur-3</code>). Courbes : sortie <code>cubic-bezier(.2, .8, .2, 1)</code>, ressort <code>cubic-bezier(.34, 1.42, .64, 1)</code>, douce <code>cubic-bezier(.4, 0, .2, 1)</code>. Un bouton pressé se réduit à 96 %. Toutes les animations respectent la réduction des mouvements.</p>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section id="composants">
+    <span class="kicker">06 · Composants</span>
+    <h2>Les éléments communs de l’interface</h2>
+    <p class="muted">Une action n’apparaît qu’à un seul endroit par écran. Les formulaires s’enregistrent avec la touche Entrée. Les éléments partagés sont regroupés : affichage dans <code>widgets/parts.tsx</code>, fenêtres, confirmations et notifications dans <code>ui/overlays.tsx</code>.</p>
+
+    <div class="grid g2">
+      <div class="card">
+        <h4>Boutons</h4>
+        <p class="small muted">Hauteur 42 px (petit : 32 px), pilule, graisse 650.</p>
+        <div class="row">
+          <span class="btn btn--primary"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Ajouter un matériel</span>
+          <span class="btn btn--glass">Personnaliser</span>
+          <span class="btn btn--ghost">Annuler</span>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <span class="btn btn--danger-ghost">Désinstaller</span>
+          <span class="btn btn--danger">Supprimer</span>
+          <span class="btn btn--ghost btn--s">Ouvrir</span>
+          <span class="btn btn--primary" disabled>Désactivé</span>
+        </div>
+        <p class="small muted" style="margin-top:12px">Principal : accent à 10 % sur blanc, texte d’accent ; verre : barre haute ; discret : remplissage 5 % ; destructif : rouge à 11 %, ou plein pour la confirmation.</p>
+      </div>
+      <div class="card">
+        <h4>Contrôles segmentés et onglets</h4>
+        <div class="seg" style="margin-top:6px"><span class="on">Mon tableau de bord</span><span>Parc</span><span>Remontées</span></div>
+        <div class="row" style="margin-top:14px">
+          <div class="seg"><span class="on">Tous</span><span><b class="code-badge">A</b></span><span><b class="code-badge">B</b></span><span><b class="code-badge">C</b></span></div>
+          <span class="switch on" aria-hidden="true"></span><span class="switch" aria-hidden="true"></span>
+        </div>
+        <p class="small muted" style="margin-top:12px">Le segment actif est une pastille blanche ombrée. Les bâtiments sont désignés par un badge de code (24 px, angles de 8 px). L’interrupteur passe au vert une fois activé.</p>
+      </div>
+      <div class="card">
+        <h4>Puces, témoins et avancement</h4>
+        <div class="row">
+          <span class="chip chip--warn"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5h11M6.5 20.5h11"/><path class="d" d="M7.5 3.5c0 4 4.5 5.5 4.5 8.5s-4.5 4.5-4.5 8.5h9c0-4-4.5-5.5-4.5-8.5s4.5-4.5 4.5-8.5Z"/></svg>En attente</span>
+          <span class="chip chip--good"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Corrigé</span>
+          <span class="chip chip--bad">2 HS</span>
+          <span class="chip chip--move">En cours d’installation</span>
+          <span class="chip">C005</span>
+        </div>
+        <div style="margin-top:14px">
+          <span class="status"><i class="led"></i>En service</span><span class="status"><i class="led led--hs"></i>Hors service</span><span class="status"><i class="led led--wait"></i>En attente</span><span class="status"><i class="led led--stock"></i>En stock</span><span class="status"><i class="led led--off"></i>Éteint</span>
+        </div>
+        <div class="progress" style="margin-top:14px"><i><b style="width:75%"></b></i><strong>75 %</strong></div>
+        <div class="progress done" style="margin-top:8px"><i><b style="width:100%"></b></i><strong>100 %</strong></div>
+        <p class="small muted" style="margin-top:12px">Témoin lumineux de 8 px avec reflet et halo de sa couleur ; barre d’avancement de 6 px, orange tant que l’opération est en cours, verte une fois terminée.</p>
+      </div>
+      <div class="card">
+        <h4>Champs</h4>
+        <div class="search"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle class="d" cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>Modèle, identifiant, série…</div>
+        <div class="grid g2" style="margin-top:14px;gap:12px">
+          <div class="field"><label>Modèle *</label><div class="input focus">Écran 24 pouces</div></div>
+          <div class="field"><label>Marque</label><div class="input">Facultative</div></div>
+        </div>
+        <p class="small muted" style="margin-top:12px">Champ : remplissage 5 %, filet 9 %, angles de 14 px ; au focus, fond blanc et contour d’accent de 2 px. Liste déroulante : flèche à la couleur d’accent.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px;padding:0;overflow:hidden">
+      <table class="table">
+        <thead><tr><th>Identifiant</th><th>Matériel</th><th>Localisation</th><th>État</th><th>Garantie</th></tr></thead>
+        <tbody>
+          <tr><td>MAT-0002</td><td><span style="display:inline-flex;gap:10px;align-items:center"><span class="tile" style="--c:var(--c5);--size:28px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M12 16.5v3.8M8 20.5h8"/></svg></span><b>Écran 24 pouces</b></span></td><td><span class="chip">C103</span></td><td><span class="status"><i class="led"></i>En service</span></td><td style="color:var(--crit)">Échue</td></tr>
+          <tr class="sel"><td>MAT-0003</td><td><span style="display:inline-flex;gap:10px;align-items:center"><span class="tile" style="--c:var(--c1);--size:28px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="6.5" y="2.5" width="11" height="19" rx="2"/><path d="M9.5 6.5h5M9.5 9.5h5M12 16.5h.01"/></svg></span><b>Unité centrale</b></span></td><td><span class="chip">C205</span></td><td><span class="status"><i class="led led--hs"></i>Hors service</span></td><td>Plus d’un an</td></tr>
+          <tr><td>MAT-0004</td><td><span style="display:inline-flex;gap:10px;align-items:center"><span class="tile" style="--c:var(--c4);--size:28px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="d" x="2.5" y="10.5" width="13" height="9" rx="1.8"/><path d="M5.5 13.5h.01M8.5 13.5h.01M11.5 13.5h.01M6 16.5h6"/><rect x="17.5" y="7.5" width="4.5" height="12" rx="2.25"/><path d="M19.75 9.8v2"/></svg></span><b>Clavier USB</b></span></td><td><span class="chip">A018</span></td><td><span class="status"><i class="led"></i>En service</span></td><td class="muted">Non renseignée</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted" style="margin-top:10px">Tableaux : en-tête fixe pendant le défilement (0,875 rem, graisse 600), lignes de 14 px de marge, survol neutre ; la sélection prend la teinte d’accent à 14 % et un filet de 3 px à gauche.</p>
+
+    <div class="grid g4" style="margin-top:18px">
+      <div class="kpi kpi--hs"><span>Hors service</span><div><b>40</b><div class="small" style="font-weight:600">3,1 % du parc</div></div></div>
+      <div class="kpi kpi--wait"><span>Remontées en attente</span><div><b>14</b><div class="small" style="font-weight:600"><span style="color:var(--crit)">▲ 4</span> sur 7 jours</div></div></div>
+      <div class="kpi"><span>Traitées sur 30 jours</span><div><b>18</b></div></div>
+      <div class="kpi"><span>Délai médian</span><div><b>2,6 <small style="font-size:1.2rem">j</small></b></div></div>
+    </div>
+    <p class="small muted" style="margin-top:10px">Cartes du tableau de bord (widgets) : verre, rayon de 28 px ; un indicateur en alerte prend la teinte de son état. Tailles S, M, L et XL sur une grille de 4 colonnes, déplaçables en mode « Personnaliser ».</p>
+
+    <div class="grid g2" style="margin-top:18px">
+      <div class="scrim">
+        <div class="sheet">
+          <div class="sheet-head"><span class="tile" style="--c:var(--crit);--size:36px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="d" d="M10.3 4.2 2.8 17.5a2 2 0 0 0 1.7 3h15a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0Z"/><path d="M12 9.5v4M12 17h.01"/></svg></span><b>Supprimer ce matériel ?</b></div>
+          <div class="sheet-body">MAT-0002 sera retiré de l’inventaire. Cette action est définitive.</div>
+          <div class="sheet-foot"><span class="btn btn--ghost">Annuler</span><span class="btn btn--danger">Supprimer</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h4>Fenêtres et notifications</h4>
+        <p class="small muted">Fenêtre modale : largeurs 460, 580 ou 840 px, rayon de 34 px, en-tête avec tuile et titre (21 px, graisse 760), pied séparé par un filet ; le fond est voilé et flouté. Sur petit écran, la fenêtre devient une feuille qui monte du bas.</p>
+        <div style="padding:18px 0 4px"><span class="island"><span class="tile" style="--c:var(--ok)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>Matériel enregistré</span></div>
+        <p class="small muted" style="margin-top:10px">Confirmation : « île » en pilule, centrée en bas de l’écran, visible 2,6 s. Les notifications métier (nouvelles remontées, déplacements, processus interdits, garanties) sont regroupées par sujet dans la cloche et l’espace Notifications.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section id="ambiances">
+    <span class="kicker">07 · Ambiances</span>
+    <h2>Orion et Minarm, en clair et en sombre</h2>
+    <p class="muted">Chaque compte choisit son ambiance, son niveau de verre et, pour Orion, sa couleur d’accent (<code>shared/ambiance.ts</code>). Les deux ambiances suivent le réglage clair ou sombre de la machine, que l’utilisateur peut forcer. Les ambiances ne redéfinissent que des variables : les écrans restent identiques.</p>
+    <div class="grid g2">
+      <figure class="amb"><img src="../maquettes/captures/02-accueil-administrateur.png" alt="Tableau de bord en ambiance Orion claire"><figcaption><b>Orion clair (défaut)</b> — blanc lumineux, halos de la couleur d’accent, verre liquide.</figcaption></figure>
+      <figure class="amb"><img src="../maquettes/captures/70-ambiance-orion-sombre.png" alt="Tableau de bord en ambiance Orion sombre"><figcaption><b>Orion sombre</b> — noir spatial <code>#070A10</code>, ciel étoilé, verre bleu nuit <code>#13243D</code>, lueur de l’accent sur les bords.</figcaption></figure>
+      <figure class="amb"><img src="../maquettes/captures/72-ambiance-minarm.png" alt="Tableau de bord en ambiance Minarm"><figcaption><b>Minarm</b> — couleurs du Système de design de l’État et police Marianne : bleu France <code>#000091</code>, surfaces pleines, médaillon Marianne.</figcaption></figure>
+      <div class="card">
+        <h4>Valeurs Minarm (DSFR 1.15.4)</h4>
+        <div class="swatches" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+          <div class="sw"><i style="background:#000091"></i><div><b>Bleu France</b><code>--accent · #000091</code><code>sombre #8585F6</code></div></div>
+          <div class="sw"><i style="background:#161616"></i><div><b>Titre</b><code>--ink · #161616</code></div></div>
+          <div class="sw"><i style="background:#18753c"></i><div><b>Succès</b><code>--ok · #18753C</code></div></div>
+          <div class="sw"><i style="background:#ce0500"></i><div><b>Erreur</b><code>--crit · #CE0500</code></div></div>
+          <div class="sw"><i style="background:#b34000"></i><div><b>Avertissement</b><code>--warn · #B34000</code></div></div>
+          <div class="sw"><i style="background:#c3992a"></i><div><b>En attente</b><code>--wait · #C3992A</code></div></div>
+        </div>
+        <p class="small muted" style="margin-top:10px">Fond <code>#F6F6F6</code>, cartes blanches, filets <code>#DDD</code> ; catégories en couleurs illustratives du DSFR.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section id="chargement">
+    <span class="kicker">08 · Chargement</span>
+    <h2>L’étoile qui respire</h2>
+    <p class="muted">Pendant le chargement de la session ou de l’espace, l’étoile respire (cycle de 2,4 s, réduction à 84 %) entourée de petites étoiles qui scintillent, tirées au hasard. Aucun pourcentage simulé ; animations coupées si le système demande de réduire les mouvements.</p>
+    <div class="grid g2">
+      <div class="card brand-stage" style="min-height:220px"><div style="text-align:center"><span class="mark" style="font-size:56px"><svg class="star breathe" viewBox="0 0 40 40"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 0.84em);top:calc(50% + 0.26em);translate:-50% -50%;width:0.32em;height:0.32em;animation-duration:2.6s;animation-delay:-0.4s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 0.41em);top:calc(50% + 1.04em);translate:-50% -50%;width:0.20em;height:0.20em;animation-duration:3.4s;animation-delay:-1.9s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -0.36em);top:calc(50% + 0.62em);translate:-50% -50%;width:0.36em;height:0.36em;animation-duration:2.2s;animation-delay:-3.1s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -1.01em);top:calc(50% + 0.25em);translate:-50% -50%;width:0.24em;height:0.24em;animation-duration:3.9s;animation-delay:-0.8s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -0.68em);top:calc(50% + -0.42em);translate:-50% -50%;width:0.28em;height:0.28em;animation-duration:2.9s;animation-delay:-2.4s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -0.24em);top:calc(50% + -1.13em);translate:-50% -50%;width:0.18em;height:0.18em;animation-duration:3.1s;animation-delay:-1.2s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 0.42em);top:calc(50% + -0.63em);translate:-50% -50%;width:0.34em;height:0.34em;animation-duration:2.4s;animation-delay:-3.6s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 0.96em);top:calc(50% + -0.39em);translate:-50% -50%;width:0.22em;height:0.22em;animation-duration:3.6s;animation-delay:-0.2s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 0.40em);top:calc(50% + 0.50em);translate:-50% -50%;width:0.24em;height:0.24em;animation-duration:4s;animation-delay:-2.8s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -1.18em);top:calc(50% + -0.19em);translate:-50% -50%;width:0.20em;height:0.20em;animation-duration:2.7s;animation-delay:-1.6s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 0.18em);top:calc(50% + -0.94em);translate:-50% -50%;width:0.30em;height:0.30em;animation-duration:3.3s;animation-delay:-0.9s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -0.13em);top:calc(50% + 0.99em);translate:-50% -50%;width:0.26em;height:0.26em;animation-duration:2.5s;animation-delay:-3.9s"><use href="#star"/></svg></span><p class="muted" style="margin-top:30px">Ouverture de votre espace…</p></div></div>
+      <div class="card dark brand-stage" style="min-height:220px"><div style="text-align:center"><span class="mark" style="font-size:56px"><svg class="star breathe" viewBox="0 0 40 40"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 0.84em);top:calc(50% + 0.26em);translate:-50% -50%;width:0.32em;height:0.32em;animation-duration:2.6s;animation-delay:-0.4s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 0.41em);top:calc(50% + 1.04em);translate:-50% -50%;width:0.20em;height:0.20em;animation-duration:3.4s;animation-delay:-1.9s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -0.36em);top:calc(50% + 0.62em);translate:-50% -50%;width:0.36em;height:0.36em;animation-duration:2.2s;animation-delay:-3.1s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -1.01em);top:calc(50% + 0.25em);translate:-50% -50%;width:0.24em;height:0.24em;animation-duration:3.9s;animation-delay:-0.8s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -0.68em);top:calc(50% + -0.42em);translate:-50% -50%;width:0.28em;height:0.28em;animation-duration:2.9s;animation-delay:-2.4s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -0.24em);top:calc(50% + -1.13em);translate:-50% -50%;width:0.18em;height:0.18em;animation-duration:3.1s;animation-delay:-1.2s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 0.42em);top:calc(50% + -0.63em);translate:-50% -50%;width:0.34em;height:0.34em;animation-duration:2.4s;animation-delay:-3.6s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 0.96em);top:calc(50% + -0.39em);translate:-50% -50%;width:0.22em;height:0.22em;animation-duration:3.6s;animation-delay:-0.2s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 0.40em);top:calc(50% + 0.50em);translate:-50% -50%;width:0.24em;height:0.24em;animation-duration:4s;animation-delay:-2.8s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -1.18em);top:calc(50% + -0.19em);translate:-50% -50%;width:0.20em;height:0.20em;animation-duration:2.7s;animation-delay:-1.6s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + 0.18em);top:calc(50% + -0.94em);translate:-50% -50%;width:0.30em;height:0.30em;animation-duration:3.3s;animation-delay:-0.9s"><use href="#star"/></svg><svg class="tw" viewBox="0 0 40 40" style="left:calc(50% + -0.13em);top:calc(50% + 0.99em);translate:-50% -50%;width:0.26em;height:0.26em;animation-duration:2.5s;animation-delay:-3.9s"><use href="#star"/></svg></span><p class="muted" style="margin-top:30px">Chargement…</p></div></div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section id="situation">
+    <span class="kicker">09 · Mise en situation</span>
+    <h2>L’identité dans les écrans</h2>
+    <p class="muted">L’ensemble des écrans, par module et par profil, est présenté dans les <a href="../maquettes/index.html">maquettes de l’application</a>.</p>
+    <div class="grid g2">
+      <figure class="shot"><img src="../maquettes/captures/01-connexion.png" alt="Page de connexion"><figcaption><b>Connexion</b> — marque animée et accès par MindefConnect.</figcaption></figure>
+      <figure class="shot"><img src="../maquettes/captures/10-salles-vue-eclatee.png" alt="Vue éclatée des salles"><figcaption><b>Salles</b> — vue éclatée par bâtiment et par niveau.</figcaption></figure>
+    </div>
+  </section>
+
+  <footer>
+    Charte graphique ORION, version 2.0 du 13/11/2026, établie à partir de l’application : <code>application/frontend/src/workspace/styles/</code>, <code>application/shared/ambiance.ts</code>, <code>application/frontend/src/connexion/</code> et <code>application/frontend/src/workspace/core/icons.ts</code>. Les directions précédentes (ORION florale, VIGIE) sont conservées dans les archives.
+  </footer>
+</main>
+</body>
+</html>
