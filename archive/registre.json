@@ -1320,6 +1320,13 @@
         "version": "2.3",
         "date": "2026-11-13",
         "modification": "Règles de gestion mises à jour",
+        "archive": null,
+        "commit": "d3c3785"
+      },
+      {
+        "version": "2.4",
+        "date": "2026-11-13",
+        "modification": "Données de départ 17, import hors service et RECON à suivre",
         "archive": null
       }
     ]

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.3 | 13/11/2026 | Brouillon interne | Règles de gestion mises à jour | [5 versions](../../archive/README.md#reste-a-faire-brouillon-v1) |
+| 2.4 | 13/11/2026 | Brouillon interne | Données de départ 17, import hors service et RECON à suivre | [6 versions](../../archive/README.md#reste-a-faire-brouillon-v1) |
 <!-- version:fin -->
 
 Document de travail interne, établi le 13 novembre 2026 à l’issue du contrôle du renommage, de la conversion en TypeScript, de la revue de qualité et de l’analyse de sécurité. Il recense ce qui n’a pas été traité. Les décisions et questions ouvertes font foi dans le [cadrage](../02-CADRAGE.md) (§ 19) ; ce document n’en est qu’un aide-mémoire.
@@ -11,7 +11,7 @@ Document de travail interne, établi le 13 novembre 2026 à l’issue du contrô
 ## Avant le prochain déploiement sur les VM
 
 - [x] Lancer `application/infra/vm/installer.sh` pour créer le secret Swarm `PROVISIONING_CLIENT_SECRET` (compte de service de création des identités), absent des VM déjà installées.
-- [ ] Prévoir la réinitialisation des données de démonstration : `SEED_VERSION` passe à 15 et `SEED_RESET=true` sur les VM ; les comptes ORION se relient aux nouveaux identifiants stables des utilisateurs de l’annuaire.
+- [ ] Prévoir la réinitialisation des données de démonstration : `SEED_VERSION` passe à 17 et `SEED_RESET=true` sur les VM ; les comptes ORION se relient aux nouveaux identifiants stables des utilisateurs de l’annuaire.
 - [ ] Vérifier après déploiement : connexion des quatre profils, création d’un compte, réception des rapports des postes émulés, `https://172.16.131.188/api/infos` (version servie).
 
 ## Après la présentation finale au client
@@ -41,6 +41,9 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 - [ ] Tests : ajouter un test du détail de `/api/health` et `/api/infos` réservé au super administrateur (vérifié manuellement seulement pour les appels anonymes).
 - [ ] Un échec isolé de `npm run test:workspace` au premier passage du 13 novembre, non reproduit en trois passages : identifier le test s’il se reproduit.
 - [ ] Mode développement : un gros corps refusé tôt par le serveur fait parfois échouer le proxy de Vite (502) ; sans effet derrière HAProxy.
+
+- [ ] Import JSON : le transfert d’un matériel hors service vers une salle d’une autre école est bloqué (conséquence de RG-87) ; à confirmer par l’utilisateur.
+- [ ] RECON (fusionné depuis `main`) : le recensement mobile n’est pas encore couvert par les DCU, la matrice ni les règles de gestion.
 
 ## Documentation
 
