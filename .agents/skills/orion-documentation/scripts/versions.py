@@ -8,11 +8,12 @@ Le registre archive/registre.json fait foi. Il produit :
 
 Commandes (depuis la racine du dépôt) :
   python3 .agents/skills/orion-documentation/scripts/versions.py publier <fichier> --majeure|--mineure -m "Modification"
-      Après avoir modifié le fichier, avant le commit : archive la version
-      précédente telle qu'elle est dans le dernier commit (HEAD), enregistre
-      la nouvelle version et régénère les en-têtes et le compte rendu.
+      Après avoir modifié le fichier, avant le commit : référence la version
+      précédente par son dernier commit (copie conservée seulement pour design/),
+      enregistre la nouvelle version et régénère les en-têtes et le compte rendu.
   python3 .agents/skills/orion-documentation/scripts/versions.py retirer <fichier> -m "Motif"
-      Déplace un fichier remplacé ou abandonné dans les archives.
+      Supprime un fichier remplacé ou abandonné ; sa dernière version reste
+      référencée par son commit (copie conservée seulement pour design/).
   python3 .agents/skills/orion-documentation/scripts/versions.py rendre
       Régénère les en-têtes et le compte rendu à partir du registre.
 
@@ -24,7 +25,6 @@ import argparse
 import datetime
 import json
 import re
-import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -114,7 +114,8 @@ def compte_rendu(registre):
         "# Archives de la documentation ORION",
         "",
         "Compte rendu des évolutions de chaque fichier suivi : version, date et modification. "
-        "La version en vigueur est le fichier lui-même ; chaque version remplacée est conservée dans le dossier du fichier. "
+        "La version en vigueur est le fichier lui-même ; chaque version remplacée est retrouvée dans l’historique Git par son commit "
+        "(`git show <commit>:<chemin>`). Seules les versions de `design/`, qui font partie de la capture du besoin, sont copiées dans les archives. "
         "Ce document et les en-têtes de version sont générés à partir de [registre.json](registre.json) "
         "par [versions.py](../.agents/skills/orion-documentation/scripts/versions.py) ; ne pas les modifier à la main.",
         "",
@@ -140,10 +141,11 @@ def compte_rendu(registre):
                 out += [f"Ancien emplacement : `{c}`. {f['retire']}", ""]
             else:
                 out += [f"Fichier : [{c}](../{c}) · {f['destination']}", ""]
-            out += ["| Version | Date | Modification | Fichier |", "| --- | --- | --- | --- |"]
+            out += ["| Version | Date | Modification | Commit | Copie |", "| --- | --- | --- | --- | --- |"]
             for v in reversed(f["versions"]):
-                lien = f"[archive]({v['archive']})" if v.get("archive") else "en vigueur"
-                out.append(f"| {v['version']} | {date_fr(v['date'])} | {cellule(v['modification'])} | {lien} |")
+                commit = f"`{v['commit']}`" + (f" (`{v['chemin']}`)" if v.get("chemin") else "") if v.get("commit") else "en vigueur"
+                lien = f"[archive]({v['archive']})" if v.get("archive") else "—"
+                out.append(f"| {v['version']} | {date_fr(v['date'])} | {cellule(v['modification'])} | {commit} | {lien} |")
     (ARCHIVE / "README.md").write_text("\n".join(out) + "\n", encoding="utf-8")
 
 
@@ -158,18 +160,26 @@ def suivante(version, majeure):
     return f"{x + 1}.0" if majeure else f"{x}.{y + 1}"
 
 
-def contenu_head(chemin):
-    r = subprocess.run(["git", "show", f"HEAD:{chemin}"], cwd=ROOT, capture_output=True)
-    return r.stdout if r.returncode == 0 else None
+def dernier_commit(chemin):
+    """Dernier commit qui contient la version en vigueur du fichier."""
+    r = subprocess.run(["git", "log", "-1", "--format=%h", "--abbrev=7", "--", chemin], cwd=ROOT, capture_output=True, text=True)
+    return r.stdout.strip() or None
 
 
-def archiver_version(chemin, fiche, contenu):
+def archiver_version(chemin, fiche):
+    """Référence la version en vigueur par son commit ; copie seulement les fichiers de design/."""
     v = fiche["versions"][-1]
-    p = Path(chemin)
-    nom = f"{dossier(chemin)}/{p.stem}-v{v['version']}-{v['date']}{p.suffix}"
-    (ARCHIVE / nom).parent.mkdir(parents=True, exist_ok=True)
-    (ARCHIVE / nom).write_bytes(contenu)
-    v["archive"] = nom
+    commit = dernier_commit(chemin)
+    if commit is None:
+        sys.exit(f"{chemin} : absent de l'historique Git, version précédente introuvable.")
+    v["commit"] = commit
+    if chemin.startswith("design/"):
+        contenu = subprocess.run(["git", "show", f"{commit}:{chemin}"], cwd=ROOT, capture_output=True, check=True).stdout
+        p = Path(chemin)
+        nom = f"{dossier(chemin)}/{p.stem}-v{v['version']}-{v['date']}{p.suffix}"
+        (ARCHIVE / nom).parent.mkdir(parents=True, exist_ok=True)
+        (ARCHIVE / nom).write_bytes(contenu)
+        v["archive"] = nom
 
 
 def publier(chemin, majeure, message):
@@ -179,20 +189,15 @@ def publier(chemin, majeure, message):
         registre[chemin] = {"destination": destination(chemin), "versions": [{"version": "1.0", "date": aujourdhui, "modification": message, "archive": None}]}
     else:
         fiche = registre[chemin]
-        precedent = contenu_head(chemin)
-        if precedent is None:
-            sys.exit(f"{chemin} : absent du dernier commit, version précédente introuvable.")
-        if (ROOT / chemin).exists() and (ROOT / chemin).suffix == ".md":
-            precedent = BLOC.sub("\n", precedent.decode("utf-8"), count=1).encode("utf-8")
         avant = fiche["versions"][-2] if len(fiche["versions"]) > 1 else None
-        if avant and avant.get("archive") and (ARCHIVE / avant["archive"]).read_bytes() == precedent:
+        if avant and avant.get("commit") == dernier_commit(chemin):
             # Fichier déjà publié depuis le dernier commit : même version, modification complétée.
             fiche["versions"][-1]["modification"] += f" ; {message}"
             enregistrer(registre)
             rendre(registre)
             print(f"{chemin} : version {fiche['versions'][-1]['version']} complétée")
             return
-        archiver_version(chemin, fiche, precedent)
+        archiver_version(chemin, fiche)
         fiche["versions"].append({"version": suivante(fiche["versions"][-1]["version"], majeure), "date": aujourdhui, "modification": message, "archive": None})
     enregistrer(registre)
     rendre(registre)
@@ -202,13 +207,12 @@ def publier(chemin, majeure, message):
 def retirer(chemin, message):
     registre = charger()
     fiche = registre.setdefault(chemin, {"destination": destination(chemin), "versions": [{"version": "1.0", "date": datetime.date.today().isoformat(), "modification": "Version unique", "archive": None}]})
-    fichier = ROOT / chemin
-    archiver_version(chemin, fiche, BLOC.sub("\n", fichier.read_text(encoding="utf-8"), count=1).encode("utf-8") if fichier.suffix == ".md" else fichier.read_bytes())
+    archiver_version(chemin, fiche)
     fiche["retire"] = f"Retiré le {date_fr(datetime.date.today().isoformat())} : {message}"
-    fichier.unlink()
+    (ROOT / chemin).unlink()
     enregistrer(registre)
     rendre(registre)
-    print(f"{chemin} : archivé dans archive/{fiche['versions'][-1]['archive']}")
+    print(f"{chemin} : retiré, dernière version au commit {fiche['versions'][-1]['commit']}")
 
 
 def main():

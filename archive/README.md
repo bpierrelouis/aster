@@ -1,6 +1,6 @@
 # Archives de la documentation ORION
 
-Compte rendu des évolutions de chaque fichier suivi : version, date et modification. La version en vigueur est le fichier lui-même ; chaque version remplacée est conservée dans le dossier du fichier. Ce document et les en-têtes de version sont générés à partir de [registre.json](registre.json) par [versions.py](../.agents/skills/orion-documentation/scripts/versions.py) ; ne pas les modifier à la main.
+Compte rendu des évolutions de chaque fichier suivi : version, date et modification. La version en vigueur est le fichier lui-même ; chaque version remplacée est retrouvée dans l’historique Git par son commit (`git show <commit>:<chemin>`). Seules les versions de `design/`, qui font partie de la capture du besoin, sont copiées dans les archives. Ce document et les en-têtes de version sont générés à partir de [registre.json](registre.json) par [versions.py](../.agents/skills/orion-documentation/scripts/versions.py) ; ne pas les modifier à la main.
 
 Numérotation : version majeure pour un changement de sens (décision, règle, périmètre, structure), version mineure pour une correction ou une précision. L’historique antérieur au 13 novembre 2026 est reconstitué depuis Git, à raison d’une version par jour de modification.
 
@@ -44,344 +44,344 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 
 Fichier : [design/README.md](../design/README.md) · Ressource de préparation
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Présenter l'identité ORION conforme à l'application et archiver les anciennes directions | en vigueur |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-README/README-v1.3-2026-11-12.md) |
-| 1.2 | 10/11/2026 | Proposer trois maquettes du tableau de bord | [archive](design-README/README-v1.2-2026-11-10.md) |
-| 1.1 | 06/11/2026 | Proposer l'identité VIGIE ; Ajouter les références visuelles MindefConnect ; Réduire le formulaire et centrer le bouton | [archive](design-README/README-v1.1-2026-11-06.md) |
-| 1.0 | 03/11/2026 | Organiser les livrables et intégrer la maquette | [archive](design-README/README-v1.0-2026-11-03.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.0 | 13/11/2026 | Présenter l'identité ORION conforme à l'application et archiver les anciennes directions | en vigueur | — |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | [archive](design-README/README-v1.3-2026-11-12.md) |
+| 1.2 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design-README/README-v1.2-2026-11-10.md) |
+| 1.1 | 06/11/2026 | Proposer l'identité VIGIE ; Ajouter les références visuelles MindefConnect ; Réduire le formulaire et centrer le bouton | `7e9e76b` | [archive](design-README/README-v1.1-2026-11-06.md) |
+| 1.0 | 03/11/2026 | Organiser les livrables et intégrer la maquette | `03728b6` | [archive](design-README/README-v1.0-2026-11-03.md) |
 
 ### design-charte-graphique-index
 
 Fichier : [design/charte-graphique/index.html](../design/charte-graphique/index.html) · Ressource de préparation
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Refondre la charte sur l'application : étoile ORION, palette, ambiances Orion et Minarm, composants | en vigueur |
-| 1.2 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-charte-graphique-index/index-v1.2-2026-11-12.html) |
-| 1.1 | 03/11/2026 | Organiser les livrables et intégrer la maquette | [archive](design-charte-graphique-index/index-v1.1-2026-11-03.html) |
-| 1.0 | 21/10/2026 | Apercu + loader | [archive](design-charte-graphique-index/index-v1.0-2026-10-21.html) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.0 | 13/11/2026 | Refondre la charte sur l'application : étoile ORION, palette, ambiances Orion et Minarm, composants | en vigueur | — |
+| 1.2 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design-charte-graphique-index/index-v1.2-2026-11-12.html) |
+| 1.1 | 03/11/2026 | Organiser les livrables et intégrer la maquette | `03728b6` | [archive](design-charte-graphique-index/index-v1.1-2026-11-03.html) |
+| 1.0 | 21/10/2026 | Apercu + loader | `a4ba64a` (`da/apercu.html`) | [archive](design-charte-graphique-index/index-v1.0-2026-10-21.html) |
 
 ### design-maquettes-index
 
 Fichier : [design/maquettes/index.html](../design/maquettes/index.html) · Ressource de préparation
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.0 | 13/11/2026 | Présenter les écrans de l'application par module et par profil | en vigueur |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.0 | 13/11/2026 | Présenter les écrans de l'application par module et par profil | en vigueur | — |
 
 ### 00-GLOSSAIRE
 
 Fichier : [docs/00-GLOSSAIRE.md](../docs/00-GLOSSAIRE.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.8 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur |
-| 1.7 | 13/11/2026 | Préciser l’acteur de traitement : prise en charge puis fin du traitement | [archive](00-GLOSSAIRE/00-GLOSSAIRE-v1.7-2026-11-13.md) |
-| 1.6 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur | [archive](00-GLOSSAIRE/00-GLOSSAIRE-v1.6-2026-11-13.md) |
-| 1.5 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | [archive](00-GLOSSAIRE/00-GLOSSAIRE-v1.5-2026-11-12.md) |
-| 1.4 | 09/11/2026 | Consolider le modèle et les règles métier ; Harmoniser les diagrammes de cas d'utilisation | [archive](00-GLOSSAIRE/00-GLOSSAIRE-v1.4-2026-11-09.md) |
-| 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](00-GLOSSAIRE/00-GLOSSAIRE-v1.3-2026-11-08.md) |
-| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](00-GLOSSAIRE/00-GLOSSAIRE-v1.2-2026-11-06.md) |
-| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Préparer le support du point client ; Formaliser les profils et leurs autorisations ; Intégrer Keycloak, S3 et les serveurs front et back | [archive](00-GLOSSAIRE/00-GLOSSAIRE-v1.1-2026-11-03.md) |
-| 1.0 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | [archive](00-GLOSSAIRE/00-GLOSSAIRE-v1.0-2026-11-02.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.8 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
+| 1.7 | 13/11/2026 | Préciser l’acteur de traitement : prise en charge puis fin du traitement | `38c405d` | — |
+| 1.6 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur | `83658a3` | — |
+| 1.5 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `0078180` | — |
+| 1.4 | 09/11/2026 | Consolider le modèle et les règles métier ; Harmoniser les diagrammes de cas d'utilisation | `af0e24e` | — |
+| 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
+| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
+| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Préparer le support du point client ; Formaliser les profils et leurs autorisations ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` | — |
+| 1.0 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | `a9aa9cd` | — |
 
 ### 01-CONSIGNES
 
 Fichier : [docs/01-CONSIGNES.md](../docs/01-CONSIGNES.md) · Source fournie par l’encadrement
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.3 | 13/11/2026 | Fiabiliser les configurations à remettre | en vigueur |
-| 1.2 | 09/11/2026 | Préciser le contenu attendu du dossier d'architecture | [archive](01-CONSIGNES/01-CONSIGNES-v1.2-2026-11-09.md) |
-| 1.1 | 02/11/2026 | Consolider le cadrage et les modèles | [archive](01-CONSIGNES/01-CONSIGNES-v1.1-2026-11-02.md) |
-| 1.0 | 20/10/2026 | Consignes + cadrage | [archive](01-CONSIGNES/01-CONSIGNES-v1.0-2026-10-20.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.3 | 13/11/2026 | Fiabiliser les configurations à remettre | en vigueur | — |
+| 1.2 | 09/11/2026 | Préciser le contenu attendu du dossier d'architecture | `44127a1` | — |
+| 1.1 | 02/11/2026 | Consolider le cadrage et les modèles | `12080db` | — |
+| 1.0 | 20/10/2026 | Consignes + cadrage | `288c524` | — |
 
 ### 02-CADRAGE
 
 Fichier : [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) · Source de travail interne
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 3.0 | 13/11/2026 | Faire de l’état actuel la référence ; entrée unique et absence de filtrage (13 novembre) ; retours du 12 novembre cités | en vigueur |
-| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [archive](02-CADRAGE/02-CADRAGE-v2.1-2026-11-13.md) |
-| 2.0 | 13/11/2026 | Inscrire les décisions de l’utilisateur du 13 novembre sur les remontées, les notifications et le changement d’école | [archive](02-CADRAGE/02-CADRAGE-v2.0-2026-11-13.md) |
-| 1.9 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur ; Inscrire les points de sécurité qui demandent une décision ; Reporter les décisions de sécurité du 13 novembre ; Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues ; Fiabiliser les configurations à remettre | [archive](02-CADRAGE/02-CADRAGE-v1.9-2026-11-13.md) |
-| 1.8 | 12/11/2026 | Préparer les points du rendez-vous du 12 novembre ; Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions de l'ancien nom | [archive](02-CADRAGE/02-CADRAGE-v1.8-2026-11-12.md) |
-| 1.7 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | [archive](02-CADRAGE/02-CADRAGE-v1.7-2026-11-11.md) |
-| 1.6 | 09/11/2026 | Consolider le modèle et les règles métier | [archive](02-CADRAGE/02-CADRAGE-v1.6-2026-11-09.md) |
-| 1.5 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](02-CADRAGE/02-CADRAGE-v1.5-2026-11-08.md) |
-| 1.4 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](02-CADRAGE/02-CADRAGE-v1.4-2026-11-06.md) |
-| 1.3 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Préparer le support du point client ; Formaliser les profils et leurs autorisations ; Intégrer Keycloak, S3 et les serveurs front et back | [archive](02-CADRAGE/02-CADRAGE-v1.3-2026-11-03.md) |
-| 1.2 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | [archive](02-CADRAGE/02-CADRAGE-v1.2-2026-11-02.md) |
-| 1.1 | 24/10/2026 | Aligner le cadrage, les diagrammes et les consignes Git | [archive](02-CADRAGE/02-CADRAGE-v1.1-2026-10-24.md) |
-| 1.0 | 20/10/2026 | Consignes + cadrage | [archive](02-CADRAGE/02-CADRAGE-v1.0-2026-10-20.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 3.0 | 13/11/2026 | Faire de l’état actuel la référence ; entrée unique et absence de filtrage (13 novembre) ; retours du 12 novembre cités | en vigueur | — |
+| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
+| 2.0 | 13/11/2026 | Inscrire les décisions de l’utilisateur du 13 novembre sur les remontées, les notifications et le changement d’école | `38c405d` | — |
+| 1.9 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur ; Inscrire les points de sécurité qui demandent une décision ; Reporter les décisions de sécurité du 13 novembre ; Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues ; Fiabiliser les configurations à remettre | `83658a3` | — |
+| 1.8 | 12/11/2026 | Préparer les points du rendez-vous du 12 novembre ; Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions de l'ancien nom | `b83aaca` | — |
+| 1.7 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | `3396072` | — |
+| 1.6 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` | — |
+| 1.5 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
+| 1.4 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
+| 1.3 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Préparer le support du point client ; Formaliser les profils et leurs autorisations ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` | — |
+| 1.2 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | `a9aa9cd` | — |
+| 1.1 | 24/10/2026 | Aligner le cadrage, les diagrammes et les consignes Git | `cc22229` | — |
+| 1.0 | 20/10/2026 | Consignes + cadrage | `288c524` | — |
 
 ### 03-COMPTE-RENDU-ENTRETIENS
 
 Fichier : [docs/03-COMPTE-RENDU-ENTRETIENS.md](../docs/03-COMPTE-RENDU-ENTRETIENS.md) · Source de travail interne
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Ajouter les retours du client du 12 novembre (PDF à la demande, validation des remontées) | en vigueur |
-| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.4-2026-11-12.md) |
-| 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.3-2026-11-08.md) |
-| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.2-2026-11-06.md) |
-| 1.1 | 02/11/2026 | Mcd | [archive](03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.1-2026-11-02.md) |
-| 1.0 | 24/10/2026 | Aligner le cadrage, les diagrammes et les consignes Git | [archive](03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.0-2026-10-24.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.0 | 13/11/2026 | Ajouter les retours du client du 12 novembre (PDF à la demande, validation des remontées) | en vigueur | — |
+| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
+| 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
+| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
+| 1.1 | 02/11/2026 | Mcd | `23cb750` | — |
+| 1.0 | 24/10/2026 | Aligner le cadrage, les diagrammes et les consignes Git | `cc22229` | — |
 
 ### 04-REGLES-DE-GESTION
 
 Fichier : [docs/04-REGLES-DE-GESTION.md](../docs/04-REGLES-DE-GESTION.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.7 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur |
-| 1.6 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur | [archive](04-REGLES-DE-GESTION/04-REGLES-DE-GESTION-v1.6-2026-11-13.md) |
-| 1.5 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | [archive](04-REGLES-DE-GESTION/04-REGLES-DE-GESTION-v1.5-2026-11-12.md) |
-| 1.4 | 09/11/2026 | Consolider le modèle et les règles métier | [archive](04-REGLES-DE-GESTION/04-REGLES-DE-GESTION-v1.4-2026-11-09.md) |
-| 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](04-REGLES-DE-GESTION/04-REGLES-DE-GESTION-v1.3-2026-11-08.md) |
-| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](04-REGLES-DE-GESTION/04-REGLES-DE-GESTION-v1.2-2026-11-06.md) |
-| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | [archive](04-REGLES-DE-GESTION/04-REGLES-DE-GESTION-v1.1-2026-11-03.md) |
-| 1.0 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | [archive](04-REGLES-DE-GESTION/04-REGLES-DE-GESTION-v1.0-2026-11-02.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.7 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
+| 1.6 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur | `83658a3` | — |
+| 1.5 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `0078180` | — |
+| 1.4 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` | — |
+| 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
+| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
+| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
+| 1.0 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | `a9aa9cd` | — |
 
 ### 05-MCD-MERISE-MOCODO
 
 Fichier : [docs/05-MCD-MERISE-MOCODO.url](../docs/05-MCD-MERISE-MOCODO.url) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
-| 1.2 | 09/11/2026 | Consolider le modèle et les règles métier | [archive](05-MCD-MERISE-MOCODO/05-MCD-MERISE-MOCODO-v1.2-2026-11-09.url) |
-| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations | [archive](05-MCD-MERISE-MOCODO/05-MCD-MERISE-MOCODO-v1.1-2026-11-03.url) |
-| 1.0 | 02/11/2026 | Mcd ; Maj mcd | [archive](05-MCD-MERISE-MOCODO/05-MCD-MERISE-MOCODO-v1.0-2026-11-02.url) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur | — |
+| 1.2 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` | — |
+| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
+| 1.0 | 02/11/2026 | Mcd ; Maj mcd | `e0cf540` | — |
 
 ### 05-MCD-MERISE
 
 Fichier : [docs/05-MCD-MERISE.svg](../docs/05-MCD-MERISE.svg) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
-| 1.2 | 09/11/2026 | Consolider le modèle et les règles métier | [archive](05-MCD-MERISE/05-MCD-MERISE-v1.2-2026-11-09.svg) |
-| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations | [archive](05-MCD-MERISE/05-MCD-MERISE-v1.1-2026-11-03.svg) |
-| 1.0 | 02/11/2026 | Mcd ; Maj mcd | [archive](05-MCD-MERISE/05-MCD-MERISE-v1.0-2026-11-02.svg) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur | — |
+| 1.2 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` | — |
+| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
+| 1.0 | 02/11/2026 | Mcd ; Maj mcd | `e0cf540` | — |
 
 ### 06-DIAGRAMME-CONTEXTE
 
 Fichier : [docs/06-DIAGRAMME-CONTEXTE.md](../docs/06-DIAGRAMME-CONTEXTE.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.2 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](06-DIAGRAMME-CONTEXTE/06-DIAGRAMME-CONTEXTE-v1.1-2026-11-12.md) |
-| 1.0 | 02/11/2026 | Mcd ; Consolider le cadrage et épurer les diagrammes | [archive](06-DIAGRAMME-CONTEXTE/06-DIAGRAMME-CONTEXTE-v1.0-2026-11-02.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.2 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
+| 1.0 | 02/11/2026 | Mcd ; Consolider le cadrage et épurer les diagrammes | `874689d` | — |
 
 ### 07-DIAGRAMMES-ACTIVITE
 
 Fichier : [docs/07-DIAGRAMMES-ACTIVITE.md](../docs/07-DIAGRAMMES-ACTIVITE.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.4 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](07-DIAGRAMMES-ACTIVITE/07-DIAGRAMMES-ACTIVITE-v1.3-2026-11-12.md) |
-| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](07-DIAGRAMMES-ACTIVITE/07-DIAGRAMMES-ACTIVITE-v1.2-2026-11-06.md) |
-| 1.1 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes | [archive](07-DIAGRAMMES-ACTIVITE/07-DIAGRAMMES-ACTIVITE-v1.1-2026-11-02.md) |
-| 1.0 | 24/10/2026 | Aligner le cadrage, les diagrammes et les consignes Git | [archive](07-DIAGRAMMES-ACTIVITE/07-DIAGRAMMES-ACTIVITE-v1.0-2026-10-24.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.4 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
+| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
+| 1.1 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes | `874689d` | — |
+| 1.0 | 24/10/2026 | Aligner le cadrage, les diagrammes et les consignes Git | `12080db` (`docs/06-DIAGRAMMES-ACTIVITE.md`) | — |
 
 ### 08-DCU-GESTION-PARC
 
 Fichier : [docs/08-DCU-GESTION-PARC.md](../docs/08-DCU-GESTION-PARC.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
-| 1.2 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | [archive](08-DCU-GESTION-PARC/08-DCU-GESTION-PARC-v1.2-2026-11-09.md) |
-| 1.1 | 03/11/2026 | Formaliser les profils et leurs autorisations | [archive](08-DCU-GESTION-PARC/08-DCU-GESTION-PARC-v1.1-2026-11-03.md) |
-| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | [archive](08-DCU-GESTION-PARC/08-DCU-GESTION-PARC-v1.0-2026-11-02.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur | — |
+| 1.2 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` | — |
+| 1.1 | 03/11/2026 | Formaliser les profils et leurs autorisations | `f7310c1` | — |
+| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | `874689d` | — |
 
 ### 09-DCU-ADMINISTRATION-POSTES
 
 Fichier : [docs/09-DCU-ADMINISTRATION-POSTES.md](../docs/09-DCU-ADMINISTRATION-POSTES.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.5 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur |
-| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](09-DCU-ADMINISTRATION-POSTES/09-DCU-ADMINISTRATION-POSTES-v1.4-2026-11-12.md) |
-| 1.3 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | [archive](09-DCU-ADMINISTRATION-POSTES/09-DCU-ADMINISTRATION-POSTES-v1.3-2026-11-09.md) |
-| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](09-DCU-ADMINISTRATION-POSTES/09-DCU-ADMINISTRATION-POSTES-v1.2-2026-11-08.md) |
-| 1.1 | 03/11/2026 | Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | [archive](09-DCU-ADMINISTRATION-POSTES/09-DCU-ADMINISTRATION-POSTES-v1.1-2026-11-03.md) |
-| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | [archive](09-DCU-ADMINISTRATION-POSTES/09-DCU-ADMINISTRATION-POSTES-v1.0-2026-11-02.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.5 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
+| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
+| 1.3 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` | — |
+| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
+| 1.1 | 03/11/2026 | Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
+| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | `874689d` | — |
 
 ### 10-DCU-SUPERVISION-POSTES
 
 Fichier : [docs/10-DCU-SUPERVISION-POSTES.md](../docs/10-DCU-SUPERVISION-POSTES.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
-| 1.3 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | [archive](10-DCU-SUPERVISION-POSTES/10-DCU-SUPERVISION-POSTES-v1.3-2026-11-09.md) |
-| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](10-DCU-SUPERVISION-POSTES/10-DCU-SUPERVISION-POSTES-v1.2-2026-11-08.md) |
-| 1.1 | 03/11/2026 | Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | [archive](10-DCU-SUPERVISION-POSTES/10-DCU-SUPERVISION-POSTES-v1.1-2026-11-03.md) |
-| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | [archive](10-DCU-SUPERVISION-POSTES/10-DCU-SUPERVISION-POSTES-v1.0-2026-11-02.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur | — |
+| 1.3 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` | — |
+| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
+| 1.1 | 03/11/2026 | Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
+| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | `874689d` | — |
 
 ### 11-DCU-REMONTEES-UTILISATEUR
 
 Fichier : [docs/11-DCU-REMONTEES-UTILISATEUR.md](../docs/11-DCU-REMONTEES-UTILISATEUR.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](11-DCU-REMONTEES-UTILISATEUR/11-DCU-REMONTEES-UTILISATEUR-v1.3-2026-11-12.md) |
-| 1.2 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | [archive](11-DCU-REMONTEES-UTILISATEUR/11-DCU-REMONTEES-UTILISATEUR-v1.2-2026-11-09.md) |
-| 1.1 | 03/11/2026 | Formaliser les profils et leurs autorisations | [archive](11-DCU-REMONTEES-UTILISATEUR/11-DCU-REMONTEES-UTILISATEUR-v1.1-2026-11-03.md) |
-| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | [archive](11-DCU-REMONTEES-UTILISATEUR/11-DCU-REMONTEES-UTILISATEUR-v1.0-2026-11-02.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur | — |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
+| 1.2 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` | — |
+| 1.1 | 03/11/2026 | Formaliser les profils et leurs autorisations | `f7310c1` | — |
+| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | `874689d` | — |
 
 ### 12-MATRICE-DROITS
 
 Fichier : [docs/12-MATRICE-DROITS.md](../docs/12-MATRICE-DROITS.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | [archive](12-MATRICE-DROITS/12-MATRICE-DROITS-v2.0-2026-11-13.md) |
-| 1.3 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | [archive](12-MATRICE-DROITS/12-MATRICE-DROITS-v1.3-2026-11-12.md) |
-| 1.2 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | [archive](12-MATRICE-DROITS/12-MATRICE-DROITS-v1.2-2026-11-09.md) |
-| 1.1 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](12-MATRICE-DROITS/12-MATRICE-DROITS-v1.1-2026-11-08.md) |
-| 1.0 | 03/11/2026 | Formaliser les profils et leurs autorisations | [archive](12-MATRICE-DROITS/12-MATRICE-DROITS-v1.0-2026-11-03.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` | — |
+| 1.3 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
+| 1.2 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` | — |
+| 1.1 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
+| 1.0 | 03/11/2026 | Formaliser les profils et leurs autorisations | `f7310c1` | — |
 
 ### 13-FICHE-DESCRIPTIVE-GESTIONNAIRE
 
 Fichier : [docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur |
-| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](13-FICHE-DESCRIPTIVE-GESTIONNAIRE/13-FICHE-DESCRIPTIVE-GESTIONNAIRE-v1.4-2026-11-12.md) |
-| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | [archive](13-FICHE-DESCRIPTIVE-GESTIONNAIRE/13-FICHE-DESCRIPTIVE-GESTIONNAIRE-v1.3-2026-11-09.md) |
-| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](13-FICHE-DESCRIPTIVE-GESTIONNAIRE/13-FICHE-DESCRIPTIVE-GESTIONNAIRE-v1.2-2026-11-08.md) |
-| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](13-FICHE-DESCRIPTIVE-GESTIONNAIRE/13-FICHE-DESCRIPTIVE-GESTIONNAIRE-v1.1-2026-11-06.md) |
-| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | [archive](13-FICHE-DESCRIPTIVE-GESTIONNAIRE/13-FICHE-DESCRIPTIVE-GESTIONNAIRE-v1.0-2026-11-03.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur | — |
+| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
+| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` | — |
+| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
+| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
+| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` | — |
 
 ### 14-FICHE-DESCRIPTIVE-FORMATEUR
 
 Fichier : [docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur |
-| 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | [archive](14-FICHE-DESCRIPTIVE-FORMATEUR/14-FICHE-DESCRIPTIVE-FORMATEUR-v1.4-2026-11-12.md) |
-| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | [archive](14-FICHE-DESCRIPTIVE-FORMATEUR/14-FICHE-DESCRIPTIVE-FORMATEUR-v1.3-2026-11-09.md) |
-| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](14-FICHE-DESCRIPTIVE-FORMATEUR/14-FICHE-DESCRIPTIVE-FORMATEUR-v1.2-2026-11-08.md) |
-| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](14-FICHE-DESCRIPTIVE-FORMATEUR/14-FICHE-DESCRIPTIVE-FORMATEUR-v1.1-2026-11-06.md) |
-| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | [archive](14-FICHE-DESCRIPTIVE-FORMATEUR/14-FICHE-DESCRIPTIVE-FORMATEUR-v1.0-2026-11-03.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur | — |
+| 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
+| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` | — |
+| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
+| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
+| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` | — |
 
 ### 15-FICHE-DESCRIPTIVE-ADMINISTRATEUR
 
 Fichier : [docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | [archive](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v2.0-2026-11-13.md) |
-| 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | [archive](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v1.4-2026-11-12.md) |
-| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | [archive](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v1.3-2026-11-09.md) |
-| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v1.2-2026-11-08.md) |
-| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v1.1-2026-11-06.md) |
-| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | [archive](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v1.0-2026-11-03.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` | — |
+| 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
+| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` | — |
+| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
+| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
+| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` | — |
 
 ### 16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR
 
 Fichier : [docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | [archive](16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v2.0-2026-11-13.md) |
-| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v1.4-2026-11-12.md) |
-| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | [archive](16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v1.3-2026-11-09.md) |
-| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v1.2-2026-11-08.md) |
-| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v1.1-2026-11-06.md) |
-| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | [archive](16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v1.0-2026-11-03.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` | — |
+| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
+| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` | — |
+| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
+| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
+| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` | — |
 
 ### 17-DOSSIER-ARCHITECTURE-TECHNIQUE
 
 Fichier : [docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.5 | 13/11/2026 | Aligner l’architecture réelle sur la configuration versionnée : création des identités, image Keycloak, flux d’Express, absence de filtrage, secrets et versions | en vigueur |
-| 1.4 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [archive](17-DOSSIER-ARCHITECTURE-TECHNIQUE/17-DOSSIER-ARCHITECTURE-TECHNIQUE-v1.4-2026-11-13.md) |
-| 1.3 | 13/11/2026 | Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues | [archive](17-DOSSIER-ARCHITECTURE-TECHNIQUE/17-DOSSIER-ARCHITECTURE-TECHNIQUE-v1.3-2026-11-13.md) |
-| 1.2 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renseigner les adresses des VM ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions de l'ancien nom ; Mettre à jour les noms des fichiers convertis en TypeScript | [archive](17-DOSSIER-ARCHITECTURE-TECHNIQUE/17-DOSSIER-ARCHITECTURE-TECHNIQUE-v1.2-2026-11-12.md) |
-| 1.1 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | [archive](17-DOSSIER-ARCHITECTURE-TECHNIQUE/17-DOSSIER-ARCHITECTURE-TECHNIQUE-v1.1-2026-11-11.md) |
-| 1.0 | 09/11/2026 | Ajouter le dossier d'architecture technique et ses diagrammes | [archive](17-DOSSIER-ARCHITECTURE-TECHNIQUE/17-DOSSIER-ARCHITECTURE-TECHNIQUE-v1.0-2026-11-09.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.5 | 13/11/2026 | Aligner l’architecture réelle sur la configuration versionnée : création des identités, image Keycloak, flux d’Express, absence de filtrage, secrets et versions | en vigueur | — |
+| 1.4 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
+| 1.3 | 13/11/2026 | Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues | `83658a3` | — |
+| 1.2 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renseigner les adresses des VM ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions de l'ancien nom ; Mettre à jour les noms des fichiers convertis en TypeScript | `335b44d` | — |
+| 1.1 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | `3396072` | — |
+| 1.0 | 09/11/2026 | Ajouter le dossier d'architecture technique et ses diagrammes | `51bd591` | — |
 
 ### 18-DIAGRAMMES-ARCHITECTURE
 
 Fichier : [docs/18-DIAGRAMMES-ARCHITECTURE.md](../docs/18-DIAGRAMMES-ARCHITECTURE.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.3 | 13/11/2026 | Documenter la cible C1NP et unifier les vues | en vigueur |
-| 1.2 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renseigner les adresses des VM ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM | [archive](18-DIAGRAMMES-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE-v1.2-2026-11-12.md) |
-| 1.1 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | [archive](18-DIAGRAMMES-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE-v1.1-2026-11-11.md) |
-| 1.0 | 09/11/2026 | Ajouter le dossier d'architecture technique et ses diagrammes | [archive](18-DIAGRAMMES-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE-v1.0-2026-11-09.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.3 | 13/11/2026 | Documenter la cible C1NP et unifier les vues | en vigueur | — |
+| 1.2 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renseigner les adresses des VM ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM | `3e437e0` | — |
+| 1.1 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | `3396072` | — |
+| 1.0 | 09/11/2026 | Ajouter le dossier d'architecture technique et ses diagrammes | `51bd591` | — |
 
 ### 19-BACKLOG-ET-SUIVI-PROJET
 
 Fichier : [docs/19-BACKLOG-ET-SUIVI-PROJET.docx](../docs/19-BACKLOG-ET-SUIVI-PROJET.docx) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | en vigueur |
-| 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | [archive](19-BACKLOG-ET-SUIVI-PROJET/19-BACKLOG-ET-SUIVI-PROJET-v1.0-2026-11-13.docx) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | en vigueur | — |
+| 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `b2a5a17` | — |
 
 ### 19-BACKLOG-ET-SUIVI-PROJET
 
 Fichier : [docs/19-BACKLOG-ET-SUIVI-PROJET.md](../docs/19-BACKLOG-ET-SUIVI-PROJET.md) · Production destinée à la remise
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | en vigueur |
-| 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | [archive](19-BACKLOG-ET-SUIVI-PROJET/19-BACKLOG-ET-SUIVI-PROJET-v1.0-2026-11-13.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | en vigueur | — |
+| 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `83658a3` | — |
 
 ### 19-SUIVI-BACKLOG-BROUILLON-V1
 
 Fichier : [docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md) · Brouillon interne
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le commit de la cible C1NP | en vigueur |
-| 1.0 | 13/11/2026 | Consolider le suivi des progressions | [archive](19-SUIVI-BACKLOG-BROUILLON-V1/19-SUIVI-BACKLOG-BROUILLON-V1-v1.0-2026-11-13.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le commit de la cible C1NP | en vigueur | — |
+| 1.0 | 13/11/2026 | Consolider le suivi des progressions | `83658a3` | — |
 
 ### DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2
 
 Fichier : [docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) · Brouillon interne
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
-| 1.0 | 06/11/2026 | Ajouter les parcours détaillés en brouillon | [archive](DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2-v1.0-2026-11-06.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur | — |
+| 1.0 | 06/11/2026 | Ajouter les parcours détaillés en brouillon | `d626315` | — |
 
 ### DIAGRAMMES-ETATS-BROUILLON-V1
 
 Fichier : [docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md) · Brouillon interne
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Aligner sur l’application : état « en cours », traitement direct possible, PDF à la demande, type obligatoire, interventions sur une seule salle | en vigueur |
-| 1.0 | 09/11/2026 | Ajouter les diagrammes d'états de la remontée et des interventions | [archive](DIAGRAMMES-ETATS-BROUILLON-V1/DIAGRAMMES-ETATS-BROUILLON-V1-v1.0-2026-11-09.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.0 | 13/11/2026 | Aligner sur l’application : état « en cours », traitement direct possible, PDF à la demande, type obligatoire, interventions sur une seule salle | en vigueur | — |
+| 1.0 | 09/11/2026 | Ajouter les diagrammes d'états de la remontée et des interventions | `83658a3` | — |
 
 ### RESTE-A-FAIRE-BROUILLON-V1
 
 Fichier : [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md) · Brouillon interne
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Ajouter DCU à compléter, modèle de données, points documentaires oubliés et plan d’organisation du code | en vigueur |
-| 1.0 | 13/11/2026 | Recenser ce qui reste à faire après le contrôle du 13 novembre ; Ajouter des jetons d'accès pour la présentation au client ; Décrire l'entrée unique par adresse IP, sans DNS | [archive](RESTE-A-FAIRE-BROUILLON-V1/RESTE-A-FAIRE-BROUILLON-V1-v1.0-2026-11-13.md) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.0 | 13/11/2026 | Ajouter DCU à compléter, modèle de données, points documentaires oubliés et plan d’organisation du code | en vigueur | — |
+| 1.0 | 13/11/2026 | Recenser ce qui reste à faire après le contrôle du 13 novembre ; Ajouter des jetons d'accès pour la présentation au client ; Décrire l'entrée unique par adresse IP, sans DNS | `83658a3` | — |
 
 ## Fichiers retirés
 
@@ -389,60 +389,60 @@ Fichier : [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RES
 
 Ancien emplacement : `design/charte-graphique-vigie/index.html`. Retiré le 13/11/2026 : Direction artistique VIGIE non retenue ; identité ORION conforme à l'application
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-charte-graphique-vigie-index/index-v1.1-2026-11-12.html) |
-| 1.0 | 06/11/2026 | Proposer l'identité VIGIE | [archive](design-charte-graphique-vigie-index/index-v1.0-2026-11-06.html) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design-charte-graphique-vigie-index/index-v1.1-2026-11-12.html) |
+| 1.0 | 06/11/2026 | Proposer l'identité VIGIE | `9177f93` | [archive](design-charte-graphique-vigie-index/index-v1.0-2026-11-06.html) |
 
 ### design-charte-graphique-charte-graphique-orion
 
 Ancien emplacement : `design/charte-graphique/charte-graphique-orion.html`. Retiré le 13/11/2026 : Direction florale ORION remplacée par la charte 2.0 conforme à l'application
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.0 | 09/11/2026 | Ajouter la maquette et la charte graphique ORION | [archive](design-charte-graphique-charte-graphique-orion/charte-graphique-orion-v1.0-2026-11-09.html) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.0 | 09/11/2026 | Ajouter la maquette et la charte graphique ORION | `a6cf32e` | [archive](design-charte-graphique-charte-graphique-orion/charte-graphique-orion-v1.0-2026-11-09.html) |
 
 ### design-maquettes-gestion-materiels
 
 Ancien emplacement : `design/maquettes/gestion-materiels.html`. Retiré le 13/11/2026 : Maquette remplacée par les captures de l'application (design/maquettes/index.html)
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.2 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.2-2026-11-12.html) |
-| 1.1 | 06/11/2026 | Adapter les écrans et captures à la cible | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.1-2026-11-06.html) |
-| 1.0 | 03/11/2026 | Organiser les livrables et intégrer la maquette | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.0-2026-11-03.html) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.2 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.2-2026-11-12.html) |
+| 1.1 | 06/11/2026 | Adapter les écrans et captures à la cible | `4a3e92b` | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.1-2026-11-06.html) |
+| 1.0 | 03/11/2026 | Organiser les livrables et intégrer la maquette | `03728b6` | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.0-2026-11-03.html) |
 
 ### design-maquettes-maquette-dashboard-orion
 
 Ancien emplacement : `design/maquettes/maquette-dashboard-orion.html`. Retiré le 13/11/2026 : Maquette remplacée par les captures de l'application (design/maquettes/index.html)
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.0 | 09/11/2026 | Ajouter la maquette et la charte graphique ORION | [archive](design-maquettes-maquette-dashboard-orion/maquette-dashboard-orion-v1.0-2026-11-09.html) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.0 | 09/11/2026 | Ajouter la maquette et la charte graphique ORION | `a6cf32e` | [archive](design-maquettes-maquette-dashboard-orion/maquette-dashboard-orion-v1.0-2026-11-09.html) |
 
 ### design-maquettes-maquette-dashboard-proposition-a-cockpit
 
 Ancien emplacement : `design/maquettes/maquette-dashboard-proposition-a-cockpit.html`. Retiré le 13/11/2026 : Proposition de tableau de bord remplacée par les captures de l'application
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-maquettes-maquette-dashboard-proposition-a-cockpit/maquette-dashboard-proposition-a-cockpit-v1.1-2026-11-12.html) |
-| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | [archive](design-maquettes-maquette-dashboard-proposition-a-cockpit/maquette-dashboard-proposition-a-cockpit-v1.0-2026-11-10.html) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design-maquettes-maquette-dashboard-proposition-a-cockpit/maquette-dashboard-proposition-a-cockpit-v1.1-2026-11-12.html) |
+| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design-maquettes-maquette-dashboard-proposition-a-cockpit/maquette-dashboard-proposition-a-cockpit-v1.0-2026-11-10.html) |
 
 ### design-maquettes-maquette-dashboard-proposition-b-a-traiter
 
 Ancien emplacement : `design/maquettes/maquette-dashboard-proposition-b-a-traiter.html`. Retiré le 13/11/2026 : Proposition de tableau de bord remplacée par les captures de l'application
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-maquettes-maquette-dashboard-proposition-b-a-traiter/maquette-dashboard-proposition-b-a-traiter-v1.1-2026-11-12.html) |
-| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | [archive](design-maquettes-maquette-dashboard-proposition-b-a-traiter/maquette-dashboard-proposition-b-a-traiter-v1.0-2026-11-10.html) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design-maquettes-maquette-dashboard-proposition-b-a-traiter/maquette-dashboard-proposition-b-a-traiter-v1.1-2026-11-12.html) |
+| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design-maquettes-maquette-dashboard-proposition-b-a-traiter/maquette-dashboard-proposition-b-a-traiter-v1.0-2026-11-10.html) |
 
 ### design-maquettes-maquette-dashboard-proposition-c-analyse
 
 Ancien emplacement : `design/maquettes/maquette-dashboard-proposition-c-analyse.html`. Retiré le 13/11/2026 : Proposition de tableau de bord remplacée par les captures de l'application
 
-| Version | Date | Modification | Fichier |
-| --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](design-maquettes-maquette-dashboard-proposition-c-analyse/maquette-dashboard-proposition-c-analyse-v1.1-2026-11-12.html) |
-| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | [archive](design-maquettes-maquette-dashboard-proposition-c-analyse/maquette-dashboard-proposition-c-analyse-v1.0-2026-11-10.html) |
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design-maquettes-maquette-dashboard-proposition-c-analyse/maquette-dashboard-proposition-c-analyse-v1.1-2026-11-12.html) |
+| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design-maquettes-maquette-dashboard-proposition-c-analyse/maquette-dashboard-proposition-c-analyse-v1.0-2026-11-10.html) |
