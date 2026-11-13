@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1420" height="1510" viewBox="0 0 1420 1510" role="img" aria-labelledby="title desc">
-<title id="title">ORION — architecture réelle complète sur dix VM</title>
+<title id="title">ORION — architecture du démonstrateur</title>
 <desc id="desc">Placement des services par VM ou groupe de VM, conteneurs ou services de l’hôte, rôles Swarm, versions, ports, volumes et flux.</desc>
 <defs>
 <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f6cbd"/></marker>
@@ -43,8 +43,8 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 .auto{stroke-dasharray:6 4}
 </style>
 <rect width="1420" height="1510" fill="#fff"/>
-<text x="40" y="44" class="title" text-anchor="start">Architecture réelle complète sur dix VM</text>
-<text x="40" y="72" class="body" text-anchor="start">Déploiement proposé · Debian 13 · Docker Swarm · stockage NFS · accès par https://172.16.131.188</text>
+<text x="40" y="46" class="title" text-anchor="start">ORION — architecture du démonstrateur</text>
+<text x="40" y="74" class="body" text-anchor="start">Vue détaillée · dix VM</text>
 <g transform="translate(0 70)">
 <rect x="1010" y="25" width="280" height="90" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
 <use href="#i-github" x="1022" y="37" width="22" height="22" style="color:#3d5a78"/>
@@ -53,20 +53,17 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="1054" y="88" class="caption" text-anchor="start">par le proxy 172.16.0.1:8080</text>
 <rect x="20" y="280" width="170" height="170" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
 <use href="#i-users" x="32" y="292" width="22" height="22" style="color:#3d5a78"/>
-<text x="64" y="308" class="service" text-anchor="start">Navigateur</text>
-<text x="64" y="327" class="caption" text-anchor="start">Firefox</text>
-<text x="64" y="343" class="caption" text-anchor="start">React 19.3.1</text>
-<text x="64" y="359" class="caption" text-anchor="start">entrée :</text>
-<text x="64" y="375" class="caption" text-anchor="start">172.16.131.188</text>
+<text x="64" y="308" class="service" text-anchor="start">Firefox</text>
+<text x="64" y="327" class="caption" text-anchor="start">172.16.131.188</text>
 <rect x="20" y="1150" width="170" height="110" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
 <use href="#i-user-cog" x="32" y="1162" width="22" height="22" style="color:#3d5a78"/>
 <text x="64" y="1178" class="service" text-anchor="start">Opérateur</text>
 <text x="64" y="1197" class="caption" text-anchor="start">son poste, sur le</text>
 <text x="64" y="1213" class="caption" text-anchor="start">réseau</text>
 <text x="64" y="1229" class="caption" text-anchor="start">d’administration</text>
-<rect x="285" y="140" width="1095" height="1005" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-dasharray="7 5" stroke-width="1.5"/>
-<use href="#i-boxes" x="300" y="152" width="22" height="22" style="color:#0f6cbd"/>
-<text x="330" y="169" class="frame" text-anchor="start">Cluster Docker Swarm « orion » · orion-1 à orion-9 · réseau overlay « orion »</text>
+<rect x="285" y="140" width="1095" height="1005" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
+<use href="#i-boxes" x="301" y="152" width="22" height="22" style="color:#0f6cbd"/>
+<text x="331" y="169" class="frame" text-anchor="start">Cluster Docker Swarm « orion » · orion-1 à orion-9 · réseau overlay « orion »</text>
 <rect x="305" y="195" width="275" height="525" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
 <use href="#i-server" x="317" y="206" width="16" height="16" style="color:#5b7690"/>
 <text x="339" y="219" class="vm" text-anchor="start">Managers et entrée</text>
@@ -76,7 +73,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="537.8" y="218.5" class="badge" text-anchor="middle">MANAGER</text>
 <rect x="318" y="367" width="249" height="250" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
 <use href="#i-split" x="328" y="377" width="20" height="20" style="color:#0f6cbd"/>
-<text x="356" y="392" class="service" text-anchor="start">HAProxy 3.2</text>
+<text x="356" y="392" class="service" text-anchor="start">HAProxy 3.2.16</text>
 <text x="557" y="391" class="tag" text-anchor="end">conteneur</text>
 <text x="356" y="410" class="caption" text-anchor="start">image officielle</text>
 <text x="356" y="426" class="caption" text-anchor="start">ports publiés sur l’hôte</text>
@@ -117,22 +114,22 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="1321.4" y="328.5" class="badge" text-anchor="middle">WORKER</text>
 <rect x="663" y="375" width="274" height="86" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
 <use href="#i-app-window" x="673" y="385" width="20" height="20" style="color:#0f6cbd"/>
-<text x="701" y="400" class="service" text-anchor="start">Apache 2.4</text>
+<text x="701" y="400" class="service" text-anchor="start">Apache 2.4.69</text>
 <text x="927" y="399" class="tag" text-anchor="end">conteneur</text>
-<text x="701" y="418" class="caption" text-anchor="start">image sur httpd:2.4 · HTTP 8080</text>
+<text x="701" y="418" class="caption" text-anchor="start">image sur httpd:2.4.69 · HTTP 8080</text>
 <text x="701" y="434" class="caption" text-anchor="start">build React 19.3.1</text>
 <text x="701" y="450" class="caption" text-anchor="start">2 instances · une par VM</text>
 <rect x="663" y="471" width="274" height="86" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
 <use href="#i-server" x="673" y="481" width="20" height="20" style="color:#0f6cbd"/>
-<text x="701" y="496" class="service" text-anchor="start">Express 5.3</text>
+<text x="701" y="496" class="service" text-anchor="start">Express 5.3.0</text>
 <text x="927" y="495" class="tag" text-anchor="end">conteneur</text>
-<text x="701" y="514" class="caption" text-anchor="start">image sur node:22 · HTTP 3001</text>
+<text x="701" y="514" class="caption" text-anchor="start">Node.js 22.22.3 · HTTP 3001</text>
 <text x="701" y="530" class="caption" text-anchor="start">2 instances · une par VM</text>
 <rect x="1043" y="435" width="304" height="72" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
 <use href="#i-monitor" x="1053" y="445" width="20" height="20" style="color:#0f6cbd"/>
-<text x="1081" y="460" class="service" text-anchor="start">Émulateur des postes</text>
+<text x="1081" y="460" class="service" text-anchor="start">Émulateur de postes</text>
 <text x="1337" y="459" class="tag" text-anchor="end">conteneur</text>
-<text x="1081" y="478" class="caption" text-anchor="start">image sur node:22</text>
+<text x="1081" y="478" class="caption" text-anchor="start">Postes Windows · Node.js 22.22.3</text>
 <text x="1081" y="494" class="caption" text-anchor="start">1 instance · orion-4 ou orion-5</text>
 <rect x="650" y="590" width="300" height="325" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
 <use href="#i-server" x="662" y="601" width="16" height="16" style="color:#5b7690"/>
@@ -165,7 +162,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="911.4" y="958.5" class="badge" text-anchor="middle">WORKER</text>
 <rect x="663" y="995" width="274" height="72" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
 <use href="#i-scroll-text" x="673" y="1005" width="20" height="20" style="color:#0f6cbd"/>
-<text x="701" y="1020" class="service" text-anchor="start">Logstash 8.19</text>
+<text x="701" y="1020" class="service" text-anchor="start">Logstash 8.19.14</text>
 <text x="927" y="1019" class="tag" text-anchor="end">conteneur</text>
 <text x="701" y="1038" class="caption" text-anchor="start">TCP TLS 6514 · maillage Swarm</text>
 <text x="701" y="1054" class="caption" text-anchor="start">1 instance · secours orion-9</text>

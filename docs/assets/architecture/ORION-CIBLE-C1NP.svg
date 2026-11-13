@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="710" viewBox="0 0 1920 710" role="img" aria-labelledby="title desc">
+<title id="title">ORION — architecture cible</title>
+<desc id="desc">Quatre VM et les principaux flux applicatifs et de collecte. Les flux d’exploitation sont détaillés dans le DAT.</desc>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f6cbd"/></marker>
+<marker id="arrow-start" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0 L0 5 L10 10 Z" fill="#0f6cbd"/></marker>
+<symbol id="i-network" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></symbol>
+<symbol id="i-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+<symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></symbol>
+<symbol id="i-key-round" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
+<symbol id="i-split" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></symbol>
+<symbol id="i-app-window" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></symbol>
+<symbol id="i-scroll-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 12h-5"/><path d="M15 8h-5"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></symbol>
+<symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
+<symbol id="i-folder-sync" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v.5"/><path d="M12 10v4h4"/><path d="m12 14 1.535-1.605a5 5 0 0 1 8 1.5"/><path d="M22 22v-4h-4"/><path d="m22 18-1.535 1.605a5 5 0 0 1-8-1.5"/></symbol>
+<symbol id="i-hard-drive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></symbol>
+</defs>
+<style>
+text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
+.title{font-size:30px;font-weight:bold}
+.body{font-size:15px;fill:#425a72}
+.frame,.zname{font-size:16px;font-weight:bold}
+.vm{font-size:15px;font-weight:bold}
+.service{font-size:14px;font-weight:bold}
+.cname{font-size:15px;font-weight:bold}
+.crole{font-size:12.5px;fill:#425a72}
+.cvm{font-size:12px;font-weight:bold;fill:#0f6cbd}
+.caption{font-size:12.5px;fill:#425a72}
+.vol{font-size:12.5px;font-weight:bold;fill:#24603d}
+.tag{font-size:10.5px;font-weight:bold;fill:#0f6cbd;letter-spacing:.3px}
+.tag.host{fill:#a06a00}
+.badge{font-size:10.5px;font-weight:bold;fill:#254e78;letter-spacing:.5px}
+.step{font-size:13px;font-weight:bold;fill:#fff}
+.route{font-size:11.5px;font-weight:bold;fill:#0b4f8a;paint-order:stroke;stroke:#fff;stroke-width:4;stroke-linejoin:round}
+.flow{fill:none;stroke:#0f6cbd;stroke-width:2}
+.auto{stroke-dasharray:6 4}
+</style>
+<rect width="1920" height="710" fill="#fff"/>
+<text x="40" y="46" class="title" text-anchor="start">ORION — architecture cible</text>
+<text x="40" y="74" class="body" text-anchor="start">Vue détaillée · 1 000 postes actifs</text>
+<rect x="250" y="94" width="1640" height="587" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
+<use href="#i-network" x="266" y="106" width="22" height="22" style="color:#0f6cbd"/>
+<text x="296" y="123" class="frame" text-anchor="start">C1NP</text>
+<rect x="275" y="201" width="1605" height="460" rx="12" fill="#fff" stroke="#9cc0e4"/>
+<text x="300" y="228" class="frame" text-anchor="start">VM ORION</text>
+<rect x="300" y="245" width="250" height="282" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<use href="#i-server" x="312" y="256" width="16" height="16" style="color:#5b7690"/>
+<text x="334" y="269" class="vm" text-anchor="start">VM 1 . Entrée</text>
+<text x="334" y="290" class="caption" text-anchor="start">2 vCPU · 8 Go RAM · 50 Go système</text>
+<rect x="690" y="245" width="295" height="282" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<use href="#i-server" x="702" y="256" width="16" height="16" style="color:#5b7690"/>
+<text x="724" y="269" class="vm" text-anchor="start">VM 2 . Application</text>
+<text x="724" y="290" class="caption" text-anchor="start">8 vCPU · 32 Go RAM · 50 Go système</text>
+<rect x="1140" y="245" width="295" height="395" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<use href="#i-server" x="1152" y="256" width="16" height="16" style="color:#5b7690"/>
+<text x="1174" y="269" class="vm" text-anchor="start">VM 3 . Base et collecte</text>
+<text x="1174" y="290" class="caption" text-anchor="start">4 vCPU · 16 Go RAM · 50 Go système</text>
+<rect x="1570" y="245" width="290" height="395" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<use href="#i-server" x="1582" y="256" width="16" height="16" style="color:#5b7690"/>
+<text x="1604" y="269" class="vm" text-anchor="start">VM 4 . Stockage</text>
+<text x="1604" y="290" class="caption" text-anchor="start">2 vCPU · 8 Go RAM · 50 Go système</text>
+<rect x="40" y="318" width="135" height="70" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-users" x="52" y="330" width="22" height="22" style="color:#3d5a78"/>
+<text x="84" y="346" class="service" text-anchor="start">Firefox</text>
+<rect x="40" y="422" width="155" height="70" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-monitor" x="52" y="434" width="22" height="22" style="color:#3d5a78"/>
+<text x="84" y="450" class="service" text-anchor="start">Postes Windows</text>
+<rect x="420" y="115" width="265" height="70" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-key-round" x="432" y="127" width="22" height="22" style="color:#3d5a78"/>
+<text x="464" y="143" class="service" text-anchor="start">MindefConnect</text>
+<text x="464" y="162" class="caption" text-anchor="start">Service d’identité</text>
+<rect x="320" y="318" width="210" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
+<use href="#i-split" x="330" y="328" width="20" height="20" style="color:#a06a00"/>
+<text x="358" y="343" class="service" text-anchor="start">HAProxy 3.2.16</text>
+<text x="520" y="342" class="tag host" text-anchor="end">service hôte</text>
+<text x="358" y="361" class="caption" text-anchor="start">HTTPS · TCP 443</text>
+<rect x="320" y="442" width="210" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
+<use href="#i-app-window" x="330" y="452" width="20" height="20" style="color:#a06a00"/>
+<text x="358" y="467" class="service" text-anchor="start">Apache 2.4.69</text>
+<text x="520" y="466" class="tag host" text-anchor="end">service hôte</text>
+<text x="358" y="485" class="caption" text-anchor="start">HTTP 8080 · boucle locale</text>
+<text x="358" y="501" class="caption" text-anchor="start">Interface React 19.3.1</text>
+<rect x="710" y="318" width="255" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
+<use href="#i-server" x="720" y="328" width="20" height="20" style="color:#a06a00"/>
+<text x="748" y="343" class="service" text-anchor="start">Express 5.3.0</text>
+<text x="955" y="342" class="tag host" text-anchor="end">service hôte</text>
+<text x="748" y="361" class="caption" text-anchor="start">Node.js 22.22.3</text>
+<text x="748" y="377" class="caption" text-anchor="start">API · TCP 3001</text>
+<rect x="710" y="442" width="255" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
+<use href="#i-monitor" x="720" y="452" width="20" height="20" style="color:#a06a00"/>
+<text x="748" y="467" class="service" text-anchor="start">Administration des postes</text>
+<text x="748" y="485" class="caption" text-anchor="start">Système et version à préciser</text>
+<rect x="1160" y="548" width="255" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
+<use href="#i-scroll-text" x="1170" y="558" width="20" height="20" style="color:#a06a00"/>
+<text x="1198" y="573" class="service" text-anchor="start">Logstash 8.19.14</text>
+<text x="1405" y="572" class="tag host" text-anchor="end">service hôte</text>
+<text x="1198" y="591" class="caption" text-anchor="start">Syslog sur TLS · TCP 6514</text>
+<rect x="1160" y="318" width="255" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
+<use href="#i-database" x="1170" y="328" width="20" height="20" style="color:#a06a00"/>
+<text x="1198" y="343" class="service" text-anchor="start">PostgreSQL 17.7</text>
+<text x="1405" y="342" class="tag host" text-anchor="end">service hôte</text>
+<text x="1198" y="361" class="caption" text-anchor="start">PostgreSQL sur TLS · TCP 5432</text>
+<rect x="1590" y="318" width="250" height="300" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
+<use href="#i-folder-sync" x="1600" y="328" width="20" height="20" style="color:#a06a00"/>
+<text x="1628" y="343" class="service" text-anchor="start">Serveur NFSv4.2</text>
+<text x="1830" y="342" class="tag host" text-anchor="end">service hôte</text>
+<text x="1628" y="361" class="caption" text-anchor="start">TCP 2049 · réseau privé</text>
+<rect x="1605" y="420" width="220" height="40" rx="8" fill="#e6f4ec" stroke="#8fc4a3"/>
+<use href="#i-hard-drive" x="1615" y="432" width="16" height="16" style="color:#2f7a4f"/>
+<text x="1639" y="437" class="vol" text-anchor="start">100 Go SSD</text>
+<text x="1639" y="452" class="caption" text-anchor="start">Données PostgreSQL</text>
+<rect x="1605" y="535" width="220" height="40" rx="8" fill="#e6f4ec" stroke="#8fc4a3"/>
+<use href="#i-hard-drive" x="1615" y="547" width="16" height="16" style="color:#2f7a4f"/>
+<text x="1639" y="552" class="vol" text-anchor="start">100 Go</text>
+<text x="1639" y="567" class="caption" text-anchor="start">Fichiers de logs</text>
+<path d="M175 340 L320 340" class="flow" marker-end="url(#arrow)"/>
+<text x="245" y="330" class="route" text-anchor="middle">1 · HTTPS 443</text>
+<path d="M425 388 L425 442" class="flow" marker-end="url(#arrow)"/>
+<text x="434" y="420" class="route" text-anchor="start">2 · HTTP 8080</text>
+<path d="M530 350 L710 350" class="flow" marker-end="url(#arrow)"/>
+<text x="620" y="339" class="route" text-anchor="middle">3 · HTTPS 3001</text>
+<path d="M965 350 L1160 350" class="flow" marker-end="url(#arrow)"/>
+<text x="1062" y="339" class="route" text-anchor="middle">4 · TLS 5432</text>
+<path d="M105 318 L105 151 L420 151" class="flow" marker-end="url(#arrow)"/>
+<text x="258" y="140" class="route" text-anchor="middle">5 · HTTPS 443</text>
+<path d="M965 327 L1018 327 L1018 151 L685 151" class="flow" marker-end="url(#arrow)"/>
+<text x="852" y="140" class="route" text-anchor="middle">6 · HTTPS 443</text>
+<path d="M500 527V542" class="flow"/>
+<path d="M500 558 L500 596 L1160 596" class="flow" marker-end="url(#arrow)"/>
+<text x="800" y="585" class="route" text-anchor="middle">7 · TLS 6514</text>
+<path d="M965 380 L1040 380 L1040 562 L1160 562" class="flow" marker-end="url(#arrow)"/>
+<text x="1050" y="551" class="route" text-anchor="middle">7 · TLS 6514</text>
+<path d="M1415 583 L1590 583" class="flow" marker-end="url(#arrow)"/>
+<text x="1500" y="572" class="route" text-anchor="middle">8 · NFS 2049</text>
+<path d="M1415 350 L1590 350" class="flow" marker-end="url(#arrow)"/>
+<text x="1500" y="339" class="route" text-anchor="middle">9 · NFS 2049</text>
+<path d="M837 388 L837 442" class="flow" marker-end="url(#arrow)"/>
+<text x="847" y="420" class="route" text-anchor="start">10 · Demandes</text>
+<path d="M107 492 L107 550 L633 550 L633 475 L710 475" class="flow" marker-end="url(#arrow)"/>
+<text x="280" y="545" class="route" text-anchor="middle">11 · Rapports et résultats</text>
+<path d="M710 459 L608 459 L608 510 L164 510 L164 492" class="flow" marker-end="url(#arrow)"/>
+<text x="294" y="500" class="route" text-anchor="middle">12 · Interventions</text>
+</svg>

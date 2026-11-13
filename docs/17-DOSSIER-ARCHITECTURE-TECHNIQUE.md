@@ -1,6 +1,6 @@
 # Dossier d’architecture technique (DAT) — ORION
 
-**Date de référence :** 12 novembre 2026
+**Date de référence :** 13 novembre 2026
 
 **Périmètre :** contexte et contraintes, justification des briques, démonstrateur local et architecture de son déploiement sur VM, versions des technologies, architecture cible.
 
@@ -41,7 +41,7 @@ Les décisions en vigueur imposent ou orientent les éléments suivants :
 | Données métier et sessions | PostgreSQL | Conteneur PostgreSQL ORION | Définir l’offre, les sauvegardes et la disponibilité sur le C1NP |
 | PDF d’état des lieux | Produit par le serveur back à chaque demande, après contrôle des droits, sans stockage | Express produit le PDF à chaque demande, avec les informations actuelles de la remontée | Aucun |
 | Administration Windows | Outil ou agent autorisé à déterminer | Émulateur de postes utilisant l’API réelle | Sélectionner puis intégrer la solution d’administration |
-| Points d’accès techniques | `/api/health` et `/api/info` | `/api/health` | Ajouter `/api/info` |
+| Points d’accès techniques | Santé et informations techniques, réservées à l’exploitation | `/api/health` et `/api/infos` | Harmoniser le nom retenu pour les informations et filtrer les accès |
 | Logs | Puits de logs | Sortie standard des processus | Raccorder les logs au puits de logs |
 | Exposition réseau | HTTPS, DNS et filtrage du C1NP | Services HTTP limités à la boucle locale | Définir DNS, certificats, zones et filtrage |
 
@@ -60,7 +60,7 @@ Les décisions en vigueur imposent ou orientent les éléments suivants :
 | Conteneurisation | Mode de déploiement sur le C1NP à déterminer | Docker Compose : trois conteneurs et trois volumes | Services reproductibles, persistances séparées, aucune installation manuelle | Conteneurs non confirmés pour la cible |
 | Sécurité HTTP | HTTPS terminé par le reverse proxy du serveur front, filtrage | Helmet, écoute sur la boucle locale ; en mode production, HTTPS, cookies sécurisés et secrets dédiés exigés au démarrage | Réduit l’exposition et refuse une configuration de production incomplète | Aucun reverse proxy HTTPS déployé |
 
-Pour le déploiement sur VM, le démonstrateur n’utilise que des produits présents dans la colonne C1NP du cadre de cohérence technique (CCT 2026-2027, version 3.7), hormis Docker et les substituts des services du réseau cible (§ 4.5). Le CCT recommande HAProxy pour le reverse proxy et la répartition de charge, et Apache HTTP Server pour servir les fichiers ; NGINX doit être justifié par rapport à Apache. Apache sert le build React et renvoie `index.html` pour les routes de l’interface. Express, recommandé par le CCT pour les back-ends Node.js, reste le serveur de l’API métier.
+Pour le déploiement sur VM, le démonstrateur n’utilise que des produits présents dans la colonne C1NP du cadre de cohérence technique (CCT 2026-2027, version 3.7), avec les exceptions de réalisation détaillées au § 4.5. Le CCT recommande HAProxy pour le reverse proxy et la répartition de charge, et Apache HTTP Server pour servir les fichiers ; NGINX doit être justifié par rapport à Apache. Apache sert le build React et renvoie `index.html` pour les routes de l’interface. Express, recommandé par le CCT pour les back-ends Node.js, reste le serveur de l’API métier.
 
 ## 4. Architecture réelle
 
@@ -146,9 +146,9 @@ Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée
 - **Des managers à l’entrée.** Les trois managers Swarm, orion-1 à orion-3, dirigent le cluster. orion-1 porte en plus l’entrée, HAProxy ; orion-3 porte l’administration : le runner du déploiement continu. Deux managers sur trois suffisent pour que le cluster continue de fonctionner.
 - **Une adresse, sans DNS.** Les utilisateurs joignent ORION directement par l’adresse d’orion-1, `https://172.16.131.188`, sur le port HTTPS par défaut, sans configurer de DNS sur leur poste : ce point d’entrée unique sert l’interface, l’API et la connexion. Les VM utilisent le DNS du réseau de formation.
 - **Doublement là où il est simple.** Apache et Express, sans données, ont deux instances actives chacun, sur deux VM : la perte de l’une ne coupe pas le service. HAProxy, seule entrée, a une instance, relancée sur orion-1, dont l’adresse est celle des utilisateurs : si orion-1 tombe, ORION est inaccessible jusqu’à son retour. Les autres services ont une seule instance, relancée automatiquement s’il s’arrête ou au redémarrage de sa VM, et recréée sur une autre VM si la sienne tombe : l’émulateur sur l’autre VM de l’application, PostgreSQL, l’identité et Logstash sur la VM de secours, où ils retrouvent leurs données (§ 4.6). Aucune action manuelle n’est nécessaire.
-- **Un stockage pour toutes les données.** Les données de PostgreSQL et d’OpenLDAP et les logs centralisés sont sur orion-10, hors Swarm, sur deux systèmes de fichiers ext4 partagés en NFSv4 : l’un pour les données, l’autre pour les logs. Ce sont des volumes Docker du pilote `local`, de type `nfs` : la VM qui exécute le service monte son volume, et un service recréé sur une autre VM retrouve ainsi ses données. Aucune VM n’est dédiée aux logs.
+- **Un stockage pour toutes les données.** Les données de PostgreSQL et d’OpenLDAP et les logs centralisés sont sur orion-10, hors Swarm, sur deux systèmes de fichiers ext4 partagés en NFSv4 : l’un pour les données, l’autre pour les logs. Ce sont des volumes Docker du pilote `local`, de type `nfs` : la VM qui exécute le service monte son volume, et un service recréé sur une autre VM retrouve ainsi ses données. Le collecteur s’exécute sur orion-8 et les fichiers centralisés résident sur orion-10.
 - **Les VM fournies, telles quelles.** Les dix VM sont sous Debian 13, avec Docker déjà installé. Les services sont des conteneurs, gérés par une seule pile Docker Swarm, `orion` ; seuls chrony (orion-1), le runner GitHub Actions (orion-3) et le serveur NFS (orion-10) sont des services de l’hôte. orion-3 sert de VM d’administration : son runner déploie chaque version publiée par l’intégration continue ; aucun outil comme Ansible n’est ajouté. L’opérateur administre depuis son poste avec le client Docker, SSH et quelques scripts.
-- **Technologies du CCT.** L’architecture réelle se cale au maximum sur la cible : pour chaque fonction, elle utilise un produit de la colonne C1NP de l’annexe « pile logicielle » du CCT 2026-2027 (version 3.7). Elle fait quatre exceptions, qui simplifient le démonstrateur et sont exclues de l’architecture cible : le système des VM fournies pour la démonstration (Debian 13, avec Docker déjà installé), qui n’existera pas sur le C1NP, Docker Engine et Swarm, les substituts des services du réseau cible (Keycloak et OpenLDAP pour MindefConnect, Logstash pour le service d’observabilité) et le runner GitHub Actions du déploiement continu. Les images utilisées sont les images officielles de ces produits ; ORION construit les siennes à partir des images officielles `httpd:2.4` et `node:22`. OpenSSH, systemd et `systemd-timesyncd` sont traités comme des composants de Debian 13, de même que le serveur et le client NFS du noyau Linux (paquets `nfs-kernel-server` et `nfs-common`), dont le statut au CCT reste à vérifier (§ 5.3).
+- **Technologies du CCT.** L’architecture réelle se cale au maximum sur la cible : pour chaque fonction, elle utilise un produit de la colonne C1NP de l’annexe « pile logicielle » du CCT 2026-2027 (version 3.7). Elle fait quatre exceptions, qui simplifient le démonstrateur et sont exclues de l’architecture cible : le système des VM fournies pour la démonstration (Debian 13, avec Docker déjà installé), qui n’existera pas sur le C1NP, Docker Engine et Swarm, les substituts de MindefConnect (Keycloak et OpenLDAP) et le runner GitHub Actions du déploiement continu. Les images utilisées sont les images officielles de ces produits ; ORION construit les siennes à partir des images officielles `httpd:2.4` et `node:22`. OpenSSH, systemd et `systemd-timesyncd` sont traités comme des composants de Debian 13, de même que le serveur et le client NFS du noyau Linux (paquets `nfs-kernel-server` et `nfs-common`), dont le statut au CCT reste à vérifier (§ 5.3).
 
 | Nom d’hôte | Rôle | Service | Exécution | Swarm | Ports d’écoute | Volume |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -158,7 +158,7 @@ Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée
 | orion-4, orion-5 | Application | Apache HTTP Server 2.4 et build React ; Express 5 sur Node.js 22 ; émulateur des postes | Conteneurs : Apache et Express, une instance par VM ; émulateur, une instance | Workers | HTTP `8080` et `3001`, réseau overlay | — |
 | orion-6 | PostgreSQL | PostgreSQL 17.7 | Conteneur | Worker | TCP `5432`, réseau overlay | Volume NFS `pg-nfs`, sur orion-10 |
 | orion-7 | Identité (substituts) | Keycloak 26.7.4 et OpenLDAP 1.5.0 | Deux conteneurs | Worker | HTTP `8080` et LDAP `389`, réseau overlay | Volumes NFS `ldap-data-nfs` et `ldap-config-nfs`, sur orion-10 |
-| orion-8 | Logs (substitut) | Logstash 8.19 | Conteneur | Worker | TCP TLS `6514`, publié par le maillage de routage | Volume NFS `logs-nfs`, sur orion-10 |
+| orion-8 | Collecte des logs | Logstash 8.19.14 | Conteneur | Worker | TCP TLS `6514`, publié par le maillage de routage | Volume NFS `logs-nfs`, sur orion-10 |
 | orion-9 | Secours | Aucun en temps normal ; reprend PostgreSQL, l’identité ou Logstash | Conteneurs du rôle repris | Worker | Ceux du rôle repris | Volumes du rôle repris |
 | orion-10 | Stockage | Serveur NFS du noyau Linux | Service de l’hôte | Hors Swarm | NFSv4 `2049/TCP` | Données (`/srv/orion/donnees`) et logs (`/srv/orion/logs`), chacun sur son système de fichiers ext4 |
 
@@ -232,7 +232,7 @@ Express ne garde aucun état qui fasse autorité : l’espace de travail et les 
 
 Chaque conteneur envoie ses logs au collecteur par le pilote `syslog` de Docker, au format syslog RFC 5424 exigé par le CCT, sur TCP TLS `6514`, à l’adresse locale de sa VM (`127.0.0.1`), que le maillage de routage transmet à Logstash. Le pilote fonctionne en mode non bloquant : une panne du collecteur ne bloque jamais un service démarré, mais les logs émis pendant l’interruption ne sont pas centralisés ; un conteneur créé pendant l’interruption échoue et Swarm le relance jusqu’au retour du collecteur. Docker en garde une copie locale, consultable sur la VM avec `docker logs`. Les logs du système de chaque VM, dont ceux du runner sur orion-3, restent dans journald, consultables par SSH.
 
-Logstash 8.19 s’exécute dans un conteneur de la pile, en une instance, sur orion-8 (orion-9 s’il l’a repris). Il tient lieu du service d’observabilité du C1NP, fondé sur Elastic. Il écrit les logs reçus dans le volume NFS `logs-nfs`, c’est-à-dire sur le disque des logs d’orion-10 (`/srv/orion/logs/conteneurs`) : un répertoire par service et un fichier par jour, lisibles directement sur le système de fichiers d’orion-10. L’opérateur les lit par SSH. S’il est recréé sur orion-9, Logstash poursuit l’écriture des mêmes fichiers. Aucun port de consultation web n’est ouvert. La durée de conservation et la purge des fichiers restent à fixer.
+Logstash 8.19.14 s’exécute dans un conteneur de la pile, en une instance, sur orion-8 (orion-9 s’il l’a repris). Il assure la collecte dans le démonstrateur et dans la proposition cible (§ 6). Il écrit les logs reçus dans le volume NFS `logs-nfs`, c’est-à-dire sur le disque des logs d’orion-10 (`/srv/orion/logs/conteneurs`) : un répertoire par service et un fichier par jour, lisibles directement sur le système de fichiers d’orion-10. L’opérateur les lit par SSH. S’il est recréé sur orion-9, Logstash poursuit l’écriture des mêmes fichiers. Aucun port de consultation web n’est ouvert. La durée de conservation et la purge des fichiers restent à fixer.
 
 #### Administration et horloge
 
@@ -366,7 +366,7 @@ Les versions des [schémas de déploiement](18-DIAGRAMMES-ARCHITECTURE.md#archit
 | Node.js | 22 LTS, image officielle `node` | R / S | Images d’Express et de l’émulateur ; orion-4 et orion-5 |
 | Express | 5.3.0 | R | Image d’Express |
 | PostgreSQL | 17.7, image officielle | R / S | orion-6 (secours orion-9) ; données sur orion-10 |
-| Logstash | 8.19, image officielle | R / S | orion-8 (secours orion-9) ; logs sur orion-10 ; substitut du service d’observabilité |
+| Logstash | 8.19.14, image officielle | R / S | orion-8 (secours orion-9) ; logs sur orion-10 |
 | Keycloak | 26.7.4, image officielle | Exception : substitut de MindefConnect | orion-7 (secours orion-9) |
 | OpenLDAP | 1.5.0, image `osixia/openldap` | Exception : substitut de MindefConnect | orion-7 (secours orion-9) ; données sur orion-10 |
 | Runner GitHub Actions | 2.338.2, archive officielle | Hors CCT : architecture réelle seulement, exclu de la cible | Hôte d’orion-3, service systemd ; déploiement continu |
@@ -374,38 +374,123 @@ Les versions des [schémas de déploiement](18-DIAGRAMMES-ARCHITECTURE.md#archit
 
 ## 6. Architecture cible
 
-### 6.1. Vue logique
+### 6.1. Implantation C1NP pour 1 000 postes
 
-La cible est décrite dans cette section ; le [schéma unique](18-DIAGRAMMES-ARCHITECTURE.md#architecture-réelle-sur-vm) représente uniquement le déploiement proposé du démonstrateur sur VM.
+Le ministère des Armées héberge ORION sur le C1NP. La cible de production comprend **quatre VM ORION**, sans Swarm, pour un premier palier d’essai de **1 000 postes Windows actifs**. La [vue simplifiée](18-DIAGRAMMES-ARCHITECTURE.md#vue-simplifiée-de-la-cible) montre les rôles et les principaux échanges. La [vue détaillée](18-DIAGRAMMES-ARCHITECTURE.md#vue-détaillée-de-la-cible) indique les versions et les ports. MindefConnect est hébergé sur le C1NP, en dehors des quatre VM dédiées à ORION. Le puits de logs est exploité par ORION, faute d’offre sur le réseau visé (cadrage du 13 novembre 2026). Les versions du tableau sont des références issues du dépôt. Le système Linux, les versions autorisées et les correctifs à appliquer en production restent à qualifier avec le CCT et l’exploitant. Les versions de Windows restent à préciser. L’intégration MindefConnect utilise OIDC, selon le contrat à obtenir auprès de son exploitant. Le CCT complet et l’offre d’hébergement n’ont pas été vérifiés pour cette proposition.
 
-Cette vue fixe les responsabilités et les contraintes d’hébergement, pas les produits ni le nombre d’instances. Le serveur front est le point d’entrée HTTPS : il sert l’interface et transmet `/api` et `/auth` au serveur back. Le serveur back produit le PDF d’état des lieux à chaque demande, après contrôle des droits, à partir des données de PostgreSQL ; aucun document n’est stocké. Le navigateur n’a aucun accès à PostgreSQL. MindefConnect, hébergé sur le C1NP, authentifie ; ORION conserve et applique les profils, rattachements et droits.
+| VM | Services de l’hôte | vCPU | RAM | Disques d’essai |
+| --- | --- | ---: | ---: | --- |
+| VM 1 . Entrée | HAProxy 3.2.16 et Apache HTTP Server 2.4.69. Apache sert les fichiers React 19.3.1 sur la boucle locale. | 2 | 8 Go | 50 Go système |
+| VM 2 . Application | Node.js 22.22.3, Express 5.3.0 et composant d’administration des postes Windows à préciser. | 8 | 32 Go | 50 Go système |
+| VM 3 . Base et collecte | PostgreSQL 17.7 et Logstash 8.19.14. | 4 | 16 Go | 50 Go système, dont une file de collecte locale bornée. Données PostgreSQL sur VM 4 après qualification du stockage. |
+| VM 4 . Stockage | Service de fichiers NFSv4.2. Aucun processus ORION, PostgreSQL ou Logstash. | 2 | 8 Go | 50 Go système + 100 Go logs + 100 Go SSD PostgreSQL, sur deux volumes dédiés |
+| **Total** | **4 VM** | **16** | **64 Go** | **400 Go** |
 
-### 6.2. Éléments confirmés et éléments à déterminer
+VM 4 porte les fichiers de logs centralisés. « Sans processus » signifie ici sans processus applicatif, moteur de base ni collecteur. Le système et le service de partage de fichiers restent nécessaires. VM 3 accède aux volumes de VM 4 avec des droits propres à chaque service. VM 1 assure l’entrée HTTPS, VM 2 exécute Express, et VM 3 regroupe Logstash et PostgreSQL. La file de collecte reste sur le disque local de VM 3. Borner la consommation CPU, mémoire et disque de Logstash pour préserver PostgreSQL, notamment lors de la reprise après une coupure.
 
-| Domaine | Confirmé | À déterminer ou obtenir |
+Le partage NFSv4.2 utilise le réseau privé C1NP existant. Le filtrage autorise uniquement la VM 3 à joindre la VM 4 sur TCP 2049. Un réseau de stockage séparé serait justifié par une exigence d’isolement ou par les mesures de débit et de latence. [NFSv4 sur TCP](https://docs.oracle.com/en/operating-systems/oracle-linux/8/nfs/nfs-versions_concept.html).
+
+Le répertoire PostgreSQL, journaux de transactions compris, peut aussi résider sur VM 4 si le C1NP autorise ce stockage et si les essais confirment la durabilité des écritures et la latence sous charge. La proposition utilise un montage NFS `hard`, un export serveur `sync` et une seule instance PostgreSQL autorisée à monter le volume en écriture. Le démarrage de PostgreSQL dépend du montage et doit échouer si le volume est absent. Tester la coupure de VM 4, la reprise et la concurrence des écritures de logs et de base. Si les essais échouent, attacher le SSD PostgreSQL à VM 3 et conserver VM 4 dédiée aux logs. [PostgreSQL 17 et stockage NFS](https://www.postgresql.org/docs/17/creating-cluster.html#CREATING-CLUSTER-NFS).
+
+La perte de VM 4 suspend l’archivage des logs et peut bloquer PostgreSQL si ses données y résident. La perte de VM 1 interrompt l’entrée HTTPS. La perte de VM 3 interrompt PostgreSQL et la collecte centralisée. La perte de VM 2 interrompt l’API. Prévoir une sauvegarde de la base sur un stockage indépendant des quatre VM. La disponibilité de cette capacité, les délais et pertes de données acceptables et les procédures de restauration restent à qualifier.
+
+MindefConnect authentifie les utilisateurs. ORION applique les droits selon le compte, le profil et l’école dans PostgreSQL. Le back génère les PDF à la demande, après contrôle des droits, et les renvoie via HAProxy. Aucun document généré n’est conservé. La VM 2 accueille le composant d’administration Windows côté ORION. Son rôle et ses flux dépendent de l’option retenue (§ 6.5) : pilotage de l’agent ORION ou connecteur vers Configuration Manager. Un serveur de site Configuration Manager dédié conserve ses propres prérequis.
+
+### 6.2. Flux et exploitation
+
+| Flux | Protocole et port proposés | Usage |
 | --- | --- | --- |
-| Hébergement | C1NP | Services du C1NP utilisés, conteneurs, environnements et nombre d’instances |
-| Front et back | Deux responsabilités distinctes ; le serveur front est le reverse proxy HTTPS du back | Produits d’hébergement et nombre d’instances |
-| Identité | MindefConnect sur le C1NP ; aucun mot de passe ORION | Issuer, client, attributs, redirections, environnements et support |
-| Données | PostgreSQL | Offre, version, chiffrement, réplication et maintenance |
-| Documents | PDF d’état des lieux produits à la demande par le serveur back, sans stockage | Modèle officiel, signature et numérotation |
-| Postes | Windows ; supervision et interventions pilotées par ORION | Outil ou agent, API, protocoles, enrôlement, authentification et coûts |
-| Navigateur | Firefox | Versions supportées |
-| Réseau | Réseau interne NP avec accès Internet | Zones, flux, DNS, pare-feu et certificats |
-| Exploitation | Puits de logs ; points d’accès `/api/health` et `/api/info` | Contenu de `/api/info`, logs collectés, volumétrie, disponibilité, RPO, RTO et astreinte |
-| Sécurité | Authentification obligatoire et valeurs d’autorité fixées par le serveur | Gestion et rotation des secrets, audit, durées de conservation et homologation |
+| 1. Firefox → HAProxy (VM 1) | HTTPS, TCP 443 | Interface, API et parcours de connexion. |
+| 2. HAProxy → Apache (VM 1) | HTTP, TCP 8080, boucle locale | Fichiers de l’interface. |
+| 3. HAProxy (VM 1) → Express (VM 2) | HTTPS, TCP 3001 | API et routes `/auth`. Prévoir la terminaison TLS côté VM 2 : Express écoute actuellement en HTTP. |
+| 4. Express (VM 2) → PostgreSQL (VM 3) | PostgreSQL sur TLS, TCP 5432, réseau privé | Données et sessions. |
+| 5. Firefox → MindefConnect | HTTPS, TCP 443 | Authentification et retour du navigateur vers ORION. |
+| 6. Express (VM 2) → MindefConnect | HTTPS, TCP 443 | Découverte, clés et échanges OIDC, selon le contrat d’intégration. |
+| 7. Émetteurs VM 1 et VM 2 → Logstash (VM 3) | Syslog RFC 5424 sur TLS, TCP 6514 | Logs techniques de l’entrée et du back. Les logs PostgreSQL sont collectés localement sur VM 3. |
+| 8. Logstash (VM 3) → stockage (VM 4) | NFSv4.2, TCP 2049, réseau privé C1NP | Écriture des fichiers de logs sur le volume dédié. |
+| 9. PostgreSQL (VM 3) → stockage (VM 4) | NFSv4.2, TCP 2049, réseau privé C1NP | Accès au volume de base, sous réserve de qualification. |
+| 10. Express → administration des postes (VM 2) | À préciser | Transmet les demandes autorisées et consulte leur état et leur résultat. |
+| 11. Postes Windows → administration des postes (flux fonctionnel) | À préciser | Authentification propre à chaque poste, inventaire, rapports de processus et résultats des interventions. |
+| 12. Administration des postes → postes Windows (flux fonctionnel) | À préciser | Remise des interventions autorisées au poste concerné. Avec l’agent ORION, les commandes sont renvoyées dans la réponse au rapport du poste. |
+| Administration → VM 1 à 4 | SSH, TCP 22 | Depuis le réseau d’administration autorisé. |
+| VM 1 à 4 → services de plateforme | DNS TCP/UDP 53 et NTP UDP 123, à qualifier | Résolution des noms et synchronisation de l’heure. |
+| VM 3 → stockage de sauvegarde | Contrat et port à obtenir | Sauvegarde et restauration de PostgreSQL. |
+
+Les flux 11 et 12 montrent les deux sens du parcours fonctionnel. Avec l’agent ORION, le client Windows initie la connexion. Le code actuel authentifie chaque poste avec un jeton propre à son nom réseau. Les postes passent alors par HAProxy et l’API Express : le rapport récupère les interventions en attente et le poste renvoie leur résultat. Avec Configuration Manager, les clients communiquent avec le gestionnaire Microsoft et le composant ORION échange avec son service d’administration. Les points de terminaison, ports et protocoles du gestionnaire restent à préciser selon l’option retenue.
+
+Limiter les accès à PostgreSQL, au collecteur et aux interfaces d’exploitation aux seuls émetteurs autorisés. L’application expose actuellement `/api/health` et `/api/infos` ; filtrer leur accès depuis le réseau d’exploitation et harmoniser le nom avec le contrat cible. `/api/health` vérifie notamment PostgreSQL et MindefConnect : une sonde d’instance du répartiteur doit être distincte de ce diagnostic de dépendances. Obtenir les noms DNS, certificats, règles de filtrage et modalités de gestion des secrets auprès de l’exploitant.
+
+Le collecteur écrit les fichiers centralisés sur VM 4, avec rotation, quotas, surveillance de l’espace libre et consultation sur place par les personnes habilitées. Les journaux propres à VM 4 restent locaux et la collecte ne rapatrie aucun fichier depuis VM 4. Lors d’une coupure du partage, sa file locale de VM 3 permet une reprise dans la limite de sa capacité. Prévoir une file locale bornée chez les émetteurs et tester la reprise après coupure. Une connexion TCP ouverte ne prouve ni la réception ni la conservation d’un événement. Le raccordement des émetteurs, le cadrage des messages syslog sur TLS et la compatibilité du collecteur doivent être vérifiés en essai. Les logs techniques servent au diagnostic. Le périmètre de l’audit métier, les actions à tracer, les habilitations, la durée de conservation et les exigences d’intégrité restent au [cadrage § 18](02-CADRAGE.md#18-authentification-et-sécurité). Le journal de fusion PostgreSQL sert à la synchronisation des modifications.
+
+### 6.3. Vérification de la charge
+
+Hypothèses d’essai : une remontée de **10 000 octets** par poste toutes les **5 s** (§ 10 du cadrage), **un rapport par transaction**, 8 h d’activité et une actualisation de l’interface toutes les 4 s. Les tailles des rapports et le nombre d’utilisateurs simultanés sont des hypothèses. Les débits de la table concernent les corps des rapports en entrée. Ajouter les réponses aux postes et navigateurs, les PDF, les en-têtes et le chiffrement lors des essais.
+
+| Palier | Postes actifs | Utilisateurs simultanés supposés | Rapports/s | Actualisations UI/s | Débit entrant | Données reçues en 8 h |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Démarrage | 1 000 | 100 | 200 | 25 | 16 Mbit/s | 57,6 Go |
+| Croissance | 5 000 | 500 | 1 000 | 125 | 80 Mbit/s | 288 Go |
+
+Calculs en unités décimales : postes ÷ 5 pour les rapports/s, utilisateurs ÷ 4 pour les actualisations/s, puis rapports/s × 10 000 × 8 pour le débit en bit/s et rapports/s × 10 000 × 28 800 pour le volume entrant en octets. PostgreSQL conserve notamment l’état courant et les historiques métier prévus. Sa croissance doit être mesurée sur les tables, index et journaux de transactions. À titre d’essai pour les logs, une ligne de 300 octets par rapport représente 1,728 ou 8,64 Go par jour actif de 8 h, soit 51,84 ou 259,2 Go sur 30 jours actifs, avant compression et hors autres logs, fichiers en rotation et files. Les disques proposés laissent de la place à ces postes de consommation, dont la taille reste à mesurer.
+
+Le [dépôt PostgreSQL](../application/backend/workspace/postgres.ts) sérialise les écritures sur la même ligne de révision avec `SELECT FOR UPDATE`. À 70 % d’occupation de ce verrou et cinq autres écritures/s supposées de même durée, la durée moyenne disponible sous verrou vaut 0,70 ÷ (rapports/s + 5) : **3,41 ms à 1 000 postes** et **0,697 ms à 5 000**. Les 675 postes calculés sur la branche cible correspondent à l’hypothèse de 5 ms sous verrou. Mesurer séparément les durées des rapports et des autres écritures, ainsi que l’attente du verrou et les pointes. Deux back partagent le même verrou.
+
+Dans le [code des routes](../application/backend/workspace/routes.ts), l’ETag dépend de la révision globale. Des rapports fréquents peuvent donc faire renvoyer une vue complète à la plupart des actualisations : ajouter 25 ou 125 fois la taille mesurée d’une vue par seconde. Les 2 000 révisions conservées par le [moteur](../application/backend/workspace/engine.ts) couvrent environ **9,8 s** ou **2,0 s** aux cadences calculées si chaque transaction produit une révision. Une modification fondée sur une révision plus ancienne peut recevoir un HTTP 409. La collecte toutes les 5 s et la lecture toutes les 4 s peuvent aussi donner près de 9 s d’ancienneté à l’écran avant traitement, au-delà des 5 s attendues au cadrage.
+
+Avant mise en production, éprouver la charge mixte avec des jeux de données réalistes, des rafales de reconnexion, des PDF concurrents, des imports, la collecte et une coupure du puits. Mesurer les tailles de vue et de rapport, la fraîcheur à l’écran, les conflits d’édition, les temps de réponse, le verrou, le CPU, la RAM, les IOPS, le débit des disques et la croissance des logs et de la base. Séparer les migrations de production du réamorçage du jeu de départ : en production, le serveur refuse une version de données incompatible tant que la réinitialisation est désactivée. La procédure de migration reste à définir. À 5 000 postes, qualifier en priorité des écritures de supervision moins sérialisées et des lectures UI plus ciblées. Les lots ne sont utiles que si l’agent les permet, si le temps par rapport sous verrou diminue et si le délai des interventions reste compatible.
+
+### 6.4. Extension à 5 000 postes
+
+Pour préparer le palier de **5 000 postes**, prévoir **cinq VM ORION**. VM 1 porte l’entrée (4 vCPU, 16 Go). Deux VM back (8 vCPU, 32 Go chacune) servent les appels répartis par HAProxy. Une VM exécute PostgreSQL et Logstash (20 vCPU, 80 Go). Les deux back joignent PostgreSQL sur le réseau privé, en TLS sur TCP 5432, et envoient leurs logs au collecteur. La VM de stockage (2 vCPU, 8 Go) porte 400 Go pour les fichiers de logs et, sous les mêmes conditions de qualification qu’au premier palier, 500 Go SSD pour les données PostgreSQL. Chaque VM reçoit 50 Go de disque système. La file du collecteur reste locale sur la VM qui exécute PostgreSQL. En cas de repli, le SSD PostgreSQL est attaché à la VM qui exécute la base. Total : **42 vCPU, 168 Go de RAM et 1 150 Go de disques actifs**. VM 2 devient le premier back et une cinquième VM accueille le second. Les essais détermineront si le gabarit de VM 1 et les deux back suffisent après adaptation du traitement de la supervision.
+
+### 6.5. Deux solutions pour administrer les postes Windows
+
+Le choix porte sur l’administration des postes Windows. Le ministère des Armées fournit l’hébergement sur le C1NP. Les deux options doivent couvrir l’inventaire logiciel, la supervision des processus utilisateur, leur arrêt, l’installation et la désinstallation de logiciels, la réinstallation des postes et la remontée du résultat à ORION. Le coût de licence est calculé sur le parc géré, distinct de la charge de supervision mesurée en postes actifs.
+
+#### Option A — Microsoft Configuration Manager installé sur le réseau du ministère
+
+Configuration Manager fournit un client Windows, un serveur de site, une base SQL Server et des points de distribution pour les logiciels et les images. Microsoft documente les installations et désinstallations, le déploiement de Windows et la prise en main à distance. Pour ORION, vérifier sur un pilote les opérations réellement disponibles via le service d’administration, les droits du compte d’intégration et la remontée de l’état des interventions. [Gestion des clients](https://learn.microsoft.com/en-us/intune/configmgr/core/understand/fundamentals-of-client-management-tasks) · [Service d’administration](https://learn.microsoft.com/en-us/intune/configmgr/develop/adminservice/usage) · [Prise en main à distance](https://learn.microsoft.com/en-us/intune/configmgr/core/clients/manage/remote-control/introduction-to-remote-control).
+
+CMPivot interroge les postes connectés à la demande. La documentation ne garantit ni une télémétrie continue de tous les processus toutes les cinq secondes, ni le délai d’arrêt automatique attendu par ORION. Le pilote doit décider si un agent de supervision complémentaire est nécessaire. Dans ce cas, conserver Configuration Manager pour les logiciels et les images, puis estimer séparément le développement de la collecte et de l’arrêt local. [Fonctionnement de CMPivot](https://learn.microsoft.com/en-us/mem/configmgr/core/servers/manage/cmpivot).
+
+| Hypothèse de licence annuelle | 1 000 postes gérés | 5 000 postes gérés |
+| --- | ---: | ---: |
+| Droits Configuration Manager et service ministériel existants, si le parc est intégralement couvert | 0 € d’achat de licences supplémentaires | 0 € d’achat de licences supplémentaires |
+| Achat d’un abonnement Microsoft Intune Plan 1 Device par poste, si le marché permet d’utiliser ce droit pour Configuration Manager | **24 290 € HT/an** | **121 450 € HT/an** |
+
+Les conditions de produit Microsoft listent Intune P1 for Devices parmi les licences d’accès à Configuration Manager. Le calcul prend le tarif public français de **24,29 € HT par poste et par an** pour la référence annuelle, sans remise de volume, au 13 novembre 2026. Faire confirmer le droit d’usage sur les postes partagés, l’éligibilité du marché ministériel et le prix en volume par le titulaire du marché. Cette estimation couvre la licence client. Les éventuelles licences Windows Server, le support et l’intégration sont à confirmer séparément. Vérifier aussi les droits SQL Server réservés à l’usage du produit. [Conditions Microsoft](https://www.microsoft.com/licensing/terms/en-US/productoffering/SystemCenterConfigurationManager/allprograms) · [Tarif revendeur](https://www.senetic.fr/product/CFQ7TTC0LCH4-0004_P1YP1Y).
+
+Réutiliser le service ministériel, s’il existe, permet de rester dans les quatre VM ORION. Une installation dédiée demande au minimum une VM Windows Server supplémentaire. Microsoft permet de placer la base SQL Server du site primaire sur le même serveur. Les points de distribution supplémentaires dépendent du réseau et de la taille des images. L’exploitant doit valider l’admission au CCT et les échanges nécessaires à la maintenance du produit, y compris la procédure de mise à jour hors ligne si elle est retenue. [Base de site](https://learn.microsoft.com/en-us/intune/configmgr/core/plan-design/hierarchy/plan-for-the-site-database) · [Maintenance hors ligne](https://learn.microsoft.com/en-us/intune/configmgr/core/servers/manage/use-the-service-connection-tool).
+
+#### Option B — Agent Windows développé par l’équipe ORION
+
+Créer un service Windows en C#/.NET qui envoie l’inventaire et les rapports de processus à l’API ORION. Le back autorise et suit les interventions. Le poste exécute les commandes métier prévues, telles que l’arrêt d’un processus ou l’installation d’un paquet approuvé, et renvoie le résultat associé à l’intervention. Prévoir une identité propre à chaque poste, la mise à jour signée de l’agent et le traitement des commandes déjà reçues après coupure. Le serveur de gestion reste le back ORION, sur les VM déjà dimensionnées.
+
+Pour une réinstallation complète, l’agent transmet la demande à un mécanisme de réimagerie autorisé, capable de fonctionner pendant l’effacement de Windows. Le retour de résultat doit être vérifié après réenrôlement. L’estimation suppose que le ministère fournit ce mécanisme, l’infrastructure de signature et un canal de déploiement de l’agent. Si la réimagerie est indisponible, le périmètre et l’effort d’une chaîne de réinstallation restent à estimer avant de comparer les deux offres à couverture égale.
+
+| Lot de travail | Charge estimée |
+| --- | ---: |
+| Analyse et prototype Windows : versions, sessions, droits, réseau, réimagerie | 8 à 12 j-p |
+| Développement de l’agent : inventaire, processus, rapports et reprise réseau | 15 à 22 j-p |
+| Développement des interventions : arrêt, installation, désinstallation, résultats | 12 à 18 j-p |
+| Intégration ORION et raccordement au mécanisme de réimagerie | 10 à 15 j-p |
+| Empaquetage, signature, enrôlement et mise à jour de l’agent | 8 à 12 j-p |
+| Recette, pilote en salle, essais de charge à 1 000 et 5 000 postes, documentation d’exploitation | 12 à 18 j-p |
+| **Total de réalisation estimé** | **65 à 97 j-p** |
+
+Les jours-personnes mesurent la charge de l’équipe. Ils excluent les délais d’accès au réseau et d’autorisation, la maintenance récurrente et une éventuelle refonte du moteur ORION pour tenir la charge (§ 6.3). La prise en main graphique et un catalogue de correctifs généraliste sont hors de ce périmètre. Le pilote vérifie la fraîcheur à l’écran, les opérations sur plusieurs sessions Windows, les reprises après coupure et le résultat de la réinstallation. Une mesure sur un parc réel est nécessaire avant d’annoncer la capacité à 1 000 ou 5 000 postes.
 
 ## 7. Trajectoire vers la cible
 
 | Architecture réelle | Cible | Travail nécessaire |
 | --- | --- | --- |
-| Poste de présentation et Docker Compose | C1NP | Choisir le mode de déploiement et décrire les environnements |
+| Poste de présentation et Docker Compose | Quatre VM C1NP pour le premier palier | Qualifier le système, les services de l’hôte et les environnements |
 | Keycloak et annuaire OpenLDAP locaux | MindefConnect | Obtenir le contrat, configurer les environnements et qualifier les attributs et parcours |
-| Émulateur de postes | Solution d’administration Windows | Étudier l’existant, comparer agent et outils, puis intégrer et tester le contrat réel |
+| Émulateur de postes | Configuration Manager ou agent Windows ORION | Vérifier l’existant, qualifier la réimagerie et tester les interventions et la supervision (§ 6.5) |
 | Vite et son proxy de développement en local ; Apache et HAProxy prévus sur VM | Serveur front et reverse proxy HTTPS | Confirmer les versions et les modalités de déploiement sur le C1NP |
 | Express sur la boucle locale | Serveur back derrière le reverse proxy | Configurer les contrôles de santé et le déploiement |
-| `/api/health` seul | `/api/health` et `/api/info` | Définir et implémenter `/api/info` |
-| Sortie standard des processus | Puits de logs | Choisir le format, la collecte, la rétention et l’accès |
+| `/api/health` et `/api/infos` | Points techniques restreints à l’exploitation | Aligner le contrat cible et filtrer les accès |
+| Collecte du démonstrateur | Collecteur sur VM 3, fichiers de logs sur VM 4 | Qualifier la collecte, le partage, la rétention et l’accès |
 | Secrets de configuration locale | Gestion des secrets | Choisir le coffre, l’injection, la rotation et la révocation |
 | Volumes Docker locaux | Persistance exploitée et sauvegardée | Définir sauvegardes, restaurations, RPO, RTO et essais réguliers |
 

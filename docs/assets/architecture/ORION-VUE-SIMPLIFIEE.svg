@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1075" viewBox="0 0 1500 1075" role="img" aria-labelledby="title desc">
-<title id="title">ORION — vue simplifiée de l’architecture réelle</title>
+<title id="title">ORION — architecture du démonstrateur</title>
 <desc id="desc">Rôles du démonstrateur, regroupés par zone, et principaux échanges numérotés.</desc>
 <defs>
 <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f6cbd"/></marker>
@@ -41,13 +41,11 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 .auto{stroke-dasharray:6 4}
 </style>
 <rect width="1500" height="1075" fill="#fff"/>
-<text x="40" y="44" class="title" text-anchor="start">Architecture réelle du démonstrateur ORION</text>
-<text x="40" y="72" class="body" text-anchor="start">Déploiement proposé · dix VM Debian 13 · réseau privé · conteneurs Docker et stockage NFS</text>
+<text x="40" y="46" class="title" text-anchor="start">ORION — architecture du démonstrateur</text>
+<text x="40" y="74" class="body" text-anchor="start">Vue simplifiée · dix VM</text>
 <rect x="20" y="240" width="150" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
 <use href="#i-users" x="77" y="254" width="36" height="36" style="color:#0f6cbd"/>
-<text x="95" y="312" class="cname" text-anchor="middle">Utilisateurs</text>
-<text x="95" y="331" class="crole" text-anchor="middle">Firefox</text>
-<text x="95" y="352" class="cvm" text-anchor="middle">navigateur web</text>
+<text x="95" y="332" class="cname" text-anchor="middle">Firefox</text>
 <rect x="20" y="625" width="150" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
 <use href="#i-user-cog" x="77" y="639" width="36" height="36" style="color:#0f6cbd"/>
 <text x="95" y="697" class="cname" text-anchor="middle">Opérateur</text>
@@ -58,17 +56,21 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="95" y="872" class="cname" text-anchor="middle">GitHub</text>
 <text x="95" y="891" class="crole" text-anchor="middle">intégration continue</text>
 <text x="95" y="912" class="cvm" text-anchor="middle">Internet, par proxy</text>
-<rect x="230" y="105" width="1240" height="695" rx="8" fill="#fff" stroke="#7aa7d6" stroke-dasharray="7 5" stroke-width="1.5"/>
+<rect x="230" y="105" width="1240" height="695" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
 <use href="#i-network" x="246" y="117" width="22" height="22" style="color:#0f6cbd"/>
-<text x="276" y="134" class="zname" text-anchor="start">Réseau privé du démonstrateur · 10 VM · accès par https://172.16.131.188</text>
+<text x="276" y="134" class="frame" text-anchor="start">Réseau privé du démonstrateur · 10 VM · accès par https://172.16.131.188</text>
 <rect x="255" y="172" width="210" height="388" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="269" y="196" class="zname" text-anchor="start">Entrée</text>
 <rect x="490" y="172" width="220" height="388" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="504" y="196" class="zname" text-anchor="start">Application</text>
 <rect x="735" y="172" width="220" height="388" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="749" y="196" class="zname" text-anchor="start">Données</text>
-<rect x="980" y="172" width="470" height="388" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
-<text x="994" y="196" class="zname" text-anchor="start">Services simulés</text>
+<rect x="980" y="172" width="470" height="180" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
+<text x="994" y="196" class="zname" text-anchor="start">Identité du démonstrateur</text>
+<rect x="980" y="372" width="220" height="188" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
+<text x="994" y="396" class="zname" text-anchor="start">Émulation</text>
+<rect x="1230" y="372" width="220" height="188" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
+<text x="1244" y="396" class="zname" text-anchor="start">Collecte des logs</text>
 <rect x="255" y="600" width="455" height="178" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="269" y="624" class="zname" text-anchor="start">Pilotage</text>
 <rect x="275" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
@@ -79,12 +81,12 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <rect x="515" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-app-window" x="582" y="226" width="36" height="36" style="color:#0f6cbd"/>
 <text x="600" y="284" class="cname" text-anchor="middle">Apache</text>
-<text x="600" y="303" class="crole" text-anchor="middle">interface web</text>
+<text x="600" y="303" class="crole" text-anchor="middle">Interface React</text>
 <text x="600" y="324" class="cvm" text-anchor="middle">orion-4 et orion-5</text>
 <rect x="515" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-server" x="582" y="414" width="36" height="36" style="color:#0f6cbd"/>
-<text x="600" y="472" class="cname" text-anchor="middle">Express</text>
-<text x="600" y="491" class="crole" text-anchor="middle">API</text>
+<text x="600" y="472" class="cname" text-anchor="middle">API Express</text>
+<text x="600" y="491" class="crole" text-anchor="middle">Application ORION</text>
 <text x="600" y="512" class="cvm" text-anchor="middle">orion-4 et orion-5</text>
 <rect x="760" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-hard-drive" x="827" y="226" width="36" height="36" style="color:#0f6cbd"/>
@@ -108,8 +110,8 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="1340" y="324" class="cvm" text-anchor="middle">orion-7 · secours 9</text>
 <rect x="1005" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-monitor" x="1072" y="414" width="36" height="36" style="color:#0f6cbd"/>
-<text x="1090" y="472" class="cname" text-anchor="middle">Postes Windows</text>
-<text x="1090" y="491" class="crole" text-anchor="middle">émulateur</text>
+<text x="1090" y="472" class="cname" text-anchor="middle">Émulateur de postes</text>
+<text x="1090" y="491" class="crole" text-anchor="middle">Postes Windows</text>
 <text x="1090" y="512" class="cvm" text-anchor="middle">orion-4 ou orion-5</text>
 <rect x="275" y="638" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-boxes" x="342" y="652" width="36" height="36" style="color:#0f6cbd"/>
@@ -124,7 +126,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <rect x="1255" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-scroll-text" x="1322" y="414" width="36" height="36" style="color:#0f6cbd"/>
 <text x="1340" y="472" class="cname" text-anchor="middle">Logstash</text>
-<text x="1340" y="491" class="crole" text-anchor="middle">logs</text>
+<text x="1340" y="491" class="crole" text-anchor="middle">Collecte des logs</text>
 <text x="1340" y="512" class="cvm" text-anchor="middle">orion-8 · secours 9</text>
 <rect x="255" y="955" width="1195" height="100" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="270" y="983" class="caption" text-anchor="start">orion-1 · 172.16.131.188</text>
@@ -153,7 +155,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <circle cx="845" cy="371" r="11" fill="#0f6cbd"/>
 <text x="845" y="375.5" class="step" text-anchor="middle">4</text>
 <path d="M1340 340 L1340 370 L900 370 L900 342" class="flow" marker-end="url(#arrow)"/>
-<path d="M1300 400 L1300 370 L900 370 L900 342" class="flow" marker-end="url(#arrow)"/>
+<path d="M1405 400 L1405 370 L900 370 L900 342" class="flow" marker-end="url(#arrow)"/>
 <circle cx="1120" cy="370" r="11" fill="#0f6cbd"/>
 <text x="1120" y="374.5" class="step" text-anchor="middle">4</text>
 <path d="M340 212 L340 150 L1150 150 L1150 210" class="flow" marker-end="url(#arrow)"/>
