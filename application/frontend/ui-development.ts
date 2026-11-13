@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { createWorkspaceRepository } from '../backend/workspace/engine.ts';
-import { createWorkspaceRouter, createAgentRouter } from '../backend/workspace/routes.ts';
+import { createWorkspaceRouter, createAgentRouter, createReconRouter } from '../backend/workspace/routes.ts';
 import { createAgentEmulator, directTransport } from '../backend/demonstrateur/agents.ts';
 import { userFromAccount } from '../backend/profiles.ts';
 import { isRole } from '#shared/catalog.ts';
@@ -35,7 +35,7 @@ export function uiDevelopment(): Plugin {
         const host = req.get('host');
         const allowed: (string | undefined)[] = [`127.0.0.1:${server.config.server.port}`, `localhost:${server.config.server.port}`];
         if (!allowed.includes(host)) return res.sendStatus(403);
-        if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method) && !req.path.startsWith('/agent/') && req.get('origin') !== `http://${host}`) return res.sendStatus(403);
+        if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method) && !/^\/(agent|recon)\//.test(req.path) && req.get('origin') !== `http://${host}`) return res.sendStatus(403);
         res.set('Cache-Control', 'no-store');
         next();
       });
@@ -60,8 +60,10 @@ export function uiDevelopment(): Plugin {
         res.json({ ok: true });
       });
       const agentToken = process.env.AGENT_TOKEN || 'orion-agent-local';
-      app.use('/api/workspace', createWorkspaceRouter({ repository, actor, agentToken }));
+      const recon = { secret: process.env.RECON_SECRET || 'orion-recon-local', url: process.env.RECON_URL || 'http://localhost:5175' };
+      app.use('/api/workspace', createWorkspaceRouter({ repository, actor, agentToken, recon }));
       app.use('/api/agent', createAgentRouter({ repository, token: agentToken }));
+      app.use('/api/recon', createReconRouter({ repository, secret: recon.secret }));
       app.use('/api', (_req, res) => res.status(404).json({ error: 'Adresse inconnue.' }));
       server.middlewares.use(app);
     },

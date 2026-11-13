@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Matériels › Recensement (views/recensement/) : campagnes, bilan,
+   appairage d'un téléphone et étiquettes des salles à imprimer.
+   ========================================================================== */
+
+/* Campagnes : cartes cliquables */
+.rec-card { color: inherit; text-decoration: none; transition: transform var(--dur-1) var(--ease-out), box-shadow var(--dur-2); }
+.rec-card:active { transform: scale(.985); }
+@media (hover: hover) and (pointer: fine) { .rec-card:hover { box-shadow: var(--glass-shadow-lift); } }
+.rec-badge { width: 36px; height: 36px; border-radius: 12px; }
+.rec-badge.is-open { color: var(--accent-text); background: var(--tint-2); }
+.rec-card-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin: 0; font-size: .875rem; color: var(--ink-2); }
+
+/* Bilan : indicateurs, lignes des cartes */
+.ops-metric strong small { font-size: 1.25rem; font-weight: 600; color: var(--ink-3); letter-spacing: 0; }
+.ops-metric .progress { margin-top: 12px; }
+.rec-metric--alert { background: color-mix(in srgb, var(--install) 10%, var(--glass-tint)); }
+.rec-row { flex-wrap: wrap; color: inherit; text-decoration: none; }
+a.rec-row:hover { background: var(--fill-1); }
+.rec-row > .chip { flex: none; }
+.rec-row .row-main a.row-title { color: inherit; text-decoration: none; }
+.rec-row .row-main a.row-title:hover { color: var(--accent-text); }
+.rec-row .row-sub { flex-wrap: wrap; row-gap: 2px; }
+.rec-row > .progress { flex: 0 0 140px; }
+.rec-row-actions { flex: 1 0 100%; display: flex; justify-content: flex-end; gap: 6px; }
+.rec-empty { padding: 10px 8px; font-size: .875rem; color: var(--ink-3); list-style: none; }
+
+/* Nouvelle campagne : choix des salles par bâtiment */
+.rec-salles { display: flex; flex-direction: column; gap: 14px; max-height: 42vh; overflow: auto; overscroll-behavior: none; padding: 2px; }
+.rec-batiment { margin: 0; padding: 0; border: 0; min-width: 0; }
+.rec-batiment legend { padding: 0; margin-bottom: 8px; }
+.rec-batiment legend label { display: inline-flex; align-items: center; gap: 8px; font-weight: 650; cursor: pointer; }
+.rec-salles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 6px; }
+.rec-salle { display: flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 10px; border-radius: var(--r-s); background: var(--fill-1); font-weight: 600; cursor: pointer; transition: background var(--dur-1); }
+.rec-salle.is-on { background: var(--tint-2); color: var(--accent-text); }
+.rec-salle input, .rec-batiment legend input { accent-color: var(--accent); width: 16px; height: 16px; }
+
+/* Appairage : QR code de l'adresse d'appairage et marche à suivre */
+.rec-appairage { display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 24px; align-items: center; }
+.qr { display: block; width: 100%; height: auto; border-radius: var(--r-s); }
+.rec-qr { box-shadow: 0 0 0 1px var(--hairline), var(--glass-shadow); }
+.rec-etapes { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 10px; line-height: 1.45; }
+.rec-note { grid-column: 1 / -1; display: flex; align-items: flex-start; gap: 8px; margin: 0; padding: 12px 14px; border-radius: var(--r-s); background: var(--fill-1); font-size: .875rem; line-height: 1.45; color: var(--ink-2); }
+.rec-note .ico { flex: none; margin-top: 1px; color: var(--accent-text); }
+@media (max-width: 560px) { .rec-appairage { grid-template-columns: 1fr; justify-items: center; } .rec-qr { max-width: 240px; } }
+
+/* Étiquettes : une par salle, puis le stock ; imprimées seules (printSheet) */
+.rec-etiquettes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 16px; }
+.rec-etiquette { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 0; padding: 12px; border-radius: var(--r-m); background: #fff; color: #040b1e; box-shadow: 0 0 0 1px var(--hairline); break-inside: avoid; }
+.rec-etiquette figcaption { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
+.rec-etiquette strong { font-size: 1.25rem; letter-spacing: -.01em; }
+.rec-etiquette span { font-size: .75rem; color: #48546e; }
+@media print {
+  .is-printing-sheet .rec-note { display: none; }
+  .is-printing-sheet .rec-etiquettes { grid-template-columns: repeat(4, 1fr); gap: 6mm; margin: 0; }
+  .is-printing-sheet .rec-etiquette { box-shadow: none; border: .3mm dashed #9aa4b8; border-radius: 3mm; }
+}

@@ -14,6 +14,7 @@
 import { fileURLToPath } from 'node:url';
 import { UTILISATEURS, SALLES_FERMEES, prng } from '#shared/seed.ts';
 import type { Commande, Rapport, Resultat } from '../workspace/postes.ts';
+import { journal, raison } from '../journal.ts';
 
 /* Échanges avec l'API d'agent (backend/workspace/postes.ts), vus depuis le poste */
 export type PosteAgent = { nomReseau: string; horsService: boolean; salleId: string; ecoleId: string | null };
@@ -65,8 +66,8 @@ export function adressesIp(list: Pick<PosteAgent, 'nomReseau' | 'salleId' | 'eco
 /**
  * transport : { postes() → [{ nomReseau, horsService, salleId, ecoleId }], rapports(liste) → { commandes }, resultats(liste) }.
  */
-export function createAgentEmulator({ transport, interval = 3000, seed = 20261108, log = console }: {
-  transport: AgentTransport; interval?: number; seed?: number; log?: Partial<Pick<Console, 'error'>>;
+export function createAgentEmulator({ transport, interval = 3000, seed = 20261108, log = journal }: {
+  transport: AgentTransport; interval?: number; seed?: number; log?: Pick<typeof journal, 'error'>;
 }) {
   const rnd = prng(seed);
   const pick = () => { const total = PROGRAMMES.reduce((n, [, w]) => n + w, 0); let x = rnd() * total; for (const [nom, w] of PROGRAMMES) { x -= w; if (x <= 0) return nom; } return PROGRAMMES[0][0]; };
@@ -133,7 +134,7 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
       const resultats = commandes.map(execute).filter(Boolean) as Resultat[];
       if (resultats.length) await transport.resultats(resultats);
     } catch (error) {
-      log.error?.('Postes émulés :', (error as Error).message);
+      log.error('postes_emules', { erreur: raison(error) });
     } finally { running = false; }
   }
 
@@ -176,5 +177,5 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const token = process.env.AGENT_TOKEN || 'orion-agent-local';
   createAgentEmulator({ transport: httpTransport({ api, token }) }).start();
   setInterval(() => {}, 1 << 30); // processus maintenu actif
-  console.log(`Postes émulés : rapports vers ${api}/api/agent`);
+  journal.info('demarrage', { api: `${api}/api/agent` });
 }

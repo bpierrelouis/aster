@@ -18,6 +18,7 @@ import { displayPrefs } from '#shared/ambiance.ts';
 import { DAY } from '#shared/format.ts';
 import { normalizeProblemLabel, PROBLEM_LABEL_HELP } from '#shared/problem-label.ts';
 import { batimentCode } from '#shared/buildings.ts';
+import { regleConstat, regleRecensement } from './recensement.ts';
 import { initializeOperations, IMAGE_REFERENCE } from '#shared/operations-data.ts';
 import { isRole, materielCite, numeroMateriel, numeroRemontee, rangDuNumero, PROBLEMS } from '#shared/catalog.ts';
 import type { Actor, CollectionName, Collections, Compte, DisplayPrefs, Id, Item, OperationType, PreferencesCompte, RemonteeStatut, WorkspaceState, WorkspaceView } from '#shared/types.ts';
@@ -35,7 +36,7 @@ export type Ecriture = Omit<WorkspaceView, CollectionName | 'prefs'> & Lists & P
 /** Erreur portant le statut HTTP à renvoyer (fail) */
 export type HttpError = Error & { status?: number; code?: string };
 
-export const collections: CollectionName[] = ['ecoles', 'salles', 'etages', 'materiels', 'postes', 'remontees', 'detections', 'applications', 'comptes', 'regles', 'operations', 'processus', 'installations'];
+export const collections: CollectionName[] = ['ecoles', 'salles', 'etages', 'materiels', 'postes', 'remontees', 'detections', 'applications', 'comptes', 'regles', 'operations', 'processus', 'installations', 'recensements', 'constats'];
 const OPERATION_TYPES: readonly string[] = ['installation', 'desinstallation', 'reinstallation', 'arret'] satisfies OperationType[];
 const SERVER_FIELDS: Partial<Record<CollectionName, Exclude<keyof LooseItem, 'id'>[]>> = { comptes: ['sujet'] }; // jamais transmis au navigateur
 /** Valeurs tenues par le serveur seul (connexion, désactivation) ou remontées par les postes (API des postes) : une valeur du navigateur est ignorée */
@@ -57,7 +58,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 /** Données de départ : référentiels, parc et interventions de la simulation ; aucune activité de poste avant le premier rapport. */
 export function initialState(): WorkspaceState {
   const state = initializeOperations(seed());
-  Object.assign(state, { processus: [], detections: [], installations: [], revision: 0 });
+  Object.assign(state, { processus: [], detections: [], installations: [], recensements: [], constats: [], revision: 0 });
   for (const p of state.postes) { p.session = null; p.vuLe = null; }
   return state as WorkspaceState; // complété par Object.assign
 }
@@ -104,6 +105,7 @@ export function visibleTo(collection: CollectionName, item: LooseItem | undefine
   if (['comptes', 'regles'].includes(collection)) return isAdmin(actor);
   if (collection === 'operations') return isAdmin(actor) || (actor.role === 'formateur' && item.type === 'arret');
   if (['postes', 'processus', 'detections', 'installations'].includes(collection)) return actor.role !== 'gestionnaire';
+  if (['recensements', 'constats'].includes(collection)) return actor.role !== 'formateur';
   if (collection === 'remontees' && actor.role === 'formateur') return item.auteurId === actor.id;
   return true;
 }
@@ -185,11 +187,14 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
     if (c === 'comptes' && deleted.length) fail(403, 'Un compte se désactive ; il n’est pas supprimé.');
     if (c === 'operations' && deleted.length) fail(403, 'Une demande d’intervention ne peut pas être supprimée.');
     if (c === 'remontees' && deleted.length) fail(403, 'La suppression de remontées est indisponible.');
+    if (c === 'recensements' && deleted.length) fail(403, 'Une campagne se clôt ; elle n’est pas supprimée.');
+    if (c === 'constats' && deleted.length) fail(403, 'Un constat est conservé.');
     if (c === 'regles' && actor.role !== 'superadmin' && deleted.some((x) => x.portee === 'global')) fail(403, 'Règle globale réservée au super administrateur.');
 
     for (const x of changes) {
       if (c === 'remontees' && !before.has(x.id)) x.id = numeroRemontee(++lastReportId);
       if (c === 'operations' && !before.has(x.id)) x.id = id('op');
+      if (c === 'recensements' && !before.has(x.id)) x.id = id('rec');
       if (c === 'postes') {
         delete x.ecoleId; // l'école d'un poste est celle de sa salle
         // État, session, dernier rapport et adresse IP : remontés par le poste lui-même (postes.ts) ; un nouveau poste est éteint
@@ -272,6 +277,8 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
         assert(typeof x.description === 'string' && x.description.trim() && x.description.length <= 12000, 'Description obligatoire.');
         assert(Array.isArray(x.materielIds) && x.materielIds.length > 0 && x.materielIds.every((mid) => materiels.some((m) => m.id === mid && m.ecoleId === x.ecoleId)), 'Matériels invalides.');
       }
+      if (c === 'recensements') regleRecensement(x, old, next, actor, now);
+      if (c === 'constats') regleConstat(x, old, actor, now);
       if (c === 'materiels') {
         assert(typeof x.modele === 'string' && x.modele.trim() && x.modele.length <= 250 && Number.isFinite(x.dateReception) && typeof x.hs === 'boolean');
         assert(!x.salleId || salles.some((s) => s.id === x.salleId && s.ecoleId === x.ecoleId), 'Salle inconnue ou hors école.');

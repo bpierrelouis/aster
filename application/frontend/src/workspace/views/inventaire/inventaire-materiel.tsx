@@ -18,7 +18,7 @@ import { inputDate, fromInputDate } from '#shared/format.ts';
 import { affectationOptions, index } from '../../core/selectors.ts';
 import { Sheet, openSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
-import type { DeviceTypeId, Id, Materiel } from '#shared/types.ts';
+import type { DeviceTypeId, Id, Materiel, WorkspaceView } from '#shared/types.ts';
 
 /** Un matériel cité par une remontée est conservé (règle tenue par le serveur) : le signale ; true si l'un des matériels l'est */
 export function suppressionRefusee(items: Materiel[]) {
@@ -27,17 +27,20 @@ export function suppressionRefusee(items: Materiel[]) {
   return refus;
 }
 
-export function openMaterielForm(materiel: Materiel | null = null, { salleId = null }: { salleId?: Id | null } = {}) {
+/** Options d'un nouveau matériel : salle, valeurs proposées (constat d'un recensement) et modification enregistrée avec lui (lier) */
+export interface NouveauMateriel { salleId?: Id | null; valeurs?: Partial<Pick<Materiel, 'type' | 'modele' | 'marque' | 'serie' | 'garantieFin'>>; lier?: (s: WorkspaceView, materielId: Id) => void }
+
+export function openMaterielForm(materiel: Materiel | null = null, { salleId = null, valeurs = {}, lier }: NouveauMateriel = {}) {
   const isNew = !materiel;
   if (!can(isNew ? 'materiel.create' : 'materiel.edit')) return;
   const ecoleId = materiel?.ecoleId ?? (currentEcole() !== 'all' ? currentEcole() as Id | null : null) ?? index().salle.get(salleId!)?.ecoleId ?? store.state.ecoles[0].id;
-  openSheet(<MaterielForm materiel={materiel} salleId={salleId} ecoleId={ecoleId} />);
+  openSheet(<MaterielForm materiel={materiel} salleId={salleId} ecoleId={ecoleId} valeurs={valeurs} lier={lier} />);
 }
 
-function MaterielForm({ materiel, salleId, ecoleId }: { materiel: Materiel | null; salleId: Id | null; ecoleId: Id }) {
+function MaterielForm({ materiel, salleId, ecoleId, valeurs, lier }: { materiel: Materiel | null; salleId: Id | null; ecoleId: Id } & Pick<NouveauMateriel, 'valeurs' | 'lier'>) {
   useStore();
   const isNew = !materiel;
-  const [type, setType] = useState<DeviceTypeId>(materiel?.type ?? 'uc');
+  const [type, setType] = useState<DeviceTypeId>(materiel?.type ?? valeurs?.type ?? 'uc');
   const [hs, setHs] = useState(materiel?.hs ?? false);
   const modeleRef = useRef<HTMLInputElement>(null);
   const t = deviceType(type);
@@ -59,6 +62,7 @@ function MaterielForm({ materiel, salleId, ecoleId }: { materiel: Materiel | nul
     store.update('data', (s) => {
       if (isNew) {
         s.materiels.push({ id: newId!, ecoleId, idOrion: '', ...data }); // identifiant Orion attribué par le serveur à l'enregistrement
+        lier?.(s, newId!);
       } else {
         Object.assign(s.materiels.find((m) => m.id === materiel!.id)!, data);
       }
@@ -78,10 +82,10 @@ function MaterielForm({ materiel, salleId, ecoleId }: { materiel: Materiel | nul
         </div>
       </div>
       <div className="form-2">
-        <label className="field"><span className="field-label">Modèle *</span><input ref={modeleRef} name="modele" required maxLength={60} defaultValue={materiel?.modele ?? ''} placeholder="Écran 24 pouces" autoComplete="off" /></label>
-        <label className="field"><span className="field-label">Marque</span><input name="marque" maxLength={40} defaultValue={materiel?.marque ?? ''} placeholder="Facultative" autoComplete="off" /></label>
+        <label className="field"><span className="field-label">Modèle *</span><input ref={modeleRef} name="modele" required maxLength={60} defaultValue={materiel?.modele ?? valeurs?.modele ?? ''} placeholder="Écran 24 pouces" autoComplete="off" /></label>
+        <label className="field"><span className="field-label">Marque</span><input name="marque" maxLength={40} defaultValue={materiel?.marque ?? valeurs?.marque ?? ''} placeholder="Facultative" autoComplete="off" /></label>
         <label className="field"><span className="field-label">Date de réception *</span><input name="reception" type="date" required defaultValue={inputDate(materiel?.dateReception ?? Date.now())} /></label>
-        <label className="field"><span className="field-label">Numéro de série</span><input name="serie" maxLength={40} defaultValue={materiel?.serie ?? ''} placeholder="Facultatif" autoComplete="off" /></label>
+        <label className="field"><span className="field-label">Numéro de série</span><input name="serie" maxLength={40} defaultValue={materiel?.serie ?? valeurs?.serie ?? ''} placeholder="Facultatif" autoComplete="off" /></label>
         <div className="field"><span className="field-label">Affectation</span><FilterSelect aria-label="Affectation" name="salle" defaultValue={(materiel ? materiel.salleId : salleId) ?? ''} options={affectationOptions(ecoleId)} />
           <span className="field-hint">Un matériel peut rester en stock sans salle.</span></div>
         <div className="field"><span className="field-label">Hors service *</span>
@@ -89,7 +93,7 @@ function MaterielForm({ materiel, salleId, ecoleId }: { materiel: Materiel | nul
             <button type="button" role="radio" aria-checked={!hs} className={`seg-btn${!hs ? ' is-on' : ''}`} onClick={() => setHs(false)}><span className="led led--ok" />Non</button>
             <button type="button" role="radio" aria-checked={hs} className={`seg-btn${hs ? ' is-on' : ''}`} onClick={() => setHs(true)}><span className="led led--hs" />Oui</button>
           </div></div>
-        <label className="field"><span className="field-label">Fin de garantie</span><input name="garantie" type="date" defaultValue={inputDate(materiel?.garantieFin)} />
+        <label className="field"><span className="field-label">Fin de garantie</span><input name="garantie" type="date" defaultValue={inputDate(materiel ? materiel.garantieFin : valeurs?.garantieFin)} />
           <span className="field-hint">Facultative.</span></label>
         {materiel
           ? <div className="field"><span className="field-label">Identifiant Orion</span><output className="id-orion">{materiel.idOrion}</output></div>

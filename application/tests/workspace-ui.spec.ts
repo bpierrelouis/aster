@@ -7,7 +7,7 @@ import type { Compte, Materiel, WorkspaceView } from '#shared/types.ts';
 const routes = [
   '/accueil', '/accueil/parc', '/accueil/remontees', '/salles',
   '/salles/batiment/A', '/salles/stock',
-  '/materiels/inventaire', '/materiels/import',
+  '/materiels/inventaire', '/materiels/import', '/materiels/recensement',
   '/remontees/attente', '/remontees/encours', '/remontees/terminees', '/remontees/toutes', '/remontees/miennes',
   '/supervision/salles', '/supervision/alertes', '/supervision/listes', '/supervision/statistiques',
   '/administration/postes', '/administration/applications', '/administration/interventions', '/administration/batiments', '/administration/comptes',
@@ -25,6 +25,11 @@ async function state(request: APIRequestContext): Promise<WorkspaceView> {
   const response = await request.get('/api/workspace');
   expect(response.ok()).toBeTruthy();
   return response.json();
+}
+
+/** Mode interface seule : change le compte courant du serveur */
+async function asAccount(request: APIRequestContext, id: string) {
+  expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
 }
 
 async function pick(page: Page, control: Locator, name: string | RegExp) {
@@ -644,10 +649,9 @@ test('le gestionnaire suit son travail dans le backlog : en attente, en cours, t
   const admin = comptes.find((c) => c.role === 'admin')!;
   const manager = comptes.find((c) => c.role === 'gestionnaire')!;
   const report = (await state(request)).remontees.find((r) => r.statut === 'attente')!;
-  const asAccount = async (id: string) => expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
   const col = (phase: string) => page.locator(`.bl-col--${phase}`);
   try {
-    await asAccount(manager.id);
+    await asAccount(request, manager.id);
     await page.goto('/remontees');
     await expect(page).toHaveURL(/\/remontees\/backlog$/);
     await expect(page.locator('.subnav .seg-btn')).toHaveText([/Remontées/, /Installations/, /Toutes/]);
@@ -677,19 +681,18 @@ test('le gestionnaire suit son travail dans le backlog : en attente, en cours, t
     await expect(col('terminee').locator('.bl-card', { hasText: report.id })).toHaveCount(1);
     await expect(page.getByRole('button', { name: /Valider/ })).toHaveCount(0); // la validation par l'auteur n'existe plus
   } finally {
-    await asAccount(admin.id);
+    await asAccount(request, admin.id);
   }
 });
 
 test('l’import JSON n’ajoute que les nouveaux matériels et, une fois validés, les transferts d’une autre école', async ({ page, request }) => {
-  const asAccount = async (id: string) => expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
   try {
-    await asAccount('cpt-superadmin'); // toutes les écoles, pour choisir les matériels du fichier
+    await asAccount(request, 'cpt-superadmin'); // toutes les écoles, pour choisir les matériels du fichier
     const all = await state(request);
     const cited = new Set(all.remontees.filter((r) => ['attente', 'encours'].includes(r.statut)).flatMap((r) => r.materielIds));
     const ici = all.materiels.find((m) => m.ecoleId === 'e-num' && m.serie)!;
     const ailleurs = all.materiels.find((m) => m.ecoleId === 'e-res' && m.serie && !cited.has(m.id))!;
-    await asAccount('cpt-num-admin');
+    await asAccount(request, 'cpt-num-admin');
     await open(page, '/materiels/import');
     await page.getByText('Ou coller le JSON').click(); // champ facultatif, replié
     await page.getByLabel('JSON', { exact: true }).fill(JSON.stringify([
@@ -721,7 +724,7 @@ test('l’import JSON n’ajoute que les nouveaux matériels et, une fois valid�
     expect(after.materiels.filter((m) => m.modele === 'Clavier aperçu')).toHaveLength(1);
     expect(after.materiels.find((m) => m.id === ailleurs.id)).toMatchObject({ ecoleId: 'e-num', idOrion: ailleurs.idOrion, salleId: null });
   } finally {
-    await asAccount('cpt-num-admin');
+    await asAccount(request, 'cpt-num-admin');
   }
 });
 
@@ -729,9 +732,8 @@ test('le gestionnaire suit l’installation des salles dans un second backlog ; 
   const comptes = (await state(request)).comptes.filter((c) => c.actif);
   const admin = comptes.find((c) => c.role === 'admin')!;
   const manager = comptes.find((c) => c.role === 'gestionnaire')!;
-  const asAccount = async (id: string) => expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
   try {
-    await asAccount(manager.id);
+    await asAccount(request, manager.id);
     await open(page, '/remontees/installations');
     await expect(page.locator('.bl-col')).toHaveCount(3);
     await expect(page.locator('.bl-col .bl-head b')).toHaveText(['En attente', 'En cours', 'Terminées']); // mêmes colonnes que les remontées
@@ -742,7 +744,7 @@ test('le gestionnaire suit l’installation des salles dans un second backlog ; 
     await open(page, '/salles/deplacements');
     await expect(page.getByRole('region', { name: 'Atelier 1 vers Stock' })).toContainText(/\d+ matériels? à rapatrier/);
   } finally {
-    await asAccount(admin.id);
+    await asAccount(request, admin.id);
   }
 });
 
@@ -750,9 +752,8 @@ test('les notifications sont regroupées par nature ; l’espace Notifications l
   const comptes = (await state(request)).comptes.filter((c) => c.actif);
   const admin = comptes.find((c) => c.role === 'admin')!;
   const manager = comptes.find((c) => c.role === 'gestionnaire')!;
-  const asAccount = async (id: string) => expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
   try {
-    await asAccount(manager.id);
+    await asAccount(request, manager.id);
     await open(page, '/accueil');
     await page.getByRole('button', { name: 'Notifications', exact: true }).click();
     const pop = page.locator('.popover--list');
@@ -767,26 +768,33 @@ test('les notifications sont regroupées par nature ; l’espace Notifications l
     await expect(page).toHaveURL(/\/materiels\/inventaire\?garantie=/);
     await expect(page.getByRole('combobox', { name: 'Garantie' })).toContainText('Échue');
   } finally {
-    await asAccount(admin.id);
+    await asAccount(request, admin.id);
   }
 });
 
-// Dernier test : il change d'utilisateur puis revient au compte de départ
+// Le choix recharge la page : on attend le nouveau document plutôt que la fermeture du menu
 test('en mode interface seule, le menu du compte change d’utilisateur', async ({ page, request }) => {
   const comptes = (await state(request)).comptes.filter((c) => c.actif);
   const admin = comptes.find((c) => c.role === 'admin')!;
   const formateur = comptes.find((c) => c.role === 'formateur')!;
   const switchTo = async (compte: Compte) => {
     await page.getByRole('button', { name: 'Compte' }).click();
-    await pick(page, page.getByRole('combobox', { name: /Changer d’utilisateur/ }), `${compte.nom} · ${roleOf(compte.role).label}`);
+    await page.getByRole('combobox', { name: /Changer d’utilisateur/ }).click();
+    const reload = page.waitForEvent('load');
+    await page.getByRole('listbox').getByRole('option', { name: `${compte.nom} · ${roleOf(compte.role).label}`, exact: true }).click();
+    await reload;
     await expect(page).toHaveURL(/\/accueil$/);
     await expect(page.locator('#view h1')).toBeAttached();
   };
-  await open(page, '/accueil');
-  await switchTo(formateur);
-  await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(0);
-  await switchTo(admin);
-  await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(1);
+  try {
+    await open(page, '/accueil');
+    await switchTo(formateur);
+    await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(0);
+    await switchTo(admin);
+    await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(1);
+  } finally {
+    await asAccount(request, admin.id);
+  }
   // Chaque changement d'utilisateur est une connexion : sa date, fixée par le serveur, figure dans Administration › Comptes
   const connecte = (await state(request)).comptes.find((c) => c.id === formateur.id)!;
   expect(connecte.derniereConnexion).toBeGreaterThan(Date.now() - 5 * 60_000);
@@ -1080,4 +1088,81 @@ test('le menu du compte reste ancré pendant les changements d’apparence', asy
     await account.click();
     await expect(menu).toHaveCount(0);
   }
+});
+
+test('recensement : campagne, appairage par QR code, constats des téléphones à traiter puis ajout au parc', async ({ page, request }, testInfo) => {
+  const { chiffrer, lireAppairage } = await import('#shared/recon.ts');
+  await open(page, '/materiels/recensement');
+  await page.getByRole('button', { name: 'Nouvelle campagne' }).click();
+  await page.getByLabel('Nom *').fill('Recensement de test');
+  await page.getByRole('radio', { name: 'Salles choisies' }).click();
+  await page.locator('.rec-batiment').first().locator('legend input').check();
+  await page.getByRole('button', { name: 'Ouvrir la campagne' }).click();
+  await expect(page).toHaveURL(/\/materiels\/recensement\/rec-/);
+  const id = page.url().split('/').at(-1)!;
+  await expect(page.locator('.group-lead')).toContainText('Recensement de test');
+
+  await page.getByRole('button', { name: 'Appairer un téléphone' }).click();
+  await expect(page.getByRole('img', { name: /QR code d’appairage/ })).toBeVisible();
+  await page.waitForTimeout(600); // fin de l'ouverture de la fenêtre, pour la capture
+  await page.screenshot({ path: testInfo.outputPath('recensement-appairage.png') });
+  const appairage = await (await request.get(`/api/workspace/recensements/${id}/appairage`)).json();
+  const acces = lireAppairage(appairage.url)!;
+  await page.getByRole('button', { name: 'Fermer' }).click();
+
+  // Constats d'un téléphone, transmis par le connecteur : présence d'un matériel, code inconnu
+  const data = await state(request);
+  const campagne = data.recensements.find((r) => r.id === id)!;
+  const salle = data.salles.find((s) => s.id === campagne.salleIds[0])!;
+  const present = data.materiels.find((m) => m.salleId === salle.id && !m.deplacement)!;
+  const evenements = [
+    { id: crypto.randomUUID(), type: 'vu', code: present.idOrion, salleId: salle.id, materielId: present.id, observeLe: Date.now() },
+    { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-RECENSE-1', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'ecran', modele: 'Écran recensé', marque: 'Iiyama', serie: 'SN-RECENSE-1' } },
+    // Même code inconnu scanné par un second agent : une seule ligne à traiter
+    { id: crypto.randomUUID(), type: 'inconnu', code: 'sn recense 1', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'ecran', modele: 'Ecran', marque: null, serie: 'sn-recense-1' } },
+    // Code inconnu dont le matériel est ensuite créé dans ORION par quelqu'un d'autre
+    { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-DEJA-CREE', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'autre', modele: 'Câble', marque: null, serie: 'SN-DEJA-CREE' } },
+  ];
+  const blocs = await Promise.all(evenements.map(async (e) => ({ id: e.id, bloc: await chiffrer(acces.cle, id, e) })));
+  const reponse = await request.post(`/api/recon/campagnes/${id}/evenements`, { headers: { Authorization: 'Bearer orion-recon-local' }, data: { evenements: blocs } });
+  expect((await reponse.json()).resultats.map((r: { statut: string }) => r.statut)).toEqual(['applique', 'applique', 'applique', 'applique']);
+
+  await page.reload();
+  const aTraiter = page.locator('.group-card', { hasText: 'À traiter' });
+  await expect(aTraiter.locator('.rec-row')).toHaveCount(2);
+  await expect(aTraiter.locator('.rec-row', { hasText: 'Écran recensé' })).toContainText('Vu 2 fois');
+  await expect(page.locator('.group-card', { hasText: 'Derniers constats' })).toContainText(present.idOrion);
+  await page.screenshot({ path: testInfo.outputPath('recensement-campagne.png'), fullPage: true });
+
+  await aTraiter.locator('.rec-row', { hasText: 'Écran recensé' }).getByRole('button', { name: 'Ajouter au parc' }).click();
+  await expect(page.getByLabel('Modèle *')).toHaveValue('Écran recensé');
+  await expect(page.getByLabel('Numéro de série')).toHaveValue('SN-RECENSE-1');
+  await page.locator('.sheet-foot').getByRole('button', { name: 'Enregistrer' }).click();
+  await expect(aTraiter.locator('.rec-row')).toHaveCount(1);
+  await expect.poll(async () => {
+    const apres = await state(request);
+    return [apres.materiels.filter((m) => m.serie === 'SN-RECENSE-1').map((m) => m.salleId), apres.constats.filter((c) => /recense/i.test(c.code)).every((c) => c.traite?.par)];
+  }).toEqual([[salle.id], true]);
+
+  // Numéro de série déjà au parc : pas de doublon, le constat est seulement traité
+  await page.evaluate((ecoleId) => window.orion.store.update('data', (s) => { s.materiels.push({ id: 'm-deja-cree', ecoleId, idOrion: '', salleId: null, type: 'autre', modele: 'Câble', marque: null, serie: 'SN-DEJA-CREE', dateReception: Date.now(), garantieFin: null, hs: false }); }), campagne.ecoleId);
+  await aTraiter.getByRole('button', { name: 'Ajouter au parc' }).click();
+  await expect(page.getByRole('dialog')).toContainText('Matériel déjà au parc');
+  await page.getByRole('button', { name: 'Marquer traité' }).click();
+  await expect(aTraiter).toContainText('Rien à traiter');
+  await expect.poll(async () => (await state(request)).materiels.filter((m) => m.serie === 'SN-DEJA-CREE').length).toBe(1);
+
+  await page.getByRole('button', { name: 'Étiquettes' }).click();
+  await expect(page.getByRole('img', { name: `QR code de la salle ${salle.nom}` })).toBeVisible();
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: testInfo.outputPath('recensement-etiquettes.png') });
+  await page.getByRole('button', { name: 'Fermer' }).click();
+  await page.getByRole('button', { name: 'Clôturer' }).click();
+  await page.locator('.sheet-foot').getByRole('button', { name: 'Clôturer' }).click();
+  await expect(page.getByRole('button', { name: 'Appairer un téléphone' })).toHaveCount(0);
+  await open(page, '/materiels/recensement');
+  await expect(page.locator('.rec-card', { hasText: 'Recensement de test' })).toContainText('Close le');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.waitForTimeout(800);
+  await page.screenshot({ path: testInfo.outputPath('recensement-liste-mobile.png'), fullPage: true, animations: 'disabled' });
 });

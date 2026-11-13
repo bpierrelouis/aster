@@ -20,6 +20,9 @@ export type InterventionType = Exclude<OperationType, 'arret'>;
 export type OperationStatut = 'enregistree' | 'terminee' | 'echec';
 export type ResultatPoste = 'en_attente' | 'reussie' | 'echec';
 export type Portee = 'global' | 'ecole' | 'batiment' | 'salle';
+/** Constat du recensement mobile (RECON) : présence (vu), relocalisation (releve), code inconnu */
+export type ConstatType = 'vu' | 'releve' | 'inconnu';
+export type ConstatResultat = 'confirme' | 'present' | 'ecart' | 'deplace' | 'range' | 'inconnu' | 'refuse';
 
 /** Auteur et date d'une action enregistrée par le serveur */
 export interface Trace {
@@ -190,6 +193,39 @@ export interface Installation {
   applicationId: Id;
 }
 
+/** Campagne de recensement mobile (RECON), ouverte par par ; salleIds vide : toutes les salles de l'école */
+export interface Recensement extends Trace {
+  id: Id;
+  ecoleId: Id;
+  nom: string;
+  salleIds: Id[];
+  expireLe: Timestamp;
+  /** Clôture */
+  close?: Trace;
+}
+
+/** Constat transmis par un téléphone et intégré par le serveur ; id : identifiant de l'événement du téléphone */
+export interface Constat {
+  id: Id;
+  recensementId: Id;
+  ecoleId: Id;
+  type: ConstatType;
+  /** Valeur lue ou saisie */
+  code: string;
+  /** Salle constatée ; null : stock */
+  salleId: Id | null;
+  materielId: Id | null;
+  /** Date de l'observation sur le téléphone ; at : intégration par le serveur */
+  observeLe: Timestamp;
+  at: Timestamp;
+  resultat: ConstatResultat;
+  message?: string;
+  /** Code inconnu : informations saisies sur le téléphone */
+  saisie?: { type: DeviceTypeId; modele: string; marque: string | null; serie: string | null; garantieFin?: Timestamp };
+  /** Code inconnu ou écart traité dans ORION */
+  traite?: Trace;
+}
+
 /** Collections de l'espace de travail, dans l'ordre de `collections` (backend/workspace/rules.ts) */
 export interface Collections {
   ecoles: Ecole[];
@@ -205,6 +241,8 @@ export interface Collections {
   operations: Operation[];
   processus: Processus[];
   installations: Installation[];
+  recensements: Recensement[];
+  constats: Constat[];
 }
 export type CollectionName = keyof Collections;
 /** Élément d'une collection quelconque */

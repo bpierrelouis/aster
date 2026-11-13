@@ -10,6 +10,8 @@ import type { JournalEntry } from './engine.ts';
 import type { LooseItem, WorkspaceInput } from './rules.ts';
 
 export const keyOf = (c: string, itemId: Id) => `${c}\u0000${itemId}`;
+/** Collection et identifiant d'une clé de keyOf */
+export const parseKey = (key: string) => key.split('\u0000') as [string, Id];
 
 /**
  * Rejoue les modifications du navigateur (préparées sur la révision base) sur l'état courant.

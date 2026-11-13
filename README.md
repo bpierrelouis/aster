@@ -66,7 +66,7 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 - [Fiche descriptive — Formateur](docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md) : supervision, alertes et remontées accessibles au formateur.
 - [Fiche descriptive — Administrateur](docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) : parc, postes, supervision, remontées et comptes de son école.
 - [Fiche descriptive — Super administrateur](docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) : adaptation globale des capacités de l'administrateur à toutes les écoles.
-- [Dossier d’architecture technique](docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) : contexte et contraintes, justification des briques, démonstrateur local et déploiement sur VM, versions et architecture cible sur le C1NP, avec une annexe sur Keycloak.
+- [Dossier d’architecture technique](docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) : contexte et contraintes, choix techniques, architecture réelle sur VM, configurations remises, versions et architecture cible sur le C1NP.
 - [Diagrammes d’architecture](docs/18-DIAGRAMMES-ARCHITECTURE.md) : vue simplifiée et vue complète du démonstrateur sur dix VM, puis vues simplifiée et détaillée de la cible sur quatre VM C1NP.
 - [Backlog et suivi du projet](docs/19-BACKLOG-ET-SUIVI-PROJET.md) : backlog, organisation Agile et suivi des progressions, avec sa [version Word](docs/19-BACKLOG-ET-SUIVI-PROJET.docx).
 - [Design](design/README.md) : charte graphique, ressources visuelles et maquettes d’interface.

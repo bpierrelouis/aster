@@ -1,4 +1,5 @@
 import { randomBytes } from 'node:crypto';
+import { journal } from './journal.ts';
 
 export function readConfig(env = process.env) {
   const production = env.NODE_ENV === 'production';
@@ -16,6 +17,12 @@ export function readConfig(env = process.env) {
   const identityProvisioning = env.IDENTITY_PROVISIONING ? env.IDENTITY_PROVISIONING === 'true' : !production;
   // Réinitialisation des données quand la version du jeu de départ change : jamais en production, sauf démonstrateur (SEED_RESET=true)
   const seedReset = env.SEED_RESET ? env.SEED_RESET === 'true' : !production;
+  // Recensement mobile (RECON), fonctionnalité complémentaire : adresse publique de l'application mobile (relais). Sans elle,
+  // ou mal configurée en production (adresse invalide ou non HTTPS, secret absent ou trop court), l'appairage est indisponible
+  // et le connecteur refusé, mais le serveur démarre : le recensement ne bloque jamais ORION.
+  const reconUrl = adresseRecon(env.RECON_URL, production);
+  const reconValide = !production || (reconUrl?.startsWith('https:') && (env.RECON_SECRET?.length ?? 0) >= 32);
+  if (env.RECON_URL && !reconValide) journal.warn('recon_desactive', { motif: 'RECON_URL en HTTPS et RECON_SECRET de 32 caractères minimum attendus' });
   if (production && identityProvisioning && (!env.PROVISIONING_CLIENT_SECRET || env.PROVISIONING_CLIENT_SECRET === 'orion-provisionnement-local')) {
     throw new Error('La création des identités en production exige un secret dédié du client orion-provisionnement.');
   }
@@ -31,6 +38,8 @@ export function readConfig(env = process.env) {
     databaseUrl: env.DATABASE_URL || 'postgres://orion:orion-local@localhost:5432/orion',
     sessionSecret: env.SESSION_SECRET || randomBytes(48).toString('base64url'),
     agentToken: env.AGENT_TOKEN || 'orion-agent-local',
+    // Secret des campagnes : authentifie le connecteur et dérive la clé et le jeton de chaque campagne ; absent en production : connecteur refusé
+    recon: { secret: (reconValide && env.RECON_SECRET) || (production ? randomBytes(48).toString('base64url') : 'orion-recon-local'), url: reconValide ? reconUrl : null },
     // Démonstrateur : compte de service du Keycloak local, limité à la gestion des utilisateurs du realm
     identityProvisioning,
     seedReset,
@@ -40,6 +49,12 @@ export function readConfig(env = process.env) {
       clientSecret: env.PROVISIONING_CLIENT_SECRET || 'orion-provisionnement-local',
     },
   };
+}
+
+/** Origine de l'application mobile ; null si absente ou invalide (hors production : celle de npm run dev:mobile) */
+function adresseRecon(valeur: string | undefined, production: boolean) {
+  if (!valeur) return production ? null : 'http://localhost:5175';
+  try { return new URL(valeur).origin; } catch { return null; }
 }
 
 export type Config = ReturnType<typeof readConfig>;

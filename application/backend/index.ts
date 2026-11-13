@@ -8,8 +8,9 @@ import * as oidc from 'openid-client';
 import swaggerUi from 'swagger-ui-express';
 import { fileURLToPath } from 'node:url';
 import { readConfig } from './config.ts';
+import { journal, raison } from './journal.ts';
 import { identityFromClaims, userFromAccount } from './profiles.ts';
-import { createWorkspaceRouter, createAgentRouter } from './workspace/routes.ts';
+import { createWorkspaceRouter, createAgentRouter, createReconRouter } from './workspace/routes.ts';
 import { createKeycloakProvisioning } from './demonstrateur/identity-provisioning.ts';
 import { createPostgresWorkspaceRepository } from './workspace/postgres.ts';
 import { createServices } from './services.ts';
@@ -30,7 +31,7 @@ declare module 'express-session' {
 
 const config = readConfig();
 const pool = new pg.Pool({ connectionString: config.databaseUrl });
-pool.on('error', (error) => console.error('Connexion PostgreSQL :', error.message));
+pool.on('error', (error) => journal.error('postgresql', { erreur: raison(error) }));
 await pool.query('SELECT 1');
 
 // Découverte du fournisseur d'identité : retentée à la requête suivante s'il est indisponible.
@@ -55,6 +56,18 @@ app.use(helmet({
   referrerPolicy: { policy: 'same-origin' },
 }));
 app.use(['/api', '/auth'], (_req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
+// Journal d'accès de l'API : une ligne par requête ; les sondes et rapports périodiques n'y figurent qu'en cas d'échec
+const periodiques = new Set(['/api/health', '/api/infos', '/api/agent/rapports', '/api/recon/campagnes', '/api/workspace']);
+app.use(['/api', '/auth'], (req, res, next) => {
+  const debut = performance.now();
+  res.on('finish', () => {
+    const chemin = req.originalUrl.split('?')[0].replace(/\/$/, '');
+    if (res.statusCode < 400 && periodiques.has(chemin) && (req.method === 'GET' || chemin === '/api/agent/rapports')) return;
+    const champs = { methode: req.method, chemin, statut: res.statusCode, duree_ms: Math.round(performance.now() - debut), compte: req.session?.accountId, ip: req.ip };
+    if (res.statusCode >= 500) journal.error('requete', champs); else if (res.statusCode >= 400) journal.warn('requete', champs); else journal.info('requete', champs);
+  });
+  next();
+});
 app.use(session({
   name: 'orion.sid',
   secret: config.sessionSecret,
@@ -89,7 +102,7 @@ app.use('/api/docs', connected, swaggerUi.serve, swaggerUi.setup(openapi, { cust
 
 // Identités du fournisseur local (démonstrateur) : créées pour les comptes ORION actifs
 const provisioning = config.identityProvisioning ? createKeycloakProvisioning({ issuer: config.issuer, ...config.provisioning }) : null;
-const provision = (accounts: Compte[]) => provisioning?.ensure(accounts).catch((error) => console.error('Provisionnement des identités :', error.message));
+const provision = (accounts: Compte[]) => provisioning?.ensure(accounts).catch((error) => journal.error('provisionnement', { erreur: raison(error) }));
 provision((await workspaceRepository.snapshot()).comptes);
 // Comptes modifiés par un administrateur (une connexion ne change que des valeurs tenues par le serveur)
 const comptesGeres = (s: WorkspaceState) => s.comptes.map((c) => editable('comptes', c));
@@ -100,7 +113,7 @@ setInterval(() => workspaceRepository.agent.sweep().catch(() => {}), 10_000).unr
 async function sessionActor(req: Request) {
   if (!req.session.accountId) return null;
   const actor = req.session.expiresAt! > Date.now() ? await workspaceRepository.actor(req.session.accountId) : null;
-  if (!actor) await destroySession(req);
+  if (!actor) { journal.info('session_fermee', { compte: req.session.accountId, motif: req.session.expiresAt! > Date.now() ? 'compte_inactif' : 'expiree' }); await destroySession(req); }
   return actor;
 }
 
@@ -143,6 +156,7 @@ app.get('/auth/callback', async (req, res) => {
     // Rapprochement avec le compte ORION : profil et école sont attribués dans ORION
     const account = await workspaceRepository.findAccount(identity);
     if (!account || !account.actif) {
+      journal.warn('connexion_refusee', { motif: account ? 'compte_inactif' : 'compte_inconnu', compte: account?.id, sujet: identity.sub });
       await destroySession(req);
       res.clearCookie('orion.sid');
       return res.redirect('/?error=compte');
@@ -153,9 +167,10 @@ app.get('/auth/callback', async (req, res) => {
     req.session.idToken = tokens.id_token;
     req.session.expiresAt = Math.min(claims.exp * 1000, Date.now() + 60 * 60 * 1000);
     await saveSession(req);
+    journal.info('connexion', { compte: account.id, profil: account.role, ecole: account.ecoleId });
     res.redirect('/');
   } catch (error) {
-    console.error('Échec du retour OIDC :', (error as NodeJS.ErrnoException).code || (error as Error).name);
+    journal.error('connexion_echec', { erreur: (error as NodeJS.ErrnoException).code || (error as Error).name });
     await destroySession(req);
     res.clearCookie('orion.sid');
     res.redirect('/?error=connexion');
@@ -165,6 +180,7 @@ app.get('/auth/callback', async (req, res) => {
 app.post('/auth/logout', async (req, res) => {
   if (req.get('origin') !== config.appUrl) return res.status(403).send('Origine refusée.');
   const idToken = req.session.idToken;
+  if (req.session.accountId) journal.info('deconnexion', { compte: req.session.accountId });
   await destroySession(req);
   res.clearCookie('orion.sid');
   if (!idToken) return res.redirect(303, '/');
@@ -182,21 +198,27 @@ app.use('/api/workspace', (req, res, next) => {
   repository: workspaceRepository,
   actor: sessionActor,
   agentToken: config.agentToken,
+  recon: config.recon,
 }));
 // Postes : rapports d'activité et résultats d'intervention
 app.use('/api/agent', createAgentRouter({ repository: workspaceRepository, token: config.agentToken }));
+// Recensement mobile : connecteur du relais RECON
+app.use('/api/recon', createReconRouter({ repository: workspaceRepository, secret: config.recon.secret }));
 
 app.use(['/api', '/auth'], (_req, res) => res.status(404).json({ error: 'Adresse inconnue.' }));
 if (config.production) {
   app.use(express.static(fileURLToPath(new URL('../frontend/dist', import.meta.url))));
   app.get('/{*path}', (_req, res) => res.sendFile(fileURLToPath(new URL('../frontend/dist/index.html', import.meta.url))));
 }
-app.use((error: NodeJS.ErrnoException, _req: Request, res: Response, _next: NextFunction) => {
-  console.error('Serveur :', error.code || error.name);
+app.use((error: NodeJS.ErrnoException, req: Request, res: Response, _next: NextFunction) => {
+  journal.error('serveur', { chemin: req.originalUrl.split('?')[0], erreur: raison(error) });
   res.status(503).type('html').send('<!doctype html><html lang="fr"><meta charset="utf-8"><title>Orion — Connexion indisponible</title><h1>Connexion momentanément indisponible</h1><p>Veuillez réessayer dans quelques instants. Si le problème persiste, contactez votre administrateur.</p><a href="/">Retour à la connexion</a></html>');
 });
 
-const server = app.listen(config.port, config.host, () => console.log(`Serveur ORION : http://${config.host}:${config.port}`));
+const server = app.listen(config.port, config.host, () => journal.info('demarrage', { adresse: `http://${config.host}:${config.port}`, production: config.production }));
 for (const signal of ['SIGINT', 'SIGTERM']) {
-  process.once(signal, () => server.close(() => pool.end().then(() => process.exit(0))));
+  process.once(signal, () => {
+    journal.info('arret', { signal });
+    server.close(() => pool.end().then(() => process.exit(0)));
+  });
 }

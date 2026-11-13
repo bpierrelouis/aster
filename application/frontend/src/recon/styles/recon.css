@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Recensement · tokens dérivés de la charte ORION (pages publiques :
+   connexion/connexion.css ; espace de travail : workspace/styles/tokens.css).
+   Nuit, Bleu Orion et bleu lumière ; halos ; surfaces en verre ; couleurs
+   d'état de l'espace de travail (installé, en cours d'installation, hors
+   service, stock) et des types de matériel. Clair ou sombre selon l'appareil.
+   ========================================================================== */
+@import "./ecrans.css";
+@import "./scanner.css";
+
+:root {
+  --nuit: #040b1e;
+  --bleu-orion: #2563eb;
+  --bleu-lumiere: #3b82f6;
+  --blanc: #fff;
+  --voile: rgb(4 11 30 / .55);
+  --assombri: rgb(0 0 0 / .45);
+  --ink: #040b1e;
+  --ink-2: #48546e;
+  --ink-3: #6b7790;
+  --accent: #2563eb;
+  --fond: #f5f8fe;
+  --halo-1: rgb(147 197 253 / .45);
+  --halo-2: rgb(37 99 235 / .18);
+  --surface: rgb(255 255 255 / .66);
+  --surface-forte: rgb(255 255 255 / .9);
+  --rim: rgb(255 255 255 / .9);
+  --trait: rgb(4 11 30 / .09);
+  --remplissage: rgb(4 11 30 / .05);
+  --ombre: 0 1px 1px rgb(24 27 32 / .05), 0 10px 28px -10px rgb(24 27 32 / .2), 0 30px 60px -30px rgb(11 42 107 / .3);
+  --flou: blur(22px) saturate(1.6);
+
+  --ok: #16a34a;
+  --crit: #dc2626;
+  --warn: #f59e0b;
+  --install: color-mix(in srgb, var(--warn) 80%, var(--crit));
+  --stock: #7c879b;
+  --c1: #6954c0; --c2: #eb6834; --c3: #1baf7a; --c4: #d99a1e; --c5: #2a78d6; --c6: #e87ba4; --c7: #008300; --c8: #64748b;
+
+  --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  --r-s: 12px;
+  --r-m: 18px;
+  --r-l: 28px;
+  --r-pill: 999px;
+  --dur: 160ms;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --gouttiere: 16px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #fff;
+    --ink-2: #9fb0d0;
+    --ink-3: #7d8db0;
+    --accent: #6ea8ff;
+    --fond: #040b1e;
+    --halo-1: rgb(11 42 107 / .95);
+    --halo-2: rgb(37 99 235 / .2);
+    --surface: rgb(10 22 48 / .66);
+    --surface-forte: rgb(19 36 61 / .94);
+    --rim: rgb(59 130 246 / .32);
+    --trait: rgb(255 255 255 / .1);
+    --remplissage: rgb(255 255 255 / .05);
+    --ombre: 0 0 14px 1px rgb(11 42 107 / .75), 0 0 34px 6px rgb(37 99 235 / .16);
+    --flou: blur(22px) saturate(1.15);
+    --ok: #4ac77a;
+    --crit: #f47474;
+    --c1: #a193cc; --c2: #dc956e; --c3: #64b997; --c4: #d1ad59; --c5: #7ca7dc; --c6: #ce91ae; --c7: #8eb67b; --c8: #9ba1ad;
+    color-scheme: dark;
+  }
+}
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  min-height: 100dvh;
+  font-family: var(--font-text);
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--ink);
+  background:
+    radial-gradient(60vmax 40vmax at 12% 8%, var(--halo-1), transparent 70%),
+    radial-gradient(50vmax 34vmax at 92% 96%, var(--halo-2), transparent 70%),
+    var(--fond);
+  background-attachment: fixed;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+button, input, select { font: inherit; color: inherit; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.ico .d { fill: currentColor; fill-opacity: .16; }
+.ico .f { fill: currentColor; stroke: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; }
+}

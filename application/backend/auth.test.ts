@@ -31,6 +31,14 @@ test('les identifiants locaux sont utilisables uniquement hors production', () =
   assert.throws(() => readConfig({ ...production, OIDC_CLIENT_SECRET: 'orion-client-local' }));
   assert.throws(() => readConfig({ ...production, SESSION_SECRET: 'short' }));
   assert.throws(() => readConfig({ ...production, AGENT_TOKEN: 'orion-agent-local' }));
+  // Recensement mobile, fonctionnalité complémentaire : mal configuré, il est désactivé sans empêcher le démarrage
+  assert.equal(readConfig(production).recon.url, null);
+  assert.equal(readConfig({ ...production, RECON_URL: 'https://relais.example.test/', RECON_SECRET: 'c'.repeat(40) }).recon.url, 'https://relais.example.test');
+  for (const mauvais of [{ RECON_URL: 'http://relais.example.test', RECON_SECRET: 'c'.repeat(40) }, { RECON_URL: 'https://relais.example.test' }, { RECON_URL: 'pas une adresse', RECON_SECRET: 'c'.repeat(40) }]) {
+    const config = readConfig({ ...production, ...mauvais });
+    assert.equal(config.recon.url, null);
+    assert.notEqual(config.recon.secret, mauvais.RECON_SECRET, 'connecteur refusé');
+  }
   // Écoute et création des identités du démonstrateur
   assert.equal(readConfig({}).host, '127.0.0.1');
   assert.equal(readConfig({ HOST: '0.0.0.0' }).host, '0.0.0.0');
