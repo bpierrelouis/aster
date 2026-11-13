@@ -20,6 +20,10 @@ VARIABLES="ORION_IMAGES=$ORION_IMAGES ORION_TAG=$ORION_TAG ORION_ENTREE=$ENTREE 
 EMPREINTE_LOGSTASH=$(empreinte logstash.conf) EMPREINTE_LDAP=$(empreinte ../ldap/orion-utilisateurs.ldif)"
 # Recensement mobile (fonctionnalité complémentaire) : adresse HTTPS du relais (RELAIS_URL ; vide : non déployé) et secret des
 # campagnes, partagé par l'API et le connecteur, créé au premier déploiement
+# Adresse du relais : https:// ajouté à un simple nom de domaine, sans / final
+RELAIS_URL=${RELAIS_URL:-}
+if [ -n "$RELAIS_URL" ] && [[ $RELAIS_URL != *://* ]]; then RELAIS_URL="https://$RELAIS_URL"; fi
+RELAIS_URL=${RELAIS_URL%/}
 VARIABLES="$VARIABLES ORION_RELAIS=$(printf '%q' "${RELAIS_URL:-}")"
 docker_vm secret inspect RECON_SECRET >/dev/null 2>&1 || printf '%s' "$(openssl rand -hex 32)" | docker_vm secret create RECON_SECRET - >/dev/null
 
