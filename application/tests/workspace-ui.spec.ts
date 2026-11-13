@@ -230,7 +230,8 @@ test('un matériel créé est conservé après rechargement', async ({ page, req
   await expect.poll(async () => page.evaluate((name) => window.orion.store.state.materiels.some((m) => m.modele === name), model)).toBe(true);
 });
 
-test('une remontée créée produit un PDF téléchargeable', async ({ page, request }) => {
+test('une remontée créée produit un PDF téléchargeable', async ({ page, request }, testInfo) => {
+  const problemType = 'Bruit de ventilation';
   const description = `Écran noir après allumage ${Date.now()}`;
   await open(page, '/remontees/attente');
   await page.getByRole('button', { name: 'Signaler un problème', exact: true }).last().click();
@@ -239,10 +240,25 @@ test('une remontée créée produit un PDF téléchargeable', async ({ page, req
   await dialog.locator('[data-mat]').first().click();
   await dialog.getByRole('button', { name: 'Continuer', exact: true }).click();
   await dialog.getByLabel('Description du problème *').fill(description);
+  await dialog.getByRole('radio', { name: 'Autre', exact: true }).click();
+  const customType = dialog.getByLabel('Précisez le type de problème *');
+  await expect(customType).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Transmettre la remontée', exact: true })).toBeDisabled();
+  await customType.fill(problemType);
+  await page.screenshot({ path: testInfo.outputPath('signalement-autre-desktop.png'), fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(customType).toBeVisible();
+  const panel = (await dialog.locator('.sheet-panel').boundingBox())!;
+  expect(panel.x).toBeGreaterThanOrEqual(0);
+  expect(panel.x + panel.width).toBeLessThanOrEqual(391);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('signalement-autre-mobile.png'), fullPage: true });
   await dialog.getByRole('button', { name: 'Transmettre la remontée', exact: true }).click();
   await expect(dialog).toHaveCount(0);
   await expect.poll(async () => (await state(request)).remontees.some((r) => r.description === description)).toBe(true);
   const report = (await state(request)).remontees.find((r) => r.description === description)!;
+  expect(report.probleme).toBe(problemType);
+  await expect(page.locator('#view')).toContainText(problemType);
   const pdf = await request.get(`/api/workspace/reports/${report.id}/pdf`);
   expect(pdf.ok()).toBeTruthy();
   expect(pdf.headers()['content-type']).toContain('application/pdf');

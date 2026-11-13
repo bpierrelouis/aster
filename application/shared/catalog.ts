@@ -168,7 +168,9 @@ export const deviceType = (id: unknown) => byId(DEVICE_TYPES, id) ?? DEVICE_TYPE
 export const statut = (id: unknown) => byId(REMONTEE_STATUTS, id) ?? REMONTEE_STATUTS[0];
 /** Phase d'une remontée (attente, encours, terminee) */
 export const phaseOf = (r: Pick<Remontee, 'statut'>) => statut(r.statut).phase;
-export const problem = (id: unknown) => byId(PROBLEMS, id) ?? PROBLEMS[5];
+export const problem = (id: unknown) => byId(PROBLEMS, id) ?? {
+  ...PROBLEMS[5], label: typeof id === 'string' && id.trim() ? id.trim() : PROBLEMS[5].label,
+};
 export const role = (id: unknown) => byId(ROLES, id) ?? ROLES[0];
 /** Intervention sur les postes ; undefined pour l'arrêt d'un processus */
 export const intervention = (id: unknown) => byId(INTERVENTIONS, id);

@@ -226,6 +226,10 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
           assert(same(stable(old), stable(x)), 'Seul le traitement peut être modifié.');
           x.historique = [...old.historique!, { statut: x.statut as RemonteeStatut, at: now, par: actor.nom, parId: actor.id }];
         }
+        if (x.probleme != null) {
+          assert(typeof x.probleme === 'string' && x.probleme.trim() && x.probleme.length <= 100, 'Type de problème invalide.');
+          x.probleme = x.probleme.trim();
+        }
         assert(typeof x.description === 'string' && x.description.trim() && x.description.length <= 12000, 'Description obligatoire.');
         assert(Array.isArray(x.materielIds) && x.materielIds.length > 0 && x.materielIds.every((mid) => materiels.some((m) => m.id === mid && m.ecoleId === x.ecoleId)), 'Matériels invalides.');
       }

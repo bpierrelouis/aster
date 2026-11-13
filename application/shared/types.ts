@@ -105,7 +105,7 @@ export interface Remontee {
   auteurId?: Id;
   createdAt: Timestamp;
   materielIds: Id[];
-  probleme: ProblemId | null;
+  probleme: string | null;
   description: string;
   statut: RemonteeStatut;
   historique: EtapeRemontee[];

@@ -32,6 +32,7 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
   const [batiment, setBatiment] = useState(() => (salleId ? ix.salle.get(salleId)?.batiment : batiments()[0]));
   const [selected, setSelected] = useState(() => new Set(materielIds));
   const [probleme, setProbleme] = useState<ProblemId | null>(null);
+  const [problemeAutre, setProblemeAutre] = useState('');
   const [description, setDescription] = useState('');
   const descRef = useRef<HTMLTextAreaElement>(null);
   const focusDesc = useRef(false);
@@ -42,7 +43,7 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
   }, [step]);
 
   const maxStep = selected.size ? 3 : salleId ? 2 : 1;
-  const ready = selected.size && description.trim().length >= 3;
+  const ready = selected.size && description.trim().length >= 3 && (probleme !== 'other' || problemeAutre.trim().length > 0);
 
   const chooseSalle = (id: Id) => {
     if (salleId !== id) setSelected(new Set());
@@ -57,7 +58,7 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
 
   // Enregistrée par le formulaire de l'étape 3 (Entrée ou « Transmettre la remontée »), qui se ferme ensuite
   const create = async () => {
-    const created = createRemontee({ salleId, selected, probleme, description });
+    const created = createRemontee({ salleId, selected, probleme: probleme === 'other' ? problemeAutre.trim() : probleme, description });
     await store.flush();
     notify(`${createdRemonteeId(created)} transmise, état des lieux disponible`, { icon: 'documents' });
   };
@@ -136,6 +137,11 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
           </button>
         ))}
       </div>
+      {probleme === 'other' && <label className="field">
+        <span className="field-label">Précisez le type de problème *</span>
+        <input type="text" name="problemeAutre" maxLength={100} required autoFocus placeholder="Ex. : bruit inhabituel"
+          value={problemeAutre} onChange={(e) => setProblemeAutre(e.target.value)} />
+      </label>}
       <label className="field">
         <span className="field-label">Description du problème *</span>
         <textarea ref={descRef} rows={3} maxLength={500} placeholder="Ce que vous constatez, depuis quand…" required
@@ -162,7 +168,7 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
  * Crée la remontée et renvoie de quoi la retrouver. Saisie : matériels, problème et description ; le serveur attribue le
  * numéro et fixe l'auteur, la date, le statut et l'historique : les valeurs provisoires ne servent qu'à l'afficher sans attendre.
  */
-function createRemontee({ salleId, selected, probleme, description }: { salleId: Id | null | undefined; selected: Set<Id>; probleme: ProblemId | null; description: string }) {
+function createRemontee({ salleId, selected, probleme, description }: { salleId: Id | null | undefined; selected: Set<Id>; probleme: string | null; description: string }) {
   const materielIds = [...selected];
   const ecoleId = index().salle.get(salleId!)?.ecoleId ?? index().materiel.get(materielIds[0])!.ecoleId;
   const trace = traceProvisoire();
