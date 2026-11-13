@@ -1,4 +1,5 @@
 import { randomBytes } from 'node:crypto';
+import { journal } from './journal.ts';
 
 export function readConfig(env = process.env) {
   const production = env.NODE_ENV === 'production';
@@ -21,7 +22,7 @@ export function readConfig(env = process.env) {
   // et le connecteur refusé, mais le serveur démarre : le recensement ne bloque jamais ORION.
   const reconUrl = adresseRecon(env.RECON_URL, production);
   const reconValide = !production || (reconUrl?.startsWith('https:') && (env.RECON_SECRET?.length ?? 0) >= 32);
-  if (env.RECON_URL && !reconValide) console.error('Recensement mobile désactivé : RECON_URL en HTTPS et RECON_SECRET de 32 caractères minimum attendus.');
+  if (env.RECON_URL && !reconValide) journal.warn('recon_desactive', { motif: 'RECON_URL en HTTPS et RECON_SECRET de 32 caractères minimum attendus' });
   if (production && identityProvisioning && (!env.PROVISIONING_CLIENT_SECRET || env.PROVISIONING_CLIENT_SECRET === 'orion-provisionnement-local')) {
     throw new Error('La création des identités en production exige un secret dédié du client orion-provisionnement.');
   }

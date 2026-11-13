@@ -20,6 +20,7 @@ import { empreinte } from '#shared/recon.ts';
 import type { NextFunction, Request, Response } from 'express';
 import type { Bloc } from '#shared/recon.ts';
 import type { RelaisStore } from './relais-store.ts';
+import { journal, raison } from '../journal.ts';
 
 export const DIST_RECON = fileURLToPath(new URL('../../frontend/dist-recon', import.meta.url));
 /** Intervalle de purge des campagnes expirées */
@@ -37,7 +38,7 @@ const refus = (status: number, message: string): never => { throw Object.assign(
 export function createRelais({ store, token, dist = DIST_RECON, production = false }: { store: RelaisStore; token: string; dist?: string; production?: boolean }) {
   const app = express();
   app.disable('x-powered-by');
-  setInterval(() => store.purger().catch((e: Error) => console.error('Purge du relais :', e.message)), PURGE).unref();
+  setInterval(() => store.purger().catch((e: Error) => journal.error('purge', { erreur: raison(e) })), PURGE).unref();
   if (production) app.set('trust proxy', 1);
   app.use(helmet({
     strictTransportSecurity: production ? undefined : false,
@@ -116,7 +117,7 @@ export function createRelais({ store, token, dist = DIST_RECON, production = fal
   app.use('/api', (_req, res) => res.status(404).json({ error: 'Adresse inconnue.' }));
   app.use((error: Erreur, _req: Request, res: Response, _next: NextFunction) => {
     const status = error.status ?? (error.type === 'entity.too.large' ? 413 : error.type === 'entity.parse.failed' ? 400 : 500);
-    if (status >= 500) console.error('Relais :', error.message);
+    if (status >= 500) journal.error('relais', { erreur: raison(error) });
     res.status(status).json({ error: status >= 500 ? 'Relais momentanément indisponible.' : error.message });
   });
 

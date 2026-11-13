@@ -9,7 +9,8 @@ import { readFile, writeFile, rename, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { SEED_VERSION } from '#shared/seed.ts';
 import { collections, same, fail, initialState, actorOf, accountForIdentity, scopedState, mergeState } from './rules.ts';
-import { keyOf, rebase } from './fusion.ts';
+import { keyOf, parseKey, rebase } from './fusion.ts';
+import { journal, raison } from '../journal.ts';
 import { DISCONNECT_AFTER, applyReports, applyResults, markDisconnected, pendingCommands } from './postes.ts';
 import { reportPdf } from './pdf.ts';
 import { analyseImport, importMateriels } from './import.ts';
@@ -30,6 +31,13 @@ export interface Committed<R> extends Change<R> { before: WorkspaceState }
 export interface Store {
   read(): Promise<WorkspaceState>;
   write<R>(change: (state: WorkspaceState, since: Since) => Promise<Change<R> & { entry: JournalEntry }>): Promise<Committed<R>>;
+}
+
+/** Éléments modifiés par collection : { materiels: "M1,M2", remontees: "R3" }, au plus 20 identifiants par collection */
+function elements(keys: string[]) {
+  const parCollection: Record<string, string[]> = {};
+  for (const key of keys) { const [c, id] = parseKey(key); (parCollection[c] ??= []).push(id); }
+  return Object.fromEntries(Object.entries(parCollection).map(([c, ids]) => [c, ids.length > 20 ? `${ids.slice(0, 20).join(',')},+${ids.length - 20}` : ids.join(',')]));
 }
 
 function diffKeys(before: WorkspaceState, after: WorkspaceState) {
@@ -54,12 +62,17 @@ function diffKeys(before: WorkspaceState, after: WorkspaceState) {
  */
 export function createEngine({ store }: { store: Store }) {
   const listeners = new Set<(before: WorkspaceState, after: WorkspaceState) => unknown>();
-  async function write<R>(change: (state: WorkspaceState, since: Since) => Change<R> | Promise<Change<R>>) {
+  /** auteur : compte à l'origine de l'écriture, journalisée avec les éléments modifiés (les écritures du système ne le sont pas) */
+  async function write<R>(change: (state: WorkspaceState, since: Since) => Change<R> | Promise<Change<R>>, auteur?: Actor) {
+    let modifies: string[] = [];
     const { before, next, result } = await store.write(async (state, since) => {
       const out = await change(state, since);
-      return { ...out, entry: { revision: out.next.revision, before: diffKeys(state, out.next) } };
+      const entry = { revision: out.next.revision, before: diffKeys(state, out.next) };
+      modifies = [...entry.before.keys()];
+      return { ...out, entry };
     });
-    for (const fn of listeners) { try { await fn(before, next); } catch (error) { console.error('Après enregistrement :', (error as Error).message); } }
+    if (auteur) journal.info('enregistrement', { compte: auteur.id, profil: auteur.role, revision: next.revision, ...elements(modifies) });
+    for (const fn of listeners) { try { await fn(before, next); } catch (error) { journal.error('apres_enregistrement', { erreur: raison(error) }); } }
     return result;
   }
   /** Modification par le système (postes, rapprochement d'identité). */
@@ -79,14 +92,14 @@ export function createEngine({ store }: { store: Store }) {
     update: (input: WorkspaceInput, baseRevision: number, actor: Actor) => write(async (state, since) => {
       const next = mergeState(state, rebase(state, input, baseRevision, await since(baseRevision), actor), actor);
       return { next, result: scopedState(next, actor) };
-    }),
+    }, actor),
     bindIdentity: (accountId: Id, sub: string) => system((s) => { const c = s.comptes.find((x) => x.id === accountId); if (c) c.sujet = sub; }),
     /** Import JSON : rapprochement des numéros de série avec tout le parc, puis import (import.ts) */
     importAnalyse: async (actor: Actor, input: ImportAnalyseInput) => analyseImport(await store.read(), actor, input),
     importMateriels: (actor: Actor, input: ImportInput) => write((state) => {
       const { next, bilan } = importMateriels(state, actor, input, Date.now());
       return { next, result: { ...bilan, state: scopedState(next, actor) } };
-    }),
+    }, actor),
     /** État des lieux PDF, produit à la demande avec les informations actuelles, dans le périmètre du compte */
     async pdf(reportId: string, actor: Actor) {
       const state = await store.read();

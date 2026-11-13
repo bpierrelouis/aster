@@ -15,6 +15,7 @@ import { createHmac } from 'node:crypto';
 import { DEVICE_TYPES } from '#shared/catalog.ts';
 import { DUREE_CAMPAGNE, adresseAppairage, chiffrer, compact, dechiffrer, empreinte, parSerie } from '#shared/recon.ts';
 import { assert, fail, same } from './rules.ts';
+import { journal, raison } from '../journal.ts';
 import type { Actor, Constat, Id, Materiel, Recensement, WorkspaceState } from '#shared/types.ts';
 import type { Bloc, CampagnePubliee, EvenementRecon, InstantaneRecon, ResultatRecon } from '#shared/recon.ts';
 import type { LooseItem } from './rules.ts';
@@ -140,7 +141,7 @@ export function appliquerEvenements(s: WorkspaceState, campagne: Id, evenements:
   return evenements.map((e) => {
     // Un événement inattendu est refusé seul : il ne bloque ni les autres, ni la campagne, ni ORION
     try { return appliquer(s, r, e, par, now); } catch (error) {
-      console.error('Constat refusé :', (error as Error).message);
+      journal.warn('recon_constat_refuse', { campagne, evenement: String(e?.id ?? ''), erreur: raison(error) });
       return { id: String(e?.id ?? ''), statut: 'refuse', message: 'Constat illisible par le serveur.' };
     }
   });

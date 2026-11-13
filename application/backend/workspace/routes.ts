@@ -6,6 +6,7 @@
 import express from 'express';
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { assert } from './rules.ts';
+import { journal, raison } from '../journal.ts';
 import type { NextFunction, Request, Response } from 'express';
 import type { Actor } from '#shared/types.ts';
 import type { HttpError } from './rules.ts';
@@ -114,6 +115,7 @@ export function createAgentRouter({ repository, token }: { repository: Engine; t
       assert(Array.isArray(resultats) && resultats.length <= 5000, 'Résultats invalides.');
       if (!own(res, resultats)) return res.status(403).json({ error: 'Un poste ne rapporte que pour lui-même.' });
       await repository.agent.resultats(resultats);
+      for (const r of resultats) journal.info('intervention_resultat', { operation: r.operation, poste: r.poste, statut: r.statut });
       res.json({ ok: true });
     } catch (e) { next(e); }
   });
@@ -140,14 +142,19 @@ export function createReconRouter({ repository, secret }: { repository: Engine; 
     try {
       const evenements = req.body?.evenements;
       assert(Array.isArray(evenements) && evenements.length <= 1000 && evenements.every((x) => x && typeof x.id === 'string' && x.bloc), 'Événements invalides.');
-      res.json({ resultats: await repository.recon.evenements(secret, req.params.id, evenements) });
+      const resultats = await repository.recon.evenements(secret, req.params.id, evenements);
+      const statuts: Record<string, number> = {};
+      for (const r of resultats) statuts[r.statut] = (statuts[r.statut] ?? 0) + 1;
+      journal.info('recon_constats', { campagne: req.params.id, ...statuts });
+      res.json({ resultats });
     } catch (e) { next(e); }
   });
   router.use(errorHandler('Recensement'));
   return router;
 }
 
-const errorHandler = (label: string) => (error: HttpError, _req: Request, res: Response, _next: NextFunction) => {
-  if (!error.status) console.error(`${label} :`, error.code || error.name, error.message);
+const errorHandler = (label: string) => (error: HttpError, req: Request, res: Response, _next: NextFunction) => {
+  if (!error.status) journal.error('erreur', { api: label, chemin: req.originalUrl.split('?')[0], erreur: raison(error) });
+  else if (error.status !== 401) journal.warn('refus', { api: label, chemin: req.originalUrl.split('?')[0], compte: res.locals.actor?.id, statut: error.status, motif: error.message });
   res.status(error.status || 500).json({ error: error.status ? error.message : 'Enregistrement momentanément indisponible.' });
 };

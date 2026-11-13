@@ -257,7 +257,7 @@ L’environnement Hidora existant (conteneur RECON Fastify et nœud PostgreSQL, 
 
 Le job publie l’image de la cible `relais` sous `HIDORA_IMAGE:<SHA>`, définit les variables du conteneur (`NODE_ENV=production`, `PORT` et `JELASTIC_EXPOSE` à `3000`, `TZ`, `RELAIS_TOKEN`) par l’API de la plateforme (`addcontainerenvvars`), le redéploie avec cette étiquette (`redeploycontainersbygroup`), puis attend `RELAIS_URL/api/health`. `DATABASE_URL` reste celui du conteneur. Il ne conditionne pas le déploiement des VM, et réciproquement. Retour arrière : relancer le job `hidora` d’une exécution précédente, ou « Redeploy container » vers l’étiquette précédente dans Hidora.
 
-Sans la CI : `.infraeconpublier-hidora.ps1 -Image docker.io/<compte>/recon -Tag <version>` depuis `application/`, puis, dans Hidora, ces variables et « Redeploy container » vers l’étiquette publiée.
+Sans la CI : `.\infra\recon\publier-hidora.ps1 -Image docker.io/<compte>/recon -Tag <version>` depuis `application/`, puis, dans Hidora, ces variables et « Redeploy container » vers l’étiquette publiée.
 
 Ensuite, côté ORION : le déploiement des VM transmet `RELAIS_URL` et `RELAIS_TOKEN` à `deployer.sh` (voir ci-dessous), qui renseigne `RECON_URL` d’Express et déploie le connecteur. Hors des VM : `RECON_URL` et `RECON_SECRET` pour Express ; connecteur (image `connecteur` ou `npm run dev:connecteur`) avec `NODE_ENV=production`, `ORION_API`, le même `RECON_SECRET`, `RELAIS_URL`, `RELAIS_TOKEN` et `HTTPS_PROXY`/`NO_PROXY` du réseau. Contrôle du flux sortant depuis une VM : `curl -x "$HTTPS_PROXY" https://<environnement Hidora>/api/health`.
 
@@ -325,6 +325,7 @@ application/
 │   ├── index.ts                 # Serveur Express, OIDC, sessions
 │   ├── start-production.ts
 │   ├── config.ts
+│   ├── journal.ts               # Journal applicatif : une ligne par événement
 │   ├── profiles.ts              # Profils ORION et utilisateur présenté au navigateur
 │   ├── services.ts              # Description et état des services (/api/infos, /api/health)
 │   ├── openapi.ts               # Spécification OpenAPI (Swagger UI sur /api/docs)
@@ -380,6 +381,20 @@ npm run test:e2e
 ```
 
 Ces tests passent réellement par Keycloak pour chaque profil et vérifient : l’identité et les modules par profil, la session persistante et la déconnexion ; la création d’un compte puis la connexion de ce nouvel utilisateur, la coupure de session à sa désactivation ; le refus d’une identité sans compte ORION ; l’enregistrement d’un matériel en base ; une remontée transmise et son état des lieux PDF, produit à la demande ; un arrêt de processus exécuté par un poste ; le refus des écritures d’une autre origine, d’un state incorrect et d’un retour sans demande préalable.
+
+## Journal applicatif
+
+Le serveur, le simulateur des postes, le connecteur et le relais RECON écrivent leur journal par [backend/journal.ts](backend/journal.ts) : une ligne par événement, `NIVEAU événement clé=valeur…` (`INFO` sur la sortie standard, `WARN` et `ERROR` sur la sortie d’erreur), sans horodatage (ajouté par le pilote `syslog` sur les VM), sans secret, jeton ni contenu de requête. Sur les VM, ces lignes arrivent dans `/srv/orion/logs/conteneurs/<service>/<jour>.log` d’orion-10 (`api`, `postes`…) ; en développement, dans le terminal.
+
+| Événement | Contenu |
+| --- | --- |
+| `requete` | Chaque requête `/api` et `/auth` : méthode, chemin (sans paramètres), statut, durée, compte de la session, IP du client ; niveau selon le statut (`WARN` 4xx, `ERROR` 5xx). Les sondes et envois périodiques (`/api/health`, `/api/infos`, relecture de `/api/workspace`, rapports des postes, campagnes du connecteur) n’apparaissent qu’en échec |
+| `connexion`, `connexion_refusee`, `connexion_echec`, `deconnexion`, `session_fermee` | Identité : compte, profil et école à la connexion ; motif d’un refus (compte inconnu ou inactif, avec le `sub` OIDC) ; session expirée ou compte désactivé |
+| `enregistrement` | Écriture d’un utilisateur (modification ou import) : compte, profil, révision produite et identifiants modifiés par collection (20 au plus, puis `+N`) ; les écritures des postes et du système ne sont pas journalisées |
+| `intervention_resultat` | Résultat renvoyé par un poste : opération, poste, statut |
+| `recon_constats`, `recon_constat_refuse` | Constats reçus du connecteur par statut ; constat refusé et motif |
+| `refus`, `erreur`, `serveur` | Règle métier ou droit refusé (statut 4xx hors 401, motif) ; erreur inattendue (code et message, sans trace) |
+| `demarrage`, `arret`, `postgresql`, `provisionnement`… | Cycle de vie et dépendances |
 
 ## Production
 
