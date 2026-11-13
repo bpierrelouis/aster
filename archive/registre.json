@@ -42,6 +42,13 @@
         "version": "2.1",
         "date": "2026-11-13",
         "modification": "Décrire les maquettes simplifiées et les logos à l’étoile",
+        "archive": "design-README/README-v2.1-2026-11-13.md",
+        "commit": "bf823e8"
+      },
+      {
+        "version": "2.2",
+        "date": "2026-11-13",
+        "modification": "Icônes métier en Bleu Orion, captures compressées",
         "archive": null
       }
     ]

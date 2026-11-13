@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ORION — Gestion du parc</title>
-  <link rel="icon" href="../../design/assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../archive/design-assets/favicon.svg" type="image/svg+xml">
   <style>
     :root {
       --ink: #17243b;
@@ -179,13 +179,13 @@
 <body>
   <div class="app">
     <aside class="sidebar">
-      <a class="brand" href="#" aria-label="Retour au tableau de bord" onclick="show('dashboard'); return false"><img src="../../design/assets/logos/orion-horizontal-inverse.svg" alt="ORION"></a>
+      <a class="brand" href="#" aria-label="Retour au tableau de bord" onclick="show('dashboard'); return false"><img src="../../archive/design-assets/logos/orion-horizontal-inverse.svg" alt="ORION"></a>
       <div>
         <p class="nav-label">Gestion du parc</p>
         <nav class="nav" aria-label="Navigation principale">
-          <button type="button" class="active" data-screen="dashboard"><img src="../../design/assets/icons/materiel.svg" alt=""><span>Tableau de bord</span></button>
-          <button type="button" data-screen="materiels"><img src="../../design/assets/icons/recherche.svg" alt=""><span>Matériels</span></button>
-          <button type="button" data-screen="groupe"><img src="../../design/assets/icons/salles.svg" alt=""><span>Affectation</span></button>
+          <button type="button" class="active" data-screen="dashboard"><img src="../../archive/design-assets/icons/materiel.svg" alt=""><span>Tableau de bord</span></button>
+          <button type="button" data-screen="materiels"><img src="../../archive/design-assets/icons/recherche.svg" alt=""><span>Matériels</span></button>
+          <button type="button" data-screen="groupe"><img src="../../archive/design-assets/icons/salles.svg" alt=""><span>Affectation</span></button>
         </nav>
       </div>
       <div class="profile"><div class="avatar">GB</div><div><strong>Gestionnaire</strong><small>École de formation</small></div></div>
@@ -197,10 +197,10 @@
         <section id="dashboard" class="screen">
           <div class="page-head"><div><div class="eyebrow">École de formation</div><h1>Gestion du parc</h1><p class="sub">Localisation et état des matériels informatiques.</p></div><button class="btn primary" type="button" onclick="show('ajouter')"><span aria-hidden="true">＋</span> Ajouter un matériel</button></div>
           <div class="grid stats">
-            <div class="card stat-card"><div class="stat-top">Matériels <span class="stat-icon"><img src="../../design/assets/icons/materiel.svg" alt=""></span></div><div class="stat-number">248</div><div class="stat-foot">Référencés dans ORION</div></div>
-            <div class="card stat-card"><div class="stat-top">Affectés en salle <span class="stat-icon"><img src="../../design/assets/icons/salles.svg" alt=""></span></div><div class="stat-number">185</div><div class="stat-foot">Sur 14 salles</div></div>
-            <div class="card stat-card warning"><div class="stat-top">En stock <span class="stat-icon"><img src="../../design/assets/icons/documents.svg" alt=""></span></div><div class="stat-number">49</div><div class="stat-foot">Sans affectation</div></div>
-            <div class="card stat-card danger"><div class="stat-top">Hors service <span class="stat-icon"><img src="../../design/assets/icons/alertes.svg" alt=""></span></div><div class="stat-number">14</div><div class="stat-foot">À traiter</div></div>
+            <div class="card stat-card"><div class="stat-top">Matériels <span class="stat-icon"><img src="../../archive/design-assets/icons/materiel.svg" alt=""></span></div><div class="stat-number">248</div><div class="stat-foot">Référencés dans ORION</div></div>
+            <div class="card stat-card"><div class="stat-top">Affectés en salle <span class="stat-icon"><img src="../../archive/design-assets/icons/salles.svg" alt=""></span></div><div class="stat-number">185</div><div class="stat-foot">Sur 14 salles</div></div>
+            <div class="card stat-card warning"><div class="stat-top">En stock <span class="stat-icon"><img src="../../archive/design-assets/icons/documents.svg" alt=""></span></div><div class="stat-number">49</div><div class="stat-foot">Sans affectation</div></div>
+            <div class="card stat-card danger"><div class="stat-top">Hors service <span class="stat-icon"><img src="../../archive/design-assets/icons/alertes.svg" alt=""></span></div><div class="stat-number">14</div><div class="stat-foot">À traiter</div></div>
           </div>
           <div class="grid two-col">
             <div class="card"><div class="card-title"><h2>Répartition du matériel</h2><button class="text-link" type="button" onclick="show('materiels')">Voir la liste</button></div><div class="bar-row"><span>Écrans</span><div class="bar"><span style="--size:82%"></span></div><b>92</b></div><div class="bar-row"><span>Claviers</span><div class="bar"><span style="--size:61%"></span></div><b>68</b></div><div class="bar-row"><span>Câbles réseau</span><div class="bar"><span style="--size:48%"></span></div><b>54</b></div><div class="bar-row"><span>Vidéoprojecteurs</span><div class="bar"><span style="--size:30%"></span></div><b>34</b></div></div>
@@ -211,7 +211,7 @@
 
         <section id="materiels" class="screen hidden">
           <div class="page-head"><div><div class="eyebrow">Inventaire</div><h1>Matériels</h1><p class="sub">Rechercher, consulter et mettre à jour les matériels.</p></div><button class="btn primary" type="button" onclick="show('ajouter')"><span aria-hidden="true">＋</span> Ajouter un matériel</button></div>
-          <div class="toolbar"><div class="search"><img src="../../design/assets/icons/recherche.svg" alt=""><input id="search" aria-label="Rechercher un matériel" placeholder="Modèle, numéro de série ou salle" oninput="renderTable()"></div><select class="filter" id="filterRoom" aria-label="Filtrer par localisation" onchange="renderTable()"><option value="">Toutes les localisations</option><option>Stock</option><option>B203</option><option>A112</option><option>B204</option><option>Atelier 1</option></select><select class="filter" id="filterState" aria-label="Filtrer par état" onchange="renderTable()"><option value="">Tous les états</option><option value="service">En service</option><option value="out">Hors service</option></select><span class="toolbar-meta" id="result-count" aria-live="polite"></span></div>
+          <div class="toolbar"><div class="search"><img src="../../archive/design-assets/icons/recherche.svg" alt=""><input id="search" aria-label="Rechercher un matériel" placeholder="Modèle, numéro de série ou salle" oninput="renderTable()"></div><select class="filter" id="filterRoom" aria-label="Filtrer par localisation" onchange="renderTable()"><option value="">Toutes les localisations</option><option>Stock</option><option>B203</option><option>A112</option><option>B204</option><option>Atelier 1</option></select><select class="filter" id="filterState" aria-label="Filtrer par état" onchange="renderTable()"><option value="">Tous les états</option><option value="service">En service</option><option value="out">Hors service</option></select><span class="toolbar-meta" id="result-count" aria-live="polite"></span></div>
           <div class="table-wrap"><table><thead><tr><th>Modèle</th><th>Identifiant ORION</th><th>N° de série</th><th>Date de réception</th><th>Localisation</th><th>État</th><th></th></tr></thead><tbody id="asset-rows"></tbody></table></div>
         </section>
 
@@ -229,7 +229,7 @@
 
         <section id="fiche" class="screen hidden">
           <div class="page-head"><div><div class="eyebrow">Fiche matériel</div><h1 id="detail-model">Matériel</h1><p class="sub" id="detail-id"></p></div><button class="btn" type="button" onclick="show('materiels')">Retour à la liste</button></div>
-          <div class="grid detail-grid"><div class="card"><div class="card-title"><h2>Informations</h2><span id="detail-status" class="status">En service</span></div><div class="detail-list" id="detail-fields"></div></div><div class="card"><div class="card-title"><h2>Actions</h2></div><div class="action-list"><button class="btn" type="button" onclick="editCurrent()"><img src="../../design/assets/icons/documents.svg" alt="" width="20">Modifier la fiche</button><button class="btn" type="button" onclick="show('affecter')"><img src="../../design/assets/icons/deplacement.svg" alt="" width="20">Changer l’affectation</button></div></div></div>
+          <div class="grid detail-grid"><div class="card"><div class="card-title"><h2>Informations</h2><span id="detail-status" class="status">En service</span></div><div class="detail-list" id="detail-fields"></div></div><div class="card"><div class="card-title"><h2>Actions</h2></div><div class="action-list"><button class="btn" type="button" onclick="editCurrent()"><img src="../../archive/design-assets/icons/documents.svg" alt="" width="20">Modifier la fiche</button><button class="btn" type="button" onclick="show('affecter')"><img src="../../archive/design-assets/icons/deplacement.svg" alt="" width="20">Changer l’affectation</button></div></div></div>
         </section>
 
         <section id="modifier" class="screen hidden">
@@ -251,7 +251,7 @@
 
         <section id="groupe" class="screen hidden">
           <div class="page-head"><div><div class="eyebrow">Affectation</div><h1>Affecter des matériels</h1><p class="sub">Sélectionner les matériels puis choisir leur destination.</p></div></div>
-          <div class="card"><div class="toolbar"><div class="search"><img src="../../design/assets/icons/recherche.svg" alt=""><input id="group-search" aria-label="Filtrer les matériels" placeholder="Modèle, identifiant ou numéro de série" oninput="renderGroup()"></div></div><div class="bulk-actions"><div><span class="selection-count" id="selected-count">Aucun matériel sélectionné</span><span class="selection-help">Cliquer sur une ligne pour la sélectionner.</span></div><div class="form-actions"><select class="filter" id="group-room" aria-label="Destination" onchange="updateBulkAction()"><option value="">Choisir une destination</option><option>Stock</option><option>B203</option><option>A112</option><option>B204</option><option>Atelier 1</option></select><button class="btn primary" id="bulk-button" type="button" onclick="bulkAssign()" disabled>Affecter</button></div></div><div class="table-wrap"><table><thead><tr><th></th><th>Modèle</th><th>Identifiant ORION</th><th>N° de série</th><th>Localisation</th><th>État</th></tr></thead><tbody id="group-rows"></tbody></table></div></div>
+          <div class="card"><div class="toolbar"><div class="search"><img src="../../archive/design-assets/icons/recherche.svg" alt=""><input id="group-search" aria-label="Filtrer les matériels" placeholder="Modèle, identifiant ou numéro de série" oninput="renderGroup()"></div></div><div class="bulk-actions"><div><span class="selection-count" id="selected-count">Aucun matériel sélectionné</span><span class="selection-help">Cliquer sur une ligne pour la sélectionner.</span></div><div class="form-actions"><select class="filter" id="group-room" aria-label="Destination" onchange="updateBulkAction()"><option value="">Choisir une destination</option><option>Stock</option><option>B203</option><option>A112</option><option>B204</option><option>Atelier 1</option></select><button class="btn primary" id="bulk-button" type="button" onclick="bulkAssign()" disabled>Affecter</button></div></div><div class="table-wrap"><table><thead><tr><th></th><th>Modèle</th><th>Identifiant ORION</th><th>N° de série</th><th>Localisation</th><th>État</th></tr></thead><tbody id="group-rows"></tbody></table></div></div>
         </section>
       </div>
     </main>
@@ -296,7 +296,7 @@
     }
     function formatDate(value) { return value ? new Intl.DateTimeFormat("fr-FR").format(new Date(`${value}T12:00:00`)) : "Non renseignée"; }
     function statusMarkup(asset) { return `<span class="status ${asset.out ? "out" : ""}">${asset.out ? "Hors service" : "En service"}</span>`; }
-    function materialMarkup(asset) { return `<div class="asset"><span class="asset-icon"><img src="../../design/assets/icons/materiel.svg" alt=""></span><div><strong>${escapeHtml(asset.model)}</strong><small>${escapeHtml(asset.brand || "Marque non renseignée")}</small></div></div>`; }
+    function materialMarkup(asset) { return `<div class="asset"><span class="asset-icon"><img src="../../archive/design-assets/icons/materiel.svg" alt=""></span><div><strong>${escapeHtml(asset.model)}</strong><small>${escapeHtml(asset.brand || "Marque non renseignée")}</small></div></div>`; }
     function renderRows(list, compact = false) {
       return list.map(asset => compact
         ? `<tr class="clickable" tabindex="0" onclick="openAsset('${asset.id}')" onkeydown="activateRow(event, '${asset.id}', openAsset)"><td>${materialMarkup(asset)}</td><td>${escapeHtml(asset.id)}</td><td>${escapeHtml(asset.room)}</td><td>${statusMarkup(asset)}</td></tr>`

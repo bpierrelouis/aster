@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | Ressource de préparation | Décrire les maquettes simplifiées et les logos à l’étoile | [6 versions](../archive/README.md#design-readme) |
+| 2.2 | 13/11/2026 | Ressource de préparation | Icônes métier en Bleu Orion, captures compressées | [7 versions](../archive/README.md#design-readme) |
 <!-- version:fin -->
 
 Ce dossier rassemble l’identité visuelle en vigueur d’ORION et les maquettes de l’application. Les deux suivent l’état actuel de l’application : couleurs, mesures et composants proviennent de `application/frontend/src/workspace/styles/`, les ambiances de `application/shared/ambiance.ts`, la marque de `application/frontend/src/connexion/` et les icônes de `application/frontend/src/workspace/core/icons.ts`.
@@ -23,7 +23,7 @@ Ce dossier rassemble l’identité visuelle en vigueur d’ORION et les maquette
 
 - `assets/logos/orion-etoile.svg` : étoile ORION seule, en Bleu Orion.
 - `assets/logos/orion-icone-application.svg` : icône d’application (étoile blanche sur carré nuit), identique à l’icône d’onglet de l’application.
-- `assets/icons/` : icônes métier (grille 28), reprises telles quelles dans le jeu d’icônes de l’application.
+- `assets/icons/` : icônes métier (grille 28, trait Bleu Orion `#2563EB`), reprises telles quelles dans le jeu d’icônes de l’application.
 - `assets/logos/orion-horizontal.svg` et `assets/logos/orion-horizontal-inverse.svg` : signature horizontale, étoile ORION à gauche du nom (étoile Bleu Orion et texte encre sur fond clair ; étoile blanche à lueur bleue et texte blanc sur fond sombre).
 - `assets/favicon.svg` : étoile Bleu Orion sur carré clair, déclinaison claire de l’icône d’application.
 - Ces trois fichiers, qui portaient la fleur de la première direction, sont employés par la [présentation du 4 novembre](../presentations/2026-11-04-point-etape-client/index.html) ; la fleur reste consultable dans les archives.
