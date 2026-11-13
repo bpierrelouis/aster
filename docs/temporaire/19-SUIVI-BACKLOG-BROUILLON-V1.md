@@ -1,9 +1,9 @@
-# ASTER — Suivi du backlog — Brouillon V1
+# ORION — Suivi du backlog — Brouillon V1
 
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.0 | 13/11/2026 | Brouillon interne | Consolider le suivi des progressions | [1 version](../../archive/README.md#19-suivi-backlog-brouillon-v1) |
+| 1.1 | 13/11/2026 | Brouillon interne | Remplacer l’ancien nom par ORION et corriger le commit de la cible C1NP | [2 versions](../../archive/README.md#19-suivi-backlog-brouillon-v1) |
 <!-- version:fin -->
 
 **Date de situation : 13 novembre 2026.** Période observée : du 20 octobre au 13 novembre 2026. Référence locale : `07629612ff5078cf041f7ef4100ba249c464d576`.
@@ -39,7 +39,7 @@ Les pourcentages individuels de la § 4 sont volontairement arrondis et illustra
 | 2–5 novembre | Modèle de données, droits, fiches de profils, présentation et séquences | La conception se précise : les données et responsabilités sont décrites, puis certains échanges sont représentés en séquences. Traces : [23cb750](https://github.com/bpierrelouis/aster/commit/23cb750), [f7310c1](https://github.com/bpierrelouis/aster/commit/f7310c1), [c757f41](https://github.com/bpierrelouis/aster/commit/c757f41), [bde906a](https://github.com/bpierrelouis/aster/commit/bde906a). |
 | 6–8 novembre | Connexion et socle applicatif | Le projet passe des représentations à un premier ensemble applicatif : connexion OIDC, règles partagées, API, données persistées et écrans navigables. Traces : [55e41d4](https://github.com/bpierrelouis/aster/commit/55e41d4), [59bcae8](https://github.com/bpierrelouis/aster/commit/59bcae8), [660a1ca](https://github.com/bpierrelouis/aster/commit/660a1ca), [1c50d70](https://github.com/bpierrelouis/aster/commit/1c50d70). |
 | 9–10 novembre | Approfondissement des parcours et modèles complémentaires | Les tableaux de bord, salles, PDF et tableaux gagnent en précision. Les diagrammes de classes et d’états complètent la conception. Traces : [31f7e5b](https://github.com/bpierrelouis/aster/commit/31f7e5b), [fcdc0b8](https://github.com/bpierrelouis/aster/commit/fcdc0b8), [d1d10e5](https://github.com/bpierrelouis/aster/commit/d1d10e5), [dafc7e8](https://github.com/bpierrelouis/aster/commit/dafc7e8), [d4be5bf](https://github.com/bpierrelouis/aster/commit/d4be5bf). |
-| 11–13 novembre | Préparation du déploiement, suivi des interventions et architecture cible | Les évolutions portent davantage sur l’exploitation et la consolidation : back sans état, CI, suivi d’installation, préparation des VM et description du C1NP. Les commits ne suffisent pas à déclarer la recette achevée. Traces : [09ed10b](https://github.com/bpierrelouis/aster/commit/09ed10b), [a20785a](https://github.com/bpierrelouis/aster/commit/a20785a), [a1032c8](https://github.com/bpierrelouis/aster/commit/a1032c8), [0762961](https://github.com/bpierrelouis/aster/commit/0762961). |
+| 11–13 novembre | Préparation du déploiement, suivi des interventions et architecture cible | Les évolutions portent davantage sur l’exploitation et la consolidation : back sans état, CI, suivi d’installation, préparation des VM et description du C1NP. Les commits ne suffisent pas à déclarer la recette achevée. Traces : [09ed10b](https://github.com/bpierrelouis/aster/commit/09ed10b), [a20785a](https://github.com/bpierrelouis/aster/commit/a20785a), [a1032c8](https://github.com/bpierrelouis/aster/commit/a1032c8), [f0c6dea](https://github.com/bpierrelouis/aster/commit/f0c6dea). |
 
 La progression correspond donc à trois étapes : comprendre et concevoir, construire les parcours, puis consolider leur réalisation et leur déploiement. Les ajouts de tests dans Git constituent des travaux de vérification ; leur réussite actuelle n’a pas été contrôlée dans le cadre de cette rédaction.
 
@@ -60,7 +60,7 @@ La progression correspond donc à trois étapes : comprendre et concevoir, const
 | SUIVI-09 | Suivre les interventions sur les postes | Alexandre | Suivi d’installation livré dans l’historique retenu | `a1032c8` | Tester demande, exécution par poste, retour du résultat et affichage ; distinguer émulation et intervention sur un poste réel. |
 | SUIVI-10 | Automatiser les vérifications et la publication des images | Pierre-Louis ; Alexandre | Workflow et adaptations des tests présents | `a20785a`, `2fb3bb5`, `8b7391f`, `e975771` | Consigner les résultats réels de la CI et des tests avant clôture. |
 | SUIVI-11 | Préparer l’exploitation du démonstrateur sur VM | Pierre-Louis ; Louis pour les adresses documentées | Configuration et documentation préparatoires présentes | `d7dff09`, `3396072`, `cecf0d7` | Confirmer la configuration effectivement déployée et effectuer les essais ; ne pas déduire un déploiement réussi du titre d’un commit. |
-| SUIVI-12 | Décrire l’architecture cible et la montée en charge | Louis ; Pierre-Louis pour le dossier initial | Dossier enrichi ; étude de capacité en brouillon, sans mesure | `51bd591`, `09ac7b0`, `0762961` | Confirmer les services disponibles au C1NP et mesurer les capacités avant d’annoncer un dimensionnement. |
+| SUIVI-12 | Décrire l’architecture cible et la montée en charge | Louis ; Pierre-Louis pour le dossier initial | Dossier enrichi ; étude de capacité en brouillon, sans mesure | `51bd591`, `09ac7b0`, `f0c6dea` | Confirmer les services disponibles au C1NP et mesurer les capacités avant d’annoncer un dimensionnement. |
 
 Les hashes courts de ce tableau se recherchent dans le [dépôt](https://github.com/bpierrelouis/aster) ou avec `git show <hash>`. Les jalons des § 2 et 4 donnent les liens directs des principales preuves.
 
@@ -118,7 +118,7 @@ Les hashes courts de ce tableau se recherchent dans le [dépôt](https://github.
 
 **Progression estimée du lot « documentation d’architecture cible » :** 40 % au premier jalon du 12 novembre → 65 % après l’étude de charge → 80 % au 13 novembre. Ces valeurs illustrent l’enrichissement documentaire ; elles ne mesurent ni la disponibilité du C1NP ni la performance de l’application.
 
-**Preuves :** [cecf0d7](https://github.com/bpierrelouis/aster/commit/cecf0d7), [09ac7b0](https://github.com/bpierrelouis/aster/commit/09ac7b0), [0762961](https://github.com/bpierrelouis/aster/commit/0762961).
+**Preuves :** [cecf0d7](https://github.com/bpierrelouis/aster/commit/cecf0d7), [09ac7b0](https://github.com/bpierrelouis/aster/commit/09ac7b0), [f0c6dea](https://github.com/bpierrelouis/aster/commit/f0c6dea).
 
 **Prochaine étape proposée :** confronter les hypothèses de dimensionnement aux services réellement accessibles et aux mesures futures.
 

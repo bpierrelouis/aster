@@ -1,9 +1,9 @@
-# ASTER — Backlog et suivi du projet
+# ORION — Backlog et suivi du projet
 
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.0 | 13/11/2026 | Production destinée à la remise | Styliser les graphiques en SVG dans Word | [1 version](../archive/README.md#19-backlog-et-suivi-projet) |
+| 1.1 | 13/11/2026 | Production destinée à la remise | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | [2 versions](../archive/README.md#19-backlog-et-suivi-projet) |
 <!-- version:fin -->
 
 **Période : du 20 octobre au 19 novembre 2026.**
@@ -229,7 +229,7 @@ Les références suivantes retracent les travaux déposés dans le projet. Les e
 | Modélisation | [MCD — 23cb750](https://github.com/bpierrelouis/aster/commit/23cb750), [séquences — bde906a](https://github.com/bpierrelouis/aster/commit/bde906a), [classes — 31f7e5b](https://github.com/bpierrelouis/aster/commit/31f7e5b), [états — fcdc0b8](https://github.com/bpierrelouis/aster/commit/fcdc0b8) |
 | Connexion et intégration | [Connexion — 55e41d4](https://github.com/bpierrelouis/aster/commit/55e41d4), [règles partagées — 59bcae8](https://github.com/bpierrelouis/aster/commit/59bcae8), [API — 660a1ca](https://github.com/bpierrelouis/aster/commit/660a1ca) |
 | Parcours utilisateurs | [Tableaux de bord — d3b256d](https://github.com/bpierrelouis/aster/commit/d3b256d), [salles — dafc7e8](https://github.com/bpierrelouis/aster/commit/dafc7e8), [supervision — 22ada18](https://github.com/bpierrelouis/aster/commit/22ada18), [suivi — a1032c8](https://github.com/bpierrelouis/aster/commit/a1032c8) |
-| Architecture | [Dossier initial — 51bd591](https://github.com/bpierrelouis/aster/commit/51bd591), [cible C1NP — 0762961](https://github.com/bpierrelouis/aster/commit/0762961) |
+| Architecture | [Dossier initial — 51bd591](https://github.com/bpierrelouis/aster/commit/51bd591), [cible C1NP — f0c6dea](https://github.com/bpierrelouis/aster/commit/f0c6dea) |
 
 Le projet GitHub **« aster development »** est la référence de tableau demandée pour le suivi. Son contenu n’ayant pas été consulté, les identifiants BL-01 à BL-20 sont propres à ce document : ils ne reproduisent ni les cartes, ni les statuts, ni les affectations du Project.
 
