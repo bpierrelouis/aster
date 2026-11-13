@@ -7,7 +7,7 @@
 # (32 caractères minimum, commun au relais et au connecteur), variable RELAIS_URL (adresse HTTPS du relais) ;
 # relais sur Hidora : variable HIDORA_ENV et secret HIDORA_TOKEN (jeton d'accès personnel Hidora), voir application/README.md.
 # Sans cette configuration, les tests s'exécutent et la publication des images et les déploiements sont ignorés.
-name: CI
+name: CI/CD
 
 on:
   push:
