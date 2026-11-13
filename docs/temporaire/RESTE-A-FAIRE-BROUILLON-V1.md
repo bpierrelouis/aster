@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.2 | 13/11/2026 | Brouillon interne | MCD refait ; MAC et RG-40 à suivre | [4 versions](../../archive/README.md#reste-a-faire-brouillon-v1) |
+| 2.3 | 13/11/2026 | Brouillon interne | Règles de gestion mises à jour | [5 versions](../../archive/README.md#reste-a-faire-brouillon-v1) |
 <!-- version:fin -->
 
 Document de travail interne, établi le 13 novembre 2026 à l’issue du contrôle du renommage, de la conversion en TypeScript, de la revue de qualité et de l’analyse de sécurité. Il recense ce qui n’a pas été traité. Les décisions et questions ouvertes font foi dans le [cadrage](../02-CADRAGE.md) (§ 19) ; ce document n’en est qu’un aide-mémoire.
@@ -54,7 +54,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ## DCU à compléter
 
-Ajouts identifiés le 13 novembre en comparant les DCU à l’application ; à réaliser après les réponses de l’utilisateur sur les règles de gestion concernées.
+Ajouts identifiés le 13 novembre en comparant les DCU à l’application ; les règles de gestion concernées sont mises à jour depuis le 13 novembre.
 
 - [ ] [DCU 08 — Gestion du parc](../08-DCU-GESTION-PARC.md) : import JSON avec rapprochement des numéros de série (lignes ignorées, transfert d’un matériel d’une autre école) ; changement d’école d’un matériel ; installation physique des salles (confirmer un déplacement, rapatrier au stock, avancement d’une salle) si elle est retenue dans les livrables.
 - [ ] [DCU 09 — Administration des postes](../09-DCU-ADMINISTRATION-POSTES.md) : « Gérer les postes supervisés et le catalogue des applications » (RG-77) ; suivre les interventions qu’il a lancées et en être notifié à leur fin.
@@ -65,9 +65,9 @@ Ajouts identifiés le 13 novembre en comparant les DCU à l’application ; à r
 
 ## Modèle de données
 
+- [x] Règles de gestion mises à jour avec l’accord de l’utilisateur (13 novembre) : RG-13, RG-21, RG-39, RG-40, RG-64, RG-66 et RG-72 réécrites, RG-87 à RG-91 ajoutées ; glossaire, matrice, fiches, DCU 11 et cadrage alignés (traitement des remontées par le seul gestionnaire, poste constitué au plus de son unité centrale).
 - [x] [MCD](../05-MCD-MERISE.svg) refait avec draw.io (13 novembre) : étapes de la remontée (historique des statuts), poste constitué de son unité centrale, adresse IP du poste, adresse MAC du matériel, dates de dernière connexion et de désactivation du compte.
 - [ ] Adresse MAC : présente dans le MCD, absente du code ; à reprendre avec le collègue qui l’ajoute (scanner de matrice).
-- [ ] Règle RG-40 et glossaire (« le poste ne spécialise pas le matériel ») à nuancer avec l’association CONSTITUER, après accord de l’utilisateur.
 
 ## Organisation du code : démonstrateur et espace de travail
 

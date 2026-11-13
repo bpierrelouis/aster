@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Brouillon interne | Aligner sur l’application : état « en cours », traitement direct possible, PDF à la demande, type obligatoire, interventions sur une seule salle | [2 versions](../../archive/README.md#diagrammes-etats-brouillon-v1) |
+| 3.0 | 13/11/2026 | Brouillon interne | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | [3 versions](../../archive/README.md#diagrammes-etats-brouillon-v1) |
 <!-- version:fin -->
 
 ## Remontée
@@ -11,12 +11,10 @@
 ```mermaid
 stateDiagram-v2
     direction LR
-    [*] --> attente : créer la remontée<br/>[formateur · administrateur · super administrateur]<br/>[description et type de problème saisis ∧ ≥ 1 matériel de l'école]<br/>/ numéro attribué, historique initialisé
-    attente --> encours : prendre en charge<br/>[gestionnaire · administrateur · super administrateur]<br/>/ ajout à l'historique
-    encours --> remplace : traiter « Remplacé »<br/>[gestionnaire · administrateur · super administrateur]<br/>/ ajout à l'historique
-    encours --> corrige : traiter « Corrigé »<br/>[gestionnaire · administrateur · super administrateur]<br/>/ ajout à l'historique
-    attente --> remplace : traiter directement « Remplacé »<br/>/ ajout à l'historique
-    attente --> corrige : traiter directement « Corrigé »<br/>/ ajout à l'historique
+    [*] --> attente : créer la remontée<br/>[formateur · administrateur · super administrateur]<br/>[description et type de problème saisis ∧ ≥ 1 matériel de l'école]<br/>/ numéro attribué, historique initialisé, notification des gestionnaires
+    attente --> encours : prendre en charge<br/>[gestionnaire]<br/>/ ajout à l'historique, notification de l'auteur
+    encours --> remplace : traiter « Remplacé »<br/>[gestionnaire]<br/>/ ajout à l'historique, notification de l'auteur
+    encours --> corrige : traiter « Corrigé »<br/>[gestionnaire]<br/>/ ajout à l'historique, notification de l'auteur
     remplace --> [*]
     corrige --> [*]
 

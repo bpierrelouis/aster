@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | Production destinée à la remise | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [7 versions](../archive/README.md#15-fiche-descriptive-administrateur) |
+| 3.0 | 13/11/2026 | Production destinée à la remise | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | [8 versions](../archive/README.md#15-fiche-descriptive-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur.
@@ -20,7 +20,7 @@
 | Salles | Créer, modifier et supprimer une salle ; ajouter, renuméroter ou supprimer un étage vide d'un bâtiment |
 | Administration des postes | Consulter les postes, leur état et leurs applications ; installer ou désinstaller une application sur un poste ou une salle ; demander la réinitialisation d'un ou plusieurs postes ; suivre les demandes d'intervention |
 | Supervision | Consulter les postes et processus de toutes les salles, arrêter un processus utilisateur, gérer les règles d'école, de bâtiment et de salle, consulter les détections, recevoir une notification de processus blacklisté et consulter les statistiques |
-| Remontées | Créer une remontée et suivre les siennes ; prendre en charge une remontée (« en cours ») puis la terminer en « remplacé » ou « corrigé » ; consulter, télécharger et imprimer tous les PDF ; consulter le tableau de bord des remontées |
+| Remontées | Créer une remontée et suivre les siennes ; consulter les remontées de son école, télécharger et imprimer tous les PDF ; consulter le tableau de bord des remontées. Le traitement est réservé au gestionnaire |
 | Tableaux de bord | Consulter son tableau de bord personnel, qu'il peut composer, ainsi que les tableaux de bord du parc et des remontées |
 | Comptes ORION | Créer, modifier, désactiver et réactiver les comptes rattachés à son école |
 | Notifications | Évolution de ses propres remontées, fin des interventions qu’il a lancées, lancement d’applications interdites |
@@ -44,7 +44,9 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 ### Variantes et limites
 
 - L'administrateur peut importer de nouveaux matériels en JSON ; les données sont appliquées immédiatement sans validation métier préalable, et un fichier comportant une ligne invalide est refusé en entier.
-- Il peut supprimer un ou plusieurs matériels ; un matériel cité par une remontée ne peut pas être supprimé (RG-73).
+- Il peut supprimer un ou plusieurs matériels du stock ; un matériel affecté à une salle ou cité par une remontée ne peut pas être supprimé (RG-73 et RG-91).
+- Un matériel hors service ne peut être déplacé que vers le stock (RG-87).
+- Un matériel d'une autre école peut être transféré dans la sienne par un import JSON dont il valide le transfert (RG-72).
 - Un matériel reste en stock sans localisation ou est affecté au maximum à une salle de son école.
 - Il renseigne la date de fin de garantie et consulte l'état des garanties.
 
@@ -55,7 +57,7 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 
 ### Règles applicables
 
-RG-03 à RG-10, RG-15, RG-25 à RG-29, RG-69, RG-72 et RG-73.
+RG-03 à RG-10, RG-15, RG-25 à RG-29, RG-69, RG-72, RG-73, RG-87 et RG-91.
 
 ## UC-ADMIN-02 — Administrer les applications d'un poste ou d'une salle
 
@@ -149,9 +151,9 @@ RG-15, RG-22, RG-25, RG-30 et RG-69.
 
 RG-15, RG-31 à RG-33, RG-40 à RG-58, RG-68 et RG-69.
 
-## UC-ADMIN-05 — Créer, consulter et traiter les remontées
+## UC-ADMIN-05 — Créer, consulter et suivre les remontées
 
-- **Objectif :** déclarer un problème, consulter les états des lieux et intervenir dans le traitement.
+- **Objectif :** déclarer un problème, consulter les états des lieux et suivre le traitement réalisé par le gestionnaire.
 - **Déclencheur :** l'administrateur crée ou ouvre une remontée de son école.
 - **Préconditions :** l'administrateur est authentifié ; les matériels concernés appartiennent à son périmètre.
 
@@ -160,8 +162,8 @@ RG-15, RG-31 à RG-33, RG-40 à RG-58, RG-68 et RG-69.
 1. L'administrateur sélectionne un ou plusieurs matériels, choisit le type de problème (obligatoire) et saisit la description.
 2. ORION enregistre la remontée « en attente ».
 3. L'administrateur consulte, télécharge ou imprime le PDF d'état des lieux, qu'ORION génère à chaque demande avec les informations actuelles de la remontée.
-4. Il peut traiter la remontée : prise en charge (« en cours »), puis fin du traitement en « remplacé » ou « corrigé » ; une remontée terminée ne change plus de statut.
-5. ORION enregistre le statut commun à toute la remontée.
+4. Le gestionnaire prend en charge la remontée (« en cours »), puis la termine en « remplacé » ou « corrigé ».
+5. À chaque changement de statut, l'administrateur auteur de la remontée reçoit une notification dans ORION et consulte son suivi.
 
 ### Variantes et limites
 
@@ -169,6 +171,8 @@ RG-15, RG-31 à RG-33, RG-40 à RG-58, RG-68 et RG-69.
 - Il suit ses propres remontées dans un espace dédié.
 - Il peut consulter le tableau de bord des remontées.
 - Il est notifié de l’évolution des remontées qu’il a créées, pas des remontées créées par d’autres.
+- Il ne prend pas en charge et ne termine pas les remontées.
+- Le PDF présente le statut et le suivi de la remontée.
 
 ### Questions ouvertes
 
@@ -177,7 +181,7 @@ RG-15, RG-31 à RG-33, RG-40 à RG-58, RG-68 et RG-69.
 
 ### Règles applicables
 
-RG-11 à RG-15, RG-21, RG-23 à RG-25, RG-34 à RG-39, RG-64, RG-69 et RG-73.
+RG-11 à RG-15, RG-21, RG-23 à RG-25, RG-34 à RG-39, RG-64, RG-66, RG-69, RG-73 et RG-89.
 
 ## UC-ADMIN-06 — Gérer les comptes ORION de l'école
 
@@ -252,7 +256,7 @@ Les autres écrans disponibles sont présentés dans la [fiche Gestionnaire](13-
 - Sélection d'un ou plusieurs postes, ou d'une salle, pour l'administration distante.
 - Consultation des applications, installation, désinstallation, réinitialisation et suivi des demandes d'intervention.
 - Supervision des postes et processus, gestion des listes, détections et statistiques.
-- Création, consultation et traitement des remontées avec accès aux PDF.
+- Création, consultation et suivi des remontées avec accès aux PDF.
 - Gestion des comptes limitée à l'école.
 - Affichage des notifications dans ORION.
 - Aucun écran ne doit laisser penser que l'administrateur possède un périmètre global sur toutes les écoles.

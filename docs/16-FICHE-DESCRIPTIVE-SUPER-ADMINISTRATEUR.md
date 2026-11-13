@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | Production destinée à la remise | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [7 versions](../archive/README.md#16-fiche-descriptive-super-administrateur) |
+| 3.0 | 13/11/2026 | Production destinée à la remise | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | [8 versions](../archive/README.md#16-fiche-descriptive-super-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur.
@@ -28,7 +28,7 @@ Afin d'éviter de dupliquer les scénarios, les parcours fonctionnels détaillé
 | Administration des postes | Consultation des applications, installation, désinstallation, réinitialisation et suivi des demandes d'intervention sur les postes ou salles accessibles |
 | Supervision | Consultation et arrêt des processus utilisateur, détections, notifications de processus blacklisté et statistiques |
 | Règles de processus | Gérer les règles globales en plus des règles d'école, de bâtiment et de salle |
-| Remontées | Création et traitement ; consultation et téléchargement de tous les PDF ; tableau de bord |
+| Remontées | Création et suivi de ses remontées ; consultation des remontées et téléchargement de tous les PDF ; tableau de bord. Le traitement est réservé au gestionnaire |
 | Comptes ORION | Création, modification, désactivation et réactivation des comptes de toutes les écoles, y compris des comptes super administrateur |
 | Notifications | Comme l’administrateur : évolution de ses propres remontées, fin des interventions qu’il a lancées, lancement d’applications interdites |
 
@@ -56,7 +56,7 @@ Le parcours [UC-ADMIN-04](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-04--su
 
 ### Remontées
 
-Le parcours [UC-ADMIN-05](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-05--créer-consulter-et-traiter-les-remontées) permet de consulter et télécharger les PDF de toutes les écoles et de traiter les remontées accessibles. Une remontée réunit des matériels d'une seule école. Le super administrateur ne reçoit pas de notification liée aux remontées.
+Le parcours [UC-ADMIN-05](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-05--créer-consulter-et-suivre-les-remontées) permet de consulter les remontées et de télécharger les PDF de toutes les écoles. Une remontée réunit des matériels d'une seule école. Comme l'administrateur, le super administrateur crée des remontées et est notifié de l'évolution des siennes ; il ne les prend pas en charge et ne les termine pas.
 
 ### Comptes ORION
 
@@ -94,7 +94,7 @@ Le parcours complet du parc est présenté dans la [fiche Gestionnaire](13-FICHE
 
 ## Règles applicables
 
-RG-01, RG-15, RG-47, RG-60, RG-62 et RG-69 à RG-72, complétées par toutes les règles applicables aux parcours de l'administrateur.
+RG-01, RG-15, RG-47, RG-60, RG-62, RG-64 et RG-69 à RG-72, complétées par toutes les règles applicables aux parcours de l'administrateur.
 
 ## Sources
 

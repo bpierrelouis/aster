@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Production destinée à la remise | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | [6 versions](../archive/README.md#13-fiche-descriptive-gestionnaire) |
+| 3.0 | 13/11/2026 | Production destinée à la remise | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | [7 versions](../archive/README.md#13-fiche-descriptive-gestionnaire) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur.
@@ -48,6 +48,8 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 - L'état est limité à « hors service : oui/non » et vaut « non » par défaut à la création.
 - L'import JSON est appliqué immédiatement, sans validation métier préalable. Le format est contrôlé : un fichier comportant une ligne invalide est refusé en entier. Un import comporte au plus 2 000 matériels.
 - L'inventaire peut être trié par identifiant, matériel ou date de réception et se parcourt par pages.
+- Un matériel hors service ne peut être déplacé que vers le stock.
+- Un matériel d'une autre école peut être transféré dans la sienne par un import JSON dont il valide le transfert.
 - Le gestionnaire ne peut pas supprimer un matériel.
 - Aucun historique des mouvements n'est exigé.
 - Le gestionnaire renseigne la date de fin de garantie. Une notification est créée six mois avant l'échéance et le matériel est signalé hors garantie à l'échéance.
@@ -65,7 +67,7 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 
 ### Règles applicables
 
-RG-03 à RG-10, RG-16 à RG-18, RG-25 à RG-29, RG-69 et RG-72.
+RG-03 à RG-10, RG-16 à RG-18, RG-25 à RG-29, RG-69, RG-72 et RG-87.
 
 ## UC-GEST-02 — Consulter et traiter les remontées
 
@@ -88,7 +90,8 @@ RG-03 à RG-10, RG-16 à RG-18, RG-25 à RG-29, RG-69 et RG-72.
 
 - Une remontée peut concerner plusieurs matériels mais possède un statut unique.
 - Les statuts possibles sont « en attente », « en cours », « remplacé » et « corrigé ».
-- Une remontée est créée « en attente » ; le traitement peut aussi être enregistré directement depuis « en attente ». Une remontée terminée ne change plus de statut.
+- Une remontée est créée « en attente » ; la prise en charge est obligatoire avant « remplacé » ou « corrigé ». Une remontée terminée ne change plus de statut.
+- Le gestionnaire est seul à traiter les remontées ; l'administrateur et le super administrateur les créent et en suivent l'avancement sans les traiter.
 - Le gestionnaire ne crée pas de remontée.
 - Aucun courriel n'est envoyé.
 
@@ -96,7 +99,7 @@ RG-03 à RG-10, RG-16 à RG-18, RG-25 à RG-29, RG-69 et RG-72.
 
 - Le gestionnaire peut consulter et télécharger tous les PDF de son école.
 - Le statut modifié s'applique à l'ensemble de la remontée.
-- L'auteur formateur est informé dans ORION lors du changement de statut.
+- L'auteur de la remontée, quel que soit son profil, est informé dans ORION de chaque changement de statut.
 
 ### Questions ouvertes
 
@@ -107,7 +110,7 @@ RG-03 à RG-10, RG-16 à RG-18, RG-25 à RG-29, RG-69 et RG-72.
 
 ### Règles applicables
 
-RG-11 à RG-14, RG-23 à RG-25, RG-34 à RG-38, RG-64, RG-66, RG-67, RG-69 et RG-73.
+RG-11 à RG-14, RG-23 à RG-25, RG-34 à RG-38, RG-64, RG-66, RG-67, RG-69, RG-73 et RG-89.
 
 ## IHM issues de la maquette
 

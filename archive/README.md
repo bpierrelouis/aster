@@ -11,11 +11,11 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [design/README.md](../design/README.md) | Ressource de préparation | [2.2](#design-readme) | 13/11/2026 |
 | [design/charte-graphique/index.html](../design/charte-graphique/index.html) | Ressource de préparation | [2.1](#design-charte-graphique-index) | 13/11/2026 |
 | [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [2.0](#design-maquettes-index) | 13/11/2026 |
-| [docs/00-GLOSSAIRE.md](../docs/00-GLOSSAIRE.md) | Production destinée à la remise | [1.8](#00-glossaire) | 13/11/2026 |
+| [docs/00-GLOSSAIRE.md](../docs/00-GLOSSAIRE.md) | Production destinée à la remise | [2.0](#00-glossaire) | 13/11/2026 |
 | [docs/01-CONSIGNES.md](../docs/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.3](#01-consignes) | 13/11/2026 |
-| [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) | Source de travail interne | [3.0](#02-cadrage) | 13/11/2026 |
+| [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) | Source de travail interne | [4.0](#02-cadrage) | 13/11/2026 |
 | [docs/03-COMPTE-RENDU-ENTRETIENS.md](../docs/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.0](#03-compte-rendu-entretiens) | 13/11/2026 |
-| [docs/04-REGLES-DE-GESTION.md](../docs/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [1.7](#04-regles-de-gestion) | 13/11/2026 |
+| [docs/04-REGLES-DE-GESTION.md](../docs/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [2.0](#04-regles-de-gestion) | 13/11/2026 |
 | [docs/05-MCD-MERISE.drawio](../docs/05-MCD-MERISE.drawio) | Production destinée à la remise | [1.1](#05-mcd-merise) | 13/11/2026 |
 | [docs/05-MCD-MERISE.svg](../docs/05-MCD-MERISE.svg) | Production destinée à la remise | [2.1](#05-mcd-merise) | 13/11/2026 |
 | [docs/06-DIAGRAMME-CONTEXTE.md](../docs/06-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [1.2](#06-diagramme-contexte) | 13/11/2026 |
@@ -23,20 +23,20 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/08-DCU-GESTION-PARC.md](../docs/08-DCU-GESTION-PARC.md) | Production destinée à la remise | [1.3](#08-dcu-gestion-parc) | 12/11/2026 |
 | [docs/09-DCU-ADMINISTRATION-POSTES.md](../docs/09-DCU-ADMINISTRATION-POSTES.md) | Production destinée à la remise | [1.5](#09-dcu-administration-postes) | 13/11/2026 |
 | [docs/10-DCU-SUPERVISION-POSTES.md](../docs/10-DCU-SUPERVISION-POSTES.md) | Production destinée à la remise | [1.4](#10-dcu-supervision-postes) | 12/11/2026 |
-| [docs/11-DCU-REMONTEES-UTILISATEUR.md](../docs/11-DCU-REMONTEES-UTILISATEUR.md) | Production destinée à la remise | [2.0](#11-dcu-remontees-utilisateur) | 13/11/2026 |
-| [docs/12-MATRICE-DROITS.md](../docs/12-MATRICE-DROITS.md) | Production destinée à la remise | [3.0](#12-matrice-droits) | 13/11/2026 |
-| [docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [2.0](#13-fiche-descriptive-gestionnaire) | 13/11/2026 |
+| [docs/11-DCU-REMONTEES-UTILISATEUR.md](../docs/11-DCU-REMONTEES-UTILISATEUR.md) | Production destinée à la remise | [3.0](#11-dcu-remontees-utilisateur) | 13/11/2026 |
+| [docs/12-MATRICE-DROITS.md](../docs/12-MATRICE-DROITS.md) | Production destinée à la remise | [4.0](#12-matrice-droits) | 13/11/2026 |
+| [docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [3.0](#13-fiche-descriptive-gestionnaire) | 13/11/2026 |
 | [docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [2.0](#14-fiche-descriptive-formateur) | 13/11/2026 |
-| [docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [2.1](#15-fiche-descriptive-administrateur) | 13/11/2026 |
-| [docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [2.1](#16-fiche-descriptive-super-administrateur) | 13/11/2026 |
+| [docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [3.0](#15-fiche-descriptive-administrateur) | 13/11/2026 |
+| [docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [3.0](#16-fiche-descriptive-super-administrateur) | 13/11/2026 |
 | [docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [2.0](#17-dossier-architecture-technique) | 13/11/2026 |
 | [docs/18-DIAGRAMMES-ARCHITECTURE.md](../docs/18-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [1.3](#18-diagrammes-architecture) | 13/11/2026 |
 | [docs/19-BACKLOG-ET-SUIVI-PROJET.docx](../docs/19-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.1](#19-backlog-et-suivi-projet) | 13/11/2026 |
 | [docs/19-BACKLOG-ET-SUIVI-PROJET.md](../docs/19-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [1.1](#19-backlog-et-suivi-projet) | 13/11/2026 |
 | [docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md) | Brouillon interne | [1.1](#19-suivi-backlog-brouillon-v1) | 13/11/2026 |
 | [docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) | Brouillon interne | [1.1](#diagrammes-activite-cas-utilisation-brouillon-v2) | 12/11/2026 |
-| [docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md) | Brouillon interne | [2.0](#diagrammes-etats-brouillon-v1) | 13/11/2026 |
-| [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md) | Brouillon interne | [2.2](#reste-a-faire-brouillon-v1) | 13/11/2026 |
+| [docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md) | Brouillon interne | [3.0](#diagrammes-etats-brouillon-v1) | 13/11/2026 |
+| [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md) | Brouillon interne | [2.3](#reste-a-faire-brouillon-v1) | 13/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -81,7 +81,8 @@ Fichier : [docs/00-GLOSSAIRE.md](../docs/00-GLOSSAIRE.md) · Production destiné
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.8 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
+| 2.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
+| 1.8 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
 | 1.7 | 13/11/2026 | Préciser l’acteur de traitement : prise en charge puis fin du traitement | `38c405d` | — |
 | 1.6 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur | `83658a3` | — |
 | 1.5 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `0078180` | — |
@@ -108,7 +109,8 @@ Fichier : [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) · Source de travail inter
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.0 | 13/11/2026 | Faire de l’état actuel la référence ; entrée unique et absence de filtrage (13 novembre) ; retours du 12 novembre cités | en vigueur | — |
+| 4.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
+| 3.0 | 13/11/2026 | Faire de l’état actuel la référence ; entrée unique et absence de filtrage (13 novembre) ; retours du 12 novembre cités | `3caca82` | — |
 | 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
 | 2.0 | 13/11/2026 | Inscrire les décisions de l’utilisateur du 13 novembre sur les remontées, les notifications et le changement d’école | `38c405d` | — |
 | 1.9 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur ; Inscrire les points de sécurité qui demandent une décision ; Reporter les décisions de sécurité du 13 novembre ; Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues ; Fiabiliser les configurations à remettre | `83658a3` | — |
@@ -141,7 +143,8 @@ Fichier : [docs/04-REGLES-DE-GESTION.md](../docs/04-REGLES-DE-GESTION.md) · Pro
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.7 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
+| 2.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
+| 1.7 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
 | 1.6 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur | `83658a3` | — |
 | 1.5 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `0078180` | — |
 | 1.4 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` | — |
@@ -236,7 +239,8 @@ Fichier : [docs/11-DCU-REMONTEES-UTILISATEUR.md](../docs/11-DCU-REMONTEES-UTILIS
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur | — |
+| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` | — |
 | 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
 | 1.2 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` | — |
 | 1.1 | 03/11/2026 | Formaliser les profils et leurs autorisations | `f7310c1` | — |
@@ -248,7 +252,8 @@ Fichier : [docs/12-MATRICE-DROITS.md](../docs/12-MATRICE-DROITS.md) · Productio
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.0 | 13/11/2026 | Formateur : consultation des matériels d’une salle, sans recherche dans le parc | en vigueur | — |
+| 4.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
+| 3.0 | 13/11/2026 | Formateur : consultation des matériels d’une salle, sans recherche dans le parc | `6d33a1f` | — |
 | 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
 | 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` | — |
 | 1.3 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
@@ -262,7 +267,8 @@ Fichier : [docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/13-FICHE-DESCRIPTI
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur | — |
+| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` | — |
 | 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
 | 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` | — |
 | 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
@@ -288,7 +294,8 @@ Fichier : [docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/15-FICHE-DESCRIP
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
+| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
+| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
 | 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` | — |
 | 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
 | 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` | — |
@@ -302,7 +309,8 @@ Fichier : [docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/16-FICHE-D
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
+| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
+| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
 | 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` | — |
 | 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
 | 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` | — |
@@ -377,7 +385,8 @@ Fichier : [docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/temporaire/
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Aligner sur l’application : état « en cours », traitement direct possible, PDF à la demande, type obligatoire, interventions sur une seule salle | en vigueur | — |
+| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
+| 2.0 | 13/11/2026 | Aligner sur l’application : état « en cours », traitement direct possible, PDF à la demande, type obligatoire, interventions sur une seule salle | `28bc990` | — |
 | 1.0 | 09/11/2026 | Ajouter les diagrammes d'états de la remontée et des interventions | `83658a3` | — |
 
 ### RESTE-A-FAIRE-BROUILLON-V1
@@ -386,7 +395,8 @@ Fichier : [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RES
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.2 | 13/11/2026 | MCD refait ; MAC et RG-40 à suivre | en vigueur | — |
+| 2.3 | 13/11/2026 | Règles de gestion mises à jour | en vigueur | — |
+| 2.2 | 13/11/2026 | MCD refait ; MAC et RG-40 à suivre | `19f0488` | — |
 | 2.1 | 13/11/2026 | Diagrammes 06 et 07 à reprendre avec les collègues | `6d33a1f` | — |
 | 2.0 | 13/11/2026 | Ajouter DCU à compléter, modèle de données, points documentaires oubliés et plan d’organisation du code | `6768d09` | — |
 | 1.0 | 13/11/2026 | Recenser ce qui reste à faire après le contrôle du 13 novembre ; Ajouter des jetons d'accès pour la présentation au client ; Décrire l'entrée unique par adresse IP, sans DNS | `83658a3` | — |
