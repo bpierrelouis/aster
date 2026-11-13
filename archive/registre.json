@@ -1094,8 +1094,14 @@
         "version": "1.0",
         "date": "2026-11-13",
         "modification": "Recenser ce qui reste à faire après le contrôle du 13 novembre ; Ajouter des jetons d'accès pour la présentation au client ; Décrire l'entrée unique par adresse IP, sans DNS",
-        "archive": null,
+        "archive": "RESTE-A-FAIRE-BROUILLON-V1/RESTE-A-FAIRE-BROUILLON-V1-v1.0-2026-11-13.md",
         "resume": "Décrire l'entrée unique par adresse IP, sans DNS"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-13",
+        "modification": "Ajouter DCU à compléter, modèle de données, points documentaires oubliés et plan d’organisation du code",
+        "archive": null
       }
     ]
   }
