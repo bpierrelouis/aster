@@ -19,7 +19,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [design/maquettes/maquette-dashboard-proposition-c-analyse.html](../design/maquettes/maquette-dashboard-proposition-c-analyse.html) | Ressource de préparation | [1.1](#design-maquettes-maquette-dashboard-proposition-c-analyse) | 12/11/2026 |
 | [docs/00-GLOSSAIRE.md](../docs/00-GLOSSAIRE.md) | Production destinée à la remise | [1.8](#00-glossaire) | 13/11/2026 |
 | [docs/01-CONSIGNES.md](../docs/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.3](#01-consignes) | 13/11/2026 |
-| [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) | Source de travail interne | [2.1](#02-cadrage) | 13/11/2026 |
+| [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) | Source de travail interne | [3.0](#02-cadrage) | 13/11/2026 |
 | [docs/03-COMPTE-RENDU-ENTRETIENS.md](../docs/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.0](#03-compte-rendu-entretiens) | 13/11/2026 |
 | [docs/04-REGLES-DE-GESTION.md](../docs/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [1.7](#04-regles-de-gestion) | 13/11/2026 |
 | [docs/05-MCD-MERISE-MOCODO.url](../docs/05-MCD-MERISE-MOCODO.url) | Production destinée à la remise | [1.3](#05-mcd-merise-mocodo) | 12/11/2026 |
@@ -162,7 +162,8 @@ Fichier : [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) · Source de travail inter
 
 | Version | Date | Modification | Fichier |
 | --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur |
+| 3.0 | 13/11/2026 | Faire de l’état actuel la référence ; entrée unique et absence de filtrage (13 novembre) ; retours du 12 novembre cités | en vigueur |
+| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [archive](02-CADRAGE/02-CADRAGE-v2.1-2026-11-13.md) |
 | 2.0 | 13/11/2026 | Inscrire les décisions de l’utilisateur du 13 novembre sur les remontées, les notifications et le changement d’école | [archive](02-CADRAGE/02-CADRAGE-v2.0-2026-11-13.md) |
 | 1.9 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur ; Inscrire les points de sécurité qui demandent une décision ; Reporter les décisions de sécurité du 13 novembre ; Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues ; Fiabiliser les configurations à remettre | [archive](02-CADRAGE/02-CADRAGE-v1.9-2026-11-13.md) |
 | 1.8 | 12/11/2026 | Préparer les points du rendez-vous du 12 novembre ; Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions de l'ancien nom | [archive](02-CADRAGE/02-CADRAGE-v1.8-2026-11-12.md) |

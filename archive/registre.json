@@ -334,6 +334,12 @@
         "version": "2.1",
         "date": "2026-11-13",
         "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
+        "archive": "02-CADRAGE/02-CADRAGE-v2.1-2026-11-13.md"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-13",
+        "modification": "Faire de l’état actuel la référence ; entrée unique et absence de filtrage (13 novembre) ; retours du 12 novembre cités",
         "archive": null
       }
     ]

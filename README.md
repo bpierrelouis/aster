@@ -27,7 +27,7 @@ Ouvrir [ORION en local](http://localhost:5173). Le [guide interne de développem
 
 ## Documentation
 
-Le sujet, les décisions prises avec le client en rendez-vous et l’application en cours de développement constituent les sources de référence pour l’analyse et la conception du projet ; les orientations données par l’équipe restent révisables tant qu’elles ne sont pas confirmées par le client. Pour chaque sujet, la décision du client prévaut, puis la dernière réponse remplace les précédentes ; les comptes rendus d’entretiens en conservent l’historique et le cadrage présente les réponses en vigueur. Le glossaire sert de référence transversale ; les autres documents suivent cet ordre : consignes du sujet, questions de cadrage, comptes rendus des entretiens, puis analyse et diagrammes.
+Le sujet, l’application en cours de développement et le [dossier d’architecture](docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) (architecture réelle pour ce qui est en place, cible pour le concept) constituent les sources de référence pour l’analyse et la conception du projet ; les décisions prises avec le client en rendez-vous restent consignées. La conception vise le produit final, au-delà de la V1 demandée par le client : les écarts avec ses demandes sont inscrits au cadrage pour le prochain rendez-vous. Pour chaque sujet, la dernière réponse remplace les précédentes et l’état actuel fait référence ; les comptes rendus d’entretiens en conservent l’historique et le cadrage présente les réponses en vigueur. Le glossaire sert de référence transversale ; les autres documents suivent cet ordre : consignes du sujet, questions de cadrage, comptes rendus des entretiens, puis analyse et diagrammes.
 
 Les conventions de travail, les protections des diagrammes et les règles de contribution sont définies dans [AGENTS.md](AGENTS.md).
 
@@ -37,7 +37,7 @@ Les productions remises aux cadres évaluateurs décrivent l’application cible
 
 | Destination | Fichiers concernés | Règle de contenu |
 | --- | --- | --- |
-| Productions destinées à la remise | Glossaire `docs/00-*`, règles et productions `docs/04-*` à `docs/18-*`, avec leurs images nécessaires dans `docs/assets/` ; configurations versionnées décrites dans le [déploiement sur les VM](application/README.md#déploiement-sur-les-vm) | Fonctionnement cible, droits, données et contraintes de production ; le DAT, ses schémas et les configurations associées présentent aussi l’architecture réelle, sans inclure de secret ni de valeur générée à l’exécution |
+| Productions destinées à la remise | Glossaire `docs/00-*`, règles et productions `docs/04-*` à `docs/19-*`, avec leurs images nécessaires dans `docs/assets/` ; configurations versionnées décrites dans le [déploiement sur les VM](application/README.md#déploiement-sur-les-vm) | Fonctionnement cible, droits, données et contraintes de production ; le DAT, ses schémas et les configurations associées présentent aussi l’architecture réelle, sans inclure de secret ni de valeur générée à l’exécution |
 | Sources de travail internes | Cadrage `docs/02-*` et entretiens `docs/03-*` | Réponses en vigueur et historique des échanges ; ne pas les joindre automatiquement à une remise |
 | Source fournie par l’encadrement | Consignes `docs/01-*` | Sujet et critères d’évaluation, distincts des productions de l’équipe |
 | Réalisation et exploitation internes | Le reste d’`application/`, son README, le README général et `AGENTS.md` | Implémentation, démarrage, comptes de test et limites du démonstrateur ; seules les configurations décrites dans le guide applicatif accompagnent la remise du DAT |
@@ -68,6 +68,7 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 - [Fiche descriptive — Super administrateur](docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) : adaptation globale des capacités de l'administrateur à toutes les écoles.
 - [Dossier d’architecture technique](docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) : contexte et contraintes, justification des briques, démonstrateur local et déploiement sur VM, versions et architecture cible sur le C1NP, avec une annexe sur Keycloak.
 - [Diagrammes d’architecture](docs/18-DIAGRAMMES-ARCHITECTURE.md) : vue simplifiée et vue complète du démonstrateur sur dix VM, puis vues simplifiée et détaillée de la cible sur quatre VM C1NP.
+- [Backlog et suivi du projet](docs/19-BACKLOG-ET-SUIVI-PROJET.md) : backlog, organisation Agile et suivi des progressions, avec sa [version Word](docs/19-BACKLOG-ET-SUIVI-PROJET.docx).
 - [Design](design/README.md) : charte graphique, ressources visuelles et maquettes d’interface.
 - [Présentations](presentations/README.md) : supports datés et instructions pour les consulter.
 
