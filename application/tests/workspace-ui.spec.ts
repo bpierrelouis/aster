@@ -26,6 +26,11 @@ async function state(request: APIRequestContext): Promise<WorkspaceView> {
   return response.json();
 }
 
+/** Mode interface seule : change le compte courant du serveur */
+async function asAccount(request: APIRequestContext, id: string) {
+  expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
+}
+
 async function pick(page: Page, control: Locator, name: string | RegExp) {
   if (await control.getAttribute('aria-expanded') !== 'true') await control.click();
   await page.getByRole('listbox').getByRole('option', { name, exact: typeof name === 'string' }).click();
@@ -630,10 +635,9 @@ test('le gestionnaire suit son travail dans le backlog : en attente, en cours, t
   const admin = comptes.find((c) => c.role === 'admin')!;
   const manager = comptes.find((c) => c.role === 'gestionnaire')!;
   const report = (await state(request)).remontees.find((r) => r.statut === 'attente')!;
-  const asAccount = async (id: string) => expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
   const col = (phase: string) => page.locator(`.bl-col--${phase}`);
   try {
-    await asAccount(manager.id);
+    await asAccount(request, manager.id);
     await page.goto('/remontees');
     await expect(page).toHaveURL(/\/remontees\/backlog$/);
     await expect(page.locator('.subnav .seg-btn')).toHaveText([/Remontées/, /Installations/, /Toutes/]);
@@ -663,19 +667,18 @@ test('le gestionnaire suit son travail dans le backlog : en attente, en cours, t
     await expect(col('terminee').locator('.bl-card', { hasText: report.id })).toHaveCount(1);
     await expect(page.getByRole('button', { name: /Valider/ })).toHaveCount(0); // la validation par l'auteur n'existe plus
   } finally {
-    await asAccount(admin.id);
+    await asAccount(request, admin.id);
   }
 });
 
 test('l’import JSON n’ajoute que les nouveaux matériels et, une fois validés, les transferts d’une autre école', async ({ page, request }) => {
-  const asAccount = async (id: string) => expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
   try {
-    await asAccount('cpt-superadmin'); // toutes les écoles, pour choisir les matériels du fichier
+    await asAccount(request, 'cpt-superadmin'); // toutes les écoles, pour choisir les matériels du fichier
     const all = await state(request);
     const cited = new Set(all.remontees.filter((r) => ['attente', 'encours'].includes(r.statut)).flatMap((r) => r.materielIds));
     const ici = all.materiels.find((m) => m.ecoleId === 'e-num' && m.serie)!;
     const ailleurs = all.materiels.find((m) => m.ecoleId === 'e-res' && m.serie && !cited.has(m.id))!;
-    await asAccount('cpt-num-admin');
+    await asAccount(request, 'cpt-num-admin');
     await open(page, '/materiels/import');
     await page.getByText('Ou coller le JSON').click(); // champ facultatif, replié
     await page.getByLabel('JSON', { exact: true }).fill(JSON.stringify([
@@ -707,7 +710,7 @@ test('l’import JSON n’ajoute que les nouveaux matériels et, une fois valid�
     expect(after.materiels.filter((m) => m.modele === 'Clavier aperçu')).toHaveLength(1);
     expect(after.materiels.find((m) => m.id === ailleurs.id)).toMatchObject({ ecoleId: 'e-num', idOrion: ailleurs.idOrion, salleId: null });
   } finally {
-    await asAccount('cpt-num-admin');
+    await asAccount(request, 'cpt-num-admin');
   }
 });
 
@@ -715,9 +718,8 @@ test('le gestionnaire suit l’installation des salles dans un second backlog ; 
   const comptes = (await state(request)).comptes.filter((c) => c.actif);
   const admin = comptes.find((c) => c.role === 'admin')!;
   const manager = comptes.find((c) => c.role === 'gestionnaire')!;
-  const asAccount = async (id: string) => expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
   try {
-    await asAccount(manager.id);
+    await asAccount(request, manager.id);
     await open(page, '/remontees/installations');
     await expect(page.locator('.bl-col')).toHaveCount(3);
     await expect(page.locator('.bl-col .bl-head b')).toHaveText(['En attente', 'En cours', 'Terminées']); // mêmes colonnes que les remontées
@@ -728,7 +730,7 @@ test('le gestionnaire suit l’installation des salles dans un second backlog ; 
     await open(page, '/salles/deplacements');
     await expect(page.getByRole('region', { name: 'Atelier 1 vers Stock' })).toContainText(/\d+ matériels? à rapatrier/);
   } finally {
-    await asAccount(admin.id);
+    await asAccount(request, admin.id);
   }
 });
 
@@ -736,9 +738,8 @@ test('les notifications sont regroupées par nature ; l’espace Notifications l
   const comptes = (await state(request)).comptes.filter((c) => c.actif);
   const admin = comptes.find((c) => c.role === 'admin')!;
   const manager = comptes.find((c) => c.role === 'gestionnaire')!;
-  const asAccount = async (id: string) => expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
   try {
-    await asAccount(manager.id);
+    await asAccount(request, manager.id);
     await open(page, '/accueil');
     await page.getByRole('button', { name: 'Notifications', exact: true }).click();
     const pop = page.locator('.popover--list');
@@ -753,26 +754,33 @@ test('les notifications sont regroupées par nature ; l’espace Notifications l
     await expect(page).toHaveURL(/\/materiels\/inventaire\?garantie=/);
     await expect(page.getByRole('combobox', { name: 'Garantie' })).toContainText('Échue');
   } finally {
-    await asAccount(admin.id);
+    await asAccount(request, admin.id);
   }
 });
 
-// Dernier test : il change d'utilisateur puis revient au compte de départ
+// Le choix recharge la page : on attend le nouveau document plutôt que la fermeture du menu
 test('en mode interface seule, le menu du compte change d’utilisateur', async ({ page, request }) => {
   const comptes = (await state(request)).comptes.filter((c) => c.actif);
   const admin = comptes.find((c) => c.role === 'admin')!;
   const formateur = comptes.find((c) => c.role === 'formateur')!;
   const switchTo = async (compte: Compte) => {
     await page.getByRole('button', { name: 'Compte' }).click();
-    await pick(page, page.getByRole('combobox', { name: /Changer d’utilisateur/ }), `${compte.nom} · ${roleOf(compte.role).label}`);
+    await page.getByRole('combobox', { name: /Changer d’utilisateur/ }).click();
+    const reload = page.waitForEvent('load');
+    await page.getByRole('listbox').getByRole('option', { name: `${compte.nom} · ${roleOf(compte.role).label}`, exact: true }).click();
+    await reload;
     await expect(page).toHaveURL(/\/accueil$/);
     await expect(page.locator('#view h1')).toBeAttached();
   };
-  await open(page, '/accueil');
-  await switchTo(formateur);
-  await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(0);
-  await switchTo(admin);
-  await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(1);
+  try {
+    await open(page, '/accueil');
+    await switchTo(formateur);
+    await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(0);
+    await switchTo(admin);
+    await expect(page.locator('.rail-item[data-nav="administration"]')).toHaveCount(1);
+  } finally {
+    await asAccount(request, admin.id);
+  }
 });
 
 
