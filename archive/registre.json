@@ -966,6 +966,12 @@
         "version": "1.4",
         "date": "2026-11-13",
         "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
+        "archive": "17-DOSSIER-ARCHITECTURE-TECHNIQUE/17-DOSSIER-ARCHITECTURE-TECHNIQUE-v1.4-2026-11-13.md"
+      },
+      {
+        "version": "1.5",
+        "date": "2026-11-13",
+        "modification": "Aligner l’architecture réelle sur la configuration versionnée : création des identités, image Keycloak, flux d’Express, absence de filtrage, secrets et versions",
         "archive": null
       }
     ]

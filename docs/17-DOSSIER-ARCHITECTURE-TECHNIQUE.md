@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.4 | 13/11/2026 | Production destinée à la remise | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [5 versions](../archive/README.md#17-dossier-architecture-technique) |
+| 1.5 | 13/11/2026 | Production destinée à la remise | Aligner l’architecture réelle sur la configuration versionnée : création des identités, image Keycloak, flux d’Express, absence de filtrage, secrets et versions | [6 versions](../archive/README.md#17-dossier-architecture-technique) |
 <!-- version:fin -->
 
 **Date de référence :** 13 novembre 2026
@@ -125,7 +125,7 @@ La session ORION expire au plus tard à l’expiration du jeton d’identité ou
 
 #### Cycle de vie des identités
 
-Hors production uniquement, le serveur ORION crée dans Keycloak, au démarrage et après chaque modification des comptes, l’identité des comptes ORION actifs qui n’en ont pas ; Keycloak l’enregistre dans l’annuaire. Ce provisionnement est désactivé en production, où les identités existent chez MindefConnect. Il ne crée ni compte ORION ni droit. Les changements de profil, d’école ou d’état actif sont portés par le compte ORION ; une désactivation ferme les sessions ORION en cours.
+Le serveur ORION crée dans Keycloak, au démarrage et après chaque modification des comptes, l’identité des comptes ORION actifs qui n’en ont pas ; Keycloak l’enregistre dans l’annuaire. Il utilise le compte de service du client `orion-provisionnement`, limité à la gestion des utilisateurs du realm `orion`. Cette création est active par défaut hors du mode production et désactivée par défaut en mode production (`NODE_ENV=production`) ; le déploiement sur VM du démonstrateur, qui s’exécute en mode production, l’active explicitement (`IDENTITY_PROVISIONING`) et exige alors un secret dédié pour ce client. Dans l’architecture cible, les identités existent chez MindefConnect et cette création est désactivée. Elle ne crée ni compte ORION ni droit. Les changements de profil, d’école ou d’état actif sont portés par le compte ORION ; une désactivation ferme les sessions ORION en cours.
 
 #### Disponibilité et limites
 
@@ -154,16 +154,16 @@ Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée
 - **Doublement là où il est simple.** Apache et Express, sans données, ont deux instances actives chacun, sur deux VM : la perte de l’une ne coupe pas le service. HAProxy, seule entrée, a une instance, relancée sur orion-1, dont l’adresse est celle des utilisateurs : si orion-1 tombe, ORION est inaccessible jusqu’à son retour. Les autres services ont une seule instance, relancée automatiquement s’il s’arrête ou au redémarrage de sa VM, et recréée sur une autre VM si la sienne tombe : l’émulateur sur l’autre VM de l’application, PostgreSQL, l’identité et Logstash sur la VM de secours, où ils retrouvent leurs données (§ 4.6). Aucune action manuelle n’est nécessaire.
 - **Un stockage pour toutes les données.** Les données de PostgreSQL et d’OpenLDAP et les logs centralisés sont sur orion-10, hors Swarm, sur deux systèmes de fichiers ext4 partagés en NFSv4 : l’un pour les données, l’autre pour les logs. Ce sont des volumes Docker du pilote `local`, de type `nfs` : la VM qui exécute le service monte son volume, et un service recréé sur une autre VM retrouve ainsi ses données. Le collecteur s’exécute sur orion-8 et les fichiers centralisés résident sur orion-10.
 - **Les VM fournies, telles quelles.** Les dix VM sont sous Debian 13, avec Docker déjà installé. Les services sont des conteneurs, gérés par une seule pile Docker Swarm, `orion` ; seuls chrony (orion-1), le runner GitHub Actions (orion-3) et le serveur NFS (orion-10) sont des services de l’hôte. orion-3 sert de VM d’administration : son runner déploie chaque version publiée par l’intégration continue ; aucun outil comme Ansible n’est ajouté. L’opérateur administre depuis son poste avec le client Docker, SSH et quelques scripts.
-- **Technologies du CCT.** L’architecture réelle se cale au maximum sur la cible : pour chaque fonction, elle utilise un produit de la colonne C1NP de l’annexe « pile logicielle » du CCT 2026-2027 (version 3.7). Elle fait quatre exceptions, qui simplifient le démonstrateur et sont exclues de l’architecture cible : le système des VM fournies pour la démonstration (Debian 13, avec Docker déjà installé), qui n’existera pas sur le C1NP, Docker Engine et Swarm, les substituts de MindefConnect (Keycloak et OpenLDAP) et le runner GitHub Actions du déploiement continu. Les images utilisées sont les images officielles de ces produits ; ORION construit les siennes à partir des images officielles `httpd:2.4` et `node:22`. OpenSSH, systemd et `systemd-timesyncd` sont traités comme des composants de Debian 13, de même que le serveur et le client NFS du noyau Linux (paquets `nfs-kernel-server` et `nfs-common`), dont le statut au CCT reste à vérifier (§ 5.3).
+- **Technologies du CCT.** L’architecture réelle se cale au maximum sur la cible : pour chaque fonction, elle utilise un produit de la colonne C1NP de l’annexe « pile logicielle » du CCT 2026-2027 (version 3.7). Elle fait quatre exceptions, qui simplifient le démonstrateur et sont exclues de l’architecture cible : le système des VM fournies pour la démonstration (Debian 13, avec Docker déjà installé), qui n’existera pas sur le C1NP, Docker Engine et Swarm, les substituts de MindefConnect (Keycloak et OpenLDAP) et le runner GitHub Actions du déploiement continu. Les images utilisées sont les images officielles de ces produits ; ORION construit les siennes à partir des images officielles `httpd:2.4.69-alpine3.24`, `node:22.22.3-alpine3.24` et `quay.io/keycloak/keycloak:26.7.4` : Apache avec le build React, Express, l’émulateur, et Keycloak avec le realm `orion`, le thème de connexion et le script qui lui transmet les secrets. OpenSSH, systemd et `systemd-timesyncd` sont traités comme des composants de Debian 13, de même que le serveur et le client NFS du noyau Linux (paquets `nfs-kernel-server` et `nfs-common`), dont le statut au CCT reste à vérifier (§ 5.3).
 
 | Nom d’hôte | Rôle | Service | Exécution | Swarm | Ports d’écoute | Volume |
 | --- | --- | --- | --- | --- | --- | --- |
-| orion-1 | Manager et entrée | Manager Docker Swarm ; HAProxy 3.2 ; chrony | HAProxy en conteneur, une instance, ports publiés sur l’hôte ; chrony sur l’hôte | Manager | `2377/TCP` ; HTTPS `443` ; `8444` pour l’administration ; NTP `123/UDP` | — |
+| orion-1 | Manager et entrée | Manager Docker Swarm ; HAProxy 3.2.16 ; chrony | HAProxy en conteneur, une instance, ports publiés sur l’hôte ; chrony sur l’hôte | Manager | `2377/TCP` ; HTTPS `443` ; `8444` pour l’administration ; NTP `123/UDP` | — |
 | orion-2 | Manager | Manager Docker Swarm | Démon Docker | Manager | `2377/TCP` | — |
 | orion-3 | Manager et administration | Manager Docker Swarm ; runner GitHub Actions 2.338.2 | Démon Docker ; runner, service de l’hôte (systemd) | Manager | `2377/TCP` ; aucun pour le runner | — |
-| orion-4, orion-5 | Application | Apache HTTP Server 2.4 et build React ; Express 5 sur Node.js 22 ; émulateur des postes | Conteneurs : Apache et Express, une instance par VM ; émulateur, une instance | Workers | HTTP `8080` et `3001`, réseau overlay | — |
+| orion-4, orion-5 | Application | Apache HTTP Server 2.4.69 et build React ; Express 5.3.0 sur Node.js 22.22.3 ; émulateur des postes | Conteneurs : Apache et Express, une instance par VM ; émulateur, une instance | Workers | HTTP `8080` et `3001`, réseau overlay | — |
 | orion-6 | PostgreSQL | PostgreSQL 17.7 | Conteneur | Worker | TCP `5432`, réseau overlay | Volume NFS `pg-nfs`, sur orion-10 |
-| orion-7 | Identité (substituts) | Keycloak 26.7.4 et OpenLDAP 1.5.0 | Deux conteneurs | Worker | HTTP `8080` et LDAP `389`, réseau overlay | Volumes NFS `ldap-data-nfs` et `ldap-config-nfs`, sur orion-10 |
+| orion-7 | Identité (substituts) | Keycloak 26.7.4 et OpenLDAP 1.5.0 | Deux conteneurs | Worker | HTTP `8080` (gestion `9000`, non publié) et LDAP `389`, réseau overlay | Volumes NFS `ldap-data-nfs` et `ldap-config-nfs`, sur orion-10 |
 | orion-8 | Collecte des logs | Logstash 8.19.14 | Conteneur | Worker | TCP TLS `6514`, publié par le maillage de routage | Volume NFS `logs-nfs`, sur orion-10 |
 | orion-9 | Secours | Aucun en temps normal ; reprend PostgreSQL, l’identité ou Logstash | Conteneurs du rôle repris | Worker | Ceux du rôle repris | Volumes du rôle repris |
 | orion-10 | Stockage | Serveur NFS du noyau Linux | Service de l’hôte | Hors Swarm | NFSv4 `2049/TCP` | Données (`/srv/orion/donnees`) et logs (`/srv/orion/logs`), chacun sur son système de fichiers ext4 |
@@ -197,24 +197,24 @@ Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée
 | orion-9 | non transmis | 172.16.131.190 | Secours de PostgreSQL, de l’identité et des logs |
 | orion-10 | non transmis | 172.16.131.197 | Stockage NFS, hors Swarm |
 
-**Adresse d’entrée.** ORION n’a pas de nom de domaine : les utilisateurs saisissent l’adresse d’orion-1, `https://172.16.131.188`, sans régler de DNS sur leur poste. HAProxy y sert, sur le port `443`, l’interface, l’API (`/api`, `/auth`) et la connexion Keycloak (`/realms`, `/resources`) ; la console de Keycloak, refusée sur ce port, est servie sur `8444`. Les VM résolvent les noms par le DNS du réseau de formation ; à l’intérieur du cluster, les services se joignent par la résolution interne de Docker.
+**Adresse d’entrée.** ORION n’a pas de nom de domaine : les utilisateurs saisissent l’adresse d’orion-1, `https://172.16.131.188`, sans régler de DNS sur leur poste. HAProxy y sert, sur le port `443`, l’interface, l’API (`/api`, `/auth`) et la connexion Keycloak (`/realms`, `/resources`) ; la console de Keycloak et le realm d’administration `master`, refusés sur ce port, sont servis sur `8444`. Les VM résolvent les noms par le DNS du réseau de formation ; à l’intérieur du cluster, les services se joignent par la résolution interne de Docker.
 
 | Adresse | Service | Accès |
 | --- | --- | --- |
 | `https://172.16.131.188` (port `443`) | ORION : interface, API et connexion (Keycloak, émetteur OIDC) | Utilisateurs et Express |
-| `https://172.16.131.188:8444` | Console d’administration de Keycloak | Réseau d’administration seulement |
-| IPv4 de chaque VM du tableau ci-dessus, port `22/TCP` | Administration par SSH des dix VM | Réseau d’administration seulement |
+| `https://172.16.131.188:8444` | Console d’administration de Keycloak | Réseau des VM, sans filtrage |
+| IPv4 de chaque VM du tableau ci-dessus, port `22/TCP` | Administration par SSH des dix VM | Poste de l’opérateur |
 
-L’émetteur OIDC est `https://172.16.131.188/realms/orion` et le retour OIDC `https://172.16.131.188/auth/callback`. Le collecteur reçoit les logs sur le port `6514/TCP` avec TLS : le maillage de routage de Swarm publie ce port sur chaque VM du cluster, y compris sur son adresse locale, et le transmet à Logstash, quelle que soit la VM qui l’exécute ; le pilote `syslog` de chaque VM joint donc `127.0.0.1:6514`. Le certificat de HAProxy porte l’adresse d’orion-1, celui du collecteur l’adresse `127.0.0.1` ; leur autorité doit être reconnue par Firefox, par Node.js et par le pilote `syslog`. L’horloge est jointe sur `172.16.131.188:123/UDP`. Les VM qui montent le stockage le joignent sur `172.16.131.197:2049/TCP` (NFSv4). SSH utilise chacune des dix IPv4 sur `22/TCP`, depuis le réseau d’administration. Le filtrage reste à qualifier.
+L’émetteur OIDC est `https://172.16.131.188/realms/orion` et le retour OIDC `https://172.16.131.188/auth/callback`. Le collecteur reçoit les logs sur le port `6514/TCP` avec TLS : le maillage de routage de Swarm publie ce port sur chaque VM du cluster, y compris sur son adresse locale, et le transmet à Logstash, quelle que soit la VM qui l’exécute ; le pilote `syslog` de chaque VM joint donc `127.0.0.1:6514`. Le certificat de HAProxy porte l’adresse d’orion-1, celui du collecteur l’adresse `127.0.0.1` ; leur autorité doit être reconnue par Firefox, par Node.js et par le pilote `syslog`. L’horloge est jointe sur `172.16.131.188:123/UDP`. Les VM qui montent le stockage le joignent sur `172.16.131.197:2049/TCP` (NFSv4). SSH utilise chacune des dix IPv4 sur `22/TCP`, depuis le poste de l’opérateur.
 
-HAProxy termine le TLS. Il publie ses ports sur l’hôte d’orion-1 et joint les services par leur nom sur le réseau overlay de Swarm, chiffré (option `encrypted`) : `apache:8080`, `api:3001` et `keycloak:8080`. Le port `443` transmet `/realms` et `/resources` à Keycloak et refuse les chemins de sa console, servie uniquement sur `8444`. Les PDF d’état des lieux passent par le port `443`, comme le reste de l’API.
+HAProxy termine le TLS. Il publie ses ports sur l’hôte d’orion-1 et joint les services par leur nom sur le réseau overlay de Swarm, chiffré (option `encrypted`) : `apache:8080`, `api:3001` et `keycloak:8080`. Le port `443` transmet `/realms` et `/resources` à Keycloak et refuse les chemins de sa console (`/admin`) et du realm d’administration (`/realms/master`), servis uniquement sur `8444`. Les PDF d’état des lieux passent par le port `443`, comme le reste de l’API.
 
-Express utilise pour Keycloak la même adresse que le navigateur : il le joint donc aussi par HAProxy, sur `443`. Il joint PostgreSQL directement par le réseau overlay (`postgres:5432`), et l’émulateur joint Express par ce même réseau (`api:3001`). Keycloak lit l’annuaire par `ldap:389`. La résolution de noms interne de Docker sert à l’intérieur du cluster.
+Express utilise pour Keycloak la même adresse que le navigateur : il le joint donc aussi par HAProxy, sur `172.16.131.188:443`, depuis orion-4 et orion-5. Il joint PostgreSQL directement par le réseau overlay (`postgres:5432`), ainsi que l’administration de Keycloak (`keycloak:8080`) pour créer les identités ; l’émulateur joint Express par ce même réseau (`api:3001`). Keycloak lit l’annuaire par `ldap:389`. Pour son point de santé `/api/health`, Express contrôle en outre, par le réseau overlay, Apache (`apache:8080`, requête HTTP), l’administration de Keycloak (`keycloak:8080`), OpenLDAP (`ldap:389`) et Logstash (`logstash:6514`), ces deux derniers par une simple ouverture de connexion TCP ; il contrôle aussi l’adresse d’entrée et l’émetteur OIDC par HAProxy. Seules la base et l’émetteur OIDC sont requis : leur indisponibilité rend l’état global indisponible. La résolution de noms interne de Docker sert à l’intérieur du cluster.
 
-Le filtrage autorise :
+Aucun filtrage réseau n’est posé (décision de l’utilisateur du 13 novembre 2026) : la console de Keycloak (`8444`) et le collecteur (`6514`, publié sur chaque VM du cluster par le maillage de routage) restent joignables depuis le réseau des VM. Les flux nécessaires sont :
 
-- `443` vers orion-1 depuis le réseau des utilisateurs ;
-- `8444` vers orion-1 et `22` vers les dix VM depuis le réseau d’administration ;
+- `443` vers orion-1 depuis le réseau des utilisateurs, et depuis orion-4 et orion-5 (Express joint Keycloak par l’adresse d’entrée) ;
+- `8444` vers orion-1 et `22` vers les dix VM depuis le poste de l’opérateur ;
 - `53/TCP et UDP` des VM vers le DNS du réseau ;
 - entre les VM du cluster (toutes sauf orion-10) : `2377/TCP` vers les managers, `7946/TCP et UDP`, `4789/UDP` et le protocole IP 50 (ESP) du réseau overlay chiffré ;
 - `6514/TCP` de chaque VM du cluster vers elle-même (maillage de routage), puis par le réseau `ingress` de Swarm vers la VM de Logstash ;
@@ -230,7 +230,7 @@ Apache et Express ont deux instances chacun, une par VM de leur groupe (`max_rep
 
 orion-1, orion-2 et orion-3 sont managers : ils dirigent le cluster ; orion-1 porte aussi l’entrée et orion-3 l’administration. Deux managers sur trois suffisent pour que le cluster continue de fonctionner. orion-4 à orion-9 sont workers. orion-10 n’appartient pas au cluster : elle ne fait que partager ses disques.
 
-Les images d’ORION (Apache avec le build React, Express, émulateur, Keycloak avec le realm et le thème) sont construites et publiées sur Docker Hub par l’intégration continue, avec le commit pour étiquette, puis déployées par le runner d’orion-3 ; chaque VM les télécharge au déploiement, comme les images officielles, par le proxy du réseau. Chaque image est épinglée sur une version exacte, et des contrôles de santé (`HEALTHCHECK`) signalent un conteneur défaillant, que Swarm remplace.
+Les images d’ORION (Apache avec le build React, Express, émulateur, Keycloak avec le realm et le thème) sont construites et publiées sur Docker Hub par l’intégration continue, avec le commit pour étiquette, puis déployées par le runner d’orion-3 ; chaque VM les télécharge au déploiement, comme les images officielles, par le proxy du réseau. Chaque image est épinglée sur une version exacte, et des contrôles de santé signalent un conteneur défaillant, que Swarm remplace : `HEALTHCHECK` des images d’Apache (`/` sur `8080`), d’Express (`/api/health` sur `3001`) et de Keycloak (`/health/ready` sur son port de gestion `9000`, non publié), `pg_isready` pour PostgreSQL.
 
 Express ne garde aucun état qui fasse autorité : l’espace de travail et les sessions sont dans PostgreSQL. Chaque écriture verrouille la ligne de révision, relit l’état et fusionne les modifications concurrentes grâce au journal des dernières révisions, conservé en base. Les deux instances servent donc indifféremment n’importe quel utilisateur, et un redémarrage ne déconnecte personne.
 
@@ -259,13 +259,16 @@ Les secrets sont des secrets Docker Swarm : chiffrés et répliqués entre les m
 | Secret | Services destinataires |
 | --- | --- |
 | Accès PostgreSQL | Express et PostgreSQL |
-| Secret du client OIDC | Express ; même valeur enregistrée dans le client Keycloak |
+| Secret du client OIDC `orion-web` | Express et Keycloak |
+| Secret du client de création des identités `orion-provisionnement` | Express et Keycloak |
 | Secret de session | Express |
 | Jeton des postes | Express et émulateur |
-| Compte de liaison LDAP et administration de Keycloak | Keycloak et OpenLDAP |
+| Compte d’administration de l’annuaire, utilisé pour la liaison LDAP | Keycloak et OpenLDAP |
+| Administration de Keycloak | Keycloak |
+| Certificat de l’autorité de certification | Express, pour reconnaître le certificat de HAProxy |
 | Clé privée et certificat TLS | HAProxy et Logstash |
 
-Tous les secrets de la pile, y compris les clés et certificats TLS de HAProxy et de Logstash, sont des secrets Swarm, créés une fois par le script de préparation avec des valeurs aléatoires ; aucun n’est écrit dans le dépôt, dans une image ou dans une variable d’environnement de la pile. Hors de Swarm ne restent que les clés SSH de l’opérateur et du runner, l’enregistrement du runner auprès de GitHub, conservé sur orion-3, et l’autorité de certification : sa clé privée reste sur le poste de l’opérateur ; son certificat, public, est déposé sur chaque VM pour que le pilote `syslog` de Docker vérifie le collecteur. La rotation est une opération planifiée : nouvelle valeur, mise à jour du service qui l’authentifie, redéploiement, vérification, puis retrait de l’ancienne. Le verrouillage automatique des managers (`autolock`) n’est pas activé, pour qu’un redémarrage ne demande aucune action ; protéger en contrepartie l’accès aux disques des managers.
+Tous les secrets de la pile, y compris les clés et certificats TLS de HAProxy et de Logstash, sont des secrets Swarm, créés une fois par le script de préparation avec des valeurs aléatoires ; aucun n’est écrit dans le dépôt, dans une image ou dans une variable d’environnement de la pile. Hors de Swarm ne restent que les clés SSH de l’opérateur et du runner, l’enregistrement du runner auprès de GitHub, conservé sur orion-3, et l’autorité de certification : sa clé privée reste sur le poste de l’opérateur ; son certificat, public, est déposé sur chaque VM pour que le pilote `syslog` de Docker vérifie le collecteur, et remis à Express par un secret Swarm. La rotation est une opération planifiée : nouvelle valeur, mise à jour du service qui l’authentifie, redéploiement, vérification, puis retrait de l’ancienne. Le verrouillage automatique des managers (`autolock`) n’est pas activé, pour qu’un redémarrage ne demande aucune action ; protéger en contrepartie l’accès aux disques des managers.
 
 #### Volumes
 
@@ -279,13 +282,13 @@ orion-10 porte deux systèmes de fichiers ext4, l’un pour les données (`/srv/
 
 #### Réglages de l’application
 
-Dans ce déploiement, Express écoute sur toutes les interfaces de son conteneur, pour être joint par HAProxy et par l’émulateur. Il continue de créer les identités des comptes actifs dans le Keycloak substitut, en joignant son administration par le réseau overlay plutôt que par le port `443`, qui refuse ces chemins. Il reconnaît l’autorité des certificats de HAProxy pour joindre Keycloak. L’émulateur joint Express par `api:3001`. Ces réglages sont décrits dans le [guide de l’application](../application/README.md#production).
+Dans ce déploiement, Express écoute sur toutes les interfaces de son conteneur, pour être joint par HAProxy et par l’émulateur. La création des identités des comptes actifs dans le Keycloak substitut y est activée explicitement (§ 4.3) : Express s’authentifie avec le compte de service du client `orion-provisionnement` et joint l’administration de Keycloak par le réseau overlay (`keycloak:8080`) plutôt que par le port `443`, qui refuse ces chemins. Il reconnaît l’autorité des certificats de HAProxy pour joindre Keycloak. L’émulateur joint Express par `api:3001`. Ces réglages sont décrits dans le [guide de l’application](../application/README.md#production).
 
 #### Points à qualifier
 
 - Adresse d’entrée : une IP flottante (keepalived) rendrait l’entrée indépendante d’orion-1, si le réseau en attribue une.
 - Version de Docker installée sur les VM, accès des VM à Internet pour télécharger les images.
-- Réseau : confirmation des affectations IP fournies, filtrage, protocole ESP du réseau overlay chiffré, accès SSH et console de l’hyperviseur.
+- Réseau : confirmation des affectations IP fournies, protocole ESP du réseau overlay chiffré, accès SSH et console de l’hyperviseur.
 - Capacité CPU, mémoire et disque de chaque VM, dont la machine Java de Logstash ; ajout des deux disques d’orion-10, qui remplaceraient les fichiers image.
 - Taille des disques de données et de logs d’orion-10 et durée de conservation des logs.
 - Tenue de PostgreSQL et d’OpenLDAP, dont la base LMDB est déconseillée sur un système de fichiers réseau, sur le stockage NFS : performances, verrous et intégrité après une coupure, à éprouver par les essais de panne.
@@ -335,10 +338,12 @@ Les §§ 5.1 et 5.2 décrivent le montage local. Les versions npm sont celles ve
 | React | 19.3.1 | Composants de l’interface |
 | React DOM | 19.3.1 | Rendu React dans le navigateur |
 | React Router | 8.5.1 | Routage des écrans |
+| `lucide-react` | 0.468.0 | Icônes de l’interface |
 | Vite | 8.3.6 | Serveur front de développement et construction |
 | Plugin React pour Vite | 6.2.1 | Transformation du JSX |
 | Express | 5.3.0 | Serveur HTTP et API |
 | Helmet | 8.3.0 | En-têtes HTTP de sécurité |
+| `swagger-ui-express` | 5.0.1 | Documentation de l’API (`/api/docs`) |
 | `openid-client` | 6.8.9 | Client OpenID Connect |
 | `express-session` | 1.19.0 | Sessions serveur |
 | `connect-pg-simple` | 10.0.0 | Sessions dans PostgreSQL |
@@ -354,6 +359,7 @@ Les §§ 5.1 et 5.2 décrivent le montage local. Les versions npm sont celles ve
 
 | Élément | Version | Utilisation |
 | --- | --- | --- |
+| TypeScript | 7.0.2 | Vérification des types (`npm run typecheck`) |
 | Playwright | 1.65.0 | Tests de l’interface et de bout en bout |
 | Exécuteur de tests de Node.js | inclus dans Node.js | Tests unitaires et d’intégration du back |
 | Vite | 8.3.6 | Construction des artefacts du front |
@@ -367,13 +373,13 @@ Les versions des [schémas de déploiement](18-DIAGRAMMES-ARCHITECTURE.md#archit
 | Debian | 13 | Exception : système des VM fournies pour la démonstration | Système des dix VM |
 | Docker Engine et Swarm | version installée sur les VM | Exception : exécution des conteneurs | VM orion-1 à orion-9 ; client sur le poste de l’opérateur |
 | chrony | paquet Debian 13 | R / S (NTPd/Chronyd) | Hôte d’orion-1 : horloge de référence des autres VM |
-| HAProxy | 3.2, image officielle | R / S | orion-1 |
-| Apache HTTP Server | 2.4, image officielle `httpd` | R / S (version 2.4) | Image d’ORION avec le build React ; orion-4 et orion-5 |
-| Node.js | 22 LTS, image officielle `node` | R / S | Images d’Express et de l’émulateur ; orion-4 et orion-5 |
+| HAProxy | 3.2.16, image officielle `haproxy:3.2.16-alpine` | R / S | orion-1 |
+| Apache HTTP Server | 2.4.69, image officielle `httpd:2.4.69-alpine3.24` | R / S (version 2.4) | Image d’ORION avec le build React ; orion-4 et orion-5 |
+| Node.js | 22.22.3, image officielle `node:22.22.3-alpine3.24` | R / S | Images d’Express et de l’émulateur ; orion-4 et orion-5 |
 | Express | 5.3.0 | R | Image d’Express |
 | PostgreSQL | 17.7, image officielle | R / S | orion-6 (secours orion-9) ; données sur orion-10 |
 | Logstash | 8.19.14, image officielle | R / S | orion-8 (secours orion-9) ; logs sur orion-10 |
-| Keycloak | 26.7.4, image officielle | Exception : substitut de MindefConnect | orion-7 (secours orion-9) |
+| Keycloak | 26.7.4, image d’ORION `orion-keycloak` construite sur `quay.io/keycloak/keycloak:26.7.4`, avec le realm, le thème et le script des secrets | Exception : substitut de MindefConnect | orion-7 (secours orion-9) |
 | OpenLDAP | 1.5.0, image `osixia/openldap` | Exception : substitut de MindefConnect | orion-7 (secours orion-9) ; données sur orion-10 |
 | Runner GitHub Actions | 2.338.2, archive officielle | Hors CCT : architecture réelle seulement, exclu de la cible | Hôte d’orion-3, service systemd ; déploiement continu |
 | Serveur et client NFS (NFSv4.2) | paquets Debian 13 `nfs-kernel-server` et `nfs-common` | Non vérifié : composant de Debian 13 | Serveur sur l’hôte d’orion-10 ; client sur orion-6 à orion-9 |
@@ -506,7 +512,7 @@ Les jours-personnes mesurent la charge de l’équipe. Ils excluent les délais 
 - [Questions de cadrage](02-CADRAGE.md), §§ 18 à 21 ;
 - [Compte rendu des entretiens](03-COMPTE-RENDU-ENTRETIENS.md), §§ 1.6 et 3.3 ;
 - [Règles de gestion](04-REGLES-DE-GESTION.md) ;
-- application : dépendances (`package.json`, `package-lock.json`), infrastructure (`infra/compose.yaml`, realm Keycloak, annuaire LDAP) et serveur (`backend/`) ;
+- application : dépendances (`package.json`, `package-lock.json`), infrastructure (`infra/compose.yaml`, `infra/vm/`, `Dockerfile`, realm Keycloak, annuaire LDAP) et serveur (`backend/`) ;
 - répartition des VM, orientation de l’utilisateur du 10 novembre 2026, révisée le 11 novembre 2026 : bascules automatiques sans action manuelle, HAProxy séparé des serveurs web, journaux centralisés sur le système de fichiers de la VM 10 et absence de DNS limitée à l’accès externe ; technologies conformes au CCT, consigne et document transmis le 11 novembre 2026. Absence de DNS sur les VM à la demande de l’utilisateur ; produits de la colonne C1NP du CCT, hormis Docker et les substituts des services du réseau cible, puis architecture simplifiée sans haute disponibilité, un rôle par VM, Keycloak et OpenLDAP regroupés, sans copie hors site, s’agissant d’une démonstration, relance ailleurs des services sans données, VM Debian 13 fournies avec Docker et sans Ansible, précisés le 11 novembre 2026 ; séparation stricte des persistances ORION et Keycloak, représentation des volumes et accès interne aux journaux précisés le 11 novembre 2026 ;
 - retours du client du 12 novembre 2026, transmis par l’utilisateur : PDF d’état des lieux générés à la demande par le serveur back, sans stockage S3 ;
 - Cadre de cohérence technique du ministère des Armées, CCT 2026-2027, version 3.7, édition 1 du 17 février 2026 (document NP transmis par l’utilisateur) : §§ 3.2.1.2, 3.2.2, 3.3.6, 4.8.3, 5.1.1, 5.1.3 et 5.1.6 et annexe 8.8.2 « pile logicielle », colonne C1NP ;
