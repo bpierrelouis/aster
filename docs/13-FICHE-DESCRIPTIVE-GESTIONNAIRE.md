@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Production destinée à la remise | Renommer le projet en ORION dans tout le dépôt | [5 versions](../archive/README.md#13-fiche-descriptive-gestionnaire) |
+| 2.0 | 13/11/2026 | Production destinée à la remise | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | [6 versions](../archive/README.md#13-fiche-descriptive-gestionnaire) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur.
@@ -19,7 +19,7 @@
 | Parc matériel | Rechercher un matériel (recherche globale ou inventaire filtré par type, état, salle ou stock et garantie) ; consulter les salles par bâtiment et par étage, et le matériel de chaque salle ; créer, consulter et modifier un matériel ; consulter le stock ; affecter un ou plusieurs matériels à une salle ou les remettre en stock ; importer de nouveaux matériels en JSON |
 | Suppression | Interdite au gestionnaire ; la gestion des salles et des étages est réservée aux administrateurs |
 | Tableaux de bord | Consulter son tableau de bord personnel, qu'il peut composer, ainsi que les tableaux de bord du parc et des remontées |
-| Remontées | Consulter, rechercher et filtrer par bâtiment toutes les remontées de son école ; consulter, télécharger et imprimer les PDF ; passer une remontée de « en attente » à « remplacé » ; recevoir une notification dans ORION à chaque nouvelle remontée |
+| Remontées | Consulter, rechercher et filtrer par bâtiment toutes les remontées de son école ; consulter, télécharger et imprimer les PDF ; prendre en charge une remontée (« en cours ») puis la terminer en « remplacé » ou « corrigé » ; recevoir une notification dans ORION à chaque nouvelle remontée |
 | Garanties | Renseigner la date de fin, consulter son état (échue, à échéance, en cours, non renseignée) et recevoir une notification dans ORION lorsque la garantie est échue ou arrive à échéance dans les six mois |
 | Administration et supervision | Aucun accès aux postes, à la supervision des processus, aux listes de processus, à la modification des salles ni aux comptes ORION |
 
@@ -80,14 +80,15 @@ RG-03 à RG-10, RG-16 à RG-18, RG-25 à RG-29, RG-69 et RG-72.
 3. Le gestionnaire ouvre le tableau de bord ou la liste des remontées (en attente, traitées ou toutes), qu'il peut rechercher et filtrer par bâtiment.
 4. Il consulte la remontée, son suivi, les matériels concernés, leur localisation éventuelle et le PDF d'état des lieux.
 5. Il peut télécharger ou imprimer le PDF.
-6. Il fait passer une remontée de « en attente » à « remplacé ». Le passage à « corrigé » est réservé aux administrateurs.
-7. ORION enregistre le statut commun à toute la remontée et crée la notification destinée à son auteur formateur.
+6. Il prend en charge la remontée en la faisant passer à « en cours ».
+7. Après intervention, il la termine en « remplacé » s’il a remplacé le matériel, ou en « corrigé » s’il a corrigé le problème.
+8. À chaque changement, ORION enregistre le statut commun à toute la remontée dans son historique et crée la notification destinée à son auteur.
 
 ### Variantes et limites
 
 - Une remontée peut concerner plusieurs matériels mais possède un statut unique.
-- Les statuts possibles sont « en attente », « remplacé » et « corrigé ».
-- Une remontée est créée « en attente » ; le traitement est une transition unique et définitive.
+- Les statuts possibles sont « en attente », « en cours », « remplacé » et « corrigé ».
+- Une remontée est créée « en attente » ; le traitement peut aussi être enregistré directement depuis « en attente ». Une remontée terminée ne change plus de statut.
 - Le gestionnaire ne crée pas de remontée.
 - Aucun courriel n'est envoyé.
 

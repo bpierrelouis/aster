@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.3 | 12/11/2026 | Production destinée à la remise | Renommer le projet en ORION dans tout le dépôt | [4 versions](../archive/README.md#11-dcu-remontees-utilisateur) |
+| 2.0 | 13/11/2026 | Production destinée à la remise | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | [5 versions](../archive/README.md#11-dcu-remontees-utilisateur) |
 <!-- version:fin -->
 
 ```mermaid
@@ -35,6 +35,7 @@ flowchart LR
         consulterPdf(["Consulter un PDF d'état des lieux"])
         telechargerPdf(["Télécharger ou imprimer<br/>un PDF d'état des lieux"])
         consulterTableau(["Consulter le tableau de bord des remontées"])
+        prendreEnCharge(["Prendre en charge une remontée"])
         marquerRemplace(["Marquer une remontée « remplacé »"])
         marquerCorrige(["Marquer une remontée « corrigé »"])
         recevoirNotification(["Recevoir une notification<br/>lors d'un changement de statut"])
@@ -47,11 +48,13 @@ flowchart LR
     lecteurRemontee --- consulterPdf
     lecteurRemontee --- telechargerPdf
     consultantRemontees --- consulterTableau
+    acteurTraitement --- prendreEnCharge
     acteurTraitement --- marquerRemplace
-    administrateur --- marquerCorrige
-    formateur ---|sa propre remontée| recevoirNotification
+    acteurTraitement --- marquerCorrige
+    auteurRemontee ---|sa propre remontée| recevoirNotification
     gestionnaire --- recevoirNouvelleRemontee
 
+    prendreEnCharge -.->|« include »| consulterRemontee
     marquerRemplace -.->|« include »| consulterRemontee
     marquerCorrige -.->|« include »| consulterRemontee
 
@@ -60,7 +63,7 @@ flowchart LR
     classDef casUtilisation fill:#F5F2FF,stroke:#6954C0,color:#241C45
     class formateur,gestionnaire,administrateur,superAdministrateur acteurReel
     class auteurRemontee,consultantRemontees,lecteurRemontee,acteurTraitement acteurAbstrait
-    class creerRemontee,suivreRemontee,consulterRemontee,consulterPdf,telechargerPdf,consulterTableau,marquerRemplace,marquerCorrige,recevoirNotification,recevoirNouvelleRemontee casUtilisation
+    class creerRemontee,suivreRemontee,consulterRemontee,consulterPdf,telechargerPdf,consulterTableau,prendreEnCharge,marquerRemplace,marquerCorrige,recevoirNotification,recevoirNouvelleRemontee casUtilisation
 
     style orion fill:none,stroke:#7D8793,stroke-width:1px
 ```

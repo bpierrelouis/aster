@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Production destinée à la remise | Renommer le projet en ORION dans tout le dépôt | [5 versions](../archive/README.md#15-fiche-descriptive-administrateur) |
+| 2.0 | 13/11/2026 | Production destinée à la remise | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | [6 versions](../archive/README.md#15-fiche-descriptive-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur.
@@ -20,10 +20,10 @@
 | Salles | Créer, modifier et supprimer une salle ; ajouter, renuméroter ou supprimer un étage vide d'un bâtiment |
 | Administration des postes | Consulter les postes, leur état et leurs applications ; installer ou désinstaller une application sur un poste ou une salle ; demander la réinstallation d'un ou plusieurs postes ; suivre les demandes d'intervention |
 | Supervision | Consulter les postes et processus de toutes les salles, arrêter un processus utilisateur, gérer les règles d'école, de bâtiment et de salle, consulter les détections, recevoir une notification de processus blacklisté et consulter les statistiques |
-| Remontées | Créer une remontée et suivre les siennes ; passer une remontée de « en attente » à « remplacé » ou « corrigé » ; consulter, télécharger et imprimer tous les PDF ; consulter le tableau de bord des remontées |
+| Remontées | Créer une remontée et suivre les siennes ; prendre en charge une remontée (« en cours ») puis la terminer en « remplacé » ou « corrigé » ; consulter, télécharger et imprimer tous les PDF ; consulter le tableau de bord des remontées |
 | Tableaux de bord | Consulter son tableau de bord personnel, qu'il peut composer, ainsi que les tableaux de bord du parc et des remontées |
 | Comptes ORION | Créer, modifier, désactiver et réactiver les comptes rattachés à son école |
-| Notifications de remontée | Aucune notification liée aux remontées |
+| Notifications | Évolution de ses propres remontées, fin des interventions qu’il a lancées, lancement d’applications interdites |
 
 Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-DROITS.md).
 
@@ -157,10 +157,10 @@ RG-15, RG-31 à RG-33, RG-40 à RG-58, RG-68 et RG-69.
 
 ### Scénario nominal
 
-1. L'administrateur sélectionne un ou plusieurs matériels, choisit éventuellement un type de problème et saisit la description.
+1. L'administrateur sélectionne un ou plusieurs matériels, choisit le type de problème (obligatoire) et saisit la description.
 2. ORION enregistre la remontée « en attente ».
 3. L'administrateur consulte, télécharge ou imprime le PDF d'état des lieux, qu'ORION génère à chaque demande avec les informations actuelles de la remontée.
-4. Il peut traiter la remontée en la passant de « en attente » à « remplacé » ou « corrigé » ; cette transition est unique.
+4. Il peut traiter la remontée : prise en charge (« en cours »), puis fin du traitement en « remplacé » ou « corrigé » ; une remontée terminée ne change plus de statut.
 5. ORION enregistre le statut commun à toute la remontée.
 
 ### Variantes et limites
@@ -168,7 +168,7 @@ RG-15, RG-31 à RG-33, RG-40 à RG-58, RG-68 et RG-69.
 - L'administrateur peut consulter et télécharger tous les PDF de son école.
 - Il suit ses propres remontées dans un espace dédié.
 - Il peut consulter le tableau de bord des remontées.
-- Il ne reçoit aucune notification liée aux remontées.
+- Il est notifié de l’évolution des remontées qu’il a créées, pas des remontées créées par d’autres.
 
 ### Questions ouvertes
 

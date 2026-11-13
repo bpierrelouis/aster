@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Production destinée à la remise | Renommer le projet en ORION dans tout le dépôt | [5 versions](../archive/README.md#14-fiche-descriptive-formateur) |
+| 2.0 | 13/11/2026 | Production destinée à la remise | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | [6 versions](../archive/README.md#14-fiche-descriptive-formateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur.
@@ -110,7 +110,7 @@ RG-38, RG-52 à RG-54, RG-56 et RG-69.
 
 1. Le formateur choisit une salle par bâtiment, ou le stock, puis un ou plusieurs matériels ; depuis une salle, les matériels sélectionnés sont repris.
 2. ORION affiche la localisation de chaque matériel lorsqu'elle est renseignée.
-3. Il choisit éventuellement un type de problème (ne s'allume pas, pas d'image, connexion, casse, fonctionnement anormal, autre) et saisit la description obligatoire.
+3. Il choisit le type de problème, obligatoire (ne s'allume pas, pas d'image, connexion, casse, fonctionnement anormal, autre, dont il saisit alors le libellé), et saisit la description obligatoire.
 4. ORION attribue le numéro de la remontée, enregistre le formateur comme auteur et le statut « en attente ».
 5. Le formateur peut consulter, télécharger ou imprimer le PDF d'état des lieux, qu'ORION génère à chaque demande avec les informations actuelles de la remontée.
 6. Il suit l'avancement et l'historique de ses propres remontées.
@@ -120,8 +120,8 @@ RG-38, RG-52 à RG-54, RG-56 et RG-69.
 
 - Une remontée peut concerner plusieurs matériels de son école mais possède un seul statut.
 - Un matériel en stock ne possède pas de localisation de salle.
-- Les statuts possibles sont « en attente », « remplacé » et « corrigé » ; une remontée traitée ne change plus de statut.
-- Sans type de problème choisi, la remontée est classée « autre ».
+- Les statuts possibles sont « en attente », « en cours », « remplacé » et « corrigé » ; une remontée terminée ne change plus de statut.
+- La remontée ne peut pas être enregistrée sans type de problème.
 - Le formateur ne traite pas lui-même la remontée.
 - Il ne consulte ni ne télécharge les PDF créés par d'autres auteurs.
 - Aucun courriel n'est envoyé.

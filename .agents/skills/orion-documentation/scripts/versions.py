@@ -86,7 +86,7 @@ def entete(chemin, fiche):
         f"{DEBUT} : généré par versions.py, ne pas modifier à la main -->\n"
         "| Version | Mise à jour | Destination | Dernière évolution | Historique |\n"
         "| --- | --- | --- | --- | --- |\n"
-        f"| {v['version']} | {date_fr(v['date'])} | {fiche['destination']} | {cellule(v['modification'].split(' ; ')[-1])} | "
+        f"| {v['version']} | {date_fr(v['date'])} | {fiche['destination']} | {cellule(v.get('resume') or v['modification'])} | "
         f"[{len(fiche['versions'])} version{'s' if len(fiche['versions']) > 1 else ''}]({relatif}#{ancre(chemin)}) |\n"
         f"{FIN}\n"
     )

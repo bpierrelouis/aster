@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.6 | 13/11/2026 | Production destinée à la remise | Développer le sigle ORION et garantir RG-73 côté serveur | [7 versions](../archive/README.md#00-glossaire) |
+| 1.7 | 13/11/2026 | Production destinée à la remise | Préciser l’acteur de traitement : prise en charge puis fin du traitement | [8 versions](../archive/README.md#00-glossaire) |
 <!-- version:fin -->
 
 Ce glossaire centralise les abréviations et les termes employés dans la documentation du projet. Les définitions décrivent leur sens dans ORION. Lorsqu'un sigle n'est pas développé dans les sources, cette absence est signalée afin de ne pas inventer sa signification.
@@ -85,6 +85,6 @@ Les acteurs généraux ou abstraits des DCU regroupent des participations commun
 | Auteur de remontée | Création d'une remontée | Formateur, administrateur et super administrateur |
 | Consultant des remontées | Consultation de toutes les remontées autorisées, de leurs PDF d'état des lieux et du tableau de bord des remontées | Gestionnaire, administrateur et super administrateur |
 | Lecteur d'une remontée autorisée | Consultation d'une remontée et de son PDF d'état des lieux, dans le périmètre permis au profil | Formateur pour ses propres remontées ; gestionnaire, administrateur et super administrateur pour les remontées de leur périmètre |
-| Acteur de traitement des remontées | Passage d'une remontée au statut « remplacé » | Gestionnaire, administrateur et super administrateur |
+| Acteur de traitement des remontées | Prise en charge d'une remontée (« en cours ») et fin de son traitement (« remplacé » ou « corrigé ») | Gestionnaire, administrateur et super administrateur |
 
 La solution d’administration à distance des postes apparaît à droite de la frontière comme participant secondaire dans les DCU dont la frontière est l’application web ORION. Son choix reste à confirmer. Les diagrammes de cas d'utilisation utilisent Mermaid pour représenter les acteurs, cas et relations ; cette représentation ne constitue pas à elle seule une notation UML formellement complète.

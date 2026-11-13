@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.3 | 12/11/2026 | Production destinée à la remise | Renommer le projet en ORION dans tout le dépôt | [4 versions](../archive/README.md#12-matrice-droits) |
+| 2.0 | 13/11/2026 | Production destinée à la remise | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | [5 versions](../archive/README.md#12-matrice-droits) |
 <!-- version:fin -->
 
 Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
@@ -54,10 +54,10 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 | Consulter les remontées et leur suivi | Oui | Oui | Oui | Oui | Le formateur consulte uniquement ses propres remontées ; le gestionnaire et l’administrateur consultent toutes les remontées de leur école. | RG-15, RG-64 et RG-80, DCU 11 |
 | Consulter un PDF d’état des lieux | Oui | Oui | Oui | Oui | Le formateur consulte uniquement le PDF d’une remontée qu’il a lui-même créée. | RG-15 et RG-23, DCU 11 |
 | Télécharger un PDF d’état des lieux | Oui | Oui | Oui | Oui | Le formateur télécharge uniquement le PDF d’une remontée qu’il a lui-même créée. | RG-23, DCU 11 |
-| Traiter une remontée | Oui | Non | Oui | Oui | Le gestionnaire fait passer une remontée de « en attente » à « remplacé » ; l’administrateur et le super administrateur de « en attente » à « remplacé » ou « corrigé ». Une remontée traitée ne change plus de statut. | RG-15 et RG-64, DCU 11 |
+| Traiter une remontée | Oui | Non | Oui | Oui | Prise en charge (« en attente » → « en cours »), puis fin du traitement en « remplacé » ou « corrigé », avec les mêmes transitions pour les trois profils. Une remontée terminée ne change plus de statut. | RG-15 et RG-64, DCU 11 |
 | Supprimer une remontée ou en modifier le contenu | Non | Non | Non | Non | Seul le statut d’une remontée peut être modifié. | RG-79 |
 | Consulter le tableau de bord des remontées | Oui | Non | Oui | Oui | Les indicateurs détaillés restent à définir. | RG-15, RG-24 et RG-36, DCU 11 |
-| Recevoir une notification liée à une remontée | Oui | Oui | Non | Non | Le gestionnaire est notifié à la création d’une remontée. Le formateur est notifié lorsque le statut de l’une de ses propres remontées change. | RG-38, RG-39, RG-66 et RG-67, DCU 11 |
+| Recevoir une notification liée à une remontée | Oui | Oui | Oui | Oui | Le gestionnaire est notifié à la création d’une remontée. Le formateur, l’administrateur et le super administrateur sont notifiés lorsque le statut de l’une de leurs propres remontées change. | RG-38, RG-39, RG-66 et RG-67, DCU 11 |
 
 ORION génère le PDF d’état des lieux à chaque consultation ou téléchargement autorisé, sans le conserver (RG-35). Cette génération constitue un traitement automatique, pas un droit distinct.
 

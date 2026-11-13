@@ -17,9 +17,9 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [design/maquettes/maquette-dashboard-proposition-a-cockpit.html](../design/maquettes/maquette-dashboard-proposition-a-cockpit.html) | Ressource de préparation | [1.1](#design-maquettes-maquette-dashboard-proposition-a-cockpit) | 12/11/2026 |
 | [design/maquettes/maquette-dashboard-proposition-b-a-traiter.html](../design/maquettes/maquette-dashboard-proposition-b-a-traiter.html) | Ressource de préparation | [1.1](#design-maquettes-maquette-dashboard-proposition-b-a-traiter) | 12/11/2026 |
 | [design/maquettes/maquette-dashboard-proposition-c-analyse.html](../design/maquettes/maquette-dashboard-proposition-c-analyse.html) | Ressource de préparation | [1.1](#design-maquettes-maquette-dashboard-proposition-c-analyse) | 12/11/2026 |
-| [docs/00-GLOSSAIRE.md](../docs/00-GLOSSAIRE.md) | Production destinée à la remise | [1.6](#00-glossaire) | 13/11/2026 |
+| [docs/00-GLOSSAIRE.md](../docs/00-GLOSSAIRE.md) | Production destinée à la remise | [1.7](#00-glossaire) | 13/11/2026 |
 | [docs/01-CONSIGNES.md](../docs/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.3](#01-consignes) | 13/11/2026 |
-| [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) | Source de travail interne | [1.9](#02-cadrage) | 13/11/2026 |
+| [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) | Source de travail interne | [2.0](#02-cadrage) | 13/11/2026 |
 | [docs/03-COMPTE-RENDU-ENTRETIENS.md](../docs/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.0](#03-compte-rendu-entretiens) | 13/11/2026 |
 | [docs/04-REGLES-DE-GESTION.md](../docs/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [1.6](#04-regles-de-gestion) | 13/11/2026 |
 | [docs/05-MCD-MERISE-MOCODO.url](../docs/05-MCD-MERISE-MOCODO.url) | Production destinée à la remise | [1.3](#05-mcd-merise-mocodo) | 12/11/2026 |
@@ -29,12 +29,12 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/08-DCU-GESTION-PARC.md](../docs/08-DCU-GESTION-PARC.md) | Production destinée à la remise | [1.3](#08-dcu-gestion-parc) | 12/11/2026 |
 | [docs/09-DCU-ADMINISTRATION-POSTES.md](../docs/09-DCU-ADMINISTRATION-POSTES.md) | Production destinée à la remise | [1.4](#09-dcu-administration-postes) | 12/11/2026 |
 | [docs/10-DCU-SUPERVISION-POSTES.md](../docs/10-DCU-SUPERVISION-POSTES.md) | Production destinée à la remise | [1.4](#10-dcu-supervision-postes) | 12/11/2026 |
-| [docs/11-DCU-REMONTEES-UTILISATEUR.md](../docs/11-DCU-REMONTEES-UTILISATEUR.md) | Production destinée à la remise | [1.3](#11-dcu-remontees-utilisateur) | 12/11/2026 |
-| [docs/12-MATRICE-DROITS.md](../docs/12-MATRICE-DROITS.md) | Production destinée à la remise | [1.3](#12-matrice-droits) | 12/11/2026 |
-| [docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [1.4](#13-fiche-descriptive-gestionnaire) | 12/11/2026 |
-| [docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [1.4](#14-fiche-descriptive-formateur) | 12/11/2026 |
-| [docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [1.4](#15-fiche-descriptive-administrateur) | 12/11/2026 |
-| [docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [1.4](#16-fiche-descriptive-super-administrateur) | 12/11/2026 |
+| [docs/11-DCU-REMONTEES-UTILISATEUR.md](../docs/11-DCU-REMONTEES-UTILISATEUR.md) | Production destinée à la remise | [2.0](#11-dcu-remontees-utilisateur) | 13/11/2026 |
+| [docs/12-MATRICE-DROITS.md](../docs/12-MATRICE-DROITS.md) | Production destinée à la remise | [2.0](#12-matrice-droits) | 13/11/2026 |
+| [docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [2.0](#13-fiche-descriptive-gestionnaire) | 13/11/2026 |
+| [docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [2.0](#14-fiche-descriptive-formateur) | 13/11/2026 |
+| [docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [2.0](#15-fiche-descriptive-administrateur) | 13/11/2026 |
+| [docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [2.0](#16-fiche-descriptive-super-administrateur) | 13/11/2026 |
 | [docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [1.3](#17-dossier-architecture-technique) | 13/11/2026 |
 | [docs/18-DIAGRAMMES-ARCHITECTURE.md](../docs/18-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [1.3](#18-diagrammes-architecture) | 13/11/2026 |
 | [docs/19-BACKLOG-ET-SUIVI-PROJET.docx](../docs/19-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.1](#19-backlog-et-suivi-projet) | 13/11/2026 |
@@ -135,7 +135,8 @@ Fichier : [docs/00-GLOSSAIRE.md](../docs/00-GLOSSAIRE.md) · Production destiné
 
 | Version | Date | Modification | Fichier |
 | --- | --- | --- | --- |
-| 1.6 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur | en vigueur |
+| 1.7 | 13/11/2026 | Préciser l’acteur de traitement : prise en charge puis fin du traitement | en vigueur |
+| 1.6 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur | [archive](00-GLOSSAIRE/00-GLOSSAIRE-v1.6-2026-11-13.md) |
 | 1.5 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | [archive](00-GLOSSAIRE/00-GLOSSAIRE-v1.5-2026-11-12.md) |
 | 1.4 | 09/11/2026 | Consolider le modèle et les règles métier ; Harmoniser les diagrammes de cas d'utilisation | [archive](00-GLOSSAIRE/00-GLOSSAIRE-v1.4-2026-11-09.md) |
 | 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](00-GLOSSAIRE/00-GLOSSAIRE-v1.3-2026-11-08.md) |
@@ -160,7 +161,8 @@ Fichier : [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) · Source de travail inter
 
 | Version | Date | Modification | Fichier |
 | --- | --- | --- | --- |
-| 1.9 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur ; Inscrire les points de sécurité qui demandent une décision ; Reporter les décisions de sécurité du 13 novembre ; Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues ; Fiabiliser les configurations à remettre | en vigueur |
+| 2.0 | 13/11/2026 | Inscrire les décisions de l’utilisateur du 13 novembre sur les remontées, les notifications et le changement d’école | en vigueur |
+| 1.9 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur ; Inscrire les points de sécurité qui demandent une décision ; Reporter les décisions de sécurité du 13 novembre ; Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues ; Fiabiliser les configurations à remettre | [archive](02-CADRAGE/02-CADRAGE-v1.9-2026-11-13.md) |
 | 1.8 | 12/11/2026 | Préparer les points du rendez-vous du 12 novembre ; Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions de l'ancien nom | [archive](02-CADRAGE/02-CADRAGE-v1.8-2026-11-12.md) |
 | 1.7 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | [archive](02-CADRAGE/02-CADRAGE-v1.7-2026-11-11.md) |
 | 1.6 | 09/11/2026 | Consolider le modèle et les règles métier | [archive](02-CADRAGE/02-CADRAGE-v1.6-2026-11-09.md) |
@@ -281,7 +283,8 @@ Fichier : [docs/11-DCU-REMONTEES-UTILISATEUR.md](../docs/11-DCU-REMONTEES-UTILIS
 
 | Version | Date | Modification | Fichier |
 | --- | --- | --- | --- |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](11-DCU-REMONTEES-UTILISATEUR/11-DCU-REMONTEES-UTILISATEUR-v1.3-2026-11-12.md) |
 | 1.2 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | [archive](11-DCU-REMONTEES-UTILISATEUR/11-DCU-REMONTEES-UTILISATEUR-v1.2-2026-11-09.md) |
 | 1.1 | 03/11/2026 | Formaliser les profils et leurs autorisations | [archive](11-DCU-REMONTEES-UTILISATEUR/11-DCU-REMONTEES-UTILISATEUR-v1.1-2026-11-03.md) |
 | 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | [archive](11-DCU-REMONTEES-UTILISATEUR/11-DCU-REMONTEES-UTILISATEUR-v1.0-2026-11-02.md) |
@@ -292,7 +295,8 @@ Fichier : [docs/12-MATRICE-DROITS.md](../docs/12-MATRICE-DROITS.md) · Productio
 
 | Version | Date | Modification | Fichier |
 | --- | --- | --- | --- |
-| 1.3 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | en vigueur |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur |
+| 1.3 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | [archive](12-MATRICE-DROITS/12-MATRICE-DROITS-v1.3-2026-11-12.md) |
 | 1.2 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | [archive](12-MATRICE-DROITS/12-MATRICE-DROITS-v1.2-2026-11-09.md) |
 | 1.1 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](12-MATRICE-DROITS/12-MATRICE-DROITS-v1.1-2026-11-08.md) |
 | 1.0 | 03/11/2026 | Formaliser les profils et leurs autorisations | [archive](12-MATRICE-DROITS/12-MATRICE-DROITS-v1.0-2026-11-03.md) |
@@ -303,7 +307,8 @@ Fichier : [docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/13-FICHE-DESCRIPTI
 
 | Version | Date | Modification | Fichier |
 | --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur |
+| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](13-FICHE-DESCRIPTIVE-GESTIONNAIRE/13-FICHE-DESCRIPTIVE-GESTIONNAIRE-v1.4-2026-11-12.md) |
 | 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | [archive](13-FICHE-DESCRIPTIVE-GESTIONNAIRE/13-FICHE-DESCRIPTIVE-GESTIONNAIRE-v1.3-2026-11-09.md) |
 | 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](13-FICHE-DESCRIPTIVE-GESTIONNAIRE/13-FICHE-DESCRIPTIVE-GESTIONNAIRE-v1.2-2026-11-08.md) |
 | 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](13-FICHE-DESCRIPTIVE-GESTIONNAIRE/13-FICHE-DESCRIPTIVE-GESTIONNAIRE-v1.1-2026-11-06.md) |
@@ -315,7 +320,8 @@ Fichier : [docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/14-FICHE-DESCRIPTIVE-
 
 | Version | Date | Modification | Fichier |
 | --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | en vigueur |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur |
+| 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | [archive](14-FICHE-DESCRIPTIVE-FORMATEUR/14-FICHE-DESCRIPTIVE-FORMATEUR-v1.4-2026-11-12.md) |
 | 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | [archive](14-FICHE-DESCRIPTIVE-FORMATEUR/14-FICHE-DESCRIPTIVE-FORMATEUR-v1.3-2026-11-09.md) |
 | 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](14-FICHE-DESCRIPTIVE-FORMATEUR/14-FICHE-DESCRIPTIVE-FORMATEUR-v1.2-2026-11-08.md) |
 | 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](14-FICHE-DESCRIPTIVE-FORMATEUR/14-FICHE-DESCRIPTIVE-FORMATEUR-v1.1-2026-11-06.md) |
@@ -327,7 +333,8 @@ Fichier : [docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/15-FICHE-DESCRIP
 
 | Version | Date | Modification | Fichier |
 | --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | en vigueur |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur |
+| 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | [archive](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v1.4-2026-11-12.md) |
 | 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | [archive](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v1.3-2026-11-09.md) |
 | 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v1.2-2026-11-08.md) |
 | 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v1.1-2026-11-06.md) |
@@ -339,7 +346,8 @@ Fichier : [docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/16-FICHE-D
 
 | Version | Date | Modification | Fichier |
 | --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur |
+| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v1.4-2026-11-12.md) |
 | 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | [archive](16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v1.3-2026-11-09.md) |
 | 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v1.2-2026-11-08.md) |
 | 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v1.1-2026-11-06.md) |

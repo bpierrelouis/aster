@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Production destinée à la remise | Renommer le projet en ORION dans tout le dépôt | [5 versions](../archive/README.md#16-fiche-descriptive-super-administrateur) |
+| 2.0 | 13/11/2026 | Production destinée à la remise | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | [6 versions](../archive/README.md#16-fiche-descriptive-super-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur.
@@ -30,7 +30,7 @@ Afin d'éviter de dupliquer les scénarios, les parcours fonctionnels détaillé
 | Règles de processus | Gérer les règles globales en plus des règles d'école, de bâtiment et de salle |
 | Remontées | Création et traitement ; consultation et téléchargement de tous les PDF ; tableau de bord |
 | Comptes ORION | Création, modification, désactivation et réactivation des comptes de toutes les écoles, y compris des comptes super administrateur |
-| Notifications de remontée | Aucune notification liée aux remontées |
+| Notifications | Comme l’administrateur : évolution de ses propres remontées, fin des interventions qu’il a lancées, lancement d’applications interdites |
 
 ## Adaptation des parcours administrateur
 
