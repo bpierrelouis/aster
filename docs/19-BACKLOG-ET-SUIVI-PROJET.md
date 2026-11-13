@@ -57,7 +57,7 @@ Le Product Backlog décrit les résultats utiles aux utilisateurs. Il est ordonn
 | 4 | PB-04 | En tant qu’utilisateur autorisé, créer et suivre une remontée. | Remontée suivie et état des lieux consultable selon les droits en vigueur. | BL-09, BL-13, BL-15, BL-16 |
 | 5 | PB-05 | En tant qu’administrateur, demander une intervention et en suivre le résultat. | Demande, exécution par le poste et résultat distingués dans le suivi. | BL-03, BL-13, BL-15 |
 | 6 | PB-06 | En tant que formateur, superviser les processus dans mon périmètre. | Processus consultables et règles examinées selon les droits applicables. | BL-06, BL-14, BL-16 |
-| 7 | PB-07 | En tant qu’utilisateur, disposer d’une vue de synthèse utile à mon activité. | Tableau de bord lisible et adapté au profil, sans indicateur métier inventé. | BL-06, BL-08, BL-16 |
+| 7 | PB-07 | En tant qu’utilisateur, disposer d’une vue de synthèse utile à mon activité. | Tableau de bord lisible et adapté au profil, avec les indicateurs définis au cadrage. | BL-06, BL-08, BL-16 |
 | 8 | PB-08 | En tant que lecteur du dossier, comprendre le besoin, la conception et l’architecture. | Productions cohérentes, références accessibles et réserves identifiées. | BL-01, BL-02, BL-10, BL-12, BL-17, BL-18 |
 | 9 | PB-09 | En tant qu’évaluateur, suivre la démarche et examiner la version remise. | Backlog présenté, traces des cérémonies disponibles et remise identifiée. | BL-04, BL-19, BL-20 |
 
