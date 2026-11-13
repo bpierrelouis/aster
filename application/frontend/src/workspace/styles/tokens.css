@@ -24,15 +24,15 @@
   --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
   --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
 
-  --fs-2xs: 11px;
-  --fs-xs: 12px;
-  --fs-s: 13px;
-  --fs-m: 15px;
-  --fs-l: 19px;
-  --fs-xl: 24px;
-  --fs-2xl: 30px;
-  --fs-3xl: 38px;
-  --fs-title: 34px;
+  --fs-2xs: .875rem;
+  --fs-xs: .875rem;
+  --fs-s: 1rem;
+  --fs-m: 1rem;
+  --fs-l: 1.25rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+  --fs-3xl: 2.5rem;
+  --fs-title: 2.25rem;
 
   /* Rayons hiérarchiques */
   --r-xs: 8px;
