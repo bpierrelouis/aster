@@ -1,0 +1,13 @@
+{
+  "name": "ORION Recensement",
+  "short_name": "Recensement",
+  "description": "Recensement du parc informatique d’ORION",
+  "lang": "fr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#040b1e",
+  "background_color": "#040b1e",
+  "icons": [{ "src": "/icone.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
