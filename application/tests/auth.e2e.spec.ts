@@ -155,9 +155,9 @@ test('formateur : une remontée transmise produit son PDF ; le gestionnaire la t
   await logout(page);
 });
 
-// Administration du fournisseur local (Keycloak, substitut de MindefConnect)
+// Gestion des utilisateurs du fournisseur local (Keycloak, substitut de MindefConnect), par le compte de service d'ORION
 async function keycloak(path: string, options: RequestInit = {}) {
-  const tokenResponse = await fetch(`${config.issuer.origin}/realms/master/protocol/openid-connect/token`, { method: 'POST', body: new URLSearchParams({ grant_type: 'password', client_id: 'admin-cli', username: config.keycloakAdmin.adminUser, password: config.keycloakAdmin.adminPassword }) });
+  const tokenResponse = await fetch(`${config.issuer.origin}/realms/orion/protocol/openid-connect/token`, { method: 'POST', body: new URLSearchParams({ grant_type: 'client_credentials', client_id: config.provisioning.clientId, client_secret: config.provisioning.clientSecret }) });
   const { access_token: token } = (await tokenResponse.json()) as { access_token: string };
   const response = await fetch(`${config.issuer.origin}/admin/realms/orion${path}`, { ...options, headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } });
   return response.status === 200 ? response.json() : response;
@@ -245,7 +245,8 @@ test('sans session, l’espace de travail renvoie à la connexion', async ({ pag
 test('une écriture d’une autre origine est refusée', async ({ page }) => {
   await login(page, 'admin');
   const state = await (await page.request.get('/api/workspace')).json();
-  const forged = await page.request.put('/api/workspace', { headers: { Origin: 'https://autre.example', 'Content-Type': 'application/json' }, data: { baseRevision: state.revision, state } });
+  // Corps réduit : le refus porte sur l'origine, avant toute lecture (un gros corps rejeté tôt fait échouer le proxy de Vite)
+  const forged = await page.request.put('/api/workspace', { headers: { Origin: 'https://autre.example', 'Content-Type': 'application/json' }, data: { baseRevision: state.revision, state: { role: state.role } } });
   expect(forged.status()).toBe(403);
   await logout(page);
 });
