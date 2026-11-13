@@ -10,6 +10,7 @@ import { Icon, Tile, Brand } from '../../ui/icons.tsx';
 import { Popover, notify, useSheetClose } from '../../ui/overlays.tsx';
 import { store, me, currentEcole } from '../../core/store.ts';
 import { can } from '../../core/permissions.ts';
+import { composing } from '../../core/dom.ts';
 import { autoTone, systemTone, subscribeSystemTone } from '../../core/theme.ts';
 import { AMBIANCES, GLASS } from '#shared/ambiance.ts';
 import { role as roleOf, deviceType, statut } from '#shared/catalog.ts';
@@ -41,7 +42,7 @@ export function AccountPopover({ anchor, onClose }: PopoverProps) {
   const tone = s.prefs.tone === 'auto' ? machineTone : autoTone(s.prefs.tone);
   const followsMachine = AMBIANCES.find((a) => a.id === s.prefs.ambiance)?.tone === 'auto';
   const switchTone = () => { const next = tone === 'dark' ? 'light' : 'dark'; setPref('tone', next === systemTone() ? 'auto' : next); };
-  return <Popover anchor={anchor} onClose={onClose}>
+  return <Popover anchor={anchor} label="Compte" onClose={onClose}>
     <div className="account">
       <div className="account-head">
         <span className="avatar-face avatar-face--l">{initiale()}</span>
@@ -80,7 +81,7 @@ export function EcolePopover({ anchor, onClose }: PopoverProps) {
     store.update('ecole', (st) => { st.ecoleId = id; });
     notify(ecoleNom(id), { icon: 'school', tone: 'info' });
   };
-  return <Popover anchor={anchor} onClose={onClose} className="popover--list">
+  return <Popover anchor={anchor} label="École affichée" onClose={onClose} className="popover--list">
     <div className="pop-list">
       <div className="pop-title"><Icon name="school" size={18} /><b>École affichée</b></div>
       <ul>{opts.map((o) => {
@@ -99,7 +100,7 @@ export function EcolePopover({ anchor, onClose }: PopoverProps) {
 /** Notifications regroupées par nature (core/notifications.ts) ; le détail est dans l'espace Notifications */
 export function AlertsPopover({ anchor, onClose }: PopoverProps) {
   const groups = notificationGroups();
-  return <Popover anchor={anchor} onClose={onClose} className="popover--list">
+  return <Popover anchor={anchor} label="Notifications" onClose={onClose} className="popover--list">
     <div className="pop-list">
       <div className="pop-title"><Icon name="bell" size={18} /><b>Notifications</b><span className="w-count">{num(groups.length)}</span></div>
       {groups.length
@@ -149,7 +150,7 @@ export function Spotlight({ navigate }: { navigate: NavigateFunction }) {
   return <>
     <label className="field field--search"><Icon name="recherche" size={22} />
       <input ref={input} type="search" placeholder="Salle, modèle, identifiant Orion, n° de série, remontée…" autoComplete="off" aria-label="Recherche"
-        value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter' && results[0]) open(results[0]); }} />
+        value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter' && !composing(e) && results[0]) open(results[0]); }} />
     </label>
     <ul className="results" role="listbox">
       {results.map((r, i) => <li key={i}><button type="button" className="pop-row" role="option" aria-selected="false" onClick={() => open(r)}>

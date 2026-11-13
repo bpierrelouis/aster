@@ -55,6 +55,7 @@ export function Sheet({ title, lead = null, size = 'm', footer = null, children,
   const slot = useContext(SlotContext);
   const [shown, setShown] = useState(false);
   const closing = useRef(false);
+  const pressedOutside = useRef(false); // un clic commencé dans le panneau (sélection de texte) ne ferme pas le sheet
 
   const close = useCallback((result?: boolean) => {
     if (closing.current) return;
@@ -82,7 +83,8 @@ export function Sheet({ title, lead = null, size = 'm', footer = null, children,
     <CloseContext.Provider value={close}>
       <dialog ref={ref} className={`sheet sheet--${size}${shown ? ' is-open' : ''}`} aria-label={title}
         onCancel={(e) => { e.preventDefault(); close(); }}
-        onClick={(e) => { if (e.target === ref.current || (e.target as Element).closest('[data-sheet-close]')) close(); }}>
+        onPointerDown={(e) => { pressedOutside.current = e.target === ref.current; }}
+        onClick={(e) => { if ((e.target === ref.current && pressedOutside.current) || (e.target as Element).closest('[data-sheet-close]')) close(); }}>
         <div className="sheet-panel glass glass--strong" data-lens="">
           <header className="sheet-head">
             {lead}
@@ -117,13 +119,13 @@ export function confirmSheet({ title, message, confirm = 'Supprimer', tone = 'da
 }
 
 /* --------------------------------------------------------------------------
-   Popover ancré sur un élément (anchor : élément DOM)
+   Popover ancré sur un élément (anchor : élément DOM). Popover natif : couche
+   supérieure, Échap et clic extérieur gérés par le navigateur ; l'ancre en est
+   la source, son clic ferme donc le popover sans le rouvrir.
    -------------------------------------------------------------------------- */
-export function Popover({ anchor, onClose, align = 'end', className = '', children }: { anchor: HTMLElement; onClose: () => void; align?: 'start' | 'center' | 'end'; className?: string; children: ReactNode }) {
+export function Popover({ anchor, label, onClose, align = 'end', className = '', children }: { anchor: HTMLElement; label: string; onClose: () => void; align?: 'start' | 'center' | 'end'; className?: string; children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [shown, setShown] = useState(false);
-  const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
+  const escaped = useRef(false);
 
   const place = useCallback(() => {
     const pop = ref.current;
@@ -142,30 +144,32 @@ export function Popover({ anchor, onClose, align = 'end', className = '', childr
   // Position recalculée à chaque rendu : le contenu peut changer de taille
   useLayoutEffect(place);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const pop = ref.current!;
+    pop.showPopover({ source: anchor });
+    place();
     anchor.setAttribute('aria-expanded', 'true');
-    const raf = requestAnimationFrame(() => setShown(true));
     const observer = new ResizeObserver(place);
     observer.observe(pop);
     pop.querySelector<HTMLElement>('button, [tabindex], input')?.focus({ preventScroll: true });
-    const onDown = (e: PointerEvent) => { if (!pop.contains(e.target as Node) && !anchor.contains(e.target as Node)) onCloseRef.current(); };
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { e.preventDefault(); onCloseRef.current(); anchor.focus(); } }; // la fenêtre dessous reste ouverte (hooks/use-escape.ts)
-    document.addEventListener('pointerdown', onDown, true);
-    document.addEventListener('keydown', onKey);
     addEventListener('resize', place);
     return () => {
-      cancelAnimationFrame(raf);
       observer.disconnect();
-      document.removeEventListener('pointerdown', onDown, true);
-      document.removeEventListener('keydown', onKey);
       removeEventListener('resize', place);
       anchor.setAttribute('aria-expanded', 'false');
+      if (pop.matches(':popover-open')) pop.hidePopover();
     };
   }, [anchor, place]);
 
   return createPortal(
-    <div ref={ref} className={`popover glass glass--strong ${className}${shown ? ' is-open' : ''}`} role="dialog">{children}</div>,
+    <div ref={ref} popover="auto" className={`popover glass glass--strong ${className}`} role="dialog" aria-label={label}
+      onKeyDown={(e) => { if (e.key === 'Escape') escaped.current = true; }}
+      onToggle={(e) => {
+        // React propage toggle dans l'arbre : ignorer celui d'un popover imbriqué (palette, liste de choix)
+        if (e.target !== e.currentTarget || e.newState !== 'closed') return;
+        if (escaped.current) anchor.focus({ preventScroll: true });
+        onClose();
+      }}>{children}</div>,
     document.body,
   );
 }

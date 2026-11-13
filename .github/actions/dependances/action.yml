@@ -1,0 +1,15 @@
+# Node et dépendances de l'application, communs aux tâches de test (après actions/checkout).
+# Le cache npm, partagé entre les tâches, évite de retélécharger les paquets.
+name: Dépendances de l'application
+description: Installe Node et les dépendances npm de application/
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version: '22.22'
+        cache: npm
+        cache-dependency-path: application/package-lock.json
+    - run: npm ci
+      shell: bash
+      working-directory: application

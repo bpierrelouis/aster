@@ -3,6 +3,8 @@
 export const $$ = <E extends Element = HTMLElement>(sel: string, root: ParentNode = document) => [...root.querySelectorAll<E>(sel)];
 
 export const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+/** Touche destinée à une saisie IME en cours (Entrée qui valide un caractère japonais, chinois…) ; 229 couvre Safari. */
+export const composing = (e: { nativeEvent: KeyboardEvent; keyCode: number }) => e.nativeEvent.isComposing || e.keyCode === 229;
 
 /** Clic sur une ligne de tableau en dehors de ses commandes (lien, bouton, case, champ) */
 export const outsideControls = (e: { target: EventTarget | null }) => !(e.target as Element).closest('a, button, input, select, textarea, label');

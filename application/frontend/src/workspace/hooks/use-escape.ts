@@ -7,7 +7,8 @@ const stack: RefObject<() => void>[] = [];
 const editable = (el: EventTarget | null) => (el as Element | null)?.closest?.('input, textarea, select, [contenteditable="true"]');
 
 function onKey(e: KeyboardEvent) {
-  if (e.key !== 'Escape' || e.defaultPrevented || editable(e.target) || document.querySelector('dialog[open]')) return;
+  // Un popover natif ouvert (menu de la barre haute, liste de choix) consomme Échap avant la fiche
+  if (e.key !== 'Escape' || e.defaultPrevented || editable(e.target) || document.querySelector('dialog[open], [popover="auto"]:popover-open')) return;
   const top = stack.at(-1);
   if (top) { e.preventDefault(); top.current(); }
 }

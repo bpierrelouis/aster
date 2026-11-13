@@ -83,11 +83,16 @@ test('les noms de toutes les salles sont visibles dans la vue d’ensemble', asy
 });
 
 test('les onglets trop larges se réduisent à leur icône, avec une infobulle', async ({ page }) => {
-  await page.setViewportSize({ width: 1000, height: 820 });
+  // Police embarquée (Marianne) : la largeur des onglets ne dépend pas de la police du système (CI Linux)
+  await page.setViewportSize({ width: 1100, height: 820 });
   await open(page, '/salles');
+  await page.evaluate(async () => {
+    document.documentElement.style.setProperty('--font-text', 'Marianne');
+    await document.fonts.ready;
+  });
+  await page.setViewportSize({ width: 1000, height: 820 });
   const sub = page.locator('.subnav');
   await expect(sub).toHaveClass(/is-tight/);
-  // Débordement non vérifié ici : à cette largeur, il dépend de la police du système
   const stock = sub.getByRole('link', { name: 'Stock' });
   expect(await stock.locator(':scope > span').evaluate((n) => n.getBoundingClientRect().width)).toBeLessThanOrEqual(1);
   await expect(stock).toHaveAttribute('data-tip', 'Stock');
@@ -977,6 +982,31 @@ test('les listes courtes partagent le menu de choix et se parcourent au clavier'
     await page.screenshot({ path: testInfo.outputPath(`choix-${ambiance}-${tone}.png`), fullPage: true, animations: 'disabled' });
     await page.keyboard.press('Escape');
   }
+});
+
+test('les menus de la barre haute se ferment par Échap, clic extérieur ou leur bouton', async ({ page }) => {
+  await open(page, '/accueil');
+  const account = page.getByRole('button', { name: 'Compte', exact: true });
+  const alerts = page.getByRole('button', { name: 'Notifications', exact: true });
+  const accountMenu = page.getByRole('dialog', { name: 'Compte' });
+  const alertsMenu = page.getByRole('dialog', { name: 'Notifications' });
+  await account.click();
+  await expect(accountMenu).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(accountMenu).toHaveCount(0);
+  await expect(account).toBeFocused();
+  await account.click();
+  await alerts.click();
+  await expect(accountMenu).toHaveCount(0);
+  await expect(alertsMenu).toBeVisible();
+  const { width, height } = page.viewportSize()!;
+  await page.mouse.click(width - 4, height - 4); // marge vide de la page
+  await expect(alertsMenu).toHaveCount(0);
+  await expect(page).toHaveURL(/\/accueil$/);
+  await alerts.click();
+  await expect(alertsMenu).toBeVisible();
+  await alerts.click();
+  await expect(alertsMenu).toHaveCount(0);
 });
 
 test('le menu du compte reste ancré pendant les changements d’apparence', async ({ page }, testInfo) => {
