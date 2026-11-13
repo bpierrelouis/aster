@@ -1,9 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1420" height="1440" viewBox="0 0 1420 1440" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1420" height="1510" viewBox="0 0 1420 1510" role="img" aria-labelledby="title desc">
 <title id="title">ORION — architecture réelle complète sur dix VM</title>
 <desc id="desc">Placement des services par VM ou groupe de VM, conteneurs ou services de l’hôte, rôles Swarm, versions, ports, volumes et flux.</desc>
 <defs>
 <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f6cbd"/></marker>
 <marker id="arrow-start" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0 L0 5 L10 10 Z" fill="#0f6cbd"/></marker>
+<symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
 <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
 <symbol id="i-user-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="m21.7 16.4-.9-.3"/><path d="m15.2 13.9-.9-.3"/><path d="m16.6 18.7.3-.9"/><path d="m19.1 12.2.3-.9"/><path d="m19.6 18.7-.4-1"/><path d="m16.8 12.3-.4-1"/><path d="m14.3 16.6 1-.4"/><path d="m20.7 13.8 1-.4"/></symbol>
 <symbol id="i-boxes" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42Z"/><path d="m7 16.5-4.74-2.85"/><path d="m7 16.5 5-3"/><path d="M7 16.5v5.17"/><path d="M12 13.5V19l3.97 2.38a2 2 0 0 0 2.06 0l3-1.8a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L17 10.5l-5 3Z"/><path d="m17 16.5-5-3"/><path d="m17 16.5 4.74-2.85"/><path d="M17 16.5v5.17"/><path d="M7.97 4.42A2 2 0 0 0 7 6.13v4.37l5 3 5-3V6.13a2 2 0 0 0-.97-1.71l-3-1.8a2 2 0 0 0-2.06 0l-3 1.8Z"/><path d="M12 8 7.26 5.15"/><path d="m12 8 4.74-2.85"/><path d="M12 13.5V8"/></symbol>
@@ -13,6 +14,7 @@
 <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
 <symbol id="i-hard-drive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></symbol>
 <symbol id="i-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 22v-2"/><path d="m17 20.66-1-1.73"/><path d="M11 10.27 7 3.34"/><path d="m20.66 17-1.73-1"/><path d="m3.34 7 1.73 1"/><path d="M14 12h8"/><path d="M2 12h2"/><path d="m20.66 7-1.73 1"/><path d="m3.34 17 1.73-1"/><path d="m17 3.34-1 1.73"/><path d="m11 13.73-4 6.93"/></symbol>
+<symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
 <symbol id="i-app-window" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></symbol>
 <symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></symbol>
 <symbol id="i-key-round" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
@@ -41,9 +43,15 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 .flow{fill:none;stroke:#0f6cbd;stroke-width:2}
 .auto{stroke-dasharray:6 4}
 </style>
-<rect width="1420" height="1440" fill="#fff"/>
+<rect width="1420" height="1510" fill="#fff"/>
 <text x="40" y="44" class="title" text-anchor="start">Architecture réelle complète sur dix VM</text>
 <text x="40" y="72" class="body" text-anchor="start">Déploiement proposé · Debian 13 · Docker Swarm · DNS BIND · stockage NFS · accès par orion.internal</text>
+<g transform="translate(0 70)">
+<rect x="1010" y="25" width="280" height="90" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-github" x="1022" y="37" width="22" height="22" style="color:#3d5a78"/>
+<text x="1054" y="53" class="service" text-anchor="start">GitHub</text>
+<text x="1054" y="72" class="caption" text-anchor="start">dépôt et GitHub Actions</text>
+<text x="1054" y="88" class="caption" text-anchor="start">par le proxy 172.16.0.1:8080</text>
 <rect x="20" y="280" width="170" height="170" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
 <use href="#i-users" x="32" y="292" width="22" height="22" style="color:#3d5a78"/>
 <text x="64" y="308" class="service" text-anchor="start">Navigateur</text>
@@ -64,7 +72,6 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="339" y="219" class="vm" text-anchor="start">Managers et entrée</text>
 <text x="339" y="236" class="caption" text-anchor="start">orion-1 · 172.16.131.188</text>
 <text x="339" y="253" class="caption" text-anchor="start">orion-2 · 172.16.131.133</text>
-<text x="339" y="270" class="caption" text-anchor="start">orion-3 · 172.16.131.193</text>
 <rect x="505.6" y="205" width="64.4" height="19" rx="9.5" fill="#d7e8fb" stroke="none"/>
 <text x="537.8" y="218.5" class="badge" text-anchor="middle">MANAGER</text>
 <rect x="318" y="285" width="249" height="72" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
@@ -102,13 +109,24 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="317" y="1025" class="caption" text-anchor="start">systemd-timesyncd → orion-1</text>
 <text x="317" y="1041" class="caption" text-anchor="start">DNS → orion-1, orion-2 · syslog 6514</text>
 <text x="317" y="1057" class="caption" text-anchor="start">7946/TCP-UDP · 4789/UDP · ESP</text>
-<rect x="650" y="195" width="710" height="375" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<rect x="650" y="195" width="710" height="100" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
 <use href="#i-server" x="662" y="206" width="16" height="16" style="color:#5b7690"/>
-<text x="684" y="219" class="vm" text-anchor="start">Application</text>
-<text x="684" y="236" class="caption" text-anchor="start">orion-4 · 172.16.131.208</text>
-<text x="684" y="253" class="caption" text-anchor="start">orion-5 · 172.16.131.142</text>
-<rect x="1292.8" y="205" width="57.2" height="19" rx="9.5" fill="#e8eef5" stroke="none"/>
-<text x="1321.4" y="218.5" class="badge" text-anchor="middle">WORKER</text>
+<text x="684" y="219" class="vm" text-anchor="start">Manager et administration</text>
+<text x="684" y="236" class="caption" text-anchor="start">orion-3 · 172.16.131.193</text>
+<rect x="1285.6" y="205" width="64.4" height="19" rx="9.5" fill="#d7e8fb" stroke="none"/>
+<text x="1317.8" y="218.5" class="badge" text-anchor="middle">MANAGER</text>
+<rect x="960" y="226" width="304" height="60" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
+<use href="#i-rocket" x="970" y="236" width="20" height="20" style="color:#a06a00"/>
+<text x="998" y="251" class="service" text-anchor="start">Runner GitHub Actions</text>
+<text x="1254" y="250" class="tag host" text-anchor="end">service hôte</text>
+<text x="998" y="269" class="caption" text-anchor="start">2.338.2 · systemd · sans port d’écoute</text>
+<rect x="650" y="305" width="710" height="265" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<use href="#i-server" x="662" y="316" width="16" height="16" style="color:#5b7690"/>
+<text x="684" y="329" class="vm" text-anchor="start">Application</text>
+<text x="684" y="346" class="caption" text-anchor="start">orion-4 · 172.16.131.208</text>
+<text x="684" y="363" class="caption" text-anchor="start">orion-5 · 172.16.131.142</text>
+<rect x="1292.8" y="315" width="57.2" height="19" rx="9.5" fill="#e8eef5" stroke="none"/>
+<text x="1321.4" y="328.5" class="badge" text-anchor="middle">WORKER</text>
 <rect x="663" y="375" width="274" height="86" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
 <use href="#i-app-window" x="673" y="385" width="20" height="20" style="color:#0f6cbd"/>
 <text x="701" y="400" class="service" text-anchor="start">Apache 2.4</text>
@@ -206,12 +224,12 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="701" y="1294" class="caption" text-anchor="start">partages /srv/orion/donnees et /srv/orion/logs</text>
 <rect x="663" y="1320" width="330" height="55" rx="8" fill="#e6f4ec" stroke="#8fc4a3"/>
 <use href="#i-hard-drive" x="673" y="1332" width="16" height="16" style="color:#2f7a4f"/>
-<text x="697" y="1337" class="vol" text-anchor="start">Disque des données · ext4</text>
+<text x="697" y="1337" class="vol" text-anchor="start">Données · ext4 · fichier image 6 Go</text>
 <text x="697" y="1352" class="caption" text-anchor="start">/srv/orion/donnees : postgres, ldap-data, ldap-config</text>
 <text x="697" y="1367" class="caption" text-anchor="start">bind/1, bind/2 (cache et données des DNS)</text>
 <rect x="1010" y="1320" width="337" height="40" rx="8" fill="#e6f4ec" stroke="#8fc4a3"/>
 <use href="#i-hard-drive" x="1020" y="1332" width="16" height="16" style="color:#2f7a4f"/>
-<text x="1044" y="1337" class="vol" text-anchor="start">Disque des logs · ext4</text>
+<text x="1044" y="1337" class="vol" text-anchor="start">Logs · ext4 · fichier image 4 Go</text>
 <text x="1044" y="1352" class="caption" text-anchor="start">/srv/orion/logs : conteneurs, bind</text>
 <path d="M190 320 L316 320" class="flow" marker-end="url(#arrow)"/>
 <text x="196" y="314" class="route" text-anchor="start">DNS 53</text>
@@ -250,4 +268,9 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="196" y="1383" class="route" text-anchor="start">SSH 22</text>
 <path d="M105 1150 L105 1142 L262 1142 L262 580 L316 580" class="flow" marker-end="url(#arrow)"/>
 <text x="255" y="1137" class="route" text-anchor="end">HTTPS 8444 · console Keycloak</text>
+<path d="M1150 226 L1150 117" class="flow" marker-end="url(#arrow)"/>
+<text x="1158" y="172" class="route" text-anchor="start">HTTPS 443</text>
+<path d="M960 258 L582 258" class="flow" marker-end="url(#arrow)"/>
+<text x="670" y="281" class="route" text-anchor="start">SSH 22 · orion-1</text>
+</g>
 </svg>
