@@ -19,9 +19,9 @@ x-relance: &relance
     delay: 5s
 
 # DNS du domaine orion.internal (configuration du formateur) : deux serveurs, chacun fixé à sa VM, déclarés tous deux
-# par les postes et les VM ; chacun a ses volumes NFS
+# par les postes et les VM ; chacun a ses volumes NFS. Sans pilote syslog : celui-ci joint orion.internal, que BIND
+# doit d'abord résoudre ; BIND écrit ses logs dans son volume du disque des logs (named.conf)
 x-bind: &bind
-  <<: *logs
   image: internetsystemsconsortium/bind9:9.20@sha256:66092edb53c081fa11b1fa8219e99065b0f497cb38f568ba789702a4c10e2590
   ports:
     - { target: 53, published: 53, protocol: tcp, mode: host }
@@ -148,6 +148,8 @@ services:
     healthcheck:
       test: [CMD-SHELL, pg_isready -U orion -d orion]
       interval: 10s
+      # Première initialisation lente sur NFS : un conteneur relancé pendant initdb laisserait une base incomplète
+      start_period: 5m
     deploy:
       <<: *relance
       # orion-6, ou orion-9 (secours) si orion-6 tombe

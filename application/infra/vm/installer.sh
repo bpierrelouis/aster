@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Installation des VM orion-1 à orion-10, depuis le poste de l'opérateur (Git Bash, Linux ou macOS).
 # Prérequis : clé SSH de l'opérateur autorisée pour le compte VM_USER sur chaque VM (voir application/README.md) ;
-# deux disques vierges ajoutés à orion-10 pour le stockage.
-# Le mot de passe sudo est demandé une fois et n'est enregistré nulle part.
-# DISQUE_DONNEES et DISQUE_LOGS : disques de données et de logs d'orion-10, formatés en ext4 s'ils sont vierges (/dev/sdb et /dev/sdc par défaut).
+# deux disques vierges ajoutés à orion-10 pour le stockage, à défaut deux fichiers image sur son disque système.
+# Le mot de passe sudo est lu dans SUDO_PASSWORD, sinon demandé une fois ; il n'est enregistré nulle part.
+# DISQUE_DONNEES et DISQUE_LOGS : disques de données et de logs d'orion-10, formatés en ext4 s'ils sont vierges (/dev/sdb et /dev/sdc par défaut) ;
+# un disque absent est remplacé par un fichier image ext4 (6 Go pour les données, 4 Go pour les logs) dans /srv/orion/disques.
 # Idempotent : relancer le script ne recrée ni le cluster, ni les secrets, ni les certificats existants ; il amène un cluster
 # existant à la répartition prévue (managers, workers, étiquettes), fait quitter le cluster à orion-10 et à toute VM
 # membre d'un autre cluster, et retire toute autre pile que « orion ».
@@ -44,7 +45,9 @@ for n in 1 2 3 4 5 6 7 8 9 10; do
     install -D -m 644 /dev/stdin /etc/docker/orion-ca.pem
     if [ \"\$(hostname)\" != orion-$n ]; then echo orion-$n > /etc/hostname; hostname orion-$n; fi
     grep -q \"^127.0.1.1 orion-$n\$\" /etc/hosts || { sed -i \"/^127.0.1.1 /d\" /etc/hosts; echo \"127.0.1.1 orion-$n\" >> /etc/hosts; }
-    printf \"search $DOMAINE formation\nnameserver ${VM[1]}\nnameserver ${VM[2]}\nnameserver $DNS_FORMATION\noptions timeout:1 attempts:1\n\" > /etc/resolv.conf
+    # resolv.conf.head : en tête du fichier que dhcpcd réécrit à chaque bail, qui ajoute le DNS du réseau
+    printf \"search $DOMAINE formation\nnameserver ${VM[1]}\nnameserver ${VM[2]}\noptions timeout:1 attempts:1\n\" > /etc/resolv.conf.head
+    { cat /etc/resolv.conf.head; echo \"nameserver $DNS_FORMATION\"; } > /etc/resolv.conf
     if [ \"\$(docker info --format {{.Name}})\" != orion-$n ]; then systemctl restart docker; fi
     if [ $n = 1 ]; then
       command -v chronyd >/dev/null || DEBIAN_FRONTEND=noninteractive apt-get install -y -q chrony >/dev/null
@@ -69,21 +72,28 @@ DISQUE_DONNEES="${DISQUE_DONNEES:-/dev/sdb}" DISQUE_LOGS="${DISQUE_LOGS:-/dev/sd
 echo "== orion-10 (${VM[10]}) : données sur $DISQUE_DONNEES, logs sur $DISQUE_LOGS"
 { printf '%s\n' "$SUDO_PASSWORD"; cat <<'FIN'; } | ssh_vm 10 "sudo -S -p '' env DISQUE_DONNEES=$DISQUE_DONNEES DISQUE_LOGS=$DISQUE_LOGS CLIENTS='${VM[1]} ${VM[2]} ${VM[6]} ${VM[7]} ${VM[8]} ${VM[9]}' bash -s"
 set -e
-monter() { # disque point_de_montage étiquette
+monter() { # disque point_de_montage étiquette taille_sans_disque
   mountpoint -q "$2" && return
-  [ -b "$1" ] || { echo "Disque $1 introuvable : ajouter le disque ou préciser DISQUE_DONNEES et DISQUE_LOGS" >&2; exit 1; }
-  type=$(blkid -p -o value -s TYPE "$1" || true)
-  if [ -z "$type" ]; then
-    if blkid -p "$1" >/dev/null 2>&1; then echo "$1 porte des partitions : préciser DISQUE_DONNEES ou DISQUE_LOGS" >&2; exit 1; fi
-    mkfs.ext4 -q -L "$3" "$1"
-  elif [ "$type" != ext4 ]; then
-    echo "$1 contient un système de fichiers $type" >&2; exit 1
+  if [ -b "$1" ]; then
+    type=$(blkid -p -o value -s TYPE "$1" || true)
+    if [ -z "$type" ]; then
+      if blkid -p "$1" >/dev/null 2>&1; then echo "$1 porte des partitions : préciser DISQUE_DONNEES ou DISQUE_LOGS" >&2; exit 1; fi
+      mkfs.ext4 -q -L "$3" "$1"
+    elif [ "$type" != ext4 ]; then
+      echo "$1 contient un système de fichiers $type" >&2; exit 1
+    fi
+    source="UUID=$(blkid -o value -s UUID "$1")" options=defaults,nofail
+  else
+    # Sans disque ajouté : fichier image ext4 de taille fixe sur le disque système, monté comme un disque
+    source=/srv/orion/disques/$3.img options=loop,nofail
+    echo "Disque $1 absent : $2 sur le fichier image $source ($4)"
+    if [ ! -f "$source" ]; then install -d /srv/orion/disques; fallocate -l "$4" "$source"; mkfs.ext4 -q -F -L "$3" "$source"; fi
   fi
-  grep -q " $2 " /etc/fstab || echo "UUID=$(blkid -o value -s UUID "$1") $2 ext4 defaults,nofail 0 2" >> /etc/fstab
+  grep -q " $2 " /etc/fstab || echo "$source $2 ext4 $options 0 2" >> /etc/fstab
   mkdir -p "$2" && mount "$2"
 }
-monter "$DISQUE_DONNEES" /srv/orion/donnees orion-donnees
-monter "$DISQUE_LOGS" /srv/orion/logs orion-logs
+monter "$DISQUE_DONNEES" /srv/orion/donnees orion-donnees 6G
+monter "$DISQUE_LOGS" /srv/orion/logs orion-logs 4G
 install -d /srv/orion/donnees/postgres /srv/orion/donnees/ldap-data /srv/orion/donnees/ldap-config
 for n in 1 2; do   # compte de BIND, un jeu de dossiers par serveur DNS
   install -d -o 53 -g 53 /srv/orion/donnees/bind/$n/cache /srv/orion/donnees/bind/$n/lib /srv/orion/logs/bind/$n
@@ -130,17 +140,18 @@ if [ "$(etat 10)" = active ]; then
   if grep -qx "$id" <<<"$NOEUDS"; then docker_vm node rm --force "$id" >/dev/null; fi
 fi
 # Étiquettes : groupe (entrée, application) et rôles isolés ; orion-9 porte les trois rôles isolés, pour les reprendre
-for n in 1 2 3 4 5 6 7 8 9; do   # retrait de toutes les étiquettes existantes, puis pose des étiquettes prévues
-  for etiquette in $(docker_vm node inspect -f '{{range $k, $v := .Spec.Labels}}{{$k}} {{end}}' "orion-$n"); do
-    docker_vm node update --label-rm "$etiquette" "orion-$n" >/dev/null
-  done
+# Seules les étiquettes en trop sont retirées et les manquantes ajoutées : une relance ne déplace aucun service
+etiquettes() { case $1 in
+  1|2) echo orion=entree ;; 4|5) echo orion=application ;; 6) echo pg=true ;; 7) echo identite=true ;; 8) echo logs=true ;;
+  "$SECOURS") echo pg=true identite=true logs=true ;;
+esac; }
+for n in 1 2 3 4 5 6 7 8 9; do
+  voulues=" $(etiquettes "$n") " actuelles=" $(docker_vm node inspect -f '{{range $k, $v := .Spec.Labels}}{{$k}}={{$v}} {{end}}' "orion-$n") "
+  modifications=()
+  for e in $actuelles; do [[ $voulues == *" ${e%%=*}="* ]] || modifications+=(--label-rm "${e%%=*}"); done
+  for e in $voulues; do [[ $actuelles == *" $e "* ]] || modifications+=(--label-add "$e"); done
+  [ ${#modifications[@]} -eq 0 ] || docker_vm node update "${modifications[@]}" "orion-$n" >/dev/null
 done
-for n in 1 2; do docker_vm node update --label-add orion=entree "orion-$n" >/dev/null; done
-for n in 4 5; do docker_vm node update --label-add orion=application "orion-$n" >/dev/null; done
-docker_vm node update --label-add pg=true orion-6 >/dev/null
-docker_vm node update --label-add identite=true orion-7 >/dev/null
-docker_vm node update --label-add logs=true orion-8 >/dev/null
-docker_vm node update --label-add pg=true --label-add identite=true --label-add logs=true "orion-$SECOURS" >/dev/null
 for pile in $(docker_vm stack ls --format '{{.Name}}'); do
   [ "$pile" = orion ] && continue
   echo "== retrait de la pile « $pile », remplacée par « orion »"
