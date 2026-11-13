@@ -78,7 +78,7 @@ export function createServices({ config, env = process.env, pool, snapshot, conn
     },
     ...(config.identityProvisioning ? [{
       id: 'identite-admin', name: 'Administration du fournisseur d’identité', role: 'Reçoit la création des identités des comptes ORION.',
-      url: config.keycloakAdmin.adminUrl.href, check: http(false),
+      url: config.provisioning.adminUrl.href, check: http(false),
     }] : []),
     {
       id: 'annuaire', name: 'Annuaire', role: 'Porte les identités lues par le fournisseur d’identité (LDAP).',

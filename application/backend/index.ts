@@ -82,7 +82,7 @@ app.get('/api/openapi.json', connected, (_req, res) => res.json(openapi));
 app.use('/api/docs', connected, swaggerUi.serve, swaggerUi.setup(openapi, { customSiteTitle: 'API ORION' }));
 
 // Identités du fournisseur local (démonstrateur) : créées pour les comptes ORION actifs
-const provisioning = config.identityProvisioning ? createKeycloakProvisioning({ issuer: config.issuer, ...config.keycloakAdmin }) : null;
+const provisioning = config.identityProvisioning ? createKeycloakProvisioning({ issuer: config.issuer, ...config.provisioning }) : null;
 const provision = (accounts: Compte[]) => provisioning?.ensure(accounts).catch((error) => console.error('Provisionnement des identités :', error.message));
 provision((await workspaceRepository.snapshot()).comptes);
 workspaceRepository.onCommit((before, after) => { if (!same(before.comptes, after.comptes)) provision(after.comptes); });

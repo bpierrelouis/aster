@@ -17,7 +17,33 @@
   "accessTokenLifespan": 900,
   "ssoSessionIdleTimeout": 3600,
   "ssoSessionMaxLifespan": 3600,
+  "users": [
+    {
+      "username": "service-account-orion-provisionnement",
+      "enabled": true,
+      "serviceAccountClientId": "orion-provisionnement",
+      "clientRoles": {
+        "realm-management": [
+          "manage-users",
+          "view-users",
+          "query-users"
+        ]
+      }
+    }
+  ],
   "clients": [
+    {
+      "clientId": "orion-provisionnement",
+      "name": "Création des identités (démonstrateur)",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "${PROVISIONING_CLIENT_SECRET:orion-provisionnement-local}",
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true
+    },
     {
       "clientId": "orion-web",
       "name": "ORION",
@@ -84,6 +110,7 @@
   "components": {
     "org.keycloak.storage.UserStorageProvider": [
       {
+        "id": "orion-annuaire-ldap",
         "name": "annuaire-orion",
         "providerId": "ldap",
         "subComponents": {
@@ -203,7 +230,7 @@
             "WRITABLE"
           ],
           "importEnabled": [
-            "true"
+            "false"
           ],
           "syncRegistrations": [
             "true"

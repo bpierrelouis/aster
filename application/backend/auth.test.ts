@@ -37,8 +37,8 @@ test('les identifiants locaux sont utilisables uniquement hors production', () =
   assert.equal(readConfig({}).identityProvisioning, true);
   assert.equal(readConfig(production).identityProvisioning, false);
   assert.throws(() => readConfig({ ...production, IDENTITY_PROVISIONING: 'true' }));
-  const demo = readConfig({ ...production, IDENTITY_PROVISIONING: 'true', KEYCLOAK_ADMIN_PASSWORD: 'dedicated-admin', KEYCLOAK_ADMIN_URL: 'http://keycloak:8080' });
+  const demo = readConfig({ ...production, IDENTITY_PROVISIONING: 'true', PROVISIONING_CLIENT_SECRET: 'dedicated-client', KEYCLOAK_ADMIN_URL: 'http://keycloak:8080' });
   assert.equal(demo.identityProvisioning, true);
-  assert.equal(demo.keycloakAdmin.adminUrl.origin, 'http://keycloak:8080');
-  assert.equal(readConfig(production).keycloakAdmin.adminUrl.origin, 'https://identity.example.test');
+  assert.equal(demo.provisioning.adminUrl.origin, 'http://keycloak:8080');
+  assert.equal(readConfig(production).provisioning.adminUrl.origin, 'https://identity.example.test');
 });

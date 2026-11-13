@@ -16,8 +16,8 @@ export function readConfig(env = process.env) {
   const identityProvisioning = env.IDENTITY_PROVISIONING ? env.IDENTITY_PROVISIONING === 'true' : !production;
   // Réinitialisation des données quand la version du jeu de départ change : jamais en production, sauf démonstrateur (SEED_RESET=true)
   const seedReset = env.SEED_RESET ? env.SEED_RESET === 'true' : !production;
-  if (production && identityProvisioning && (!env.KEYCLOAK_ADMIN_PASSWORD || env.KEYCLOAK_ADMIN_PASSWORD === 'keycloak-admin-local')) {
-    throw new Error('La création des identités en production exige un mot de passe d’administration Keycloak dédié.');
+  if (production && identityProvisioning && (!env.PROVISIONING_CLIENT_SECRET || env.PROVISIONING_CLIENT_SECRET === 'orion-provisionnement-local')) {
+    throw new Error('La création des identités en production exige un secret dédié du client orion-provisionnement.');
   }
   return {
     production,
@@ -31,13 +31,13 @@ export function readConfig(env = process.env) {
     databaseUrl: env.DATABASE_URL || 'postgres://orion:orion-local@localhost:5432/orion',
     sessionSecret: env.SESSION_SECRET || randomBytes(48).toString('base64url'),
     agentToken: env.AGENT_TOKEN || 'orion-agent-local',
-    // Démonstrateur : compte d'administration du Keycloak local (création des identités)
+    // Démonstrateur : compte de service du Keycloak local, limité à la gestion des utilisateurs du realm
     identityProvisioning,
     seedReset,
-    keycloakAdmin: {
+    provisioning: {
       adminUrl: new URL(env.KEYCLOAK_ADMIN_URL || issuer.origin),
-      adminUser: env.KEYCLOAK_ADMIN_USER || 'keycloak-admin',
-      adminPassword: env.KEYCLOAK_ADMIN_PASSWORD || 'keycloak-admin-local',
+      clientId: env.PROVISIONING_CLIENT_ID || 'orion-provisionnement',
+      clientSecret: env.PROVISIONING_CLIENT_SECRET || 'orion-provisionnement-local',
     },
   };
 }

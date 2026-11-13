@@ -110,8 +110,7 @@ services:
       - OIDC_CLIENT_SECRET
       - SESSION_SECRET
       - AGENT_TOKEN
-      - source: keycloak_admin
-        target: KEYCLOAK_ADMIN_PASSWORD
+      - PROVISIONING_CLIENT_SECRET
       - source: ca
         target: /etc/ssl/orion/ca.pem
     networks: [orion]
@@ -186,6 +185,7 @@ services:
       KC_BOOTSTRAP_ADMIN_USERNAME: keycloak-admin
     secrets:
       - OIDC_CLIENT_SECRET
+      - PROVISIONING_CLIENT_SECRET
       - source: ldap_admin
         target: LDAP_ADMIN_PASSWORD
       - source: keycloak_admin
@@ -269,6 +269,7 @@ secrets:
   OIDC_CLIENT_SECRET: { external: true }
   SESSION_SECRET: { external: true }
   AGENT_TOKEN: { external: true }
+  PROVISIONING_CLIENT_SECRET: { external: true }
   keycloak_admin: { external: true }
   orion_postgres_password: { external: true }
   ldap_admin: { external: true }

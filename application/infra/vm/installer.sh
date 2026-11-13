@@ -161,6 +161,7 @@ fi
 secret OIDC_CLIENT_SECRET "$(aleatoire)"
 secret SESSION_SECRET "$(aleatoire)"
 secret AGENT_TOKEN "$(aleatoire)"
+secret PROVISIONING_CLIENT_SECRET "$(aleatoire)"
 secret keycloak_admin "$(aleatoire)"
 secret ldap_admin "$(aleatoire)"
 secret ca "$(cat "$PKI/ca.crt")"

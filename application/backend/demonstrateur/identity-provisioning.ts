@@ -9,18 +9,19 @@ import { identifiantDeBase, identifiantUnique } from './identifiant.ts';
 import type { Compte } from '#shared/types.ts';
 
 // adminUrl : adresse de l'API d'administration, par défaut celle de l'émetteur ; sur les VM, l'adresse interne de Keycloak.
-export function createKeycloakProvisioning({ issuer, adminUrl = issuer, adminUser, adminPassword, log = console }: {
-  issuer: URL; adminUrl?: URL; adminUser: string; adminPassword: string; log?: Partial<Pick<Console, 'info'>>;
+// Compte de service du realm (client orion-provisionnement), limité à la gestion de ses utilisateurs.
+export function createKeycloakProvisioning({ issuer, adminUrl = issuer, clientId, clientSecret, log = console }: {
+  issuer: URL; adminUrl?: URL; clientId: string; clientSecret: string; log?: Partial<Pick<Console, 'info'>>;
 }) {
   const base = adminUrl.origin;
   const realm = issuer.pathname.match(/\/realms\/([^/]+)/)?.[1];
   if (!realm) throw new Error('Realm Keycloak introuvable dans OIDC_ISSUER.');
 
   async function token() {
-    const response = await fetch(`${base}/realms/master/protocol/openid-connect/token`, {
+    const response = await fetch(`${base}/realms/${realm}/protocol/openid-connect/token`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ grant_type: 'password', client_id: 'admin-cli', username: adminUser, password: adminPassword }),
+      body: new URLSearchParams({ grant_type: 'client_credentials', client_id: clientId, client_secret: clientSecret }),
       signal: AbortSignal.timeout(5000),
     });
     if (!response.ok) throw new Error(`Jeton d'administration refusé (${response.status}).`);
