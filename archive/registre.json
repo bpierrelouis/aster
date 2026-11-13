@@ -336,6 +336,12 @@
         "version": "1.4",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
+        "archive": "03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.4-2026-11-12.md"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-13",
+        "modification": "Ajouter les retours du client du 12 novembre (PDF à la demande, validation des remontées)",
         "archive": null
       }
     ]

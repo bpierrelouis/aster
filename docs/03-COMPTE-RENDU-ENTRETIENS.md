@@ -3,12 +3,12 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Source de travail interne | Renommer le projet en ORION dans tout le dépôt | [5 versions](../archive/README.md#03-compte-rendu-entretiens) |
+| 2.0 | 13/11/2026 | Source de travail interne | Ajouter les retours du client du 12 novembre (PDF à la demande, validation des remontées) | [6 versions](../archive/README.md#03-compte-rendu-entretiens) |
 <!-- version:fin -->
 
 **Source historique de travail interne, non destinée à la remise aux cadres évaluateurs.** Les propos datés sont conservés tels quels, y compris lorsqu’ils concernent la démonstration ; ils ne doivent pas être recopiés comme exigences de production dans les livrables. Voir le [classement documentaire](../README.md#destination-des-documents).
 
-Ce document conserve la trace historique des entretiens des 22 et 23 octobre et du 4 novembre 2026. Les propos restent rattachés à leur date, y compris lorsqu’une réponse ultérieure les remplace. Pour chaque sujet, la dernière réponse fait foi ; les [questions de cadrage](02-CADRAGE.md) présentent les réponses en vigueur et les questions encore ouvertes.
+Ce document conserve la trace historique des entretiens des 22 et 23 octobre, du 4 novembre et du 12 novembre 2026. Les propos restent rattachés à leur date, y compris lorsqu’une réponse ultérieure les remplace. Pour chaque sujet, la dernière réponse fait foi ; les [questions de cadrage](02-CADRAGE.md) présentent les réponses en vigueur et les questions encore ouvertes.
 
 ## 1. Entretien du 23 octobre
 
@@ -138,3 +138,16 @@ L’échange a suivi la [présentation du point d’étape client](../presentati
 ### 3.4. Prochain rendez-vous
 
 Le prochain rendez-vous est annoncé pour jeudi. La date retenue dans ce compte rendu est le 12 novembre 2026.
+
+## 4. Entretien du 12 novembre 2026 — Retours du client
+
+Les retours de ce rendez-vous ont été transmis par l’utilisateur. Seuls les points ci-dessous ont été rapportés ; les autres sujets préparés pour ce rendez-vous n’ont pas de retour consigné.
+
+### 4.1. État des lieux PDF
+
+- « Les PDF ne passent plus par un S3 et sont générés à la demande de l’utilisateur depuis le backend. »
+- Les PDF générés à la demande ne sont pas conservés.
+
+### 4.2. Validation des remontées
+
+- « La validation d’une remontée par le client n’a pas été validée. » La clôture d’une remontée par son auteur n’est pas retenue.

@@ -52,7 +52,7 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 - [Glossaire](docs/00-GLOSSAIRE.md) : abréviations et définitions des termes employés dans le projet.
 - [Consignes du projet](docs/01-CONSIGNES.md) : besoin, périmètre fonctionnel, livrables et critères d’évaluation.
 - [Questions de cadrage](docs/02-CADRAGE.md) : réponses en vigueur et questions encore ouvertes pour préparer l’architecture et le backlog.
-- [Compte rendu des entretiens de cadrage](docs/03-COMPTE-RENDU-ENTRETIENS.md) : trace historique des échanges des 22 et 23 octobre et du 4 novembre.
+- [Compte rendu des entretiens de cadrage](docs/03-COMPTE-RENDU-ENTRETIENS.md) : trace historique des échanges des 22 et 23 octobre, du 4 novembre et du 12 novembre.
 - [Règles de gestion](docs/04-REGLES-DE-GESTION.md) : contraintes confirmées sur les données, les droits et les traitements.
 - [MCD Merise](docs/05-MCD-MERISE.svg) : modèle conceptuel des données conservées par ORION, établi d’après les décisions du client et l’application, avec son [source Mocodo éditable](docs/05-MCD-MERISE-MOCODO.url).
 - [Diagramme de contexte](docs/06-DIAGRAMME-CONTEXTE.md) : acteurs, composants de la suite et principaux échanges autour d’ORION.

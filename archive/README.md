@@ -20,7 +20,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/00-GLOSSAIRE.md](../docs/00-GLOSSAIRE.md) | Production destinée à la remise | [1.6](#00-glossaire) | 13/11/2026 |
 | [docs/01-CONSIGNES.md](../docs/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.3](#01-consignes) | 13/11/2026 |
 | [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) | Source de travail interne | [1.9](#02-cadrage) | 13/11/2026 |
-| [docs/03-COMPTE-RENDU-ENTRETIENS.md](../docs/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [1.4](#03-compte-rendu-entretiens) | 12/11/2026 |
+| [docs/03-COMPTE-RENDU-ENTRETIENS.md](../docs/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.0](#03-compte-rendu-entretiens) | 13/11/2026 |
 | [docs/04-REGLES-DE-GESTION.md](../docs/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [1.6](#04-regles-de-gestion) | 13/11/2026 |
 | [docs/05-MCD-MERISE-MOCODO.url](../docs/05-MCD-MERISE-MOCODO.url) | Production destinée à la remise | [1.3](#05-mcd-merise-mocodo) | 12/11/2026 |
 | [docs/05-MCD-MERISE.svg](../docs/05-MCD-MERISE.svg) | Production destinée à la remise | [1.3](#05-mcd-merise) | 12/11/2026 |
@@ -177,7 +177,8 @@ Fichier : [docs/03-COMPTE-RENDU-ENTRETIENS.md](../docs/03-COMPTE-RENDU-ENTRETIEN
 
 | Version | Date | Modification | Fichier |
 | --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur |
+| 2.0 | 13/11/2026 | Ajouter les retours du client du 12 novembre (PDF à la demande, validation des remontées) | en vigueur |
+| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | [archive](03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.4-2026-11-12.md) |
 | 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | [archive](03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.3-2026-11-08.md) |
 | 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | [archive](03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.2-2026-11-06.md) |
 | 1.1 | 02/11/2026 | Mcd | [archive](03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.1-2026-11-02.md) |
