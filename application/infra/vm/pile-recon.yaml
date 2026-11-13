@@ -1,0 +1,38 @@
+# Pile Docker Swarm « orion-recon » : connecteur du recensement mobile (application/README.md, Recensement mobile).
+# Fonctionnalité complémentaire, séparée de la pile « orion » : déployée par deployer.sh sans attendre son résultat, seulement si
+# l'adresse du relais est connue ; son échec ou son retrait (docker stack rm orion-recon) ne touche pas ORION.
+# Placée avec le back (orion-4, orion-5), une instance ; requêtes sortantes vers le relais par le proxy du réseau, aucun port publié.
+
+services:
+  connecteur:
+    image: ${ORION_IMAGES}/orion-connecteur:${ORION_TAG}
+    environment:
+      ORION_API: http://orion_api:3001
+      RELAIS_URL: ${ORION_RELAIS}
+      HTTPS_PROXY: ${ORION_PROXY}
+      NO_PROXY: orion_api,localhost,127.0.0.1
+    secrets: [RECON_SECRET, RELAIS_TOKEN]
+    networks: [orion]
+    logging:
+      driver: syslog
+      options:
+        syslog-address: tcp+tls://127.0.0.1:6514
+        syslog-format: rfc5424
+        syslog-tls-ca-cert: /etc/docker/orion-ca.pem
+        tag: '{{.Name}}'
+        mode: non-blocking
+    deploy:
+      restart_policy: { condition: any, delay: 30s }
+      placement: { constraints: [node.labels.orion == application] }
+      # Une mise à jour qui échoue revient d'elle-même à la version précédente du connecteur
+      update_config: { failure_action: rollback, monitor: 30s, order: stop-first }
+
+# Réseau de la pile orion, pour joindre l'API ; le connecteur n'en publie aucun
+networks:
+  orion:
+    external: true
+    name: orion_orion
+
+secrets:
+  RECON_SECRET: { external: true }
+  RELAIS_TOKEN: { external: true }
