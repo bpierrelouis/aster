@@ -37,7 +37,7 @@ Les changements d’apparence n’envoient que les préférences au serveur : l�
 
 Tous les choix de listes utilisent le même contrôle intégré : le champ sélectionné ouvre un panneau aux surfaces et aux couleurs de l’application, avec les groupes, le survol et une coche pour le choix courant. Au-delà de huit choix, la recherche apparaît à l’intérieur du panneau et filtre les noms et groupes sans tenir compte de la casse ni des accents. Le filtre ne change pas la sélection ; Échap annule la navigation dans les options, les flèches permettent de parcourir les choix et Entrée de confirmer. Les valeurs et la validation des formulaires restent conservées. Le panneau défile et se positionne dans les limites de l’écran, y compris dans une fenêtre modale. Le choix de salle d’un signalement conserve sa recherche dans tous les bâtiments.
 
-Les infobulles utilisent la couche native des popovers pour rester visibles au-dessus des fenêtres modales, notamment lors du choix des matériels dans un signalement.
+Les infobulles utilisent la couche native des popovers pour rester visibles au-dessus des fenêtres modales, notamment lors du choix des matériels dans un signalement. Les menus de la barre haute (compte, école, notifications) sont aussi des popovers natifs : le navigateur les ferme par Échap ou par un clic extérieur, et leur animation d’entrée est en CSS (`@starting-style`), sans attendre une image.
 
 La barre de navigation latérale mesure 120 px dans les deux ambiances afin de garder les libellés, dont « Administration », dans ses limites.
 

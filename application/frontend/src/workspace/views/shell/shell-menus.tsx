@@ -42,7 +42,7 @@ export function AccountPopover({ anchor, onClose }: PopoverProps) {
   const tone = s.prefs.tone === 'auto' ? machineTone : autoTone(s.prefs.tone);
   const followsMachine = AMBIANCES.find((a) => a.id === s.prefs.ambiance)?.tone === 'auto';
   const switchTone = () => { const next = tone === 'dark' ? 'light' : 'dark'; setPref('tone', next === systemTone() ? 'auto' : next); };
-  return <Popover anchor={anchor} onClose={onClose}>
+  return <Popover anchor={anchor} label="Compte" onClose={onClose}>
     <div className="account">
       <div className="account-head">
         <span className="avatar-face avatar-face--l">{initiale()}</span>
@@ -81,7 +81,7 @@ export function EcolePopover({ anchor, onClose }: PopoverProps) {
     store.update('ecole', (st) => { st.ecoleId = id; });
     notify(ecoleNom(id), { icon: 'school', tone: 'info' });
   };
-  return <Popover anchor={anchor} onClose={onClose} className="popover--list">
+  return <Popover anchor={anchor} label="École affichée" onClose={onClose} className="popover--list">
     <div className="pop-list">
       <div className="pop-title"><Icon name="school" size={18} /><b>École affichée</b></div>
       <ul>{opts.map((o) => {
@@ -100,7 +100,7 @@ export function EcolePopover({ anchor, onClose }: PopoverProps) {
 /** Notifications regroupées par nature (core/notifications.ts) ; le détail est dans l'espace Notifications */
 export function AlertsPopover({ anchor, onClose }: PopoverProps) {
   const groups = notificationGroups();
-  return <Popover anchor={anchor} onClose={onClose} className="popover--list">
+  return <Popover anchor={anchor} label="Notifications" onClose={onClose} className="popover--list">
     <div className="pop-list">
       <div className="pop-title"><Icon name="bell" size={18} /><b>Notifications</b><span className="w-count">{num(groups.length)}</span></div>
       {groups.length

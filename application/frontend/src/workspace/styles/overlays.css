@@ -49,14 +49,16 @@
    Popover
    -------------------------------------------------------------------------- */
 .popover {
-  position: fixed; z-index: 60;
+  position: fixed; inset: auto; margin: 0; border: 0; color: inherit; /* remplace le centrage natif du [popover] */
   min-width: min(260px, calc(100vw - 24px)); max-width: min(380px, calc(100vw - 24px));
   max-height: calc(100dvh - 24px); overflow-y: auto; overscroll-behavior: contain;
   padding: 14px; --radius: 26px;
-  opacity: 0; transform: translateY(-6px) scale(.97); transform-origin: top right;
+  transform-origin: top right;
   transition: opacity .18s ease, transform .32s var(--ease-spring);
 }
-.popover.is-open { opacity: 1; transform: none; }
+/* Entrée animée dès l'ouverture, sans attendre une image (@starting-style) */
+.popover:popover-open { opacity: 1; transform: none; }
+@starting-style { .popover:popover-open { opacity: 0; transform: translateY(-6px) scale(.97); } }
 
 .account { display: flex; flex-direction: column; gap: 16px; width: 316px; max-width: 100%; }
 .account-head { display: flex; align-items: center; gap: 12px; }

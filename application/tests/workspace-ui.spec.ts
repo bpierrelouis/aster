@@ -984,6 +984,31 @@ test('les listes courtes partagent le menu de choix et se parcourent au clavier'
   }
 });
 
+test('les menus de la barre haute se ferment par Échap, clic extérieur ou leur bouton', async ({ page }) => {
+  await open(page, '/accueil');
+  const account = page.getByRole('button', { name: 'Compte', exact: true });
+  const alerts = page.getByRole('button', { name: 'Notifications', exact: true });
+  const accountMenu = page.getByRole('dialog', { name: 'Compte' });
+  const alertsMenu = page.getByRole('dialog', { name: 'Notifications' });
+  await account.click();
+  await expect(accountMenu).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(accountMenu).toHaveCount(0);
+  await expect(account).toBeFocused();
+  await account.click();
+  await alerts.click();
+  await expect(accountMenu).toHaveCount(0);
+  await expect(alertsMenu).toBeVisible();
+  const { width, height } = page.viewportSize()!;
+  await page.mouse.click(width - 4, height - 4); // marge vide de la page
+  await expect(alertsMenu).toHaveCount(0);
+  await expect(page).toHaveURL(/\/accueil$/);
+  await alerts.click();
+  await expect(alertsMenu).toBeVisible();
+  await alerts.click();
+  await expect(alertsMenu).toHaveCount(0);
+});
+
 test('le menu du compte reste ancré pendant les changements d’apparence', async ({ page }, testInfo) => {
   for (const viewport of [{ width: 1280, height: 800 }, { width: 390, height: 600 }]) {
     await page.setViewportSize(viewport);
