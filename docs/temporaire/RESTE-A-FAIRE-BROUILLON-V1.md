@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.0 | 13/11/2026 | Brouillon interne | Restructurer par échéance et domaine ; intégrer l’audit de cohérence avec le DAT validé, le backlog GitHub, le scénario complet, les tests de sécurité, l’observatoire des parcours et les comptes réels de présentation | [7 versions](../../archive/README.md#reste-a-faire-brouillon-v1) |
+| 3.1 | 13/11/2026 | Brouillon interne | Retrait au lieu de suppression, proposition de RG-91 | [8 versions](../../archive/README.md#reste-a-faire-brouillon-v1) |
 <!-- version:fin -->
 
 Aide-mémoire interne de ce qui reste à traiter, mis à jour le 13 novembre 2026 après l’audit de cohérence du projet avec le dossier d’architecture technique validé. Les décisions et questions ouvertes font foi dans le [cadrage](../02-CADRAGE.md) ; ce document ne fait que les suivre.
@@ -53,6 +53,14 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 ### Évolutions
 
 - [ ] **Moyenne** — Observatoire anonymisé des parcours utilisateurs : mesurer, sans identifier les personnes, le taux de réussite, la durée, les abandons et les erreurs des tâches principales (créer et traiter une remontée, déplacer ou importer du matériel, demander une intervention, recenser une salle), puis adapter la navigation à partir de ces données réelles. À cadrer avant réalisation : liste des tâches et de leurs étapes, anonymisation et durée de conservation, information des utilisateurs, stockage dans ORION, restitution (tableau de bord du super administrateur), et place dans l’architecture cible à soumettre au collègue du DAT.
+- [ ] **Moyenne** — Retirer au lieu de supprimer (bonne pratique de gestion de parc, proposée le 13 novembre) :
+  - matériel, poste, application du catalogue et règle : un retrait (état « retiré » avec date, auteur et motif : réformé, perdu, transféré, erreur de saisie) remplace la suppression ; l’élément reste en base, sort des listes courantes, garde son historique et peut être réactivé ;
+  - suppression réelle réservée à une création erronée jamais citée ; le serveur la refuse dès qu’une référence existe (remontée, constat, poste, intervention, installation) ;
+  - compte ORION : désactivation inchangée, puis anonymisation des données personnelles au-delà d’une durée de conservation à fixer avec le client (cadrage § 23) ;
+  - données d’activité (processus, détections, journaux) : purge automatique selon une durée de conservation, inchangée ;
+  - journal métier des opérations sensibles (retrait, réactivation, transfert d’école, changement de droits), consultable par le super administrateur ;
+  - rédaction proposée pour RG-91 **[RG]**, à soumettre à l’utilisateur : « **RG-91 — Retrait d’un matériel.** Un matériel n’est pas supprimé mais retiré : son retrait enregistre la date, l’auteur et le motif (réformé, perdu, transféré ou erreur de saisie). Seul un matériel du stock peut être retiré. Un matériel retiré n’apparaît plus dans l’inventaire courant, reste consultable avec son historique et peut être réactivé. Seul un matériel créé par erreur et cité nulle part peut être supprimé définitivement. » ;
+  - conséquences : MCD (`MATÉRIEL`), matrice, DCU 08, fiches 13, 15 et 16, code (`rules.ts`, inventaire) et données de départ.
 - [ ] Jeton d’un poste : seule l’API `GET /api/workspace/postes/:id/jeton` permet de l’obtenir ; prévoir l’action dans Administration › Postes. Renouveler `AGENT_TOKEN` révoque tous les jetons à la fois : prévoir une révocation poste par poste si le besoin apparaît.
 - [ ] Adresse MAC du matériel : présente dans le MCD, absente du code ; à reprendre avec le collègue qui l’ajoute (scanner de matrice).
 - [ ] Import JSON : le transfert d’un matériel hors service vers une salle d’une autre école est bloqué (conséquence de RG-87) ; à confirmer par l’utilisateur.
