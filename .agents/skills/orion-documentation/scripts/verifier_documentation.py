@@ -128,7 +128,8 @@ def audit(root):
             continue
         diagram_name = re.search(r"(?:^|-)(?:DIAGRAMMES?|DCU|MCD)(?:-|\.)", path.name)
         if diagram_name or "```mermaid" in text:
-            # Les libellés internes des diagrammes restent autorisés.
+            # Les libellés internes des diagrammes et l'en-tête de version (versions.py) restent autorisés.
+            text = re.sub(r"<!-- version:debut.*?<!-- version:fin -->", lambda m: "\n" * m[0].count("\n"), text, flags=re.S)
             block = re.compile(r"(?m)^(`{3,}|~{3,})(?:mermaid|plantuml|mocodo|dot|graphviz)[ \t]*\n.*?^\1[ \t]*(?:\n|$)", re.S)
             blocks = list(block.finditer(text))
             remainder = block.sub(lambda m: "\n" * m[0].count("\n"), text)

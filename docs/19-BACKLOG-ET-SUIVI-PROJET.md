@@ -1,5 +1,11 @@
 # ASTER — Backlog et suivi du projet
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.0 | 13/11/2026 | Production destinée à la remise | Styliser les graphiques en SVG dans Word | [1 version](../archive/README.md#19-backlog-et-suivi-projet) |
+<!-- version:fin -->
+
 **Période : du 20 octobre au 19 novembre 2026.**
 
 **Version préparée le 13 novembre 2026 — échéance de remise : 19 novembre 2026.**

@@ -1,5 +1,11 @@
 # Diagramme de contexte de l'application ORION
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.1 | 12/11/2026 | Production destinée à la remise | Renommer ASTER en ORION dans tout le dépôt | [2 versions](../archive/README.md#06-diagramme-contexte) |
+<!-- version:fin -->
+
 ```mermaid
 flowchart LR
     gestionnaire(["Gestionnaire"])

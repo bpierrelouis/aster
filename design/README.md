@@ -1,5 +1,11 @@
 # Design ORION
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.3 | 12/11/2026 | Ressource de préparation | Renommer ASTER en ORION dans tout le dépôt | [4 versions](../archive/README.md#design-readme) |
+<!-- version:fin -->
+
 Ce dossier rassemble les livrables de conception visuelle de l’application.
 
 - [Direction artistique 01 — ORION](charte-graphique/index.html) : identité florale, palette violette, logos, icônes et animation de chargement.

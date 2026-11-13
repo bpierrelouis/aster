@@ -1,5 +1,11 @@
 # Reste à faire — brouillon V1
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.0 | 13/11/2026 | Brouillon interne | Décrire l'entrée unique par adresse IP, sans DNS | [1 version](../../archive/README.md#reste-a-faire-brouillon-v1) |
+<!-- version:fin -->
+
 Document de travail interne, établi le 13 novembre 2026 à l’issue du contrôle du renommage, de la conversion en TypeScript, de la revue de qualité et de l’analyse de sécurité. Il recense ce qui n’a pas été traité. Les décisions et questions ouvertes font foi dans le [cadrage](../02-CADRAGE.md) (§ 19) ; ce document n’en est qu’un aide-mémoire.
 
 ## Avant le prochain déploiement sur les VM

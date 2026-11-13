@@ -1,0 +1,921 @@
+{
+  "design/README.md": {
+    "destination": "Ressource de préparation",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-03",
+        "modification": "Organiser les livrables et intégrer la maquette",
+        "archive": "design-README/README-v1.0-2026-11-03.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-06",
+        "modification": "Proposer l'identité VIGIE ; Ajouter les références visuelles MindefConnect ; Réduire le formulaire et centrer le bouton",
+        "archive": "design-README/README-v1.1-2026-11-06.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-10",
+        "modification": "Proposer trois maquettes du tableau de bord",
+        "archive": "design-README/README-v1.2-2026-11-10.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "design/charte-graphique-vigie/index.html": {
+    "destination": "Ressource de préparation",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-06",
+        "modification": "Proposer l'identité VIGIE",
+        "archive": "design-charte-graphique-vigie-index/index-v1.0-2026-11-06.html"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "design/charte-graphique/charte-graphique-orion.html": {
+    "destination": "Ressource de préparation",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-09",
+        "modification": "Ajouter la maquette et la charte graphique ORION",
+        "archive": null
+      }
+    ]
+  },
+  "design/charte-graphique/index.html": {
+    "destination": "Ressource de préparation",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-10-21",
+        "modification": "Apercu + loader",
+        "archive": "design-charte-graphique-index/index-v1.0-2026-10-21.html"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Organiser les livrables et intégrer la maquette",
+        "archive": "design-charte-graphique-index/index-v1.1-2026-11-03.html"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "design/maquettes/gestion-materiels.html": {
+    "destination": "Ressource de préparation",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-03",
+        "modification": "Organiser les livrables et intégrer la maquette",
+        "archive": "design-maquettes-gestion-materiels/gestion-materiels-v1.0-2026-11-03.html"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-06",
+        "modification": "Adapter les écrans et captures à la cible",
+        "archive": "design-maquettes-gestion-materiels/gestion-materiels-v1.1-2026-11-06.html"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "design/maquettes/maquette-dashboard-orion.html": {
+    "destination": "Ressource de préparation",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-09",
+        "modification": "Ajouter la maquette et la charte graphique ORION",
+        "archive": null
+      }
+    ]
+  },
+  "design/maquettes/maquette-dashboard-proposition-a-cockpit.html": {
+    "destination": "Ressource de préparation",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-10",
+        "modification": "Proposer trois maquettes du tableau de bord",
+        "archive": "design-maquettes-maquette-dashboard-proposition-a-cockpit/maquette-dashboard-proposition-a-cockpit-v1.0-2026-11-10.html"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "design/maquettes/maquette-dashboard-proposition-b-a-traiter.html": {
+    "destination": "Ressource de préparation",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-10",
+        "modification": "Proposer trois maquettes du tableau de bord",
+        "archive": "design-maquettes-maquette-dashboard-proposition-b-a-traiter/maquette-dashboard-proposition-b-a-traiter-v1.0-2026-11-10.html"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "design/maquettes/maquette-dashboard-proposition-c-analyse.html": {
+    "destination": "Ressource de préparation",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-10",
+        "modification": "Proposer trois maquettes du tableau de bord",
+        "archive": "design-maquettes-maquette-dashboard-proposition-c-analyse/maquette-dashboard-proposition-c-analyse-v1.0-2026-11-10.html"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/00-GLOSSAIRE.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows",
+        "archive": "00-GLOSSAIRE/00-GLOSSAIRE-v1.0-2026-11-02.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Préparer le support du point client ; Formaliser les profils et leurs autorisations ; Intégrer Keycloak, S3 et les serveurs front et back",
+        "archive": "00-GLOSSAIRE/00-GLOSSAIRE-v1.1-2026-11-03.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-06",
+        "modification": "Distinguer la cible MindefConnect du démonstrateur",
+        "archive": "00-GLOSSAIRE/00-GLOSSAIRE-v1.2-2026-11-06.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "archive": "00-GLOSSAIRE/00-GLOSSAIRE-v1.3-2026-11-08.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-09",
+        "modification": "Consolider le modèle et les règles métier ; Harmoniser les diagrammes de cas d'utilisation",
+        "archive": "00-GLOSSAIRE/00-GLOSSAIRE-v1.4-2026-11-09.md"
+      },
+      {
+        "version": "1.5",
+        "date": "2026-11-12",
+        "modification": "Aster -> orion, mise à jour de l'interface utilisateur ; Renommer ASTER en ORION dans tout le dépôt",
+        "archive": "00-GLOSSAIRE/00-GLOSSAIRE-v1.5-2026-11-12.md"
+      },
+      {
+        "version": "1.6",
+        "date": "2026-11-13",
+        "modification": "Développer le sigle ORION et garantir RG-73 côté serveur",
+        "archive": null
+      }
+    ]
+  },
+  "docs/01-CONSIGNES.md": {
+    "destination": "Source fournie par l’encadrement",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-10-20",
+        "modification": "Consignes + cadrage",
+        "archive": "01-CONSIGNES/01-CONSIGNES-v1.0-2026-10-20.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-02",
+        "modification": "Consolider le cadrage et les modèles",
+        "archive": "01-CONSIGNES/01-CONSIGNES-v1.1-2026-11-02.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-09",
+        "modification": "Préciser le contenu attendu du dossier d'architecture",
+        "archive": "01-CONSIGNES/01-CONSIGNES-v1.2-2026-11-09.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-13",
+        "modification": "Fiabiliser les configurations à remettre",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-CADRAGE.md": {
+    "destination": "Source de travail interne",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-10-20",
+        "modification": "Consignes + cadrage",
+        "archive": "02-CADRAGE/02-CADRAGE-v1.0-2026-10-20.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-10-24",
+        "modification": "Aligner le cadrage, les diagrammes et les consignes Git",
+        "archive": "02-CADRAGE/02-CADRAGE-v1.1-2026-10-24.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-02",
+        "modification": "Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows",
+        "archive": "02-CADRAGE/02-CADRAGE-v1.2-2026-11-02.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-03",
+        "modification": "Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Préparer le support du point client ; Formaliser les profils et leurs autorisations ; Intégrer Keycloak, S3 et les serveurs front et back",
+        "archive": "02-CADRAGE/02-CADRAGE-v1.3-2026-11-03.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-06",
+        "modification": "Distinguer la cible MindefConnect du démonstrateur",
+        "archive": "02-CADRAGE/02-CADRAGE-v1.4-2026-11-06.md"
+      },
+      {
+        "version": "1.5",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "archive": "02-CADRAGE/02-CADRAGE-v1.5-2026-11-08.md"
+      },
+      {
+        "version": "1.6",
+        "date": "2026-11-09",
+        "modification": "Consolider le modèle et les règles métier",
+        "archive": "02-CADRAGE/02-CADRAGE-v1.6-2026-11-09.md"
+      },
+      {
+        "version": "1.7",
+        "date": "2026-11-11",
+        "modification": "Décrire le déploiement du démonstrateur sur huit VM",
+        "archive": "02-CADRAGE/02-CADRAGE-v1.7-2026-11-11.md"
+      },
+      {
+        "version": "1.8",
+        "date": "2026-11-12",
+        "modification": "Préparer les points du rendez-vous du 12 novembre ; Aster -> orion, mise à jour de l'interface utilisateur ; Renommer ASTER en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions d'aster",
+        "archive": "02-CADRAGE/02-CADRAGE-v1.8-2026-11-12.md"
+      },
+      {
+        "version": "1.9",
+        "date": "2026-11-13",
+        "modification": "Développer le sigle ORION et garantir RG-73 côté serveur ; Inscrire les points de sécurité qui demandent une décision ; Reporter les décisions de sécurité du 13 novembre ; Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues ; Fiabiliser les configurations à remettre",
+        "archive": null
+      }
+    ]
+  },
+  "docs/03-COMPTE-RENDU-ENTRETIENS.md": {
+    "destination": "Source de travail interne",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-10-24",
+        "modification": "Aligner le cadrage, les diagrammes et les consignes Git",
+        "archive": "03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.0-2026-10-24.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-02",
+        "modification": "Mcd",
+        "archive": "03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.1-2026-11-02.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-06",
+        "modification": "Distinguer la cible MindefConnect du démonstrateur",
+        "archive": "03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.2-2026-11-06.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "archive": "03-COMPTE-RENDU-ENTRETIENS/03-COMPTE-RENDU-ENTRETIENS-v1.3-2026-11-08.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/04-REGLES-DE-GESTION.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows",
+        "archive": "04-REGLES-DE-GESTION/04-REGLES-DE-GESTION-v1.0-2026-11-02.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations",
+        "archive": "04-REGLES-DE-GESTION/04-REGLES-DE-GESTION-v1.1-2026-11-03.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-06",
+        "modification": "Distinguer la cible MindefConnect du démonstrateur",
+        "archive": "04-REGLES-DE-GESTION/04-REGLES-DE-GESTION-v1.2-2026-11-06.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "archive": "04-REGLES-DE-GESTION/04-REGLES-DE-GESTION-v1.3-2026-11-08.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-09",
+        "modification": "Consolider le modèle et les règles métier",
+        "archive": "04-REGLES-DE-GESTION/04-REGLES-DE-GESTION-v1.4-2026-11-09.md"
+      },
+      {
+        "version": "1.5",
+        "date": "2026-11-12",
+        "modification": "Aster -> orion, mise à jour de l'interface utilisateur ; Renommer ASTER en ORION dans tout le dépôt",
+        "archive": "04-REGLES-DE-GESTION/04-REGLES-DE-GESTION-v1.5-2026-11-12.md"
+      },
+      {
+        "version": "1.6",
+        "date": "2026-11-13",
+        "modification": "Développer le sigle ORION et garantir RG-73 côté serveur",
+        "archive": null
+      }
+    ]
+  },
+  "docs/05-MCD-MERISE-MOCODO.url": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Mcd ; Maj mcd",
+        "archive": "05-MCD-MERISE-MOCODO/05-MCD-MERISE-MOCODO-v1.0-2026-11-02.url"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations",
+        "archive": "05-MCD-MERISE-MOCODO/05-MCD-MERISE-MOCODO-v1.1-2026-11-03.url"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-09",
+        "modification": "Consolider le modèle et les règles métier",
+        "archive": "05-MCD-MERISE-MOCODO/05-MCD-MERISE-MOCODO-v1.2-2026-11-09.url"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/05-MCD-MERISE.svg": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Mcd ; Maj mcd",
+        "archive": "05-MCD-MERISE/05-MCD-MERISE-v1.0-2026-11-02.svg"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations",
+        "archive": "05-MCD-MERISE/05-MCD-MERISE-v1.1-2026-11-03.svg"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-09",
+        "modification": "Consolider le modèle et les règles métier",
+        "archive": "05-MCD-MERISE/05-MCD-MERISE-v1.2-2026-11-09.svg"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/06-DIAGRAMME-CONTEXTE.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Mcd ; Consolider le cadrage et épurer les diagrammes",
+        "archive": "06-DIAGRAMME-CONTEXTE/06-DIAGRAMME-CONTEXTE-v1.0-2026-11-02.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/07-DIAGRAMMES-ACTIVITE.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-10-24",
+        "modification": "Aligner le cadrage, les diagrammes et les consignes Git",
+        "archive": "07-DIAGRAMMES-ACTIVITE/07-DIAGRAMMES-ACTIVITE-v1.0-2026-10-24.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-02",
+        "modification": "Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes",
+        "archive": "07-DIAGRAMMES-ACTIVITE/07-DIAGRAMMES-ACTIVITE-v1.1-2026-11-02.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-06",
+        "modification": "Distinguer la cible MindefConnect du démonstrateur",
+        "archive": "07-DIAGRAMMES-ACTIVITE/07-DIAGRAMMES-ACTIVITE-v1.2-2026-11-06.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/08-DCU-GESTION-PARC.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
+        "archive": "08-DCU-GESTION-PARC/08-DCU-GESTION-PARC-v1.0-2026-11-02.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Formaliser les profils et leurs autorisations",
+        "archive": "08-DCU-GESTION-PARC/08-DCU-GESTION-PARC-v1.1-2026-11-03.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-09",
+        "modification": "Harmoniser les diagrammes de cas d'utilisation",
+        "archive": "08-DCU-GESTION-PARC/08-DCU-GESTION-PARC-v1.2-2026-11-09.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/09-DCU-ADMINISTRATION-POSTES.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
+        "archive": "09-DCU-ADMINISTRATION-POSTES/09-DCU-ADMINISTRATION-POSTES-v1.0-2026-11-02.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations",
+        "archive": "09-DCU-ADMINISTRATION-POSTES/09-DCU-ADMINISTRATION-POSTES-v1.1-2026-11-03.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "archive": "09-DCU-ADMINISTRATION-POSTES/09-DCU-ADMINISTRATION-POSTES-v1.2-2026-11-08.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-09",
+        "modification": "Harmoniser les diagrammes de cas d'utilisation",
+        "archive": "09-DCU-ADMINISTRATION-POSTES/09-DCU-ADMINISTRATION-POSTES-v1.3-2026-11-09.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/10-DCU-SUPERVISION-POSTES.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
+        "archive": "10-DCU-SUPERVISION-POSTES/10-DCU-SUPERVISION-POSTES-v1.0-2026-11-02.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations",
+        "archive": "10-DCU-SUPERVISION-POSTES/10-DCU-SUPERVISION-POSTES-v1.1-2026-11-03.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "archive": "10-DCU-SUPERVISION-POSTES/10-DCU-SUPERVISION-POSTES-v1.2-2026-11-08.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-09",
+        "modification": "Harmoniser les diagrammes de cas d'utilisation",
+        "archive": "10-DCU-SUPERVISION-POSTES/10-DCU-SUPERVISION-POSTES-v1.3-2026-11-09.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/11-DCU-REMONTEES-UTILISATEUR.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
+        "archive": "11-DCU-REMONTEES-UTILISATEUR/11-DCU-REMONTEES-UTILISATEUR-v1.0-2026-11-02.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Formaliser les profils et leurs autorisations",
+        "archive": "11-DCU-REMONTEES-UTILISATEUR/11-DCU-REMONTEES-UTILISATEUR-v1.1-2026-11-03.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-09",
+        "modification": "Harmoniser les diagrammes de cas d'utilisation",
+        "archive": "11-DCU-REMONTEES-UTILISATEUR/11-DCU-REMONTEES-UTILISATEUR-v1.2-2026-11-09.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/12-MATRICE-DROITS.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-03",
+        "modification": "Formaliser les profils et leurs autorisations",
+        "archive": "12-MATRICE-DROITS/12-MATRICE-DROITS-v1.0-2026-11-03.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "archive": "12-MATRICE-DROITS/12-MATRICE-DROITS-v1.1-2026-11-08.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-09",
+        "modification": "Synchroniser la matrice et les fiches de profils",
+        "archive": "12-MATRICE-DROITS/12-MATRICE-DROITS-v1.2-2026-11-09.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-12",
+        "modification": "Aster -> orion, mise à jour de l'interface utilisateur ; Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-03",
+        "modification": "Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back",
+        "archive": "13-FICHE-DESCRIPTIVE-GESTIONNAIRE/13-FICHE-DESCRIPTIVE-GESTIONNAIRE-v1.0-2026-11-03.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-06",
+        "modification": "Distinguer la cible MindefConnect du démonstrateur",
+        "archive": "13-FICHE-DESCRIPTIVE-GESTIONNAIRE/13-FICHE-DESCRIPTIVE-GESTIONNAIRE-v1.1-2026-11-06.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "archive": "13-FICHE-DESCRIPTIVE-GESTIONNAIRE/13-FICHE-DESCRIPTIVE-GESTIONNAIRE-v1.2-2026-11-08.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-09",
+        "modification": "Synchroniser la matrice et les fiches de profils",
+        "archive": "13-FICHE-DESCRIPTIVE-GESTIONNAIRE/13-FICHE-DESCRIPTIVE-GESTIONNAIRE-v1.3-2026-11-09.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-03",
+        "modification": "Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back",
+        "archive": "14-FICHE-DESCRIPTIVE-FORMATEUR/14-FICHE-DESCRIPTIVE-FORMATEUR-v1.0-2026-11-03.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-06",
+        "modification": "Distinguer la cible MindefConnect du démonstrateur",
+        "archive": "14-FICHE-DESCRIPTIVE-FORMATEUR/14-FICHE-DESCRIPTIVE-FORMATEUR-v1.1-2026-11-06.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "archive": "14-FICHE-DESCRIPTIVE-FORMATEUR/14-FICHE-DESCRIPTIVE-FORMATEUR-v1.2-2026-11-08.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-09",
+        "modification": "Synchroniser la matrice et les fiches de profils",
+        "archive": "14-FICHE-DESCRIPTIVE-FORMATEUR/14-FICHE-DESCRIPTIVE-FORMATEUR-v1.3-2026-11-09.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-12",
+        "modification": "Aster -> orion, mise à jour de l'interface utilisateur ; Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-03",
+        "modification": "Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back",
+        "archive": "15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v1.0-2026-11-03.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-06",
+        "modification": "Distinguer la cible MindefConnect du démonstrateur",
+        "archive": "15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v1.1-2026-11-06.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "archive": "15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v1.2-2026-11-08.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-09",
+        "modification": "Synchroniser la matrice et les fiches de profils",
+        "archive": "15-FICHE-DESCRIPTIVE-ADMINISTRATEUR/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR-v1.3-2026-11-09.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-12",
+        "modification": "Aster -> orion, mise à jour de l'interface utilisateur ; Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-03",
+        "modification": "Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back",
+        "archive": "16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v1.0-2026-11-03.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-06",
+        "modification": "Distinguer la cible MindefConnect du démonstrateur",
+        "archive": "16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v1.1-2026-11-06.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "archive": "16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v1.2-2026-11-08.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-09",
+        "modification": "Synchroniser la matrice et les fiches de profils",
+        "archive": "16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR-v1.3-2026-11-09.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-09",
+        "modification": "Ajouter le dossier d'architecture technique et ses diagrammes",
+        "archive": "17-DOSSIER-ARCHITECTURE-TECHNIQUE/17-DOSSIER-ARCHITECTURE-TECHNIQUE-v1.0-2026-11-09.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-11",
+        "modification": "Décrire le déploiement du démonstrateur sur huit VM",
+        "archive": "17-DOSSIER-ARCHITECTURE-TECHNIQUE/17-DOSSIER-ARCHITECTURE-TECHNIQUE-v1.1-2026-11-11.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-12",
+        "modification": "Aster -> orion, mise à jour de l'interface utilisateur ; Renseigner les adresses des VM ASTER ; Renommer ASTER en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions d'aster ; Mettre à jour les noms des fichiers convertis en TypeScript",
+        "archive": "17-DOSSIER-ARCHITECTURE-TECHNIQUE/17-DOSSIER-ARCHITECTURE-TECHNIQUE-v1.2-2026-11-12.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-13",
+        "modification": "Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues",
+        "archive": null
+      }
+    ]
+  },
+  "docs/18-DIAGRAMMES-ARCHITECTURE.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-09",
+        "modification": "Ajouter le dossier d'architecture technique et ses diagrammes",
+        "archive": "18-DIAGRAMMES-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE-v1.0-2026-11-09.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-11",
+        "modification": "Décrire le déploiement du démonstrateur sur huit VM",
+        "archive": "18-DIAGRAMMES-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE-v1.1-2026-11-11.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-12",
+        "modification": "Aster -> orion, mise à jour de l'interface utilisateur ; Renseigner les adresses des VM ASTER ; Renommer ASTER en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM",
+        "archive": "18-DIAGRAMMES-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE-v1.2-2026-11-12.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-13",
+        "modification": "Documenter la cible C1NP et unifier les vues",
+        "archive": null
+      }
+    ]
+  },
+  "docs/19-BACKLOG-ET-SUIVI-PROJET.docx": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-13",
+        "modification": "Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word",
+        "archive": null
+      }
+    ]
+  },
+  "docs/19-BACKLOG-ET-SUIVI-PROJET.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-13",
+        "modification": "Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word",
+        "archive": null
+      }
+    ]
+  },
+  "docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md": {
+    "destination": "Brouillon interne",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-13",
+        "modification": "Consolider le suivi des progressions",
+        "archive": null
+      }
+    ]
+  },
+  "docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md": {
+    "destination": "Brouillon interne",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-06",
+        "modification": "Ajouter les parcours détaillés en brouillon",
+        "archive": "DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2-v1.0-2026-11-06.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-12",
+        "modification": "Renommer ASTER en ORION dans tout le dépôt",
+        "archive": null
+      }
+    ]
+  },
+  "docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md": {
+    "destination": "Brouillon interne",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-09",
+        "modification": "Ajouter les diagrammes d'états de la remontée et des interventions",
+        "archive": null
+      }
+    ]
+  },
+  "docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md": {
+    "destination": "Brouillon interne",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-13",
+        "modification": "Recenser ce qui reste à faire après le contrôle du 13 novembre ; Ajouter des jetons d'accès pour la présentation au client ; Décrire l'entrée unique par adresse IP, sans DNS",
+        "archive": null
+      }
+    ]
+  }
+}

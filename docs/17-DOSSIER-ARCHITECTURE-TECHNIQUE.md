@@ -1,5 +1,11 @@
 # Dossier d’architecture technique (DAT) — ORION
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.3 | 13/11/2026 | Production destinée à la remise | Documenter la cible C1NP et unifier les vues | [4 versions](../archive/README.md#17-dossier-architecture-technique) |
+<!-- version:fin -->
+
 **Date de référence :** 13 novembre 2026
 
 **Périmètre :** contexte et contraintes, justification des briques, démonstrateur local et architecture de son déploiement sur VM, versions des technologies, architecture cible.

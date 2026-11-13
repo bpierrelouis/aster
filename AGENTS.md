@@ -36,10 +36,18 @@ Ces instructions s'appliquent à tout le dépôt.
 
 - Conserver l'ordre : consignes du sujet, cadrage, entretiens, puis analyse et diagrammes ; le glossaire est transversal. Les entretiens précèdent la conception dans les noms et le sommaire.
 - Dans `docs/`, utiliser un préfixe numérique, un titre explicite en majuscules et des tirets. Choisir la position logique avant le numéro ; actualiser sommaire, liens et références après ajout, déplacement ou renommage.
-- Les fichiers Markdown de diagrammes contiennent uniquement les diagrammes (blocs ou images) et leurs titres Markdown. Aucune prose, liste, légende annexe ni explication déplacée dans une note ou un commentaire du diagramme.
+- Les fichiers Markdown de diagrammes contiennent uniquement les diagrammes (blocs ou images), leurs titres Markdown et l’en-tête de version généré. Aucune prose, liste, légende annexe ni explication déplacée dans une note ou un commentaire du diagramme.
 - Répartir l'information : définitions dans le glossaire, réponses et questions dans le cadrage, contraintes confirmées dans les règles de gestion, conventions de représentation ici. Avant de retirer une explication d'un diagramme, transférer toute précision pertinente manquante au document de référence.
 - Ne pas modifier le contenu des premiers diagrammes de contexte et d'activité sans demande de mise à jour de l'utilisateur. Un renommage préserve leur contenu. Lors d'une mise à jour autorisée, appliquer les réponses en vigueur ; leur protection provisoire ne remet pas ces réponses en question.
-- Placer les travaux non finalisés dans `docs/temporaire/`, avec un nom indiquant le statut de brouillon et la version connue. Aucune validation documentaire par le client n’est prévue (précision de l’utilisateur du 9 novembre) : le MCD et les autres productions font référence dès qu’ils sont à jour ; ne pas les présenter comme en attente de validation du client.
+- Placer les travaux non finalisés dans `docs/temporaire/`, avec un nom indiquant le statut de brouillon ; les noms existants en `-BROUILLON-Vn` sont conservés, la version courante est portée par l’en-tête. Aucune validation documentaire par le client n’est prévue (précision de l’utilisateur du 9 novembre) : le MCD et les autres productions font référence dès qu’ils sont à jour ; ne pas les présenter comme en attente de validation du client.
+
+## Versions et archives
+
+- Documents suivis : tout `docs/` (hors `assets/`), `docs/temporaire/` et les chartes, maquettes et README de `design/`. Le registre `archive/registre.json` fait foi ; `archive/README.md` (compte rendu global des évolutions : fichier, version, date, modification) et l’en-tête de version des fichiers Markdown (bloc `<!-- version:debut -->` … `<!-- version:fin -->`, placé sous le titre) en sont générés. Ne jamais les modifier à la main.
+- Après chaque mise à jour d’un document suivi et avant son commit : `python3 .agents/skills/orion-documentation/scripts/versions.py publier <fichier> --majeure|--mineure -m "Modification"`. Le script archive la version du dernier commit dans `archive/<fichier>/<fichier>-v<version>-<date>.<ext>`, enregistre la nouvelle version et régénère en-têtes et compte rendu. Plusieurs publications d’un même fichier avant le commit complètent la même version.
+- Majeure : changement de sens (décision, règle, droit, périmètre, structure, refonte). Mineure : correction, précision, lien, renommage sans changement de sens. Message court, au présent, décrivant le résultat (pas de préfixe de commit).
+- Nouveau document : `publier` le crée en 1.0. Document remplacé ou abandonné : `versions.py retirer <fichier> -m "Motif"` le déplace dans les archives. Les archives sont un historique : ne pas les corriger ni les supprimer, même pour un ancien nom ou une décision remplacée.
+- Un commit par grande étape ; il inclut les fichiers modifiés, leurs archives et le registre.
 
 ## Livrables remis et documents internes
 

@@ -1,5 +1,11 @@
 # DCU — Gérer le parc
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.3 | 12/11/2026 | Production destinée à la remise | Renommer ASTER en ORION dans tout le dépôt | [4 versions](../archive/README.md#08-dcu-gestion-parc) |
+<!-- version:fin -->
+
 ```mermaid
 flowchart LR
     formateur(["Formateur"])

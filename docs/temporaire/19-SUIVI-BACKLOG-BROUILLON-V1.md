@@ -1,5 +1,11 @@
 # ASTER — Suivi du backlog — Brouillon V1
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.0 | 13/11/2026 | Brouillon interne | Consolider le suivi des progressions | [1 version](../../archive/README.md#19-suivi-backlog-brouillon-v1) |
+<!-- version:fin -->
+
 **Date de situation : 13 novembre 2026.** Période observée : du 20 octobre au 13 novembre 2026. Référence locale : `07629612ff5078cf041f7ef4100ba249c464d576`.
 
 **Destination : document interne de préparation du suivi de projet.** Cette version reste un brouillon : le rapprochement avec GitHub Projects n’a pas pu être effectué. Elle ne constitue ni un relevé de temps ni une attestation des travaux individuels.

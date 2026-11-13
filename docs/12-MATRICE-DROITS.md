@@ -1,5 +1,11 @@
 # Matrice des droits applicatifs — ORION
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.3 | 12/11/2026 | Production destinée à la remise | Renommer ASTER en ORION dans tout le dépôt | [4 versions](../archive/README.md#12-matrice-droits) |
+<!-- version:fin -->
+
 Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
 
 **Légende :**

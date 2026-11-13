@@ -1,5 +1,11 @@
 # Fiche descriptive — Super administrateur
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.4 | 12/11/2026 | Production destinée à la remise | Renommer ASTER en ORION dans tout le dépôt | [5 versions](../archive/README.md#16-fiche-descriptive-super-administrateur) |
+<!-- version:fin -->
+
 - **Statut :** établie à partir des décisions en vigueur.
 - **Profil :** super administrateur.
 - **Rattachement :** aucune école.

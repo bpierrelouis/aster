@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="fr" data-tone="light" data-glass="liquid">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASTER — Tableau de bord, proposition B</title>
+<style>
+/* Jetons des ambiances (repris de styles/tokens.css, contraste du texte secondaire renforcé) */
+:root {
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  --r-l: 28px; --r-m: 18px; --r-s: 12px; --r-pill: 999px;
+  --rail-w: 92px; --board-gap: 18px; --board-row: 172px;
+  --coeur: #e8b84e;
+  --ok: #0ca30c; --crit: #d03b3b; --wait: #e8b84e; --stock: #7c879b; --warn: #fab219;
+  --c1: #6954c0; --c2: #eb6834; --c3: #1baf7a; --c4: #d99a1e; --c5: #2a78d6; --c6: #e87ba4; --c7: #008300; --c8: #64748b;
+  --ink-1: rgb(var(--ink));
+  --ink-2: rgb(var(--ink) / .74);
+  --ink-3: rgb(var(--ink) / .62);
+  --hairline: rgb(var(--ink) / .1);
+  --fill-1: rgb(var(--ink) / .05);
+  --fill-2: rgb(var(--ink) / .1);
+  --grid: rgb(var(--ink) / .09);
+  --seq-0: rgb(var(--ink) / .07);
+  --seq-1: color-mix(in srgb, var(--accent) 30%, var(--card-solid));
+  --seq-2: color-mix(in srgb, var(--accent) 58%, var(--card-solid));
+  --seq-3: color-mix(in srgb, var(--accent) 88%, var(--card-solid));
+  --seq-3-fg: #fff;
+  --tp-hs: 9%; --tp-wait: 17%;
+}
+
+/* Aube (défaut) : blanc, encre et iris */
+:root {
+  color-scheme: light;
+  --ink: 23 36 59;
+  --accent: #6954c0; --accent-text: #5b47b3; --accent-fg: #fff;
+  --shade: 52 36 110;
+  --base: #f6f5fa; --backdrop: none;
+  --card: rgb(255 255 255 / .58); --card-solid: #fff;
+  --rim-hi: rgb(255 255 255 / 1); --rim-lo: rgb(255 255 255 / .25);
+  --shadow: 0 1px 1px rgb(var(--shade) / .05), 0 10px 28px -10px rgb(var(--shade) / .18), 0 34px 64px -28px rgb(var(--shade) / .2);
+  --tip-bg: #17243b; --tip-fg: #fff;
+  --crit-text: #b3261e; --wait-text: #835600; --ok-text: #0a6e0a;
+}
+
+/* Encre : noir, blanc et or */
+:root[data-ambiance="encre"] {
+  color-scheme: dark;
+  --ink: 244 241 234;
+  --accent: #d6aa4f; --accent-text: #e9c06a; --accent-fg: #1b1404;
+  --shade: 0 0 0;
+  --base: #0a0a0c; --backdrop: none;
+  --card: rgb(255 255 255 / .045); --card-solid: #18181c;
+  --rim-hi: rgb(255 255 255 / .5); --rim-lo: rgb(255 255 255 / .05);
+  --shadow: 0 1px 1px rgb(0 0 0 / .4), 0 14px 30px -10px rgb(0 0 0 / .6);
+  --tip-bg: rgb(244 241 234 / .96); --tip-fg: #111113;
+  --seq-3-fg: #1b1404;
+  --wait: #f0953c;
+  --crit-text: #ff8b80; --wait-text: #f7b26b; --ok-text: #6ad46a;
+  --c1: #8670cd; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #3987e5; --c6: #d55181; --c7: #1f9a1f; --c8: #7c8aa0;
+  --seq-1: color-mix(in srgb, var(--accent) 46%, var(--card-solid));
+  --tp-hs: 17%; --tp-wait: 17%;
+}
+
+/* Orion : nuit profonde et bleus de la charte ORION */
+:root[data-ambiance="orion"] {
+  color-scheme: dark;
+  --ink: 255 255 255;
+  --ink-2: #b4c2de; --ink-3: #8a9cc0;
+  --hairline: rgb(59 104 196 / .3);
+  --fill-1: rgb(59 130 246 / .08); --fill-2: rgb(59 130 246 / .16);
+  --grid: rgb(59 104 196 / .24);
+  --seq-0: rgb(59 130 246 / .1);
+  --accent: #2563eb; --accent-text: #7fb2ff; --accent-fg: #fff;
+  --shade: 2 6 18;
+  --base: #040b1e; --backdrop: radial-gradient(ellipse at 10% 90%, #0b2a6b 0, #040b1e 55%);
+  --card: rgb(10 22 48 / .6); --card-solid: #0a1630;
+  --rim-hi: rgb(110 168 255 / .7); --rim-lo: rgb(27 46 92 / .6);
+  --shadow: 0 0 0 1px rgb(27 46 92 / .9), 0 0 14px 1px rgb(11 42 107 / .75), 0 0 34px 6px rgb(37 99 235 / .14);
+  --tip-bg: #1e3a7a; --tip-fg: #fff;
+  --ok: #22c55e; --crit: #ef4444; --wait: #f59e0b; --warn: #f59e0b;
+  --crit-text: #ff8f8f; --wait-text: #fbbf4d; --ok-text: #4ade80;
+  --c1: #8670cd; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #3987e5; --c6: #d55181; --c7: #1f9a1f; --c8: #7c8aa0;
+  --seq-1: color-mix(in srgb, #3b82f6 48%, var(--card-solid));
+  --seq-2: color-mix(in srgb, #3b82f6 72%, var(--card-solid));
+  --seq-3: #60a5fa; --seq-3-fg: #04112b;
+  --tp-hs: 18%; --tp-wait: 17%;
+}
+
+/* Vigie : brume, bleu pétrole, signal et corail */
+:root[data-ambiance="vigie"] {
+  color-scheme: light;
+  --ink: 16 45 54;
+  --accent: #0b6173; --accent-text: #0b6173; --accent-fg: #fff;
+  --shade: 16 45 54;
+  --base: #edf6f4; --backdrop: none;
+  --card: rgb(255 255 255 / .6); --card-solid: #fbfdfc;
+  --tip-bg: #102d36; --tip-fg: #fff;
+  --crit: #e5533d;
+  --crit-text: #b5321f; --wait-text: #7d5300; --ok-text: #0a6e0a;
+  --tp-hs: 10%;
+}
+
+/* ---------- Socle ---------- */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; min-height: 100vh;
+  font: 15px/1.4 var(--font); color: var(--ink-1);
+  background: var(--backdrop), var(--base);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+h1, h2, h3, p { margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+svg text { font-family: var(--font); }
+
+/* ---------- Coque : menu latéral et barre haute ---------- */
+.app { display: grid; grid-template-columns: var(--rail-w) minmax(0, 1fr); min-height: 100vh; }
+.rail { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 22px 0; }
+.brand { display: grid; place-items: center; width: 52px; height: 52px; }
+.brand svg { width: 40px; height: 40px; }
+.nav { display: flex; flex-direction: column; gap: 6px; }
+.nav a, .avatar { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px; color: var(--ink-2); transition: background .16s, color .16s; }
+.nav a:hover { background: var(--fill-1); color: var(--ink-1); }
+.nav a[aria-current="page"] { background: var(--accent); color: var(--accent-fg); box-shadow: 0 8px 18px -10px var(--accent); }
+.nav svg, .avatar svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.avatar { margin-top: auto; border-radius: 50%; background: var(--fill-1); }
+
+.main { min-width: 0; padding: 22px 32px 56px 6px; }
+.top { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 16px; min-height: 52px; margin-bottom: 22px; }
+.top-end { margin-left: auto; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.school { font-size: 14px; font-weight: 600; color: var(--ink-2); padding: 0 6px; }
+.seg { display: inline-flex; gap: 2px; padding: 4px; border-radius: var(--r-pill); background: var(--card); box-shadow: inset 0 0 0 1px var(--hairline); }
+.seg a, .seg button { display: inline-flex; align-items: center; height: 36px; padding: 0 14px; border-radius: var(--r-pill); font-size: 14px; font-weight: 600; color: var(--ink-2); white-space: nowrap; }
+.seg a:hover, .seg button:hover { color: var(--ink-1); }
+.seg [aria-current="page"], .seg [aria-checked="true"] { color: var(--ink-1); background: var(--card-solid); box-shadow: 0 1px 3px rgb(var(--shade) / .18), inset 0 0 0 1px var(--hairline); }
+:root[data-ambiance="encre"] .seg [aria-checked="true"], :root[data-ambiance="encre"] .seg [aria-current="page"],
+:root[data-ambiance="orion"] .seg [aria-checked="true"], :root[data-ambiance="orion"] .seg [aria-current="page"] { background: rgb(255 255 255 / .14); }
+.seg--small button { height: 32px; padding: 0 12px; font-size: 13px; }
+.btn { display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: var(--r-pill); font-weight: 650; font-size: 14px; color: var(--accent-fg); background: var(--accent); }
+
+/* ---------- Grille des cartes : 4 colonnes, tailles S, M, L, XL ---------- */
+.board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(var(--board-row), auto); grid-auto-flow: row dense; gap: var(--board-gap); }
+.card[data-size="S"] { grid-column: span 1; }
+.card[data-size="M"] { grid-column: span 2; }
+.card[data-size="L"] { grid-column: span 2; grid-row: span 2; }
+.card[data-size="XL"] { grid-column: span 4; grid-row: span 2; }
+
+/* ---------- Cartes en verre (liquide ou opaque) ---------- */
+.card {
+  position: relative; isolation: isolate; min-width: 0;
+  display: flex; flex-direction: column;
+  padding: 18px 20px; border-radius: var(--r-l);
+  background: var(--card); box-shadow: var(--shadow);
+  container: card / inline-size;
+}
+.card::before {
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit; padding: 1px;
+  background: linear-gradient(160deg, var(--rim-hi), var(--rim-lo) 45%, var(--rim-lo) 70%, var(--rim-hi));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+}
+:root[data-glass="solid"] .card { background: var(--card-solid); box-shadow: 0 0 0 1px var(--hairline), 0 1px 2px rgb(var(--shade) / .06), 0 10px 24px -14px rgb(var(--shade) / .28); }
+:root[data-glass="solid"] .card::before { display: none; }
+:root[data-glass="solid"] .seg { background: var(--card-solid); }
+
+/* Indicateur qui signale un problème : fond teinté discret, sans pastille */
+.card.is-hs { --tint: var(--crit); --tp: var(--tp-hs); }
+.card.is-wait { --tint: var(--wait); --tp: var(--tp-wait); }
+.card.is-hs, .card.is-wait { background: color-mix(in srgb, var(--tint) var(--tp), var(--card)); }
+:root[data-glass="solid"] .card.is-hs, :root[data-glass="solid"] .card.is-wait {
+  background: color-mix(in srgb, var(--tint) var(--tp), var(--card-solid));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--tint) 28%, transparent), 0 10px 24px -14px rgb(var(--shade) / .28);
+}
+
+.card-title { margin: 0 0 14px; font-size: 15px; font-weight: 700; letter-spacing: -.012em; }
+.chart { position: relative; min-width: 0; }
+.chart svg { display: block; overflow: visible; }
+.grow { flex: 1; min-height: 0; }
+
+/* ---------- Indicateurs : libellé en haut, valeur en bas ---------- */
+.kpi { gap: 10px; }
+.kpi .kpi-foot { margin-top: auto; }
+.kpi-label { font-size: 14px; font-weight: 650; line-height: 1.3; }
+.kpi-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; min-width: 0; }
+.kpi-value { font-family: var(--font-display); font-size: 38px; font-weight: 760; letter-spacing: -.035em; line-height: 1; white-space: nowrap; }
+.kpi-value small { margin-left: 3px; font-size: 20px; font-weight: 650; letter-spacing: -.01em; }
+.kpi-sub { margin-top: 7px; font-size: 13px; font-weight: 550; color: var(--ink-2); }
+.delta { margin-top: -2px; font-size: 13px; font-weight: 550; color: var(--ink-2); }
+.delta b { margin-right: 5px; font-weight: 700; white-space: nowrap; }
+.delta[data-tone="bad"] b { color: var(--crit-text); }
+.delta[data-tone="good"] b { color: var(--ok-text); }
+.spark { flex: 0 0 auto; width: 46%; max-width: 140px; height: 40px; }
+@container card (max-width: 230px) {
+  .kpi-foot { flex-direction: column-reverse; align-items: stretch; gap: 8px; }
+  .spark { width: 100%; max-width: none; height: 34px; }
+  .kpi-value { font-size: 32px; }
+}
+
+/* ---------- Légendes : la marque colorée porte l'identité, le texte reste en encre ---------- */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 12px; font-size: 12.5px; font-weight: 550; color: var(--ink-2); }
+.legend li { display: inline-flex; align-items: center; gap: 7px; }
+.key { flex: 0 0 auto; width: 12px; height: 12px; border-radius: 3px; background: var(--k); }
+.key--line { width: 16px; height: 3px; border-radius: 2px; }
+.key--tick { width: 3px; height: 14px; border-radius: 1px; background: var(--ink-1); }
+.key--band { width: 18px; height: 12px; border-radius: 3px; background: var(--fill-2); }
+.key--outline { background: transparent; box-shadow: inset 0 0 0 1.5px var(--grid); }
+.legend b { color: var(--ink-1); font-weight: 700; }
+/* Légende chiffrée : la valeur au-dessus, le libellé dessous (il peut passer à la ligne) */
+.legend--figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 10px; margin-top: 14px; }
+.legend--figures li { display: grid; grid-template-columns: 12px minmax(0, 1fr); align-items: start; gap: 2px 7px; line-height: 1.25; }
+.legend--figures b { grid-column: 1 / -1; grid-row: 1; font-size: 20px; letter-spacing: -.01em; }
+.legend--figures .key { margin-top: 1px; }
+
+/* ---------- Listes ---------- */
+.rows { display: flex; flex-direction: column; }
+.rows > li + li { border-top: 1px solid var(--hairline); }
+.row { display: grid; align-items: center; gap: 4px 14px; padding: 11px 6px; border-radius: 14px; transition: background .16s; }
+a.row:hover { background: var(--fill-1); }
+.row-title { min-width: 0; font-size: 14.5px; font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-sub { min-width: 0; font-size: 12.5px; font-weight: 550; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-meta { font-size: 12.5px; font-weight: 600; color: var(--ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- Infobulle : la valeur d'abord, le libellé ensuite ---------- */
+.tip { position: fixed; z-index: 50; pointer-events: none; max-width: 260px; padding: 8px 11px; border-radius: 12px; font-size: 12.5px; line-height: 1.35; color: var(--tip-fg); background: var(--tip-bg); box-shadow: 0 10px 28px -8px rgb(0 0 0 / .35); }
+.tip b { display: block; font-size: 14px; font-weight: 700; }
+.tip span { display: block; opacity: .8; white-space: pre-line; }
+.tip[hidden] { display: none; }
+[data-tip] { cursor: default; }
+.hit:hover, .mark:hover { opacity: .82; }
+
+/* ---------- Adaptation ---------- */
+@media (max-width: 1100px) { :root { --board-row: 162px; } .main { padding-right: 22px; } }
+@media (max-width: 880px) {
+  .board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .card[data-size="XL"] { grid-column: span 2; }
+}
+@media (max-width: 760px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .rail { position: fixed; z-index: 20; top: auto; bottom: 0; left: 0; right: 0; width: 100%; height: 68px; flex-direction: row; justify-content: space-around; gap: 0; padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); background: var(--card-solid); box-shadow: 0 -1px 0 var(--hairline), 0 -10px 30px -18px rgb(var(--shade) / .5); }
+  .rail .brand, .rail .avatar { display: none; }
+  .nav { flex-direction: row; justify-content: space-around; width: 100%; }
+  .nav a { width: 48px; height: 48px; }
+  .main { padding: 14px 16px 96px; }
+  .top { margin-bottom: 16px; }
+  .top-end { margin-left: 0; width: 100%; }
+  .school { display: none; }
+  .btn { margin-left: auto; height: 40px; padding: 0 14px; }
+}
+@media (max-width: 520px) {
+  :root { --board-row: 150px; --board-gap: 12px; }
+  .card { padding: 16px; border-radius: 22px; }
+  .seg a, .seg button { padding: 0 11px; }
+  .seg--small button { padding: 0 9px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* ---------- Propre à cette proposition ---------- */
+.kpi-sub { margin-top: -4px; }
+.strip { margin-top: auto; padding-top: 16px; }
+.row-main { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+
+/* File des remontées : ancienneté d'abord */
+.row--age { grid-template-columns: 64px minmax(0, 1fr) auto; padding-block: 9px; }
+.age { display: flex; flex-direction: column; gap: 5px; }
+.age b { font-size: 16px; font-weight: 750; letter-spacing: -.01em; white-space: nowrap; }
+.age svg { display: block; }
+
+/* Salles à surveiller : deux colonnes chiffrées */
+.watch-head, .row--watch { display: grid; grid-template-columns: minmax(0, 1fr) 112px 92px; gap: 12px; }
+.watch-head { padding: 0 6px 8px; font-size: 12px; font-weight: 650; color: var(--ink-3); border-bottom: 1px solid var(--hairline); }
+.watch-head span + span, .row--watch .cell { text-align: right; }
+.row--watch { padding-block: 8px; }
+.cell { display: flex; align-items: center; justify-content: flex-end; gap: 8px; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.cell svg { display: block; }
+.cell.is-zero { color: var(--ink-3); font-weight: 550; }
+
+/* Traitées récemment */
+.row--done { grid-template-columns: minmax(0, 1fr) auto; padding-block: 8px; }
+.done { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.done b { font-size: 13px; font-weight: 650; }
+
+@media (max-width: 520px) {
+  .watch-head, .row--watch { grid-template-columns: minmax(0, 1fr) 84px 72px; gap: 8px; }
+  .row--age { grid-template-columns: 52px minmax(0, 1fr); }
+  .row--age .row-meta { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="rail" aria-label="Menu principal">
+    <a class="brand" href="#" aria-label="ASTER">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><g style="fill:var(--accent)"><ellipse cx="32" cy="14" rx="4.5" ry="11"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(45 32 32)"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(90 32 32)"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(135 32 32)"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(180 32 32)"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(225 32 32)"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(270 32 32)"/><ellipse cx="32" cy="14" rx="4.5" ry="11" transform="rotate(315 32 32)"/></g><circle cx="32" cy="32" r="6" style="fill:var(--coeur)"/></svg>
+    </a>
+    <ul class="nav">
+      <li><a href="#" aria-current="page" aria-label="Accueil" data-tip="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg></a></li>
+      <li><a href="#" aria-label="Salles" data-tip="Salles"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V7l8-4 8 4v13"/><path d="M9.5 20v-5h5v5"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg></a></li>
+      <li><a href="#" aria-label="Remontées" data-tip="Remontées"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h4"/></svg></a></li>
+      <li><a href="#" aria-label="Supervision" data-tip="Supervision"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></a></li>
+      <li><a href="#" aria-label="Administration" data-tip="Administration"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></a></li>
+    </ul>
+    <a class="avatar" href="#" aria-label="Compte" data-tip="Compte"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="3.5"/><path d="M5.5 19.5c1.2-3 3.6-4.5 6.5-4.5s5.3 1.5 6.5 4.5"/></svg></a>
+  </nav>
+
+  <main class="main">
+    <header class="top">
+      <nav class="seg" aria-label="Tableaux de bord">
+        <a href="#" aria-current="page">Mon tableau</a>
+        <a href="#">Parc</a>
+        <a href="#">Remontées</a>
+      </nav>
+      <div class="top-end">
+        <span class="school">École du numérique</span>
+        <div class="seg seg--small" role="radiogroup" aria-label="Ambiance">
+          <button type="button" role="radio" data-set-ambiance="aube">Aube</button>
+          <button type="button" role="radio" data-set-ambiance="encre">Encre</button>
+          <button type="button" role="radio" data-set-ambiance="orion">Orion</button>
+          <button type="button" role="radio" data-set-ambiance="vigie">Vigie</button>
+        </div>
+        <div class="seg seg--small" role="radiogroup" aria-label="Verre">
+          <button type="button" role="radio" data-set-glass="liquid">Liquide</button>
+          <button type="button" role="radio" data-set-glass="solid">Opaque</button>
+        </div>
+        <button type="button" class="btn">Personnaliser</button>
+      </div>
+    </header>
+
+    <h1 class="sr-only">Accueil</h1>
+    <div class="board">
+      <article class="card kpi is-wait" data-size="S">
+        <h2 class="kpi-label">Remontées en attente</h2>
+        <div class="kpi-foot"><p class="kpi-value">9</p></div>
+        <p class="kpi-sub">dont 3 depuis plus de 7 jours</p>
+      </article>
+      <article class="card kpi is-hs" data-size="S">
+        <h2 class="kpi-label">Hors service</h2>
+        <div class="kpi-foot"><p class="kpi-value">23</p></div>
+        <p class="kpi-sub">dont 2 en stock</p>
+      </article>
+      <article class="card kpi" data-size="S">
+        <h2 class="kpi-label">Garanties à échéance sous 6 mois</h2>
+        <div class="kpi-foot"><p class="kpi-value">27</p></div>
+        <p class="kpi-sub">38 déjà échues</p>
+      </article>
+      <article class="card kpi" data-size="S">
+        <h2 class="kpi-label">Postes déconnectés</h2>
+        <div class="kpi-foot"><p class="kpi-value">10</p></div>
+        <p class="kpi-sub">sur 130 postes supervisés</p>
+      </article>
+
+      <article class="card" data-size="L">
+        <h2 class="card-title">Remontées à traiter</h2>
+        <ul class="rows" id="ls-traiter"></ul>
+      </article>
+      <article class="card" data-size="L">
+        <h2 class="card-title">Salles à surveiller</h2>
+        <div class="watch-head" aria-hidden="true"><span>Salle</span><span>Hors service</span><span>En attente</span></div>
+        <ul class="rows" id="ls-salles"></ul>
+      </article>
+
+      <article class="card" data-size="M">
+        <h2 class="card-title">Ancienneté des remontées en attente</h2>
+        <div class="chart" id="ch-anciennete"></div>
+        <ul class="legend legend--figures" id="lg-anciennete"></ul>
+        <div class="chart strip" id="ch-strip"></div>
+      </article>
+      <article class="card" data-size="M">
+        <h2 class="card-title">Hors service par type</h2>
+        <div class="chart" id="ch-hs-types"></div>
+      </article>
+
+      <article class="card" data-size="M">
+        <h2 class="card-title">Solde hebdomadaire des remontées</h2>
+        <div class="chart" id="ch-solde"></div>
+        <ul class="legend">
+          <li><span class="key" style="--k:var(--wait)"></span>File qui s’allonge</li>
+          <li><span class="key" style="--k:var(--c5)"></span>File qui se résorbe</li>
+        </ul>
+      </article>
+      <article class="card" data-size="M">
+        <h2 class="card-title">Traitées récemment</h2>
+        <ul class="rows" id="ls-traitees"></ul>
+      </article>
+    </div>
+  </main>
+</div>
+<script>
+/* ---------- Ambiance et verre : <html data-ambiance data-tone data-glass> ---------- */
+const AMBIANCES = { aube: 'light', encre: 'dark', orion: 'dark', vigie: 'light' };
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch { /* stockage indisponible */ } },
+};
+function applyDisplay(ambiance, glass) {
+  const root = document.documentElement;
+  if (ambiance && AMBIANCES[ambiance]) {
+    if (ambiance === 'aube') delete root.dataset.ambiance; else root.dataset.ambiance = ambiance;
+    root.dataset.tone = AMBIANCES[ambiance];
+    store.set('aster-maquette-ambiance', ambiance);
+  }
+  if (glass) { root.dataset.glass = glass; store.set('aster-maquette-verre', glass); }
+  const cur = { ambiance: root.dataset.ambiance || 'aube', glass: root.dataset.glass || 'liquid' };
+  document.querySelectorAll('[data-set-ambiance]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.setAmbiance === cur.ambiance)));
+  document.querySelectorAll('[data-set-glass]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.setGlass === cur.glass)));
+}
+(() => {
+  const q = new URLSearchParams(location.search);
+  const glassParam = { liquide: 'liquid', opaque: 'solid' }[q.get('verre')];
+  applyDisplay(q.get('ambiance') || store.get('aster-maquette-ambiance') || 'aube', glassParam || store.get('aster-maquette-verre') || 'liquid');
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('[data-set-ambiance]'); if (a) applyDisplay(a.dataset.setAmbiance, null);
+    const g = e.target.closest('[data-set-glass]'); if (g) applyDisplay(null, g.dataset.setGlass);
+    if (e.target.closest('a[href="#"]')) e.preventDefault();
+  });
+})();
+
+/* ---------- Formats (fr-FR) ---------- */
+const NNBSP = ' ';
+const num = (n) => new Intl.NumberFormat('fr-FR').format(n);
+const dec = (n, d = 1) => new Intl.NumberFormat('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d }).format(n);
+const pct = (r, d = 1) => `${dec(r * 100, d)}${NNBSP}%`;
+const f = (n) => Math.round(n * 100) / 100;
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const tipAttr = (value, label) => ` data-tip="${esc(value)}" data-tip-label="${esc(label)}"`;
+const svg = (w, h, label, body) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(label)}">${body}</svg>`;
+const text = (x, y, s, { anchor = 'start', size = 12, weight = 550, fill = 'var(--ink-3)', cls = '' } = {}) =>
+  `<text x="${f(x)}" y="${f(y)}" text-anchor="${anchor}" class="${cls}" style="font-size:${size}px;font-weight:${weight};fill:${fill}">${esc(s)}</text>`;
+
+/* Barres : bout de donnée arrondi (4 px), base carrée */
+function hbarPath(x, y, w, h, r = 4) {
+  if (w <= 0) return '';
+  const rr = Math.min(r, w, h / 2);
+  return `M${f(x)} ${f(y)}H${f(x + w - rr)}Q${f(x + w)} ${f(y)} ${f(x + w)} ${f(y + rr)}V${f(y + h - rr)}Q${f(x + w)} ${f(y + h)} ${f(x + w - rr)} ${f(y + h)}H${f(x)}Z`;
+}
+function vbarPath(x, base, w, h, r = 4) { // h > 0 vers le haut, h < 0 vers le bas
+  if (!h) return '';
+  const up = h > 0, a = Math.abs(h), rr = Math.min(r, a, w / 2), top = up ? base - a : base + a, s = up ? 1 : -1;
+  return `M${f(x)} ${f(base)}V${f(top + s * rr)}Q${f(x)} ${f(top)} ${f(x + rr)} ${f(top)}H${f(x + w - rr)}Q${f(x + w)} ${f(top)} ${f(x + w)} ${f(top + s * rr)}V${f(base)}Z`;
+}
+
+/* ---------- Montage : chaque diagramme est dessiné à la taille de son cadre ---------- */
+/* fill : le diagramme occupe la hauteur restante de sa carte ; sinon sa hauteur suit son contenu */
+const sizes = new ResizeObserver((entries) => entries.forEach((e) => e.target._run?.()));
+function mount(id, render, { fill = false } = {}) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el._run = () => {
+    const w = Math.floor(el.clientWidth), h = Math.floor(el.clientHeight);
+    const key = fill ? `${w}x${h}` : `${w}`;
+    if (el._key === key) return;
+    el._key = key;
+    el.innerHTML = render(Math.max(w, 60), Math.max(h, 40), el);
+  };
+  el._run();
+  sizes.observe(el);
+}
+
+/* ---------- Infobulle unique ---------- */
+const tip = document.createElement('div');
+tip.className = 'tip'; tip.hidden = true; tip.setAttribute('role', 'tooltip');
+document.body.append(tip);
+function showTip(e, value, label) {
+  const b = document.createElement('b'); b.textContent = value;
+  const s = document.createElement('span'); s.textContent = label;
+  tip.replaceChildren(b, s); tip.hidden = false;
+  const r = tip.getBoundingClientRect();
+  let x = e.clientX + 14, y = e.clientY + 16;
+  if (x + r.width > innerWidth - 8) x = e.clientX - r.width - 14;
+  if (y + r.height > innerHeight - 8) y = e.clientY - r.height - 16;
+  tip.style.left = `${Math.max(8, x)}px`; tip.style.top = `${Math.max(8, y)}px`;
+}
+document.addEventListener('pointermove', (e) => {
+  const t = e.target.closest?.('[data-tip]');
+  if (t) showTip(e, t.dataset.tip, t.dataset.tipLabel || '');
+  else if (!e.target.closest?.('[data-line]')) tip.hidden = true;
+});
+document.addEventListener('pointerleave', () => { tip.hidden = true; });
+
+/* ---------- Sparkline : tendance en gris, dernier point en couleur ---------- */
+function sparkline(w, h, values, { dot = 'var(--accent)', label = '' } = {}) {
+  const p = 5, min = Math.min(...values), max = Math.max(...values), span = max - min || 1;
+  const x = (i) => p + (i * (w - 2 * p)) / (values.length - 1);
+  const y = (v) => p + (1 - (v - min) / span) * (h - 2 * p);
+  const pts = values.map((v, i) => `${f(x(i))},${f(y(v))}`).join(' ');
+  const last = values.length - 1;
+  return svg(w, h, label,
+    `<path d="M${f(x(0))},${h} L${pts.replaceAll(' ', ' L')} L${f(x(last))},${h}Z" style="fill:rgb(var(--ink) / .06)"/>`
+    + `<polyline points="${pts}" style="fill:none;stroke:var(--ink-3);stroke-width:1.75;stroke-linejoin:round;stroke-linecap:round"/>`
+    + `<circle cx="${f(x(last))}" cy="${f(y(values[last]))}" r="4.5" style="fill:${dot};stroke:var(--card-solid);stroke-width:2"/>`);
+}
+
+/* ---------- Courbes : axes discrets, étiquettes en bout de ligne, réticule au survol ---------- */
+function lineChart(w, h, el, { labels, series, step = 2, label, unit = '' }) {
+  const narrow = w < 420;
+  const m = { l: 26, r: narrow ? 16 : 92, t: 10, b: 26 };
+  const iw = w - m.l - m.r, ih = h - m.t - m.b, n = labels.length;
+  const yMax = Math.ceil(Math.max(...series.flatMap((s) => s.values)) / step) * step || step;
+  const x = (i) => m.l + (i * iw) / (n - 1), y = (v) => m.t + ih - (v / yMax) * ih;
+  let body = '';
+  for (let v = 0; v <= yMax; v += step) {
+    body += `<line x1="${m.l}" x2="${f(m.l + iw)}" y1="${f(y(v))}" y2="${f(y(v))}" style="stroke:var(--grid);stroke-width:1"/>`;
+    body += text(m.l - 8, y(v) + 4, num(v), { anchor: 'end', size: 11.5 });
+  }
+  const every = Math.ceil(n / Math.max(2, Math.floor(iw / 64)));
+  labels.forEach((l, i) => { if ((n - 1 - i) % every === 0) body += text(x(i), h - 6, l, { anchor: 'middle', size: 11.5 }); });
+  body += `<line class="xh" x1="0" x2="0" y1="${m.t}" y2="${f(m.t + ih)}" style="stroke:var(--ink-3);stroke-width:1;visibility:hidden"/>`;
+  for (const s of series) {
+    const pts = s.values.map((v, i) => `${f(x(i))},${f(y(v))}`).join(' ');
+    if (s.area) body += `<path d="M${f(x(0))},${f(y(0))} L${pts.replaceAll(' ', ' L')} L${f(x(n - 1))},${f(y(0))}Z" style="fill:${s.color};opacity:.1"/>`;
+    body += `<polyline points="${pts}" style="fill:none;stroke:${s.color};stroke-width:2;stroke-linejoin:round;stroke-linecap:round"/>`;
+  }
+  /* étiquettes directes en bout de ligne, écartées si elles se chevauchent */
+  const ends = series.map((s) => ({ s, v: s.values[n - 1], y: y(s.values[n - 1]) })).sort((a, b) => a.y - b.y);
+  for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 18) ends[i].ly = ends[i - 1].y + 18;
+  for (const e of ends) {
+    body += `<circle cx="${f(x(n - 1))}" cy="${f(e.y)}" r="4.5" style="fill:${e.s.color};stroke:var(--card-solid);stroke-width:2"/>`;
+    if (!narrow) body += text(x(n - 1) + 12, (e.ly ?? e.y) + 4, `${e.s.name} ${num(e.v)}`, { size: 12.5, weight: 650, fill: 'var(--ink-2)' });
+  }
+  body += series.map((s) => `<circle class="xh-dot" data-s="${esc(s.name)}" r="4" style="fill:${s.color};stroke:var(--card-solid);stroke-width:2;visibility:hidden"/>`).join('');
+  body += `<rect data-line x="${m.l - 10}" y="${m.t}" width="${f(iw + 20)}" height="${f(ih)}" style="fill:transparent"/>`;
+  el._line = { x, y, n, labels, series, unit };
+  if (!el._lineBound) {
+    el._lineBound = true;
+    el.addEventListener('pointermove', (e) => {
+      const c = el._line, r = el.querySelector('svg').getBoundingClientRect();
+      if (!e.target.closest('[data-line]')) return;
+      const i = Math.max(0, Math.min(c.n - 1, Math.round(((e.clientX - r.left - c.x(0)) / (c.x(c.n - 1) - c.x(0))) * (c.n - 1))));
+      const xh = el.querySelector('.xh'); xh.setAttribute('x1', c.x(i)); xh.setAttribute('x2', c.x(i)); xh.style.visibility = 'visible';
+      el.querySelectorAll('.xh-dot').forEach((d, k) => { d.setAttribute('cx', c.x(i)); d.setAttribute('cy', c.y(c.series[k].values[i])); d.style.visibility = 'visible'; });
+      showTip(e, c.series.map((s) => `${s.name} ${num(s.values[i])}${c.unit}`).join(' · '), `Semaine du ${c.labels[i]}`);
+    });
+    el.addEventListener('pointerleave', () => { el.querySelectorAll('.xh, .xh-dot').forEach((d) => { d.style.visibility = 'hidden'; }); tip.hidden = true; });
+  }
+  return svg(w, h, label, body);
+}
+
+/* ---------- Graphique à puces : barre, plage de référence, repère ---------- */
+function bullets(w, rows, { max, ticks, fmt, ref = null, refLabel = '', label }) {
+  const narrow = w < 420;
+  const nameW = narrow ? 92 : 112, valW = narrow ? 70 : 96, rowH = 44, top = ref === null ? 6 : 24;
+  const pw = w - nameW - valW - 8, x = (v) => nameW + (v / max) * pw;
+  let body = '';
+  rows.forEach((r, i) => {
+    const cy = top + i * rowH + rowH / 2;
+    body += text(0, cy + 5, r.name, { size: 13.5, weight: 650, fill: 'var(--ink-1)' });
+    body += `<rect x="${nameW}" y="${f(cy - 11)}" width="${f(pw)}" height="22" rx="5" style="fill:var(--fill-1)"/>`;
+    if (r.lo != null) body += `<rect x="${f(x(r.lo))}" y="${f(cy - 11)}" width="${f(x(r.hi) - x(r.lo))}" height="22" rx="5" style="fill:var(--fill-2)"${tipAttr(`${fmt(r.lo)} à ${fmt(r.hi)}`, `${r.name} · plage sur 12 semaines`)}/>`;
+    body += `<path class="mark" d="${hbarPath(nameW, cy - 4.5, x(r.value) - nameW, 9)}" style="fill:var(--accent)"${tipAttr(fmt(r.value), `${r.name} · ${r.detail}`)}/>`;
+    if (r.mark != null) body += `<rect x="${f(x(r.mark) - 1.5)}" y="${f(cy - 13)}" width="3" height="26" rx="1.5" style="fill:var(--ink-1)"${tipAttr(fmt(r.mark), `${r.name} · ${r.markLabel}`)}/>`;
+    body += text(w, cy + 1, fmt(r.value), { anchor: 'end', size: 14, weight: 700, fill: 'var(--ink-1)' });
+    body += text(w, cy + 16, r.detail, { anchor: 'end', size: 11.5 });
+  });
+  const bottom = top + rows.length * rowH;
+  if (ref !== null) {
+    body += `<line x1="${f(x(ref))}" x2="${f(x(ref))}" y1="${top - 4}" y2="${bottom}" style="stroke:var(--ink-1);stroke-width:2"/>`;
+    body += text(x(ref), top - 10, refLabel, { anchor: 'middle', size: 11.5, weight: 650, fill: 'var(--ink-2)' });
+  }
+  ticks.forEach((t) => { body += text(x(t), bottom + 16, fmt(t, 0), { anchor: 'middle', size: 11 }); });
+  return svg(w, bottom + 22, label, body);
+}
+
+/* ---------- Barre segmentée fine : un tout, ses parts ; les chiffres sont dans la légende ---------- */
+function thinBar(w, parts, { h = 10, label }) {
+  const total = parts.reduce((t, p) => t + p.value, 0), shown = parts.filter((p) => p.value), gap = 2;
+  const avail = w - gap * (shown.length - 1);
+  let x = 0, body = '';
+  shown.forEach((p, i) => {
+    const pw = (p.value / total) * avail;
+    const r = h / 2, first = i === 0, last = i === shown.length - 1;
+    body += `<rect class="mark" x="${f(x)}" y="0" width="${f(Math.max(pw, 1))}" height="${h}" rx="${first || last ? r : 2}" style="fill:${p.color}"${tipAttr(num(p.value), `${p.label} · ${pct(p.value / total, 0)}`)}/>`;
+    x += pw + gap;
+  });
+  return svg(w, h, label, body);
+}
+const legendItems = (parts, { values = true } = {}) => parts.map((p) => `<li><span class="key${p.keyClass ? ` ${p.keyClass}` : ''}" style="--k:${p.color}"></span>${esc(p.label)}${values ? ` <b class="num">${num(p.value)}</b>` : ''}</li>`).join('');
+
+/* ---------- Barres horizontales classées ---------- */
+function hbars(w, rows, { label, fill = 'var(--accent)', rowH = 30, nameW, fmt = num }) {
+  const nw = nameW ?? (w < 420 ? 126 : 140), valW = 46, max = Math.max(...rows.map((r) => r.value));
+  const pw = w - nw - valW - 8;
+  let body = '';
+  rows.forEach((r, i) => {
+    const cy = i * rowH + rowH / 2;
+    body += text(0, cy + 4.5, r.name, { size: 13, weight: 600, fill: 'var(--ink-1)' });
+    body += `<rect x="${nw}" y="${f(cy - 5)}" width="${f(pw)}" height="10" rx="5" style="fill:var(--fill-1)"/>`;
+    body += `<path class="mark" d="${hbarPath(nw, cy - 5, (r.value / max) * pw, 10)}" style="fill:${r.fill ?? fill}"${tipAttr(fmt(r.value), r.tip ?? r.name)}/>`;
+    body += text(w, cy + 4.5, fmt(r.value), { anchor: 'end', size: 13, weight: 700, fill: 'var(--ink-1)', cls: 'num' });
+  });
+  return svg(w, rows.length * rowH, label, body);
+}
+
+/* ---------- Colonnes ---------- */
+function columns(w, h, items, { label, step = 5, every = 1 }) {
+  const m = { l: 24, r: 2, t: 8, b: 24 };
+  const iw = w - m.l - m.r, ih = h - m.t - m.b, n = items.length, band = iw / n, bw = Math.min(24, band * .62);
+  const yMax = Math.ceil(Math.max(...items.map((d) => d.value)) / step) * step;
+  const y = (v) => m.t + ih - (v / yMax) * ih;
+  let body = '';
+  for (let v = 0; v <= yMax; v += step) {
+    body += `<line x1="${m.l}" x2="${w}" y1="${f(y(v))}" y2="${f(y(v))}" style="stroke:var(--grid)"/>`;
+    body += text(m.l - 6, y(v) + 4, num(v), { anchor: 'end', size: 11 });
+  }
+  const skip = band < 34 ? 2 : every;
+  items.forEach((d, i) => {
+    const cx = m.l + band * i + band / 2;
+    body += `<rect class="hit" x="${f(cx - band / 2)}" y="${m.t}" width="${f(band)}" height="${f(ih)}" style="fill:transparent"${tipAttr(num(d.value), d.tip)}/>`;
+    body += `<path d="${vbarPath(cx - bw / 2, y(0), bw, y(0) - y(d.value))}" style="fill:${d.fill};pointer-events:none"/>`;
+    if (i % skip === 0) body += text(cx, h - 6, d.label, { anchor: 'middle', size: 11 });
+  });
+  return svg(w, h, label, body);
+}
+
+/* ---------- Colonnes divergentes autour de zéro ---------- */
+function diverging(w, h, values, labels, { label, pos, neg, posLabel, negLabel }) {
+  const m = { l: 26, r: 4, t: 8, b: 24 };
+  const iw = w - m.l - m.r, ih = h - m.t - m.b, n = values.length, band = iw / n, bw = Math.min(20, band * .6);
+  const hi = Math.max(1, ...values), lo = Math.min(-1, ...values), y = (v) => m.t + ((hi - v) / (hi - lo)) * ih;
+  let body = '';
+  for (let v = lo; v <= hi; v++) {
+    body += `<line x1="${m.l}" x2="${w}" y1="${f(y(v))}" y2="${f(y(v))}" style="stroke:${v === 0 ? 'var(--ink-3)' : 'var(--grid)'};stroke-width:1"/>`;
+    body += text(m.l - 6, y(v) + 4, v > 0 ? `+${v}` : v < 0 ? `−${-v}` : '0', { anchor: 'end', size: 11 });
+  }
+  values.forEach((v, i) => {
+    const cx = m.l + band * i + band / 2, sign = v > 0 ? `+${v}` : v < 0 ? `−${-v}` : '0';
+    body += `<rect class="hit" x="${f(cx - band / 2)}" y="${m.t}" width="${f(band)}" height="${f(ih)}" style="fill:transparent"${tipAttr(sign, `Semaine du ${labels[i]} · ${v > 0 ? posLabel : v < 0 ? negLabel : 'autant de créées que de traitées'}`)}/>`;
+    body += v ? `<path d="${vbarPath(cx - bw / 2, y(0), bw, y(0) - y(v))}" style="fill:${v > 0 ? pos : neg};pointer-events:none"/>`
+      : `<rect x="${f(cx - bw / 2)}" y="${f(y(0) - 1)}" width="${f(bw)}" height="2" rx="1" style="fill:var(--ink-3);pointer-events:none"/>`;
+    if ((n - 1 - i) % (band < 30 ? 3 : 2) === 0) body += text(cx, h - 6, labels[i], { anchor: 'middle', size: 11 });
+  });
+  return svg(w, h, label, body);
+}
+
+/* ---------- Données fictives : École du numérique, bâtiments A à D, 12 semaines ---------- */
+const D = {
+  total: 612, enSalle: 566, stock: 46, hs: 23,
+  semaines: ['17 août', '24 août', '31 août', '7 sept.', '14 sept.', '21 sept.', '28 sept.', '5 oct.', '12 oct.', '19 oct.', '26 oct.', '2 nov.'],
+  creees: [2, 4, 3, 5, 3, 2, 4, 3, 5, 4, 3, 3],
+  traitees: [1, 3, 4, 4, 3, 3, 2, 3, 4, 3, 1, 1],
+  attente: [1, 2, 1, 2, 2, 1, 3, 3, 4, 5, 7, 9],
+  hsSemaines: [17, 18, 18, 20, 19, 19, 21, 20, 22, 21, 22, 23],
+  stockSemaines: [52, 52, 50, 49, 49, 48, 48, 47, 47, 46, 46, 46],
+  parcSemaines: [598, 598, 600, 600, 603, 603, 605, 606, 608, 610, 612, 612],
+  batiments: [
+    { name: 'Bâtiment A', short: 'A', total: 168, hs: 6, lo: .024, hi: .036 },
+    { name: 'Bâtiment B', short: 'B', total: 142, hs: 4, lo: .021, hi: .035 },
+    { name: 'Bâtiment C', short: 'C', total: 214, hs: 9, lo: .028, hi: .044 },
+    { name: 'Bâtiment D', short: 'D', total: 42, hs: 2, lo: .024, hi: .048 },
+    { name: 'Stock', short: 'Stock', total: 46, hs: 2, lo: .019, hi: .045 },
+  ],
+  types: [
+    { name: 'Écrans', total: 168, hs: 5 },
+    { name: 'Unités centrales', total: 158, hs: 8 },
+    { name: 'Périphériques', total: 112, hs: 3 },
+    { name: 'Réseau', total: 96, hs: 2 },
+    { name: 'Vidéoprojecteurs', total: 34, hs: 3 },
+    { name: 'Audio et vidéo', total: 22, hs: 1 },
+    { name: 'Autres', total: 12, hs: 0 },
+    { name: 'Imprimantes', total: 10, hs: 1 },
+  ],
+  garanties: [
+    { label: 'Échue', value: 38, color: 'var(--crit)' },
+    { label: 'Sous 6 mois', value: 27, color: 'var(--warn)' },
+    { label: '6 à 12 mois', value: 64, color: 'var(--seq-1)' },
+    { label: 'Plus d’un an', value: 341, color: 'var(--accent)' },
+    { label: 'Non renseignée', value: 142, color: 'var(--stock)' },
+  ],
+  /* remontées en attente, de la plus ancienne à la plus récente */
+  enAttente: [
+    { id: 'REM-0131', mat: 'Vidéoprojecteur EB-W06', salle: 'A101', bat: 'A', pb: 'Pas d’image', age: 16 },
+    { id: 'REM-0133', mat: 'Unité centrale OptiPlex 7010', salle: 'C104', bat: 'C', pb: 'Ne s’allume pas', age: 12 },
+    { id: 'REM-0134', mat: 'Commutateur 24 ports', salle: 'B203', bat: 'B', pb: 'Connexion', age: 9 },
+    { id: 'REM-0136', mat: 'Écran 24 pouces', more: 2, salle: 'C201', bat: 'C', pb: 'Casse', age: 6 },
+    { id: 'REM-0137', mat: 'Imprimante laser', salle: 'A112', bat: 'A', pb: 'Fonctionnement anormal', age: 4 },
+    { id: 'REM-0138', mat: 'Unité centrale ThinkCentre M70', salle: 'B101', bat: 'B', pb: 'Ne s’allume pas', age: 3 },
+    { id: 'REM-0139', mat: 'Borne Wi-Fi', salle: 'Atelier 2', bat: 'D', pb: 'Connexion', age: 2 },
+    { id: 'REM-0140', mat: 'Webcam HD', salle: 'A105', bat: 'A', pb: 'Autre', age: 1 },
+    { id: 'REM-0141', mat: 'Écran 27 pouces', salle: 'C006', bat: 'C', pb: 'Pas d’image', age: 0 },
+  ],
+};
+const ageText = (j) => (j === 0 ? 'Aujourd’hui' : j === 1 ? 'Hier' : `${j} jours`);
+
+/* ---------- Proposition B : à traiter d'abord ---------- */
+const microBar = (value, max, color, w = 52) => {
+  const bw = max ? (value / max) * w : 0;
+  return `<svg width="${w}" height="6" viewBox="0 0 ${w} 6" aria-hidden="true"><rect width="${w}" height="6" rx="3" style="fill:var(--fill-2)"/>${bw ? `<rect width="${f(Math.max(bw, 6))}" height="6" rx="3" style="fill:${color}"/>` : ''}</svg>`;
+};
+
+const oldest = D.enAttente[0].age;
+document.getElementById('ls-traiter').innerHTML = D.enAttente.slice(0, 6).map((r) => `<li><a class="row row--age" href="#">
+  <span class="age"><b>${r.age ? `${r.age}\u00a0j` : 'Auj.'}</b>${microBar(r.age, oldest, 'var(--wait)')}</span>
+  <span class="row-main"><span class="row-title">${esc(r.mat)}${r.more ? ` +${r.more}` : ''}</span><span class="row-sub">${esc(r.salle)} · Bâtiment ${esc(r.bat)} · ${esc(r.pb)}</span></span>
+  <span class="row-meta">${esc(r.id)}</span></a></li>`).join('');
+
+const salles = [
+  { nom: 'C104', bat: 'C', hs: 3, attente: 1 },
+  { nom: 'A101', bat: 'A', hs: 3, attente: 1 },
+  { nom: 'C006', bat: 'C', hs: 2, attente: 1 },
+  { nom: 'C201', bat: 'C', hs: 2, attente: 1 },
+  { nom: 'B203', bat: 'B', hs: 2, attente: 1 },
+  { nom: 'C112', bat: 'C', hs: 2, attente: 0 },
+];
+const hsMax = Math.max(...salles.map((s) => s.hs)), attMax = Math.max(...salles.map((s) => s.attente));
+const cell = (v, max, color, label) => `<span class="cell${v ? '' : ' is-zero'}" aria-label="${v} ${label}">${microBar(v, max, color, 40)}${v}</span>`;
+document.getElementById('ls-salles').innerHTML = salles.map((s) => `<li><a class="row row--watch" href="#">
+  <span class="row-main"><span class="row-title">${esc(s.nom)}</span><span class="row-sub">Bâtiment ${esc(s.bat)}</span></span>
+  ${cell(s.hs, hsMax, 'var(--crit)', 'hors service')}${cell(s.attente, attMax, 'var(--wait)', 'en attente')}</a></li>`).join('');
+
+const anciennete = [
+  { label: 'Moins de 2 jours', value: D.enAttente.filter((r) => r.age < 2).length, color: 'color-mix(in srgb, var(--wait) 38%, var(--card-solid))' },
+  { label: '2 à 7 jours', value: D.enAttente.filter((r) => r.age >= 2 && r.age <= 7).length, color: 'color-mix(in srgb, var(--wait) 70%, var(--card-solid))' },
+  { label: 'Plus de 7 jours', value: D.enAttente.filter((r) => r.age > 7).length, color: 'var(--wait)' },
+];
+mount('ch-anciennete', (w) => thinBar(w, anciennete, { label: `Remontées en attente par ancienneté : ${anciennete.map((a) => `${a.label} ${a.value}`).join(', ')}` }));
+document.getElementById('lg-anciennete').innerHTML = legendItems(anciennete);
+
+/* Chaque remontée en attente à son ancienneté, limites des tranches à 2 et 7 jours */
+mount('ch-strip', (w) => {
+  const h = 42, cy = 12, p = 8, max = 16, x = (v) => p + (v / max) * (w - 2 * p);
+  let body = `<line x1="${p}" x2="${w - p}" y1="${cy}" y2="${cy}" style="stroke:var(--grid);stroke-width:2;stroke-linecap:round"/>`;
+  [1.5, 7.5].forEach((v) => { body += `<line x1="${f(x(v))}" x2="${f(x(v))}" y1="${cy - 9}" y2="${cy + 9}" style="stroke:var(--ink-3);stroke-width:1"/>`; });
+  [0, 7, 14].forEach((v) => { body += text(x(v), h - 4, `${v}\u00a0j`, { anchor: v ? 'middle' : 'start', size: 11 }); });
+  D.enAttente.forEach((r) => {
+    body += `<circle class="mark" cx="${f(x(r.age))}" cy="${cy}" r="5.5" style="fill:var(--wait);stroke:var(--card-solid);stroke-width:2"${tipAttr(ageText(r.age), `${r.id} · ${r.mat}`)}/>`;
+    body += `<circle cx="${f(x(r.age))}" cy="${cy}" r="12" style="fill:transparent"${tipAttr(ageText(r.age), `${r.id} · ${r.mat}`)}/>`;
+  });
+  return svg(w, h, `Ancienneté de chaque remontée en attente : ${D.enAttente.map((r) => `${r.age} jours`).join(', ')}`, body);
+});
+
+const hsTypes = [
+  { name: 'Unités centrales', value: 8 }, { name: 'Écrans', value: 5 }, { name: 'Vidéoprojecteurs', value: 3 },
+  { name: 'Périphériques', value: 3 }, { name: 'Autres types', value: 4, fill: 'var(--stock)', tip: 'Réseau 2, imprimante 1, audio et vidéo 1' },
+];
+mount('ch-hs-types', (w) => hbars(w, hsTypes, { rowH: 26, label: `Matériels hors service par type : ${hsTypes.map((t) => `${t.name} ${t.value}`).join(', ')}` }));
+
+const solde = D.creees.map((c, i) => c - D.traitees[i]);
+mount('ch-solde', (w) => diverging(w, 132, solde, D.semaines, {
+  pos: 'var(--wait)', neg: 'var(--c5)', posLabel: 'plus de créées que de traitées', negLabel: 'plus de traitées que de créées',
+  label: `Créées moins traitées, par semaine : ${solde.join(', ')}`,
+}));
+
+const traitees = [
+  { mat: 'Écran 24 pouces', salle: 'C112', bat: 'C', statut: 'Corrigé', quand: 'il y a 2 jours' },
+  { mat: 'Unité centrale ThinkCentre M70', salle: 'B305', bat: 'B', statut: 'Remplacé', quand: 'il y a 5 jours' },
+  { mat: 'Vidéoprojecteur MX560', salle: 'A203', bat: 'A', statut: 'Corrigé', quand: 'il y a 8 jours' },
+];
+document.getElementById('ls-traitees').innerHTML = traitees.map((t) => `<li><a class="row row--done" href="#">
+  <span class="row-main"><span class="row-title">${esc(t.mat)}</span><span class="row-sub">${esc(t.salle)} · Bâtiment ${esc(t.bat)}</span></span>
+  <span class="done"><b>${esc(t.statut)}</b><span class="row-meta">${esc(t.quand)}</span></span></a></li>`).join('');
+</script>
+</body>
+</html>

@@ -1,5 +1,11 @@
 # Questions de cadrage du projet ORION
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.9 | 13/11/2026 | Source de travail interne | Fiabiliser les configurations à remettre | [10 versions](../archive/README.md#02-cadrage) |
+<!-- version:fin -->
+
 **Document de travail interne, non destiné à la remise aux cadres évaluateurs.** Il conserve les réponses et leurs périmètres pour préparer les productions. Les documents remis décrivent la cible en production ; les modalités de réalisation et les comptes du démonstrateur sont réservés au [guide interne de développement](../application/README.md). Cette distinction a été fixée par l’utilisateur le 6 novembre.
 
 Ce document présente les questions de cadrage et les réponses en vigueur, issues des [entretiens des 22 et 23 octobre et du 4 novembre](03-COMPTE-RENDU-ENTRETIENS.md), de l’application en cours de développement, des orientations apportées ensuite directement par l’utilisateur et des retours du client du 12 novembre transmis par l’utilisateur. Les réponses datées du 2 novembre ont été fournies par l’utilisateur dans les échanges de cadrage et ne font pas partie des comptes rendus d’entretien. Sur un même sujet, la décision du client prévaut ; à niveau de source égal, la réponse la plus récente remplace les précédentes, tandis que les précisions compatibles restent applicables. Les comptes rendus conservent uniquement la trace historique des entretiens. Les questions marquées **P0** conditionnent directement la faisabilité ou l’estimation des développements.

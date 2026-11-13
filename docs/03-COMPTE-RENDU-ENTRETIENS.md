@@ -1,5 +1,11 @@
 # Compte rendu des entretiens de cadrage — ORION
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.4 | 12/11/2026 | Source de travail interne | Renommer ASTER en ORION dans tout le dépôt | [5 versions](../archive/README.md#03-compte-rendu-entretiens) |
+<!-- version:fin -->
+
 **Source historique de travail interne, non destinée à la remise aux cadres évaluateurs.** Les propos datés sont conservés tels quels, y compris lorsqu’ils concernent la démonstration ; ils ne doivent pas être recopiés comme exigences de production dans les livrables. Voir le [classement documentaire](../README.md#destination-des-documents).
 
 Ce document conserve la trace historique des entretiens des 22 et 23 octobre et du 4 novembre 2026. Les propos restent rattachés à leur date, y compris lorsqu’une réponse ultérieure les remplace. Pour chaque sujet, la dernière réponse fait foi ; les [questions de cadrage](02-CADRAGE.md) présentent les réponses en vigueur et les questions encore ouvertes.

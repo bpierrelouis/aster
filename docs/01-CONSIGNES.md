@@ -1,5 +1,11 @@
 # Projet de fin de stage — Présentation du sujet
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.3 | 13/11/2026 | Source fournie par l’encadrement | Fiabiliser les configurations à remettre | [4 versions](../archive/README.md#01-consignes) |
+<!-- version:fin -->
+
 ## 1. Présentation générale
 
 La DRHAT/PFORM souhaite disposer d’une application destinée aux écoles de formation afin de faciliter la gestion de leur matériel informatique et de leurs salles de formation.

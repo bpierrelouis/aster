@@ -1,5 +1,11 @@
 # Règles de gestion de l'application ORION
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.6 | 13/11/2026 | Production destinée à la remise | Développer le sigle ORION et garantir RG-73 côté serveur | [7 versions](../archive/README.md#04-regles-de-gestion) |
+<!-- version:fin -->
+
 Ce document formalise uniquement les règles confirmées qui imposent une contrainte sur les données, les droits des utilisateurs ou les traitements réalisés par ORION. Il s'appuie sur les [consignes du projet](01-CONSIGNES.md), les [entretiens des 22 et 23 octobre et du 4 novembre](03-COMPTE-RENDU-ENTRETIENS.md), le fonctionnement de l'application ORION et le [cadrage consolidé](02-CADRAGE.md).
 
 Les limites du périmètre, les questions ouvertes et les réponses historiques remplacées restent documentées dans le cadrage et les comptes rendus, mais ne sont pas considérées ici comme des règles de gestion.

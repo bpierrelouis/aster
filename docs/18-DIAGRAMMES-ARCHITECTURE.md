@@ -1,5 +1,11 @@
 # Architecture réelle du démonstrateur
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.3 | 13/11/2026 | Production destinée à la remise | Documenter la cible C1NP et unifier les vues | [4 versions](../archive/README.md#18-diagrammes-architecture) |
+<!-- version:fin -->
+
 ## Vue simplifiée
 
 ![Vue simplifiée avec les IPv4 du déploiement proposé du démonstrateur ORION](assets/architecture/ORION-VUE-SIMPLIFIEE.svg)

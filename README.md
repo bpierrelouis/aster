@@ -42,6 +42,7 @@ Les productions remises aux cadres évaluateurs décrivent l’application cible
 | Source fournie par l’encadrement | Consignes `docs/01-*` | Sujet et critères d’évaluation, distincts des productions de l’équipe |
 | Réalisation et exploitation internes | Le reste d’`application/`, son README, le README général et `AGENTS.md` | Implémentation, démarrage, comptes de test et limites du démonstrateur ; seules les configurations décrites dans le guide applicatif accompagnent la remise du DAT |
 | Brouillons et ressources de préparation | `docs/temporaire/`, `design/` et sources éditables des modèles | Travaux et ressources à sélectionner avant inclusion dans un livrable |
+| Archives | `archive/` | Versions remplacées des documents suivis et compte rendu de leurs évolutions ; historique à conserver tel quel, jamais remis comme livrable |
 | Supports datés | `presentations/` | Conserver le contexte historique ; sélectionner et adapter le support destiné à chaque nouvelle remise |
 
 Aucune validation documentaire par le client n’est prévue : les productions font référence dès qu’elles sont à jour, et les questions réellement ouvertes ne deviennent pas des décisions. Avant une remise, sélectionner les documents et leurs ressources ; ne pas remettre indistinctement l’ensemble du dépôt ou du dossier `docs/`.
@@ -152,6 +153,12 @@ Exemples de demandes :
 - « Utilise $orion-documentation pour vérifier la cohérence du cadrage avec les règles et les DCU, sans modifier les fichiers. »
 - « Utilise $orion-documentation pour répercuter cette réponse dans les documents concernés, en préservant les diagrammes protégés. »
 - « Utilise $orion-documentation pour proposer les user stories stratégiques à partir du cadrage. »
+
+Chaque document suivi porte sous son titre un en-tête de version (version, date, destination, dernière évolution) généré par [versions.py](.agents/skills/orion-documentation/scripts/versions.py) ; le [compte rendu des évolutions](archive/README.md) liste toutes les versions et renvoie aux versions archivées. Après une mise à jour, depuis la racine :
+
+```sh
+python3 .agents/skills/orion-documentation/scripts/versions.py publier docs/02-CADRAGE.md --majeure -m "Intégrer les retours du client du 12 novembre"
+```
 
 Le [vérificateur documentaire](.agents/skills/orion-documentation/scripts/verifier_documentation.py) fonctionne avec Python 3.10 ou supérieur, sans dépendance supplémentaire. Depuis la racine du dépôt :
 

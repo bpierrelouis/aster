@@ -1,5 +1,11 @@
 # Glossaire du projet ORION
 
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 1.6 | 13/11/2026 | Production destinée à la remise | Développer le sigle ORION et garantir RG-73 côté serveur | [7 versions](../archive/README.md#00-glossaire) |
+<!-- version:fin -->
+
 Ce glossaire centralise les abréviations et les termes employés dans la documentation du projet. Les définitions décrivent leur sens dans ORION. Lorsqu'un sigle n'est pas développé dans les sources, cette absence est signalée afin de ne pas inventer sa signification.
 
 ## 1. Abréviations
