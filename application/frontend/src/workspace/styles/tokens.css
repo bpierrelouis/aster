@@ -1,3 +1,47 @@
+/* Marianne officielle, DSFR 1.15.4 : sources et licence dans assets/fonts/. */
+@font-face {
+  font-family: Marianne;
+  src: url(../assets/fonts/Marianne-Regular.woff2) format(woff2);
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Marianne;
+  src: url(../assets/fonts/Marianne-Regular_Italic.woff2) format(woff2);
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: Marianne;
+  src: url(../assets/fonts/Marianne-Medium.woff2) format(woff2);
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Marianne;
+  src: url(../assets/fonts/Marianne-Medium_Italic.woff2) format(woff2);
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: Marianne;
+  src: url(../assets/fonts/Marianne-Bold.woff2) format(woff2);
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Marianne;
+  src: url(../assets/fonts/Marianne-Bold_Italic.woff2) format(woff2);
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
 /* ==========================================================================
    ORION · Design tokens
    Surfaces neutres, accent personnel et couleurs des états métier.
@@ -224,9 +268,12 @@
    (licence Etalab 2.0, systeme-de-design.gouv.fr) : jetons background-*,
    text-*, border-* et action-*-blue-france, couleurs système (succès, erreur,
    avertissement) et illustratives pour les catégories. Surfaces pleines,
-   sans fond décoratif ; police système (Marianne est réservée aux sites de l'État).
+   sans fond décoratif ; police Marianne officielle, servie localement.
    -------------------------------------------------------------------------- */
 :root[data-ambiance="minarm"] {
+  --font-text: Marianne, Arial, sans-serif;
+  --font-display: Marianne, Arial, sans-serif;
+  --rail-w: 108px; /* libellés Marianne lisibles, dont Administration */
   color-scheme: light;
   --ink: 22 22 22;                 /* text-title-grey #161616 */
   --ink-2: #3a3a3a;                /* text-default-grey */
