@@ -1341,6 +1341,13 @@
         "version": "3.1",
         "date": "2026-11-13",
         "modification": "Retrait au lieu de suppression, proposition de RG-91",
+        "archive": null,
+        "commit": "8d426fd"
+      },
+      {
+        "version": "3.2",
+        "date": "2026-11-13",
+        "modification": "Agent ORION simulé, paquets, images et système Windows ou Linux des salles",
         "archive": null
       }
     ]
