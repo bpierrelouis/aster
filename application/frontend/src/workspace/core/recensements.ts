@@ -53,5 +53,7 @@ export const bilan = (r: Recensement) => cached(`recensement:${r.id}`, () => {
   };
 });
 
-/** Constats à traiter dans les campagnes en cours de l'école affichée (menu) */
-export const aTraiterEnCours = () => cached('recensements:aTraiter', () => recensements().filter((r) => ouverte(r)).reduce((n, r) => n + bilan(r).aTraiter.length, 0));
+/** Constats à traiter dans les campagnes en cours de l'école affichée (menu) ; jamais d'erreur dans le menu : sans nombre */
+export const aTraiterEnCours = () => cached('recensements:aTraiter', () => {
+  try { return recensements().filter((r) => ouverte(r)).reduce((n, r) => n + bilan(r).aTraiter.length, 0); } catch { return undefined; }
+});

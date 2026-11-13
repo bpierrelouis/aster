@@ -124,48 +124,56 @@ const texte = (v: unknown, max: number) => (typeof v === 'string' && v.trim() ? 
 export function appliquerEvenements(s: WorkspaceState, campagne: Id, evenements: (EvenementRecon | { id: string; illisible: true })[], now = Date.now()): ResultatRecon[] {
   const r = s.recensements.find((x) => x.id === campagne);
   const par = { par: r?.par ?? 'RECON', parId: r?.parId ?? null };
-  return evenements.map((e): ResultatRecon => {
-    const id = String(e?.id ?? '');
-    if (!ID.test(id)) return { id, statut: 'refuse', message: 'Identifiant invalide.' };
-    const cid = `cst-${id}`;
-    if (s.constats.some((c) => c.id === cid)) return { id, statut: 'doublon' };
-    if ('illisible' in e) return { id, statut: 'refuse', message: 'Événement illisible.' };
-    if (!r || !ouverte(r, now)) return { id, statut: 'refuse', message: 'Campagne close.' };
-    if (!['vu', 'releve', 'inconnu'].includes(e.type)) return { id, statut: 'refuse', message: 'Constat inconnu.' };
-    const salleId = e.salleId ?? null;
-    if (salleId !== null && !sallesDe(s, r).some((x) => x.id === salleId)) return { id, statut: 'refuse', message: 'Salle hors de la campagne.' };
-    const code = texte(e.code, 200) ?? '';
-    const ecole = s.materiels.filter((m) => m.ecoleId === r.ecoleId);
-    // Un code « inconnu » pour un téléphone dont l'instantané est ancien peut désigner un matériel connu
-    const connu = e.type === 'inconnu' && code ? ecole.find((m) => compact(m.idOrion) === compact(code) || (m.serie && compact(m.serie) === compact(code)) || (e.saisie?.serie && m.serie && compact(m.serie) === compact(e.saisie.serie))) : undefined;
-    const m = connu ?? ecole.find((x) => x.id === e.materielId);
-    const constat: Constat = {
-      id: cid, recensementId: r.id, ecoleId: r.ecoleId, type: connu ? 'vu' : e.type, code, salleId, materielId: m?.id ?? null,
-      observeLe: Number.isFinite(e.observeLe) ? Math.min(e.observeLe, now) : now, at: now, resultat: 'inconnu',
-    };
-    if (e.type === 'inconnu' && !connu) {
-      const t = e.saisie;
-      if (t) {
-        constat.saisie = {
-          type: DEVICE_TYPES.some((d) => d.id === t.type) ? t.type : 'autre',
-          modele: texte(t.modele, 250) ?? 'Non renseigné', marque: texte(t.marque, 120), serie: texte(t.serie, 120),
-        };
-      }
-    } else if (!m) return { id, statut: 'refuse', message: 'Matériel inconnu ou hors école.' };
-    else if ((m.salleId ?? null) === salleId) {
-      if (m.deplacement) { m.installation = { de: m.deplacement.de, at: now, ...par }; delete m.deplacement; constat.resultat = 'confirme'; }
-      else constat.resultat = 'present';
-    } else if (e.type === 'vu' || connu) constat.resultat = 'ecart';
-    else if (m.hs && salleId) Object.assign(constat, { resultat: 'refuse', message: 'Un matériel hors service ne peut aller qu’au stock.' });
-    else {
-      // Relocalisation constatée sur place : affectation et déplacement physique confirmés ensemble
-      const de = m.deplacement ? m.deplacement.de : m.salleId ?? null;
-      m.salleId = salleId;
-      delete m.deplacement;
-      m.installation = { de, at: now, ...par };
-      constat.resultat = salleId ? 'deplace' : 'range';
+  return evenements.map((e) => {
+    // Un événement inattendu est refusé seul : il ne bloque ni les autres, ni la campagne, ni ORION
+    try { return appliquer(s, r, e, par, now); } catch (error) {
+      console.error('Constat refusé :', (error as Error).message);
+      return { id: String(e?.id ?? ''), statut: 'refuse', message: 'Constat illisible par le serveur.' };
     }
-    s.constats.push(constat);
-    return constat.resultat === 'refuse' ? { id, statut: 'refuse', message: constat.message } : { id, statut: 'applique' };
   });
+}
+
+function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRecon | { id: string; illisible: true }, par: { par: string; parId: Id | null }, now: number): ResultatRecon {
+  const id = String(e?.id ?? '');
+  if (!ID.test(id)) return { id, statut: 'refuse', message: 'Identifiant invalide.' };
+  const cid = `cst-${id}`;
+  if (s.constats.some((c) => c.id === cid)) return { id, statut: 'doublon' };
+  if ('illisible' in e) return { id, statut: 'refuse', message: 'Événement illisible.' };
+  if (!r || !ouverte(r, now)) return { id, statut: 'refuse', message: 'Campagne close.' };
+  if (!['vu', 'releve', 'inconnu'].includes(e.type)) return { id, statut: 'refuse', message: 'Constat inconnu.' };
+  const salleId = e.salleId ?? null;
+  if (salleId !== null && !sallesDe(s, r).some((x) => x.id === salleId)) return { id, statut: 'refuse', message: 'Salle hors de la campagne.' };
+  const code = texte(e.code, 200) ?? '';
+  const ecole = s.materiels.filter((m) => m.ecoleId === r.ecoleId);
+  // Un code « inconnu » pour un téléphone dont l'instantané est ancien peut désigner un matériel connu
+  const connu = e.type === 'inconnu' && code ? ecole.find((m) => compact(m.idOrion) === compact(code) || (m.serie && compact(m.serie) === compact(code)) || (e.saisie?.serie && m.serie && compact(m.serie) === compact(e.saisie.serie))) : undefined;
+  const m = connu ?? ecole.find((x) => x.id === e.materielId);
+  const constat: Constat = {
+    id: cid, recensementId: r.id, ecoleId: r.ecoleId, type: connu ? 'vu' : e.type, code, salleId, materielId: m?.id ?? null,
+    observeLe: Number.isFinite(e.observeLe) ? Math.min(e.observeLe, now) : now, at: now, resultat: 'inconnu',
+  };
+  if (e.type === 'inconnu' && !connu) {
+    const t = e.saisie;
+    if (t) {
+      constat.saisie = {
+        type: DEVICE_TYPES.some((d) => d.id === t.type) ? t.type : 'autre',
+        modele: texte(t.modele, 250) ?? 'Non renseigné', marque: texte(t.marque, 120), serie: texte(t.serie, 120),
+      };
+    }
+  } else if (!m) return { id, statut: 'refuse', message: 'Matériel inconnu ou hors école.' };
+  else if ((m.salleId ?? null) === salleId) {
+    if (m.deplacement) { m.installation = { de: m.deplacement.de, at: now, ...par }; delete m.deplacement; constat.resultat = 'confirme'; }
+    else constat.resultat = 'present';
+  } else if (e.type === 'vu' || connu) constat.resultat = 'ecart';
+  else if (m.hs && salleId) Object.assign(constat, { resultat: 'refuse', message: 'Un matériel hors service ne peut aller qu’au stock.' });
+  else {
+    // Relocalisation constatée sur place : affectation et déplacement physique confirmés ensemble
+    const de = m.deplacement ? m.deplacement.de : m.salleId ?? null;
+    m.salleId = salleId;
+    delete m.deplacement;
+    m.installation = { de, at: now, ...par };
+    constat.resultat = salleId ? 'deplace' : 'range';
+  }
+  s.constats.push(constat);
+  return constat.resultat === 'refuse' ? { id, statut: 'refuse', message: constat.message } : { id, statut: 'applique' };
 }

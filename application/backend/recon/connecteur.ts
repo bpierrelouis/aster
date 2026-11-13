@@ -96,10 +96,19 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     relais: env.RELAIS_URL || 'http://127.0.0.1:3002',
     token: env.RELAIS_TOKEN || (production ? '' : 'recon-relais-local'),
   };
-  if (production && (config.secret.length < 32 || config.token.length < 32 || !config.relais.startsWith('https:'))) {
-    throw new Error('En production, renseigner RECON_SECRET et RELAIS_TOKEN dédiés (32 caractères minimum) et un RELAIS_URL en HTTPS.');
+  if (production && (config.secret.length < 32 || config.token.length < 32)) {
+    throw new Error('En production, renseigner RECON_SECRET et RELAIS_TOKEN dédiés (32 caractères minimum).');
   }
-  const stop = createConnecteur(config).demarrer(Number(env.RECON_INTERVALLE) || 10_000);
-  console.log(`Connecteur RECON : ${config.orion} ⇄ ${config.relais}`);
+  let stop = () => {};
+  if (production && !env.RELAIS_URL) {
+    // Relais pas encore publié : le connecteur reste inactif, sans être relancé en boucle par l'orchestrateur
+    console.warn('Connecteur RECON inactif : RELAIS_URL non renseigné.');
+    const veille = setInterval(() => {}, 3_600_000);
+    stop = () => clearInterval(veille);
+  } else {
+    if (production && !config.relais.startsWith('https:')) throw new Error('En production, RELAIS_URL doit être en HTTPS.');
+    stop = createConnecteur(config).demarrer(Number(env.RECON_INTERVALLE) || 10_000);
+    console.log(`Connecteur RECON : ${config.orion} ⇄ ${config.relais}`);
+  }
   for (const signal of ['SIGINT', 'SIGTERM']) process.once(signal, () => { stop(); process.exit(0); });
 }

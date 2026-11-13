@@ -137,6 +137,10 @@ test('constats : confirmation, présence, écart, relocalisation, stock, hors se
   assert.deepEqual(appliquerEvenements(s, campagne.id, [tardif]).map((r) => r.statut), ['applique']);
   assert.equal(s.constats.at(-1)!.resultat, 'present');
 
+  // Événement inattendu : refusé seul, sans bloquer les suivants
+  const piege = new Proxy(evt({ type: 'vu', materielId: installe.id, salleId: autreSalle.id }), { get: (t, k) => { if (k === 'type') throw new Error('piège'); return t[k as keyof typeof t]; } });
+  assert.deepEqual(appliquerEvenements(s, campagne.id, [piege, evt({ type: 'vu', materielId: installe.id, salleId: autreSalle.id })]).map((r) => r.statut), ['refuse', 'applique']);
+
   const horsCampagne = ouvrir(s, [autreSalle.id]);
   const autrePiece = s.salles.find((x) => x.ecoleId === 'e-num' && x.id !== autreSalle.id)!;
   assert.equal(appliquerEvenements(horsCampagne.next, horsCampagne.campagne.id, [evt({ type: 'vu', materielId: installe.id, salleId: autrePiece.id })])[0].message, 'Salle hors de la campagne.');
