@@ -165,24 +165,24 @@ Le réseau des VM est `172.16.128.0/20` ; son DNS, `172.16.143.251` (domaine `fo
 | Adresse | Service | Accès |
 | --- | --- | --- |
 | `https://172.16.131.188` (port `443`) | ORION : interface, API et connexion (Keycloak, émetteur OIDC) | Utilisateurs et Express |
-| `https://172.16.131.188:8444/admin/` | Console d’administration de Keycloak | Réseau d’administration seulement |
+| `https://172.16.131.188:8444/admin/` | Console d’administration de Keycloak | Réseau des VM, sans filtrage dédié |
 | IPv4 de chaque VM du tableau ci-dessus, port `22/TCP` | Administration par SSH des dix VM | Réseau d’administration seulement |
 
 L’émetteur OIDC est `https://172.16.131.188/realms/orion` et le retour OIDC `https://172.16.131.188/auth/callback`. Le collecteur reçoit les logs sur le port `6514/TCP` avec TLS : le maillage de routage de Swarm publie ce port sur chaque VM du cluster, y compris sur son adresse locale, et le transmet à Logstash, quelle que soit la VM qui l’exécute ; le pilote `syslog` de chaque VM joint donc `127.0.0.1:6514`. Le certificat de HAProxy porte l’adresse d’orion-1, celui du collecteur l’adresse `127.0.0.1` ; leur autorité doit être reconnue par Firefox, par Node.js et par le pilote `syslog`. L’horloge est jointe sur `172.16.131.188:123/UDP`. Les VM qui montent le stockage le joignent sur `172.16.131.197:2049/TCP` (NFSv4). SSH utilise chacune des dix IPv4 sur `22/TCP`, depuis le réseau d’administration. Le filtrage reste à qualifier.
 
 HAProxy termine le TLS. Il publie ses ports sur l’hôte d’orion-1 et joint les services par leur nom sur le réseau overlay de Swarm, chiffré (option `encrypted`) : `apache:8080`, `api:3001` et `keycloak:8080`. L’absence de HTTPS entre HAProxy et ces trois services est donc volontaire : le chiffrement est assuré une fois au niveau du réseau interne, sans distribuer ni renouveler un certificat dans chaque conteneur. Le navigateur utilise toujours HTTPS pour l’interface, l’API et Keycloak. Le port `443` transmet `/realms` et `/resources` à Keycloak et refuse les chemins de sa console, servie uniquement sur `8444`. Les PDF d’état des lieux passent par le port `443`, comme le reste de l’API.
 
-La console de Keycloak est déclarée sur l’adresse d’administration `https://172.16.131.188:8444/admin/`. HAProxy y termine TLS et transmet les requêtes à Keycloak sur le réseau overlay chiffré. Cet accès suppose que le port `8444` soit autorisé depuis le réseau d’administration, que l’adresse `172.16.131.188` soit exclue du proxy du navigateur et que l’autorité du certificat soit reconnue. Le compte est `keycloak-admin` ; son mot de passe aléatoire se lit sur la VM qui exécute Keycloak avec `docker exec $(docker ps -qf name=orion_keycloak) cat /run/secrets/KC_BOOTSTRAP_ADMIN_PASSWORD`.
+La console de Keycloak est déclarée sur l’adresse d’administration `https://172.16.131.188:8444/admin/`. HAProxy y termine TLS et transmet les requêtes à Keycloak sur le réseau overlay chiffré. Le démonstrateur ne filtre pas cet accès : le port reste joignable depuis le réseau des VM. L’adresse `172.16.131.188` doit être exclue du proxy du navigateur et l’autorité du certificat reconnue. Le compte est `keycloak-admin` ; son mot de passe aléatoire se lit sur la VM qui exécute Keycloak avec `docker exec $(docker ps -qf name=orion_keycloak) cat /run/secrets/KC_BOOTSTRAP_ADMIN_PASSWORD`.
 
 Express utilise pour Keycloak la même adresse que le navigateur : il le joint donc aussi par HAProxy, sur `443`. Il joint PostgreSQL directement par le réseau overlay (`postgres:5432`), et le simulateur joint Express par ce même réseau (`api:3001`). Keycloak lit l’annuaire par `ldap:389`. La résolution de noms interne de Docker sert à l’intérieur du cluster.
 
 Le filtrage autorise :
 
 - `443` vers orion-1 depuis le réseau des utilisateurs ;
-- `8444` vers orion-1 et `22` vers les dix VM depuis le réseau d’administration ;
+- `8444` vers orion-1 depuis le réseau des VM, sans filtrage dédié ; `22` vers les dix VM depuis le réseau d’administration ;
 - `53/TCP et UDP` des VM vers le DNS du réseau ;
 - entre les VM du cluster (toutes sauf orion-10) : `2377/TCP` vers les managers, `7946/TCP et UDP`, `4789/UDP` et le protocole IP 50 (ESP) du réseau overlay chiffré ;
-- `6514/TCP` de chaque VM du cluster vers elle-même (maillage de routage), puis par le réseau `ingress` de Swarm vers la VM de Logstash ;
+- `6514/TCP` depuis le réseau des VM, sans filtrage dédié ; chaque pilote `syslog` joint sa propre adresse locale, puis le maillage de routage transmet le flux à la VM de Logstash ;
 - `2049/TCP` d’orion-6 à orion-9 vers orion-10 (NFSv4) ;
 - `123/UDP` des VM orion-2 à orion-10 vers orion-1, horloge de référence ;
 - `22/TCP` d’orion-3 vers orion-1 (déploiement par le runner), et `8080/TCP` d’orion-3 vers le proxy du réseau (`172.16.0.1`), par lequel le runner joint GitHub en HTTPS.
