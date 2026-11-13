@@ -2,10 +2,9 @@
 .inv-panel { border-radius:26px; overflow:hidden; }
 .inv-filters { padding:22px; display:flex; align-items:flex-start; flex-wrap:wrap; gap:12px; border-bottom:1px solid var(--hairline); }
 .inv-filters .field { margin:0; flex:1 1 250px; }
-/* Listes déroulantes du style commun (base.css), à la hauteur du champ de recherche */
-.inv-filters select { min-width:0; flex:1 1 14rem; padding-block:14px; border-radius:16px; }
+/* Choix intégrés, à la hauteur du champ de recherche. */
 .inv-filters .filter-select { flex:1 1 14rem; }
-.inv-filters .filter-select > select { flex:none; }
+.inv-filters .filter-select-trigger { min-height:52px; border-radius:16px; }
 .inv-selection { display:flex; align-items:center; flex-wrap:wrap; gap:10px; min-height:64px; padding:10px 22px; font-size: 1rem; }
 .inv-count { margin-left:auto; color:var(--ink-2); }
 .inv-table-scroll { overflow:auto; overscroll-behavior:none; }
@@ -67,4 +66,4 @@
 .inv-transfer { display:inline-flex; align-items:center; gap:10px; font-weight:600; }
 .inv-add { color:var(--ok); font-weight:650; }
 .inv-skip { color:var(--ink-3); }
-@media(max-width:800px) { .inv-filters { padding:14px; } .inv-filters select { flex-basis:14rem; } .inv-import { grid-template-columns:1fr; padding:22px; } .inv-details { grid-template-columns:1fr; } }
+@media(max-width:800px) { .inv-filters { padding:14px; } .inv-import { grid-template-columns:1fr; padding:22px; } .inv-details { grid-template-columns:1fr; } }

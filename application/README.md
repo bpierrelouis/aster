@@ -24,7 +24,7 @@ Préférences d’affichage, par compte ([shared/ambiance.ts](shared/ambiance.ts
 
 | Ambiance (identifiant) | Couleurs | Fond | Marque du menu |
 | --- | --- | --- | --- |
-| Orion (`orion`, défaut) | Surfaces neutres et accent personnel ; textes blancs en sombre | Clair : halos et voile lumineux de la couleur choisie ; sombre : noir légèrement bleuté, quelques étoiles blanches, halo blanc central élargi, fondu vers le bleu des coins, zones noires préservées, halo bleu renforcé en haut, halos de la couleur choisie et cartes bleu nuit | Étoile colorée en clair, blanche avec lueur de la couleur choisie en sombre |
+| Orion (`orion`, défaut) | Surfaces neutres et accent personnel ; textes blancs en sombre | Clair : halos et voile lumineux de la couleur choisie ; sombre : noir légèrement bleuté, étoiles blanches fines et discrètes, halo blanc central élargi, fondu vers le bleu des coins, zones noires préservées, halo bleu renforcé en haut, halos de la couleur choisie et cartes bleu nuit | Étoile colorée en clair, blanche avec lueur de la couleur choisie en sombre |
 | Minarm (`minarm`) | Couleurs du Système de design de l’État (DSFR), celles des sites ministériels comme impots.gouv.fr : bleu France, gris neutres, couleurs système (succès, erreur, avertissement) et illustratives pour les catégories ; clair ou sombre selon le réglage de la machine, suivi en direct ([core/theme.ts](frontend/src/workspace/core/theme.ts)) | Uni : fond gris très clair (#F6F6F6) et cartes blanches, ou fond #161616 et cartes #1E1E1E | Marianne dans un cercle (dessin officiel complété en haut et en bas) ; au survol, le médaillon grandit légèrement et un reflet le traverse |
 
 Les menus de la barre haute restent ancrés sous leur bouton, sans déplacement lors des changements de thème, de tonalité, de verre ou de couleur. Leur contenu défile si la hauteur disponible est insuffisante.
@@ -35,7 +35,7 @@ Les changements d’ambiance, de tonalité et de couleur révèlent la nouvelle 
 
 Les changements d’apparence n’envoient que les préférences au serveur : l’activité des postes ne peut pas faire rejeter un choix de couleur ou de tonalité.
 
-Les listes de plus de huit choix proposent une recherche insensible à la casse et aux accents, par nom et par groupe (bâtiment ou école). Le filtre ne modifie pas la valeur sélectionnée ; le nombre de choix disponibles et l’absence de résultat sont annoncés. Les listes restent des sélecteurs natifs, utilisables au clavier et dans les formulaires. Le choix de salle d’un signalement propose également une recherche dans tous les bâtiments.
+Tous les choix de listes utilisent le même contrôle intégré : le champ sélectionné ouvre un panneau aux surfaces et aux couleurs de l’application, avec les groupes, le survol et une coche pour le choix courant. Au-delà de huit choix, la recherche apparaît à l’intérieur du panneau et filtre les noms et groupes sans tenir compte de la casse ni des accents. Le filtre ne change pas la sélection ; Échap annule la navigation dans les options, les flèches permettent de parcourir les choix et Entrée de confirmer. Les valeurs et la validation des formulaires restent conservées. Le panneau défile et se positionne dans les limites de l’écran, y compris dans une fenêtre modale. Le choix de salle d’un signalement conserve sa recherche dans tous les bâtiments.
 
 Les infobulles utilisent la couche native des popovers pour rester visibles au-dessus des fenêtres modales, notamment lors du choix des matériels dans un signalement.
 

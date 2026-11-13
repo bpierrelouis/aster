@@ -241,14 +241,13 @@ function RuleForm({ rule }: { rule: Regle | null }) {
   return <SheetForm id="rule-form" onSave={save}>
     <label className="field"><span className="field-label">Nom du processus *</span><input name="nom" defaultValue={rule?.nom || ''} required maxLength={100} placeholder="application.exe" /></label>
     <div className="form-2">
-      <label className="field"><span className="field-label">Classement</span>
-        <select name="classement" defaultValue={rule?.classement}><option value="whitelist">Autorisé (whitelist)</option><option value="blacklist">Interdit (blacklist)</option></select>
-      </label>
-      <label className="field"><span className="field-label">Portée</span>
-        <select name="portee" defaultValue={rule?.portee}>
-          {((me().role === 'superadmin' ? ['global', 'ecole', 'batiment', 'salle'] : ['ecole', 'batiment', 'salle']) as Portee[]).map((p) => <option key={p} value={p}>{PORTEES[p]}</option>)}
-        </select>
-      </label>
+      <div className="field"><span className="field-label">Classement</span>
+        <FilterSelect aria-label="Classement" name="classement" defaultValue={rule?.classement} options={[{ value: 'whitelist', label: 'Autorisé (whitelist)' }, { value: 'blacklist', label: 'Interdit (blacklist)' }]} />
+      </div>
+      <div className="field"><span className="field-label">Portée</span>
+        <FilterSelect aria-label="Portée" name="portee" defaultValue={rule?.portee}
+          options={((me().role === 'superadmin' ? ['global', 'ecole', 'batiment', 'salle'] : ['ecole', 'batiment', 'salle']) as Portee[]).map((p) => ({ value: p, label: PORTEES[p] }))} />
+      </div>
       <div className="field"><span className="field-label">École</span>
         <FilterSelect aria-label="École" name="ecoleId" defaultValue={(rule?.ecoleId || ecole) ?? undefined} options={state.ecoles.map((e) => ({ value: e.id, label: e.nom }))} />
       </div>

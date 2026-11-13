@@ -50,9 +50,9 @@ function AccountForm({ account }: { account: Compte | null }) {
     <label className="field"><span className="field-label">Nom *</span><input name="nom" required maxLength={100} defaultValue={account?.nom || ''} /></label>
     <label className="field"><span className="field-label">Adresse électronique *</span><input name="email" type="email" required maxLength={180} defaultValue={account?.email || ''} /></label>
     <div className="form-2">
-      <label className="field"><span className="field-label">Profil</span>
-        <select name="role" defaultValue={account?.role || 'formateur'}>{ROLES.filter((r) => me().role === 'superadmin' || r.id !== 'superadmin').map((r) => <option key={r.id} value={r.id}>{r.label}</option>)}</select>
-      </label>
+      <div className="field"><span className="field-label">Profil</span>
+        <FilterSelect aria-label="Profil" name="role" defaultValue={account?.role || 'formateur'} options={ROLES.filter((r) => me().role === 'superadmin' || r.id !== 'superadmin').map((r) => ({ value: r.id, label: r.label }))} />
+      </div>
       <div className="field"><span className="field-label">École</span>
         <FilterSelect aria-label="École" name="ecoleId" defaultValue={school!} options={state.ecoles.map((e) => ({ value: e.id, label: e.nom }))} />
       </div>

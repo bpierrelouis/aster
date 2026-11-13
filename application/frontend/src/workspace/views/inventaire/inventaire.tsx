@@ -104,10 +104,10 @@ export function Inventaire() {
     {tab === 'import' ? <ImportPanel /> : <DataPanel
       filters={<>
         <label className="field field--search"><Icon name="recherche" size={18} /><input type="search" value={q} onChange={filter(setQ)} placeholder="Modèle, identifiant, série…" aria-label="Rechercher un matériel" /></label>
-        <select aria-label="Type" value={type} onChange={filter(setType)}><option value="">Tous les types</option>{DEVICE_TYPES.map((t) => <option key={t.id} value={t.id}>{t.plural}</option>)}</select>
-        <select aria-label="État" value={status} onChange={filter(setStatus)}><option value="">Tous les états</option><option value="ok">En service</option><option value="hs">Hors service</option></select>
+        <FilterSelect aria-label="Type" value={type} onChange={filter(setType)} options={[{ value: '', label: 'Tous les types' }, ...DEVICE_TYPES.map((t) => ({ value: t.id, label: t.plural }))]} />
+        <FilterSelect aria-label="État" value={status} onChange={filter(setStatus)} options={[{ value: '', label: 'Tous les états' }, { value: 'ok', label: 'En service' }, { value: 'hs', label: 'Hors service' }]} />
         <FilterSelect aria-label="Localisation" value={location} onChange={filter(setLocation)} options={[{ value: '', label: 'Toutes les salles' }, { value: 'stock', label: 'Stock' }, ...optionsSalles()]} />
-        <select aria-label="Garantie" value={guarantee} onChange={filter(setGuarantee)}><option value="">Toutes les garanties</option>{GARANTIES.map((v) => <option key={v}>{v}</option>)}</select>
+        <FilterSelect aria-label="Garantie" value={guarantee} onChange={filter(setGuarantee)} options={[{ value: '', label: 'Toutes les garanties' }, ...GARANTIES.map((v) => ({ value: v, label: v }))]} />
       </>}
       selection={<>
         <span><strong>{num(selected.size)}</strong> {accord(selected.size, 'sélectionné')}</span>
