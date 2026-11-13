@@ -1,4 +1,6 @@
-# Images ORION, une cible par image : docker build --target web | api | postes .
+# Images ORION, une cible par image : docker build --target web | api | postes | keycloak | relais | connecteur .
+# relais : application mobile RECON et relais chiffré, hébergés hors du réseau d'ORION (Hidora) ;
+# connecteur : sur le réseau d'ORION, seul lien sortant entre ORION et le relais.
 
 FROM node:22.22.3-alpine3.24 AS node
 # Version publiée par /api/infos : commit de l'image
@@ -26,6 +28,11 @@ CMD ["node", "backend/start-production.ts"]
 FROM node AS postes
 CMD ["node", "backend/demonstrateur/agents.ts"]
 
+# RECON : connecteur entre ORION et le relais, par requêtes sortantes (proxy : HTTPS_PROXY, NO_PROXY)
+FROM node AS connecteur
+ENV NODE_USE_ENV_PROXY=1
+CMD ["node", "backend/recon/connecteur.ts"]
+
 # Build React
 FROM node:22.22.3-alpine3.24 AS build
 WORKDIR /app
@@ -35,7 +42,7 @@ RUN npm ci
 COPY shared ./shared
 COPY backend ./backend
 COPY frontend ./frontend
-RUN npm run build
+RUN npm run build && npm run build:recon
 
 # Apache : fichiers de l'interface
 FROM httpd:2.4.69-alpine3.24 AS web
@@ -45,6 +52,15 @@ RUN sed -i 's/^Listen 80$/Listen 8080/' /usr/local/apache2/conf/httpd.conf \
 COPY --from=build /app/frontend/dist /usr/local/apache2/htdocs/
 EXPOSE 8080
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["wget", "-q", "--spider", "http://127.0.0.1:8080/"]
+
+# RECON : relais et application mobile (Hidora), derrière le proxy TLS de l'hébergeur
+FROM node AS relais
+COPY --from=build /app/frontend/dist-recon ./frontend/dist-recon
+ENV HOST=0.0.0.0 PORT=3000
+EXPOSE 3000
+HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=3 \
+  CMD ["node", "-e", "fetch('http://127.0.0.1:3000/api/health').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
+CMD ["node", "backend/recon/relais-start.ts"]
 
 # Keycloak des VM : realm (réimporté à chaque création du conteneur) et thème de connexion
 FROM quay.io/keycloak/keycloak:26.7.4 AS keycloak

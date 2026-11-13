@@ -7,17 +7,11 @@
 
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { OrionLogo } from '../../../connexion/brand.tsx';
-import { Sheet, openSheet, notify } from '../../ui/overlays.tsx';
+import { Sheet, openSheet, printSheet } from '../../ui/overlays.tsx';
 import { dateLong, dateShort } from '#shared/format.ts';
 import { deviceType, problem, suiviRemontee } from '#shared/catalog.ts';
 import { remonteeContext, batimentLabel, index } from '../../core/selectors.ts';
 import type { Remontee } from '#shared/types.ts';
-
-function printEtatDesLieux() {
-  document.documentElement.classList.add('is-printing-edl');
-  try { window.print(); } catch { notify('Impression momentanément indisponible', { icon: 'print', tone: 'warn' }); }
-  setTimeout(() => document.documentElement.classList.remove('is-printing-edl'), 500);
-}
 
 export function openEtatDesLieux(r: Remontee) {
   const { mats } = remonteeContext(r);
@@ -31,7 +25,7 @@ export function openEtatDesLieux(r: Remontee) {
       footer={<>
         <span className="sheet-hint"><Icon name="documents" size={16} />Format A4</span>
         <a className="btn btn--glass" href={`/api/workspace/reports/${encodeURIComponent(r.id)}/pdf`} target="_blank" rel="noopener">Télécharger le PDF</a>
-        <button className="btn btn--primary" onClick={printEtatDesLieux}><Icon name="print" size={18} /><span>Imprimer ou enregistrer en PDF</span></button>
+        <button className="btn btn--primary" onClick={printSheet}><Icon name="print" size={18} /><span>Imprimer ou enregistrer en PDF</span></button>
       </>}>
       <article className="edl" aria-label={`État des lieux ${r.id}`}>
         <header className="edl-head">

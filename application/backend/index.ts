@@ -9,7 +9,7 @@ import swaggerUi from 'swagger-ui-express';
 import { fileURLToPath } from 'node:url';
 import { readConfig } from './config.ts';
 import { identityFromClaims, userFromAccount } from './profiles.ts';
-import { createWorkspaceRouter, createAgentRouter } from './workspace/routes.ts';
+import { createWorkspaceRouter, createAgentRouter, createReconRouter } from './workspace/routes.ts';
 import { createKeycloakProvisioning } from './demonstrateur/identity-provisioning.ts';
 import { createPostgresWorkspaceRepository } from './workspace/postgres.ts';
 import { createServices } from './services.ts';
@@ -180,9 +180,12 @@ app.use('/api/workspace', (req, res, next) => {
   repository: workspaceRepository,
   actor: sessionActor,
   agentToken: config.agentToken,
+  recon: config.recon,
 }));
 // Postes : rapports d'activité et résultats d'intervention
 app.use('/api/agent', createAgentRouter({ repository: workspaceRepository, token: config.agentToken }));
+// Recensement mobile : connecteur du relais RECON
+app.use('/api/recon', createReconRouter({ repository: workspaceRepository, secret: config.recon.secret }));
 
 app.use(['/api', '/auth'], (_req, res) => res.status(404).json({ error: 'Adresse inconnue.' }));
 if (config.production) {

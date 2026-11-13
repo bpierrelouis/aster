@@ -11,8 +11,11 @@ import type { Actor } from '#shared/types.ts';
 import type { HttpError } from './rules.ts';
 import type { Engine } from './engine.ts';
 
+/** Recensement mobile : secret des campagnes et adresse publique de l'application mobile (relais), null si non configurée */
+export interface ReconConfig { secret: string; url: string | null }
+
 /** actor : fonction (req) => utilisateur agissant, ou null sans session valide ; agentToken : secret des postes. */
-export function createWorkspaceRouter({ repository, actor, agentToken }: { repository: Engine; actor: (req: Request) => Promise<Actor | null>; agentToken: string }) {
+export function createWorkspaceRouter({ repository, actor, agentToken, recon }: { repository: Engine; actor: (req: Request) => Promise<Actor | null>; agentToken: string; recon: ReconConfig }) {
   const router = express.Router();
   router.use(async (req, res, next) => {
     res.set('Cache-Control', 'no-store');
@@ -51,6 +54,10 @@ export function createWorkspaceRouter({ repository, actor, agentToken }: { repos
       if (!poste) return res.status(404).json({ error: 'Poste introuvable.' });
       res.json({ poste: poste.nomReseau, jeton: jetonPoste(agentToken, poste.nomReseau) });
     } catch (e) { next(e); }
+  });
+  // Adresse d'appairage d'un téléphone à une campagne de recensement (QR affiché par ORION)
+  router.get('/recensements/:id/appairage', async (req, res, next) => {
+    try { res.json(await repository.recon.appairage(res.locals.actor, req.params.id, recon)); } catch (e) { next(e); }
   });
   router.get('/reports/:id/pdf', async (req, res, next) => {
     try {
@@ -111,6 +118,32 @@ export function createAgentRouter({ repository, token }: { repository: Engine; t
     } catch (e) { next(e); }
   });
   router.use(errorHandler('Postes'));
+  return router;
+}
+
+/**
+ * API du connecteur RECON, par jeton porteur (secret des campagnes) : le connecteur, sur le réseau d'ORION, publie
+ * les campagnes ouvertes sur le relais et transmet les constats des téléphones. Les blocs restent chiffrés jusqu'ici.
+ */
+export function createReconRouter({ repository, secret }: { repository: Engine; secret: string }) {
+  const router = express.Router();
+  router.use((req, res, next) => {
+    res.set('Cache-Control', 'no-store');
+    if (!equal(String(req.get('Authorization') ?? '').replace(/^Bearer /, ''), secret)) return res.status(401).json({ error: 'Connecteur non authentifié.' });
+    next();
+  });
+  router.use(express.json({ limit: '4mb' }));
+  router.get('/campagnes', async (_req, res, next) => {
+    try { res.json({ campagnes: await repository.recon.campagnes(secret) }); } catch (e) { next(e); }
+  });
+  router.post('/campagnes/:id/evenements', async (req, res, next) => {
+    try {
+      const evenements = req.body?.evenements;
+      assert(Array.isArray(evenements) && evenements.length <= 1000 && evenements.every((x) => x && typeof x.id === 'string' && x.bloc), 'Événements invalides.');
+      res.json({ resultats: await repository.recon.evenements(secret, req.params.id, evenements) });
+    } catch (e) { next(e); }
+  });
+  router.use(errorHandler('Recensement'));
   return router;
 }
 

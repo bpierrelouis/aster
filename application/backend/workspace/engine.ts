@@ -13,6 +13,8 @@ import { keyOf, rebase } from './fusion.ts';
 import { DISCONNECT_AFTER, applyReports, applyResults, markDisconnected, pendingCommands } from './postes.ts';
 import { reportPdf } from './pdf.ts';
 import { analyseImport, importMateriels } from './import.ts';
+import { appairage, appliquerEvenements, campagnesPubliees, dechiffrerEvenements } from './recensement.ts';
+import type { Bloc } from '#shared/recon.ts';
 import type { Actor, Id, Item, WorkspaceState } from '#shared/types.ts';
 import type { WorkspaceInput } from './rules.ts';
 import type { Rapport, Resultat } from './postes.ts';
@@ -91,6 +93,15 @@ export function createEngine({ store }: { store: Store }) {
       const report = scopedState(state, actor).remontees.find((r) => r.id === reportId);
       if (!report) fail(404, 'État des lieux introuvable.');
       return reportPdf(report, state);
+    },
+    /** Recensement mobile (recensement.ts) : appairage d'un téléphone, campagnes publiées et constats reçus par le connecteur */
+    recon: {
+      appairage: async (actor: Actor, id: Id, config: { secret: string; url: string | null }) => appairage(await store.read(), actor, id, config),
+      campagnes: async (secret: string) => campagnesPubliees(await store.read(), secret),
+      async evenements(secret: string, campagne: Id, blocs: { id: string; bloc: Bloc }[]) {
+        const evenements = await dechiffrerEvenements(secret, campagne, blocs);
+        return system((s) => appliquerEvenements(s, campagne, evenements));
+      },
     },
     agent: {
       postes: async () => {

@@ -14,7 +14,7 @@ import type { RoleId } from '#shared/types.ts';
 const ALL = [
   'dashboard.perso', 'dashboard.parc', 'dashboard.remontees', 'dashboard.customize',
   'salle.view', 'salle.manage', 'salle.delete',
-  'materiel.view', 'materiel.create', 'materiel.edit', 'materiel.move', 'materiel.import', 'materiel.delete',
+  'materiel.view', 'materiel.create', 'materiel.edit', 'materiel.move', 'materiel.import', 'materiel.delete', 'materiel.recensement',
   'remontee.create', 'remontee.viewAll', 'remontee.treat', 'pdf.viewAll',
   'supervision.view', 'administration.view', 'ecole.switch',
 ] as const;
@@ -26,7 +26,7 @@ const CAPS: Record<RoleId, Set<Capability>> = {
   superadmin: new Set(ALL),
   gestionnaire: new Set([
     'dashboard.perso', 'dashboard.parc', 'dashboard.remontees', 'dashboard.customize',
-    'salle.view', 'materiel.view', 'materiel.create', 'materiel.edit', 'materiel.move', 'materiel.import',
+    'salle.view', 'materiel.view', 'materiel.create', 'materiel.edit', 'materiel.move', 'materiel.import', 'materiel.recensement',
     'remontee.viewAll', 'remontee.treat', 'pdf.viewAll',
   ]),
   formateur: new Set([

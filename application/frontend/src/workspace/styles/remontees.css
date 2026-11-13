@@ -99,13 +99,7 @@
 .edl-foot { margin-top: auto; padding-top: 12px; border-top: 1px solid #e8edf5; font-size: 0.875rem; color: #52617b; }
 
 @media print {
-  .is-printing-edl body > *:not(dialog) { display: none !important; }
-  .is-printing-edl dialog::backdrop { background: #fff !important; }
-  .is-printing-edl .sheet { position: static; padding: 0; }
-  .is-printing-edl .sheet-panel { box-shadow: none !important; background: #fff !important; backdrop-filter: none !important; max-height: none; width: 100%; }
-  .is-printing-edl .sheet-panel::before, .is-printing-edl .sheet-panel::after { display: none; }
-  .is-printing-edl .sheet-head, .is-printing-edl .sheet-foot { display: none !important; }
-  .is-printing-edl .edl { box-shadow: none; aspect-ratio: auto; max-width: none; padding: 0; }
+  .is-printing-sheet .edl { box-shadow: none; aspect-ratio: auto; max-width: none; padding: 0; }
 }
 
 /* Backlog du gestionnaire : une colonne par phase ; le détail s'ouvre à droite quand une carte est choisie */

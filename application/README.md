@@ -4,7 +4,7 @@ Document interne de réalisation et d’exploitation, exclu des productions remi
 
 ## Périmètre
 
-L’application couvre l’ensemble des écrans : tableaux de bord personnalisables (dont des tableaux que chaque compte ajoute au sous-menu de l’accueil), salles par bâtiment avec tous leurs étages (vue éclatée), stock, déplacements et installation physique des salles, inventaire et import JSON des matériels, remontées (backlogs des remontées et des installations pour le gestionnaire) et états des lieux, supervision des postes (processus, détections, règles, statistiques) et administration (postes, applications, bâtiments, comptes).
+L’application couvre l’ensemble des écrans : tableaux de bord personnalisables (dont des tableaux que chaque compte ajoute au sous-menu de l’accueil), salles par bâtiment avec tous leurs étages (vue éclatée), stock, déplacements et installation physique des salles, inventaire et import JSON des matériels, recensement mobile par téléphone (voir [Recensement mobile](#recensement-mobile-recon)), remontées (backlogs des remontées et des installations pour le gestionnaire) et états des lieux, supervision des postes (processus, détections, règles, statistiques) et administration (postes, applications, bâtiments, comptes).
 
 Repères d’interface : le menu indique l’écran affiché par la couleur d’accent et une icône légèrement agrandie, sans bulle, le titre de chaque écran est réservé aux lecteurs d’écran. Les actions d’un écran (Personnaliser, Nouvelle salle…) sont placées dans la barre haute et restent visibles. Le contenu repose sur le fond de l’ambiance (voir ci-dessous) ; ses cartes entrent en glissant de gauche à droite et, au défilement, se replient sous la barre haute (animations pilotées par le défilement, ignorées par les navigateurs qui ne les gèrent pas). Aucune barre de défilement n’est affichée, et le défilement ne rebondit pas à ses limites (`overscroll-behavior: none` sur la page et les zones qui défilent). Une zone qui déborde (tableau, liste, panneau latéral) occupe toute la hauteur disponible : au maximum, le bas de sa fenêtre s’aligne sur celui du menu et des autres fenêtres, et un fondu à son bas signale la suite tant qu’il en reste ; dans un panneau collant, la hauteur ne dépend pas du défilement de la page ([frontend/src/workspace/hooks/use-peek.ts](frontend/src/workspace/hooks/use-peek.ts)). Les rangées de cartes qui défilent avec la page (tableau de bord, bâtiments) coupent toujours la suivante à 40 %. Les tableaux défilent dans leur cadre, en-tête toujours visible. Échap ferme la fenêtre munie d’une croix ouverte en dernier : la fiche d’un matériel, puis la fiche de sa salle, ou le détail d’une remontée ; les fenêtres modales et les menus se ferment d’eux-mêmes, et la frappe dans un champ n’est pas interrompue ([hooks/use-escape.ts](frontend/src/workspace/hooks/use-escape.ts)). Une fenêtre de verre ne défile jamais elle-même : son contenu défile à l’intérieur (panneau des salles, détail d’une remontée, dont les actions restent dessous), pour que son liseré et son fond restent en place. La légende de la vue des salles est collée en haut de la scène. Les étages d’un bâtiment sont ceux de ses salles, rangées en grille la plus proche d’un carré ; un étage ou une salle choisi est mis en évidence parmi tous les étages. L’écran Stock ne montre que le stock. Le crayon de la vue d’un bâtiment, ou Administration › Bâtiments, renomme un bâtiment d’une école : le bâtiment étant une information des salles, ses salles, ses étages et ses règles de processus prennent le nouveau nom, et la vue du bâtiment suit ce nom ; un nom déjà utilisé dans l’école est refusé ([shared/buildings.ts](shared/buildings.ts)).
 
@@ -171,6 +171,98 @@ Les postes communiquent par l’API `/api/agent` du serveur, authentifiée par u
 
 **Démonstrateur uniquement :** les postes Windows sont émulés par [backend/demonstrateur/agents.ts](backend/demonstrateur/agents.ts), qui utilise l’API réelle (programmes utilisateur, déconnexions, programmes interdits occasionnels, exécution des interventions avec un faible taux d’échec). Les postes émulés lancent surtout des outils de développement et de bureautique autorisés, rarement des programmes non référencés ou interdits ; leur image de référence comprend Firefox, VS Code, Git et Python, complétée au hasard par d’autres applications du catalogue. Le protocole, l’authentification par poste et le déploiement d’un agent réel sur Windows restent à définir.
 
+## Recensement mobile (RECON)
+
+Module d’inventaire sur téléphone, issu de l’application RECON (prototype autonome publié sur Hidora) et intégré à ORION le 13 novembre à la demande de l’utilisateur. Le réseau d’ORION accède à Internet mais aucune VM n’est exposée : le téléphone ne joint jamais ORION. Il échange avec un **relais** hébergé sur Internet des blocs chiffrés que seuls ORION et le téléphone savent lire ; un **connecteur**, sur le réseau d’ORION, interroge le relais par des requêtes sortantes uniquement.
+
+```text
+Téléphone (PWA) ──HTTPS──► Relais (Hidora) ◄──HTTPS sortant, proxy── Connecteur ──► Express ORION (/api/recon)
+```
+
+| Élément | Code | Rôle |
+| --- | --- | --- |
+| Contrat commun | [shared/recon.ts](shared/recon.ts) | Types échangés, étiquettes (`ORION:SALLE:<id>`, `ORION:STOCK:<école>`, `ORION:MAT:<identifiant ORION>`), résolution d’un code lu (étiquette ORION, identifiant ORION, numéro de série, étiquettes constructeur ISO/IEC 15434 et GS1), rapprochement OCR des numéros de série (confusions O/0, I/1, S/5, B/8…), chiffrement AES-GCM 256 (Web Crypto) |
+| Règles serveur | [backend/workspace/recensement.ts](backend/workspace/recensement.ts) | Campagnes, constats, instantané publié, clé et jeton dérivés de `RECON_SECRET` ; communes aux deux modes |
+| Écran ORION | [views/recensement/](frontend/src/workspace/views/recensement/recensement.tsx) | Matériels › Recensement : campagnes, appairage, bilan, étiquettes |
+| Relais | [backend/recon/relais.ts](backend/recon/relais.ts) | Sert l’application mobile ; conserve instantanés et constats chiffrés, l’empreinte des jetons ; PostgreSQL ou mémoire |
+| Connecteur | [backend/recon/connecteur.ts](backend/recon/connecteur.ts) | Publie les campagnes ouvertes, relève les constats, les transmet à ORION puis les acquitte |
+| Application mobile | [frontend/src/recon/](frontend/src/recon/) | PWA : appairage, scanner, OCR, travail hors ligne, synchronisation |
+
+**Campagne.** Ouverte dans Matériels › Recensement par un gestionnaire, un administrateur ou le super administrateur (le formateur ne la voit pas), sur toute l’école ou sur des salles choisies, pour 14 jours ou jusqu’à sa clôture ; seule la clôture est modifiable, une campagne close n’est pas rouverte. Identifiant, auteur, dates et échéance sont fixés par le serveur. Collections `recensements` et `constats` (table `orion_donnee`, sans changement du jeu de départ).
+
+**Appairage.** « Appairer un téléphone » affiche le QR code d’une adresse de l’application mobile dont le fragment porte la campagne, le jeton du téléphone et la clé (`https://relais/#c=…&j=…&k=…`) ; le navigateur n’envoie jamais le fragment au relais. Clé et jeton sont dérivés de `RECON_SECRET` par HMAC : rien n’est stocké, et changer ce secret révoque tous les téléphones. Le relais ne connaît que l’empreinte SHA-256 du jeton. Aucune connexion MindefConnect sur le téléphone.
+
+**Constats.** Chaque action du téléphone est un événement (identifiant généré sur le téléphone, rejoué sans doublon) intégré par le serveur au nom de l’ouvreur de la campagne :
+
+| Constat | Effet dans ORION |
+| --- | --- |
+| Matériel vu dans sa salle, déplacement en cours | Déplacement confirmé (point vert), « Installation confirmée » |
+| Matériel vu dans sa salle | « Présent » |
+| Matériel vu dans une autre salle | « Écart », à traiter ; aucune modification |
+| Relocalisation sur place | Affectation à la salle constatée, déplacement confirmé ; au stock : rangé ; refusée pour un matériel hors service hors du stock |
+| Code inconnu | À traiter ; « Ajouter au parc » ouvre la fiche matériel préremplie (saisie du téléphone) et marque le constat traité, « Écarter » le marque traité |
+
+Un code « inconnu » qui correspond en fait à un identifiant ORION ou à un numéro de série de l’école (instantané du téléphone ancien) est traité comme un matériel vu. Un constat est conservé ; seul son traitement est modifiable.
+
+**Étiquettes.** « Étiquettes » affiche et imprime les QR codes des salles de la campagne et du stock. Les matériels se reconnaissent à leur identifiant ORION (étiquette `ORION:MAT:…` ou identifiant seul) ou à leur numéro de série (code-barres, Data Matrix ou OCR).
+
+**Application mobile.** PWA React construite par `npm run build:recon` dans `frontend/dist-recon/` (entrée [frontend/recon/](frontend/recon/index.html), configuration [vite.recon.config.ts](frontend/vite.recon.config.ts)), servie par le relais, aux couleurs d’ORION (étoile, Bleu Orion, verre ; clair ou sombre selon le téléphone). Écrans : `/` (appairage, puis accueil : Scanner, Explorer, Saisie manuelle, état de synchronisation), `/scanner?lieu=`, `/saisie`, `/explorer`, `/salles/:id` (`stock` pour le stock) et `/salles/:id/inventaire`, `/materiels/:id?lieu=`, `/inconnu`, `/synchronisation` (constats en attente ou refusés, « Dissocier ce téléphone »).
+- Lecture : ponyfill `barcode-detector` (ZXing en WebAssembly) sur Chrome Android comme sur Safari iOS ; QR code, Data Matrix, Code 128 et 39, EAN 13 et 8, UPC A et E, ITF, Codabar ; un code traité est ignoré tant qu’il reste devant l’objectif (1,5 s).
+- OCR : « Lire le numéro » dans le scanner ; bande centrale recadrée et contrastée, Tesseract.js (LSTM, langue anglaise `best_int`, une ligne, A-Z 0-9 - /) ; correspondance proposée avec les numéros de série de l’instantané, texte toujours corrigeable, jamais validé sans l’agent. Non éprouvé sur des étiquettes réelles.
+- Hors ligne : instantané, appairage et constats en attente dans IndexedDB (`orion-recensement`) ; chaque action s’applique aussitôt à l’écran puis est envoyée chiffrée (toutes les 15 s, au retour du réseau, au premier plan, ou par « Synchroniser ») ; un constat intégré par ORION revient dans l’instantané (`cst-<identifiant>`). Le service worker (production seulement) précache toute l’application, OCR compris (12 Mo), sans jamais mettre `/api` en cache. Aucune ressource n’est chargée d’un CDN.
+- La caméra exige HTTPS, sauf sur `localhost`. Appairer une autre campagne efface les données de la précédente, après confirmation.
+
+### Lancer le module en développement
+
+| Commande | Rôle | Adresse |
+| --- | --- | --- |
+| `npm run dev` ou `npm run dev:ui` | ORION, avec l’API `/api/recon` | http://localhost:5173 |
+| `npm run dev:recon` | Relais (`dev:relais`, mémoire), application mobile (`dev:mobile`, Vite) et connecteur (`dev:connecteur`) | http://localhost:5175 |
+
+Avec `npm run dev:ui`, lancer le connecteur avec `ORION_API=http://127.0.0.1:5173`. La caméra fonctionne sur `localhost` dans un navigateur de bureau ; un téléphone exige le relais en HTTPS (Hidora). Le relais de développement n’utilise pas `.env` (son `PORT` serait celui d’ORION) : stockage en mémoire, jeton `recon-relais-local`.
+
+| Variable | Service | Rôle | Valeur par défaut hors production |
+| --- | --- | --- | --- |
+| `RECON_SECRET` | ORION, connecteur | Authentifie le connecteur auprès d’ORION, dérive clé et jeton des campagnes ; 32 caractères minimum en production | `orion-recon-local` |
+| `RECON_URL` | ORION | Adresse publique de l’application mobile (relais), en HTTPS en production ; absente en production : appairage indisponible | `http://localhost:5175` |
+| `RELAIS_TOKEN` | Relais, connecteur | Authentifie le connecteur auprès du relais ; 32 caractères minimum en production | `recon-relais-local` |
+| `DATABASE_URL` | Relais | PostgreSQL du relais (tables `recon_campagne`, `recon_evenement`, créées au démarrage) ; obligatoire en production | stockage en mémoire |
+| `PORT`, `HOST` | Relais | Écoute ; `3000` et `0.0.0.0` dans l’image | `3002`, `127.0.0.1` |
+| `RELAIS_DIST` | Relais | Dossier de l’application mobile construite | `frontend/dist-recon` |
+| `ORION_API`, `RELAIS_URL` | Connecteur | Adresses d’ORION et du relais (HTTPS en production) | `http://127.0.0.1:3001`, `http://127.0.0.1:3002` |
+| `RECON_INTERVALLE` | Connecteur | Intervalle entre deux cycles, en ms ; un cycle qui intègre des constats est aussitôt suivi d’un autre | `10000` |
+| `HTTPS_PROXY`, `NO_PROXY`, `NODE_USE_ENV_PROXY=1` | Connecteur | Sortie par le proxy du réseau (`NODE_USE_ENV_PROXY` fixé dans l’image) ; `NODE_EXTRA_CA_CERTS` si le proxy inspecte le TLS | — |
+
+### Transformer le projet RECON publié sur Hidora
+
+L’environnement Hidora existant (conteneur RECON Fastify et nœud PostgreSQL, base `recon`) devient le relais, déployé par le job `hidora` du workflow à chaque push sur `main`. Le relais crée ses tables (`recon_campagne`, `recon_evenement`) dans la base existante, à côté de celles de l’ancien prototype (`locations`, `assets`, `observations`), qui ne sont pas reprises : ORION fait foi ; elles peuvent être supprimées une fois le relais vérifié.
+
+| Réglage GitHub (Settings → Secrets and variables → Actions) | Valeur |
+| --- | --- |
+| Secret `HIDORA_TOKEN` | Jeton d’accès personnel Hidora (tableau de bord → Settings → Access Tokens) autorisant la gestion des environnements |
+| Secret `RELAIS_TOKEN` | Secret aléatoire de 32 caractères ou plus (`openssl rand -hex 32`), commun au relais et au connecteur |
+| Variable `HIDORA_ENV` | Nom de l’environnement Hidora (active le job) |
+| Variable `RELAIS_URL` | Adresse HTTPS de l’environnement Hidora (contrôle du relais, connecteur des VM) |
+| Variable `HIDORA_IMAGE` (facultative) | Dépôt Docker Hub de l’image du conteneur Hidora ; par défaut `<DOCKERHUB_USERNAME>/recon`, celui de l’ancien prototype : le redéploiement ne change que l’étiquette |
+| Variables `HIDORA_NODE_GROUP`, `HIDORA_API` (facultatives) | Groupe du conteneur (`cp` par défaut) et API de la plateforme (`https://app.hidora.com` par défaut) |
+
+Le job publie l’image de la cible `relais` sous `HIDORA_IMAGE:<SHA>`, définit les variables du conteneur (`NODE_ENV=production`, `PORT` et `JELASTIC_EXPOSE` à `3000`, `TZ`, `RELAIS_TOKEN`) par l’API de la plateforme (`addcontainerenvvars`), le redéploie avec cette étiquette (`redeploycontainersbygroup`), puis attend `RELAIS_URL/api/health`. `DATABASE_URL` reste celui du conteneur. Il ne conditionne pas le déploiement des VM, et réciproquement. Retour arrière : relancer le job `hidora` d’une exécution précédente, ou « Redeploy container » vers l’étiquette précédente dans Hidora.
+
+Sans la CI : `.infraeconpublier-hidora.ps1 -Image docker.io/<compte>/recon -Tag <version>` depuis `application/`, puis, dans Hidora, ces variables et « Redeploy container » vers l’étiquette publiée.
+
+Ensuite, côté ORION : le déploiement des VM transmet `RELAIS_URL` et `RELAIS_TOKEN` à `deployer.sh` (voir ci-dessous), qui renseigne `RECON_URL` d’Express et déploie le connecteur. Hors des VM : `RECON_URL` et `RECON_SECRET` pour Express ; connecteur (image `connecteur` ou `npm run dev:connecteur`) avec `NODE_ENV=production`, `ORION_API`, le même `RECON_SECRET`, `RELAIS_URL`, `RELAIS_TOKEN` et `HTTPS_PROXY`/`NO_PROXY` du réseau. Contrôle du flux sortant depuis une VM : `curl -x "$HTTPS_PROXY" https://<environnement Hidora>/api/health`.
+
+Essai : ouvrir une campagne, « Appairer un téléphone », scanner le QR code avec l’appareil photo du téléphone, autoriser la caméra, scanner une étiquette de salle puis un matériel : le constat apparaît dans ORION au cycle suivant du connecteur.
+
+### Sur les VM : une fonctionnalité qui ne bloque jamais ORION
+
+Le recensement est un complément : sa panne ou son absence ne doit gêner ni le déploiement ni l’usage d’ORION (design for failure).
+
+- **Pile à part.** Le connecteur est dans la pile Swarm `orion-recon` ([pile-recon.yaml](infra/vm/pile-recon.yaml)), placé avec le back (orion-4, orion-5, `orion=application`), une instance, sans port publié ; il joint l’API par le réseau `orion_orion` et le relais par le proxy du réseau (lu dans `/etc/environment` d’orion-1). `deployer.sh` la déploie après la pile `orion`, sans attendre son résultat (`--detach=true`) : son échec, une image absente ou un relais injoignable n’interrompt pas le déploiement d’ORION ni sa vérification.
+- **Activation.** Sans `RELAIS_URL`, la pile `orion-recon` est retirée et `RECON_URL` reste vide : l’écran Recensement fonctionne, l’appairage répond « L’application mobile n’est pas configurée ». Le secret `RECON_SECRET` est créé au premier déploiement ; `RELAIS_TOKEN` aussi, avec la variable du même nom si elle est fournie, sinon aléatoire. Le déploiement continu transmet la variable `RELAIS_URL` et le secret `RELAIS_TOKEN` du dépôt ; un `RELAIS_TOKEN` modifié plus tard n’atteint pas le secret Swarm déjà créé (le supprimer après `docker stack rm orion-recon`, puis redéployer).
+- **Panne.** Relais ou proxy indisponible : le connecteur réessaie à chaque cycle, les téléphones continuent hors ligne et les constats attendent sur le relais. Connecteur arrêté : ORION n’en dépend pas. Configuration erronée en production (adresse non HTTPS, secret trop court) : Express démarre, recensement désactivé avec un message dans les journaux. Un constat inattendu est refusé seul ; une erreur de l’écran Recensement n’atteint pas le reste de l’espace.
+- **Retour arrière.** Retirer le connecteur sans redéployer ORION : `docker stack rm orion-recon` sur orion-1 (ou redéployer sans `RELAIS_URL`). Une mise à jour ratée du connecteur revient d’elle-même à la version précédente (`update_config: failure_action: rollback`) ; manuellement : `docker service rollback orion-recon_connecteur`. Revenir à une version d’ORION sans le module : extraire le commit voulu, puis `infra/vm/deployer.sh <compte> <SHA de ce commit>` ; les secrets `RECON_SECRET` et `RELAIS_TOKEN`, inutilisés, peuvent rester. Côté données, le module n’ajoute que les collections `recensements` et `constats`, ignorées par une version antérieure.
+
 ## État, description et documentation de l’API
 
 Ces routes sont publiques, sans connexion (application connectée seulement) :
@@ -199,6 +291,7 @@ application/
 │   ├── layouts.ts               # Dispositions des tableaux de bord par défaut
 │   ├── ambiance.ts              # Préférences d'affichage valides
 │   ├── buildings.ts             # Renommage d'un bâtiment
+│   ├── recon.ts                 # Recensement mobile : contrat, étiquettes, lecture des codes, chiffrement
 │   └── operations-data.ts       # Applications et règles de processus de départ
 ├── frontend/
 │   ├── index.html               # Point d'entrée unique
@@ -209,6 +302,7 @@ application/
 │       ├── main.tsx             # Montage React et routeur
 │       ├── app.tsx              # Session : connexion ou espace de travail
 │       ├── connexion/           # Pages publiques : connexion, chargement, marques, styles
+│       ├── recon/               # Application mobile de recensement (PWA, build : frontend/dist-recon)
 │       └── workspace/           # Espace de travail, chargé après la connexion
 │           ├── workspace.tsx    # Routes des écrans
 │           ├── assets/          # Logos des applications (sources et licences : assets/apps/SOURCES.md)
@@ -233,8 +327,10 @@ application/
 │   │   ├── postgres.ts          # Dépôt PostgreSQL
 │   │   ├── postgres-schema.ts   # Schéma SQL
 │   │   ├── routes.ts            # API de l'espace et des postes
+│   │   ├── recensement.ts       # Recensement mobile : campagnes, constats, publication chiffrée
 │   │   ├── pdf.ts               # État des lieux PDF
 │   │   └── pdf-texte.ts         # Codage et largeurs du texte PDF
+│   ├── recon/                   # Relais (Hidora) et connecteur du recensement mobile
 │   └── demonstrateur/
 │       ├── identity-provisioning.ts  # Identités dans l’annuaire via Keycloak
 │       ├── identifiant.ts       # Identifiant de connexion formé à partir du nom
@@ -243,6 +339,7 @@ application/
 │   ├── compose.yaml             # PostgreSQL ORION, annuaire LDAP, Keycloak
 │   ├── keycloak/                # Realm (fédération LDAP) et thème de connexion
 │   ├── vm/                      # Pile Swarm des VM, HAProxy, Logstash, installation et déploiement
+│   ├── recon/                   # Publication du relais RECON sur Hidora
 │   ├── ldap/                    # Identités de départ de l’annuaire (LDIF)
 │   └── images/                  # Lecture des secrets et configuration Apache des images
 ├── tests/                       # Tests d’interface et de bout en bout ; fixtures/ : fichiers d’import
@@ -307,10 +404,12 @@ Le [Dockerfile](Dockerfile) produit une image par cible :
 | `api` | Express en mode production, écoute sur `0.0.0.0` | `3001` | `docker build --target api .` |
 | `postes` | Simulateur des postes et de leur agent d’administration | aucun | `docker build --target postes .` |
 | `keycloak` | Keycloak des VM avec le realm et le thème de connexion | `8080` | `docker build --target keycloak .` |
+| `relais` | Relais RECON et application mobile construite (Hidora) | `3000` | `docker build --target relais .` |
+| `connecteur` | Connecteur RECON, sur le réseau d’ORION ; proxy sortant (`NODE_USE_ENV_PROXY=1`) | aucun | `docker build --target connecteur .` |
 
 Au démarrage, les images `api`, `postes` et `keycloak` transmettent chaque secret Docker Swarm `/run/secrets/NOM` au service dans la variable d’environnement `NOM` ([infra/images/secrets.sh](infra/images/secrets.sh)) : le secret porte donc le nom de la variable (`SESSION_SECRET`, `DATABASE_URL`…). Le contrôle de santé de `api` vérifie seulement que le serveur répond, pas que PostgreSQL et Keycloak sont joignables : une panne d’un service voisin ne fait pas relancer les instances d’Express.
 
-Le workflow GitHub Actions [ci.yml](../.github/workflows/ci.yml) exécute, à chaque push sur `main` seulement, `npm test`, `npm run build`, `npm run test:ui` et `npm run test:workspace`, puis, dans un second job, `npm run test:e2e` avec l’infrastructure Compose (serveur et postes lancés sans `.env`, sur les valeurs par défaut). Un nouveau push annule l’exécution en cours. En cas d’échec, les traces Playwright et les journaux du serveur sont téléchargeables depuis la page de l’exécution (7 jours). Un troisième job exécute le vérificateur documentaire. Si les tests et le vérificateur passent, il publie les quatre images sur Docker Hub en public, sous `<compte>/orion-web`, `<compte>/orion-api`, `<compte>/orion-postes` et `<compte>/orion-keycloak`, avec le SHA du commit pour étiquette, puis les déploie sur les VM (voir ci-dessous).
+Le workflow GitHub Actions [ci.yml](../.github/workflows/ci.yml) exécute, à chaque push sur `main` seulement, `npm test`, `npm run build`, `npm run test:ui` et `npm run test:workspace`, puis, dans un second job, `npm run test:e2e` avec l’infrastructure Compose (serveur et postes lancés sans `.env`, sur les valeurs par défaut). Un nouveau push annule l’exécution en cours. En cas d’échec, les traces Playwright et les journaux du serveur sont téléchargeables depuis la page de l’exécution (7 jours). Un troisième job exécute le vérificateur documentaire. Si les tests et le vérificateur passent, il publie les cinq images sur Docker Hub en public, sous `<compte>/orion-web`, `<compte>/orion-api`, `<compte>/orion-postes`, `<compte>/orion-keycloak` et `<compte>/orion-connecteur`, avec le SHA du commit pour étiquette, puis les déploie sur les VM (voir ci-dessous). Un job indépendant, `hidora`, publie et déploie le relais RECON (voir [Recensement mobile](#transformer-le-projet-recon-publié-sur-hidora)).
 
 Pour la publication, créer sur Docker Hub un jeton d’accès en lecture et écriture (Account settings → Personal access tokens), puis, dans le dépôt GitHub (Settings → Secrets and variables → Actions), la variable `DOCKERHUB_USERNAME` (nom du compte Docker Hub) et le secret `DOCKERHUB_TOKEN` (le jeton, pas le mot de passe). Sans la variable, les tests s’exécutent et la publication est ignorée.
 
@@ -327,11 +426,12 @@ Les VM `orion-1` à `orion-10` (adresses dans [infra/vm/vm.sh](infra/vm/vm.sh), 
 | Fichier | Rôle |
 | --- | --- |
 | [pile.yaml](infra/vm/pile.yaml) | Pile Swarm `orion` : services, placement, instances, secrets, volumes, logs `syslog` |
+| [pile-recon.yaml](infra/vm/pile-recon.yaml) | Pile Swarm `orion-recon` : connecteur du recensement mobile, déployé au mieux, sans effet sur la pile `orion` |
 | [haproxy.cfg](infra/vm/haproxy.cfg) | Entrée : TLS, `443` interface, API et connexion Keycloak (console refusée), `8444` console Keycloak |
 | [logstash.conf](infra/vm/logstash.conf) | Collecteur : syslog RFC 5424 sur TLS `6514`, `<service>/<jour>.log` dans le volume `logs-nfs` (`/srv/orion/logs/conteneurs` sur orion-10) |
 | [vm.sh](infra/vm/vm.sh) | Source unique des adresses des VM, du réseau, du DNS de formation, de l’entrée et de la VM de secours |
 | [installer.sh](infra/vm/installer.sh) | Certificats, préparation des VM (nom d’hôte, DNS du réseau, horloge, autorité, client NFS), stockage d’orion-10, cluster Swarm (managers, workers, étiquettes), secrets ; reprend un cluster existant |
-| [deployer.sh](infra/vm/deployer.sh) | À chaque version : `docker stack deploy` de la pile `orion` sur orion-1, VM de secours vidée pendant le déploiement, puis contrôle de la version servie par `https://172.16.131.188/api/infos` |
+| [deployer.sh](infra/vm/deployer.sh) | À chaque version : `docker stack deploy` de la pile `orion` sur orion-1, VM de secours vidée pendant le déploiement, pile `orion-recon` si `RELAIS_URL` est fourni (sans attente), puis contrôle de la version servie par `https://172.16.131.188/api/infos` |
 | [runner.sh](infra/vm/runner.sh) | Runner GitHub Actions du déploiement continu sur orion-3 : service systemd, étiquette `orion`, clé SSH propre autorisée sur orion-1 |
 
 Le realm Keycloak lit `APP_URL`, `OIDC_CLIENT_SECRET` et `LDAP_ADMIN_PASSWORD` s’ils sont définis (`${VARIABLE:valeur locale}`) ; sans eux, il garde les valeurs locales de Compose.

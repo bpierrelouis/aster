@@ -19,6 +19,7 @@ import { applyAmbiance } from '../../core/theme.ts';
 import { role as roleOf } from '#shared/catalog.ts';
 import { remontees, batiments, batimentLabel, index, parc } from '../../core/selectors.ts';
 import { installations } from '../../core/installations.ts';
+import { aTraiterEnCours } from '../../core/recensements.ts';
 import { interventionsOuvertes } from '../../core/interventions.ts';
 import { TABS, remonteeTabs } from '../remontees/remontees-tabs.ts';
 import { num } from '#shared/format.ts';
@@ -64,7 +65,8 @@ function subnav(navId: string): Onglet[] {
     case 'materiels': return [
       { path: '/materiels/inventaire', label: 'Inventaire', icon: 'recherche' },
       { path: '/materiels/import', label: 'Import JSON', icon: 'importJson' },
-    ];
+      can('materiel.recensement') && { path: '/materiels/recensement', label: 'Recensement', icon: 'clipboardCheck', count: aTraiterEnCours() },
+    ].filter(Boolean) as Onglet[];
     case 'remontees': return remonteeTabs().map((id) => ({
       path: `/remontees/${id}`, label: TABS[id].label, icon: TABS[id].icon,
       // nouvelles remontées à prendre en charge ; salles en cours d'installation

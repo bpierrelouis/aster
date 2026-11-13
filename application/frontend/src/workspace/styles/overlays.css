@@ -272,3 +272,13 @@
 @media (prefers-reduced-motion: reduce) {
   .accent-trigger, .accent-wheel, .accent-option, .accent-option > span { transition: none; }
 }
+
+/* Impression d'une fenêtre seule (printSheet) : sans le reste de la page, ni en-tête, ni pied, sur fond blanc */
+@media print {
+  .is-printing-sheet body > *:not(dialog) { display: none !important; }
+  .is-printing-sheet dialog::backdrop { background: #fff !important; }
+  .is-printing-sheet .sheet { position: static; padding: 0; }
+  .is-printing-sheet .sheet-panel { box-shadow: none !important; background: #fff !important; backdrop-filter: none !important; max-height: none; width: 100%; }
+  .is-printing-sheet .sheet-panel::before, .is-printing-sheet .sheet-panel::after { display: none; }
+  .is-printing-sheet .sheet-head, .is-printing-sheet .sheet-foot { display: none !important; }
+}
