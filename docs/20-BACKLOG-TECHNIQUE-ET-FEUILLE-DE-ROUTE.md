@@ -1,12 +1,12 @@
-# Reste à faire — brouillon V1
+# Backlog technique et feuille de route
 
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.2 | 13/11/2026 | Brouillon interne | Agent ORION simulé, paquets, images et système Windows ou Linux des salles | [9 versions](../../archive/README.md#reste-a-faire-brouillon-v1) |
+| 4.0 | 13/11/2026 | Pilotage interne | Officialiser le reste à faire en backlog technique et feuille de route ; option Linux reportée en évolution du projet | [10 versions](../archive/README.md#20-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
-Aide-mémoire interne de ce qui reste à traiter, mis à jour le 13 novembre 2026 après l’audit de cohérence du projet avec le dossier d’architecture technique validé. Les décisions et questions ouvertes font foi dans le [cadrage](../02-CADRAGE.md) ; ce document ne fait que les suivre.
+Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](19-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
 
 Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correction crée ou modifie une règle de gestion et exige l’accord préalable de l’utilisateur ; **[PROT]** document protégé, modifié seulement sur demande ; **[DAT]** le dossier d’architecture fait foi et n’est modifié que par le collègue qui le tient.
 
@@ -14,7 +14,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Lundi 16 novembre
 
-- [ ] Diagrammes [06](../06-DIAGRAMME-CONTEXTE.md) et [07](../07-DIAGRAMMES-ACTIVITE.md) **[PROT]** : des collègues les ont modifiés sans publier leur travail ; faire le point avec eux, puis vérifier le super administrateur, l’authentification par MindefConnect, le téléphone de recensement (RECON), le PDF produit à la demande (pas à la création), le traitement des remontées par le seul gestionnaire et l’absence de filtre par salle du tableau de bord. L’acteur « Agent ORION installé sur chaque machine » préjuge d’une solution d’administration encore ouverte.
+- [ ] Diagrammes [06](06-DIAGRAMME-CONTEXTE.md) et [07](07-DIAGRAMMES-ACTIVITE.md) **[PROT]** : des collègues les ont modifiés sans publier leur travail ; faire le point avec eux, puis vérifier le super administrateur, l’authentification par MindefConnect, le téléphone de recensement (RECON), le PDF produit à la demande (pas à la création), le traitement des remontées par le seul gestionnaire et l’absence de filtre par salle du tableau de bord. L’acteur « Agent ORION installé sur chaque machine » préjuge d’une solution d’administration encore ouverte.
 
 ### Avant le prochain déploiement sur les VM
 
@@ -32,7 +32,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ## 2. Pilotage du projet
 
-- [ ] **Haute** — Traiter le backlog GitHub : trier, mettre à jour et clore les éléments au regard de l’état actuel, puis reporter le résultat dans le [backlog](../19-BACKLOG-ET-SUIVI-PROJET.md). Les noms GitHub gardent l’ancien nom (dépôt `bpierrelouis/aster`, projet « aster development ») ; les commits `09ac7b0` et `cecf0d7` et la référence `0762961…` du brouillon de suivi n’existent plus dans l’historique.
+- [ ] **Haute** — Traiter le backlog GitHub : trier, mettre à jour et clore les éléments au regard de l’état actuel, puis reporter le résultat dans le [backlog](19-BACKLOG-ET-SUIVI-PROJET.md). Les noms GitHub gardent l’ancien nom (dépôt `bpierrelouis/aster`, projet « aster development ») ; les commits `09ac7b0` et `cecf0d7` et la référence `0762961…` du brouillon de suivi n’existent plus dans l’historique.
 - [ ] Cadrage § 22 : dater le prochain rendez-vous ; consigner le sort des propositions préparées pour le 12 novembre (application de scan, devenue RECON, et livraisons) quand un retour existera.
 
 ## 3. Application
@@ -59,17 +59,15 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
   - compte ORION : désactivation inchangée, puis anonymisation des données personnelles au-delà d’une durée de conservation à fixer avec le client (cadrage § 23) ;
   - données d’activité (processus, détections, journaux) : purge automatique selon une durée de conservation, inchangée ;
   - journal métier des opérations sensibles (retrait, réactivation, transfert d’école, changement de droits), consultable par le super administrateur ;
-  - rédaction proposée pour RG-91 **[RG]**, à soumettre à l’utilisateur : « **RG-91 — Retrait d’un matériel.** Un matériel n’est pas supprimé mais retiré : son retrait enregistre la date, l’auteur et le motif (réformé, perdu, transféré ou erreur de saisie). Seul un matériel du stock peut être retiré. Un matériel retiré n’apparaît plus dans l’inventaire courant, reste consultable avec son historique et peut être réactivé. Seul un matériel créé par erreur et cité nulle part peut être supprimé définitivement. » ;
+  - rédaction proposée pour RG-91 **[RG]**, à soumettre à l’utilisateur : « Retrait d’un matériel. Un matériel n’est pas supprimé mais retiré : son retrait enregistre la date, l’auteur et le motif (réformé, perdu, transféré ou erreur de saisie). Seul un matériel du stock peut être retiré. Un matériel retiré n’apparaît plus dans l’inventaire courant, reste consultable avec son historique et peut être réactivé. Seul un matériel créé par erreur et cité nulle part peut être supprimé définitivement. » ;
   - conséquences : MCD (`MATÉRIEL`), matrice, DCU 08, fiches 13, 15 et 16, code (`rules.ts`, inventaire) et données de départ.
-- [ ] **Haute** — Agent ORION conceptualisé et simulé, avec paquets d’installation et images de système (décision de l’utilisateur du 13 novembre ; l’agent n’est pas développé, il est conçu puis simulé par le simulateur des postes au travers de l’API réelle `/api/agent`) :
-  - **Système des salles** : chaque salle a un système, Windows ou Linux, commun à tous ses postes ; le parc compte davantage de salles sous Windows que sous Linux (données de départ). La vue des postes affiche le système en petit (icône ou libellé discret) dans la liste, la fiche du poste et les cartes de Supervision › Salles.
-  - **Images de système** : catalogue d’images fictives tenu par ORION (nom, système, version, liste des applications de base) ; l’agent ORION fait partie de chaque image et s’installe avec le système. Une réinitialisation applique une image du même système que la salle ; l’administrateur la choisit au lieu de l’image unique imposée (`IMAGE_REFERENCE`).
-  - **Paquets d’installation** : chaque application du catalogue porte un paquet fictif par système pris en charge (nom du fichier, version, commande d’installation silencieuse, empreinte SHA-256, éditeur signataire) ; une application ne s’installe que sur une salle dont le système a un paquet. Écran d’ajout, de modification et de retrait des applications (aujourd’hui absent : catalogue limité aux données de départ).
-  - **Simulateur fidèle à l’agent** : vérification de l’empreinte avant installation, étapes d’intervention (téléchargement, installation, redémarrage, réenrôlement de l’agent après réinitialisation) avec durées réalistes, causes d’échec explicites (empreinte invalide, espace disque insuffisant, paquet absent pour ce système).
-  - **Conception de l’agent** : fiche interne (cycle de vie, enrôlement et identité du poste, protocole avec ORION, commandes, états, sécurité, mise à jour signée) ; proposition à soumettre au collègue du DAT, qui décrit l’option B (§ 6.5) pour Windows seulement.
-  - **Écart à signaler** : le sujet, le client et le DAT parlent de postes Windows ; les postes Linux vont au-delà. Inscrire l’écart au cadrage § 23 et le soumettre au collègue du DAT.
-  - **Conséquences documentaires** : glossaire (système, image, paquet, agent ORION), règles de gestion **[RG]** (système commun à la salle, image du même système, paquet requis, agent installé avec le système), MCD (`SYSTÈME` ou attribut de `SALLE`, `IMAGE`, `PAQUET`), DCU 09, matrice, fiche 15, diagramme d’états des interventions.
-  - **Code** : types partagés, `rules.ts` (contrôles système, image et paquet), schéma PostgreSQL, données de départ (`SEED_VERSION`), simulateur, écrans Administration › Applications et Postes, Supervision ; tests et guide de l’application.
+- [ ] **Haute** — Agent ORION conceptualisé et simulé, avec paquets d’installation et images Windows (décision de l’utilisateur du 13 novembre ; l’agent n’est pas développé, il est conçu puis simulé par le simulateur des postes au travers de l’API réelle `/api/agent`) :
+  - **Images Windows** : catalogue d’images fictives tenu par ORION (nom, version de Windows, liste des applications de base) ; l’agent ORION fait partie de chaque image et s’installe avec le système. Une réinitialisation applique l’image choisie par l’administrateur, au lieu de l’image unique imposée (`IMAGE_REFERENCE`). La vue des postes affiche en petit l’image installée (liste, fiche du poste, cartes de Supervision › Salles).
+  - **Paquets d’installation** : chaque application du catalogue porte un paquet fictif (nom du fichier, version, commande d’installation silencieuse, empreinte SHA-256, éditeur signataire). Écran d’ajout, de modification et de retrait des applications (aujourd’hui absent : catalogue limité aux données de départ).
+  - **Simulateur fidèle à l’agent** : vérification de l’empreinte avant installation, étapes d’intervention (téléchargement, installation, redémarrage, réenrôlement de l’agent après réinitialisation) avec durées réalistes, causes d’échec explicites (empreinte invalide, espace disque insuffisant).
+  - **Conception de l’agent** : fiche interne (cycle de vie, enrôlement et identité du poste, protocole avec ORION, commandes, états, sécurité, mise à jour signée), cohérente avec l’option B du DAT (§ 6.5) ; proposition à soumettre au collègue du DAT.
+  - **Conséquences documentaires** : glossaire (image, paquet, agent ORION), règles de gestion **[RG]** (image choisie à la réinitialisation, paquet requis pour installer, agent installé avec le système), MCD (`IMAGE`, `PAQUET`), DCU 09, matrice, fiche 15, diagramme d’états des interventions.
+  - **Code** : types partagés, `rules.ts` (contrôles d’image et de paquet), schéma PostgreSQL, données de départ (`SEED_VERSION`), simulateur, écrans Administration › Applications et Postes, Supervision ; tests et guide de l’application.
 - [ ] Jeton d’un poste : seule l’API `GET /api/workspace/postes/:id/jeton` permet de l’obtenir ; prévoir l’action dans Administration › Postes. Renouveler `AGENT_TOKEN` révoque tous les jetons à la fois : prévoir une révocation poste par poste si le besoin apparaît.
 - [ ] Adresse MAC du matériel : présente dans le MCD, absente du code ; à reprendre avec le collègue qui l’ajoute (scanner de matrice).
 - [ ] Import JSON : le transfert d’un matériel hors service vers une salle d’une autre école est bloqué (conséquence de RG-87) ; à confirmer par l’utilisateur.
@@ -177,13 +175,13 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Modèle de données
 
-- [ ] [MCD](../05-MCD-MERISE.drawio) : relier `REMONTÉE` à `ÉCOLE` (le code l’impose, RG-79 en dépend) ; représenter l’installation physique (déplacement et installation, avec auteur et date) si elle est retenue ; ajouter les entités RECON.
+- [ ] [MCD](05-MCD-MERISE.drawio) : relier `REMONTÉE` à `ÉCOLE` (le code l’impose, RG-79 en dépend) ; représenter l’installation physique (déplacement et installation, avec auteur et date) si elle est retenue ; ajouter les entités RECON.
 
 ### DCU à compléter
 
-- [ ] [DCU 08 — Gestion du parc](../08-DCU-GESTION-PARC.md) : import JSON avec rapprochement des numéros de série (lignes ignorées, transfert d’un matériel d’une autre école) ; changement d’école d’un matériel ; installation physique des salles si elle est retenue ; recensement RECON.
-- [ ] [DCU 09 — Administration des postes](../09-DCU-ADMINISTRATION-POSTES.md) : « Gérer les postes supervisés et le catalogue des applications » (RG-77) ; suivre les interventions lancées et en être notifié à leur fin (RG-39).
-- [ ] [DCU 10 — Supervision des postes](../10-DCU-SUPERVISION-POSTES.md) : notification du lancement d’une application interdite à l’administrateur ; adresse IP du poste dans la liste des processus.
+- [ ] [DCU 08 — Gestion du parc](08-DCU-GESTION-PARC.md) : import JSON avec rapprochement des numéros de série (lignes ignorées, transfert d’un matériel d’une autre école) ; changement d’école d’un matériel ; installation physique des salles si elle est retenue ; recensement RECON.
+- [ ] [DCU 09 — Administration des postes](09-DCU-ADMINISTRATION-POSTES.md) : « Gérer les postes supervisés et le catalogue des applications » (RG-77) ; suivre les interventions lancées et en être notifié à leur fin (RG-39).
+- [ ] [DCU 10 — Supervision des postes](10-DCU-SUPERVISION-POSTES.md) : notification du lancement d’une application interdite à l’administrateur ; adresse IP du poste dans la liste des processus.
 - [ ] Nouveau DCU « Administrer ORION » (ou extension du DCU 09) : comptes ORION (création, modification, désactivation, réactivation ; RG-70) et écoles (création, renommage ; RG-76), réservés aux administrateurs et au super administrateur.
 - [ ] Préférences personnelles (ambiance d’affichage, tableaux de bord ajoutés par l’utilisateur) : décider si elles relèvent d’un DCU ou restent un détail d’interface.
 
@@ -218,17 +216,29 @@ Le DAT validé fait foi ; ces écarts entre lui, la configuration réelle et ses
 - [ ] **Moyenne** — Vue complète : flux réels absents (Express → Keycloak pour le provisionnement, sondes de `/api/health` vers Apache, LDAP et Logstash, téléchargement des images par le proxy) ; le runner contourne la boîte du proxy ; flèche Connecteur → Express sans libellé « HTTP 3001 » ; « Swarm 2377/TCP » placé dans la boîte HAProxy.
 - [ ] **Moyenne** — Tracé : croisements et libellés sur des boîtes dans les quatre vues (Connecteur → Express, flèche 5 sur un titre de zone, libellés 7, 10A et 14 de la vue cible détaillée, flèche de 16 px dans la vue cible simplifiée, textes qui débordent).
 - [ ] **Basse** — Termes « émulateur » et « émulation » au lieu de « simulateur des postes et de leur agent d’administration » ; images d’Express, du simulateur et du connecteur non indiquées.
-- [ ] **Basse** — [Diagrammes d’architecture](../18-DIAGRAMMES-ARCHITECTURE.md) : titre « Architecture réelle du démonstrateur » alors qu’il contient la cible ; textes alternatifs « déploiement proposé ».
+- [ ] **Basse** — [Diagrammes d’architecture](18-DIAGRAMMES-ARCHITECTURE.md) : titre « Architecture réelle du démonstrateur » alors qu’il contient la cible ; textes alternatifs « déploiement proposé ».
 - [ ] **Basse** — Le générateur ne se relance plus : il utilise `lucide-react`, retiré de l’application le 13 novembre (inutilisé par l’interface) ; le réinstaller en dépendance de développement ou copier les icônes nécessaires.
 
-## 7. Historique conservé tel quel
+## 7. Feuille de route : évolutions du projet
+
+Évolutions envisagées au-delà du périmètre en cours ; elles ne sont pas planifiées tant que l’utilisateur ne les ouvre pas.
+
+- [ ] **Postes Linux** (idée de l’utilisateur du 13 novembre, reportée) :
+  - chaque salle a un système, Windows ou Linux, commun à tous ses postes ; le parc compte davantage de salles sous Windows ;
+  - images Linux fictives et agent ORION Linux installé avec le système ; une réinitialisation applique une image du même système que la salle ;
+  - un paquet par système pris en charge ; une application ne s’installe que sur une salle dont le système a un paquet ;
+  - la vue des postes affiche le système en petit (liste, fiche du poste, cartes de Supervision › Salles) ;
+  - écart à signaler avant ouverture : le sujet, le client et le DAT ne parlent que de postes Windows (cadrage § 23, collègue du DAT) ;
+  - conséquences : glossaire, règles de gestion **[RG]** (système commun à la salle, image du même système, paquet requis), MCD (`SYSTÈME` ou attribut de `SALLE`), DCU 09, matrice, code et données de départ.
+
+## 8. Historique conservé tel quel
 
 - Le commit `3ad50a6` (dépendances npm) contient aussi les renommages de `schemas-architecture` et `serve` ; leur contenu est dans `b9151ee`.
 - Le registre des archives et les copies de l’ancien design conservent l’ancien nom du projet dans les versions antérieures au renommage.
 
-## 8. Fait récemment
+## 9. Fait récemment
 
 - [x] Règles de gestion mises à jour avec l’accord de l’utilisateur (13 novembre) : RG-13, RG-15, RG-21, RG-39, RG-40, RG-64, RG-66 et RG-72 réécrites, RG-87 à RG-91 ajoutées ; glossaire, matrice, fiches, DCU 11, cadrage et diagramme d’états alignés ; application conforme (traitement par le seul gestionnaire, prise en charge obligatoire, suppression depuis le stock).
-- [x] [MCD](../05-MCD-MERISE.svg) refait avec draw.io : étapes de la remontée, poste constitué de son unité centrale, adresse IP du poste, adresse MAC du matériel, dates du compte, `COMPTE_ORION` et `DÉMÉNAGER`.
+- [x] [MCD](05-MCD-MERISE.svg) refait avec draw.io : étapes de la remontée, poste constitué de son unité centrale, adresse IP du poste, adresse MAC du matériel, dates du compte, `COMPTE_ORION` et `DÉMÉNAGER`.
 - [x] Secret Swarm `PROVISIONING_CLIENT_SECRET` créé par `installer.sh` sur les VM déjà installées.
 - [x] Fusion de `main` : DAT de référence et module RECON.

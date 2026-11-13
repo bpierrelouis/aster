@@ -33,10 +33,10 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/18-DIAGRAMMES-ARCHITECTURE.md](../docs/18-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [1.3](#18-diagrammes-architecture) | 13/11/2026 |
 | [docs/19-BACKLOG-ET-SUIVI-PROJET.docx](../docs/19-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.1](#19-backlog-et-suivi-projet) | 13/11/2026 |
 | [docs/19-BACKLOG-ET-SUIVI-PROJET.md](../docs/19-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [1.1](#19-backlog-et-suivi-projet) | 13/11/2026 |
+| [docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.0](#20-backlog-technique-et-feuille-de-route) | 13/11/2026 |
 | [docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md) | Brouillon interne | [1.1](#19-suivi-backlog-brouillon-v1) | 13/11/2026 |
 | [docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) | Brouillon interne | [1.1](#diagrammes-activite-cas-utilisation-brouillon-v2) | 12/11/2026 |
 | [docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md) | Brouillon interne | [3.0](#diagrammes-etats-brouillon-v1) | 13/11/2026 |
-| [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md) | Brouillon interne | [3.2](#reste-a-faire-brouillon-v1) | 13/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -361,6 +361,23 @@ Fichier : [docs/19-BACKLOG-ET-SUIVI-PROJET.md](../docs/19-BACKLOG-ET-SUIVI-PROJE
 | 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | en vigueur | — |
 | 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `83658a3` | — |
 
+### 20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE
+
+Fichier : [docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) · Pilotage interne
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 4.0 | 13/11/2026 | Officialiser le reste à faire en backlog technique et feuille de route ; option Linux reportée en évolution du projet | en vigueur | — |
+| 3.2 | 13/11/2026 | Agent ORION simulé, paquets, images et système Windows ou Linux des salles | `47116b1` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
+| 3.1 | 13/11/2026 | Retrait au lieu de suppression, proposition de RG-91 | `8d426fd` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
+| 3.0 | 13/11/2026 | Restructurer par échéance et domaine ; intégrer l’audit de cohérence avec le DAT validé, le backlog GitHub, le scénario complet, les tests de sécurité, l’observatoire des parcours et les comptes réels de présentation | `95e38d4` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
+| 2.4 | 13/11/2026 | Données de départ 17, import hors service et RECON à suivre | `1c5abdf` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
+| 2.3 | 13/11/2026 | Règles de gestion mises à jour | `d3c3785` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
+| 2.2 | 13/11/2026 | MCD refait ; MAC et RG-40 à suivre | `19f0488` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
+| 2.1 | 13/11/2026 | Diagrammes 06 et 07 à reprendre avec les collègues | `6d33a1f` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
+| 2.0 | 13/11/2026 | Ajouter DCU à compléter, modèle de données, points documentaires oubliés et plan d’organisation du code | `6768d09` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
+| 1.0 | 13/11/2026 | Recenser ce qui reste à faire après le contrôle du 13 novembre ; Ajouter des jetons d'accès pour la présentation au client ; Décrire l'entrée unique par adresse IP, sans DNS | `83658a3` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
+
 ### 19-SUIVI-BACKLOG-BROUILLON-V1
 
 Fichier : [docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md) · Brouillon interne
@@ -388,22 +405,6 @@ Fichier : [docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/temporaire/
 | 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
 | 2.0 | 13/11/2026 | Aligner sur l’application : état « en cours », traitement direct possible, PDF à la demande, type obligatoire, interventions sur une seule salle | `28bc990` | — |
 | 1.0 | 09/11/2026 | Ajouter les diagrammes d'états de la remontée et des interventions | `83658a3` | — |
-
-### RESTE-A-FAIRE-BROUILLON-V1
-
-Fichier : [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md) · Brouillon interne
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 3.2 | 13/11/2026 | Agent ORION simulé, paquets, images et système Windows ou Linux des salles | en vigueur | — |
-| 3.1 | 13/11/2026 | Retrait au lieu de suppression, proposition de RG-91 | `8d426fd` | — |
-| 3.0 | 13/11/2026 | Restructurer par échéance et domaine ; intégrer l’audit de cohérence avec le DAT validé, le backlog GitHub, le scénario complet, les tests de sécurité, l’observatoire des parcours et les comptes réels de présentation | `95e38d4` | — |
-| 2.4 | 13/11/2026 | Données de départ 17, import hors service et RECON à suivre | `1c5abdf` | — |
-| 2.3 | 13/11/2026 | Règles de gestion mises à jour | `d3c3785` | — |
-| 2.2 | 13/11/2026 | MCD refait ; MAC et RG-40 à suivre | `19f0488` | — |
-| 2.1 | 13/11/2026 | Diagrammes 06 et 07 à reprendre avec les collègues | `6d33a1f` | — |
-| 2.0 | 13/11/2026 | Ajouter DCU à compléter, modèle de données, points documentaires oubliés et plan d’organisation du code | `6768d09` | — |
-| 1.0 | 13/11/2026 | Recenser ce qui reste à faire après le contrôle du 13 novembre ; Ajouter des jetons d'accès pour la présentation au client ; Décrire l'entrée unique par adresse IP, sans DNS | `83658a3` | — |
 
 ## Fichiers retirés
 

@@ -1227,6 +1227,89 @@
       }
     ]
   },
+  "docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md": {
+    "destination": "Pilotage interne",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-13",
+        "modification": "Recenser ce qui reste à faire après le contrôle du 13 novembre ; Ajouter des jetons d'accès pour la présentation au client ; Décrire l'entrée unique par adresse IP, sans DNS",
+        "resume": "Décrire l'entrée unique par adresse IP, sans DNS",
+        "commit": "83658a3",
+        "chemin": "docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-13",
+        "modification": "Ajouter DCU à compléter, modèle de données, points documentaires oubliés et plan d’organisation du code",
+        "archive": null,
+        "commit": "6768d09",
+        "chemin": "docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-13",
+        "modification": "Diagrammes 06 et 07 à reprendre avec les collègues",
+        "archive": null,
+        "commit": "6d33a1f",
+        "chemin": "docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md"
+      },
+      {
+        "version": "2.2",
+        "date": "2026-11-13",
+        "modification": "MCD refait ; MAC et RG-40 à suivre",
+        "archive": null,
+        "commit": "19f0488",
+        "chemin": "docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md"
+      },
+      {
+        "version": "2.3",
+        "date": "2026-11-13",
+        "modification": "Règles de gestion mises à jour",
+        "archive": null,
+        "commit": "d3c3785",
+        "chemin": "docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md"
+      },
+      {
+        "version": "2.4",
+        "date": "2026-11-13",
+        "modification": "Données de départ 17, import hors service et RECON à suivre",
+        "archive": null,
+        "commit": "1c5abdf",
+        "chemin": "docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-13",
+        "modification": "Restructurer par échéance et domaine ; intégrer l’audit de cohérence avec le DAT validé, le backlog GitHub, le scénario complet, les tests de sécurité, l’observatoire des parcours et les comptes réels de présentation",
+        "archive": null,
+        "commit": "95e38d4",
+        "chemin": "docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-13",
+        "modification": "Retrait au lieu de suppression, proposition de RG-91",
+        "archive": null,
+        "commit": "8d426fd",
+        "chemin": "docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md"
+      },
+      {
+        "version": "3.2",
+        "date": "2026-11-13",
+        "modification": "Agent ORION simulé, paquets, images et système Windows ou Linux des salles",
+        "archive": null,
+        "commit": "47116b1",
+        "chemin": "docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-13",
+        "modification": "Officialiser le reste à faire en backlog technique et feuille de route ; option Linux reportée en évolution du projet",
+        "archive": null
+      }
+    ]
+  },
   "docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md": {
     "destination": "Brouillon interne",
     "versions": [
@@ -1281,73 +1364,6 @@
         "version": "3.0",
         "date": "2026-11-13",
         "modification": "Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées",
-        "archive": null
-      }
-    ]
-  },
-  "docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md": {
-    "destination": "Brouillon interne",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-13",
-        "modification": "Recenser ce qui reste à faire après le contrôle du 13 novembre ; Ajouter des jetons d'accès pour la présentation au client ; Décrire l'entrée unique par adresse IP, sans DNS",
-        "resume": "Décrire l'entrée unique par adresse IP, sans DNS",
-        "commit": "83658a3"
-      },
-      {
-        "version": "2.0",
-        "date": "2026-11-13",
-        "modification": "Ajouter DCU à compléter, modèle de données, points documentaires oubliés et plan d’organisation du code",
-        "archive": null,
-        "commit": "6768d09"
-      },
-      {
-        "version": "2.1",
-        "date": "2026-11-13",
-        "modification": "Diagrammes 06 et 07 à reprendre avec les collègues",
-        "archive": null,
-        "commit": "6d33a1f"
-      },
-      {
-        "version": "2.2",
-        "date": "2026-11-13",
-        "modification": "MCD refait ; MAC et RG-40 à suivre",
-        "archive": null,
-        "commit": "19f0488"
-      },
-      {
-        "version": "2.3",
-        "date": "2026-11-13",
-        "modification": "Règles de gestion mises à jour",
-        "archive": null,
-        "commit": "d3c3785"
-      },
-      {
-        "version": "2.4",
-        "date": "2026-11-13",
-        "modification": "Données de départ 17, import hors service et RECON à suivre",
-        "archive": null,
-        "commit": "1c5abdf"
-      },
-      {
-        "version": "3.0",
-        "date": "2026-11-13",
-        "modification": "Restructurer par échéance et domaine ; intégrer l’audit de cohérence avec le DAT validé, le backlog GitHub, le scénario complet, les tests de sécurité, l’observatoire des parcours et les comptes réels de présentation",
-        "archive": null,
-        "commit": "95e38d4"
-      },
-      {
-        "version": "3.1",
-        "date": "2026-11-13",
-        "modification": "Retrait au lieu de suppression, proposition de RG-91",
-        "archive": null,
-        "commit": "8d426fd"
-      },
-      {
-        "version": "3.2",
-        "date": "2026-11-13",
-        "modification": "Agent ORION simulé, paquets, images et système Windows ou Linux des salles",
         "archive": null
       }
     ]

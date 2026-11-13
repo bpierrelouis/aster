@@ -14,6 +14,9 @@ Commandes (depuis la racine du dépôt) :
   python3 .agents/skills/orion-documentation/scripts/versions.py retirer <fichier> -m "Motif"
       Supprime un fichier remplacé ou abandonné ; sa dernière version reste
       référencée par son commit (copie conservée seulement pour design/).
+  python3 .agents/skills/orion-documentation/scripts/versions.py renommer <ancien> <nouveau> --majeure|--mineure -m "Modification"
+      Déplace un fichier suivi (git mv) en conservant son historique : la
+      version en vigueur est référencée par son dernier commit à l'ancien chemin.
   python3 .agents/skills/orion-documentation/scripts/versions.py rendre
       Régénère les en-têtes et le compte rendu à partir du registre.
 
@@ -47,6 +50,8 @@ def destination(chemin):
         return "Source fournie par l’encadrement"
     if nom.startswith(("02-", "03-")):
         return "Source de travail interne"
+    if "BACKLOG-TECHNIQUE" in nom:
+        return "Pilotage interne"
     return "Production destinée à la remise"
 
 
@@ -349,7 +354,8 @@ def publier(chemin, majeure, message):
     else:
         fiche = registre[chemin]
         avant = fiche["versions"][-2] if len(fiche["versions"]) > 1 else None
-        if avant and avant.get("commit") == dernier_commit(chemin):
+        # Déjà publié depuis le dernier commit (ou renommé sans commit depuis) : même version, modification complétée.
+        if avant and (avant.get("commit") == dernier_commit(chemin) or dernier_commit(chemin) is None):
             # Fichier déjà publié depuis le dernier commit : même version, modification complétée.
             fiche["versions"][-1]["modification"] += f" ; {message}"
             enregistrer(registre)
@@ -361,6 +367,25 @@ def publier(chemin, majeure, message):
     enregistrer(registre)
     rendre(registre)
     print(f"{chemin} : version {registre[chemin]['versions'][-1]['version']}")
+
+
+def renommer(ancien, nouveau, majeure, message):
+    registre = charger()
+    if ancien not in registre or nouveau in registre:
+        sys.exit(f"{ancien} : absent du registre, ou {nouveau} déjà suivi.")
+    fiche = registre.pop(ancien)
+    for v in fiche["versions"]:
+        if v.get("commit") and not v.get("chemin"):
+            v["chemin"] = ancien
+    v = fiche["versions"][-1]
+    v["commit"], v["chemin"] = dernier_commit(ancien), ancien
+    subprocess.run(["git", "mv", ancien, nouveau], cwd=ROOT, check=True)
+    fiche["destination"] = destination(nouveau)
+    fiche["versions"].append({"version": suivante(v["version"], majeure), "date": datetime.date.today().isoformat(), "modification": message, "archive": None})
+    registre[nouveau] = fiche
+    enregistrer(registre)
+    rendre(registre)
+    print(f"{ancien} → {nouveau} : version {fiche['versions'][-1]['version']}")
 
 
 def retirer(chemin, message):
@@ -386,10 +411,19 @@ def main():
     r = sub.add_parser("retirer")
     r.add_argument("fichier")
     r.add_argument("-m", "--message", required=True)
+    n = sub.add_parser("renommer")
+    n.add_argument("ancien")
+    n.add_argument("nouveau")
+    g = n.add_mutually_exclusive_group(required=True)
+    g.add_argument("--majeure", action="store_true")
+    g.add_argument("--mineure", action="store_true")
+    n.add_argument("-m", "--message", required=True)
     sub.add_parser("rendre")
     args = parser.parse_args()
     if args.commande == "publier":
         publier(Path(args.fichier).as_posix(), args.majeure, args.message)
+    elif args.commande == "renommer":
+        renommer(Path(args.ancien).as_posix(), Path(args.nouveau).as_posix(), args.majeure, args.message)
     elif args.commande == "retirer":
         retirer(Path(args.fichier).as_posix(), args.message)
     else:
