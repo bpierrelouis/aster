@@ -33,6 +33,8 @@ Les changements d’ambiance, de tonalité et de couleur révèlent la nouvelle 
 
 Les changements d’apparence n’envoient que les préférences au serveur : l’activité des postes ne peut pas faire rejeter un choix de couleur ou de tonalité.
 
+Les infobulles utilisent la couche native des popovers pour rester visibles au-dessus des fenêtres modales, notamment lors du choix des matériels dans un signalement.
+
 La barre de navigation latérale mesure 120 px dans les deux ambiances afin de garder les libellés, dont « Administration », dans ses limites.
 
 La typographie suit les repères de taille du [DSFR](https://www.systeme-de-design.gouv.fr/v1.14/fr/fondamentaux/typographie) : corps courant de 16 px avec un interligne de 24 px, mentions secondaires de 14 px et titres hiérarchisés. Les tailles courantes sont exprimées en `rem` pour suivre les préférences de taille du navigateur ; les boutons principaux, les champs et le corps des tableaux utilisent 16 px.
