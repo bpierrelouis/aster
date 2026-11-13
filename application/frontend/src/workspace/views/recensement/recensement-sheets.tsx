@@ -12,13 +12,14 @@ import { uid } from '../../core/dom.ts';
 import { store, currentEcole } from '../../core/store.ts';
 import { batimentLabel, index, scope, traceProvisoire } from '../../core/selectors.ts';
 import { bilan } from '../../core/recensements.ts';
-import { Sheet, openSheet, notify, printSheet } from '../../ui/overlays.tsx';
+import { Sheet, confirmSheet, openSheet, notify, printSheet } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
 import { Loader } from '../../widgets/parts.tsx';
 import { openMaterielForm } from '../inventaire/inventaire-materiel.tsx';
-import { etiquette } from '#shared/recon.ts';
+import { compact, etiquette } from '#shared/recon.ts';
 import { dateFull, dateNum, plural } from '#shared/format.ts';
-import type { Constat, Id, Recensement } from '#shared/types.ts';
+import type { Id, Recensement, WorkspaceView } from '#shared/types.ts';
+import type { ATraiter } from '../../core/recensements.ts';
 
 /* ---------- Nouvelle campagne ---------- */
 
@@ -154,12 +155,26 @@ function EtiquettesSheet({ r }: { r: Recensement }) {
 
 /* ---------- Code inconnu ajouté au parc ---------- */
 
-/** Fiche matériel préremplie avec la saisie du téléphone ; le constat est traité avec la création */
-export function openAjoutParc(c: Constat) {
-  const salleId = c.salleId && index().salle.has(c.salleId) ? c.salleId : null;
+/**
+ * Fiche matériel préremplie avec la saisie du téléphone ; les constats du même code sont traités avec la création.
+ * Un numéro de série déjà présent dans l'école ne crée pas de doublon : les constats sont seulement marqués traités.
+ */
+export async function openAjoutParc(g: ATraiter) {
+  const c = g.constat;
+  const ids = new Set(g.constats.map((k) => k.id));
+  const traiter = (s: WorkspaceView) => { for (const k of s.constats) if (ids.has(k.id)) k.traite = traceProvisoire(); };
+  const serie = c.saisie?.serie ?? (c.code || null);
+  const existant = serie ? store.state.materiels.find((m) => m.ecoleId === c.ecoleId && m.serie && compact(m.serie) === compact(serie)) : undefined;
+  if (existant) {
+    const ou = existant.salleId ? index().salle.get(existant.salleId)?.nom ?? 'une salle retirée' : 'le stock';
+    if (!await confirmSheet({ title: 'Matériel déjà au parc', message: `Le numéro de série ${serie} est celui de ${existant.idOrion} (${existant.modele}, ${ou}). Marquer ${g.constats.length > 1 ? 'ces constats traités' : 'ce constat traité'} sans créer de doublon ?`, confirm: 'Marquer traité', tone: 'primary', iconName: 'check' })) return;
+    store.update('data', traiter);
+    notify('Constat traité', { icon: 'check' });
+    return;
+  }
   openMaterielForm(null, {
-    salleId,
-    valeurs: { type: c.saisie?.type, modele: c.saisie?.modele, marque: c.saisie?.marque, serie: c.saisie?.serie ?? (c.code || null) },
-    lier: (s) => { const x = s.constats.find((k) => k.id === c.id); if (x) x.traite = traceProvisoire(); },
+    salleId: c.salleId && index().salle.has(c.salleId) ? c.salleId : null,
+    valeurs: { type: c.saisie?.type, modele: c.saisie?.modele, marque: c.saisie?.marque, serie },
+    lier: traiter,
   });
 }

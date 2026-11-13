@@ -1083,25 +1083,39 @@ test('recensement : campagne, appairage par QR code, constats des téléphones �
   const evenements = [
     { id: crypto.randomUUID(), type: 'vu', code: present.idOrion, salleId: salle.id, materielId: present.id, observeLe: Date.now() },
     { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-RECENSE-1', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'ecran', modele: 'Écran recensé', marque: 'Iiyama', serie: 'SN-RECENSE-1' } },
+    // Même code inconnu scanné par un second agent : une seule ligne à traiter
+    { id: crypto.randomUUID(), type: 'inconnu', code: 'sn recense 1', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'ecran', modele: 'Ecran', marque: null, serie: 'sn-recense-1' } },
+    // Code inconnu dont le matériel est ensuite créé dans ORION par quelqu'un d'autre
+    { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-DEJA-CREE', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'autre', modele: 'Câble', marque: null, serie: 'SN-DEJA-CREE' } },
   ];
   const blocs = await Promise.all(evenements.map(async (e) => ({ id: e.id, bloc: await chiffrer(acces.cle, id, e) })));
   const reponse = await request.post(`/api/recon/campagnes/${id}/evenements`, { headers: { Authorization: 'Bearer orion-recon-local' }, data: { evenements: blocs } });
-  expect((await reponse.json()).resultats.map((r: { statut: string }) => r.statut)).toEqual(['applique', 'applique']);
+  expect((await reponse.json()).resultats.map((r: { statut: string }) => r.statut)).toEqual(['applique', 'applique', 'applique', 'applique']);
 
   await page.reload();
-  await expect(page.locator('.group-card', { hasText: 'À traiter' })).toContainText('Écran · Écran recensé');
+  const aTraiter = page.locator('.group-card', { hasText: 'À traiter' });
+  await expect(aTraiter.locator('.rec-row')).toHaveCount(2);
+  await expect(aTraiter.locator('.rec-row', { hasText: 'Écran recensé' })).toContainText('Vu 2 fois');
   await expect(page.locator('.group-card', { hasText: 'Derniers constats' })).toContainText(present.idOrion);
   await page.screenshot({ path: testInfo.outputPath('recensement-campagne.png'), fullPage: true });
 
-  await page.getByRole('button', { name: 'Ajouter au parc' }).click();
+  await aTraiter.locator('.rec-row', { hasText: 'Écran recensé' }).getByRole('button', { name: 'Ajouter au parc' }).click();
   await expect(page.getByLabel('Modèle *')).toHaveValue('Écran recensé');
   await expect(page.getByLabel('Numéro de série')).toHaveValue('SN-RECENSE-1');
   await page.locator('.sheet-foot').getByRole('button', { name: 'Enregistrer' }).click();
-  await expect(page.locator('.group-card', { hasText: 'À traiter' })).toContainText('Rien à traiter');
+  await expect(aTraiter.locator('.rec-row')).toHaveCount(1);
   await expect.poll(async () => {
     const apres = await state(request);
-    return [apres.materiels.find((m) => m.serie === 'SN-RECENSE-1')?.salleId, Boolean(apres.constats.find((c) => c.saisie)?.traite?.par)];
-  }).toEqual([salle.id, true]);
+    return [apres.materiels.filter((m) => m.serie === 'SN-RECENSE-1').map((m) => m.salleId), apres.constats.filter((c) => /recense/i.test(c.code)).every((c) => c.traite?.par)];
+  }).toEqual([[salle.id], true]);
+
+  // Numéro de série déjà au parc : pas de doublon, le constat est seulement traité
+  await page.evaluate((ecoleId) => window.orion.store.update('data', (s) => { s.materiels.push({ id: 'm-deja-cree', ecoleId, idOrion: '', salleId: null, type: 'autre', modele: 'Câble', marque: null, serie: 'SN-DEJA-CREE', dateReception: Date.now(), garantieFin: null, hs: false }); }), campagne.ecoleId);
+  await aTraiter.getByRole('button', { name: 'Ajouter au parc' }).click();
+  await expect(page.getByRole('dialog')).toContainText('Matériel déjà au parc');
+  await page.getByRole('button', { name: 'Marquer traité' }).click();
+  await expect(aTraiter).toContainText('Rien à traiter');
+  await expect.poll(async () => (await state(request)).materiels.filter((m) => m.serie === 'SN-DEJA-CREE').length).toBe(1);
 
   await page.getByRole('button', { name: 'Étiquettes' }).click();
   await expect(page.getByRole('img', { name: `QR code de la salle ${salle.nom}` })).toBeVisible();

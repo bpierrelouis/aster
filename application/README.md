@@ -204,6 +204,14 @@ Téléphone (PWA) ──HTTPS──► Relais (Hidora) ◄──HTTPS sortant, p
 
 Un code « inconnu » qui correspond en fait à un identifiant ORION ou à un numéro de série de l’école (instantané du téléphone ancien) est traité comme un matériel vu. Un constat est conservé ; seul son traitement est modifiable.
 
+**Conflits.** ORION fait foi : chaque constat est réévalué à son arrivée sur l’état courant, pas sur l’instantané du téléphone.
+- Doublons (renvoi après coupure) : ignorés par le relais puis par ORION (identifiant de l’événement).
+- Matériel supprimé ou d’une autre école, salle hors campagne, campagne close ou expirée : refusé, avec le motif sur le téléphone et dans « À traiter ». Après la clôture, les constats non encore relevés sont abandonnés (décision de l’utilisateur du 13 novembre).
+- Ordre d’observation, pas d’arrivée : une relocalisation observée avant la dernière information sur l’emplacement du matériel (observation d’un autre téléphone, déplacement prévu ou installation confirmée dans ORION) est refusée comme « dépassée ». La date d’observation est celle du téléphone, bornée à l’heure du serveur.
+- Relocalisation sur place contre déplacement prévu antérieur : l’observation du terrain l’emporte, tracée par son constat (choix provisoire, non tranché par le client).
+- Même code inconnu scanné plusieurs fois, par un ou plusieurs agents : une seule ligne « À traiter » (« Vu n fois »), regroupée par numéro de série saisi ou code lu ; « Ajouter au parc » ou « Écarter » traite tout le groupe. Si le numéro de série existe déjà dans l’école, « Ajouter au parc » propose seulement de marquer le constat traité, sans créer de doublon.
+- Écriture simultanée d’un utilisateur sur le même matériel : fusion élément par élément d’ORION ; l’utilisateur reçoit un conflit et recharge, rien n’est écrasé en silence.
+
 **Étiquettes.** « Étiquettes » affiche et imprime les QR codes des salles de la campagne et du stock. Les matériels se reconnaissent à leur identifiant ORION (étiquette `ORION:MAT:…` ou identifiant seul) ou à leur numéro de série (code-barres, Data Matrix ou OCR).
 
 **Application mobile.** PWA React construite par `npm run build:recon` dans `frontend/dist-recon/` (entrée [frontend/recon/](frontend/recon/index.html), configuration [vite.recon.config.ts](frontend/vite.recon.config.ts)), servie par le relais, aux couleurs d’ORION (étoile, Bleu Orion, verre ; clair ou sombre selon le téléphone). Écrans : `/` (appairage, puis accueil : Scanner, Explorer, Saisie manuelle, état de synchronisation), `/scanner?lieu=`, `/saisie`, `/explorer`, `/salles/:id` (`stock` pour le stock) et `/salles/:id/inventaire`, `/materiels/:id?lieu=`, `/inconnu`, `/synchronisation` (constats en attente ou refusés, « Dissocier ce téléphone »).

@@ -15,7 +15,7 @@ import { deviceType } from '#shared/catalog.ts';
 import { ago, dateMed, num, plural } from '#shared/format.ts';
 import { GroupCard, GroupGrid, PageHead, Progress } from '../../widgets/parts.tsx';
 import { openAjoutParc, openAppairage, openEtiquettes } from './recensement-sheets.tsx';
-import type { BilanSalle } from '../../core/recensements.ts';
+import type { ATraiter, BilanSalle } from '../../core/recensements.ts';
 import type { Constat, Recensement } from '#shared/types.ts';
 
 const TONES = { ok: 'good', install: 'move', crit: 'bad', stock: 'stock', accent: 'pin' } as const;
@@ -35,23 +35,25 @@ function Sujet({ c }: { c: Constat }) {
 
 const lieu = (salleId: string | null) => (salleId ? index().salle.get(salleId)?.nom ?? 'Salle retirée' : 'Stock');
 
-function marquerTraite(c: Constat) {
-  store.update('data', (s) => { s.constats.find((x) => x.id === c.id)!.traite = traceProvisoire(); });
-  notify('Constat traité', { icon: 'check' });
+function marquerTraite(g: ATraiter) {
+  const ids = new Set(g.constats.map((c) => c.id));
+  store.update('data', (s) => { for (const c of s.constats) if (ids.has(c.id)) c.traite = traceProvisoire(); });
+  notify(g.constats.length > 1 ? plural(g.constats.length, 'constat traité', 'constats traités') : 'Constat traité', { icon: 'check' });
 }
 
-/** Constat à traiter : ce qui a été vu, où, et l'action qui le règle */
-function ATraiterRow({ c }: { c: Constat }) {
+/** Constat à traiter : ce qui a été vu, où, combien de fois, et l'action qui le règle */
+function ATraiterRow({ g }: { g: ATraiter }) {
+  const c = g.constat;
   const m = c.materielId ? index().materiel.get(c.materielId) : undefined;
   const detail = c.resultat === 'ecart' && m ? `Affecté : ${lieu(m.salleId)} · constaté : ${lieu(c.salleId)}`
     : c.resultat === 'refuse' ? c.message ?? 'Refusé'
     : [c.saisie?.marque, c.saisie?.serie && `S/N ${c.saisie.serie}`, c.code && c.code !== c.saisie?.serie && `Code ${c.code}`].filter(Boolean).join(' · ');
   return <li><div className="row rec-row">
     <Resultat c={c} />
-    <span className="row-main"><Sujet c={c} /><span className="row-sub"><span className="row-meta">{lieu(c.salleId)}</span>{detail && <span className="row-meta">{detail}</span>}</span></span>
+    <span className="row-main"><Sujet c={c} /><span className="row-sub"><span className="row-meta">{lieu(c.salleId)}</span>{detail && <span className="row-meta">{detail}</span>}{g.constats.length > 1 && <span className="row-meta">Vu {g.constats.length} fois</span>}</span></span>
     <span className="rec-row-actions">
-      {c.resultat === 'inconnu' && <button className="btn btn--ghost btn--s" onClick={() => openAjoutParc(c)}><Icon name="plus" size={16} />Ajouter au parc</button>}
-      <button className="btn btn--ghost btn--s" onClick={() => marquerTraite(c)}><Icon name="check" size={16} />{c.resultat === 'inconnu' ? 'Écarter' : 'Traité'}</button>
+      {c.resultat === 'inconnu' && <button className="btn btn--ghost btn--s" onClick={() => openAjoutParc(g)}><Icon name="plus" size={16} />Ajouter au parc</button>}
+      <button className="btn btn--ghost btn--s" onClick={() => marquerTraite(g)}><Icon name="check" size={16} />{c.resultat === 'inconnu' ? 'Écarter' : 'Traité'}</button>
     </span>
   </div></li>;
 }
@@ -103,7 +105,7 @@ export function Campagne({ id }: { id: string }) {
     </div>
     <GroupGrid items={['traiter', 'salles', 'constats'] as const} weight={(k) => (k === 'salles' ? 3 + Math.min(14, salles.length) : 3 + Math.min(10, k === 'traiter' ? b.aTraiter.length : b.constats.length))} render={(k) => {
       if (k === 'traiter') return <GroupCard key={k} tile={<Tile name="alert" color="var(--install)" size="s" />} title="À traiter" sub={b.aTraiter.length ? plural(b.aTraiter.length, 'constat') : 'Rien à traiter'}>
-        {b.aTraiter.length ? b.aTraiter.map((c) => <ATraiterRow key={c.id} c={c} />) : <li className="rec-empty">Les codes inconnus et les écarts constatés par les agents apparaîtront ici.</li>}
+        {b.aTraiter.length ? b.aTraiter.map((g) => <ATraiterRow key={g.constat.id} g={g} />) : <li className="rec-empty">Les codes inconnus et les écarts constatés par les agents apparaîtront ici.</li>}
       </GroupCard>;
       if (k === 'salles') return <GroupCard key={k} tile={<Tile name="salles" color="var(--c3)" size="s" />} title="Avancement par salle" sub={plural(salles.length, 'salle')}>
         {salles.map((s) => <SalleRow key={s.salle.id} s={s} />)}

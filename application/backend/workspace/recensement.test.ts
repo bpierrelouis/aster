@@ -137,6 +137,22 @@ test('constats : confirmation, présence, écart, relocalisation, stock, hors se
   assert.deepEqual(appliquerEvenements(s, campagne.id, [tardif]).map((r) => r.statut), ['applique']);
   assert.equal(s.constats.at(-1)!.resultat, 'present');
 
+  // Ordre d'observation, pas d'arrivée : un téléphone resté hors ligne n'écrase pas une information plus récente
+  const libre = s.materiels.find((x) => x.ecoleId === 'e-num' && x.salleId && !x.hs && !x.deplacement && ![installe.id, autre.id].includes(x.id))!;
+  const [ici, la] = s.salles.filter((x) => x.ecoleId === 'e-num' && x.id !== libre.salleId);
+  const t0 = Date.now() - 60_000;
+  const recent = evt({ type: 'releve', materielId: libre.id, salleId: ici.id, observeLe: t0 + 30_000 });
+  const ancien = evt({ type: 'releve', materielId: libre.id, salleId: la.id, observeLe: t0 });
+  const posterieur = evt({ type: 'releve', materielId: libre.id, salleId: la.id, observeLe: t0 + 40_000 });
+  assert.deepEqual(appliquerEvenements(s, campagne.id, [recent, ancien]).map((r) => r.message ?? r.statut), ['applique', 'Constat dépassé : ce matériel a été vu ou déplacé depuis.']);
+  assert.equal(m(libre.id).salleId, ici.id, 'l’observation la plus récente reste');
+  assert.deepEqual(appliquerEvenements(s, campagne.id, [posterieur]).map((r) => r.statut), ['applique'], 'observée après, arrivée après : appliquée');
+  assert.equal(m(libre.id).salleId, la.id);
+  // Déplacement prévu dans ORION après l'observation : l'observation est dépassée
+  m(libre.id).deplacement = { de: la.id, at: Date.now(), par: 'G. Bernard', parId: MANAGER };
+  m(libre.id).salleId = ici.id;
+  assert.equal(appliquerEvenements(s, campagne.id, [evt({ type: 'releve', materielId: libre.id, salleId: la.id, observeLe: t0 + 50_000 })])[0].statut, 'refuse');
+
   // Événement inattendu : refusé seul, sans bloquer les suivants
   const piege = new Proxy(evt({ type: 'vu', materielId: installe.id, salleId: autreSalle.id }), { get: (t, k) => { if (k === 'type') throw new Error('piège'); return t[k as keyof typeof t]; } });
   assert.deepEqual(appliquerEvenements(s, campagne.id, [piege, evt({ type: 'vu', materielId: installe.id, salleId: autreSalle.id })]).map((r) => r.statut), ['refuse', 'applique']);

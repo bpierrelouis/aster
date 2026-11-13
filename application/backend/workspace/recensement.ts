@@ -116,6 +116,19 @@ export async function dechiffrerEvenements(secret: string, campagne: Id, blocs: 
 
 const ID = /^[\w-]{8,100}$/;
 const texte = (v: unknown, max: number) => (typeof v === 'string' && v.trim() ? v.trim().slice(0, max) : null);
+const LOCALISE: readonly Constat['resultat'][] = ['confirme', 'present', 'deplace', 'range'];
+
+/**
+ * Date de la dernière information sur l'emplacement d'un matériel : observation d'un téléphone (sa date d'observation, pas
+ * celle de son arrivée), déplacement prévu ou installation confirmée dans ORION. Une relocalisation observée avant est dépassée :
+ * un téléphone resté hors ligne n'écrase pas une information plus récente.
+ */
+function derniereInformation(s: WorkspaceState, m: Materiel) {
+  const constats = s.constats.filter((c) => c.materielId === m.id && LOCALISE.includes(c.resultat));
+  const parTelephone = new Set(constats.map((c) => c.at)); // installation confirmée par un constat : sa date d'observation compte
+  const dansOrion = m.installation && !parTelephone.has(m.installation.at) ? m.installation.at : 0;
+  return Math.max(0, m.deplacement?.at ?? 0, dansOrion, ...constats.map((c) => c.observeLe));
+}
 
 /**
  * Intègre les événements d'une campagne dans l'état (modifié en place) et renvoie le résultat de chacun.
@@ -165,6 +178,7 @@ function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRe
     if (m.deplacement) { m.installation = { de: m.deplacement.de, at: now, ...par }; delete m.deplacement; constat.resultat = 'confirme'; }
     else constat.resultat = 'present';
   } else if (e.type === 'vu' || connu) constat.resultat = 'ecart';
+  else if (constat.observeLe < derniereInformation(s, m)) Object.assign(constat, { resultat: 'refuse', message: 'Constat dépassé : ce matériel a été vu ou déplacé depuis.' });
   else if (m.hs && salleId) Object.assign(constat, { resultat: 'refuse', message: 'Un matériel hors service ne peut aller qu’au stock.' });
   else {
     // Relocalisation constatée sur place : affectation et déplacement physique confirmés ensemble
