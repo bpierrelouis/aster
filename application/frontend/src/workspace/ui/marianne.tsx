@@ -23,7 +23,8 @@ const OEIL = 'M27.9 6.8c.1 0 .3 0 .3.1-.1.2-.4.3-.6.5h-.1c-.1.1-.1.2-.1.2h-.3c.1
 export function Marianne({ size = 32 }: { size?: number }) {
   const id = useId(); // propre à chaque médaillon (plusieurs à l'écran : menu, nuancier)
   const d = Math.round(size * 1.1);
-  return <svg className="brand brand--minarm" viewBox="8 -5 26 26" width={d} height={d} aria-hidden="true">
+  // Une unité autour du cercle garde son contour et son anticrénelage dans le viewport SVG.
+  return <svg className="brand brand--minarm" viewBox="7 -6 28 28" width={d} height={d} aria-hidden="true">
     <defs>
       <clipPath id={`${id}-cercle`}><circle cx="21" cy="8" r="13" /></clipPath>
       <linearGradient id={`${id}-reflet`} x1="0" x2="1" y1="0" y2="0">
