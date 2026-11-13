@@ -36,7 +36,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md) | Brouillon interne | [1.1](#19-suivi-backlog-brouillon-v1) | 13/11/2026 |
 | [docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) | Brouillon interne | [1.1](#diagrammes-activite-cas-utilisation-brouillon-v2) | 12/11/2026 |
 | [docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md) | Brouillon interne | [3.0](#diagrammes-etats-brouillon-v1) | 13/11/2026 |
-| [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md) | Brouillon interne | [2.4](#reste-a-faire-brouillon-v1) | 13/11/2026 |
+| [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md) | Brouillon interne | [3.0](#reste-a-faire-brouillon-v1) | 13/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -395,7 +395,8 @@ Fichier : [docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md](../docs/temporaire/RES
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.4 | 13/11/2026 | Données de départ 17, import hors service et RECON à suivre | en vigueur | — |
+| 3.0 | 13/11/2026 | Restructurer par échéance et domaine ; intégrer l’audit de cohérence avec le DAT validé, le backlog GitHub, le scénario complet, les tests de sécurité, l’observatoire des parcours et les comptes réels de présentation | en vigueur | — |
+| 2.4 | 13/11/2026 | Données de départ 17, import hors service et RECON à suivre | `1c5abdf` | — |
 | 2.3 | 13/11/2026 | Règles de gestion mises à jour | `d3c3785` | — |
 | 2.2 | 13/11/2026 | MCD refait ; MAC et RG-40 à suivre | `19f0488` | — |
 | 2.1 | 13/11/2026 | Diagrammes 06 et 07 à reprendre avec les collègues | `6d33a1f` | — |

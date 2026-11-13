@@ -1327,6 +1327,13 @@
         "version": "2.4",
         "date": "2026-11-13",
         "modification": "Données de départ 17, import hors service et RECON à suivre",
+        "archive": null,
+        "commit": "1c5abdf"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-13",
+        "modification": "Restructurer par échéance et domaine ; intégrer l’audit de cohérence avec le DAT validé, le backlog GitHub, le scénario complet, les tests de sécurité, l’observatoire des parcours et les comptes réels de présentation",
         "archive": null
       }
     ]
