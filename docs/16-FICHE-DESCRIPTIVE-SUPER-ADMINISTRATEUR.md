@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Production destinée à la remise | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | [6 versions](../archive/README.md#16-fiche-descriptive-super-administrateur) |
+| 2.1 | 13/11/2026 | Production destinée à la remise | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [7 versions](../archive/README.md#16-fiche-descriptive-super-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur.
@@ -25,7 +25,7 @@ Afin d'éviter de dupliquer les scénarios, les parcours fonctionnels détaillé
 | Écoles | Choisir l'école affichée ou toutes les écoles ; créer et renommer une école |
 | Parc matériel | Toutes les actions sur les matériels de toutes les écoles, y compris suppression et import JSON |
 | Salles | Gestion des salles et des étages de toutes les écoles |
-| Administration des postes | Consultation des applications, installation, désinstallation, réinstallation et suivi des demandes d'intervention sur les postes ou salles accessibles |
+| Administration des postes | Consultation des applications, installation, désinstallation, réinitialisation et suivi des demandes d'intervention sur les postes ou salles accessibles |
 | Supervision | Consultation et arrêt des processus utilisateur, détections, notifications de processus blacklisté et statistiques |
 | Règles de processus | Gérer les règles globales en plus des règles d'école, de bâtiment et de salle |
 | Remontées | Création et traitement ; consultation et téléchargement de tous les PDF ; tableau de bord |
@@ -48,7 +48,7 @@ Le parcours [UC-ADMIN-07](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-07--g�
 
 ### Administration des postes
 
-Les opérations de [UC-ADMIN-02](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-02--administrer-les-applications-dun-poste-ou-dune-salle) et [UC-ADMIN-03](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-03--réinstaller-un-poste-ou-une-salle) s'appliquent aux postes et salles de toutes les écoles. Une demande d'intervention concerne des postes d'une seule école.
+Les opérations de [UC-ADMIN-02](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-02--administrer-les-applications-dun-poste-ou-dune-salle) et [UC-ADMIN-03](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-03--réinitialiser-un-poste-ou-une-salle) s'appliquent aux postes et salles de toutes les écoles. Une demande d'intervention concerne des postes d'une seule école.
 
 ### Supervision
 

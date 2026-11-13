@@ -7,7 +7,7 @@ L’architecture cible distingue un serveur front pour l’interface et un serve
 Elle vise à remplacer la gestion du parc informatique sous Excel par un outil centralisé couvrant trois besoins principaux :
 
 - gérer les équipements et leur affectation aux salles, dont le bâtiment est renseigné ;
-- administrer et réinstaller les postes ;
+- administrer et réinitialiser les postes ;
 - superviser leur utilisation et centraliser les remontées utilisateur.
 
 ## Développement
@@ -58,7 +58,7 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 - [Diagramme de contexte](docs/06-DIAGRAMME-CONTEXTE.md) : acteurs, composants de la suite et principaux échanges autour d’ORION.
 - [Diagrammes d’activité](docs/07-DIAGRAMMES-ACTIVITE.md) : parcours général selon les droits et les tableaux de bord spécialisés, création d'une remontée avec génération du PDF, supervision des processus et notifications de garantie.
 - [DCU — Gestion du parc](docs/08-DCU-GESTION-PARC.md) : recherche, inventaire, affectations et tableau de bord du parc.
-- [DCU — Administration des postes](docs/09-DCU-ADMINISTRATION-POSTES.md) : consultation des applications et installation et désinstallation d’applications, réinstallation des postes ou des salles.
+- [DCU — Administration des postes](docs/09-DCU-ADMINISTRATION-POSTES.md) : consultation des applications et installation et désinstallation d’applications, réinitialisation des postes ou des salles.
 - [DCU — Supervision des postes](docs/10-DCU-SUPERVISION-POSTES.md) : état des postes, processus, alertes et statistiques d'utilisation dont les indicateurs restent à définir.
 - [DCU — Remontées utilisateur](docs/11-DCU-REMONTEES-UTILISATEUR.md) : création des remontées, consultation des PDF d'état des lieux et tableau de bord spécialisé.
 - [Matrice des droits applicatifs](docs/12-MATRICE-DROITS.md) : droits confirmés et conditions d’application pour chaque profil.
@@ -87,7 +87,7 @@ Utiliser le sommaire ci-dessus, puis les sections indiquées ci-dessous. Ces par
 | Profils, droits et comptes | §§ 2, 3 et 18 | Règles, matrice des droits, fiches des profils concernés |
 | Matériels, salles, affectations et import | §§ 4 à 6 et 17 | Glossaire, règles, DCU gestion du parc, MCD |
 | Garanties | § 7 | Règles, matrice des droits |
-| Applications et réinstallation | §§ 8, 9 et 19 | Règles, DCU administration des postes |
+| Applications et réinitialisation | §§ 8, 9 et 19 | Règles, DCU administration des postes |
 | Processus et alertes | §§ 10 à 12 | Règles, DCU supervision, matrice des droits |
 | Remontées et PDF d’état des lieux | §§ 13 et 15 | Règles, DCU remontées, matrice, fiches concernées |
 | Tableaux de bord et ergonomie | §§ 14 et 16 | DCU concernés, fiches descriptives, maquettes |

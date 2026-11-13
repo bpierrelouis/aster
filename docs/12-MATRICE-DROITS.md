@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Production destinée à la remise | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | [5 versions](../archive/README.md#12-matrice-droits) |
+| 2.1 | 13/11/2026 | Production destinée à la remise | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [6 versions](../archive/README.md#12-matrice-droits) |
 <!-- version:fin -->
 
 Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
@@ -77,7 +77,7 @@ ORION génère le PDF d’état des lieux à chaque consultation ou télécharge
 | --- | --- | --- | --- | --- | --- | --- |
 | Consulter les applications installées sur un poste | Non | Non | Oui | Oui | Les applications installées sont remontées par les postes ; la solution d’administration à distance reste à retenir. | RG-15 et RG-83, DCU 09 |
 | Déclencher l’installation ou la désinstallation d’une application | Non | Non | Oui | Oui | L’action cible un poste individuel ou l’ensemble des postes d’une salle. Le résultat est suivi pour chaque poste. | RG-65 et RG-81, DCU 09 |
-| Demander la réinstallation d’un ou de plusieurs postes, notamment d’une salle | Non | Non | Oui | Oui | Le mécanisme de déploiement reste à identifier. | RG-22, RG-30 et RG-81, DCU 09 |
+| Demander la réinitialisation d’un ou de plusieurs postes, notamment d’une salle | Non | Non | Oui | Oui | Le mécanisme de déploiement reste à identifier. | RG-22, RG-30 et RG-81, DCU 09 |
 | Gérer les postes supervisés et le catalogue des applications | Non | Non | Oui | Oui | Le catalogue des applications est commun à toutes les écoles. | RG-69 et RG-77 |
 
 ## Administration des comptes

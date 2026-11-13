@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Production destinée à la remise | Renommer le projet en ORION dans tout le dépôt | [2 versions](../archive/README.md#06-diagramme-contexte) |
+| 1.2 | 13/11/2026 | Production destinée à la remise | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [3 versions](../archive/README.md#06-diagramme-contexte) |
 <!-- version:fin -->
 
 ```mermaid
@@ -26,5 +26,5 @@ flowchart LR
     orion -->|"Sessions et processus utilisateur<br/>PDF de la remontée"| formateur
 
     agent -->|"Applications installées<br/>Sessions et processus utilisateur"| orion
-    orion -->|"Réinstallation et contrôle des processus"| agent
+    orion -->|"Réinitialisation et contrôle des processus"| agent
 ```

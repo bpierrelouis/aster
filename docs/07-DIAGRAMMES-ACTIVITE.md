@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.3 | 12/11/2026 | Production destinée à la remise | Renommer le projet en ORION dans tout le dépôt | [4 versions](../archive/README.md#07-diagrammes-activite) |
+| 1.4 | 13/11/2026 | Production destinée à la remise | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [5 versions](../archive/README.md#07-diagrammes-activite) |
 <!-- version:fin -->
 
 ## Parcours général
@@ -19,7 +19,7 @@ flowchart TD
     choix -->|"Gestionnaire<br/>ou administrateur"| bordParc["Consulter le tableau de bord<br/>du parc, filtrable par salle"]
     choix -->|"Gestionnaire<br/>ou administrateur"| bordRemontees["Consulter le tableau de bord<br/>des remontées"]
     choix -->|"Gestionnaire<br/>ou administrateur"| documents["Consulter les PDF<br/>d'état des lieux"]
-    choix -->|"Administrateur"| administration["Consulter les applications<br/>installées ou demander<br/>une réinstallation"]
+    choix -->|"Administrateur"| administration["Consulter les applications<br/>installées ou demander<br/>une réinitialisation"]
     choix -->|"Formateur<br/>ou administrateur"| supervision["Consulter une salle et<br/>ses processus utilisateur ;<br/>arrêter un processus utilisateur"]
     choix -->|"Formateur<br/>ou administrateur"| remontee["Créer une remontée et<br/>générer le PDF d'état des lieux"]
 

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.3 | 13/11/2026 | Production destinée à la remise | Documenter la cible C1NP et unifier les vues | [4 versions](../archive/README.md#17-dossier-architecture-technique) |
+| 1.4 | 13/11/2026 | Production destinée à la remise | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [5 versions](../archive/README.md#17-dossier-architecture-technique) |
 <!-- version:fin -->
 
 **Date de référence :** 13 novembre 2026
@@ -451,7 +451,7 @@ Pour préparer le palier de **5 000 postes**, prévoir **cinq VM ORION**. VM 1 p
 
 ### 6.5. Deux solutions pour administrer les postes Windows
 
-Le choix porte sur l’administration des postes Windows. Le ministère des Armées fournit l’hébergement sur le C1NP. Les deux options doivent couvrir l’inventaire logiciel, la supervision des processus utilisateur, leur arrêt, l’installation et la désinstallation de logiciels, la réinstallation des postes et la remontée du résultat à ORION. Le coût de licence est calculé sur le parc géré, distinct de la charge de supervision mesurée en postes actifs.
+Le choix porte sur l’administration des postes Windows. Le ministère des Armées fournit l’hébergement sur le C1NP. Les deux options doivent couvrir l’inventaire logiciel, la supervision des processus utilisateur, leur arrêt, l’installation et la désinstallation de logiciels, la réinitialisation des postes et la remontée du résultat à ORION. Le coût de licence est calculé sur le parc géré, distinct de la charge de supervision mesurée en postes actifs.
 
 #### Option A — Microsoft Configuration Manager installé sur le réseau du ministère
 
@@ -472,7 +472,7 @@ Réutiliser le service ministériel, s’il existe, permet de rester dans les qu
 
 Créer un service Windows en C#/.NET qui envoie l’inventaire et les rapports de processus à l’API ORION. Le back autorise et suit les interventions. Le poste exécute les commandes métier prévues, telles que l’arrêt d’un processus ou l’installation d’un paquet approuvé, et renvoie le résultat associé à l’intervention. Prévoir une identité propre à chaque poste, la mise à jour signée de l’agent et le traitement des commandes déjà reçues après coupure. Le serveur de gestion reste le back ORION, sur les VM déjà dimensionnées.
 
-Pour une réinstallation complète, l’agent transmet la demande à un mécanisme de réimagerie autorisé, capable de fonctionner pendant l’effacement de Windows. Le retour de résultat doit être vérifié après réenrôlement. L’estimation suppose que le ministère fournit ce mécanisme, l’infrastructure de signature et un canal de déploiement de l’agent. Si la réimagerie est indisponible, le périmètre et l’effort d’une chaîne de réinstallation restent à estimer avant de comparer les deux offres à couverture égale.
+Pour une réinitialisation complète, l’agent transmet la demande à un mécanisme de réimagerie autorisé, capable de fonctionner pendant l’effacement de Windows. Le retour de résultat doit être vérifié après réenrôlement. L’estimation suppose que le ministère fournit ce mécanisme, l’infrastructure de signature et un canal de déploiement de l’agent. Si la réimagerie est indisponible, le périmètre et l’effort d’une chaîne de réinitialisation restent à estimer avant de comparer les deux offres à couverture égale.
 
 | Lot de travail | Charge estimée |
 | --- | ---: |
@@ -484,7 +484,7 @@ Pour une réinstallation complète, l’agent transmet la demande à un mécanis
 | Recette, pilote en salle, essais de charge à 1 000 et 5 000 postes, documentation d’exploitation | 12 à 18 j-p |
 | **Total de réalisation estimé** | **65 à 97 j-p** |
 
-Les jours-personnes mesurent la charge de l’équipe. Ils excluent les délais d’accès au réseau et d’autorisation, la maintenance récurrente et une éventuelle refonte du moteur ORION pour tenir la charge (§ 6.3). La prise en main graphique et un catalogue de correctifs généraliste sont hors de ce périmètre. Le pilote vérifie la fraîcheur à l’écran, les opérations sur plusieurs sessions Windows, les reprises après coupure et le résultat de la réinstallation. Une mesure sur un parc réel est nécessaire avant d’annoncer la capacité à 1 000 ou 5 000 postes.
+Les jours-personnes mesurent la charge de l’équipe. Ils excluent les délais d’accès au réseau et d’autorisation, la maintenance récurrente et une éventuelle refonte du moteur ORION pour tenir la charge (§ 6.3). La prise en main graphique et un catalogue de correctifs généraliste sont hors de ce périmètre. Le pilote vérifie la fraîcheur à l’écran, les opérations sur plusieurs sessions Windows, les reprises après coupure et le résultat de la réinitialisation. Une mesure sur un parc réel est nécessaire avant d’annoncer la capacité à 1 000 ou 5 000 postes.
 
 ## 7. Trajectoire vers la cible
 

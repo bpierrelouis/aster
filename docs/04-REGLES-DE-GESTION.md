@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.6 | 13/11/2026 | Production destinée à la remise | Développer le sigle ORION et garantir RG-73 côté serveur | [7 versions](../archive/README.md#04-regles-de-gestion) |
+| 1.7 | 13/11/2026 | Production destinée à la remise | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [8 versions](../archive/README.md#04-regles-de-gestion) |
 <!-- version:fin -->
 
 Ce document formalise uniquement les règles confirmées qui imposent une contrainte sur les données, les droits des utilisateurs ou les traitements réalisés par ORION. Il s'appuie sur les [consignes du projet](01-CONSIGNES.md), les [entretiens des 22 et 23 octobre et du 4 novembre](03-COMPTE-RENDU-ENTRETIENS.md), le fonctionnement de l'application ORION et le [cadrage consolidé](02-CADRAGE.md).
@@ -36,7 +36,7 @@ Les limites du périmètre, les questions ouvertes et les réponses historiques 
 - **RG-19 — Supervision par le formateur.** Le formateur peut accéder à une salle, consulter les processus utilisateur qui y sont remontés et arrêter ces processus.
 - **RG-20 — Protection des processus système.** Le formateur ne peut ni consulter ni arrêter les processus du système d'exploitation.
 - **RG-21 — Création d'une remontée.** Le formateur et l'administrateur peuvent créer une remontée concernant un ou plusieurs matériels.
-- **RG-22 — Masterisation.** L’administrateur déclenche depuis ORION la masterisation d’un ou de plusieurs postes de son école, notamment de l’ensemble des postes d’une salle (application, 9 novembre).
+- **RG-22 — Réinitialisation.** L’administrateur déclenche depuis ORION la réinitialisation d’un ou de plusieurs postes de son école, notamment de l’ensemble des postes d’une salle (application, 9 novembre).
 - **RG-23 — Consultation des états des lieux.** Le gestionnaire et l'administrateur peuvent consulter et télécharger tous les PDF d'état des lieux. Le formateur peut consulter et télécharger uniquement le PDF d’une remontée qu’il a lui-même créée (décision de l’utilisateur du 3 novembre).
 - **RG-24 — Accès aux tableaux de bord.** Le gestionnaire et l'administrateur peuvent consulter les tableaux de bord spécialisés du parc et des remontées.
 
@@ -47,7 +47,7 @@ Les limites du périmètre, les questions ouvertes et les réponses historiques 
 - **RG-27 — Affectation groupée.** Une même opération d'affectation peut concerner plusieurs matériels.
 - **RG-28 — Enregistrement d'un matériel.** Chaque matériel est enregistré individuellement par saisie manuelle ou par import JSON. L'import JSON est accessible au gestionnaire et à l'administrateur.
 - **RG-29 — Traitement d'un import JSON.** Les données d'un import JSON sont appliquées immédiatement, sans étape de validation métier préalable. L’application refuse toutefois un fichier illisible, vide, trop volumineux ou contenant un matériel incomplet ou techniquement invalide ; elle contrôle notamment les formats, les longueurs, le type de matériel et l’appartenance de la salle à l’école sélectionnée (application, 9 novembre).
-- **RG-30 — Masterisation d'un poste.** La masterisation réapplique une image système sur le poste concerné au moyen du mécanisme de déploiement retenu.
+- **RG-30 — Réinitialisation d'un poste.** La réinitialisation réapplique une image système sur le poste concerné au moyen du mécanisme de déploiement retenu.
 - **RG-31 — Données de supervision.** ORION obtient à distance les processus utilisateur lancés sur le poste et l’utilisateur associé à chacun d’eux.
 - **RG-32 — Filtrage des processus.** Les processus internes du système d'exploitation sont exclus des données de supervision présentées au formateur.
 - **RG-33 — Arrêt d'un processus.** L'arrêt demandé depuis l'application web par un utilisateur autorisé porte uniquement sur un processus utilisateur présenté par ORION et est exécuté à distance sur le poste concerné. Seul un processus en cours peut être arrêté, et un seul arrêt peut être en attente pour un même processus. Le poste renvoie le résultat de l'arrêt, réussi ou en échec, qui est affiché dans ORION (application, 9 novembre).
@@ -107,7 +107,7 @@ Les limites du périmètre, les questions ouvertes et les réponses historiques 
 - **RG-78 — Consultation du parc par le formateur.** Le formateur consulte les salles et les matériels de son école, sans pouvoir les créer, les modifier, les affecter ni les supprimer (application, 9 novembre).
 - **RG-79 — Intégrité d'une remontée.** Une remontée est numérotée par ORION et créée au statut « en attente ». Ses matériels appartiennent à son école. Elle ne peut être ni supprimée ni modifiée, à l'exception de son statut (RG-64). Le gestionnaire ne peut pas créer de remontée (application, 9 novembre).
 - **RG-80 — Consultation des remontées.** Le gestionnaire et l'administrateur consultent toutes les remontées de leur école, et le super administrateur celles de toutes les écoles ; le formateur consulte uniquement les remontées qu'il a lui-même créées (application, 9 novembre).
-- **RG-81 — Interventions sur les postes.** Une intervention (arrêt, installation, désinstallation ou réinstallation) porte sur un à cinq cents postes d'une seule école. Elle ne peut pas être supprimée. Son suivi est mis à jour poste par poste par les postes eux-mêmes ; lorsque tous les postes ont répondu, l’intervention est terminée si tous ont réussi et en échec sinon. Le formateur ne voit que les demandes d'arrêt (application, 9 novembre).
+- **RG-81 — Interventions sur les postes.** Une intervention (arrêt, installation, désinstallation ou réinitialisation) porte sur un à cinq cents postes d'une seule école. Elle ne peut pas être supprimée. Son suivi est mis à jour poste par poste par les postes eux-mêmes ; lorsque tous les postes ont répondu, l’intervention est terminée si tous ont réussi et en échec sinon. Le formateur ne voit que les demandes d'arrêt (application, 9 novembre).
 - **RG-82 — Protection des comptes ORION.** Un compte ORION n'est jamais supprimé ; il est désactivé. Son adresse électronique est unique. Un utilisateur ne peut ni modifier son propre profil ou son école de rattachement, ni désactiver son propre compte. Seul le super administrateur attribue le profil de super administrateur (application, 9 novembre).
 - **RG-83 — Exclusion du gestionnaire de la supervision.** Le gestionnaire n'a accès ni aux postes, ni aux processus, ni aux détections, ni aux applications installées (application, 9 novembre).
 - **RG-84 — Tableau de bord personnel et école affichée.** Chaque profil dispose d'un tableau de bord personnel qu'il peut personnaliser. Le super administrateur choisit l'école affichée ou l'ensemble des écoles (application, 9 novembre).

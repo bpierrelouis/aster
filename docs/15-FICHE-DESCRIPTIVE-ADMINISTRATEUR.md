@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Production destinée à la remise | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | [6 versions](../archive/README.md#15-fiche-descriptive-administrateur) |
+| 2.1 | 13/11/2026 | Production destinée à la remise | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [7 versions](../archive/README.md#15-fiche-descriptive-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur.
@@ -18,7 +18,7 @@
 | --- | --- |
 | Parc matériel | Toutes les actions, y compris l'import JSON et la suppression d'un ou plusieurs matériels |
 | Salles | Créer, modifier et supprimer une salle ; ajouter, renuméroter ou supprimer un étage vide d'un bâtiment |
-| Administration des postes | Consulter les postes, leur état et leurs applications ; installer ou désinstaller une application sur un poste ou une salle ; demander la réinstallation d'un ou plusieurs postes ; suivre les demandes d'intervention |
+| Administration des postes | Consulter les postes, leur état et leurs applications ; installer ou désinstaller une application sur un poste ou une salle ; demander la réinitialisation d'un ou plusieurs postes ; suivre les demandes d'intervention |
 | Supervision | Consulter les postes et processus de toutes les salles, arrêter un processus utilisateur, gérer les règles d'école, de bâtiment et de salle, consulter les détections, recevoir une notification de processus blacklisté et consulter les statistiques |
 | Remontées | Créer une remontée et suivre les siennes ; prendre en charge une remontée (« en cours ») puis la terminer en « remplacé » ou « corrigé » ; consulter, télécharger et imprimer tous les PDF ; consulter le tableau de bord des remontées |
 | Tableaux de bord | Consulter son tableau de bord personnel, qu'il peut composer, ainsi que les tableaux de bord du parc et des remontées |
@@ -86,7 +86,7 @@ RG-03 à RG-10, RG-15, RG-25 à RG-29, RG-69, RG-72 et RG-73.
 
 RG-15, RG-25, RG-65 et RG-69.
 
-## UC-ADMIN-03 — Réinstaller un poste ou une salle
+## UC-ADMIN-03 — Réinitialiser un poste ou une salle
 
 - **Objectif :** demander depuis ORION la réapplication d'une image système.
 - **Déclencheur :** l'administrateur sélectionne un ou plusieurs postes, ou une salle, à replaquer.
@@ -95,7 +95,7 @@ RG-15, RG-25, RG-65 et RG-69.
 ### Scénario nominal
 
 1. L'administrateur sélectionne un ou plusieurs postes, éventuellement tous ceux d'une salle.
-2. Il demande leur réinstallation et confirme.
+2. Il demande leur réinitialisation et confirme.
 3. ORION enregistre la demande avec l'image de référence ; chaque poste l'exécute et renvoie son résultat.
 4. L'administrateur suit l'avancement poste par poste.
 
@@ -250,7 +250,7 @@ Les autres écrans disponibles sont présentés dans la [fiche Gestionnaire](13-
 - Tous les écrans du parc, avec suppression réservée aux profils administrateurs.
 - Gestion des salles et des étages depuis la vue des bâtiments.
 - Sélection d'un ou plusieurs postes, ou d'une salle, pour l'administration distante.
-- Consultation des applications, installation, désinstallation, réinstallation et suivi des demandes d'intervention.
+- Consultation des applications, installation, désinstallation, réinitialisation et suivi des demandes d'intervention.
 - Supervision des postes et processus, gestion des listes, détections et statistiques.
 - Création, consultation et traitement des remontées avec accès aux PDF.
 - Gestion des comptes limitée à l'école.

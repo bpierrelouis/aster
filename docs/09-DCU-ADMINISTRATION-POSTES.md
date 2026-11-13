@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Production destinée à la remise | Renommer le projet en ORION dans tout le dépôt | [5 versions](../archive/README.md#09-dcu-administration-postes) |
+| 1.5 | 13/11/2026 | Production destinée à la remise | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [6 versions](../archive/README.md#09-dcu-administration-postes) |
 <!-- version:fin -->
 
 ```mermaid
@@ -18,8 +18,8 @@ flowchart LR
         consulterApplications(["Consulter les applications installées"])
         installerApplication(["Installer une application<br/>sur un poste ou une salle"])
         desinstallerApplication(["Désinstaller une application<br/>sur un poste ou une salle"])
-        demanderPoste(["Demander la réinstallation<br/>d'un ou plusieurs postes"])
-        demanderSalle(["Demander la réinstallation d'une salle"])
+        demanderPoste(["Demander la réinitialisation<br/>d'un ou plusieurs postes"])
+        demanderSalle(["Demander la réinitialisation d'une salle"])
         suivreInterventions(["Suivre les demandes d'intervention"])
     end
 
