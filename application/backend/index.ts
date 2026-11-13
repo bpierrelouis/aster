@@ -65,15 +65,21 @@ const destroySession = (req: Request) => new Promise<void>((resolve, reject) => 
 // Espace de travail : données métier dans PostgreSQL ; états des lieux PDF produits à la demande.
 const workspaceRepository = await createPostgresWorkspaceRepository({ pool, seedReset: config.seedReset });
 
-// Système : état et description des services, documentation de l'API
+// Système : état et description des services, documentation de l'API. Sans session de super administrateur,
+// l'état et la description se limitent au minimum utile aux contrôles (HAProxy, déploiement) : ni adresse, ni port.
 const services = createServices({ config, pool, snapshot: workspaceRepository.snapshot, connectedAfter: DISCONNECT_AFTER });
-app.get('/api/health', async (_req, res) => {
+const superadmin = async (req: Request) => (await sessionActor(req))?.role === 'superadmin';
+app.get('/api/health', async (req, res) => {
   const health = await services.health();
-  res.status(health.status === 'unavailable' ? 503 : 200).json(health);
+  res.status(health.status === 'unavailable' ? 503 : 200).json(await superadmin(req) ? health : { status: health.status, checkedAt: health.checkedAt });
 });
-app.get('/api/infos', (_req, res) => res.json(services.infos()));
-app.get('/api/openapi.json', (_req, res) => res.json(openapi));
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openapi, { customSiteTitle: 'API ORION' }));
+app.get('/api/infos', async (req, res) => {
+  const infos = services.infos();
+  res.json(await superadmin(req) ? infos : { application: infos.application });
+});
+const connected = async (req: Request, res: Response, next: NextFunction) => ((await sessionActor(req)) ? next() : res.status(401).json({ error: 'Connexion nécessaire.' }));
+app.get('/api/openapi.json', connected, (_req, res) => res.json(openapi));
+app.use('/api/docs', connected, swaggerUi.serve, swaggerUi.setup(openapi, { customSiteTitle: 'API ORION' }));
 
 // Identités du fournisseur local (démonstrateur) : créées pour les comptes ORION actifs
 const provisioning = config.identityProvisioning ? createKeycloakProvisioning({ issuer: config.issuer, ...config.keycloakAdmin }) : null;

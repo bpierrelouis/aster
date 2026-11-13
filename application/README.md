@@ -161,9 +161,9 @@ Ces routes sont publiques, sans connexion (application connectée seulement) :
 
 | Route | Rôle |
 | --- | --- |
-| `GET /api/health` | État de chaque service : adresse `hôte:port`, IP résolues, port, état (`up`, `down` ou `not-configured`), temps de réponse ou erreur ; pour les postes, nombre de postes allumés (`connected` : rapport reçu depuis moins de 30 secondes). État global `ok`, `degraded` (service facultatif indisponible) ou `unavailable` : réponse 503 seulement si la base de données ou le fournisseur d’identité est indisponible |
-| `GET /api/infos` | Description du système (version, mode, démarrage), de l’instance qui répond (nom d’hôte, IP, Node.js) et du rôle de chaque service |
-| `GET /api/docs/` | Documentation interactive (Swagger UI) |
+| `GET /api/health` | État global (`status`, `checkedAt`) ; pour le super administrateur connecté seulement, détail de chaque service : adresse `hôte:port`, IP résolues, port, état (`up`, `down` ou `not-configured`), temps de réponse ou erreur ; pour les postes, nombre de postes allumés (`connected` : rapport reçu depuis moins de 30 secondes). État global `ok`, `degraded` (service facultatif indisponible) ou `unavailable` : réponse 503 seulement si la base de données ou le fournisseur d’identité est indisponible |
+| `GET /api/infos` | Description de l’application (version, mode, démarrage) ; pour le super administrateur connecté seulement, détail de l’instance qui répond (nom d’hôte, IP, Node.js) et du rôle de chaque service |
+| `GET /api/docs/` | Documentation interactive (Swagger UI), après connexion ; spécification sur `/api/openapi.json` |
 | `GET /api/openapi.json` | Spécification OpenAPI 3.1 de toutes les routes ([backend/openapi.ts](backend/openapi.ts)) |
 
 Les services et leurs contrôles sont définis dans [backend/services.ts](backend/services.ts) : réponse HTTP pour le point d’entrée (`APP_URL`), le serveur web, le fournisseur d’identité et son administration ; requête SQL pour la base ; connexion TCP pour l’annuaire et le collecteur de journaux. Dans Docker Swarm, l’IP d’un service joint par son nom est son adresse virtuelle sur le réseau overlay. Aucun identifiant n’est publié. Toute route ajoutée au serveur est décrite dans `backend/openapi.ts`.
