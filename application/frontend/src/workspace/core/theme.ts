@@ -43,7 +43,13 @@ export function applyAmbiance(id: string, tone = 'auto', accent = 'blue') {
     update();
     return;
   }
-  transition = document.startViewTransition(update);
+  transition = document.startViewTransition(() => {
+    // Capturer la palette finale plutôt que les couleurs intermédiaires des contrôles.
+    root.classList.add('ambiance-capture');
+    update();
+    root.getBoundingClientRect();
+    root.classList.remove('ambiance-capture');
+  });
   // Une nouvelle sélection peut interrompre la capture sans que ce soit une erreur.
   void transition.ready.catch(() => {});
 }
