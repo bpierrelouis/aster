@@ -183,6 +183,13 @@ const subscribeIsland = (fn: () => void) => { islandSubs.add(fn); return () => i
 const TONES = { ok: 'var(--ok)', warn: 'var(--warn)', danger: 'var(--crit)', info: 'var(--c1)' };
 export type NotifyTone = keyof typeof TONES;
 
+/** Imprime la fenêtre ouverte seule, sans son en-tête ni son pied (styles/overlays.css, .is-printing-sheet) */
+export function printSheet() {
+  document.documentElement.classList.add('is-printing-sheet');
+  try { window.print(); } catch { notify('Impression momentanément indisponible', { icon: 'print', tone: 'warn' }); }
+  setTimeout(() => document.documentElement.classList.remove('is-printing-sheet'), 500);
+}
+
 export function notify(message: string, { icon = 'check', tone = 'ok' }: { icon?: string; tone?: NotifyTone } = {}) {
   island = { n: island.n + 1, message, icon, tone };
   for (const fn of islandSubs) fn();

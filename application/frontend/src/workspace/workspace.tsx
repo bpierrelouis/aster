@@ -17,6 +17,7 @@ import './styles/remontees.css';
 import './styles/overlays.css';
 import './styles/inventaire.css';
 import './styles/operations.css';
+import './styles/recensement.css';
 import './styles/chart-finish.css';
 import { store, ready } from './core/store.ts';
 import type { RequestError } from './core/store.ts';
@@ -33,6 +34,7 @@ import { Supervision } from './views/supervision/supervision.tsx';
 import { Administration } from './views/administration/administration.tsx';
 import { Notifications } from './views/notifications/notifications.tsx';
 import { Deplacements } from './views/salles/salles-deplacements.tsx';
+import { Recensement } from './views/recensement/recensement.tsx';
 
 declare global {
   /** Magasin exposé aux tests Playwright, qui tournent sur le serveur de développement Vite (tests/navigateur.ts) */
@@ -82,6 +84,8 @@ export default function Workspace({ loading }: { loading: ReactNode }) {
         <Route path="remontees/:tab" element={<Remontees />} />
         <Route path="remontees/:tab/:id" element={<Remontees />} />
         <Route path="materiels/affectation" element={<Navigate to="/materiels/inventaire" replace />} />
+        <Route path="materiels/recensement" element={<Recensement />} />
+        <Route path="materiels/recensement/:id" element={<Recensement />} />
         <Route path="materiels/:tab" element={<Inventaire />} />
         <Route path="supervision/:tab" element={<Supervision />} />
         <Route path="administration/:tab" element={<Administration />} />

@@ -6,7 +6,7 @@ import type { Compte, Materiel, WorkspaceView } from '#shared/types.ts';
 const routes = [
   '/accueil', '/accueil/parc', '/accueil/remontees', '/salles',
   '/salles/batiment/A', '/salles/stock',
-  '/materiels/inventaire', '/materiels/import',
+  '/materiels/inventaire', '/materiels/import', '/materiels/recensement',
   '/remontees/attente', '/remontees/encours', '/remontees/terminees', '/remontees/toutes', '/remontees/miennes',
   '/supervision/salles', '/supervision/alertes', '/supervision/listes', '/supervision/statistiques',
   '/administration/postes', '/administration/applications', '/administration/interventions', '/administration/batiments', '/administration/comptes',
@@ -1053,4 +1053,67 @@ test('le menu du compte reste ancré pendant les changements d’apparence', asy
     await account.click();
     await expect(menu).toHaveCount(0);
   }
+});
+
+test('recensement : campagne, appairage par QR code, constats des téléphones à traiter puis ajout au parc', async ({ page, request }, testInfo) => {
+  const { chiffrer, lireAppairage } = await import('#shared/recon.ts');
+  await open(page, '/materiels/recensement');
+  await page.getByRole('button', { name: 'Nouvelle campagne' }).click();
+  await page.getByLabel('Nom *').fill('Recensement de test');
+  await page.getByRole('radio', { name: 'Salles choisies' }).click();
+  await page.locator('.rec-batiment').first().locator('legend input').check();
+  await page.getByRole('button', { name: 'Ouvrir la campagne' }).click();
+  await expect(page).toHaveURL(/\/materiels\/recensement\/rec-/);
+  const id = page.url().split('/').at(-1)!;
+  await expect(page.locator('.group-lead')).toContainText('Recensement de test');
+
+  await page.getByRole('button', { name: 'Appairer un téléphone' }).click();
+  await expect(page.getByRole('img', { name: /QR code d’appairage/ })).toBeVisible();
+  await page.waitForTimeout(600); // fin de l'ouverture de la fenêtre, pour la capture
+  await page.screenshot({ path: testInfo.outputPath('recensement-appairage.png') });
+  const appairage = await (await request.get(`/api/workspace/recensements/${id}/appairage`)).json();
+  const acces = lireAppairage(appairage.url)!;
+  await page.getByRole('button', { name: 'Fermer' }).click();
+
+  // Constats d'un téléphone, transmis par le connecteur : présence d'un matériel, code inconnu
+  const data = await state(request);
+  const campagne = data.recensements.find((r) => r.id === id)!;
+  const salle = data.salles.find((s) => s.id === campagne.salleIds[0])!;
+  const present = data.materiels.find((m) => m.salleId === salle.id && !m.deplacement)!;
+  const evenements = [
+    { id: crypto.randomUUID(), type: 'vu', code: present.idOrion, salleId: salle.id, materielId: present.id, observeLe: Date.now() },
+    { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-RECENSE-1', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'ecran', modele: 'Écran recensé', marque: 'Iiyama', serie: 'SN-RECENSE-1' } },
+  ];
+  const blocs = await Promise.all(evenements.map(async (e) => ({ id: e.id, bloc: await chiffrer(acces.cle, id, e) })));
+  const reponse = await request.post(`/api/recon/campagnes/${id}/evenements`, { headers: { Authorization: 'Bearer orion-recon-local' }, data: { evenements: blocs } });
+  expect((await reponse.json()).resultats.map((r: { statut: string }) => r.statut)).toEqual(['applique', 'applique']);
+
+  await page.reload();
+  await expect(page.locator('.group-card', { hasText: 'À traiter' })).toContainText('Écran · Écran recensé');
+  await expect(page.locator('.group-card', { hasText: 'Derniers constats' })).toContainText(present.idOrion);
+  await page.screenshot({ path: testInfo.outputPath('recensement-campagne.png'), fullPage: true });
+
+  await page.getByRole('button', { name: 'Ajouter au parc' }).click();
+  await expect(page.getByLabel('Modèle *')).toHaveValue('Écran recensé');
+  await expect(page.getByLabel('Numéro de série')).toHaveValue('SN-RECENSE-1');
+  await page.locator('.sheet-foot').getByRole('button', { name: 'Enregistrer' }).click();
+  await expect(page.locator('.group-card', { hasText: 'À traiter' })).toContainText('Rien à traiter');
+  await expect.poll(async () => {
+    const apres = await state(request);
+    return [apres.materiels.find((m) => m.serie === 'SN-RECENSE-1')?.salleId, Boolean(apres.constats.find((c) => c.saisie)?.traite?.par)];
+  }).toEqual([salle.id, true]);
+
+  await page.getByRole('button', { name: 'Étiquettes' }).click();
+  await expect(page.getByRole('img', { name: `QR code de la salle ${salle.nom}` })).toBeVisible();
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: testInfo.outputPath('recensement-etiquettes.png') });
+  await page.getByRole('button', { name: 'Fermer' }).click();
+  await page.getByRole('button', { name: 'Clôturer' }).click();
+  await page.locator('.sheet-foot').getByRole('button', { name: 'Clôturer' }).click();
+  await expect(page.getByRole('button', { name: 'Appairer un téléphone' })).toHaveCount(0);
+  await open(page, '/materiels/recensement');
+  await expect(page.locator('.rec-card', { hasText: 'Recensement de test' })).toContainText('Close le');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.waitForTimeout(800);
+  await page.screenshot({ path: testInfo.outputPath('recensement-liste-mobile.png'), fullPage: true, animations: 'disabled' });
 });
