@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1460" height="626" viewBox="0 0 1460 626" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1780" height="760" viewBox="0 0 1780 760" role="img" aria-labelledby="title desc">
 <title id="title">ORION — architecture cible</title>
-<desc id="desc">Vue simplifiée des quatre VM ORION, du service MindefConnect et des principaux échanges.</desc>
+<desc id="desc">Vue simplifiée des quatre VM ORION, de MindefConnect, du relais public de recensement et des principaux échanges.</desc>
 <defs>
 <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f6cbd"/></marker>
 <marker id="arrow-start" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0 L0 5 L10 10 Z" fill="#0f6cbd"/></marker>
@@ -10,8 +10,11 @@
 <symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></symbol>
 <symbol id="i-key-round" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
 <symbol id="i-split" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></symbol>
+<symbol id="i-refresh-cw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
 <symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
 <symbol id="i-hard-drive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></symbol>
+<symbol id="i-smartphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
+<symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></symbol>
 </defs>
 <style>
 text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
@@ -33,18 +36,18 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 .flow{fill:none;stroke:#0f6cbd;stroke-width:2}
 .auto{stroke-dasharray:6 4}
 </style>
-<rect width="1460" height="626" fill="#fff"/>
+<rect width="1780" height="760" fill="#fff"/>
 <text x="40" y="46" class="title" text-anchor="start">ORION — architecture cible</text>
 <text x="40" y="74" class="body" text-anchor="start">Vue simplifiée · 1 000 postes actifs</text>
-<rect x="245" y="102" width="1185" height="500" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
+<rect x="245" y="102" width="1185" height="620" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
 <use href="#i-network" x="261" y="114" width="22" height="22" style="color:#0f6cbd"/>
 <text x="291" y="131" class="frame" text-anchor="start">C1NP</text>
-<rect x="268" y="257" width="1139" height="320" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
+<rect x="268" y="257" width="1139" height="440" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
 <use href="#i-server" x="284" y="269" width="22" height="22" style="color:#0f6cbd"/>
 <text x="314" y="286" class="frame" text-anchor="start">VM ORION</text>
 <rect x="280" y="299" width="215" height="164" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="294" y="323" class="zname" text-anchor="start">Entrée</text>
-<rect x="576" y="299" width="215" height="164" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
+<rect x="576" y="299" width="215" height="310" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="590" y="323" class="zname" text-anchor="start">Application</text>
 <rect x="872" y="299" width="215" height="164" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="886" y="323" class="zname" text-anchor="start">Base et collecte</text>
@@ -70,6 +73,11 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="683.5" y="401" class="cname" text-anchor="middle">API Express</text>
 <text x="683.5" y="420" class="crole" text-anchor="middle">Administration des postes</text>
 <text x="683.5" y="441" class="cvm" text-anchor="middle">VM 2 . Application</text>
+<rect x="586" y="475" width="195" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
+<use href="#i-refresh-cw" x="665.5" y="489" width="36" height="36" style="color:#0f6cbd"/>
+<text x="683.5" y="547" class="cname" text-anchor="middle">Connecteur RECON</text>
+<text x="683.5" y="566" class="crole" text-anchor="middle">Flux sortant</text>
+<text x="683.5" y="587" class="cvm" text-anchor="middle">VM 2 . Application</text>
 <rect x="882" y="329" width="195" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-database" x="961.5" y="343" width="36" height="36" style="color:#0f6cbd"/>
 <text x="979.5" y="401" class="cname" text-anchor="middle">PostgreSQL et Logstash</text>
@@ -80,6 +88,18 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="1282.5" y="401" class="cname" text-anchor="middle">Stockage C1NP</text>
 <text x="1282.5" y="420" class="crole" text-anchor="middle">Fichiers de logs</text>
 <text x="1282.5" y="441" class="cvm" text-anchor="middle">VM 4 . Stockage</text>
+<rect x="1510" y="170" width="190" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
+<use href="#i-smartphone" x="1587" y="184" width="36" height="36" style="color:#0f6cbd"/>
+<text x="1605" y="242" class="cname" text-anchor="middle">Téléphone</text>
+<text x="1605" y="261" class="crole" text-anchor="middle">PWA hors ligne</text>
+<rect x="1510" y="330" width="190" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
+<use href="#i-cloud" x="1587" y="344" width="36" height="36" style="color:#0f6cbd"/>
+<text x="1605" y="402" class="cname" text-anchor="middle">Relais public</text>
+<text x="1605" y="421" class="crole" text-anchor="middle">Hébergement à qualifier</text>
+<rect x="1510" y="490" width="190" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
+<use href="#i-database" x="1587" y="504" width="36" height="36" style="color:#0f6cbd"/>
+<text x="1605" y="562" class="cname" text-anchor="middle">Stockage du relais</text>
+<text x="1605" y="581" class="crole" text-anchor="middle">Service à qualifier</text>
 <path d="M177 385 L290 385" class="flow" marker-end="url(#arrow)"/>
 <text x="231" y="373" class="route" text-anchor="middle">Interface</text>
 <path d="M485 385 L586 385" class="flow" marker-end="url(#arrow)"/>
@@ -101,4 +121,11 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="850" y="540" class="route" text-anchor="middle">Logs</text>
 <path d="M735 457 L735 485 L923 485 L923 457" class="flow" marker-end="url(#arrow)"/>
 <text x="830" y="475" class="route" text-anchor="middle">Logs</text>
+<path d="M1605 298 L1605 328" class="flow" marker-end="url(#arrow)"/>
+<text x="1615" y="317" class="route" text-anchor="start">HTTPS 443</text>
+<path d="M1605 458 L1605 488" class="flow" marker-end="url(#arrow)"/>
+<text x="1615" y="477" class="route" text-anchor="start">Stockage</text>
+<path d="M781 539 L1450 539 L1450 394 L1508 394" class="flow" marker-end="url(#arrow)"/>
+<text x="1120" y="528" class="route" text-anchor="middle">HTTPS 443 sortant</text>
+<path d="M683 475 L683 459" class="flow" marker-end="url(#arrow)"/>
 </svg>

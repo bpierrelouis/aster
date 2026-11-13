@@ -86,15 +86,15 @@ const ips = ["172.16.131.188","172.16.131.133","172.16.131.193","172.16.131.208"
 let W: number, H: number, title: string, desc: string;
 
 if (kind === 'cible-simple') {
-  W = 1460; H = 626;
+  W = 1780; H = 760;
   title = 'ORION — architecture cible';
-  desc = 'Vue simplifiée des quatre VM ORION, du service MindefConnect et des principaux échanges.';
+  desc = 'Vue simplifiée des quatre VM ORION, de MindefConnect, du relais public de recensement et des principaux échanges.';
 
   heading(title, 'Vue simplifiée · 1 000 postes actifs');
-  enclosure(245, 102, 1185, 500, 'network', 'C1NP');
-  enclosure(268, 257, 1139, 320, 'server', 'VM ORION');
+  enclosure(245, 102, 1185, 620, 'network', 'C1NP');
+  enclosure(268, 257, 1139, 440, 'server', 'VM ORION');
   zone(280, 299, 215, 164, 'Entrée');
-  zone(576, 299, 215, 164, 'Application');
+  zone(576, 299, 215, 310, 'Application');
   zone(872, 299, 215, 164, 'Base et collecte');
   zone(1170, 299, 225, 164, 'Stockage');
 
@@ -103,8 +103,12 @@ if (kind === 'cible-simple') {
   card(465, 117, 'key-round', 'MindefConnect', 'Service d’identité', '', { w: 200, stroke: C.extStroke });
   card(290, 329, 'split', 'HAProxy et Apache', 'Interface React', 'VM 1 . Entrée', { w: 195 });
   card(586, 329, 'server', 'API Express', 'Administration des postes', 'VM 2 . Application', { w: 195 });
+  card(586, 475, 'refresh-cw', 'Connecteur RECON', 'Flux sortant', 'VM 2 . Application', { w: 195 });
   card(882, 329, 'database', 'PostgreSQL et Logstash', 'Base et collecte des logs', 'VM 3 . Base et collecte', { w: 195 });
   card(1180, 329, 'hard-drive', 'Stockage C1NP', 'Fichiers de logs', 'VM 4 . Stockage', { w: 205 });
+  card(1510, 170, 'smartphone', 'Téléphone', 'PWA hors ligne', '', { w: 190, stroke: C.extStroke });
+  card(1510, 330, 'cloud', 'Relais public', 'Hébergement à qualifier', '', { w: 190, stroke: C.extStroke });
+  card(1510, 490, 'database', 'Stockage du relais', 'Service à qualifier', '', { w: 190, stroke: C.extStroke });
 
   arrow([[177, 385], [290, 385]]);
   label(231, 373, 'Interface', 'middle');
@@ -131,8 +135,13 @@ if (kind === 'cible-simple') {
   arrow([[735, 457], [735, 485], [923, 485], [923, 457]]);
   label(830, 475, 'Logs', 'middle');
 
+  arrow([[1605, 298], [1605, 328]]); label(1615, 317, 'HTTPS 443');
+  arrow([[1605, 458], [1605, 488]]); label(1615, 477, 'Stockage');
+  arrow([[781, 539], [1450, 539], [1450, 394], [1508, 394]]); label(1120, 528, 'HTTPS 443 sortant', 'middle');
+  arrow([[683, 475], [683, 459]]);
+
 } else if (kind === 'cible') {
-  W = 1920; H = 710;
+  W = 2250; H = 710;
   title = 'ORION — architecture cible';
   desc = 'Quatre VM et les principaux flux applicatifs et de collecte. Les flux d’exploitation sont détaillés dans le DAT.';
   const frame = (x: number, y: number, w: number, h: number, name: string, sizing: string) => {
@@ -148,7 +157,7 @@ if (kind === 'cible-simple') {
   text(300, 228, 'VM ORION', 'frame');
 
   frame(300, 245, 250, 282, 'VM 1 . Entrée', '2 vCPU · 8 Go RAM · 50 Go système');
-  frame(690, 245, 295, 282, 'VM 2 . Application', '8 vCPU · 32 Go RAM · 50 Go système');
+  frame(690, 245, 295, 395, 'VM 2 . Application', '8 vCPU · 32 Go RAM · 50 Go système');
   frame(1140, 245, 295, 395, 'VM 3 . Base et collecte', '4 vCPU · 16 Go RAM · 50 Go système');
   frame(1570, 245, 290, 395, 'VM 4 . Stockage', '2 vCPU · 8 Go RAM · 50 Go système');
   ext(40, 318, 135, 70, 'users', 'Firefox', []);
@@ -159,11 +168,15 @@ if (kind === 'cible-simple') {
   svc(320, 442, 210, 70, 'app-window', 'Apache 2.4.69', ['HTTP 8080 · boucle locale', 'Interface React 19.3.1'], true);
   svc(710, 318, 255, 70, 'server', 'Express 5.3.0', ['Node.js 22.22.3', 'API · TCP 3001'], true);
   svc(710, 442, 255, 70, 'monitor', 'Intégration Windows', ['Option à retenir'], true, false);
+  svc(710, 548, 255, 70, 'refresh-cw', 'Connecteur RECON', ['Flux HTTPS sortant · sans port'], true);
   svc(1160, 548, 255, 70, 'scroll-text', 'Logstash 8.19.14', ['Syslog sur TLS · TCP 6514'], true);
   svc(1160, 318, 255, 70, 'database', 'PostgreSQL 17.7', ['PostgreSQL sur TLS · TCP 5432'], true);
   vol(1177, 420, 220, '100 Go SSD', ['Données PostgreSQL locales']);
   svc(1590, 318, 250, 300, 'folder-sync', 'Fichiers', ['Service C1NP à qualifier'], true);
   vol(1605, 535, 220, '100 Go', ['Fichiers de logs']);
+  ext(1980, 135, 220, 75, 'smartphone', 'Téléphone', ['PWA hors ligne']);
+  ext(1980, 305, 220, 90, 'cloud', 'Relais public', ['HTTPS 443', 'hébergement à qualifier']);
+  ext(1980, 500, 220, 90, 'database', 'Stockage du relais', ['service durable à qualifier']);
 
   arrow([[175, 340], [320, 340]]);
   label(245, 330, '1 · HTTPS 443', 'middle');
@@ -192,8 +205,12 @@ if (kind === 'cible-simple') {
   label(420, 560, '10A · API Configuration Manager', 'middle');
   arrow([[195, 457], [260, 457], [260, 370], [320, 370]]);
   label(272, 445, '10B · Agent · HTTPS 443');
+  arrow([[2090, 210], [2090, 303]]); label(2100, 266, '12 · HTTPS 443');
+  arrow([[2090, 395], [2090, 498]]); label(2100, 452, 'Stockage');
+  arrow([[965, 582], [1000, 582], [1000, 652], [1920, 652], [1920, 350], [1978, 350]]); label(1450, 643, '13 · HTTPS 443 sortant par proxy', 'middle');
+  arrow([[710, 582], [670, 582], [670, 370], [708, 370]]); label(678, 475, '14 · Canal protégé');
 } else if (kind === 'simple') {
-  W = 1500; H = 1075;
+  W = 1500; H = 1250;
   title = 'ORION — architecture du démonstrateur';
   desc = 'Rôles du démonstrateur, regroupés par zone, et principaux échanges numérotés.';
   // Carte façon Azure : icône au-dessus, nom, rôle, VM
@@ -214,6 +231,7 @@ if (kind === 'cible-simple') {
   zone(980, 372, 220, 188, 'Émulation');
   zone(1230, 372, 220, 188, 'Collecte des logs');
   zone(255, 600, 455, 178, 'Pilotage');
+  zone(735, 600, 220, 178, 'Recensement mobile');
 
   card(275, 212, 'split', 'HAProxy', 'entrée', 'orion-1');
   card(515, 212, 'app-window', 'Apache', 'Interface React', 'orion-4 et orion-5');
@@ -225,11 +243,15 @@ if (kind === 'cible-simple') {
   card(1005, 400, 'monitor', 'Émulateur de postes', 'Postes Windows', 'orion-4 ou orion-5');
   card(275, 638, 'boxes', 'Swarm', 'managers', 'orion-1, 2 et 3');
   card(515, 638, 'rocket', 'Runner GitHub', 'déploiement', 'orion-3');
+  card(760, 638, 'refresh-cw', 'Connecteur RECON', 'Flux sortant', 'orion-4 ou orion-5');
   card(1255, 400, 'scroll-text', 'Logstash', 'Collecte des logs', 'orion-8 · secours 9');
 
   // Adresses des VM
-  rect(255, 955, 1195, 100, C.zone, C.zoneStroke, { rx: 6 });
-  ips.forEach((ip, i) => text(270 + (i % 4) * 295, 983 + Math.floor(i / 4) * 27, `orion-${i + 1} · ${ip}`, 'caption'));
+  card(275, 970, 'smartphone', 'Téléphone', 'PWA hors ligne', '', { stroke: C.extStroke });
+  card(515, 970, 'cloud', 'Relais RECON', 'Hidora', '', { stroke: C.extStroke });
+  card(755, 970, 'database', 'PostgreSQL', 'Données chiffrées', 'Hidora', { stroke: C.extStroke });
+  rect(255, 1120, 1195, 100, C.zone, C.zoneStroke, { rx: 6 });
+  ips.forEach((ip, i) => text(270 + (i % 4) * 295, 1148 + Math.floor(i / 4) * 27, `orion-${i + 1} · ${ip}`, 'caption'));
   // ① navigateur → entrée, par son adresse
   arrow([[170, 276], [273, 276]]); step(210, 276, '1');
   // ② entrée → interface et API
@@ -253,8 +275,12 @@ if (kind === 'cible-simple') {
   // ⑨ runner → GitHub (versions publiées), puis déploiement par un manager
   arrow([[600, 766], [600, 864], [172, 864]]); step(386, 864, '9');
   arrow([[513, 702], [447, 702]]); step(480, 702, '9');
+  arrow([[445, 1034], [513, 1034]]); step(479, 1034, '10');
+  arrow([[685, 1034], [753, 1034]]);
+  arrow([[845, 766], [845, 940], [600, 940], [600, 968]]); step(720, 940, '11');
+  arrow([[760, 702], [710, 702], [710, 530], [640, 530]]);
 } else {
-  W = 1420; H = 1510;
+  W = 1760; H = 1510;
   title = 'ORION — architecture du démonstrateur';
   desc = 'Placement des services par VM ou groupe de VM, conteneurs ou services de l’hôte, rôles Swarm, versions, ports, volumes et flux.';
   // VM ou groupe de VM : rôle en titre, puis une ligne par VM (nom d'hôte et IPv4)
@@ -274,6 +300,10 @@ if (kind === 'cible-simple') {
 
   ext(20, 280, 170, 170, 'users', 'Firefox', ['172.16.131.188']);
   ext(20, 1150, 170, 110, 'user-cog', 'Opérateur', ['son poste, sur le', 'réseau', 'd’administration']);
+  ext(1450, 190, 230, 80, 'smartphone', 'Téléphone', ['PWA hors ligne']);
+  ext(1450, 360, 230, 95, 'cloud', 'Relais RECON · Hidora', ['Node.js 22.22.3 · Express 5.3.0', 'HTTPS 443 · HTTP interne 3000']);
+  ext(1450, 530, 230, 80, 'database', 'PostgreSQL Hidora', ['données chiffrées · port à confirmer']);
+  ext(1450, 700, 230, 75, 'network', 'Proxy du réseau', ['172.16.0.1:8080']);
 
   // Cluster Swarm
   enclosure(285, 140, 1095, 1005, 'boxes', 'Cluster Docker Swarm « orion » · orion-1 à orion-9 · réseau overlay « orion »');
@@ -294,6 +324,7 @@ if (kind === 'cible-simple') {
   svc(663, 375, 274, 86, 'app-window', 'Apache 2.4.69', ['image sur httpd:2.4.69 · HTTP 8080', 'build React 19.3.1', '2 instances · une par VM']);
   svc(663, 471, 274, 86, 'server', 'Express 5.3.0', ['Node.js 22.22.3 · HTTP 3001', '2 instances · une par VM']);
   svc(1043, 435, 304, 72, 'monitor', 'Émulateur de postes', ['Postes Windows · Node.js 22.22.3', '1 instance · orion-4 ou orion-5']);
+  svc(1043, 515, 304, 45, 'refresh-cw', 'Connecteur RECON', ['1 instance · sans port publié']);
   groupe(650, 590, 300, 325, 'Identité', [7], 'worker');
   svc(663, 650, 274, 72, 'key-round', 'Keycloak 26.7.4', ['image officielle · HTTP 8080', '1 instance · secours orion-9']);
   svc(663, 768, 274, 72, 'book-user', 'OpenLDAP 1.5.0', ['image osixia/openldap · LDAP 389', '1 instance · secours orion-9']);
@@ -339,6 +370,11 @@ if (kind === 'cible-simple') {
   // Runner → GitHub (par le proxy du réseau) et → orion-1 (déploiement de la pile)
   arrow([[1150, 226], [1150, 117]]); label(1158, 172, 'HTTPS 443');
   arrow([[960, 258], [582, 258]]); label(670, 281, 'SSH 22 · orion-1');
+  arrow([[1565, 270], [1565, 358]]); label(1575, 320, 'HTTPS 443');
+  arrow([[1565, 455], [1565, 528]]); label(1575, 495, 'PostgreSQL');
+  arrow([[1347, 538], [1395, 538], [1395, 737], [1448, 737]]); label(1403, 650, 'TCP 8080');
+  arrow([[1565, 700], [1565, 650], [1405, 650], [1405, 407], [1448, 407]]); label(1575, 675, 'HTTPS 443');
+  arrow([[1043, 550], [939, 550]]);
   add('</g>');
 }
 const defs = [...used].map((n) => `<symbol id="i-${n}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${iconNode(n).map(([tag, attrs]) => `<${tag} ${Object.entries(attrs).map(([k, v]) => `${k}="${v}"`).join(' ')}/>`).join('')}</symbol>`).join('\n');

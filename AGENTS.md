@@ -69,6 +69,9 @@ Ces instructions s'appliquent à tout le dépôt.
 - Accès direct par adresse IP, sans DNS (décision de l’utilisateur du 13 novembre) : point d’entrée unique `https://172.16.131.188` (orion-1), port HTTPS par défaut, qui sert l’interface, l’API et la connexion Keycloak ; la console de Keycloak garde son port. Les VM utilisent le DNS du réseau ; pas de BIND ni de nom `orion.internal`.
 - Express ne garde aucun état qui fasse autorité : l’espace de travail, les sessions et le journal de fusion sont dans PostgreSQL. Ne pas réintroduire d’état en mémoire qui empêcherait plusieurs instances.
 - Ne pas présenter l’architecture comme des microservices : ORION a un back unique, les briques d’infrastructure sont séparées.
+- RECON ne crée aucune entrée depuis Internet vers les VM ORION. Le téléphone joint en HTTPS un relais public ; un connecteur sans port publié, dans une pile Swarm `orion-recon` indépendante sur orion-4 ou orion-5, relève les blocs chiffrés par le proxy `172.16.0.1:8080`, puis joint Express sur le réseau overlay en HTTP `3001`. Sa panne ou son déploiement ne bloque jamais la pile principale.
+- Dans l’architecture réelle, le relais RECON et son PostgreSQL sont hébergés sur Hidora ; les données du relais sont chiffrées et le téléphone conserve son travail hors ligne dans IndexedDB. PostgreSQL ORION reste l’autorité sur les campagnes et les constats. Ne pas prétendre que le connecteur est incapable de déchiffrer : il reçoit `RECON_SECRET`.
+- Dans l’architecture cible, ne pas reconduire Hidora par défaut : représenter un relais public et un stockage durable autorisés, à qualifier, ainsi qu’un flux sortant du connecteur. Qualifier l’hébergement public, le proxy, les certificats, la base, la sauvegarde, la rétention, la supervision, la disponibilité et la classification des données.
 
 ### Schémas d’architecture
 
