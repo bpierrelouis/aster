@@ -211,7 +211,7 @@ export interface Constat {
   resultat: ConstatResultat;
   message?: string;
   /** Code inconnu : informations saisies sur le téléphone */
-  saisie?: { type: DeviceTypeId; modele: string; marque: string | null; serie: string | null };
+  saisie?: { type: DeviceTypeId; modele: string; marque: string | null; serie: string | null; garantieFin?: Timestamp };
   /** Code inconnu ou écart traité dans ORION */
   traite?: Trace;
 }

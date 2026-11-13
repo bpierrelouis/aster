@@ -28,7 +28,7 @@ export function suppressionRefusee(items: Materiel[]) {
 }
 
 /** Options d'un nouveau matériel : salle, valeurs proposées (constat d'un recensement) et modification enregistrée avec lui (lier) */
-export interface NouveauMateriel { salleId?: Id | null; valeurs?: Partial<Pick<Materiel, 'type' | 'modele' | 'marque' | 'serie'>>; lier?: (s: WorkspaceView, materielId: Id) => void }
+export interface NouveauMateriel { salleId?: Id | null; valeurs?: Partial<Pick<Materiel, 'type' | 'modele' | 'marque' | 'serie' | 'garantieFin'>>; lier?: (s: WorkspaceView, materielId: Id) => void }
 
 export function openMaterielForm(materiel: Materiel | null = null, { salleId = null, valeurs = {}, lier }: NouveauMateriel = {}) {
   const isNew = !materiel;
@@ -93,7 +93,7 @@ function MaterielForm({ materiel, salleId, ecoleId, valeurs, lier }: { materiel:
             <button type="button" role="radio" aria-checked={!hs} className={`seg-btn${!hs ? ' is-on' : ''}`} onClick={() => setHs(false)}><span className="led led--ok" />Non</button>
             <button type="button" role="radio" aria-checked={hs} className={`seg-btn${hs ? ' is-on' : ''}`} onClick={() => setHs(true)}><span className="led led--hs" />Oui</button>
           </div></div>
-        <label className="field"><span className="field-label">Fin de garantie</span><input name="garantie" type="date" defaultValue={inputDate(materiel?.garantieFin)} />
+        <label className="field"><span className="field-label">Fin de garantie</span><input name="garantie" type="date" defaultValue={inputDate(materiel ? materiel.garantieFin : valeurs?.garantieFin)} />
           <span className="field-hint">Facultative.</span></label>
         {materiel
           ? <div className="field"><span className="field-label">Identifiant Orion</span><output className="id-orion">{materiel.idOrion}</output></div>

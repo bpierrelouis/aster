@@ -143,6 +143,7 @@
 .champ--recherche > .ico { position: absolute; left: 14px; top: 50%; translate: 0 -50%; color: var(--ink-3); }
 .champ--recherche input { padding-left: 42px; }
 .code-lu code { display: block; margin-top: 4px; font-size: 1rem; overflow-wrap: anywhere; }
+.code-lu .discret { display: block; margin-top: 4px; }
 
 /* Alertes et annonces */
 .alerte { margin: 0; padding: 12px 16px; border-left: 4px solid var(--crit); border-radius: 0 var(--r-s) var(--r-s) 0; background: color-mix(in srgb, var(--crit) 10%, transparent); }

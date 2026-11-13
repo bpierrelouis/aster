@@ -3,7 +3,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { Icon } from '../../workspace/ui/icons.tsx';
-import { lireCode } from '../core/lecteur.ts';
+import { lireCodes } from '../core/lecteur.ts';
+import { recon } from '../core/etat.ts';
+import { choisirCode, lireEtiquette } from '#shared/recon.ts';
 import { useRecon, useTitre } from '../hooks/use-recon.ts';
 import { useTraiter } from '../hooks/use-traiter.ts';
 import { lieuDe, nomLieu, parametreDe } from '../core/vue.ts';
@@ -13,6 +15,8 @@ import { LectureSerie } from './scanner-serie.tsx';
 /** Délai pendant lequel un code déjà traité doit avoir quitté l'objectif avant d'être accepté à nouveau */
 const LIBERATION = 1500;
 const INTERVALLE = 150;
+/** Clé d'un code déjà traité : numéro de série d'une étiquette structurée, sinon le code (l'écran suivant ne connaît que le numéro) */
+const cle = (valeur: string) => lireEtiquette(valeur)?.serie ?? valeur;
 
 export function Scanner() {
   useTitre('Scanner');
@@ -21,7 +25,7 @@ export function Scanner() {
   const lieu = lieuDe(useSearchParams()[0].get('lieu'));
   const traiter = useTraiter(lieu);
   const ignorer = (useLocation().state as { ignorer?: string } | null)?.ignorer;
-  const ignore = useRef<{ valeur: string; vuLe: number } | null>(ignorer ? { valeur: ignorer, vuLe: Date.now() } : null);
+  const ignore = useRef<{ valeur: string; vuLe: number } | null>(ignorer ? { valeur: cle(ignorer), vuLe: Date.now() } : null);
   const video = useRef<HTMLVideoElement>(null);
   const [camera, setCamera] = useState<'ouverture' | 'active' | 'erreur'>('ouverture');
   const [erreur, setErreur] = useState('');
@@ -60,14 +64,15 @@ export function Scanner() {
     const boucle = async () => {
       if (!actif || !video.current) return;
       try {
-        const valeur = video.current.readyState >= 2 ? await lireCode(video.current) : null;
+        const codes = video.current.readyState >= 2 ? await lireCodes(video.current) : [];
+        const valeur = choisirCode(codes, recon.etat.instantane ?? { salles: [], materiels: [] });
         const maintenant = Date.now();
         const ignore_ = ignore.current;
         if (ignore_ && maintenant - ignore_.vuLe > LIBERATION) ignore.current = null;
         if (valeur && actif) {
-          if (ignore.current?.valeur === valeur) ignore.current.vuLe = maintenant; // encore devant l'objectif
+          if (ignore.current?.valeur === cle(valeur)) ignore.current.vuLe = maintenant; // encore devant l'objectif
           else {
-            ignore.current = { valeur, vuLe: maintenant };
+            ignore.current = { valeur: cle(valeur), vuLe: maintenant };
             if (navigator.vibrate) navigator.vibrate(30);
             if (traiterRef.current(valeur)) return;
           }

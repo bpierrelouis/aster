@@ -6,7 +6,7 @@ import { initialState, actorOf, scopedState, mergeState } from './rules.ts';
 import { createWorkspaceRepository } from './engine.ts';
 import { createReconRouter, createWorkspaceRouter } from './routes.ts';
 import { appliquerEvenements, cleCampagne, instantane, jetonCampagne } from './recensement.ts';
-import { chiffrer, dechiffrer, empreinte, etiquette, lireAppairage, rapprocherSerie, resoudre, serieLue, serieStructuree } from '#shared/recon.ts';
+import { chiffrer, choisirCode, dechiffrer, empreinte, etiquette, lireAppairage, lireEtiquette, rapprocherSerie, resoudre, serieLue } from '#shared/recon.ts';
 import type { EvenementRecon, InstantaneRecon } from '#shared/recon.ts';
 import type { Id, Recensement, WorkspaceState } from '#shared/types.ts';
 import type { Ecriture, HttpError } from './rules.ts';
@@ -38,10 +38,10 @@ test('étiquettes et lecture : codes ORION, identifiant, numéro de série, éti
   assert.deepEqual(resoudre(` ${m.serie!.toLowerCase()} `, inst), { type: 'materiel', materiel: m }, 'numéro de série d’un code-barres');
   assert.deepEqual(resoudre(`S/N: ${m.serie}`, inst), { type: 'materiel', materiel: m }, 'préfixe imprimé');
   assert.deepEqual(resoudre(`[)>\u001e06\u001dP12345\u001dS${m.serie}\u001e\u0004`, inst), { type: 'materiel', materiel: m }, 'Data Matrix ISO/IEC 15434');
-  assert.equal(serieStructuree(`0109501101530003\u001d21SN-42\u001d10LOT`), 'SN-42', 'GS1 : séparateur après le GTIN toléré');
-  assert.equal(serieStructuree('0412345678'), null, 'code-barres ordinaire');
-  assert.equal(serieStructuree(`010950110153000317261231\u001d21SN-42`), 'SN-42');
-  assert.equal(serieStructuree(`01095011015300031726123110LOT7\u001d21ABC`), 'ABC');
+  assert.equal(lireEtiquette(`0109501101530003\u001d21SN-42\u001d10LOT`)?.serie ?? null, 'SN-42', 'GS1 : séparateur après le GTIN toléré');
+  assert.equal(lireEtiquette('0412345678')?.serie ?? null, null, 'code-barres ordinaire');
+  assert.equal(lireEtiquette(`010950110153000317261231\u001d21SN-42`)?.serie ?? null, 'SN-42');
+  assert.equal(lireEtiquette(`01095011015300031726123110LOT7\u001d21ABC`)?.serie ?? null, 'ABC');
   assert.deepEqual(resoudre('INCONNU-777', inst), { type: 'inconnu', code: 'INCONNU-777' });
   assert.deepEqual(resoudre('https://recon.test/#c=rec-1&j=J&k=K', inst), { type: 'appairage', appairage: { campagne: 'rec-1', jeton: 'J', cle: 'K' } });
   assert.equal(lireAppairage('https://recon.test/#c=rec-1&j=J'), null);
@@ -49,6 +49,33 @@ test('étiquettes et lecture : codes ORION, identifiant, numéro de série, éti
   const lu = m.serie!.replace(/0/g, 'O').replace(/1/g, 'I');
   assert.deepEqual(rapprocherSerie(`Modèle X\nS/N ${lu}`, inst.materiels).map((x) => x.id), [m.id]);
   assert.equal(serieLue('Serial No: AB-1234 Made in'), 'AB1234');
+});
+
+test('étiquettes réelles : Data Matrix DIRISI, codes-barres Lenovo, Acer et Philips', () => {
+  // Contenus décodés sur des photos d'étiquettes (tabulations entre les champs DIRISI)
+  const dirisiUc = 'SGY12.31F.SS4SG0548\tSS4SG0548\t2CF05DC90096\t2020-057\t1300157350\t10/2024\t7021-146027780';
+  const dirisiEcran = 'F9065.E24.MMTH3EE02E529024804256\tMMTH3EE02E529024804256\t\t2024_000664\t1300197958\t02/2027\t7025-14-6120910';
+  const lenovo = '1S30DJS3CX00S4SG0457';
+  assert.deepEqual(lireEtiquette(dirisiUc), { serie: 'SS4SG0548', garantieFin: new Date(2024, 10, 0, 12).getTime() });
+  assert.equal(new Date(lireEtiquette(dirisiEcran)!.garantieFin!).getDate(), 28, 'dernier jour de février 2027');
+  assert.deepEqual(lireEtiquette(lenovo), { serie: 'S4SG0457', marque: 'Lenovo' });
+  assert.equal(lireEtiquette('UHB2035021640'), null);
+
+  const materiel = (id: string, serie: string) => ({ id, idOrion: id.toUpperCase(), type: 'uc' as const, modele: 'P340', marque: null, serie, salleId: null, hs: false, enCours: false });
+  const inst = { salles: [], materiels: [materiel('m-1', 'S4SG0548'), materiel('m-2', 'SS4SG0457'), materiel('m-3', 'UHB2035021640')] };
+  assert.equal((resoudre(dirisiUc, inst) as { materiel: { id: string } }).materiel.id, 'm-1', 'numéro DIRISI « S » + numéro constructeur');
+  assert.equal((resoudre(lenovo, inst) as { materiel: { id: string } }).materiel.id, 'm-2', 'code Lenovo, numéro noté par la DIRISI');
+  assert.deepEqual(resoudre(dirisiEcran, inst), { type: 'inconnu', code: 'MMTH3EE02E529024804256', lue: lireEtiquette(dirisiEcran) });
+  assert.deepEqual(rapprocherSerie('N série SS4SG0548', inst.materiels).map((m) => m.id), ['m-1'], 'lecture de caractères de l’étiquette DIRISI');
+
+  // Plusieurs codes dans la même image : jamais l'EAN ni le modèle
+  const vide = { salles: [], materiels: [] };
+  assert.equal(choisirCode([{ format: 'ean_13', valeur: '4711474186157' }, { format: 'code_128', valeur: 'MMTH3EE02E529024804256' }], vide), 'MMTH3EE02E529024804256');
+  assert.equal(choisirCode([{ format: 'code_39', valeur: '242V8A/86' }, { format: 'code_39', valeur: 'UHB2035021640' }], vide), 'UHB2035021640');
+  assert.equal(choisirCode([{ format: 'code_39', valeur: '242V8A/86' }], vide), null, 'modèle seul : la lecture continue');
+  assert.equal(choisirCode([{ format: 'ean_13', valeur: '4711474186157' }], vide), null);
+  assert.equal(choisirCode([{ format: 'code_128', valeur: 'AUTRE-CODE-LONG' }, { format: 'data_matrix', valeur: dirisiUc }], vide), dirisiUc, 'étiquette structurée d’abord');
+  assert.equal(choisirCode([{ format: 'code_128', valeur: 'AUTRE-CODE-LONG' }, { format: 'code_39', valeur: 'UHB2035021640' }], inst), 'UHB2035021640', 'matériel connu d’abord');
 });
 
 test('chiffrement : clé et campagne authentifiées', async () => {
@@ -115,7 +142,8 @@ test('constats : confirmation, présence, écart, relocalisation, stock, hors se
   const releve = evt({ type: 'releve', materielId: installe.id, salleId: autreSalle.id });
   const range = evt({ type: 'releve', materielId: autre.id, salleId: null });
   const refuse = evt({ type: 'releve', materielId: hs.id, salleId: autreSalle.id === hs.salleId ? s.salles.find((x) => x.ecoleId === 'e-num' && x.id !== hs.salleId)!.id : autreSalle.id });
-  const inconnu = evt({ type: 'inconnu', code: 'NOUVEAU-1', salleId: autreSalle.id, saisie: { type: 'ecran', modele: ' P2422H ', marque: 'Dell', serie: 'XYZ-9' } });
+  const garantieFin = new Date(2027, 2, 0, 12).getTime();
+  const inconnu = evt({ type: 'inconnu', code: 'NOUVEAU-1', salleId: autreSalle.id, saisie: { type: 'ecran', modele: ' P2422H ', marque: 'Dell', serie: 'XYZ-9', garantieFin } });
   const etrangerVu = evt({ type: 'vu', materielId: etranger.id, salleId: autreSalle.id });
   const resultats = appliquerEvenements(s, campagne.id, [confirme, doublon, ecart, releve, range, refuse, inconnu, etrangerVu]);
 
@@ -130,12 +158,13 @@ test('constats : confirmation, présence, écart, relocalisation, stock, hors se
   assert.equal(m(hs.id).salleId, hs.salleId, 'hors service : refusé hors du stock');
   const constats = s.constats.filter((c) => c.recensementId === campagne.id);
   assert.deepEqual(constats.map((c) => c.resultat), ['confirme', 'ecart', 'deplace', 'range', 'refuse', 'inconnu']);
-  assert.deepEqual(constats.at(-1)!.saisie, { type: 'ecran', modele: 'P2422H', marque: 'Dell', serie: 'XYZ-9' });
+  assert.deepEqual(constats.at(-1)!.saisie, { type: 'ecran', modele: 'P2422H', marque: 'Dell', serie: 'XYZ-9', garantieFin });
 
-  // Code « inconnu » d'un téléphone en retard : le serveur reconnaît le numéro de série
+  // Code « inconnu » d'un téléphone en retard : le serveur reconnaît le numéro de série, y compris noté par la DIRISI (« S » devant)
   const tardif = evt({ type: 'inconnu', code: autre.serie!, salleId: null });
-  assert.deepEqual(appliquerEvenements(s, campagne.id, [tardif]).map((r) => r.statut), ['applique']);
-  assert.equal(s.constats.at(-1)!.resultat, 'present');
+  const dirisi = evt({ type: 'inconnu', code: `S${autre.serie!}`, salleId: null });
+  assert.deepEqual(appliquerEvenements(s, campagne.id, [tardif, dirisi]).map((r) => r.statut), ['applique', 'applique']);
+  assert.deepEqual(s.constats.slice(-2).map((c) => [c.resultat, c.materielId]), [['present', autre.id], ['present', autre.id]]);
 
   // Ordre d'observation, pas d'arrivée : un téléphone resté hors ligne n'écrase pas une information plus récente
   const libre = s.materiels.find((x) => x.ecoleId === 'e-num' && x.salleId && !x.hs && !x.deplacement && ![installe.id, autre.id].includes(x.id))!;

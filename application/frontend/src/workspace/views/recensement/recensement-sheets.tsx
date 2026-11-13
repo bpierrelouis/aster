@@ -16,7 +16,7 @@ import { Sheet, confirmSheet, openSheet, notify, printSheet } from '../../ui/ove
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
 import { Loader } from '../../widgets/parts.tsx';
 import { openMaterielForm } from '../inventaire/inventaire-materiel.tsx';
-import { compact, etiquette } from '#shared/recon.ts';
+import { etiquette, parSerie } from '#shared/recon.ts';
 import { dateFull, dateNum, plural } from '#shared/format.ts';
 import type { Id, Recensement, WorkspaceView } from '#shared/types.ts';
 import type { ATraiter } from '../../core/recensements.ts';
@@ -164,7 +164,7 @@ export async function openAjoutParc(g: ATraiter) {
   const ids = new Set(g.constats.map((k) => k.id));
   const traiter = (s: WorkspaceView) => { for (const k of s.constats) if (ids.has(k.id)) k.traite = traceProvisoire(); };
   const serie = c.saisie?.serie ?? (c.code || null);
-  const existant = serie ? store.state.materiels.find((m) => m.ecoleId === c.ecoleId && m.serie && compact(m.serie) === compact(serie)) : undefined;
+  const existant = serie ? parSerie(store.state.materiels.filter((m) => m.ecoleId === c.ecoleId), serie) : undefined;
   if (existant) {
     const ou = existant.salleId ? index().salle.get(existant.salleId)?.nom ?? 'une salle retirée' : 'le stock';
     if (!await confirmSheet({ title: 'Matériel déjà au parc', message: `Le numéro de série ${serie} est celui de ${existant.idOrion} (${existant.modele}, ${ou}). Marquer ${g.constats.length > 1 ? 'ces constats traités' : 'ce constat traité'} sans créer de doublon ?`, confirm: 'Marquer traité', tone: 'primary', iconName: 'check' })) return;
@@ -174,7 +174,7 @@ export async function openAjoutParc(g: ATraiter) {
   }
   openMaterielForm(null, {
     salleId: c.salleId && index().salle.has(c.salleId) ? c.salleId : null,
-    valeurs: { type: c.saisie?.type, modele: c.saisie?.modele, marque: c.saisie?.marque, serie },
+    valeurs: { type: c.saisie?.type, modele: c.saisie?.modele, marque: c.saisie?.marque, serie, garantieFin: c.saisie?.garantieFin },
     lier: traiter,
   });
 }

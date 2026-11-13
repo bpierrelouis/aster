@@ -13,7 +13,7 @@
 
 import { createHmac } from 'node:crypto';
 import { DEVICE_TYPES } from '#shared/catalog.ts';
-import { DUREE_CAMPAGNE, adresseAppairage, chiffrer, compact, dechiffrer, empreinte } from '#shared/recon.ts';
+import { DUREE_CAMPAGNE, adresseAppairage, chiffrer, compact, dechiffrer, empreinte, parSerie } from '#shared/recon.ts';
 import { assert, fail, same } from './rules.ts';
 import type { Actor, Constat, Id, Materiel, Recensement, WorkspaceState } from '#shared/types.ts';
 import type { Bloc, CampagnePubliee, EvenementRecon, InstantaneRecon, ResultatRecon } from '#shared/recon.ts';
@@ -159,7 +159,8 @@ function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRe
   const code = texte(e.code, 200) ?? '';
   const ecole = s.materiels.filter((m) => m.ecoleId === r.ecoleId);
   // Un code « inconnu » pour un téléphone dont l'instantané est ancien peut désigner un matériel connu
-  const connu = e.type === 'inconnu' && code ? ecole.find((m) => compact(m.idOrion) === compact(code) || (m.serie && compact(m.serie) === compact(code)) || (e.saisie?.serie && m.serie && compact(m.serie) === compact(e.saisie.serie))) : undefined;
+  const serieSaisie = typeof e.saisie?.serie === 'string' ? e.saisie.serie : '';
+  const connu = e.type === 'inconnu' && code ? ecole.find((m) => compact(m.idOrion) === compact(code)) ?? parSerie(ecole, code) ?? parSerie(ecole, serieSaisie) : undefined;
   const m = connu ?? ecole.find((x) => x.id === e.materielId);
   const constat: Constat = {
     id: cid, recensementId: r.id, ecoleId: r.ecoleId, type: connu ? 'vu' : e.type, code, salleId, materielId: m?.id ?? null,
@@ -171,6 +172,7 @@ function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRe
       constat.saisie = {
         type: DEVICE_TYPES.some((d) => d.id === t.type) ? t.type : 'autre',
         modele: texte(t.modele, 250) ?? 'Non renseigné', marque: texte(t.marque, 120), serie: texte(t.serie, 120),
+        ...(Number.isFinite(t.garantieFin) && { garantieFin: t.garantieFin }),
       };
     }
   } else if (!m) return { id, statut: 'refuse', message: 'Matériel inconnu ou hors école.' };

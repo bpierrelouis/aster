@@ -8,6 +8,7 @@ import { useRecon } from '../hooks/use-recon.ts';
 import { lieuDe, nomLieu, parametreDe } from '../core/vue.ts';
 import { Ecran } from '../ui/parts.tsx';
 import { DEVICE_TYPES } from '#shared/catalog.ts';
+import { monthYear } from '#shared/format.ts';
 import type { DeviceTypeId } from '#shared/types.ts';
 
 export function Inconnu() {
@@ -19,19 +20,21 @@ export function Inconnu() {
   const [lieu, setLieu] = useState(params.get('lieu') ?? '');
   const [type, setType] = useState<DeviceTypeId>('uc');
   const [modele, setModele] = useState('');
-  const [marque, setMarque] = useState('');
+  const [marque, setMarque] = useState(params.get('marque') ?? '');
   const [serie, setSerie] = useState(params.get('serie') ?? (code.length <= 40 && !code.includes(':') ? code : ''));
+  const garantieFin = Number(params.get('garantie')) || undefined;
 
   async function signaler(e: FormEvent) {
     e.preventDefault();
     const salleId = lieuDe(lieu) ?? null;
-    await constater({ type: 'inconnu', code: code || serie.trim(), salleId, materielId: null, saisie: { type, modele: modele.trim(), marque: marque.trim() || null, serie: serie.trim() || null } });
+    await constater({ type: 'inconnu', code: code || serie.trim(), salleId, materielId: null, saisie: { type, modele: modele.trim(), marque: marque.trim() || null, serie: serie.trim() || null, ...(garantieFin && { garantieFin }) } });
     annoncer(`Matériel signalé en ${nomLieu(vue, salleId)} · à ajouter dans ORION`, 'accent');
     navigate(contexte === undefined ? '/' : `/scanner?lieu=${encodeURIComponent(parametreDe(contexte))}`, { replace: true, state: { ignorer: code } });
   }
 
   return <Ecran titre="Matériel inconnu">
-    {code && <p className="carte code-lu"><span className="surtitre">Code lu</span><code>{code}</code></p>}
+    {code && <p className="carte code-lu"><span className="surtitre">Code lu</span><code>{code}</code>
+      {garantieFin && <span className="discret">Fin de garantie : {monthYear(garantieFin)}</span>}</p>}
     <form className="carte formulaire" onSubmit={(e) => void signaler(e)}>
       {contexte === undefined
         ? <label className="champ"><span>Lieu</span>

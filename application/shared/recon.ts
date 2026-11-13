@@ -17,7 +17,7 @@ import type { ConstatResultat, ConstatType, DeviceTypeId, Id, Timestamp } from '
 export interface Bloc { iv: string; data: string }
 
 /** Informations saisies pour un matériel inconnu */
-export interface Saisie { type: DeviceTypeId; modele: string; marque: string | null; serie: string | null }
+export interface Saisie { type: DeviceTypeId; modele: string; marque: string | null; serie: string | null; garantieFin?: Timestamp }
 
 /** Constat produit par le téléphone, en clair avant chiffrement. id : généré par le téléphone, rend l'envoi idempotent. */
 export interface EvenementRecon {
@@ -106,24 +106,33 @@ export type Cible =
   | { type: 'stock' }
   | { type: 'materiel'; materiel: MaterielRecon }
   | { type: 'appairage'; appairage: Appairage }
-  | { type: 'inconnu'; code: string };
+  | { type: 'inconnu'; code: string; lue?: EtiquetteLue };
 
 /** Forme comparable d'un numéro de série ou d'un identifiant : capitales, sans espaces, tirets ni points */
 export const compact = (valeur: string) => valeur.toUpperCase().replace(/[\s\-_.\/]+/g, '');
 
+/**
+ * Même numéro de série, sous forme compacte. L'étiquette d'inventaire DIRISI note « S » devant le numéro
+ * du constructeur (SS4SG0457 pour le S/N Lenovo S4SG0457) : les deux écritures désignent le même matériel.
+ */
+export const memeSerie = (a: string, b: string) => a === b || (Math.min(a.length, b.length) >= 4 && (a === `S${b}` || b === `S${a}`));
+
+/** Matériel d'un numéro de série : écriture identique d'abord, puis variante DIRISI */
+export function parSerie<T extends { serie: string | null }>(materiels: readonly T[], serie: string): T | undefined {
+  const cle = compact(serie);
+  if (cle.length < 4) return undefined;
+  return materiels.find((m) => m.serie && compact(m.serie) === cle) ?? materiels.find((m) => m.serie && memeSerie(compact(m.serie), cle));
+}
+
+/** Informations d'une étiquette structurée : numéro de série, et selon l'étiquette marque et fin de garantie */
+export interface EtiquetteLue { serie: string; marque?: string; garantieFin?: Timestamp }
+
 const GS = '\u001d';
 /** Identifiants d'application GS1 de longueur fixe : longueur des données */
 const GS1_FIXES: Record<string, number> = { '00': 18, '01': 14, '02': 14, '11': 6, '12': 6, '13': 6, '15': 6, '16': 6, '17': 6, '20': 2 };
-/**
- * Numéro de série d'une étiquette structurée, null sinon :
- * - ISO/IEC 15434 avec identifiants de données ANSI MH10.8.2 (« [)>␞06␝S… ») : champ S ;
- * - GS1 commençant par un GTIN (01) : identifiant d'application 21, champs variables séparés par GS.
- */
-export function serieStructuree(valeur: string): string | null {
-  if (valeur.startsWith('[)>')) {
-    const champ = valeur.split(/[\u001d\u001e\u0004]/).find((x) => /^S[A-Z0-9][\w\-./]*$/i.test(x));
-    return champ ? champ.slice(1) : null;
-  }
+const SERIE = /^[A-Z0-9][A-Z0-9\-./]{3,}$/i;
+
+function serieGs1(valeur: string) {
   let reste = valeur.replace(/^\](?:d2|C1|Q3)/, '');
   if (!/^01\d{14}/.test(reste)) return null;
   while (reste.length > 2) {
@@ -137,12 +146,60 @@ export function serieStructuree(valeur: string): string | null {
   return null;
 }
 
+/**
+ * Étiquette structurée, null pour un code ordinaire :
+ * - Data Matrix d'inventaire DIRISI : champs séparés par des tabulations (référence.numéro, numéro de série,
+ *   adresse MAC, marché, commande, fin de garantie MM/AAAA, …) ;
+ * - code-barres Lenovo « 1S » : type-modèle (MTM) puis numéro de série de 8 caractères ;
+ * - ISO/IEC 15434 avec identifiants de données ANSI MH10.8.2 (« [)>␞06␝S… ») : champ S ;
+ * - GS1 commençant par un GTIN (01) : identifiant d'application 21, champs variables séparés par GS.
+ */
+export function lireEtiquette(brut: string): EtiquetteLue | null {
+  const valeur = brut.trim();
+  if (valeur.includes('\t')) {
+    const champs = valeur.split('\t').map((c) => c.trim());
+    const serie = SERIE.test(champs[1] ?? '') ? champs[1] : champs[0].split('.').at(-1) ?? '';
+    if (!SERIE.test(serie)) return null;
+    const garantie = champs.map((c) => c.match(/^(0[1-9]|1[0-2])\/(\d{4})$/)).find(Boolean);
+    // Fin de garantie : dernier jour du mois, à midi comme un champ de date
+    return { serie, ...(garantie && { garantieFin: new Date(Number(garantie[2]), Number(garantie[1]), 0, 12).getTime() }) };
+  }
+  const lenovo = valeur.match(/^1S([A-Z0-9]{7,10})([A-Z0-9]{8})$/);
+  if (lenovo) return { serie: lenovo[2], marque: 'Lenovo' };
+  if (valeur.startsWith('[)>')) {
+    const champ = valeur.split(/[\u001d\u001e\u0004]/).find((x) => /^S[A-Z0-9][\w\-./]*$/i.test(x));
+    return champ ? { serie: champ.slice(1) } : null;
+  }
+  const serie = serieGs1(valeur);
+  return serie ? { serie } : null;
+}
+
+/** Code lu par la caméra : format (nom de l'API BarcodeDetector) et valeur */
+export interface CodeLu { format: string; valeur: string }
+/** Codes produit : ils désignent une référence commerciale, jamais un exemplaire */
+const CODES_PRODUIT = new Set(['ean_13', 'ean_8', 'upc_a', 'upc_e']);
+
+/**
+ * Code retenu parmi ceux d'une même image (une étiquette constructeur porte souvent plusieurs codes-barres) :
+ * un code qui désigne un élément connu (étiquette ORION, appairage, matériel), sinon une étiquette structurée,
+ * sinon le plus long code pouvant être un numéro de série : ni code produit (EAN, UPC), ni code contenant
+ * « / » (modèle, référence). null : aucun code utile, la lecture continue.
+ */
+export function choisirCode(codes: readonly CodeLu[], inst: Pick<InstantaneRecon, 'salles' | 'materiels'>): string | null {
+  const valeurs = codes.map((c) => ({ ...c, valeur: c.valeur.trim() })).filter((c) => c.valeur);
+  const retenu = valeurs.find((c) => resoudre(c.valeur, inst).type !== 'inconnu') ?? valeurs.find((c) => lireEtiquette(c.valeur))
+    ?? valeurs.filter((c) => !CODES_PRODUIT.has(c.format) && !c.valeur.replace(/^S\/N/i, '').includes('/') && compact(c.valeur).length >= 4)
+      .sort((a, b) => b.valeur.length - a.valeur.length)[0];
+  return retenu?.valeur ?? null;
+}
+
 /** Préfixes souvent imprimés devant un numéro de série */
 const PREFIXES_SERIE = /^(?:S\/?N|SER(?:IAL)?(?:NO|NUMBER)?|NS|NO\.?DESERIE)[:#]?/;
 
 /**
  * Résout une valeur lue (code, étiquette, texte) dans l'instantané : étiquette ORION, adresse d'appairage,
- * identifiant ORION, numéro de série (étiquette constructeur structurée comprise).
+ * identifiant ORION, numéro de série (étiquette structurée comprise). Code inconnu : numéro de série
+ * et informations de l'étiquette structurée, s'il y en a une.
  */
 export function resoudre(brut: string, inst: Pick<InstantaneRecon, 'salles' | 'materiels'>): Cible {
   const valeur = brut.trim();
@@ -159,10 +216,11 @@ export function resoudre(brut: string, inst: Pick<InstantaneRecon, 'salles' | 'm
     const materiel = inst.materiels.find((m) => compact(m.idOrion) === compact(cle));
     return materiel ? { type: 'materiel', materiel } : { type: 'inconnu', code: valeur };
   }
-  const trouver = (cle: string) => (cle ? inst.materiels.find((m) => compact(m.idOrion) === cle) ?? inst.materiels.find((m) => m.serie && compact(m.serie) === cle) : undefined);
-  const serie = serieStructuree(valeur);
-  const materiel = trouver(compact(valeur)) ?? (serie ? trouver(compact(serie)) : trouver(compact(valeur).replace(PREFIXES_SERIE, '')));
-  return materiel ? { type: 'materiel', materiel } : { type: 'inconnu', code: serie ?? valeur };
+  const trouver = (cle: string) => (cle ? inst.materiels.find((m) => compact(m.idOrion) === cle) ?? parSerie(inst.materiels, cle) : undefined);
+  const lue = lireEtiquette(valeur);
+  const materiel = trouver(compact(valeur)) ?? (lue ? trouver(compact(lue.serie)) : trouver(compact(valeur).replace(PREFIXES_SERIE, '')));
+  if (materiel) return { type: 'materiel', materiel };
+  return lue ? { type: 'inconnu', code: lue.serie, lue } : { type: 'inconnu', code: valeur };
 }
 
 /* Confusions courantes de la reconnaissance de caractères, ramenées à un même caractère */
@@ -180,7 +238,9 @@ export function rapprocherSerie(texte: string, materiels: readonly MaterielRecon
     if (c.length >= 4) essais.add(c);
     for (const mot of ligne.split(/\s+/)) { const m = canonique(mot); if (m.length >= 4) essais.add(m); }
   }
-  return materiels.filter((m) => m.serie && essais.has(canonique(m.serie)));
+  // Variante DIRISI (« S » devant le numéro du constructeur) : S est lu comme 5
+  const lu = (c: string) => essais.has(c) || essais.has(`5${c}`) || (c.startsWith('5') && essais.has(c.slice(1)));
+  return materiels.filter((m) => m.serie && lu(canonique(m.serie)));
 }
 
 /** Texte reconnu ramené à un numéro de série plausible : plus long mot alphanumérique, sans préfixe */
