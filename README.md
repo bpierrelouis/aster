@@ -1,6 +1,6 @@
 # ORION
 
-**ORION** (_Administration, Supervision et Traçabilité des Équipements et Ressources_) est une application web destinée aux écoles de formation. Elle vise à administrer et superviser les postes Windows à distance. La solution d’administration reste à déterminer.
+**ORION** (_Outil de Recensement, d’Intervention et d’Observation Numérique_) est une application web destinée aux écoles de formation. Elle vise à administrer et superviser les postes Windows à distance. La solution d’administration reste à déterminer.
 
 L’architecture cible distingue un serveur front pour l’interface et un serveur back pour les fonctions métier. La connexion utilise MindefConnect ; les PDF d’état des lieux sont produits à la demande par le serveur back, sans stockage. Les modalités d’intégration de MindefConnect restent à préciser dans le cadrage.
 

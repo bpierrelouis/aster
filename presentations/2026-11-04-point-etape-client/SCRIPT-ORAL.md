@@ -36,7 +36,7 @@ Nous avons prévu vingt minutes de présentation, puis un temps d’échange. Vo
 
 ### Diapositive 2 — Le nom ORION proposé · 00:45 à 01:40
 
-Nous proposons d’appeler l’application ORION, pour Administration, Supervision et Traçabilité des Équipements et Ressources.
+Nous proposons d’appeler l’application ORION, pour Outil de Recensement, d’Intervention et d’Observation Numérique.
 
 Ce nom rassemble les grandes fonctions du projet : gérer le parc, connaître la situation des équipements et préparer les actions d’administration et de supervision des postes.
 

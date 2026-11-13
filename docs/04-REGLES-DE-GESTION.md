@@ -90,7 +90,7 @@ Les limites du périmètre, les questions ouvertes et les réponses historiques 
 - **RG-70 — Gestion des comptes ORION.** L’administrateur peut créer, modifier, désactiver et réactiver les comptes rattachés à son école. Le super administrateur réalise ces actions pour les comptes de toutes les écoles. Le gestionnaire et le formateur ne gèrent pas les comptes ORION (décision de l’utilisateur du 3 novembre).
 - **RG-71 — Profil unique.** Chaque utilisateur ORION possède exactement un profil. Le cumul des profils administrateur, gestionnaire, formateur et super administrateur n’est pas autorisé (décision de l’utilisateur du 3 novembre).
 - **RG-72 — École du matériel.** Chaque matériel est rattaché à une et une seule école, y compris lorsqu’il est en stock. Lorsqu’il est affecté, sa salle appartient à cette école (arbitrage délégué par l’utilisateur le 9 novembre, en application de RG-09, RG-16 et RG-69). Ce rattachement ne peut pas être modifié (application, 9 novembre).
-- **RG-73 — Conservation d’un matériel cité.** L’interface empêche la suppression d’un matériel concerné par une remontée afin d’en conserver la fiche. Cette contrainte n’est pas encore garantie par le serveur et reste donc signalée au cadrage, § 23 (application et orientation de l’utilisateur, 9 novembre).
+- **RG-73 — Conservation d’un matériel cité.** Un matériel concerné par une remontée ne peut pas être supprimé : sa fiche est conservée pour que la remontée reste consultable avec ses matériels (application et orientation de l’utilisateur, 9 novembre).
 
 ## 6. Règles relatives à l'organisation, à l'intégrité des données et à l'accès
 
