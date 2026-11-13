@@ -14,6 +14,8 @@ export function readConfig(env = process.env) {
   }
   // Démonstrateur : création des identités dans le Keycloak local, active hors production ou sur demande explicite
   const identityProvisioning = env.IDENTITY_PROVISIONING ? env.IDENTITY_PROVISIONING === 'true' : !production;
+  // Réinitialisation des données quand la version du jeu de départ change : jamais en production, sauf démonstrateur (SEED_RESET=true)
+  const seedReset = env.SEED_RESET ? env.SEED_RESET === 'true' : !production;
   if (production && identityProvisioning && (!env.KEYCLOAK_ADMIN_PASSWORD || env.KEYCLOAK_ADMIN_PASSWORD === 'keycloak-admin-local')) {
     throw new Error('La création des identités en production exige un mot de passe d’administration Keycloak dédié.');
   }
@@ -31,6 +33,7 @@ export function readConfig(env = process.env) {
     agentToken: env.AGENT_TOKEN || 'orion-agent-local',
     // Démonstrateur : compte d'administration du Keycloak local (création des identités)
     identityProvisioning,
+    seedReset,
     keycloakAdmin: {
       adminUrl: new URL(env.KEYCLOAK_ADMIN_URL || issuer.origin),
       adminUser: env.KEYCLOAK_ADMIN_USER || 'keycloak-admin',

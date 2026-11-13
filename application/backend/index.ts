@@ -63,7 +63,7 @@ const regenerateSession = (req: Request) => new Promise<void>((resolve, reject) 
 const destroySession = (req: Request) => new Promise<void>((resolve, reject) => req.session.destroy((error) => error ? reject(error) : resolve()));
 
 // Espace de travail : données métier dans PostgreSQL ; états des lieux PDF produits à la demande.
-const workspaceRepository = await createPostgresWorkspaceRepository({ pool });
+const workspaceRepository = await createPostgresWorkspaceRepository({ pool, seedReset: config.seedReset });
 
 // Système : état et description des services, documentation de l'API
 const services = createServices({ config, pool, snapshot: workspaceRepository.snapshot, connectedAfter: DISCONNECT_AFTER });

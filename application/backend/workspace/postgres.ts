@@ -192,7 +192,7 @@ async function transaction<R>(pool: Pool, fn: (client: PoolClient) => Promise<R>
  * la ligne de révision ; la copie de l'état gardée par un serveur n'est réutilisée que si la base
  * porte toujours sa révision.
  */
-export async function createPostgresWorkspaceRepository({ pool, schema = 'public' }: { pool: Pool; schema?: string }) {
+export async function createPostgresWorkspaceRepository({ pool, schema = 'public', seedReset = true }: { pool: Pool; schema?: string; seedReset?: boolean }) {
   if (!/^[a-z_][a-z0-9_]*$/.test(schema)) throw new Error('Nom de schéma invalide.');
   const s = schema;
 
@@ -205,6 +205,9 @@ export async function createPostgresWorkspaceRepository({ pool, schema = 'public
     await init.query(`ALTER TABLE ${s}.orion_espace DROP COLUMN IF EXISTS ecole_affichee, DROP COLUMN IF EXISTS preferences, DROP COLUMN IF EXISTS dispositions, DROP COLUMN IF EXISTS consultations;
       ALTER TABLE ${s}.orion_remontee ADD COLUMN IF NOT EXISTS auteur_id text, DROP COLUMN IF EXISTS etat_des_lieux_cle`);
     const loaded = await loadState(init, s);
+    if (loaded && loaded.state.version !== SEED_VERSION && !seedReset) {
+      throw new Error(`Données en version ${loaded.state.version}, version ${SEED_VERSION} attendue : réinitialisation refusée (SEED_RESET=true pour l'autoriser).`);
+    }
     if (!loaded || loaded.state.version !== SEED_VERSION) {
       // Premier démarrage ou jeu de données d'une version antérieure : initialisation complète
       const initial = initialState();

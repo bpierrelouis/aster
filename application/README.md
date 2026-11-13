@@ -267,6 +267,7 @@ Variables complémentaires, notamment pour le démonstrateur déployé sur VM en
 | Variable | Rôle | Valeur par défaut |
 | --- | --- | --- |
 | `HOST` | Adresse d’écoute du serveur ; `0.0.0.0` dans un conteneur, pour être joint par le proxy et par l’émulateur | `127.0.0.1` |
+| `SEED_RESET` | `true` : réinitialise les données quand la version du jeu de départ (`SEED_VERSION`) change, même en mode production (démonstrateur sur VM) ; sinon le serveur refuse de démarrer sur des données d’une autre version | actif hors production seulement |
 | `IDENTITY_PROVISIONING` | `true` : crée dans le Keycloak local les identités des comptes actifs, même en mode production ; exige alors un `KEYCLOAK_ADMIN_PASSWORD` dédié | actif hors production seulement |
 | `KEYCLOAK_ADMIN_URL` | Adresse de l’API d’administration de Keycloak, si elle diffère de l’émetteur (sur les VM : `http://keycloak:8080`) | origine de `OIDC_ISSUER` |
 | `NODE_EXTRA_CA_CERTS` | Fichier de l’autorité de certification à reconnaître pour joindre Keycloak en HTTPS (variable native de Node.js) | aucune |

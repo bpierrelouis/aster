@@ -98,6 +98,7 @@ services:
       OIDC_ISSUER: https://orion.internal:8443/realms/orion
       OIDC_CLIENT_ID: orion-web
       IDENTITY_PROVISIONING: 'true'
+      SEED_RESET: 'true'
       KEYCLOAK_ADMIN_URL: http://keycloak:8080
       NODE_EXTRA_CA_CERTS: /etc/ssl/orion/ca.pem
       WEB_URL: http://apache:8080

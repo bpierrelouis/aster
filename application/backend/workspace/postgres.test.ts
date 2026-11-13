@@ -12,6 +12,13 @@ const database = await pool.query('SELECT 1').then(() => true, () => false);
 const schema = `orion_test_${process.pid}`;
 const open = () => createPostgresWorkspaceRepository({ pool, schema });
 
+test('PostgreSQL : sans SEED_RESET, des données d’une autre version ne sont pas effacées', { skip: !database && 'PostgreSQL indisponible' }, async () => {
+  await open();
+  await pool.query(`UPDATE ${schema}.orion_espace SET version_donnees = 0`);
+  await assert.rejects(createPostgresWorkspaceRepository({ pool, schema, seedReset: false }), /réinitialisation refusée/);
+  await open(); // démonstrateur : réinitialisation autorisée
+});
+
 test.after(async () => {
   if (database) await pool.query(`DROP SCHEMA IF EXISTS ${schema} CASCADE`);
   await pool.end();
