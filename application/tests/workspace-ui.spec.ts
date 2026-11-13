@@ -740,7 +740,7 @@ test('en mode interface seule, le menu du compte change d’utilisateur', async 
 });
 
 
-test('la palette circulaire conserve la couleur du compte dans les deux ambiances', async ({ page }, testInfo) => {
+test('la palette Orion conserve la couleur du compte et Minarm garde les couleurs du DSFR', async ({ page }, testInfo) => {
   await open(page, '/materiels/inventaire');
   await page.evaluate(() => window.orion.store.update('prefs', (s) => { s.prefs.tone = 'auto'; }));
   const saves: object[] = [];
@@ -804,7 +804,10 @@ test('la palette circulaire conserve la couleur du compte dans les deux ambiance
         await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(7, 10, 16)');
       }
       await expect(page.locator('.btn--primary').first()).toHaveCSS('background-image', 'none');
-      await expect.poll(() => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim())).toBe('#b4477c');
+      if (theme === 'Orion') await expect(trigger).toBeVisible();
+      else { await expect(trigger).toHaveCount(0); await expect(palette).toHaveCount(0); }
+      const expectedAccent = theme === 'Orion' ? '#b4477c' : colorScheme === 'light' ? '#000091' : '#8585f6';
+      await expect.poll(() => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim())).toBe(expectedAccent);
       await page.screenshot({ path: testInfo.outputPath(`apparence-${theme}-${colorScheme}.png`), fullPage: true, animations: 'disabled' });
       if (theme === 'Orion') {
         await page.evaluate(() => window.orion.store.flush());
@@ -816,6 +819,9 @@ test('la palette circulaire conserve la couleur du compte dans les deux ambiance
       }
     }
   }
+  await ambiance.getByRole('radio', { name: 'Orion', exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-accent', 'pink');
+  await trigger.click();
   await page.setViewportSize({ width: 390, height: 600 });
   const pop = page.locator('.popover');
   await expect(palette).toBeVisible();

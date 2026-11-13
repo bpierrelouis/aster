@@ -65,7 +65,7 @@ export function AccountPopover({ anchor, onClose }: PopoverProps) {
             className={`seg-btn${s.prefs.glass === g.id ? ' is-on' : ''}`} data-tip={g.tip} onClick={() => setPref('glass', g.id)}>{g.label}</button>)}
         </div>
       </div>
-      <AppearanceColor value={s.prefs.accent} onChange={(value) => setPref('accent', value)} />
+      {s.prefs.ambiance === 'orion' && <AppearanceColor value={s.prefs.accent} onChange={(value) => setPref('accent', value)} />}
       {import.meta.env.MODE === 'ui' && <UserSwitch />}
       <form action="/auth/logout" method="post"><button className="pop-link" type="submit">Se déconnecter</button></form>
     </div>
