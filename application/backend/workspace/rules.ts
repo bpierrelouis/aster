@@ -1,7 +1,7 @@
 /* ==========================================================================
    Espace de travail · règles métier communes aux deux modes
    (postes : postes.ts ; import JSON : import.ts ; moteur d'écriture :
-   engine.ts ; API : routes.ts)
+   engine.ts ; fusion des écritures concurrentes : fusion.ts ; API : routes.ts)
    - Les droits s'appliquent au compte ORION connecté (profil, école).
    - Les valeurs d'autorité (auteur, dates, numéros, identifiants ORION,
      suivi des interventions) sont fixées par le serveur.
@@ -12,12 +12,14 @@
    ========================================================================== */
 
 import { randomUUID } from 'node:crypto';
-import { seed, defaultLayouts } from '#shared/seed.ts';
+import { seed } from '#shared/seed.ts';
+import { defaultLayouts } from '#shared/layouts.ts';
 import { displayPrefs } from '#shared/ambiance.ts';
 import { DAY } from '#shared/format.ts';
-import { initializeOperations } from '#shared/operations-data.ts';
-import type { Actor, CollectionName, Collections, DisplayPrefs, Id, Item, OperationType, PreferencesCompte, RemonteeStatut, RoleId, WorkspaceState, WorkspaceView } from '#shared/types.ts';
-import type { JournalEntry } from './engine.ts';
+import { batimentCode } from '#shared/buildings.ts';
+import { initializeOperations, IMAGE_REFERENCE } from '#shared/operations-data.ts';
+import { isRole, materielCite, numeroMateriel, numeroRemontee, rangDuNumero } from '#shared/catalog.ts';
+import type { Actor, CollectionName, Collections, Compte, DisplayPrefs, Id, Item, OperationType, PreferencesCompte, RemonteeStatut, WorkspaceState, WorkspaceView } from '#shared/types.ts';
 
 type KeyOf<T> = T extends unknown ? keyof T : never;
 type ValueOf<T, K extends PropertyKey> = T extends unknown ? (K extends keyof T ? T[K] : never) : never;
@@ -27,11 +29,12 @@ export type LooseItem = { id: Id } & { [K in KeyOf<Item>]?: ValueOf<Item, K> };
 export type Lists = Record<CollectionName, LooseItem[]>;
 /** Écriture du navigateur, préparée sur une révision : forme non vérifiée, contrôlée par mergeState */
 export type WorkspaceInput = Partial<Omit<WorkspaceView, CollectionName | 'prefs'> & Lists & { prefs: Partial<DisplayPrefs> }>;
+/** Écriture complète préparée comme par le navigateur (tests) : vue lue, puis modifiée librement */
+export type Ecriture = Omit<WorkspaceView, CollectionName | 'prefs'> & Lists & Pick<WorkspaceInput, 'prefs'>;
 /** Erreur portant le statut HTTP à renvoyer (fail) */
 export type HttpError = Error & { status?: number; code?: string };
 
 export const collections: CollectionName[] = ['ecoles', 'salles', 'etages', 'materiels', 'postes', 'remontees', 'detections', 'applications', 'comptes', 'regles', 'operations', 'processus', 'installations'];
-export const ROLES: readonly string[] = ['superadmin', 'admin', 'gestionnaire', 'formateur'] satisfies RoleId[];
 const OPERATION_TYPES: readonly string[] = ['installation', 'desinstallation', 'reinstallation', 'arret'] satisfies OperationType[];
 const SERVER_FIELDS: Partial<Record<CollectionName, Exclude<keyof LooseItem, 'id'>[]>> = { comptes: ['sujet'] }; // jamais transmis au navigateur
 
@@ -49,7 +52,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export function initialState(): WorkspaceState {
   const state = initializeOperations(seed());
   Object.assign(state, { processus: [], detections: [], installations: [], revision: 0 });
-  for (const p of state.postes) { p.allume = false; p.session = null; p.vuLe = null; }
+  for (const p of state.postes) { p.session = null; p.vuLe = null; }
   return state as WorkspaceState; // complété par Object.assign
 }
 
@@ -72,12 +75,12 @@ export function actorOf(state: WorkspaceState, accountId: Id): Actor | null {
 }
 
 /** Compte correspondant à une identité du fournisseur (sujet OIDC, sinon adresse électronique). */
-export function accountForIdentity(state: WorkspaceState, { sub, email }: { sub?: string; email?: string | null }) {
-  const bySubject = sub && state.comptes.find((c) => c.sujet === sub);
+export function accountForIdentity(state: WorkspaceState, { sub, email }: { sub?: string; email?: string | null }): Compte | null {
+  const bySubject = sub ? state.comptes.find((c) => c.sujet === sub) : undefined;
   if (bySubject) return bySubject;
   const mail = String(email ?? '').toLowerCase();
-  const byEmail = mail && state.comptes.find((c) => c.email.toLowerCase() === mail);
-  if (byEmail && byEmail.sujet && byEmail.sujet !== sub) return null; // adresse reprise par une autre identité
+  const byEmail = mail ? state.comptes.find((c) => c.email.toLowerCase() === mail) : undefined;
+  if (byEmail?.sujet && byEmail.sujet !== sub) return null; // adresse reprise par une autre identité
   return byEmail ?? null;
 }
 
@@ -85,7 +88,7 @@ export function accountForIdentity(state: WorkspaceState, { sub, email }: { sub?
 
 export const schoolOf = <E extends Id | null>(item: LooseItem, state: { salles: readonly { id: Id; ecoleId?: E }[]; postes: readonly LooseItem[] }): Id | E | undefined => item.ecoleId ?? state.salles.find((s) => s.id === (item.salleId ?? state.postes.find((p) => p.id === (item.posteId ?? item.cibles?.[0]))?.salleId))?.ecoleId;
 
-function visibleTo(collection: CollectionName, item: LooseItem | undefined, state: WorkspaceState, actor: Actor) {
+export function visibleTo(collection: CollectionName, item: LooseItem | undefined, state: WorkspaceState, actor: Actor) {
   if (!item) return false;
   if (collection === 'applications') return true;
   if (collection === 'regles' && item.portee === 'global') return isAdmin(actor);
@@ -99,7 +102,7 @@ function visibleTo(collection: CollectionName, item: LooseItem | undefined, stat
   return true;
 }
 
-const strip = <T extends LooseItem>(collection: CollectionName, item: T): T => {
+export const strip = <T extends LooseItem>(collection: CollectionName, item: T): T => {
   const fields = SERVER_FIELDS[collection];
   if (!fields) return item;
   const copy = { ...item };
@@ -119,48 +122,9 @@ function preferencesOf(state: WorkspaceState, actor: Actor) {
 
 /** Données transmises au navigateur pour ce compte. */
 export function scopedState(state: WorkspaceState, actor: Actor): WorkspaceView {
-  const result: Omit<WorkspaceView, CollectionName> & Partial<Lists> = { version: state.version, revision: state.revision, rev: state.rev ?? state.revision, seededAt: state.seededAt, role: actor.role, moi: { ...actor }, ...preferencesOf(state, actor) };
+  const result: Omit<WorkspaceView, CollectionName> & Partial<Lists> = { version: state.version, revision: state.revision, seededAt: state.seededAt, role: actor.role, moi: { ...actor }, ...preferencesOf(state, actor) };
   for (const c of collections) result[c] = structuredClone((state[c] ?? []).filter((x) => visibleTo(c, x, state, actor)).map((x) => strip(c, x)));
   return result as WorkspaceView; // chaque collection ne contient que ses éléments
-}
-
-/* ---------- Fusion des écritures concurrentes ---------- */
-
-export const keyOf = (c: string, itemId: Id) => `${c}\u0000${itemId}`;
-
-/**
- * Rejoue les modifications du navigateur (préparées sur la révision base) sur l'état courant.
- * log : [{ revision, before: Map(clé → valeur avant modification) }].
- */
-export function rebase(state: WorkspaceState, input: WorkspaceInput, base: number, log: JournalEntry[], actor: Actor): WorkspaceInput {
-  if (!Number.isInteger(base)) fail(400, 'Révision manquante.');
-  if (base === state.revision) return input;
-  const entries = log.filter((e) => e.revision > base);
-  if (base > state.revision || !entries.length || entries[0].revision !== base + 1) fail(409, 'Les données ont changé. Rechargez la page avant de réessayer.');
-  const atBase = new Map<string, Item | undefined>();
-  for (const e of entries) for (const [k, v] of e.before) if (!atBase.has(k)) atBase.set(k, v);
-  const out = { ...input };
-  for (const c of collections) {
-    if (!Array.isArray(input[c])) continue;
-    const list: (LooseItem | null)[] = [...input[c]];
-    const index = new Map(list.map((x, i) => [x!.id, i] as const));
-    for (const [k, baseItem] of atBase) {
-      const [col, itemId] = k.split('\u0000');
-      if (col !== c) continue;
-      const current = state[c].find((x) => x.id === itemId);
-      const currentView = visibleTo(c, current, state, actor) ? strip(c, current!) : undefined;
-      const baseView = visibleTo(c, baseItem, state, actor) ? strip(c, baseItem!) : undefined;
-      const client = index.has(itemId) ? list[index.get(itemId)!] : undefined;
-      if (same(client, currentView)) continue;
-      if (!same(client, baseView)) fail(409, 'Cet élément a été modifié entre-temps. Rechargez la page avant de réessayer.');
-      // Élément non modifié par le navigateur : la version courante s'applique
-      if (currentView && index.has(itemId)) list[index.get(itemId)!] = currentView;
-      else if (currentView) { index.set(itemId, list.length); list.push(currentView); }
-      else if (index.has(itemId)) list.splice(index.get(itemId)!, 1, null);
-    }
-    out[c] = list.filter(Boolean) as LooseItem[];
-  }
-  return out;
 }
 
 /* ---------- Écritures des utilisateurs ---------- */
@@ -170,8 +134,8 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
   if (input.role !== actor.role) fail(403, 'Le profil est défini par la connexion.');
   const visible = Object.fromEntries(collections.map((c) => [c, state[c].filter((x) => visibleTo(c, x, state, actor))])) as Pick<Collections, CollectionName>;
   const next = structuredClone(state);
-  let lastOrionId = Math.max(0, ...state.materiels.map((m) => Number(String(m.idOrion).slice(4)) || 0));
-  let lastReportId = Math.max(100, ...state.remontees.map((r) => Number(String(r.id).slice(4)) || 0));
+  let lastOrionId = Math.max(0, ...state.materiels.map((m) => rangDuNumero(m.idOrion)));
+  let lastReportId = Math.max(100, ...state.remontees.map((r) => rangDuNumero(r.id)));
   const salles = Array.isArray(input.salles) ? input.salles : visible.salles;
   const materiels = Array.isArray(input.materiels) ? input.materiels : visible.materiels;
 
@@ -190,6 +154,7 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
     if (['processus', 'detections', 'installations'].includes(c)) fail(403, 'Ces données sont remontées par les postes.');
     if (c === 'materiels' && actor.role === 'formateur') fail(403, 'Modification du parc non autorisée.');
     if (c === 'materiels' && deleted.length && !isAdmin(actor)) fail(403, 'Suppression réservée aux administrateurs.');
+    if (c === 'materiels' && deleted.some((m) => materielCite(state.remontees, m.id))) fail(400, 'Un matériel cité par une remontée est conservé.');
     if (c === 'postes' && !isAdmin(actor)) fail(403, 'Action réservée aux administrateurs.');
     if (c === 'comptes' && deleted.length) fail(403, 'Un compte se désactive ; il n’est pas supprimé.');
     if (c === 'operations' && deleted.length) fail(403, 'Une demande d’intervention ne peut pas être supprimée.');
@@ -197,8 +162,9 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
     if (c === 'regles' && actor.role !== 'superadmin' && deleted.some((x) => x.portee === 'global')) fail(403, 'Règle globale réservée au super administrateur.');
 
     for (const x of changes) {
-      if (c === 'remontees' && !before.has(x.id)) x.id = `REM-${String(++lastReportId).padStart(4, '0')}`;
+      if (c === 'remontees' && !before.has(x.id)) x.id = numeroRemontee(++lastReportId);
       if (c === 'operations' && !before.has(x.id)) x.id = id('op');
+      if (c === 'postes') delete x.ecoleId; // l'école d'un poste est celle de sa salle
       const old = before.get(x.id);
       if (!old && state[c].some((other) => other.id === x.id)) fail(409, 'Cet identifiant existe déjà.');
       const global = ['ecoles', 'applications'].includes(c) || (c === 'regles' && x.portee === 'global' && actor.role === 'superadmin') || (c === 'comptes' && x.role === 'superadmin' && actor.role === 'superadmin');
@@ -210,7 +176,7 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
         assert(typeof x.nom === 'string' && x.nom.trim() && x.nom.length <= 120, 'Nom obligatoire.');
         assert(typeof x.email === 'string' && EMAIL.test(x.email) && x.email.length <= 254, 'Adresse électronique invalide.');
         x.email = x.email.trim().toLowerCase();
-        assert(ROLES.includes(x.role!), 'Profil inconnu.');
+        assert(isRole(x.role), 'Profil inconnu.');
         assert(typeof x.actif === 'boolean');
         if (x.role === 'superadmin') { if (actor.role !== 'superadmin') fail(403, 'Profil réservé au super administrateur.'); x.ecoleId = null; }
         else assert(next.ecoles.some((e) => e.id === x.ecoleId), 'École de rattachement obligatoire.');
@@ -218,7 +184,8 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
         assert(!state.comptes.some((o) => o.id !== x.id && o.email.toLowerCase() === x.email), 'Cette adresse est déjà utilisée par un autre compte.');
         if (old?.id === actor.id) assert(x.actif && x.role === old.role && (x.ecoleId ?? null) === (old.ecoleId ?? null), 'Vous ne pouvez pas modifier votre propre profil ni désactiver votre compte.');
         const stored = state.comptes.find((o) => o.id === x.id);
-        if (stored?.sujet && stored.email.toLowerCase() === x.email) x.sujet = stored.sujet; // identité déjà rapprochée
+        // Identité rapprochée : fixée par le serveur seul, conservée tant que l'adresse ne change pas
+        if (stored?.sujet && stored.email.toLowerCase() === x.email) x.sujet = stored.sujet; else delete x.sujet;
       }
       if (c === 'operations') {
         if (old) fail(403, 'Le suivi d’une intervention est mis à jour par les postes.');
@@ -242,6 +209,7 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
           assert(!next.operations.some((o) => o.type === 'arret' && o.processusId === proc.id && o.statut === 'enregistree'), 'Un arrêt est déjà demandé pour ce processus.');
         }
         if (['installation', 'desinstallation'].includes(x.type!)) assert(next.applications.some((a) => a.id === x.applicationId), 'Application inconnue.');
+        if (x.type === 'reinstallation') x.image = IMAGE_REFERENCE; else delete x.image; // image fixée par le serveur
         Object.assign(x, { ecoleId: schoolOf(postes[0]!, next), at: now, par: actor.nom, parId: actor.id, statut: 'enregistree', resultats: Object.fromEntries(x.cibles.map((pid) => [pid, 'en_attente'])) });
       }
       if (c === 'remontees') {
@@ -267,7 +235,7 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
         // Un matériel hors service ne peut qu'être remis en service ou renvoyé au stock (orientation de l'utilisateur du 12 novembre)
         if (old && x.hs && x.salleId && x.salleId !== (old.salleId ?? null)) fail(400, 'Un matériel hors service ne peut aller qu’au stock.');
         if (old) assert(old.idOrion === x.idOrion, 'Identifiant Orion immuable.');
-        else x.idOrion = `MAT-${String(++lastOrionId).padStart(4, '0')}`;
+        else x.idOrion = numeroMateriel(++lastOrionId);
         // Installation physique : toute nouvelle affectation reste en cours (deplacement) jusqu'à la confirmation du
         // déplacement physique, qui devient le dernier déplacement confirmé (installation). Les deux sont tenus ici ;
         // le navigateur peut seulement retirer deplacement (confirmation) et sa valeur d'installation est ignorée.
@@ -282,28 +250,32 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
         else if (old.deplacement && !x.deplacement) x.installation = { de: old.deplacement.de, at: now, par: actor.nom, parId: actor.id };
         else keepInstallation();
       }
+      if (['salles', 'etages'].includes(c) || (c === 'regles' && x.portee === 'batiment')) x.batiment = batimentCode(x.batiment); // code en capitales, comme à la saisie
       if (c === 'salles') assert(typeof x.nom === 'string' && x.nom.trim() && typeof x.batiment === 'string' && x.batiment.trim() && Number.isInteger(x.etage ?? 0) && (x.etage ?? 0) >= -5 && (x.etage ?? 0) <= 30);
       if (c === 'etages') assert(Number.isInteger(x.niveau) && x.niveau! >= -5 && x.niveau! <= 30 && typeof x.batiment === 'string' && x.batiment.trim());
     }
+    // Éléments conservés repris de la copie next : eteindreHorsService les modifie ensuite sans toucher à state
     const visibleIds = new Set(visible[c].map((x) => x.id));
-    const kept = new Map<Id, Item>(state[c].map((x) => [x.id, x]));
-    (next as Lists)[c] = [...state[c].filter((x) => !visibleIds.has(x.id)), ...proposed.map((x) => (changes.includes(x) ? x : kept.get(x.id) ?? x))];
+    const kept = new Map<Id, Item>(next[c].map((x) => [x.id, x]));
+    (next as Lists)[c] = [...next[c].filter((x) => !visibleIds.has(x.id)), ...proposed.map((x) => (changes.includes(x) ? x : kept.get(x.id) ?? x))];
   }
 
   const inventoryIds = next.materiels.map((m) => m.idOrion);
   assert(new Set(inventoryIds).size === inventoryIds.length, 'Identifiants matériels en doublon.');
   assert(next.materiels.every((m) => !m.salleId || next.salles.some((s) => s.id === m.salleId && s.ecoleId === m.ecoleId)), 'Un matériel est affecté à une salle inconnue.');
   assert(next.postes.every((p) => next.salles.some((s) => s.id === p.salleId)), 'Un poste dépend de cette salle.');
+  // Nom réseau unique sur tout le parc : il désigne le poste dans les rapports et les commandes des postes
+  const nomsReseau = next.postes.map((p) => String(p.nomReseau ?? '').trim().toUpperCase());
+  assert(nomsReseau.every((n) => n && n.length <= 63) && new Set(nomsReseau).size === nomsReseau.length, 'Ce nom réseau est déjà utilisé par un autre poste.');
   eteindreHorsService(next, now);
 
   // Préférences du compte connecté uniquement
   const prefs: PreferencesCompte = { ...(next.preferences?.[actor.id] ?? {}) };
   if (input.prefs && typeof input.prefs === 'object') prefs.prefs = displayPrefs(input.prefs);
-  if (Array.isArray(input.layouts?.[actor.role]?.perso) || input.layouts?.[actor.role]) { assert(JSON.stringify(input.layouts![actor.role]).length < 50_000); prefs.layouts = input.layouts![actor.role]; }
+  if (input.layouts?.[actor.role]) { assert(JSON.stringify(input.layouts![actor.role]).length < 50_000); prefs.layouts = input.layouts![actor.role]; }
   if (Number.isFinite(input.seenAt?.[actor.role])) prefs.seenAt = Math.min(input.seenAt![actor.role]!, now);
   if (actor.role === 'superadmin' && input.ecoleId) { assert(input.ecoleId === 'all' || next.ecoles.some((e) => e.id === input.ecoleId)); prefs.ecoleId = input.ecoleId; }
   next.preferences = { ...(next.preferences ?? {}), [actor.id]: prefs };
   next.revision = (state.revision || 0) + 1;
-  next.rev = (state.rev || 0) + 1;
   return next;
 }

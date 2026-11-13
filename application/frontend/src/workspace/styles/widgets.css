@@ -203,7 +203,6 @@ button.row:hover { background: var(--fill-1); }
 .stbar-seg--remplace { background: var(--accent); }
 .stbar-seg--corrige { background: var(--ok); }
 .stbar-seg--encours { background: var(--c5); }
-.stbar-seg--validee { background: var(--stock); }
 .sb-seg--ok { background: var(--ok); }
 .sb-seg--hs { background: var(--crit); }
 

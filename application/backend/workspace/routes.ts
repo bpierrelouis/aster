@@ -14,7 +14,6 @@ import type { Engine } from './engine.ts';
 /** actor : fonction (req) => utilisateur agissant, ou null sans session valide. */
 export function createWorkspaceRouter({ repository, actor }: { repository: Engine; actor: (req: Request) => Promise<Actor | null> }) {
   const router = express.Router();
-  router.use(express.json({ limit: '8mb' }));
   router.use(async (req, res, next) => {
     res.set('Cache-Control', 'no-store');
     try {
@@ -24,6 +23,7 @@ export function createWorkspaceRouter({ repository, actor }: { repository: Engin
       next();
     } catch (error) { next(error); }
   });
+  router.use(express.json({ limit: '8mb' })); // corps lu seulement pour une session valide
   router.get('/', async (req, res, next) => {
     try {
       const view = await repository.read(res.locals.actor);
@@ -56,13 +56,13 @@ export function createWorkspaceRouter({ repository, actor }: { repository: Engin
 export function createAgentRouter({ repository, token }: { repository: Engine; token: string }) {
   const expected = Buffer.from(String(token));
   const router = express.Router();
-  router.use(express.json({ limit: '4mb' }));
   router.use((req, res, next) => {
     res.set('Cache-Control', 'no-store');
     const given = Buffer.from(String(req.get('Authorization') ?? '').replace(/^Bearer /, ''));
     if (given.length !== expected.length || !timingSafeEqual(given, expected)) return res.status(401).json({ error: 'Poste non authentifié.' });
     next();
   });
+  router.use(express.json({ limit: '4mb' })); // corps lu seulement pour un poste authentifié
   router.get('/postes', async (_req, res, next) => {
     try { res.json({ postes: await repository.agent.postes() }); } catch (e) { next(e); }
   });

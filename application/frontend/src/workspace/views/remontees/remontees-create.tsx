@@ -6,15 +6,15 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { Sheet, openSheet, notify } from '../../ui/overlays.tsx';
+import { SheetForm } from '../../ui/forms.tsx';
 import { uid } from '../../core/dom.ts';
 import { store, me } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
 import { can, why } from '../../core/permissions.ts';
-import { num } from '#shared/format.ts';
-import { DEVICE_TYPES, PROBLEMS, deviceType, problem, statut } from '#shared/catalog.ts';
-import { batiments, batimentLabel, sallesOf, materielsOf, index } from '../../core/selectors.ts';
-import type { SheetClose } from '../../ui/overlays.tsx';
-import type { Id, Materiel, ProblemId, Remontee } from '#shared/types.ts';
+import { num, plural } from '#shared/format.ts';
+import { DEVICE_TYPES, PROBLEMS, deviceType } from '#shared/catalog.ts';
+import { batiments, batimentLabel, sallesOf, materielsOf, index, traceProvisoire } from '../../core/selectors.ts';
+import type { Id, Materiel, ProblemId } from '#shared/types.ts';
 
 export function openNewRemontee({ salleId = null, materielIds = [] }: { salleId?: Id | null; materielIds?: Id[] } = {}) {
   if (!can('remontee.create')) { notify(why('remontee.create'), { icon: 'alertes', tone: 'warn' }); return; }
@@ -22,7 +22,7 @@ export function openNewRemontee({ salleId = null, materielIds = [] }: { salleId?
 }
 
 const STEPS = [['salles', 'Salle'], ['materiel', 'Matériels'], ['documents', 'Problème']];
-const pickCount = (n: number) => (n ? `${num(n)} sélectionné${n > 1 ? 's' : ''}` : 'Sélectionnez un ou plusieurs matériels');
+const pickCount = (n: number) => (n ? plural(n, 'sélectionné') : 'Sélectionnez un ou plusieurs matériels');
 
 function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id | null; materielIds: Id[] }) {
   useStore();
@@ -33,7 +33,6 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
   const [selected, setSelected] = useState(() => new Set(materielIds));
   const [probleme, setProbleme] = useState<ProblemId | null>(null);
   const [description, setDescription] = useState('');
-  const [sending, setSending] = useState(false);
   const descRef = useRef<HTMLTextAreaElement>(null);
   const focusDesc = useRef(false);
 
@@ -56,11 +55,10 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
     return next;
   });
 
-  const create = async (close: SheetClose) => {
-    setSending(true);
+  // Enregistrée par le formulaire de l'étape 3 (Entrée ou « Transmettre la remontée »), qui se ferme ensuite
+  const create = async () => {
     const created = createRemontee({ salleId, selected, probleme, description });
-    try { await store.flush(); } catch { setSending(false); return; }
-    close(true);
+    await store.flush();
     notify(`${createdRemonteeId(created)} transmise, état des lieux disponible`, { icon: 'documents' });
   };
 
@@ -126,14 +124,14 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
 
   const stepProbleme = () => {
     const mats = [...selected].map((id) => ix.materiel.get(id)).filter(Boolean) as Materiel[];
-    return <>
+    return <SheetForm id="remontee-form" onSave={create}>
       <div className="pick-chips">{mats.map((m) => {
         const t = deviceType(m.type);
         return <span key={m.id} className="mat-chip"><Tile name={t.icon} color={t.color} size="s" /><span>{m.modele}</span><small>{m.idOrion}</small></span>;
       })}</div>
       <div className="problems" role="radiogroup" aria-label="Type de problème">
         {PROBLEMS.map((p) => (
-          <button key={p.id} role="radio" aria-checked={probleme === p.id} className={`problem ${probleme === p.id ? 'is-on' : ''}`} onClick={() => setProbleme(p.id)}>
+          <button key={p.id} type="button" role="radio" aria-checked={probleme === p.id} className={`problem ${probleme === p.id ? 'is-on' : ''}`} onClick={() => setProbleme(p.id)}>
             <Icon name={p.icon} size={30} /><span>{p.label}</span>
           </button>
         ))}
@@ -143,16 +141,16 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
         <textarea ref={descRef} rows={3} maxLength={500} placeholder="Ce que vous constatez, depuis quand…" required
           value={description} onChange={(e) => setDescription(e.target.value)} />
       </label>
-    </>;
+    </SheetForm>;
   };
 
   return (
     <Sheet title="Signaler un problème" size="l" lead={<Tile name="alertes" color="var(--c2)" size="m" />}
-      footer={(close) => <>
+      footer={<>
         <button className="btn btn--ghost" hidden={step === 1} onClick={() => setStep(Math.max(1, step - 1))}><Icon name="chevL" size={18} /><span>Retour</span></button>
         <span className="flex-1" />
         {step === 2 && <button className="btn btn--primary" disabled={!selected.size} onClick={() => { focusDesc.current = true; setStep(3); }}><Icon name="chevR" size={18} /><span>Continuer</span></button>}
-        {step === 3 && <button className="btn btn--primary" disabled={!ready || sending} onClick={() => create(close)}><Icon name="documents" size={18} /><span>Transmettre la remontée</span></button>}
+        {step === 3 && <button className="btn btn--primary" type="submit" form="remontee-form" disabled={!ready}><Icon name="documents" size={18} /><span>Transmettre la remontée</span></button>}
       </>}>
       {stepper}
       <div className="step-body">{step === 1 ? stepSalle() : step === 2 ? stepMateriels() : stepProbleme()}</div>
@@ -160,20 +158,22 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
   );
 }
 
-/** Crée la remontée ; le numéro définitif est attribué par le serveur. Renvoie de quoi la retrouver. */
-export function createRemontee({ salleId, selected, probleme, description }: { salleId: Id | null | undefined; selected: Set<Id>; probleme: ProblemId | null; description: string }) {
-  const salle = index().salle.get(salleId!);
-  const id = `tmp-${uid('r')}`;
-  const now = Date.now();
+/**
+ * Crée la remontée et renvoie de quoi la retrouver. Saisie : matériels, problème et description ; le serveur attribue le
+ * numéro et fixe l'auteur, la date, le statut et l'historique : les valeurs provisoires ne servent qu'à l'afficher sans attendre.
+ */
+function createRemontee({ salleId, selected, probleme, description }: { salleId: Id | null | undefined; selected: Set<Id>; probleme: ProblemId | null; description: string }) {
+  const materielIds = [...selected];
+  const ecoleId = index().salle.get(salleId!)?.ecoleId ?? index().materiel.get(materielIds[0])!.ecoleId;
+  const trace = traceProvisoire();
   store.update('data', (s) => {
     s.remontees.unshift({
-      id, ecoleId: salle?.ecoleId ?? index().materiel.get([...selected][0])?.ecoleId, auteur: me().nom, createdAt: now, materielIds: [...selected],
-      probleme: probleme ?? 'other', description: description.trim(), statut: 'attente',
-      historique: [{ statut: 'attente', at: now, par: me().nom }],
-    } as Remontee); // numéro, auteur et historique fixés par le serveur
+      id: `tmp-${uid('r')}`, ecoleId, materielIds, probleme: probleme ?? 'other', description: description.trim(),
+      auteur: trace.par, auteurId: me().id, createdAt: trace.at, statut: 'attente', historique: [{ statut: 'attente', ...trace }],
+    });
   });
   return { description: description.trim() };
 }
 
 /** Numéro définitif d'une remontée créée, une fois enregistrée. */
-export const createdRemonteeId = ({ description }: { description: string }) => store.state.remontees.filter((r) => r.auteurId === me().id && r.description === description).sort((a, b) => b.createdAt - a.createdAt)[0]?.id ?? 'Remontée';
+const createdRemonteeId = ({ description }: { description: string }) => store.state.remontees.filter((r) => r.auteurId === me().id && r.description === description).sort((a, b) => b.createdAt - a.createdAt)[0]?.id ?? 'Remontée';

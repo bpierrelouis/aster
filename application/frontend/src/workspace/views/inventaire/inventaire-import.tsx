@@ -21,7 +21,7 @@ import { index } from '../../core/selectors.ts';
 import { DEVICE_TYPES, deviceType, serieKey } from '#shared/catalog.ts';
 import { notify } from '../../ui/overlays.tsx';
 import { Switch } from '../../ui/forms.tsx';
-import { dateNum, num, plural } from '#shared/format.ts';
+import { accord, dateNum, num, plural } from '#shared/format.ts';
 import { Loader, OpsTable, Pagination, paginate } from '../../widgets/parts.tsx';
 import type { ChangeEvent, FormEvent } from 'react';
 import type { Id, Materiel, Salle } from '#shared/types.ts';
@@ -39,7 +39,6 @@ type Kind = keyof typeof ORDER;
 interface ImportItem { m: ImportRow; k: string | null; hit?: Correspondance | null; kind: Kind }
 
 const PAGE_SIZE = 25;
-const s = (n: number) => (n > 1 ? 's' : '');
 // Ordre de l'aperçu : ce qui demande une décision, puis ce qui ne sera pas traité, puis les nouveaux
 const ORDER = { ecole: 0, present: 1, double: 2, nouveau: 3 };
 const ANALYSE_MIN = 900; // l'analyse reste affichée un instant, même quand le serveur répond aussitôt
@@ -121,10 +120,10 @@ function ImportPreview({ items, transferts, onToggle, ecoleNom, done = false }: 
   return <section className="inv-preview" aria-label={done ? 'Résultat de l’import' : 'Aperçu de l’import'}>
     <p className="inv-preview-lead">{done ? 'Import terminé dans' : 'Aperçu de l’import dans'} <b>{ecoleNom}</b></p>
     <ul className="inv-tally">
-      <li className="is-ok"><b>{num(nouveaux)}</b><span>{done ? `matériel${s(nouveaux)} ajouté${s(nouveaux)}` : `nouveau${nouveaux > 1 ? 'x' : ''} matériel${s(nouveaux)}, prêt${s(nouveaux)} à être ajouté${s(nouveaux)}`}</span></li>
-      {ecoles ? <li className="is-choice"><b>{num(ecoles)}</b><span>{done ? `d’une autre école : ${num(transferes)} transféré${s(transferes)}` : `d’une autre école, à accepter ou non${transferes ? ` · ${num(transferes)} accepté${s(transferes)}` : ''}`}</span></li> : null}
-      {presents ? <li className="is-skip"><b>{num(presents)}</b><span>déjà présent{s(presents)} dans le parc, non traité{s(presents)}</span></li> : null}
-      {doubles ? <li className="is-skip"><b>{num(doubles)}</b><span>en double dans le fichier, non traité{s(doubles)}</span></li> : null}
+      <li className="is-ok"><b>{num(nouveaux)}</b><span>{done ? `${accord(nouveaux, 'matériel')} ${accord(nouveaux, 'ajouté')}` : `${accord(nouveaux, 'nouveau', 'nouveaux')} ${accord(nouveaux, 'matériel')}, ${accord(nouveaux, 'prêt')} à être ${accord(nouveaux, 'ajouté')}`}</span></li>
+      {ecoles ? <li className="is-choice"><b>{num(ecoles)}</b><span>{done ? `d’une autre école : ${plural(transferes, 'transféré')}` : `d’une autre école, à accepter ou non${transferes ? ` · ${plural(transferes, 'accepté')}` : ''}`}</span></li> : null}
+      {presents ? <li className="is-skip"><b>{num(presents)}</b><span>déjà {accord(presents, 'présent')} dans le parc, non {accord(presents, 'traité')}</span></li> : null}
+      {doubles ? <li className="is-skip"><b>{num(doubles)}</b><span>en double dans le fichier, non {accord(doubles, 'traité')}</span></li> : null}
     </ul>
     {ecoles && !done ? <div className="hint hint--warn" role="alert"><Icon name="school" size={20} /><span>
       {plural(ecoles, 'matériel')} {ecoles > 1 ? 'appartiennent' : 'appartient'} à une autre école. S’il s’agit d’un échange, acceptez-le avec « Transférer » : le matériel rejoint {ecoleNom} avec son identifiant Orion. Sinon, il n’est pas traité.</span></div> : null}
@@ -200,7 +199,7 @@ export function ImportPanel() {
       const [bilan] = await Promise.all([store.call<Bilan>('/import', { ecoleId, materiels: checked!.rows, transferts: [...transferts] }), wait(IMPORT_MIN)]);
       setResult({ items: items!, transferts, ecoleNom }); // la liste reste, avec le résultat de chaque ligne
       form.reset(); load(''); // plus de fichier sélectionné
-      const summary = [bilan.ajoutes && `${plural(bilan.ajoutes, 'matériel')} ajouté${s(bilan.ajoutes)}`, bilan.transferes && `${num(bilan.transferes)} transféré${s(bilan.transferes)}`, bilan.ignores && `${num(bilan.ignores)} non traité${s(bilan.ignores)}`].filter(Boolean).join(', ');
+      const summary = [bilan.ajoutes && plural(bilan.ajoutes, 'matériel ajouté', 'matériels ajoutés'), bilan.transferes && plural(bilan.transferes, 'transféré'), bilan.ignores && plural(bilan.ignores, 'non traité')].filter(Boolean).join(', ');
       setSuccess(`${summary}. Retrouvez-les dans l’inventaire.`);
       notify(summary, { icon: 'importJson' });
       setPhase('done');

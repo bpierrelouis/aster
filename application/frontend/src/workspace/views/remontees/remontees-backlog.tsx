@@ -8,7 +8,7 @@
 
 import { Link } from 'react-router';
 import { Icon } from '../../ui/icons.tsx';
-import { usePeek } from '../../ui/peek.ts';
+import { usePeek } from '../../hooks/use-peek.ts';
 import { num, plural, ago } from '#shared/format.ts';
 import { REMONTEE_PHASES, TERMINEES_RECENTES, phaseOf, problem } from '#shared/catalog.ts';
 import { remonteeContext } from '../../core/selectors.ts';

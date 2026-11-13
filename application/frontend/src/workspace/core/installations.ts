@@ -12,6 +12,7 @@
 
 import { cached, scope, index } from './selectors.ts';
 import { SALLE_STATUTS, TERMINEES_RECENTES } from '#shared/catalog.ts';
+import { num } from '#shared/format.ts';
 import type { Id, Materiel, Mouvement, Salle, Timestamp } from '#shared/types.ts';
 
 /** Matériels encore à déplacer (enCours) et déjà déplacés (faits) */
@@ -91,3 +92,10 @@ export const installationOf = (salleId: Id) => installations().bySalle.get(salle
 
 /** Statut d'une salle qui contient du matériel ou en attend : en cours d'installation ou équipée ; null sinon */
 export const salleStatut = (salleId: Id, total: number) => (installationOf(salleId) ? SALLE_STATUTS.installation : total ? SALLE_STATUTS.equipee : null);
+
+/** Nom d'un lieu : salle, ou stock (id null) */
+export const lieuNom = (salleId: Id | null | undefined) => (salleId ? index().salle.get(salleId)?.nom ?? 'Salle supprimée' : 'Stock');
+
+/** Reste à faire dans une salle en cours d'installation : « 3 à installer · 1 à retirer » */
+export const resteAFaire = (x: Pick<SalleEnInstallation, 'aInstaller' | 'aRetirer'>) => [x.aInstaller.length && `${num(x.aInstaller.length)} à installer`, x.aRetirer.length && `${num(x.aRetirer.length)} à retirer`]
+  .filter(Boolean).join(' · ');

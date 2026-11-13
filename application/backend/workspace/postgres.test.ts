@@ -3,11 +3,7 @@ import assert from 'node:assert/strict';
 import pg from 'pg';
 import { createPostgresWorkspaceRepository } from './postgres.ts';
 import { readConfig } from '../config.ts';
-import type { CollectionName, Compte, WorkspaceView } from '#shared/types.ts';
-import type { Lists, WorkspaceInput } from './rules.ts';
-
-/** Écriture préparée comme par le navigateur : état lu, puis modifié librement */
-type Ecriture = Omit<WorkspaceView, CollectionName | 'prefs'> & Lists & Pick<WorkspaceInput, 'prefs'>;
+import type { Ecriture } from './rules.ts';
 
 // Tests d'intégration : PostgreSQL réel (npm run infra:up). Ignorés si l'infrastructure est absente.
 const config = readConfig();
@@ -75,7 +71,7 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   assert(moved.every((id) => state.materiels.find((m) => m.id === id)!.salleId === null));
   assert.deepEqual(state.remontees.find((r) => r.id === report.id)!.materielIds, [mat.id]);
   assert.equal(state.materiels.find((m) => m.id === mat.id)!.modele, 'Renommé après la remontée');
-  assert.equal((await reopened.findAccount({ sub: 'kc-nouveau' }) as Compte).id, 'cpt-test');
+  assert.equal((await reopened.findAccount({ sub: 'kc-nouveau' }))?.id, 'cpt-test');
   assert.equal((await reopened.read(admin)).prefs.ambiance, 'minarm');
   assert.equal((await reopened.read(teacher)).prefs.ambiance, 'orion', 'préférences propres à chaque compte');
   assert(state.detections.some((d) => d.processus === 'steam.exe' && d.arret === 'réussi'));

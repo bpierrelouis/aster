@@ -1,5 +1,6 @@
 /* ==========================================================================
-   Fiche matériel : création et modification
+   Fiche matériel : création et modification ; refus de suppression d'un
+   matériel cité par une remontée (inventaire, salles)
    Champs confirmés (RG-03 à RG-09) : modèle*, marque, date de réception*,
    numéro de série, hors service* (non par défaut), affectation (salle ou stock).
    Type : classement visuel proposé. Fin de garantie : fonctionnalité bonus.
@@ -11,14 +12,12 @@ import { uid } from '../../core/dom.ts';
 import { store, currentEcole } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
 import { can } from '../../core/permissions.ts';
-import { DEVICE_TYPES, deviceType } from '#shared/catalog.ts';
+import { DEVICE_TYPES, deviceType, materielCite } from '#shared/catalog.ts';
+import { inputDate, fromInputDate } from '#shared/format.ts';
 import { scope, batiments, batimentLabel, index } from '../../core/selectors.ts';
 import { Sheet, openSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
-import type { DeviceTypeId, Id, Materiel, Timestamp } from '#shared/types.ts';
-
-const toDate = (t: Timestamp | null | undefined) => (t ? new Date(t).toISOString().slice(0, 10) : '');
-const fromDate = (v: string) => (v ? new Date(`${v}T12:00:00`).getTime() : null);
+import type { DeviceTypeId, Id, Materiel } from '#shared/types.ts';
 
 /** Options d'affectation : stock + salles regroupées par bâtiment (la sélection passe par le <select>) */
 export function AffectationOptions({ ecoleId }: { ecoleId: Id | null }) {
@@ -30,6 +29,13 @@ export function AffectationOptions({ ecoleId }: { ecoleId: Id | null }) {
       return list.length ? <optgroup key={b} label={batimentLabel(b)}>{list.map((x) => <option key={x.id} value={x.id}>{x.nom}</option>)}</optgroup> : null;
     })}
   </>;
+}
+
+/** Un matériel cité par une remontée est conservé (règle tenue par le serveur) : le signale ; true si l'un des matériels l'est */
+export function suppressionRefusee(items: Materiel[]) {
+  const refus = items.some((m) => materielCite(store.state.remontees, m.id));
+  if (refus) notify('Un matériel est lié à une remontée : sa fiche doit être conservée.', { tone: 'info', icon: 'ticket' });
+  return refus;
 }
 
 export function openMaterielForm(materiel: Materiel | null = null, { salleId = null }: { salleId?: Id | null } = {}) {
@@ -54,16 +60,16 @@ function MaterielForm({ materiel, salleId, ecoleId }: { materiel: Materiel | nul
 
   async function save(form: FormData) {
     const modele = (form.get('modele') as string).trim();
-    const reception = fromDate(form.get('reception') as string);
+    const reception = fromInputDate(form.get('reception') as string);
     if (!modele || !reception) throw Error('Renseignez le modèle et la date de réception.');
     const data = {
       type, modele, marque: (form.get('marque') as string).trim() || null, serie: (form.get('serie') as string).trim() || null,
-      dateReception: reception, hs, salleId: (form.get('salle') as string) || null, garantieFin: fromDate(form.get('garantie') as string),
+      dateReception: reception, hs, salleId: (form.get('salle') as string) || null, garantieFin: fromInputDate(form.get('garantie') as string),
     };
     const newId = isNew ? uid('m') : null;
     store.update('data', (s) => {
       if (isNew) {
-        s.materiels.push({ id: newId!, ecoleId, idOrion: 'MAT-0000', ...data }); // attribué par le serveur
+        s.materiels.push({ id: newId!, ecoleId, idOrion: '', ...data }); // identifiant Orion attribué par le serveur à l'enregistrement
       } else {
         Object.assign(s.materiels.find((m) => m.id === materiel!.id)!, data);
       }
@@ -85,7 +91,7 @@ function MaterielForm({ materiel, salleId, ecoleId }: { materiel: Materiel | nul
       <div className="form-2">
         <label className="field"><span className="field-label">Modèle *</span><input ref={modeleRef} name="modele" required maxLength={60} defaultValue={materiel?.modele ?? ''} placeholder="Écran 24 pouces" autoComplete="off" /></label>
         <label className="field"><span className="field-label">Marque</span><input name="marque" maxLength={40} defaultValue={materiel?.marque ?? ''} placeholder="Facultative" autoComplete="off" /></label>
-        <label className="field"><span className="field-label">Date de réception *</span><input name="reception" type="date" required defaultValue={toDate(materiel?.dateReception ?? Date.now())} /></label>
+        <label className="field"><span className="field-label">Date de réception *</span><input name="reception" type="date" required defaultValue={inputDate(materiel?.dateReception ?? Date.now())} /></label>
         <label className="field"><span className="field-label">Numéro de série</span><input name="serie" maxLength={40} defaultValue={materiel?.serie ?? ''} placeholder="Facultatif" autoComplete="off" /></label>
         <label className="field"><span className="field-label">Affectation</span><select name="salle" defaultValue={(materiel ? materiel.salleId : salleId) ?? ''}><AffectationOptions ecoleId={ecoleId} /></select>
           <span className="field-hint">Un matériel peut rester en stock sans salle.</span></label>
@@ -94,7 +100,7 @@ function MaterielForm({ materiel, salleId, ecoleId }: { materiel: Materiel | nul
             <button type="button" role="radio" aria-checked={!hs} className={`seg-btn${!hs ? ' is-on' : ''}`} onClick={() => setHs(false)}><span className="led led--ok" />Non</button>
             <button type="button" role="radio" aria-checked={hs} className={`seg-btn${hs ? ' is-on' : ''}`} onClick={() => setHs(true)}><span className="led led--hs" />Oui</button>
           </div></div>
-        <label className="field"><span className="field-label">Fin de garantie</span><input name="garantie" type="date" defaultValue={toDate(materiel?.garantieFin)} />
+        <label className="field"><span className="field-label">Fin de garantie</span><input name="garantie" type="date" defaultValue={inputDate(materiel?.garantieFin)} />
           <span className="field-hint">Facultative.</span></label>
         {materiel
           ? <div className="field"><span className="field-label">Identifiant Orion</span><output className="id-orion">{materiel.idOrion}</output></div>

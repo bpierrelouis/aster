@@ -7,7 +7,7 @@ import { store, me, currentEcole } from './store.ts';
 import { DEVICE_TYPES, PROBLEMS, REMONTEE_STATUTS, problem, statut, phaseOf } from '#shared/catalog.ts';
 import { DAY } from '#shared/format.ts';
 import { can } from './permissions.ts';
-import type { DeviceTypeId, Id, Materiel, Mouvement, Remontee, RemonteePhase, RemonteeStatut, Salle, Timestamp } from '#shared/types.ts';
+import type { DeviceTypeId, Id, Materiel, Mouvement, Remontee, RemonteePhase, RemonteeStatut, Salle, Timestamp, Trace } from '#shared/types.ts';
 
 /** Effectif de matériels : total, hors service, en état */
 export interface Effectif { total: number; hs: number; ok: number }
@@ -34,6 +34,21 @@ const inScope = (ecoleId: Id) => {
   const e = currentEcole();
   return !e || e === 'all' || ecoleId === e;
 };
+
+/** Auteur et date d'une action, affichés sans attendre la réponse du serveur, qui les remplace par les siens (backend/workspace/rules.ts) */
+export const traceProvisoire = (): Trace => ({ at: Date.now(), par: me().nom, parId: me().id });
+
+/** Fiche d'un matériel, dans sa salle ou au stock */
+export const materielPath = (m: Pick<Materiel, 'id' | 'salleId'>) => `/salles/${m.salleId ? `salle/${m.salleId}` : 'stock'}?m=${m.id}`;
+
+/** Garantie d'un matériel : échue à sa date de fin, à échéance dans les 6 mois qui la précèdent */
+export const GARANTIE_PROCHE = 182 * DAY;
+export const GARANTIES = ['Échue', 'À échéance', 'En cours', 'Non renseignée'] as const;
+export type Garantie = (typeof GARANTIES)[number];
+export const garantie = (m: Pick<Materiel, 'garantieFin'>, now = Date.now()): Garantie =>
+  !m.garantieFin ? 'Non renseignée' : m.garantieFin <= now ? 'Échue' : m.garantieFin - now <= GARANTIE_PROCHE ? 'À échéance' : 'En cours';
+/** Inventaire filtré sur une garantie (lien d'une notification) */
+export const garantiePath = (g: Garantie) => `/materiels/inventaire?garantie=${encodeURIComponent(g)}`;
 
 export const batimentLabel = (b: string) => `Bâtiment ${b}`;
 /** Étage : « Rez-de-chaussée », « 1er étage », « Sous-sol 1 » ; forme courte : RDC, 1er, SS1 */
@@ -96,9 +111,9 @@ export const parc = () => cached('parc', () => {
   const sallesEquipees = salles.filter((x) => bySalle.get(x.id)!.total > 0).length;
   const garanties: { proches: Materiel[]; echues: Materiel[] } = { proches: [], echues: [] };
   for (const m of materiels) {
-    if (!m.garantieFin) continue;
-    if (m.garantieFin <= now) garanties.echues.push(m);
-    else if (m.garantieFin - now <= 182 * DAY) garanties.proches.push(m);
+    const g = garantie(m, now);
+    if (g === 'Échue') garanties.echues.push(m);
+    else if (g === 'À échéance') garanties.proches.push(m);
   }
   const recents = [...materiels].sort((a, b) => b.dateReception - a.dateReception);
   const topSalles = [...salles].sort((a, b) => bySalle.get(b.id)!.total - bySalle.get(a.id)!.total);
@@ -126,7 +141,7 @@ export const parc = () => cached('parc', () => {
 function garantieTranches(materiels: Materiel[], now: number) {
   const tranches = [
     { id: 'echue', label: 'Échue', until: now },
-    { id: 'proche', label: 'Sous 6 mois', until: now + 182 * DAY },
+    { id: 'proche', label: 'Sous 6 mois', until: now + GARANTIE_PROCHE },
     { id: 'annee', label: '6 à 12 mois', until: now + 365 * DAY },
     { id: 'longue', label: 'Plus d’un an', until: Infinity },
     { id: 'aucune', label: 'Non renseignée', until: null },

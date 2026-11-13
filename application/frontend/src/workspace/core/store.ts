@@ -1,4 +1,4 @@
-import { defaultLayouts } from '#shared/seed.ts';
+import { defaultLayouts } from '#shared/layouts.ts';
 import type { Board, RoleId, WorkspaceView } from '#shared/types.ts';
 
 /** Nature d'un changement : données, école affichée, disposition, apparence, reprise du serveur (remote), retour à l'état enregistré (all) */
@@ -9,13 +9,16 @@ export type RequestError = Error & { status: number };
 
 declare global {
   interface WindowEventMap {
-    /** Échec d'un enregistrement : message, ou erreur munie d'un message */
-    'orion:save-error': CustomEvent<string | { message?: string }>;
+    /** Échec d'un enregistrement : message de l'erreur */
+    'orion:save-error': CustomEvent<string>;
   }
 }
 
+/** État affiché : données du serveur et rev, compteur local qui invalide les calculs mémorisés (core/selectors.ts) */
+type EtatLocal = WorkspaceView & { rev: number };
+
 const subs = new Set<Listener>();
-let state: WorkspaceView | undefined;
+let state: EtatLocal | undefined;
 let committed: WorkspaceView;
 let queue: Promise<void> = Promise.resolve();
 let generation = 0;
@@ -27,7 +30,7 @@ const serverFields = (s: WorkspaceView) => JSON.stringify({ ...s, rev: 0, revisi
 let version = 0;
 const emit = (topic: Topic) => { version++; for (const fn of [...subs]) fn(topic); };
 // Reprend un état du serveur ; rev avance toujours, pour que les calculs mémorisés (core/selectors.ts) soient refaits
-const adopt = (data: WorkspaceView, topic: Topic) => { state = { ...structuredClone(data), rev: (state!.rev || 0) + 1 }; emit(topic); };
+const adopt = (data: WorkspaceView, topic: Topic) => { state = { ...structuredClone(data), rev: (state?.rev ?? 0) + 1 }; emit(topic); };
 
 async function request(options?: RequestInit, path = ''): Promise<unknown> {
   const response = await fetch(`/api/workspace${path}`, options);
@@ -39,7 +42,7 @@ async function request(options?: RequestInit, path = ''): Promise<unknown> {
   return body;
 }
 
-export const ready = request().then((data) => { state = data as WorkspaceView; committed = structuredClone(state); });
+export const ready = request().then((data) => { committed = data as WorkspaceView; state = { ...structuredClone(committed), rev: 0 }; });
 
 /* Synchronisation : les modifications des autres utilisateurs et des postes sont reprises
    régulièrement, uniquement quand aucune écriture locale n'est en attente. */
@@ -63,14 +66,14 @@ ready.then(() => { setInterval(sync, SYNC_INTERVAL); document.addEventListener('
 
 export const store = {
   /** État de l'espace : chargé (ready) avant le premier rendu de l'espace de travail, donc toujours présent pour l'interface */
-  get state(): WorkspaceView { return state!; },
+  get state(): EtatLocal { return state!; },
   get version() { return version; },
   subscribe(fn: Listener): () => void { subs.add(fn); return () => subs.delete(fn); },
   update(topic: Topic, mutator: (s: WorkspaceView) => void) {
     if (!state) throw new Error('Espace en cours de chargement.');
     const before = structuredClone(state);
     try { mutator(state); } catch (error) { state = before; throw error; }
-    if (['data', 'ecole'].includes(topic)) state.rev = (state.rev || 0) + 1;
+    if (['data', 'ecole'].includes(topic)) state.rev++;
     // Les choix d'apparence ne renvoient pas les rapports des postes.
     const snapshot = topic === 'prefs'
       ? { role: state.role, prefs: structuredClone(state.prefs) }

@@ -13,7 +13,7 @@
    ========================================================================== */
 
 import { me } from './store.ts';
-import { parc, remontees, detections, treatedAt } from './selectors.ts';
+import { parc, remontees, detections, treatedAt, garantiePath } from './selectors.ts';
 import { interventions } from './interventions.ts';
 import { statut } from '#shared/catalog.ts';
 import { DAY, plural } from '#shared/format.ts';
@@ -61,12 +61,12 @@ export function notificationGroups(now = Date.now()): NotificationGroup[] {
     });
     const { echues, proches } = parc().garanties;
     add({
-      id: 'garanties-echues', icon: 'calendarWarn', color: 'var(--crit)', href: `/materiels/inventaire?garantie=${encodeURIComponent('Échue')}`, period: 'État du parc',
+      id: 'garanties-echues', icon: 'calendarWarn', color: 'var(--crit)', href: garantiePath('Échue'), period: 'État du parc',
       title: (n) => `${plural(n, 'matériel', 'matériels')} sous garantie échue`,
       items: echues.map((m) => ({ kind: 'garantie', at: m.garantieFin!, m })),
     });
     add({
-      id: 'garanties-proches', icon: 'calendarWarn', color: 'var(--warn)', href: `/materiels/inventaire?garantie=${encodeURIComponent('À échéance')}`, period: 'Fin de garantie dans les 6 mois',
+      id: 'garanties-proches', icon: 'calendarWarn', color: 'var(--warn)', href: garantiePath('À échéance'), period: 'Fin de garantie dans les 6 mois',
       title: (n) => `${plural(n, 'matériel arrive', 'matériels arrivent')} à échéance`,
       items: proches.map((m) => ({ kind: 'garantie', at: m.garantieFin!, m })),
     });

@@ -14,6 +14,9 @@ export interface Logiciel {
  * cercle barré) et classement de départ des exécutables (whitelist ou blacklist ; sans classement : non référencé).
  * Sert à l'icône d'un processus ou d'une application, à la recherche par nom d'application et aux règles de départ.
  */
+/** Image système réappliquée par une réinstallation (masterisation) : seule image proposée */
+export const IMAGE_REFERENCE = 'Windows — configuration de référence';
+
 export const LOGICIELS: Logiciel[] = [
   // Navigateurs
   { nom: 'Firefox', exe: ['firefox.exe'], logo: 'firefox', classement: 'whitelist' },

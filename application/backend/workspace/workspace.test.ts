@@ -5,20 +5,19 @@ import { mkdtemp, rm, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import type { AddressInfo } from 'node:net';
-import { initialState, actorOf, accountForIdentity, scopedState, mergeState, rebase } from './rules.ts';
+import { initialState, actorOf, accountForIdentity, scopedState, mergeState } from './rules.ts';
+import { rebase } from './fusion.ts';
 import { applyReports, pendingCommands, applyResults, markDisconnected, DISCONNECT_AFTER } from './postes.ts';
 import { createWorkspaceRepository } from './engine.ts';
 import { analyseImport, importMateriels } from './import.ts';
 import { createWorkspaceRouter, createAgentRouter } from './routes.ts';
 import { renameBuilding } from '#shared/buildings.ts';
 import { remonteeOuverte } from '#shared/catalog.ts';
-import { processClass, logiciel } from '#shared/operations-data.ts';
-import type { CollectionName, Compte, EtapeRemontee, Id, Item, Materiel, Mouvement, RemonteeStatut, WorkspaceState, WorkspaceView } from '#shared/types.ts';
+import { processClass, logiciel, IMAGE_REFERENCE } from '#shared/operations-data.ts';
+import type { Compte, EtapeRemontee, Id, Item, Materiel, Mouvement, RemonteeStatut, WorkspaceState, WorkspaceView } from '#shared/types.ts';
 import type { JournalEntry } from './engine.ts';
-import type { HttpError, Lists, LooseItem, WorkspaceInput } from './rules.ts';
+import type { Ecriture, HttpError, LooseItem } from './rules.ts';
 
-/** Écriture préparée comme par le navigateur : vue lue, puis modifiée librement (éléments incomplets admis) */
-type Ecriture = Omit<WorkspaceView, CollectionName | 'prefs'> & Lists & Pick<WorkspaceInput, 'prefs'>;
 /** Matériel dont le numéro de série est renseigné */
 type AvecSerie = Materiel & { serie: string };
 
@@ -28,9 +27,9 @@ const online = (state: WorkspaceState) => { applyReports(state, state.postes.fil
 
 test('identité : rapprochement par sujet puis adresse, compte désactivé sans accès', () => {
   const state = initialState();
-  assert.equal((accountForIdentity(state, { sub: 'kc-1', email: 'Formateur@orion.demo' }) as Compte).id, TEACHER);
+  assert.equal(accountForIdentity(state, { sub: 'kc-1', email: 'Formateur@orion.demo' })?.id, TEACHER);
   state.comptes.find((c) => c.id === TEACHER)!.sujet = 'kc-1';
-  assert.equal((accountForIdentity(state, { sub: 'kc-1', email: 'autre@orion.demo' }) as Compte).id, TEACHER);
+  assert.equal(accountForIdentity(state, { sub: 'kc-1', email: 'autre@orion.demo' })?.id, TEACHER);
   assert.equal(accountForIdentity(state, { sub: 'kc-2', email: 'formateur@orion.demo' }), null, 'adresse déjà reliée à une autre identité');
   assert.equal(accountForIdentity(state, { sub: 'kc-3', email: 'inconnu@orion.demo' }), null);
   state.comptes.find((c) => c.id === TEACHER)!.actif = false;
@@ -196,6 +195,34 @@ test('parc : gestionnaire sans suppression ni autre école ; identifiant ORION a
   assert.throws(() => mergeState(state, crossed, admin), { status: 400 });
 });
 
+test('parc : un matériel cité par une remontée est conservé (RG-73)', () => {
+  const state = initialState();
+  const admin = as(state, ADMIN);
+  const input = scopedState(state, admin);
+  const cited = input.remontees[0].materielIds[0];
+  input.materiels = input.materiels.filter((m) => m.id !== cited);
+  assert.throws(() => mergeState(state, input, admin), { status: 400 });
+});
+
+test('sécurité : poste cloisonné à son école, nom réseau unique ; sujet et image fixés par le serveur', () => {
+  const state = initialState();
+  const admin = as(state, ADMIN);
+  const ailleurs = state.postes.find((p) => state.salles.find((s) => s.id === p.salleId)!.ecoleId === 'e-res')!;
+  const nouveau = (salleId: Id, nomReseau: string, extra = {}) => ({ id: `p-${nomReseau}`, salleId, nomReseau, materielId: null, allume: false, ...extra });
+  const homonyme: Ecriture = scopedState(state, admin);
+  homonyme.postes.push(nouveau('s-e-num-a012', ailleurs.nomReseau.toLowerCase()));
+  assert.throws(() => mergeState(state, homonyme, admin), { status: 400 }, 'nom réseau d’un poste d’une autre école');
+  const intrus: Ecriture = scopedState(state, admin);
+  intrus.postes.push(nouveau(ailleurs.salleId, 'NOUVEAU-PC01', { ecoleId: 'e-num' }));
+  assert.throws(() => mergeState(state, intrus, admin), { status: 403 }, 'salle d’une autre école, école déclarée trompeuse');
+  const forge: Ecriture = scopedState(state, admin);
+  forge.comptes.find((c) => c.id === TEACHER)!.sujet = 'kc-autre';
+  forge.operations.push({ id: 'op-x', type: 'reinstallation', salleId: 's-e-num-a012', image: 'smb://hote-inconnu/image.wim' });
+  const next = mergeState(state, forge, admin);
+  assert.equal(next.comptes.find((c) => c.id === TEACHER)!.sujet, undefined, 'lien d’identité non fixé par le navigateur');
+  assert.equal(next.operations.at(-1)!.image, IMAGE_REFERENCE, 'image de référence imposée');
+});
+
 test('bâtiments : un administrateur renomme un bâtiment ; salles, étages et règles suivent', () => {
   const state = initialState();
   state.regles.push({ id: 'rule-bat', nom: 'jeu.exe', classement: 'blacklist', portee: 'batiment', ecoleId: 'e-num', batiment: 'C' });
@@ -305,6 +332,15 @@ test('postes : un poste dont l’unité centrale est hors service reste éteint 
   view.materiels.find((m) => m.id === ok.materielId)!.hs = true;
   state = mergeState(state, view, manager);
   assert.equal(state.postes.find((p) => p.id === ok.id)!.allume, false);
+  // Même extinction dans une écriture qui modifie aussi un autre poste : l'état d'avant reste intact
+  state = initialState();
+  applyReports(state, [{ poste: ok.nomReseau }]);
+  const admin = as(state, ADMIN);
+  const both = scopedState(state, admin);
+  both.materiels.find((m) => m.id === ok.materielId)!.hs = true;
+  both.postes.find((p) => p.id === hs.id)!.nomReseau = 'A014-PC02B';
+  const next = mergeState(state, both, admin);
+  assert.deepEqual([state.postes.find((p) => p.id === ok.id)!.allume, next.postes.find((p) => p.id === ok.id)!.allume], [true, false]);
 });
 
 test('postes : rapports, détection, arrêt automatique, résultats et déconnexion', () => {
@@ -404,7 +440,7 @@ test('moteur : persistance fichier, révision, rapprochement d’identité et PD
     const reopened = await createWorkspaceRepository({ file });
     assert.equal((await reopened.read(admin)).materiels[0].modele, 'Persisté');
     assert.equal((await reopened.read(admin)).materiels[2].modele, 'Après un rapport de poste');
-    assert.equal((await reopened.findAccount({ sub: 'kc-teacher' }) as Compte).id, TEACHER);
+    assert.equal((await reopened.findAccount({ sub: 'kc-teacher' }))?.id, TEACHER);
     const report = (await reopened.read(admin)).remontees[0];
     assert.equal((await reopened.pdf(report.id, admin)).subarray(0, 8).toString(), '%PDF-1.4');
     const foreign = (await reopened.snapshot()).remontees.find((r) => r.ecoleId === 'e-res')!;

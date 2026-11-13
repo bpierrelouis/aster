@@ -1,21 +1,23 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router';
+import { useEffect, useRef, useState } from 'react';
+import { useParams, useSearchParams } from 'react-router';
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { outsideControls } from '../../core/dom.ts';
 import { store } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
 import { can } from '../../core/permissions.ts';
-import { scope, index } from '../../core/selectors.ts';
+import { scope, index, batimentLabel, garantie, GARANTIES } from '../../core/selectors.ts';
 import { DEVICE_TYPES, deviceType, logistique } from '#shared/catalog.ts';
-import { openMaterielForm, AffectationOptions } from './materiel.tsx';
+import { openMaterielForm, AffectationOptions, suppressionRefusee } from './inventaire-materiel.tsx';
 import { affecter } from '../salles/salles-affectation.tsx';
 import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
-import { dateNum, DAY, num, plural } from '#shared/format.ts';
+import { accord, dateNum, num, plural } from '#shared/format.ts';
 import { useTitle } from '../../hooks/use-title.ts';
-import { PageHead, DataPanel, Pagination, paginate } from '../../widgets/parts.tsx';
+import { PageHead, DataPanel, LieuChip, Pagination, paginate } from '../../widgets/parts.tsx';
 import { ImportPanel } from './inventaire-import.tsx';
 import type { ChangeEvent } from 'react';
+import type { SheetClose } from '../../ui/overlays.tsx';
+import type { Garantie } from '../../core/selectors.ts';
 import type { Id, Materiel, Timestamp } from '#shared/types.ts';
 
 type Tab = 'inventaire' | 'import';
@@ -23,8 +25,6 @@ type Tab = 'inventaire' | 'import';
 type SortKey = 'idOrion' | 'modele' | 'dateReception';
 
 const date = (n: Timestamp | null) => (n ? dateNum(n) : '—');
-const warranty = (m: Materiel) => !m.garantieFin ? 'Non renseignée' : m.garantieFin < Date.now() ? 'Échue' : m.garantieFin < Date.now() + 182 * DAY ?'À échéance' : 'En cours';
-const WARRANTIES = ['Échue', 'À échéance', 'En cours', 'Non renseignée'];
 const TABS: Tab[] = ['inventaire', 'import'];
 const TITLES: Record<Tab, string> = { inventaire: 'Inventaire', import: 'Import JSON' };
 const PAGE_SIZE = 25;
@@ -39,7 +39,7 @@ export function Inventaire() {
   const [type, setType] = useState('');
   const [status, setStatus] = useState(() => (query.get('hs') ? 'hs' : ''));
   const [location, setLocation] = useState(() => (query.get('stock') ? 'stock' : ''));
-  const [guarantee, setGuarantee] = useState(() => (WARRANTIES.includes(query.get('garantie')!) ? query.get('garantie')! : '')); // lien d'une notification
+  const [guarantee, setGuarantee] = useState(() => (GARANTIES.includes(query.get('garantie') as Garantie) ? query.get('garantie')! : '')); // lien d'une notification
   const [sort, setSort] = useState<SortKey>('idOrion');
   const [direction, setDirection] = useState(1);
   const [page, setPage] = useState(1);
@@ -59,7 +59,7 @@ export function Inventaire() {
     return (!q || `${m.idOrion} ${m.modele} ${m.marque || ''} ${m.serie || ''} ${room?.nom || 'stock'}`.toLocaleLowerCase('fr').includes(q.toLocaleLowerCase('fr')))
       && (!type || m.type === type) && (!status || m.hs === (status === 'hs'))
       && (!location || (location === 'stock' ? !m.salleId : m.salleId === location))
-      && (!guarantee || warranty(m) === guarantee);
+      && (!guarantee || garantie(m) === guarantee);
   }).sort((a, b) => direction * (sort === 'dateReception' ? a[sort] - b[sort] : String(a[sort] || '').localeCompare(String(b[sort] || ''), 'fr', { numeric: true })));
   const { pages, current, rows } = paginate(list, page, PAGE_SIZE);
   const chosen = () => scope().materiels.filter((m) => selected.has(m.id));
@@ -73,9 +73,7 @@ export function Inventaire() {
 
   async function remove(items: Materiel[]) {
     if (!can('materiel.delete') || !items.length) return;
-    if (store.state.remontees.some((r) => r.materielIds.some((id) => items.some((m) => m.id === id)))) {
-      notify('Un matériel est lié à une remontée : sa fiche doit être conservée.', { tone: 'info', icon: 'ticket' }); return;
-    }
+    if (suppressionRefusee(items)) return;
     if (!await confirmSheet({ title: 'Supprimer les matériels', message: `Supprimer définitivement ${plural(items.length, 'matériel')} de l’inventaire ?` })) return;
     try {
       const ids = new Set(items.map((m) => m.id));
@@ -108,10 +106,10 @@ export function Inventaire() {
         <select aria-label="Type" value={type} onChange={filter(setType)}><option value="">Tous les types</option>{DEVICE_TYPES.map((t) => <option key={t.id} value={t.id}>{t.plural}</option>)}</select>
         <select aria-label="État" value={status} onChange={filter(setStatus)}><option value="">Tous les états</option><option value="ok">En service</option><option value="hs">Hors service</option></select>
         <select aria-label="Localisation" value={location} onChange={filter(setLocation)}><option value="">Toutes les salles</option><option value="stock">Stock</option>{scope().salles.map((s) => <option key={s.id} value={s.id}>{s.nom}</option>)}</select>
-        <select aria-label="Garantie" value={guarantee} onChange={filter(setGuarantee)}><option value="">Toutes les garanties</option>{WARRANTIES.map((v) => <option key={v}>{v}</option>)}</select>
+        <select aria-label="Garantie" value={guarantee} onChange={filter(setGuarantee)}><option value="">Toutes les garanties</option>{GARANTIES.map((v) => <option key={v}>{v}</option>)}</select>
       </>}
       selection={<>
-        <span><strong>{num(selected.size)}</strong> sélectionné{selected.size > 1 ? 's' : ''}</span>
+        <span><strong>{num(selected.size)}</strong> {accord(selected.size, 'sélectionné')}</span>
         <button className="btn btn--ghost" disabled={!selected.size || !can('materiel.move')} onClick={() => move(chosen())}><Icon name="deplacement" size={17} />Affecter</button>
         {can('materiel.delete') && <button className="btn btn--ghost" disabled={!selected.size} onClick={() => remove(chosen())}><Icon name="trash" size={17} />Supprimer</button>}
         {selected.size > 0 && <button className="btn btn--ghost" onClick={() => setSelected(new Set())}>Effacer la sélection</button>}
@@ -128,10 +126,10 @@ export function Inventaire() {
           <td><input type="checkbox" aria-label={`Sélectionner ${m.idOrion}`} checked={on} onChange={(e) => toggle([m.id], e.target.checked)} /></td>
           <td className="inv-id">{m.idOrion}</td>
           <td><button className="inv-device" onClick={() => detail(m)}><Tile name={t.icon} color={t.color} size="s" className="tile--tint" /><span><strong>{m.modele}</strong><small>{m.marque || t.label}{m.serie ? ` · ${m.serie}` : ''}</small></span></button></td>
-          <td>{room ? <><Link className="chip" to={`/salles/salle/${room.id}`}>{room.nom}</Link><small className="inv-sub">Bâtiment {room.batiment}</small></> : <span className="chip chip--stock">Stock</span>}{m.deplacement && <span className="chip chip--move" data-tip="Affecté dans Orion, pas encore à sa place"><span className="inst-dot inst-dot--wait inst-dot--s" />{logistique(m).label}</span>}</td>
+          <td><LieuChip m={m} link />{room && <small className="inv-sub">{batimentLabel(room.batiment)}</small>}{m.deplacement && <span className="chip chip--move" data-tip="Affecté dans Orion, pas encore à sa place"><span className="inst-dot inst-dot--wait inst-dot--s" />{logistique(m).label}</span>}</td>
           <td><span className="inv-state"><i className={`led led--${m.hs ? 'hs' : 'ok'}`} />{m.hs ? 'Hors service' : 'En service'}</span></td>
           <td>{date(m.dateReception)}</td>
-          <td><span className={`inv-warranty${warranty(m) === 'Échue' ? ' is-expired' : ''}`}>{warranty(m)}</span><small className="inv-sub">{date(m.garantieFin)}</small></td>
+          <td><span className={`inv-warranty${garantie(m) === 'Échue' ? ' is-expired' : ''}`}>{garantie(m)}</span><small className="inv-sub">{date(m.garantieFin)}</small></td>
         </tr>;
       }) : <tr><td colSpan={7}><div className="w-empty w-empty--l">Aucun matériel ne correspond aux filtres.</div></td></tr>}
     </DataPanel>}
@@ -157,11 +155,13 @@ function MoveSheet({ items, onDone }: { items: Materiel[]; onDone: () => void })
 /** Fiche d'un matériel, avec modification et suppression selon les droits */
 function DetailSheet({ m, onDelete }: { m: Materiel; onDelete: () => void }) {
   const t = deviceType(m.type), room = index().salle.get(m.salleId!);
-  const rows = [['Identifiant Orion', m.idOrion], ['Type', t.label], ['Marque', m.marque || '—'], ['Numéro de série', m.serie || '—'], ['Réception', date(m.dateReception)], ['Localisation', room ? `${room.nom} · Bâtiment ${room.batiment}` : 'Stock'], ['État', m.hs ? 'Hors service' : 'En service'], ['Garantie', `${warranty(m)} · ${date(m.garantieFin)}`]];
-  return <Sheet title={m.modele} lead={<Tile name={t.icon} color={t.color} size="m" />}
+  const rows = [['Identifiant Orion', m.idOrion], ['Type', t.label], ['Marque', m.marque || '—'], ['Numéro de série', m.serie || '—'], ['Réception', date(m.dateReception)], ['Localisation', room ? `${room.nom} · ${batimentLabel(room.batiment)}` : 'Stock'], ['État', m.hs ? 'Hors service' : 'En service'], ['Garantie', `${garantie(m)} · ${date(m.garantieFin)}`]];
+  const ensuite = useRef<(() => void) | null>(null); // action ouverte une fois la fiche fermée
+  const puis = (close: SheetClose, action: () => void) => { ensuite.current = action; close(); };
+  return <Sheet title={m.modele} lead={<Tile name={t.icon} color={t.color} size="m" />} onClose={() => ensuite.current?.()}
     footer={(close) => <>
-      {can('materiel.edit') && <button className="btn btn--primary" onClick={() => { close(); setTimeout(() => openMaterielForm(m), 230); }}>Modifier</button>}
-      {can('materiel.delete') && <button className="btn btn--ghost" onClick={() => { close(); setTimeout(onDelete, 230); }}>Supprimer</button>}
+      {can('materiel.edit') && <button className="btn btn--primary" onClick={() => puis(close, () => openMaterielForm(m))}>Modifier</button>}
+      {can('materiel.delete') && <button className="btn btn--ghost" onClick={() => puis(close, onDelete)}>Supprimer</button>}
     </>}>
     <dl className="inv-details">{rows.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
   </Sheet>;

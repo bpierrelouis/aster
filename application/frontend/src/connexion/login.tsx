@@ -1,3 +1,4 @@
+import { useSearchParams } from 'react-router';
 import { MinDefSymbol, OrionLogo, OrionMark, OrionStar } from './brand.tsx';
 
 const ERRORS: Record<string, string> = {
@@ -7,7 +8,8 @@ const ERRORS: Record<string, string> = {
 
 /** Page de connexion : accès par MindefConnect et message d'échec éventuel. */
 export function Login({ unavailable }: { unavailable: boolean }) {
-  const error = new URLSearchParams(window.location.search).get('error');
+  const [query] = useSearchParams();
+  const error = query.get('error');
   const message = unavailable ? 'La connexion est momentanément indisponible. Veuillez réessayer dans quelques instants.'
     : error ? ERRORS[error] ?? 'La connexion a échoué. Veuillez réessayer ou contacter votre administrateur.' : null;
   return <div className="public welcome">

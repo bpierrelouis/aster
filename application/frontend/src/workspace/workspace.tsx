@@ -35,10 +35,11 @@ import { Notifications } from './views/notifications/notifications.tsx';
 import { Deplacements } from './views/salles/salles-deplacements.tsx';
 
 declare global {
-  interface Window { orion: { store: typeof store } }
+  /** Magasin exposé aux tests Playwright, qui tournent sur le serveur de développement Vite (tests/navigateur.ts) */
+  interface Window { orion?: { store: typeof store } }
 }
 
-window.orion = { store };
+if (import.meta.env.DEV) window.orion = { store };
 
 /* Un tableau de bord par onglet : changer d'onglet remonte l'écran */
 function DashboardRoute() {
@@ -56,7 +57,7 @@ export default function Workspace({ loading }: { loading: ReactNode }) {
       initTooltips();
       setStatus('ready');
     }, (error: RequestError) => { if (error.status !== 401) setStatus('error'); }); // 401 : redirection vers la connexion en cours
-    const onSaveError = (event: WindowEventMap['orion:save-error']) => notify((typeof event.detail === 'string' ? event.detail : event.detail?.message) || 'Enregistrement impossible. Veuillez réessayer.', { tone: 'warn', icon: 'alertes' });
+    const onSaveError = (event: WindowEventMap['orion:save-error']) => notify(event.detail || 'Enregistrement impossible. Veuillez réessayer.', { tone: 'warn', icon: 'alertes' });
     addEventListener('orion:save-error', onSaveError);
     return () => removeEventListener('orion:save-error', onSaveError);
   }, []);

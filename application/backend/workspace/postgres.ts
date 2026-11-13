@@ -11,9 +11,10 @@
    ========================================================================== */
 
 import { SEED_VERSION } from '#shared/seed.ts';
-import { REMONTEE_STATUTS } from '#shared/catalog.ts';
-import { collections, initialState, keyOf, same } from './rules.ts';
+import { collections, initialState, same } from './rules.ts';
+import { keyOf } from './fusion.ts';
 import { createEngine, JOURNAL_SIZE } from './engine.ts';
+import { schemaSQL, TABLES } from './postgres-schema.ts';
 import type { DatabaseError, Pool, PoolClient } from 'pg';
 import type { CollectionName, DisplayPrefs, EcoleChoisie, Id, Item, Layout, PreferencesCompte, Timestamp, WorkspaceState } from '#shared/types.ts';
 import type { LooseItem, Lists } from './rules.ts';
@@ -50,60 +51,6 @@ const ENTITIES: Entity[] = [
 const ENTITY = new Map(ENTITIES.map((e) => [e.collection, e]));
 const GENERIC = collections.filter((c) => !ENTITY.has(c));
 const LINKED = new Set(['materielIds']); // propriétés portées par une table de liaison
-
-function schemaSQL(s: string) {
-  const fk = (table: string) => `REFERENCES ${s}.${table}(id) DEFERRABLE INITIALLY DEFERRED`;
-  const statuts = REMONTEE_STATUTS.map((x) => `'${x.id}'`).join(', ');
-  return `
-  CREATE SCHEMA IF NOT EXISTS ${s};
-  CREATE TABLE IF NOT EXISTS ${s}.orion_espace (
-    id smallint PRIMARY KEY CHECK (id = 1), version_donnees integer NOT NULL, revision integer NOT NULL, initialise_le timestamptz NOT NULL);
-  CREATE TABLE IF NOT EXISTS ${s}.orion_ecole (id text PRIMARY KEY, nom text NOT NULL CHECK (nom <> ''), extra jsonb NOT NULL DEFAULT '{}');
-  CREATE TABLE IF NOT EXISTS ${s}.orion_etage (
-    id text PRIMARY KEY, ecole_id text NOT NULL ${fk('orion_ecole')}, batiment text NOT NULL CHECK (batiment <> ''),
-    niveau integer NOT NULL CHECK (niveau BETWEEN -5 AND 30), extra jsonb NOT NULL DEFAULT '{}',
-    CONSTRAINT orion_etage_unique UNIQUE (ecole_id, batiment, niveau) DEFERRABLE INITIALLY DEFERRED);
-  CREATE TABLE IF NOT EXISTS ${s}.orion_salle (
-    id text PRIMARY KEY, ecole_id text NOT NULL ${fk('orion_ecole')}, batiment text NOT NULL CHECK (batiment <> ''),
-    nom text NOT NULL CHECK (nom <> ''), etage integer CHECK (etage BETWEEN -5 AND 30), extra jsonb NOT NULL DEFAULT '{}');
-  CREATE TABLE IF NOT EXISTS ${s}.orion_materiel (
-    id text PRIMARY KEY, ecole_id text NOT NULL ${fk('orion_ecole')}, id_orion text NOT NULL,
-    salle_id text ${fk('orion_salle')}, type text NOT NULL, modele text NOT NULL CHECK (modele <> ''), marque text, serie text,
-    date_reception timestamptz NOT NULL, garantie_fin timestamptz, hors_service boolean NOT NULL, extra jsonb NOT NULL DEFAULT '{}',
-    CONSTRAINT orion_materiel_id_orion_unique UNIQUE (id_orion) DEFERRABLE INITIALLY DEFERRED);
-  CREATE INDEX IF NOT EXISTS orion_materiel_ecole ON ${s}.orion_materiel (ecole_id);
-  CREATE INDEX IF NOT EXISTS orion_materiel_salle ON ${s}.orion_materiel (salle_id);
-  -- Compte ORION : profil et école ; le sujet relie le compte à l'identité du fournisseur
-  CREATE TABLE IF NOT EXISTS ${s}.orion_compte (
-    id text PRIMARY KEY, nom text NOT NULL CHECK (nom <> ''), email text NOT NULL CHECK (email = lower(email)),
-    role text NOT NULL CHECK (role IN ('superadmin', 'admin', 'gestionnaire', 'formateur')), ecole_id text ${fk('orion_ecole')},
-    actif boolean NOT NULL, sujet text, extra jsonb NOT NULL DEFAULT '{}',
-    CHECK ((role = 'superadmin') = (ecole_id IS NULL)),
-    CONSTRAINT orion_compte_email_unique UNIQUE (email) DEFERRABLE INITIALLY DEFERRED,
-    CONSTRAINT orion_compte_sujet_unique UNIQUE (sujet) DEFERRABLE INITIALLY DEFERRED);
-  CREATE TABLE IF NOT EXISTS ${s}.orion_preference (
-    compte_id text PRIMARY KEY REFERENCES ${s}.orion_compte(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
-    affichage jsonb, dispositions jsonb, consultation timestamptz, ecole_affichee text);
-  CREATE TABLE IF NOT EXISTS ${s}.orion_remontee (
-    id text PRIMARY KEY, ecole_id text NOT NULL ${fk('orion_ecole')}, auteur text NOT NULL, created_at timestamptz NOT NULL,
-    probleme text, description text NOT NULL CHECK (description <> ''), statut text NOT NULL,
-    historique jsonb NOT NULL DEFAULT '[]', auteur_id text ${fk('orion_compte')}, extra jsonb NOT NULL DEFAULT '{}');
-  -- Statuts du catalogue, contrainte recréée à chaque démarrage : une base existante suit le catalogue
-  -- (en cours et validée ajoutés le 11 novembre)
-  ALTER TABLE ${s}.orion_remontee DROP CONSTRAINT IF EXISTS orion_remontee_statut_check;
-  ALTER TABLE ${s}.orion_remontee ADD CONSTRAINT orion_remontee_statut_check CHECK (statut IN (${statuts}));
-  CREATE INDEX IF NOT EXISTS orion_remontee_ecole ON ${s}.orion_remontee (ecole_id, statut);
-  -- Pas de clé étrangère vers le matériel : une remontée reste consultable après la suppression du matériel.
-  CREATE TABLE IF NOT EXISTS ${s}.orion_remontee_materiel (
-    remontee_id text NOT NULL REFERENCES ${s}.orion_remontee(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
-    rang integer NOT NULL, materiel_id text NOT NULL, PRIMARY KEY (remontee_id, rang));
-  CREATE TABLE IF NOT EXISTS ${s}.orion_donnee (
-    collection text NOT NULL, id text NOT NULL, ecole_id text, data jsonb NOT NULL,
-    rang bigint GENERATED ALWAYS AS IDENTITY, PRIMARY KEY (collection, id));
-  -- Journal des dernières modifications : permet à tout serveur de fusionner les écritures concurrentes.
-  -- Type json (et non jsonb) : l'ordre des propriétés, utilisé pour comparer les éléments, est conservé.
-  CREATE TABLE IF NOT EXISTS ${s}.orion_journal (revision integer PRIMARY KEY, cles json NOT NULL);`;
-}
 
 /* ---------- Correspondance objets ⇄ lignes ---------- */
 
@@ -204,7 +151,7 @@ async function writeDiff(db: Db, s: string, before: Partial<Lists>, after: Parti
 async function loadState(db: Db, s: string) {
   const meta = (await db.query<EspaceRow>(`SELECT * FROM ${s}.orion_espace WHERE id = 1`)).rows[0];
   if (!meta) return null;
-  const state: Omit<WorkspaceState, CollectionName> & Partial<Lists> = { version: meta.version_donnees, revision: meta.revision, rev: meta.revision, seededAt: fromTs(meta.initialise_le), preferences: {} };
+  const state: Omit<WorkspaceState, CollectionName> & Partial<Lists> = { version: meta.version_donnees, revision: meta.revision, seededAt: fromTs(meta.initialise_le), preferences: {} };
   for (const row of (await db.query<PreferenceRow>(`SELECT * FROM ${s}.orion_preference`)).rows) {
     const p: PreferencesCompte = {};
     if (row.affichage) p.prefs = row.affichage;
@@ -226,10 +173,10 @@ async function loadState(db: Db, s: string) {
   return { state: state as WorkspaceState }; // toutes les collections lues
 }
 
-async function transaction<R>(pool: Pool, fn: (client: PoolClient) => Promise<R>) {
+async function transaction<R>(pool: Pool, fn: (client: PoolClient) => Promise<R>, begin = 'BEGIN') {
   const client = await pool.connect();
   try {
-    await client.query('BEGIN');
+    await client.query(begin);
     const result = await fn(client);
     await client.query('COMMIT');
     return result;
@@ -238,8 +185,6 @@ async function transaction<R>(pool: Pool, fn: (client: PoolClient) => Promise<R>
     throw error;
   } finally { client.release(); }
 }
-
-const TABLES = (s: string) => `${s}.orion_preference, ${s}.orion_remontee_materiel, ${s}.orion_remontee, ${s}.orion_materiel, ${s}.orion_salle, ${s}.orion_etage, ${s}.orion_compte, ${s}.orion_ecole, ${s}.orion_donnee, ${s}.orion_journal`;
 
 /**
  * Dépôt de l'espace de travail sur PostgreSQL. schema permet d'isoler les tests.
@@ -290,7 +235,8 @@ export async function createPostgresWorkspaceRepository({ pool, schema = 'public
     .map((row) => ({ revision: row.revision, before: new Map<string, Item | undefined>(row.cles.map(([c, itemId, v]) => [keyOf(c, itemId), v ?? undefined])) }));
 
   const store: Store = {
-    read: async () => (await current(pool)).state,
+    // Lecture dans un instantané unique : une écriture concurrente ne peut pas produire un état mélangé
+    read: async () => (await transaction(pool, (db) => current(db), 'BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY')).state,
     async write(change) {
       let done;
       try {

@@ -23,11 +23,12 @@ import { deviceType } from '#shared/catalog.ts';
 import { parc, scope, batiments, batimentLabel, materielsOf, index } from '../../core/selectors.ts';
 import { confirmSheet, notify } from '../../ui/overlays.tsx';
 import { useTitle } from '../../hooks/use-title.ts';
-import { usePeek, useFitRows } from '../../ui/peek.ts';
+import { usePeek, useFitRows } from '../../hooks/use-peek.ts';
 import { PageHead } from '../../widgets/parts.tsx';
 import { floorLabel, floorLevel, floorHref, modelOf, signature, BatCard, Building, fitIso } from './salles-scene.tsx';
 import { Overview, SalleDetail, Stock, DevCard } from './salles-panel.tsx';
 import { openSalleForm } from './salles-forms.tsx';
+import { suppressionRefusee } from '../inventaire/inventaire-materiel.tsx';
 import { affecter } from './salles-affectation.tsx';
 import type { MouseEvent as ReactMouseEvent, PointerEvent as ReactPointerEvent } from 'react';
 import type { Params } from 'react-router';
@@ -216,8 +217,9 @@ export function Salles() {
       } catch { /* Le store restaure la fiche et affiche l'erreur serveur. */ }
     },
     async deleteMat(m) {
+      if (suppressionRefusee([m])) return;
       try {
-        const ok = await confirmSheet({ title: `Supprimer ${m.idOrion} ?`, message: `${m.modele} sera retiré de l’inventaire. Les remontées qui le mentionnent restent consultables.`, confirm: 'Supprimer' });
+        const ok = await confirmSheet({ title: `Supprimer ${m.idOrion} ?`, message: `${m.modele} sera retiré de l’inventaire.`, confirm: 'Supprimer' });
         if (!ok) return;
         setSelected(new Set());
         store.update('data', (s) => { s.materiels = s.materiels.filter((y) => y.id !== m.id); });

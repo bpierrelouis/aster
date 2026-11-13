@@ -4,7 +4,7 @@
    ========================================================================== */
 
 import { processClass } from '#shared/operations-data.ts';
-import { DAY } from '#shared/format.ts';
+import { DAY, HOUR } from '#shared/format.ts';
 import { id, schoolOf } from './rules.ts';
 import type { Id, OperationType, Processus, ResultatPoste, WorkspaceState } from '#shared/types.ts';
 
@@ -48,7 +48,7 @@ export function applyReports(s: WorkspaceState, rapports: Rapport[], now = Date.
     p.vuLe = now;
     const reported = new Map((Array.isArray(r.processus) ? r.processus : []).slice(0, 200)
       .filter((x) => typeof x?.nom === 'string' && x.nom.length <= 120)
-      .map((x) => [`${x.nom.toLowerCase()}|${String(x.compte ?? '').slice(0, 120)}`, { nom: x.nom, compte: String(x.compte ?? '') }]));
+      .map((x) => [`${x.nom.toLowerCase()}|${String(x.compte ?? '').slice(0, 120)}`, { nom: x.nom, compte: String(x.compte ?? '').slice(0, 120) }]));
     for (const proc of s.processus) {
       if (proc.posteId !== p.id || proc.stoppedAt) continue;
       const k = `${proc.nom.toLowerCase()}|${proc.compte}`;
@@ -72,7 +72,7 @@ export function applyReports(s: WorkspaceState, rapports: Rapport[], now = Date.
   }
   markDisconnected(s, now);
   // Historique borné : processus arrêtés et détections conservés sur une durée limitée
-  s.processus = s.processus.filter((x) => !x.stoppedAt || now - x.stoppedAt < 3600_000);
+  s.processus = s.processus.filter((x) => !x.stoppedAt || now - x.stoppedAt < HOUR);
   s.detections = s.detections.filter((d) => now - d.at < 30 * DAY).slice(-2000);
   return unknown;
 }

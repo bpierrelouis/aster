@@ -15,6 +15,7 @@ import { createPostgresWorkspaceRepository } from './workspace/postgres.ts';
 import { createServices } from './services.ts';
 import { openapi } from './openapi.ts';
 import { DISCONNECT_AFTER } from './workspace/postes.ts';
+import { same } from './workspace/rules.ts';
 import type { Compte, Id } from '#shared/types.ts';
 
 declare module 'express-session' {
@@ -32,7 +33,7 @@ const pool = new pg.Pool({ connectionString: config.databaseUrl });
 pool.on('error', (error) => console.error('Connexion PostgreSQL :', error.message));
 await pool.query('SELECT 1');
 
-// Discovery is retried on the next request if the identity provider is unavailable.
+// Découverte du fournisseur d'identité : retentée à la requête suivante s'il est indisponible.
 let oidcConfig: Promise<oidc.Configuration> | undefined;
 async function identityProvider() {
   if (!oidcConfig) {
@@ -78,7 +79,7 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openapi, { customSiteTitle
 const provisioning = config.identityProvisioning ? createKeycloakProvisioning({ issuer: config.issuer, ...config.keycloakAdmin }) : null;
 const provision = (accounts: Compte[]) => provisioning?.ensure(accounts).catch((error) => console.error('Provisionnement des identités :', error.message));
 provision((await workspaceRepository.snapshot()).comptes);
-workspaceRepository.onCommit((before, after) => { if (JSON.stringify(before.comptes) !== JSON.stringify(after.comptes)) provision(after.comptes); });
+workspaceRepository.onCommit((before, after) => { if (!same(before.comptes, after.comptes)) provision(after.comptes); });
 setInterval(() => workspaceRepository.agent.sweep().catch(() => {}), 10_000).unref();
 
 /** Compte ORION actif de la session ; une session dont le compte est désactivé est fermée. */

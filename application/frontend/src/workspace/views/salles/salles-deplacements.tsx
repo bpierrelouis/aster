@@ -13,10 +13,10 @@ import { useStore } from '../../hooks/use-store.ts';
 import { useTitle } from '../../hooks/use-title.ts';
 import { can } from '../../core/permissions.ts';
 import { index, batimentLabel } from '../../core/selectors.ts';
-import { installations } from '../../core/installations.ts';
+import { installations, lieuNom } from '../../core/installations.ts';
 import { ago, plural } from '#shared/format.ts';
 import { GroupCard, GroupGrid, PageHead, Progress } from '../../widgets/parts.tsx';
-import { InstallDot, lieuNom } from './installation.tsx';
+import { InstallDot } from './salles-installation.tsx';
 import type { Trajet } from '../../core/installations.ts';
 import type { Materiel } from '#shared/types.ts';
 

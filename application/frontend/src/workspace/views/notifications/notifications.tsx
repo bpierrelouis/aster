@@ -10,12 +10,12 @@ import { AppIcon } from '../../ui/app-icon.tsx';
 import { useStore } from '../../hooks/use-store.ts';
 import { useTitle } from '../../hooks/use-title.ts';
 import { notificationGroups } from '../../core/notifications.ts';
-import { index, remonteeContext, remonteePath } from '../../core/selectors.ts';
+import { index, remonteeContext, remonteePath, materielPath, garantie } from '../../core/selectors.ts';
 import { titreIntervention, objetIntervention } from '../../core/interventions.ts';
 import { deviceType, statut, intervention, etatIntervention } from '#shared/catalog.ts';
-import { ago, dateMed, num } from '#shared/format.ts';
+import { ago, dateMed, plural } from '#shared/format.ts';
 import { GroupCard, GroupGrid, PageHead } from '../../widgets/parts.tsx';
-import { lieuNom } from '../salles/installation.tsx';
+import { lieuNom } from '../../core/installations.ts';
 import type { NotificationGroup as Groupe, NotificationItem } from '../../core/notifications.ts';
 
 /** Une notification : élément concerné, précision et date */
@@ -24,8 +24,8 @@ function NotificationRow({ n }: { n: NotificationItem }) {
   if (n.kind === 'garantie') {
     const t = deviceType(n.m.type);
     const salle = n.m.salleId ? ix.salle.get(n.m.salleId) : null;
-    const echue = n.m.garantieFin! <= Date.now();
-    return <li><Link className="row" to={`/salles/${salle ? `salle/${salle.id}` : 'stock'}?m=${n.m.id}`}>
+    const echue = garantie(n.m) === 'Échue';
+    return <li><Link className="row" to={materielPath(n.m)}>
       <Tile name={t.icon} color={t.color} size="m" className="tile--tint" />
       <span className="row-main"><span className="row-title">{n.m.modele}</span>
         <span className="row-sub"><span className="row-meta">{n.m.idOrion}</span><span className="row-meta">{salle ? salle.nom : 'Stock'}</span></span></span>
@@ -47,7 +47,7 @@ function NotificationRow({ n }: { n: NotificationItem }) {
       {o.type === 'reinstallation' ? <Tile name={intervention(o.type)!.icon} color="var(--accent)" size="m" className="tile--tint" /> : <AppIcon name={objetIntervention(o)} size={32} />}
       <span className="row-main"><span className="row-title">{titreIntervention(o)}</span>
         <span className="row-sub"><span className="row-meta">{n.x.cible.label}</span>
-          <span className="row-meta">{etatIntervention(o.type, n.x.etat)}{c.echec ? ` sur ${num(c.echec)} poste${c.echec > 1 ? 's' : ''}` : ''}</span></span></span>
+          <span className="row-meta">{etatIntervention(o.type, n.x.etat)}{c.echec ? ` sur ${plural(c.echec, 'poste')}` : ''}</span></span></span>
       <span className="row-when">{ago(n.at)}</span>
     </Link></li>;
   }
@@ -71,9 +71,20 @@ function NotificationRow({ n }: { n: NotificationItem }) {
   </Link></li>;
 }
 
+/** Clé stable d'une notification : sa nature et l'élément concerné (une étape de remontée par sa date) */
+function itemKey(n: NotificationItem) {
+  switch (n.kind) {
+    case 'remontee': return `${n.kind}-${n.r.id}`;
+    case 'statut': return `${n.kind}-${n.r.id}-${n.h.at}`;
+    case 'deplacement': case 'garantie': return `${n.kind}-${n.m.id}`;
+    case 'intervention': return `${n.kind}-${n.x.o.id}`;
+    case 'interdit': return `${n.kind}-${n.d.id}`;
+  }
+}
+
 const NotificationGroup = ({ g }: { g: Groupe }) => <GroupCard tile={<Tile name={g.icon} color={g.color} size="m" />} title={g.title} sub={g.period}
   action={<Link className="btn btn--ghost" to={g.href}><span>Ouvrir</span><Icon name="chevR" size={16} /></Link>}>
-  {g.items.map((n, i) => <NotificationRow key={i} n={n} />)}
+  {g.items.map((n) => <NotificationRow key={itemKey(n)} n={n} />)}
 </GroupCard>;
 
 export function Notifications() {
@@ -85,7 +96,7 @@ export function Notifications() {
     <PageHead title="Notifications" />
     {groups.length
       ? <>
-        <p className="group-lead">{num(total)} notification{total > 1 ? 's' : ''}, regroupée{total > 1 ? 's' : ''} en {num(groups.length)} sujet{groups.length > 1 ? 's' : ''}.</p>
+        <p className="group-lead">{plural(total, 'notification')}, {total > 1 ? 'regroupées' : 'regroupée'} en {plural(groups.length, 'sujet')}.</p>
         <GroupGrid items={groups} weight={(g) => 3 + Math.min(12, g.items.length)} render={(g) => <NotificationGroup key={g.id} g={g} />} />
       </>
       : <div className="w-empty w-empty--l glass group-empty"><Icon name="checkCircle" size={32} /><span>Rien de nouveau cette semaine.</span></div>}

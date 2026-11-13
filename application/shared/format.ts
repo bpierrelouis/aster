@@ -16,8 +16,10 @@ const mShort = new Intl.DateTimeFormat('fr-FR', { month: 'short' });
 const mYear = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' });
 
 export const num = (n: number) => nf0.format(n);
+/** Mot seul accordé, quand le nombre est affiché à part : accord(2, 'ajouté') → « ajoutés » */
+export const accord = (n: number, one: string, many = `${one}s`) => (n > 1 ? many : one);
 /** Nombre et nom accordé : plural(2, 'matériel') → « 2 matériels » ; pluriel irrégulier en dernier argument */
-export const plural = (n: number, one: string, many = `${one}s`) => `${num(n)} ${n > 1 ? many : one}`;
+export const plural = (n: number, one: string, many = `${one}s`) => `${num(n)} ${accord(n, one, many)}`;
 export const dec = (n: number) => nf1.format(n);
 export const pct = (n: number) => pf.format(n);
 export const pct1 = (n: number) => pf1.format(n);
@@ -50,8 +52,14 @@ export function ago(t: number, now = Date.now()) {
   return `${Math.round(d / (7 * D))} sem`;
 }
 
-/** Durée en jours, ex. « 2,4 j » */
-export const durDays = (ms: number) => `${nf1.format(ms / D)} j`;
-
 export const DAY = D;
 export const HOUR = H;
+
+/** Valeur d'un champ de date (AAAA-MM-JJ), en heure locale */
+export const inputDate = (t: number | null | undefined) => {
+  if (!t) return '';
+  const d = new Date(t);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
+/** Horodatage d'un champ de date : midi local, à l'abri des changements d'heure */
+export const fromInputDate = (v: string) => (v ? new Date(`${v}T12:00:00`).getTime() : null);

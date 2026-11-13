@@ -14,13 +14,13 @@ import { useEscape } from '../../hooks/use-escape.ts';
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { notify } from '../../ui/overlays.tsx';
 import { useTitle } from '../../hooks/use-title.ts';
-import { usePeek } from '../../ui/peek.ts';
-import { store, me } from '../../core/store.ts';
+import { usePeek } from '../../hooks/use-peek.ts';
+import { store } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
 import { can } from '../../core/permissions.ts';
 import { num, ago, dateLong, dateShort } from '#shared/format.ts';
 import { deviceType, problem, statut, phaseOf, suiviRemontee } from '#shared/catalog.ts';
-import { remontees, remonteeContext, batiments, batimentLabel } from '../../core/selectors.ts';
+import { remontees, remonteeContext, batiments, batimentLabel, traceProvisoire } from '../../core/selectors.ts';
 import { StatutPill, LieuChip, PageHead } from '../../widgets/parts.tsx';
 import { openNewRemontee } from './remontees-create.tsx';
 import { openEtatDesLieux } from './remontees-edl.tsx';
@@ -29,7 +29,7 @@ import { Backlog } from './remontees-backlog.tsx';
 import { InstallationsBoard } from './remontees-installations.tsx';
 import { MaterielsConcernes } from './remontees-materiels.tsx';
 import type { TabId } from './remontees-tabs.ts';
-import type { EtapeRemontee, Id, Remontee, RemonteeStatut } from '#shared/types.ts';
+import type { Id, Remontee, RemonteeStatut } from '#shared/types.ts';
 
 /** Une ligne par remontée : son problème et son lieu ; ses matériels sont dans le détail */
 function RemonteeRow({ r, tab, selected }: { r: Remontee; tab: TabId; selected: boolean }) {
@@ -77,7 +77,7 @@ function RemonteeDetail({ selId, tab }: { selId: Id | null; tab: TabId }) {
     store.update('data', (s) => {
       const x = s.remontees.find((y) => y.id === id);
       x!.statut = val;
-      x!.historique.push({ statut: val, at: Date.now(), par: me().nom } as EtapeRemontee); // auteur et date fixés par le serveur
+      x!.historique.push({ statut: val, ...traceProvisoire() }); // étape affichée sans attendre ; le serveur fixe l'auteur et la date
     });
     try { await store.flush(); } catch { return; }
     notify(`${id} : ${statut(val).label.toLowerCase()}`, { icon: statut(val).icon, tone: val === 'encours' ? 'info' : 'ok' });

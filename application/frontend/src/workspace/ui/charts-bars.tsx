@@ -66,7 +66,7 @@ export const accentShade = (i: number, n: number) => (i === 0 || n <= 1 ? 'var(-
 
 const share = (v: number, max: number) => `${max ? Math.min(100, (Math.max(v, 0) / max) * 100) : 0}%`;
 
-/** Barres horizontales classées. rows : { key?, label, value, tip?, color? } */
+/** Barres horizontales classées */
 export function RankBars({ rows, label, fmt = num, color = 'var(--accent)' }: { rows: RankRow[]; label: string; fmt?: NumberFormat; color?: string }) {
   const max = Math.max(1, ...rows.map((r) => r.value));
   return <ul className="rbars" role="img" aria-label={label}>{rows.map((r) => (
@@ -79,7 +79,7 @@ export function RankBars({ rows, label, fmt = num, color = 'var(--accent)' }: { 
 
 /**
  * Barres à repère : valeur de chaque ligne sur une même échelle (0 à max), détail sous la valeur,
- * repère commun facultatif (moyenne). rows : { label, value, detail, tip }
+ * repère commun facultatif (moyenne).
  */
 export function BulletRows({ rows, max, fmt, mark = null, label, color = 'var(--accent)' }: { rows: BulletRow[]; max: number; fmt: NumberFormat; mark?: BulletMark | null; label: string; color?: string }) {
   return <ul className="bullets" role="img" aria-label={label} style={{ '--c': color } as CSSProperties}>
@@ -111,7 +111,7 @@ export function SegLegend({ parts }: { parts: ChartPart[] }) {
 }
 
 /**
- * Colonnes sur la hauteur disponible. items : { key, label, value, color?, tip, tipTitle? }.
+ * Colonnes sur la hauteur disponible.
  * Valeurs négatives sous l'axe (colonnes divergentes) ; une étiquette d'axe toutes les `every` colonnes.
  */
 export function VBars({ items, label, every = 1 }: { items: VBarItem[]; label: string; every?: number }) {
@@ -127,7 +127,7 @@ export function VBars({ items, label, every = 1 }: { items: VBarItem[]; label: s
   </div>;
 }
 
-/** Petits multiples : une série par case, toutes sur la même échelle. items : { label, values, tips } */
+/** Petits multiples : une série par case, toutes sur la même échelle */
 export function Multiples({ items, label }: { items: MultipleItem[]; label: string }) {
   const max = Math.max(1, ...items.flatMap((it) => it.values));
   return <ul className="multiples" role="img" aria-label={label}>{items.map((it) => (
@@ -142,7 +142,7 @@ export function Multiples({ items, label }: { items: MultipleItem[]; label: stri
 /** Micro-barre d'une valeur dans une liste */
 export const MicroBar = ({ value, max, color }: { value: number; max: number; color: string }) => <span className="microbar" aria-hidden="true"><span style={{ width: share(value, max), '--c': color } as CSSProperties} /></span>;
 
-/** Frise : un point par élément sur une échelle de jours, graduations et limites de tranches. points : { key, days, tip, tipTitle } */
+/** Frise : un point par élément sur une échelle de jours, graduations et limites de tranches */
 export function AgeStrip({ points, max, limits = [], ticks = [], label }: { points: AgePoint[]; max: number; limits?: number[]; ticks?: number[]; label: string }) {
   const x = (d: number) => share(d, max);
   return <div className="agestrip" role="img" aria-label={label}>

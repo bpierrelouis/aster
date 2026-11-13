@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router';
 import { store, currentEcole, me } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
-import { scope, index, detections, batiments } from '../../core/selectors.ts';
+import { scope, index, detections, batiments, batimentLabel } from '../../core/selectors.ts';
 import { uid } from '../../core/dom.ts';
 import { can } from '../../core/permissions.ts';
 import { matcher } from '../../core/search.ts';
@@ -22,7 +22,7 @@ import { AppIcon } from '../../ui/app-icon.tsx';
 import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
 import { OpsEmpty, OpsTable, PageHead, PosteEtat } from '../../widgets/parts.tsx';
-import { dateTime, clock } from '#shared/format.ts';
+import { dateTime, clock, num, plural } from '#shared/format.ts';
 import { useTitle } from '../../hooks/use-title.ts';
 import type { Classement, Id, Operation, Portee, Processus, Regle, WorkspaceView } from '#shared/types.ts';
 
@@ -164,7 +164,7 @@ async function deleteRule(id: Id) {
 function Rules({ query }: { query: string }) {
   const e = currentEcole();
   const matches = matcher(query);
-  const scopeLabel = (r: Regle) => (r.portee === 'global' ? 'Toutes les écoles' : r.portee === 'ecole' ? index().ecole.get(r.ecoleId!)?.nom : r.portee === 'batiment' ? `Bâtiment ${r.batiment}` : index().salle.get(r.salleId!)?.nom);
+  const scopeLabel = (r: Regle) => (r.portee === 'global' ? 'Toutes les écoles' : r.portee === 'ecole' ? index().ecole.get(r.ecoleId!)?.nom : r.portee === 'batiment' ? batimentLabel(r.batiment!) : index().salle.get(r.salleId!)?.nom);
   const rules = (store.state.regles || []).filter((r) => (r.portee === 'global' || e === 'all' || r.ecoleId === e)
     && matches(processText(r.nom), CLASSEMENTS[r.classement]?.label, scopeLabel(r)));
   return <>
@@ -195,17 +195,17 @@ function Stats({ relevant, query }: { relevant: Processus[]; query: string }) {
   const max = Math.max(1, ...counts.values());
   const matches = matcher(query);
   const shown = [...counts].filter(([nom]) => matches(processText(nom))).sort((x, y) => y[1] - x[1]);
-  const metrics = [
-    ['Postes allumés', allumes, `${postes.length} postes au total`],
+  const metrics: [string, number, string][] = [
+    ['Postes allumés', allumes, `${num(postes.length)} postes au total`],
     ['Processus utilisateur actifs', relevant.filter((p) => !p.stoppedAt).length, 'Dernier état disponible'],
-    ['Détections conservées', ds.length, `${ds.filter((d) => d.classement === 'blacklist').length} processus interdits`],
+    ['Détections conservées', ds.length, `${num(ds.filter((d) => d.classement === 'blacklist').length)} processus interdits`],
   ];
   return <>
-    <div className="ops-metrics">{metrics.map(([label, n, sub]) => <article key={label} className="ops-metric glass"><span>{label}</span><strong>{n}</strong><span>{sub}</span></article>)}</div>
+    <div className="ops-metrics">{metrics.map(([label, n, sub]) => <article key={label} className="ops-metric glass"><span>{label}</span><strong>{num(n)}</strong><span>{sub}</span></article>)}</div>
     <h2 className="ops-section-title">Processus détectés</h2>
     {shown.length
       ? <div className="ops-grid">{shown.map(([nom, n]) => <article key={nom} className="ops-card glass">
-        <div className="ops-card-top"><AppIcon name={nom} size={36} /><h3>{nom}</h3></div><span className="ops-muted">{n} détection{n > 1 ? 's' : ''}</span><div className="ops-bar"><i style={{ width: `${n / max * 100}%` }}></i></div>
+        <div className="ops-card-top"><AppIcon name={nom} size={36} /><h3>{nom}</h3></div><span className="ops-muted">{plural(n, 'détection')}</span><div className="ops-bar"><i style={{ width: `${n / max * 100}%` }}></i></div>
       </article>)}</div>
       : <p className="ops-muted">{counts.size ? 'Aucun processus détecté ne correspond à cette recherche.' : 'Aucun processus détecté.'}</p>}
   </>;

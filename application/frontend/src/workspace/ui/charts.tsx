@@ -42,7 +42,7 @@ function niceMax(v: number) {
 export function LineChart({ series, labels, fmt = num }: { series: LineSeries[]; labels: string[]; fmt?: NumberFormat }) {
   const paintId = useId();
   const ref = useRef<HTMLDivElement>(null);
-  const [box, setBox] = useState<{ w: number; h: number } | null>(null); // { w, h } mesurés
+  const [box, setBox] = useState<{ w: number; h: number } | null>(null); // dimensions mesurées
   const [hover, setHover] = useState<number | null>(null); // index survolé
 
   useEffect(() => {

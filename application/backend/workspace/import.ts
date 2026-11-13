@@ -31,7 +31,7 @@ function checkTarget(state: WorkspaceState, actor: Actor, ecoleId: Id | undefine
   assert(state.ecoles.some((e) => e.id === ecoleId) && (actor.role === 'superadmin' || actor.ecoleId === ecoleId), 'École de destination invalide.');
 }
 
-/** Matériels cités par une remontée pas encore validée : leur école doit pouvoir la traiter jusqu'au bout */
+/** Matériels cités par une remontée ouverte (non terminée) : leur école doit pouvoir la traiter jusqu'au bout */
 const inOpenReport = (state: WorkspaceState) => new Set(state.remontees.filter(remonteeOuverte).flatMap((r) => r.materielIds));
 
 /** Matériel connu par numéro de série, celui de l'école de destination en priorité */

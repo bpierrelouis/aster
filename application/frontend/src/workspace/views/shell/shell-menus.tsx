@@ -13,7 +13,7 @@ import { can } from '../../core/permissions.ts';
 import { autoTone, systemTone, subscribeSystemTone } from '../../core/theme.ts';
 import { AMBIANCES, GLASS } from '#shared/ambiance.ts';
 import { role as roleOf, deviceType, statut } from '#shared/catalog.ts';
-import { remontees, batimentLabel, index, scope } from '../../core/selectors.ts';
+import { remontees, materielPath, batimentLabel, index, scope } from '../../core/selectors.ts';
 import { num } from '#shared/format.ts';
 import { notificationGroups } from '../../core/notifications.ts';
 import { UserSwitch } from './user-switch.tsx';
@@ -130,7 +130,7 @@ function searchResults(q: string) {
     if (`${m.modele} ${m.marque ?? ''} ${m.idOrion} ${m.serie ?? ''}`.toLowerCase().includes(q)) {
       const dt = deviceType(m.type);
       const salle = m.salleId ? ix.salle.get(m.salleId) : null;
-      out.push({ icon: dt.icon, color: dt.color, title: m.modele, sub: `${m.idOrion}, ${salle ? salle.nom : 'Stock'}`, href: `/salles/${salle ? `salle/${salle.id}` : 'stock'}?m=${m.id}`, led: m.hs ? 'hs' : 'ok' });
+      out.push({ icon: dt.icon, color: dt.color, title: m.modele, sub: `${m.idOrion}, ${salle ? salle.nom : 'Stock'}`, href: materielPath(m), led: m.hs ? 'hs' : 'ok' });
     }
   }
   for (const r of remontees().visible) {

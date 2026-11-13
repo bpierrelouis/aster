@@ -11,7 +11,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { Link, Navigate, Outlet, useLocation, useNavigate } from 'react-router';
 import { Icon, Tile, Brand } from '../../ui/icons.tsx';
 import { Sheet, openSheet } from '../../ui/overlays.tsx';
-import { me, currentEcole } from '../../core/store.ts';
+import { currentEcole } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
 import { can } from '../../core/permissions.ts';
 import { setGlassLevel } from '../../core/glass.ts';
@@ -36,7 +36,7 @@ type Onglet = { path: string; label: string; icon?: string; badge?: string; coun
 type PopKind = 'ecole' | 'alerts' | 'account';
 
 /* Modules du menu principal */
-export const NAV: { id: string; path: string; label: string; icon: string; cap: Capability | null }[] = [
+const NAV: { id: string; path: string; label: string; icon: string; cap: Capability | null }[] = [
   { id: 'accueil', path: '/accueil', label: 'Accueil', icon: 'home', cap: 'dashboard.perso' },
   { id: 'salles', path: '/salles', label: 'Salles', icon: 'salles', cap: 'salle.view' },
   { id: 'materiels', path: '/materiels/inventaire', label: 'Matériels', icon: 'materiel', cap: 'materiel.create' },
@@ -101,7 +101,7 @@ export function Shell() {
   const subRef = useRef<HTMLElement>(null);
   const viewRef = useRef<HTMLDivElement>(null);
   const [actionsSlot, setActionsSlot] = useState<HTMLElement | null>(null); // actions de l'écran, dans la barre haute
-  const [pop, setPop] = useState<{ kind: PopKind; anchor: HTMLElement } | null>(null); // { kind, anchor }
+  const [pop, setPop] = useState<{ kind: PopKind; anchor: HTMLElement } | null>(null);
   const closePop = useCallback(() => setPop(null), []);
   const toggle = (kind: PopKind) => (e: MouseEvent<HTMLElement>) => { const anchor = e.currentTarget; setPop((p) => (p?.kind === kind ? null : { kind, anchor })); };
 
@@ -186,7 +186,7 @@ export function Shell() {
       <div className="rail-items">
         {NAV.filter(allowed).map((n) => <Link key={n.id} className={`rail-item${n.id === navId ? ' is-active' : ''}`} to={n.path} data-nav={n.id}
           aria-label={n.label} aria-current={n.id === navId ? 'page' : undefined}>
-          <span className="rail-ico"><Icon name={n.icon} size={24} />{n.id === 'remontees' && attente > 0 && <span className="badge">{attente > 99 ? '99+' : attente}</span>}</span>
+          <span className="rail-ico"><Icon name={n.icon} size={24} />{n.id === 'remontees' && attente > 0 && <span className="badge">{attente > 99 ? '99+' : num(attente)}</span>}</span>
           <span className="rail-label">{n.label}</span>
         </Link>)}
       </div>
@@ -215,7 +215,7 @@ export function Shell() {
           <Icon name="recherche" size={22} />
         </button>
         <button type="button" className="icon-btn" aria-label="Notifications" data-tip="Notifications" data-tip-pos="bottom" onClick={toggle('alerts')}>
-          <Icon name="bell" size={20} />{notifs > 0 && <span className="badge">{notifs}</span>}
+          <Icon name="bell" size={20} />{notifs > 0 && <span className="badge">{num(notifs)}</span>}
         </button>
         <button type="button" className="avatar" aria-label="Compte" aria-haspopup="dialog" aria-expanded={pop?.kind === 'account'} onClick={toggle('account')}>
           <span className="avatar-face">{initiale()}</span>

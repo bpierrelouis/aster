@@ -8,20 +8,20 @@
    ========================================================================== */
 
 import { useState } from 'react';
-import { store, me } from '../../core/store.ts';
+import { store } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
-import { scope, index, batimentLabel } from '../../core/selectors.ts';
+import { scope, index, batimentLabel, traceProvisoire } from '../../core/selectors.ts';
 import { titreIntervention, objetIntervention, cibleIntervention } from '../../core/interventions.ts';
 import { uid } from '../../core/dom.ts';
 import { intervention, etatPoste } from '#shared/catalog.ts';
 import { plural } from '#shared/format.ts';
+import { IMAGE_REFERENCE } from '#shared/operations-data.ts';
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { AppIcon } from '../../ui/app-icon.tsx';
 import { Sheet, openSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
-import type { Application, Id, InterventionType, Operation } from '#shared/types.ts';
+import type { Application, Id, InterventionType, Operation, Trace } from '#shared/types.ts';
 
-const IMAGE = 'Windows — configuration de référence'; // image réappliquée par une réinitialisation
 /** Cible d'une demande : salle entière ou postes choisis */
 type Mode = 'salle' | 'postes';
 const CIBLES: [Mode, string][] = [['salle', 'Salle entière'], ['postes', 'Postes']];
@@ -38,10 +38,14 @@ export function openInterventionForm(type: InterventionType, { applicationId, sa
   </Sheet>);
 }
 
-/** Enregistre la demande (salle entière, ou postes d'une salle) ; le serveur fixe les postes d'une salle, l'auteur, la date et le suivi. */
-async function recordOperation(type: InterventionType, target: { salleId?: Id; postes?: Id[] }, extra: { applicationId: Id } | { image: string }) {
+/**
+ * Enregistre la demande (salle entière, ou postes d'une salle). Le serveur fixe les postes d'une salle, l'école, l'auteur,
+ * la date et le suivi ; les valeurs provisoires ci-dessous ne servent qu'à afficher la demande sans attendre sa réponse.
+ */
+async function recordOperation(type: InterventionType, salleId: Id, target: { salleId?: Id; postes?: Id[] }, extra: { applicationId: Id } | { image: string }) {
   const cibles = target.salleId ? scope().postes.filter((p) => p.salleId === target.salleId).map((p) => p.id) : target.postes!;
-  await store.update('data', (s) => { s.operations.push({ id: uid('op'), type, cibles, ...(target.salleId && { salleId: target.salleId }), ...extra, at: Date.now(), par: me().nom } as Operation); });
+  const provisoire: Pick<Operation, 'ecoleId' | 'statut' | 'resultats' | keyof Trace> = { ecoleId: index().salle.get(salleId)!.ecoleId, statut: 'enregistree', resultats: {}, ...traceProvisoire() };
+  await store.update('data', (s) => { s.operations.push({ id: uid('op'), type, cibles, ...(target.salleId && { salleId: target.salleId }), ...extra, ...provisoire }); });
   await store.flush();
   notify(`${titreIntervention({ type, ...extra })} demandée pour ${cibleIntervention(target)}`, { icon: intervention(type)!.icon, tone: 'info' });
 }
@@ -64,7 +68,7 @@ function InterventionForm({ type, app, salleId, posteId }: { type: InterventionT
   async function save() {
     if (!salle) throw Error('Choisissez la salle.');
     if (!vises.length) throw Error('Choisissez au moins un poste.');
-    await recordOperation(type, mode === 'salle' ? { salleId: salle } : { postes: vises.map((p) => p.id) }, app ? { applicationId: app.id } : { image: IMAGE });
+    await recordOperation(type, salle, mode === 'salle' ? { salleId: salle } : { postes: vises.map((p) => p.id) }, app ? { applicationId: app.id } : { image: IMAGE_REFERENCE });
   }
 
   return <SheetForm id="intervention-form" onSave={save}>

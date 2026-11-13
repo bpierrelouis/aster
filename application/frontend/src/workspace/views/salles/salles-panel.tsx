@@ -11,10 +11,10 @@ import { can, why } from '../../core/permissions.ts';
 import { num, dateMed } from '#shared/format.ts';
 import { DEVICE_TYPES, deviceType, logistique } from '#shared/catalog.ts';
 import { parc, batiments, batimentLabel, sallesOf, materielsOf, index } from '../../core/selectors.ts';
-import { installationOf, salleStatut } from '../../core/installations.ts';
+import { installationOf, salleStatut, lieuNom, resteAFaire } from '../../core/installations.ts';
 import { EtatBar, Progress, avancement } from '../../widgets/parts.tsx';
-import { InstallDot, lieuNom, resteAFaire } from './installation.tsx';
-import { openMaterielForm, AffectationOptions } from '../inventaire/materiel.tsx';
+import { InstallDot } from './salles-installation.tsx';
+import { openMaterielForm, AffectationOptions } from '../inventaire/inventaire-materiel.tsx';
 import { openNewRemontee } from '../remontees/remontees-create.tsx';
 import { floorLabel, floorLevel, roomOrder } from './salles-scene.tsx';
 import { openSalleForm, openBuildingForm } from './salles-forms.tsx';
@@ -77,7 +77,7 @@ function DevGroups({ list, draggable, mode, selected, onPick, onGrab }: DevHandl
     <section key={t.id} className="dev-group">
       <header><Tile name={t.icon} color={t.color} size="s" /><span>{t.plural}</span><b>{num(l.length)}</b></header>
       <div className="dev-grid">{l.map((m) => (
-        <button key={m.id} className={`dev ${selected.has(m.id) ? 'is-on' : ''} ${draggable ? 'is-draggable' : ''} ${m.deplacement ? 'is-moving' : ''}`} data-mat={m.id} style={{ '--c': t.color } as CSSProperties}
+        <button key={m.id} className={`dev ${selected.has(m.id) ? 'is-on' : ''} ${draggable ? 'is-draggable' : ''} ${m.deplacement ? 'is-moving' : ''}`} style={{ '--c': t.color } as CSSProperties}
           aria-label={`${m.modele}, ${m.idOrion}, ${m.hs ? 'hors service' : 'en service'}`} aria-pressed={selected.has(m.id)} data-tip={`${m.modele}\n${m.idOrion}`}
           onClick={(e) => onPick(e, m.id)} onPointerDown={draggable ? (e) => onGrab(e, m.id) : undefined}>
           <Icon name={t.icon} size={20} /><span className={`led led--${m.hs ? 'hs' : 'ok'}`} />

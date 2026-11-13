@@ -10,16 +10,15 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useStore } from '../../hooks/use-store.ts';
 import { useEscape } from '../../hooks/use-escape.ts';
-import { usePeek } from '../../ui/peek.ts';
+import { usePeek } from '../../hooks/use-peek.ts';
 import { store } from '../../core/store.ts';
-import { batimentLabel } from '../../core/selectors.ts';
 import { interventions, titreIntervention, objetIntervention } from '../../core/interventions.ts';
 import { matcher } from '../../core/search.ts';
 import { ETATS_INTERVENTION, intervention, etatIntervention } from '#shared/catalog.ts';
 import { num, plural, ago, dateLong, dateShort } from '#shared/format.ts';
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { AppIcon } from '../../ui/app-icon.tsx';
-import { PageHead, PosteEtat, Progress } from '../../widgets/parts.tsx';
+import { LieuChip, PageHead, PosteEtat, Progress } from '../../widgets/parts.tsx';
 import type { TileSize } from '../../ui/icons.tsx';
 import type { SuiviIntervention } from '../../core/interventions.ts';
 import type { EtatIntervention } from '#shared/catalog.ts';
@@ -44,7 +43,7 @@ function Cible({ x }: { x: SuiviIntervention }) {
   const { kind, salle, label } = x.cible;
   return kind === 'poste'
     ? <span className="chip chip--pin"><Icon name="desktop" size={13} />{label}</span>
-    : <><span className="chip chip--pin" data-tip={salle && batimentLabel(salle.batiment)}><Icon name="pin" size={13} />{salle?.nom ?? 'Salle retirée'}</span>
+    : <><LieuChip salles={[salle]} />
       <span className="row-meta">{kind === 'salle' ? plural(x.n.total, 'poste') : `${plural(x.n.total, 'poste choisi', 'postes choisis')}`}</span></>;
 }
 

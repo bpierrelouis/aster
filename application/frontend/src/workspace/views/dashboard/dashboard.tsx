@@ -23,8 +23,9 @@ import { customBoards, openBoardForm, deleteBoard } from './dashboard-boards.tsx
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { Sheet, openSheet, notify } from '../../ui/overlays.tsx';
 import { useTitle } from '../../hooks/use-title.ts';
-import { useFitRows } from '../../ui/peek.ts';
-import type { KeyboardEvent, PointerEvent } from 'react';
+import { useFitRows } from '../../hooks/use-peek.ts';
+import { useBoardDrag, move } from '../../hooks/use-board-drag.ts';
+import type { KeyboardEvent } from 'react';
 import type { Board, Layout, Widget as WidgetItem, WidgetSize } from '#shared/types.ts';
 import type { Capability } from '../../core/permissions.ts';
 
@@ -32,14 +33,6 @@ const TITLES: Record<Board, string> = { perso: 'Accueil', parc: 'Gestion du parc
 
 /** Widgets d'un tableau (prédéfini ou ajouté) ; « tableaux » n'est jamais un identifiant de tableau. */
 const widgetsOf = (layout: Layout | undefined, boardId: string) => layout?.[boardId] as WidgetItem[] | undefined;
-
-/** Appui en cours (avant un glisser) */
-type Press = { el: HTMLElement; x: number; y: number; pointerId: number; timer: number };
-/** Glisser en cours ; raf : défilement automatique */
-type Drag = { el: HTMLElement; grabX: number; grabY: number; lastTarget: HTMLElement | null; raf?: number; px: number; py: number };
-
-/** Déplace l'élément d'indice from à l'indice to (copie). */
-const move = <T,>(list: T[], from: number, to: number) => { const next = [...list]; next.splice(to, 0, ...next.splice(from, 1)); return next; };
 
 /* ---------- Écran ---------- */
 
@@ -62,8 +55,6 @@ export function Dashboard() {
   const editingRef = useRef(editing);
   editingRef.current = editing;
   const selfUpdate = useRef(false);
-  const press = useRef<Press>(null); // { el, x, y, timer, pointerId }
-  const drag = useRef<Drag>(null);  // { el, grabX, grabY, lastTarget, raf, px, py }
   const liveTimer = useRef(0);
 
   // Les widgets retirés du catalogue sont ignorés dans les dispositions enregistrées
@@ -86,7 +77,6 @@ export function Dashboard() {
     selfUpdate.current = false;
   }
 
-  const domIds = () => $$('.widget', boardRef.current!).map((el) => el.dataset.id!);
   const saveOrder = (ids: string[]) => saveLayout((l) => l.sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id)));
   const others = () => $$('.widget', boardRef.current!);
 
@@ -128,117 +118,9 @@ export function Dashboard() {
     </Sheet>,
   );
 
-  /* ---------- Glisser-déposer ---------- */
+  /* ---------- Glisser-déposer et clavier ---------- */
 
-  const layoutPos = (el: HTMLElement) => ({ x: el.offsetLeft, y: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight });
-
-  function placeDragged() {
-    const { el, grabX, grabY, px, py } = drag.current!;
-    const br = boardRef.current!.getBoundingClientRect();
-    const p = layoutPos(el);
-    el.style.transform = `translate(${px - grabX - (br.left + p.x)}px, ${py - grabY - (br.top + p.y)}px) scale(1.03)`;
-  }
-
-  function autoScroll() {
-    const d = drag.current;
-    if (!d) return;
-    const edge = 90;
-    const speed = d.py < edge ? -(edge - d.py) / 4 : d.py > innerHeight - edge ? (d.py - (innerHeight - edge)) / 4 : 0;
-    if (speed) { scrollBy(0, speed); placeDragged(); }
-    d.raf = requestAnimationFrame(autoScroll);
-  }
-
-  function startDrag(el: HTMLElement, x: number, y: number) {
-    const board = boardRef.current!;
-    const p = layoutPos(el);
-    const br = board.getBoundingClientRect();
-    drag.current = { el, grabX: x - (br.left + p.x), grabY: y - (br.top + p.y), lastTarget: null, px: x, py: y };
-    el.classList.add('is-dragging');
-    board.classList.add('has-drag');
-    navigator.vibrate?.(8);
-    autoScroll();
-  }
-
-  function hitTest() {
-    const d = drag.current!;
-    const board = boardRef.current!;
-    const br = board.getBoundingClientRect();
-    const x = d.px - br.left, y = d.py - br.top;
-    let target: HTMLElement | null = null;
-    for (const w of $$('.widget', board)) {
-      if (w === d.el) continue;
-      const p = layoutPos(w);
-      if (x >= p.x && x <= p.x + p.w && y >= p.y && y <= p.y + p.h) { target = w; break; }
-    }
-    if (!target) { d.lastTarget = null; return; }
-    if (target === d.lastTarget) return;
-    d.lastTarget = target;
-    const all = $$('.widget', board);
-    const next = move(all.map((w) => w.dataset.id!), all.indexOf(d.el), all.indexOf(target));
-    flip(others(), () => flushSync(() => setOrder(next)), { skip: d.el, duration: 320 });
-    placeDragged();
-  }
-
-  function endDrag() {
-    const { el, raf } = drag.current!;
-    cancelAnimationFrame(raf!); // posé par autoScroll dès startDrag
-    const from = el.style.transform;
-    el.style.transform = '';
-    el.classList.remove('is-dragging');
-    boardRef.current!.classList.remove('has-drag');
-    if (!reduceMotion() && from) {
-      el.animate([{ transform: from }, { transform: 'none' }], { duration: 360, easing: 'cubic-bezier(.34,1.3,.64,1)' });
-    }
-    drag.current = null;
-    saveOrder(domIds());
-    setOrder(null);
-  }
-
-  function onPointerDown(e: PointerEvent<HTMLElement>) {
-    if (e.button !== 0) return;
-    const target = e.target as Element;
-    const el = target.closest<HTMLElement>('.widget');
-    if (!el || target.closest('.w-remove, .w-sizes')) return;
-    if (!editing && target.closest('button, .chart-host, .table')) return;
-    const p: Press = { el, x: e.clientX, y: e.clientY, pointerId: e.pointerId, timer: 0 };
-    press.current = p;
-    if (!editing) {
-      p.timer = setTimeout(() => {
-        if (press.current !== p) return;
-        flushSync(() => setEditing(true));
-        boardRef.current!.setPointerCapture(p.pointerId);
-        startDrag(p.el, p.x, p.y);
-        placeDragged();
-      }, 480);
-    }
-  }
-
-  function onPointerMove(e: PointerEvent<HTMLElement>) {
-    if (drag.current) {
-      drag.current.px = e.clientX; drag.current.py = e.clientY;
-      placeDragged();
-      hitTest();
-      return;
-    }
-    const p = press.current;
-    if (!p) return;
-    const moved = Math.hypot(e.clientX - p.x, e.clientY - p.y);
-    if (!editing) { if (moved > 8) { clearTimeout(p.timer); press.current = null; } return; }
-    if (moved > 5) {
-      boardRef.current!.setPointerCapture(p.pointerId);
-      startDrag(p.el, p.x, p.y);
-      drag.current!.px = e.clientX; drag.current!.py = e.clientY;
-      placeDragged();
-      press.current = null;
-    }
-  }
-
-  function release() {
-    if (press.current) { clearTimeout(press.current.timer); press.current = null; }
-    if (drag.current) endDrag();
-  }
-
-  /* ---------- Clavier ---------- */
+  const dragHandlers = useBoardDrag({ board: boardRef, editing, startEditing: () => setEditing(true), setOrder, saveOrder });
 
   function onWidgetKey(e: KeyboardEvent<HTMLElement>) {
     const el = e.currentTarget;
@@ -280,8 +162,6 @@ export function Dashboard() {
       document.removeEventListener('keydown', onKey);
       off();
       clearTimeout(liveTimer.current);
-      clearTimeout(press.current?.timer);
-      cancelAnimationFrame(drag.current?.raf ?? 0); // 0 : aucune image demandée (comme undefined)
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -309,8 +189,7 @@ export function Dashboard() {
     {/* Liens désactivés en mode édition */}
     <section ref={boardRef} className="board" aria-label="Widgets"
       onClickCapture={(e) => { if (editing && (e.target as Element).closest('a')) e.preventDefault(); }}
-      onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={release} onPointerCancel={release}
-      onLostPointerCapture={() => { if (drag.current) endDrag(); }}>
+      {...dragHandlers}>
       {items.map((w) => <Widget key={w.id} w={w} editing={editing}
         onRemove={(e) => removeWidget(e.currentTarget.closest<HTMLElement>('.widget')!)}
         onSize={(e, s) => setSize(e.currentTarget.closest<HTMLElement>('.widget')!, s)}

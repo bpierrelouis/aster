@@ -5,7 +5,7 @@
    ========================================================================== */
 
 import { DAY } from './format.ts';
-import type { DeviceTypeId, InterventionType, Materiel, Poste, ProblemId, Remontee, RemonteePhase, RemonteeStatut, RoleId } from './types.ts';
+import type { DeviceTypeId, Id, InterventionType, Materiel, Poste, ProblemId, Remontee, RemonteePhase, RemonteeStatut, RoleId } from './types.ts';
 
 /** Pastille d'état (témoin lumineux) */
 export type Led = 'ok' | 'hs' | 'wait';
@@ -97,6 +97,8 @@ export const REMONTEE_PHASES: { id: RemonteePhase; label: string; icon: string; 
 export const TERMINEES_RECENTES = 30 * DAY;
 /** Une remontée en attente ou en cours est ouverte ; remplacée ou corrigée, elle est terminée */
 export const remonteeOuverte = (r: Pick<Remontee, 'statut'>) => phaseOf(r) !== 'terminee';
+/** Matériel cité par une remontée : sa fiche est conservée pour que la remontée reste consultable (RG-73) */
+export const materielCite = (remontees: readonly Pick<Remontee, 'materielIds'>[], materielId: Id) => remontees.some((r) => r.materielIds.includes(materielId));
 
 /* Types de problème (contenu de l'état des lieux, RG-14) : liste proposée */
 export const PROBLEMS: { id: ProblemId; label: string; icon: string }[] = [
@@ -115,6 +117,14 @@ export const ROLES: { id: RoleId; label: string; icon: string; color: string }[]
   { id: 'formateur', label: 'Formateur', icon: 'user', color: 'var(--c3)' },
   { id: 'superadmin', label: 'Super administrateur', icon: 'school', color: 'var(--encre)' },
 ];
+/* Numéros attribués par ORION : MAT-0001 (matériel), REM-0101 (remontée) */
+export const numeroMateriel = (rang: number) => `MAT-${String(rang).padStart(4, '0')}`;
+export const numeroRemontee = (rang: number) => `REM-${String(rang).padStart(4, '0')}`;
+/** Rang d'un numéro attribué (0 s'il n'en suit pas le format) */
+export const rangDuNumero = (numero: unknown) => Number(String(numero).slice(4)) || 0;
+
+/** Profil connu (contrôle des écritures et de la configuration) */
+export const isRole = (value: unknown): value is RoleId => ROLES.some((r) => r.id === value);
 
 /* Interventions sur les postes (Administration › Interventions) : une demande vise une salle entière ou un seul poste,
    chaque poste l'exécute et renvoie son résultat. État d'un poste : en attente (éteint ou indisponible), en cours

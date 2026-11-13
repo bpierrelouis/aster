@@ -1,18 +1,14 @@
+import { role } from '#shared/catalog.ts';
 import type { Actor } from '#shared/types.ts';
 
-// Profils ORION (portés par le compte ORION, pas par le fournisseur d'identité).
-export const profiles = {
-  superadmin: { label: 'Super administrateur', scope: 'Toutes les écoles' },
-  admin: { label: 'Administrateur', scope: 'École de rattachement' },
-  gestionnaire: { label: 'Gestionnaire', scope: 'École de rattachement' },
-  formateur: { label: 'Formateur', scope: 'École de rattachement' },
-};
+// Les profils sont portés par le compte ORION, pas par le fournisseur d'identité.
 
 /** Identité transmise par le fournisseur : sujet obligatoire, adresse électronique pour le rapprochement. */
 export function identityFromClaims(claims: Record<string, unknown>) {
   if (typeof claims.sub !== 'string' || !claims.sub) throw new Error('Identité incomplète.');
-  const email = typeof claims.email === 'string' ? claims.email.trim().toLowerCase() : null;
-  return { sub: claims.sub, email, name: claims.name || claims.preferred_username || claims.sub };
+  // Adresse retenue pour le rapprochement seulement si le fournisseur l'a vérifiée
+  const email = claims.email_verified === true && typeof claims.email === 'string' ? claims.email.trim().toLowerCase() : null;
+  return { sub: claims.sub, email };
 }
 
 /** Utilisateur présenté au navigateur, à partir du compte ORION actif. */
@@ -22,7 +18,7 @@ export function userFromAccount(actor: Actor, ecoleNom: string | null = null) {
     name: actor.nom,
     email: actor.email,
     role: actor.role,
-    profile: profiles[actor.role].label,
-    scope: actor.role === 'superadmin' ? profiles.superadmin.scope : (ecoleNom ?? profiles[actor.role].scope),
+    profile: role(actor.role).label,
+    scope: actor.role === 'superadmin' ? 'Toutes les écoles' : (ecoleNom ?? 'École de rattachement'),
   };
 }

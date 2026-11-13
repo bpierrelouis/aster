@@ -6,12 +6,11 @@
    ========================================================================== */
 
 import { Link } from 'react-router';
-import { ago, num } from '#shared/format.ts';
+import { ago, plural } from '#shared/format.ts';
 import { REMONTEE_PHASES } from '#shared/catalog.ts';
-import { installations } from '../../core/installations.ts';
+import { installations, resteAFaire } from '../../core/installations.ts';
 import { batimentLabel } from '../../core/selectors.ts';
 import { Progress } from '../../widgets/parts.tsx';
-import { resteAFaire } from '../salles/installation.tsx';
 import { BoardColumn } from './remontees-backlog.tsx';
 import type { SalleEnInstallation, SalleInstallee } from '../../core/installations.ts';
 import type { RemonteePhase } from '#shared/types.ts';
@@ -26,7 +25,7 @@ const HINTS: Record<RemonteePhase, string> = {
 function InstallationCard({ x }: { x: SalleEnInstallation | SalleInstallee }) {
   const done = !x.enCours.length;
   const detail = done
-    ? `${num(x.faits.length)} matériel${x.faits.length > 1 ? 's' : ''} déplacé${x.faits.length > 1 ? 's' : ''}`
+    ? plural(x.faits.length, 'matériel déplacé', 'matériels déplacés')
     : resteAFaire(x);
   return <li>
     <Link className="bl-card" to={done ? `/salles/salle/${x.salle.id}` : `/salles/deplacements?salle=${x.salle.id}`}>

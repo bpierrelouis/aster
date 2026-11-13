@@ -248,7 +248,6 @@ export interface PreferencesCompte {
 export interface WorkspaceState extends Collections {
   version: number;
   revision: number;
-  rev?: number;
   seededAt?: Timestamp | null;
   preferences: Record<Id, PreferencesCompte>;
 }
@@ -266,7 +265,6 @@ export interface Actor {
 export interface WorkspaceView extends Collections {
   version: number;
   revision: number;
-  rev: number;
   seededAt?: Timestamp | null;
   role: RoleId;
   moi: Actor;

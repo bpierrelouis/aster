@@ -8,7 +8,7 @@
    ========================================================================== */
 
 import { Link } from 'react-router';
-import { num, pct, pct1, monthShort, monthYear } from '#shared/format.ts';
+import { num, plural, pct, pct1, monthShort, monthYear } from '#shared/format.ts';
 import { DEVICE_TYPES } from '#shared/catalog.ts';
 import { parc, batimentLabel } from '../core/selectors.ts';
 import { installations } from '../core/installations.ts';
@@ -72,7 +72,7 @@ export const PARC_WIDGETS: WidgetDef[] = [
     type: 'chart.echeances', kind: 'chart', title: 'Échéances de garantie', icon: 'calendarWarn', color: 'var(--warn)', sizes: ['M', 'L', 'XL'], cap: 'dashboard.parc',
     Body({ size }) {
       const { echeances } = parc();
-      const items = echeances.map((e, i) => ({ key: e.from, label: monthShort(e.from), value: e.n, color: i < 6 ? SOON : LATER, tipTitle: monthYear(e.from), tip: `${num(e.n)} fin${e.n > 1 ? 's' : ''} de garantie` }));
+      const items = echeances.map((e, i) => ({ key: e.from, label: monthShort(e.from), value: e.n, color: i < 6 ? SOON : LATER, tipTitle: monthYear(e.from), tip: `${plural(e.n, 'fin')} de garantie` }));
       const legend = <ul className="legend legend--inline">
         <li><span className="key-dot" style={{ '--k': SOON } as CSSProperties} />Sous 6 mois</li>
         <li><span className="key-dot" style={{ '--k': LATER } as CSSProperties} />6 à 12 mois</li>
@@ -108,7 +108,7 @@ export const PARC_WIDGETS: WidgetDef[] = [
       const { deplacements } = parc();
       const { enCours } = installations();
       return <Link className={`kpi kpi--link${alertClass('install', deplacements.length)}`} to="/salles/deplacements">
-        <KpiBody label="À déplacer" value={num(deplacements.length)} sub={<KpiSub>{enCours.length ? `${num(enCours.length)} salle${enCours.length > 1 ? 's' : ''} en installation` : 'Toutes les salles sont équipées'}</KpiSub>} />
+        <KpiBody label="À déplacer" value={num(deplacements.length)} sub={<KpiSub>{enCours.length ? `${plural(enCours.length, 'salle')} en installation` : 'Toutes les salles sont équipées'}</KpiSub>} />
       </Link>;
     },
   },

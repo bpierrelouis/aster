@@ -14,7 +14,7 @@ import { store } from '../../core/store.ts';
 import { can } from '../../core/permissions.ts';
 import { useStore } from '../../hooks/use-store.ts';
 import { index } from '../../core/selectors.ts';
-import { num } from '#shared/format.ts';
+import { num, plural } from '#shared/format.ts';
 import { DEVICE_TYPES, deviceType } from '#shared/catalog.ts';
 import { Sheet, openSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
@@ -29,8 +29,8 @@ export async function affecter(mats: Materiel[], salleId: Id | null) {
   if (dest && mats.some((m) => m.ecoleId !== dest.ecoleId)) { notify('Destination dans une autre école', { icon: 'alertes', tone: 'warn' }); return false; }
   store.update('data', (s) => { for (const m of mats) s.materiels.find((x) => x.id === m.id)!.salleId = salleId ?? null; });
   await store.flush();
-  const label = mats.length > 1 ? `${num(mats.length)} matériels` : mats[0].idOrion;
-  notify(dest ? `${label} affecté${mats.length > 1 ? 's' : ''} à ${dest.nom}, à installer` : `${label} remis en stock, à ranger`, { icon: 'deplacement' }); // déplacement physique à confirmer (Salles › Déplacements)
+  const label = mats.length > 1 ? plural(mats.length, 'matériel') : mats[0].idOrion;
+  notify(dest ? `${label} ${mats.length > 1 ? 'affectés' : 'affecté'} à ${dest.nom}, à installer` : `${label} remis en stock, à ranger`, { icon: 'deplacement' }); // déplacement physique à confirmer (Salles › Déplacements)
   return true;
 }
 
@@ -98,7 +98,7 @@ function EquipSheet({ salleId }: { salleId: Id }) {
   }
 
   return <Sheet title={`Équiper ${salle.nom}`} size="m" lead={<Tile name="stack" color="var(--accent)" size="m" />}
-    footer={<><span className="sheet-hint">{picks.length ? `${num(picks.length)} matériel${picks.length > 1 ? 's' : ''} du stock` : 'Aucun matériel choisi'}</span>
+    footer={<><span className="sheet-hint">{picks.length ? `${plural(picks.length, 'matériel')} du stock` : 'Aucun matériel choisi'}</span>
       <SheetFormActions form="equip-form" icon="deplacement" label={`Affecter à ${salle.nom}`} /></>}>
     <SheetForm id="equip-form" onSave={save}>
       <section className="equip-block" aria-labelledby="equip-postes">
@@ -110,7 +110,7 @@ function EquipSheet({ salleId }: { salleId: Id }) {
           <span id="equip-ecrans">Écrans par poste</span>
           <div className="seg" role="radiogroup" aria-labelledby="equip-ecrans">
             {[1, 2].map((n) => <button key={n} type="button" role="radio" aria-checked={ecrans === n} className={`seg-btn ${ecrans === n ? 'is-on' : ''}`}
-              disabled={excluded.has('ecran')} onClick={() => setEcrans(n)}>{n} écran{n > 1 ? 's' : ''}</button>)}
+              disabled={excluded.has('ecran')} onClick={() => setEcrans(n)}>{plural(n, 'écran')}</button>)}
           </div>
         </div>}
         {poste.length ? <ul className="equip-list">
@@ -125,7 +125,7 @@ function EquipSheet({ salleId }: { salleId: Id }) {
             </label></li>;
           })}
         </ul> : <p className="equip-none">Aucune unité centrale ni aucun périphérique en stock.</p>}
-        {poste.length > 0 && <p className="field-hint">{maxPostes ? `Le stock permet d’équiper ${num(maxPostes)} poste${maxPostes > 1 ? 's' : ''} avec cette composition.` : 'Le stock ne permet pas d’équiper un poste complet avec cette composition.'}</p>}
+        {poste.length > 0 && <p className="field-hint">{maxPostes ? `Le stock permet d’équiper ${plural(maxPostes, 'poste')} avec cette composition.` : 'Le stock ne permet pas d’équiper un poste complet avec cette composition.'}</p>}
       </section>
       <section className="equip-block" aria-labelledby="equip-secondaires">
         <header className="equip-head"><div><h3 id="equip-secondaires">Matériels secondaires</h3><span>Vidéoprojecteur, réseau, audio, impression</span></div></header>

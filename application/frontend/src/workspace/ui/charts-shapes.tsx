@@ -73,7 +73,7 @@ export function ChartLegend({ items }: { items: LegendItem[] }) {
 }
 
 /**
- * Anneau (hole > 0) ou camembert (hole = 0). parts : { label, value, color, explode? }.
+ * Anneau (hole > 0) ou camembert (hole = 0).
  * Une part « explode » est détachée du centre.
  */
 export function Donut({ parts, hole = .6, label, center = null }: { parts: DonutPart[]; hole?: number; label: string; center?: ReactNode }) {
@@ -98,7 +98,7 @@ export function Donut({ parts, hole = .6, label, center = null }: { parts: Donut
   </div>;
 }
 
-/** Arcs concentriques, du plus grand au plus petit. items : { label, ratio (0 à 1), color, tip } */
+/** Arcs concentriques, du plus grand au plus petit ; ratio de 0 à 1 */
 export function Arcs({ items, label }: { items: ArcItem[]; label: string }) {
   const paintId = useId();
   const step = 44 / Math.max(items.length, 1);
@@ -132,7 +132,7 @@ export function Gauge({ ratio, value, caption, label }: { ratio: number; value: 
   </div>;
 }
 
-/** Colonnes en relief (deux faces et un dessus). items : { key, label, short?, ratio (0 à 1), display, color, tip } */
+/** Colonnes en relief (deux faces et un dessus) ; ratio de 0 à 1 */
 export function Columns({ items, label }: { items: ColumnItem[]; label: string }) {
   return <div className="cols" role="img" aria-label={label}>{items.map((it) => (
     <div key={it.key} className="col" data-tip-title={it.label} data-tip={it.tip}>
@@ -167,7 +167,7 @@ export function ComboBars({ labels, bars, line, barName, lineName, label, fmtLin
   </div>;
 }
 
-/** Pyramide : une bande par catégorie, de haut en bas. layers : { label, color, tip } */
+/** Pyramide : une bande par catégorie, de haut en bas */
 export function Pyramid({ layers, label }: { layers: PyramidLayer[]; label: string }) {
   const paintId = useId();
   const W = 116, H = 100, gap = 2.5;

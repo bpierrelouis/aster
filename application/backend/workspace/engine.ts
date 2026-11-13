@@ -8,7 +8,8 @@
 import { readFile, writeFile, rename, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { SEED_VERSION } from '#shared/seed.ts';
-import { collections, same, keyOf, fail, initialState, actorOf, accountForIdentity, scopedState, rebase, mergeState } from './rules.ts';
+import { collections, same, fail, initialState, actorOf, accountForIdentity, scopedState, mergeState } from './rules.ts';
+import { keyOf, rebase } from './fusion.ts';
 import { DISCONNECT_AFTER, applyReports, applyResults, markDisconnected, pendingCommands } from './postes.ts';
 import { reportPdf } from './pdf.ts';
 import { analyseImport, importMateriels } from './import.ts';
@@ -64,7 +65,6 @@ export function createEngine({ store }: { store: Store }) {
     const next = structuredClone(state);
     const result = mutate(next);
     next.revision = state.revision + 1;
-    next.rev = (state.rev ?? state.revision) + 1;
     return { next, result };
   });
   return {

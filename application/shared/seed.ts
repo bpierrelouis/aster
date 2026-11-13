@@ -7,9 +7,12 @@
    ========================================================================== */
 
 import { DAY, HOUR } from './format.ts';
-import type { Classement, Compte, DeviceTypeId, Detection, EtapeRemontee, Id, InterventionType, Layout, Materiel, Operation, Poste, ProblemId, Remontee, RemonteeStatut, RoleId, Salle, Widget, WidgetSize, WorkspaceState } from './types.ts';
+import { numeroMateriel, numeroRemontee } from './catalog.ts';
+import { IMAGE_REFERENCE } from './operations-data.ts';
+import type { Compte, DeviceTypeId, Detection, EtapeRemontee, Id, InterventionType, Materiel, Operation, Poste, ProblemId, Remontee, RemonteeStatut, Salle, WorkspaceState } from './types.ts';
 
-function prng(seed: number) {
+/** Générateur pseudo-aléatoire reproductible (mulberry32) */
+export function prng(seed: number) {
   let a = seed >>> 0;
   return () => {
     a |= 0; a = (a + 0x6d2b79f5) | 0;
@@ -20,7 +23,7 @@ function prng(seed: number) {
 }
 
 /** Version du jeu de données : un état enregistré plus ancien est régénéré. */
-export const SEED_VERSION = 13;
+export const SEED_VERSION = 14;
 
 /**
  * Comptes ORION de départ : profil et école de rattachement de chaque personne.
@@ -130,7 +133,7 @@ export function seed(now = Date.now()) {
   const LOT: Partial<Record<ModeleKey, number>> = { uc: 20, ecran: 40, clavier: 20, souris: 20, vp: 3, switch: 2, borne: 3, cable: 24, audio: 4, imprimante: 2, autre: 3 };
   for (const [key, n] of Object.entries(LOT) as [ModeleKey, number][]) for (let i = 0; i < n; i++) mkMat('e-num', null, key, 21);
   // Identifiant ORION attribué dans l'ordre de réception (RG-03)
-  [...materiels].sort((a, b) => a.dateReception - b.dateReception).forEach((m, i) => { m.idOrion = `MAT-${String(i + 1).padStart(4, '0')}`; });
+  [...materiels].sort((a, b) => a.dateReception - b.dateReception).forEach((m, i) => { m.idOrion = numeroMateriel(i + 1); });
 
   const comptes = structuredClone(ACCOUNTS);
   const gestionnaireDe = (ecoleId: Id) => comptes.find((c) => c.ecoleId === ecoleId && c.role === 'gestionnaire')!;
@@ -155,7 +158,7 @@ export function seed(now = Date.now()) {
   for (const s of salles) {
     const ucs = materiels.filter((m) => m.salleId === s.id && m.type === 'uc' && !m.deplacement);
     for (let i = 0; i < (s.profil ?? 0); i++) {
-      postes.push({ id: `p-${postes.length + 1}`, salleId: s.id, nomReseau: `${s.nom.replace(/\s+/g, '').toUpperCase()}-PC${String(i + 1).padStart(2, '0')}`, materielId: ucs[i]?.id ?? null, allume: rnd() > 0.12 });
+      postes.push({ id: `p-${postes.length + 1}`, salleId: s.id, nomReseau: `${s.nom.replace(/\s+/g, '').toUpperCase()}-PC${String(i + 1).padStart(2, '0')}`, materielId: ucs[i]?.id ?? null, allume: false }); // allumé par le premier rapport du poste
     }
   }
   for (const s of salles) delete s.profil;
@@ -207,22 +210,10 @@ export function seed(now = Date.now()) {
       description: pick(DESCRIPTIONS[prob]), statut: st, historique,
     });
   }
-  remontees.sort((a, b) => a.createdAt - b.createdAt).forEach((r, i) => { r.id = `REM-${String(101 + i).padStart(4, '0')}`; });
+  remontees.sort((a, b) => a.createdAt - b.createdAt).forEach((r, i) => { r.id = numeroRemontee(101 + i); });
   remontees.reverse();
   // Matériels concernés par une remontée non traitée : souvent hors service
   for (const r of remontees) if (['attente', 'encours'].includes(r.statut) && rnd() < 0.5) { const m = materiels.find((x) => x.id === r.materielIds[0]); if (m) m.hs = true; }
-
-  /* Détections de processus (historique RG-56) */
-  const procs: [string, Classement][] = [['steam.exe', 'blacklist'], ['discord.exe', 'blacklist'], ['torrent.exe', 'blacklist'], ['vlc.exe', 'nonref'], ['notepad++.exe', 'nonref'], ['spotify.exe', 'blacklist'], ['putty.exe', 'nonref']];
-  const detections: Detection[] = [];
-  const onlinePostes = postes.filter((p) => p.allume);
-  for (let i = 0; i < 14; i++) {
-    const p = pick(onlinePostes);
-    const [nom, classement] = pick(procs);
-    const at = now - Math.pow(rnd(), 1.4) * 9 * DAY;
-    detections.push({ id: `d-${i + 1}`, at, posteId: p.id, salleId: p.salleId, processus: nom, compte: pick(UTILISATEURS), classement, arret: classement === 'blacklist' ? (rnd() < 0.92 ? 'réussi' : 'échec') : null });
-  }
-  detections.sort((a, b) => b.at - a.at);
 
   return {
     // Préférences, dispositions et dernière consultation : propres à chaque compte
@@ -235,7 +226,7 @@ export function seed(now = Date.now()) {
     postes,
     remontees,
     comptes,
-    detections,
+    detections: [] as Detection[], // alimentées par les rapports des postes
     operations: interventionsDeDepart(postes, salles, comptes, now),
     seededAt: now,
   };
@@ -263,7 +254,7 @@ const SIMULATION: {
   horsService: ['B104-PC07', 'B104-PC08', 'A014-PC02'],
   interventions: [
     { type: 'desinstallation', applicationId: 'app-libreoffice', salle: 'C203', heures: 5 },
-    { type: 'reinstallation', image: 'Windows — configuration de référence', salle: 'A105', heures: 26 },
+    { type: 'reinstallation', image: IMAGE_REFERENCE, salle: 'A105', heures: 26 },
     { type: 'installation', applicationId: 'app-postman', poste: 'A014-PC02', heures: 2 },
     { type: 'installation', applicationId: 'app-intellij', salle: 'B104', heures: 1 },
   ],
@@ -279,65 +270,4 @@ function interventionsDeDepart(postes: Poste[], salles: Salle[], comptes: Compte
       par: admin.nom, parId: admin.id, statut: 'enregistree', resultats: Object.fromEntries(cibles.map((pid) => [pid, 'en_attente' as const])),
     };
   });
-}
-
-/* Dispositions par profil et par tableau de bord (RG-36 : tableaux spécialisés) */
-export function defaultLayouts(): Record<RoleId, Layout> {
-  let i = 0;
-  const w = (type: string, size: WidgetSize): Widget => ({ id: `w${++i}`, type, size });
-  // Parc : indicateurs, où sont les matériels hors service, composition, garanties, acquisitions, listes
-  const parc = () => [
-    w('kpi.materiels', 'S'), w('kpi.affectes', 'S'), w('kpi.stock', 'S'), w('kpi.hs', 'S'),
-    w('chart.hsBatiments', 'L'), w('chart.types', 'L'),
-    w('chart.matriceHs', 'L'), w('list.surveiller', 'L'),
-    w('chart.garanties', 'M'), w('chart.disponibilite', 'M'),
-    w('chart.echeances', 'L'), w('chart.parcBatiments', 'L'),
-    w('chart.receptions', 'XL'),
-    w('chart.localisation', 'M'), w('chart.marques', 'M'),
-    w('list.hs', 'M'), w('list.salles', 'M'),
-    w('list.recents', 'XL'),
-  ];
-  // Remontées : file de travail, flux, ancienneté, répartition dans le temps, par type et par bâtiment
-  const remontees = () => [
-    w('kpi.attente', 'M'), w('kpi.traitees', 'S'), w('kpi.delai', 'S'),
-    w('list.aTraiter', 'L'), w('chart.flux', 'L'),
-    w('chart.anciennete', 'M'), w('chart.solde', 'M'),
-    w('chart.calendrier', 'XL'),
-    w('chart.semaines', 'L'), w('chart.problemes', 'M'), w('chart.statuts', 'M'),
-    w('chart.taux', 'L'), w('chart.batiments', 'L'),
-  ];
-  // Synthèse : ce qui demande une action d'abord, puis l'état du parc et des postes
-  const admin = () => ({
-    perso: [
-      w('kpi.hs', 'S'), w('kpi.attente', 'S'), w('kpi.traitees', 'S'), w('kpi.delai', 'S'),
-      w('list.aTraiter', 'L'), w('chart.flux', 'L'),
-      w('chart.hsBatiments', 'L'), w('list.surveiller', 'L'),
-      w('chart.postes', 'M'), w('list.detections', 'M'),
-      w('kpi.parc', 'M'), w('chart.garanties', 'M'),
-    ],
-    parc: parc(),
-    remontees: remontees(),
-  });
-  return {
-    admin: admin(),
-    superadmin: admin(),
-    gestionnaire: {
-      perso: [
-        w('kpi.stock', 'S'), w('kpi.hs', 'S'), w('kpi.attente', 'S'), w('kpi.deplacements', 'S'),
-        w('list.aTraiter', 'L'), w('list.installations', 'L'),
-        w('chart.garanties', 'M'), w('chart.hsTypes', 'M'),
-        w('list.surveiller', 'L'), w('chart.echeances', 'L'),
-        w('chart.receptions', 'XL'),
-      ],
-      parc: parc(),
-      remontees: remontees(),
-    },
-    formateur: {
-      perso: [
-        w('kpi.mesattente', 'S'), w('kpi.salles', 'S'),
-        w('chart.postes', 'M'),
-        w('list.mesremontees', 'XL'),
-      ],
-    },
-  };
 }

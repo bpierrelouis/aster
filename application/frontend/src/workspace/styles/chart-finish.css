@@ -38,7 +38,6 @@
 .stbar-seg--attente, .agestrip-dot { color: var(--wait); }
 .stbar-seg--remplace { color: var(--accent); }
 .stbar-seg--encours { color: var(--c5); }
-.stbar-seg--validee { color: var(--stock); }
 .progress-fill { color: var(--install); }
 .heatcal-total-bar { color: var(--accent); }
 .combo-dot { color: var(--trend); }

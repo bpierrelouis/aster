@@ -167,6 +167,7 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
   const email = 'nouveau.formateur@orion.demo';
   await login(page, 'admin');
   await page.goto('/administration/comptes');
+  await expect(page.locator('tr', { hasText: 'admin@orion.demo' })).toBeVisible(); // liste affichée avant de chercher le compte (test rejouable)
   const row = page.locator('tr', { hasText: email });
   if (await row.count()) {
     if (await row.getByRole('button', { name: 'Réactiver' }).count()) {

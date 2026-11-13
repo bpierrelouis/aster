@@ -5,6 +5,7 @@
    n'attribue que le profil et l'école.
    ========================================================================== */
 
+import { identifiantDeBase, identifiantUnique } from './identifiant.ts';
 import type { Compte } from '#shared/types.ts';
 
 // adminUrl : adresse de l'API d'administration, par défaut celle de l'émetteur ; sur les VM, l'adresse interne de Keycloak.
@@ -26,10 +27,12 @@ export function createKeycloakProvisioning({ issuer, adminUrl = issuer, adminUse
     return ((await response.json()) as { access_token: string }).access_token;
   }
 
-  async function api(path: string, access: string, options: { method?: string; body?: string; headers?: Record<string, string> } = {}): Promise<unknown> {
-    const response = await fetch(`${base}/admin/realms/${realm}${path}`, { ...options, headers: { Authorization: `Bearer ${access}`, 'Content-Type': 'application/json', ...options.headers }, signal: AbortSignal.timeout(5000) });
-    if (!response.ok && response.status !== 409) throw new Error(`Keycloak ${options.method ?? 'GET'} ${path} : ${response.status}`);
-    return response.status === 204 || response.status === 201 || response.status === 409 ? null : response.json();
+  /** Appel de l'API d'administration ; une création refusée parce que l'identité existe déjà (409) renvoie false */
+  async function api(path: string, access: string, options: { method?: string; body?: string } = {}): Promise<unknown> {
+    const response = await fetch(`${base}/admin/realms/${realm}${path}`, { ...options, headers: { Authorization: `Bearer ${access}`, 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(5000) });
+    if (response.status === 409) return false;
+    if (!response.ok) throw new Error(`Keycloak ${options.method ?? 'GET'} ${path} : ${response.status}`);
+    return response.status === 201 || response.status === 204 ? true : response.json();
   }
 
   /** Crée les identités manquantes pour les comptes actifs (rapprochement par adresse électronique). */
@@ -41,9 +44,14 @@ export function createKeycloakProvisioning({ issuer, adminUrl = issuer, adminUse
     for (const c of active) {
       const found = (await api(`/users?email=${encodeURIComponent(c.email)}&exact=true`, access)) as unknown[];
       if (found.length) continue;
+      // Identifiant formé à partir du nom ; homonymes départagés par un chiffre (identifiant.ts). Recherche
+      // (sous-chaîne) sur les 17 premiers caractères : couvre aussi les identifiants raccourcis pour le chiffre.
+      const repli = c.email.split('@')[0];
+      const existants = (await api(`/users?username=${encodeURIComponent(identifiantDeBase(c.nom, repli).slice(0, 17))}&briefRepresentation=true&max=1000`, access)) as { username: string }[];
+      const pris = new Set(existants.map((u) => u.username.toLowerCase()));
+      const username = identifiantUnique(c.nom, (id) => pris.has(id), repli);
       const [firstName, ...rest] = c.nom.split(' ');
-      await api('/users', access, { method: 'POST', body: JSON.stringify({ username: c.email.split('@')[0], email: c.email, firstName, lastName: rest.join(' ') || firstName, enabled: true, emailVerified: true }) });
-      created++;
+      if (await api('/users', access, { method: 'POST', body: JSON.stringify({ username, email: c.email, firstName, lastName: rest.join(' ') || firstName, enabled: true, emailVerified: true }) })) created++;
     }
     if (created) log.info?.(`Identités créées dans le fournisseur local : ${created}`);
     return created;

@@ -9,7 +9,7 @@
 
 import { Link, useNavigate } from 'react-router';
 import { Icon } from '../../ui/icons.tsx';
-import { num } from '#shared/format.ts';
+import { num, plural } from '#shared/format.ts';
 import { clamp } from '../../core/dom.ts';
 import { parc, sallesOf, batimentLabel, floorLabel, floorShort } from '../../core/selectors.ts';
 import type { CSSProperties } from 'react';
@@ -36,7 +36,7 @@ export interface Scene {
   props: SceneProps;
 }
 
-export const ISO = { rx: 56, rz: -24 };
+const ISO = { rx: 56, rz: -24 };
 const TW = 5, TH = 4, GAP = 1.5, PAD = 1.2; // en cellules
 const RAD = Math.PI / 180;
 const SX = Math.sin(ISO.rx * RAD), CX = Math.cos(ISO.rx * RAD);
@@ -71,7 +71,7 @@ const projH = (w: number, h: number) => (w * SZ + h * CZ) * CX;
  * Les étages sont centrés sur l'emprise commune ; l'écart vertical évite
  * qu'un étage recouvre celui du dessous à l'écran.
  */
-export function buildingModel(batiment: string, floors: Floor[], spread = 1) {
+function buildingModel(batiment: string, floors: Floor[], spread = 1) {
   const laid = floors.map((f) => ({ ...f, ...floorLayout(f.rooms) }) as FloorModel); // ox, oy, z : fixés ci-dessous
   const W = Math.max(TW + PAD * 2, ...laid.map((f) => f.w));
   const H = Math.max(TH + PAD * 2, ...laid.map((f) => f.h));
@@ -84,7 +84,7 @@ function Room({ c, f, bySalle, selectedId, hoverId, dropId, onRoom }: SceneProps
   const s = c.salle;
   const v = bySalle.get(s.id) ?? { total: 0, hs: 0, attente: 0 };
   const state = v.hs ? 'is-hs' : v.attente ? 'is-wait' : '';
-  const details = [`${num(v.total)} matériel${v.total > 1 ? 's' : ''}`, v.hs ? `${num(v.hs)} hors service` : '', v.attente ? `${num(v.attente)} en remontée` : ''].filter(Boolean);
+  const details = [plural(v.total, 'matériel'), v.hs ? `${num(v.hs)} hors service` : '', v.attente ? `${num(v.attente)} en remontée` : ''].filter(Boolean);
   const cls = ['blk', state, s.id === selectedId && 'is-selected', s.id === hoverId && 'is-hover', s.id === dropId && 'is-drop'].filter(Boolean).join(' ');
   return <div className={cls} data-salle={s.id} role="button" tabIndex={0}
     style={{ '--bx': c.x, '--by': c.y } as CSSProperties} aria-label={`${s.nom}, ${floorLabel(f.level)}, ${details.join(', ')}`}
@@ -113,7 +113,7 @@ export function Building({ model, bySalle, selectedId = null, hoverId = null, dr
       <span className="plat-face plat-face--s" /><span className="plat-face plat-face--w" />
       {f.cells.map((c) => <Room key={c.salle.id} c={c} f={f} bySalle={bySalle} selectedId={selectedId} hoverId={hoverId} dropId={dropId} onRoom={onRoom} />)}
       <Link className="plat-tag floor-tag-link" to={floorHref(f.level)} aria-label={`${floorLabel(f.level)}, ${f.rooms.length} salles`}>
-        <span><span className="floor-code">{floorShort(f.level)}</span><span className="tag-txt"><b>{floorLabel(f.level)}</b><small>{f.rooms.length} salle{f.rooms.length > 1 ? 's' : ''}{hs ? <> · <em>{hs} avec HS</em></> : null}</small></span></span>
+        <span><span className="floor-code">{floorShort(f.level)}</span><span className="tag-txt"><b>{floorLabel(f.level)}</b><small>{plural(f.rooms.length, 'salle')}{hs ? <> · <em>{num(hs)} avec HS</em></> : null}</small></span></span>
       </Link>
     </div>;
   });
@@ -123,7 +123,7 @@ export function Building({ model, bySalle, selectedId = null, hoverId = null, dr
 const sceneHeight = (model: BuildingModel) => projH(model.W, model.H) + model.lift + 2;
 
 /** Hauteur de conteneur (pixels) qui donne au moins `cell` pixels par cellule. */
-export const heightForCell = (model: BuildingModel, cell: number) => (sceneHeight(model) * cell) / 0.9;
+const heightForCell = (model: BuildingModel, cell: number) => (sceneHeight(model) * cell) / 0.9;
 
 /**
  * Met la scène à l'échelle de son conteneur. tagW : place réservée à gauche
@@ -186,7 +186,7 @@ export function BatCard({ b, scene }: { b: string; scene: Scene }) {
   return <article className="bat-card glass">
     <Link className="bat-card-head" to={`/salles/batiment/${encodeURIComponent(b)}`}>
       <span className="code-badge code-badge--l">{b}</span>
-      <span className="bat-card-title"><b>{batimentLabel(b)}</b><small>{levels.length} niveau{levels.length > 1 ? 'x' : ''} · {n} salle{n > 1 ? 's' : ''}</small></span>
+      <span className="bat-card-title"><b>{batimentLabel(b)}</b><small>{plural(levels.length, 'niveau', 'niveaux')} · {plural(n, 'salle')}</small></span>
       <span className="bat-card-stats">
         <span data-tip="Matériels affectés"><Icon name="materiel" size={15} />{num(c.total)}</span>
         {c.hs ? <span className="is-hs" data-tip="Matériels hors service"><Icon name="power" size={15} />{num(c.hs)}</span> : null}

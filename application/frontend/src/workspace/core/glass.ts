@@ -24,7 +24,7 @@ const supportsLens =
 let defs: SVGSVGElement | undefined; // <svg> qui contient les filtres
 let level = 'liquid';
 let uid = 0;
-const lensed = new Map<HTMLElement, LensEntry>(); // element -> { id, filter, w, h }
+const lensed = new Map<HTMLElement, LensEntry>();
 const mapCache = new Map<string, string>(); // "w×h×r×b" -> dataURL
 const ro = new ResizeObserver(onResize);
 let resizeQueue = new Set<HTMLElement>();
@@ -134,24 +134,29 @@ function buildFilter(el: HTMLElement, entry: LensEntry) {
   f.setAttribute('filterUnits', 'userSpaceOnUse');
   f.setAttribute('color-interpolation-filters', 'sRGB');
 
-  const disp = (inp: string, sc: number, res: string) =>
-    `<feDisplacementMap in="${inp}" in2="map" scale="${sc}" xChannelSelector="R" yChannelSelector="G" result="${res}"/>`;
-  const chan = (inp: string, m: string, res: string) => `<feColorMatrix in="${inp}" type="matrix" values="${m}" result="${res}"/>`;
+  const fe = (name: string, attrs: Record<string, string | number>) => {
+    const node = document.createElementNS(SVG_NS, name);
+    for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, String(v));
+    return node;
+  };
+  const disp = (inp: string, sc: number, res: string) => fe('feDisplacementMap', { in: inp, in2: 'map', scale: sc, xChannelSelector: 'R', yChannelSelector: 'G', result: res });
+  const chan = (inp: string, m: string, res: string) => fe('feColorMatrix', { in: inp, type: 'matrix', values: m, result: res });
 
-  f.innerHTML = `
-    <feImage href="${href}" x="0" y="0" width="${w}" height="${h}" preserveAspectRatio="none" result="map"/>
-    <feGaussianBlur in="SourceGraphic" stdDeviation="${blur}" result="blur"/>
-    ${strong ? `
-      ${disp('blur', scale, 'dr')}${chan('dr', '1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0', 'r')}
-      ${disp('blur', Math.round(scale * 0.95), 'dg')}${chan('dg', '0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0', 'g')}
-      ${disp('blur', Math.round(scale * 0.9), 'db')}${chan('db', '0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0', 'b')}
-      <feBlend in="r" in2="g" mode="screen" result="rg"/>
-      <feBlend in="rg" in2="b" mode="screen" result="rgb"/>
-      <feColorMatrix in="rgb" type="saturate" values="${sat}"/>
-    ` : `
-      ${disp('blur', scale, 'd')}
-      <feColorMatrix in="d" type="saturate" values="${sat}"/>
-    `}`;
+  f.replaceChildren(
+    fe('feImage', { href, x: 0, y: 0, width: w, height: h, preserveAspectRatio: 'none', result: 'map' }),
+    fe('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: blur, result: 'blur' }),
+    ...(strong ? [
+      disp('blur', scale, 'dr'), chan('dr', '1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0', 'r'),
+      disp('blur', Math.round(scale * 0.95), 'dg'), chan('dg', '0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0', 'g'),
+      disp('blur', Math.round(scale * 0.9), 'db'), chan('db', '0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0', 'b'),
+      fe('feBlend', { in: 'r', in2: 'g', mode: 'screen', result: 'rg' }),
+      fe('feBlend', { in: 'rg', in2: 'b', mode: 'screen', result: 'rgb' }),
+      fe('feColorMatrix', { in: 'rgb', type: 'saturate', values: sat }),
+    ] : [
+      disp('blur', scale, 'd'),
+      fe('feColorMatrix', { in: 'd', type: 'saturate', values: sat }),
+    ]),
+  );
 }
 
 function attach(el: HTMLElement) {

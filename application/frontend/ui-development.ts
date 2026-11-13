@@ -3,11 +3,11 @@ import type { Plugin } from 'vite';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
-import { ROLES } from '../backend/workspace/rules.ts';
 import { createWorkspaceRepository } from '../backend/workspace/engine.ts';
 import { createWorkspaceRouter, createAgentRouter } from '../backend/workspace/routes.ts';
 import { createAgentEmulator, directTransport } from '../backend/demonstrateur/agents.ts';
 import { userFromAccount } from '../backend/profiles.ts';
+import { isRole } from '#shared/catalog.ts';
 
 // Mode interface seule : mêmes règles et même API, sans fournisseur d'identité ni base de données.
 // L'utilisateur est d'abord le premier compte actif du profil ORION_UI_ROLE ; /api/dev permet d'en changer
@@ -17,8 +17,8 @@ export function uiDevelopment(): Plugin {
     name: 'orion-local-workspace',
     async configureServer(server) {
       if (process.env.NODE_ENV === 'production' || server.config.server.host !== '127.0.0.1') throw new Error('Le mode local nécessite une écoute sur 127.0.0.1 hors production.');
-      const role = (process.env.ORION_UI_ROLE || 'admin').replace('super_admin', 'superadmin');
-      if (!ROLES.includes(role)) throw new Error('Profil ORION_UI_ROLE inconnu.');
+      const role = process.env.ORION_UI_ROLE || 'admin';
+      if (!isRole(role)) throw new Error('Profil ORION_UI_ROLE inconnu.');
       const namespace = createHash('sha256').update(server.config.root).digest('hex').slice(0, 12);
       const file = process.env.ORION_UI_STATE_FILE || join(tmpdir(), `orion-workspace-${namespace}.json`);
       const repository = await createWorkspaceRepository({ file });
@@ -59,7 +59,7 @@ export function uiDevelopment(): Plugin {
       });
       app.use('/api/workspace', createWorkspaceRouter({ repository, actor }));
       app.use('/api/agent', createAgentRouter({ repository, token: process.env.AGENT_TOKEN || 'orion-agent-local' }));
-      app.use('/api', (_req, res) => res.status(404).json({ error: 'Ressource introuvable.' }));
+      app.use('/api', (_req, res) => res.status(404).json({ error: 'Adresse inconnue.' }));
       server.middlewares.use(app);
     },
   };

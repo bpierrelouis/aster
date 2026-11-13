@@ -4,8 +4,9 @@ import { identityFromClaims, userFromAccount } from './profiles.ts';
 import { readConfig } from './config.ts';
 
 test('le fournisseur transmet une identité ; le profil ne vient pas des claims', () => {
-  const identity = identityFromClaims({ sub: 'id-1', email: ' Formateur@Orion.Demo ', name: 'Formateur ORION', orion_roles: ['super_admin'] });
-  assert.deepEqual(identity, { sub: 'id-1', email: 'formateur@orion.demo', name: 'Formateur ORION' });
+  const identity = identityFromClaims({ sub: 'id-1', email: ' Formateur@Orion.Demo ', email_verified: true, name: 'Formateur ORION', orion_roles: ['superadmin'] });
+  assert.deepEqual(identity, { sub: 'id-1', email: 'formateur@orion.demo' });
+  assert.equal(identityFromClaims({ sub: 'id-2', email: 'admin@orion.demo' }).email, null, 'adresse non vérifiée : pas de rapprochement');
   assert.throws(() => identityFromClaims({ email: 'x@orion.demo' }));
   assert.throws(() => identityFromClaims({ sub: '' }));
 });

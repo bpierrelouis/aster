@@ -2,14 +2,15 @@
 import { createContext, useContext, useLayoutEffect, useRef, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
+import { Link } from 'react-router';
 import { Icon } from '../ui/icons.tsx';
 import { OrionMark } from '../../connexion/brand.tsx';
-import { usePeek } from '../ui/peek.ts';
+import { usePeek } from '../hooks/use-peek.ts';
 import { num, pct } from '#shared/format.ts';
 import { ETATS, statut, etatPoste } from '#shared/catalog.ts';
 import { index, batimentLabel } from '../core/selectors.ts';
 import type { NumberFormat } from '../ui/charts.tsx';
-import type { Id, Materiel, Poste, Remontee } from '#shared/types.ts';
+import type { Id, Materiel, Poste, Remontee, Salle } from '#shared/types.ts';
 
 /** État d'un matériel : icône seule */
 export function EtatIcon({ m }: { m: Pick<Materiel, 'hs'> }) {
@@ -34,12 +35,18 @@ export function PosteEtat({ p }: { p: Poste }) {
   return <span className="inv-state"><i className={`led led--${e.led}`} />{e.label}{e.id === 'connecte' && <span className="poste-session"><Icon name="user" size={13} />{p.session}</span>}</span>;
 }
 
-/** Localisation d'un matériel : salle ou stock */
-export function LieuChip({ m }: { m: { salleId?: Id | null } }) {
-  const salle = m.salleId ? index().salle.get(m.salleId) : null;
-  return salle
-    ? <span className="chip chip--pin" data-tip={batimentLabel(salle.batiment)}><Icon name="pin" size={13} />{salle.nom}</span>
-    : <span className="chip chip--stock" data-tip="Sans localisation"><Icon name="stockage" size={13} />Stock</span>;
+/**
+ * Localisation : salle d'un matériel (m) ou salles données (salles : celles d'une remontée, d'une intervention), sinon le stock.
+ * Une salle introuvable est « Salle retirée » ; une salle seule porte son bâtiment en infobulle ; link : la salle mène à sa vue.
+ */
+export function LieuChip({ m, salles, link = false }: { m?: { salleId?: Id | null }; salles?: (Salle | undefined)[]; link?: boolean }) {
+  const list = salles ?? (m?.salleId ? [index().salle.get(m.salleId)] : []);
+  if (!list.length) return <span className="chip chip--stock" data-tip="Sans localisation"><Icon name="stockage" size={13} />Stock</span>;
+  const seule = list.length === 1 ? list[0] : undefined;
+  const content = <><Icon name="pin" size={13} />{list.map((s) => s?.nom ?? 'Salle retirée').join(', ')}</>;
+  return link && seule
+    ? <Link className="chip chip--pin" to={`/salles/salle/${seule.id}`}>{content}</Link>
+    : <span className="chip chip--pin" data-tip={seule && batimentLabel(seule.batiment)}>{content}</span>;
 }
 
 /** Barre en service / hors service */

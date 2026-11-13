@@ -11,7 +11,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { store } from '../../core/store.ts';
-import { remonteeContext, materielsOf } from '../../core/selectors.ts';
+import { remonteeContext, materielsOf, materielPath } from '../../core/selectors.ts';
 import { deviceType } from '#shared/catalog.ts';
 import { plural } from '#shared/format.ts';
 import { Icon, Tile } from '../../ui/icons.tsx';
@@ -35,7 +35,7 @@ function Materiel({ m, gerer }: { m: MaterielData; gerer: boolean }) {
   }
   return <li>
     <div className="rm-mat">
-      <Link className="row" to={`/salles/${m.salleId ? `salle/${m.salleId}` : 'stock'}?m=${m.id}`}>
+      <Link className="row" to={materielPath(m)}>
         <span className="tile-wrap"><Tile name={t.icon} color={t.color} size="m" /><span className={`led led--${m.hs ? 'hs' : 'ok'} tile-led`} /></span>
         <span className="row-main"><span className="row-title">{m.modele}</span><span className="row-sub"><LieuChip m={m} /><span className="row-meta">{m.idOrion}</span></span></span>
         {!gerer && <Icon name="chevR" size={16} />}
