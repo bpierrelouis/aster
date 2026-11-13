@@ -65,7 +65,7 @@ npm run dev
 | Serveur Express | http://localhost:3001 | API, parcours OIDC, API des postes ; accessible par le proxy Vite |
 | Keycloak | http://localhost:8081 | Fournisseur d’identité local, substitut de MindefConnect |
 | Console Keycloak | http://localhost:8081/admin | Administration technique du fournisseur |
-| PostgreSQL ORION | localhost:5432 | Base `orion` : données métier et sessions |
+| PostgreSQL ORION | localhost:5432 | Base `orion` : données métier et sessions ; si un autre PostgreSQL occupe déjà 5432 sur le poste, définir la variable `ORION_POSTGRES_PORT` (par exemple 55432, lue par Compose) et le même port dans `DATABASE_URL` du fichier `.env` |
 | Annuaire LDAP (OpenLDAP, `osixia/openldap` 1.5.0) | réseau Docker uniquement | Identités des utilisateurs (`ou=people,dc=orion,dc=demo`), fédérées par Keycloak |
 
 Utiliser le nom d’hôte `localhost`, qui correspond aux redirections OIDC déclarées. Le port 8081 évite le port 8080 déjà utilisé sur la machine. Les conteneurs exposent leurs ports uniquement sur la boucle locale.
