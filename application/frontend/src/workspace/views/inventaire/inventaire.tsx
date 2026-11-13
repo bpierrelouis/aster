@@ -8,7 +8,7 @@ import { useStore } from '../../hooks/use-store.ts';
 import { can } from '../../core/permissions.ts';
 import { scope, index, optionsSalles, affectationOptions, batimentLabel, garantie, GARANTIES } from '../../core/selectors.ts';
 import { DEVICE_TYPES, deviceType, logistique } from '#shared/catalog.ts';
-import { openMaterielForm, suppressionRefusee } from './inventaire-materiel.tsx';
+import { motifSuppression, openMaterielForm, suppressionRefusee } from './inventaire-materiel.tsx';
 import { affecter } from '../salles/salles-affectation.tsx';
 import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
@@ -159,10 +159,11 @@ function DetailSheet({ m, onDelete }: { m: Materiel; onDelete: () => void }) {
   const rows = [['Identifiant Orion', m.idOrion], ['Type', t.label], ['Marque', m.marque || '—'], ['Numéro de série', m.serie || '—'], ['Réception', date(m.dateReception)], ['Localisation', room ? `${room.nom} · ${batimentLabel(room.batiment)}` : 'Stock'], ['État', etatMateriel(m)], ['Garantie', `${garantie(m)} · ${date(m.garantieFin)}`]];
   const ensuite = useRef<(() => void) | null>(null); // action ouverte une fois la fiche fermée
   const puis = (close: SheetClose, action: () => void) => { ensuite.current = action; close(); };
+  const motif = motifSuppression(m); // suppression refusée par le serveur : bouton désactivé, avec le motif
   return <Sheet title={m.modele} lead={<Tile name={t.icon} color={t.color} size="m" />} onClose={() => ensuite.current?.()}
     footer={(close) => <>
       {can('materiel.edit') && <button className="btn btn--primary" onClick={() => puis(close, () => openMaterielForm(m))}>Modifier</button>}
-      {can('materiel.delete') && <button className="btn btn--ghost" onClick={() => puis(close, onDelete)}>Supprimer</button>}
+      {can('materiel.delete') && <button className="btn btn--ghost" {...(motif ? { 'aria-disabled': 'true', 'data-tip': motif } : { onClick: () => puis(close, onDelete) })}>Supprimer</button>}
     </>}>
     <dl className="inv-details">{rows.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
   </Sheet>;

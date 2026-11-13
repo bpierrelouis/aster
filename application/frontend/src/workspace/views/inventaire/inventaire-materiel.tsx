@@ -1,6 +1,6 @@
 /* ==========================================================================
    Fiche matériel : création et modification ; refus de suppression d'un
-   matériel cité par une remontée (inventaire, salles)
+   matériel affecté à une salle ou cité par une remontée (inventaire, salles)
    Champs confirmés (RG-03 à RG-09) : modèle*, marque, date de réception*,
    numéro de série, hors service* (non par défaut), affectation (salle ou stock).
    Type : classement visuel proposé. Fin de garantie : fonctionnalité bonus.
@@ -20,11 +20,19 @@ import { Sheet, openSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
 import type { DeviceTypeId, Id, Materiel, WorkspaceView } from '#shared/types.ts';
 
-/** Un matériel cité par une remontée est conservé (règle tenue par le serveur) : le signale ; true si l'un des matériels l'est */
+/** Motif qui empêche de supprimer ce matériel, sinon '' (règles tenues par le serveur) : seul un matériel du stock,
+ *  cité par aucune remontée, se supprime */
+export function motifSuppression(m: Materiel) {
+  if (m.salleId) return 'Seul un matériel du stock peut être supprimé : renvoyez-le d’abord au stock.';
+  if (materielCite(store.state.remontees, m.id)) return 'Matériel lié à une remontée : sa fiche est conservée.';
+  return '';
+}
+
+/** Signale le premier motif qui empêche la suppression de ces matériels ; true s'il y en a un */
 export function suppressionRefusee(items: Materiel[]) {
-  const refus = items.some((m) => materielCite(store.state.remontees, m.id));
-  if (refus) notify('Un matériel est lié à une remontée : sa fiche doit être conservée.', { tone: 'info', icon: 'ticket' });
-  return refus;
+  const motif = items.map(motifSuppression).find(Boolean);
+  if (motif) notify(motif, { tone: 'info', icon: 'trash' });
+  return Boolean(motif);
 }
 
 /** Options d'un nouveau matériel : salle, valeurs proposées (constat d'un recensement) et modification enregistrée avec lui (lier) */

@@ -30,7 +30,7 @@ import type { Id, Materiel, Salle } from '#shared/types.ts';
 /** Matériel lu dans le fichier, sans identifiant Orion (attribué par le serveur) */
 type ImportRow = Omit<Materiel, 'idOrion' | 'deplacement' | 'installation'>;
 /** Matériel connu du parc pour un numéro de série (backend/workspace/import.ts, analyseImport) */
-interface Correspondance { idOrion: string; modele: string; ecoleId: Id; ecole: string; bloque: string | null }
+interface Correspondance { idOrion: string; modele: string; ecoleId: Id; ecole: string; hs: boolean; bloque: string | null }
 /** Correspondances par numéro de série normalisé */
 type Correspondances = Record<string, Correspondance>;
 /** Bilan de l'import (backend/workspace/import.ts, importMateriels) */
@@ -69,6 +69,8 @@ function validateImport(text: string, ecoleId: Id, salles: Salle[]) {
   });
 }
 
+const HS_VERS_SALLE = 'Hors service : ne peut être transféré qu’au stock';
+
 /** Nature de chaque ligne d'après les correspondances du serveur : nouveau, d'une autre école, déjà présent, en double */
 function classify(rows: ImportRow[], matches: Correspondances, ecoleId: Id) {
   const seen = new Set<string>();
@@ -76,7 +78,9 @@ function classify(rows: ImportRow[], matches: Correspondances, ecoleId: Id) {
     const k = serieKey(m.serie);
     if (k && seen.has(k)) return { m, k, kind: 'double' };
     if (k) seen.add(k);
-    const hit = k ? matches[k] : null;
+    const found = k ? matches[k] : null;
+    // Un matériel hors service ne peut aller qu'au stock : son transfert vers une salle est bloqué (règle tenue par le serveur)
+    const hit = found && found.hs && m.salleId && !found.bloque ? { ...found, bloque: HS_VERS_SALLE } : found;
     return { m, k, hit, kind: !hit ? 'nouveau' : hit.ecoleId === ecoleId ? 'present' : 'ecole' };
   });
 }

@@ -13,7 +13,7 @@ import { analyseImport, importMateriels } from './import.ts';
 import { createWorkspaceRouter, createAgentRouter, jetonPoste } from './routes.ts';
 import { adressesIp } from '../demonstrateur/agents.ts';
 import { renameBuilding } from '#shared/buildings.ts';
-import { remonteeOuverte } from '#shared/catalog.ts';
+import { materielCite, remonteeOuverte } from '#shared/catalog.ts';
 import { processClass, logiciel, IMAGE_REFERENCE } from '#shared/operations-data.ts';
 import type { Compte, EtapeRemontee, Id, Item, Materiel, Mouvement, RemonteeStatut, WorkspaceState, WorkspaceView } from '#shared/types.ts';
 import type { JournalEntry } from './engine.ts';
@@ -71,10 +71,10 @@ test('remontée : auteur, date, numéro et historique imposés par le serveur', 
   const r = m.remontees.find((x) => x.id === created.id)!;
   r.statut = 'validee' as RemonteeStatut; // valeur invalide volontaire
   assert.throws(() => mergeState(next, m, manager), { status: 400 }); // la validation par l'auteur n'existe plus
-  r.statut = 'corrige'; // le gestionnaire remplace ou corrige
-  r.historique.push({ statut: 'corrige', at: 1, par: 'Faux' } as EtapeRemontee); // entrée incomplète volontaire
+  r.statut = 'encours'; // le gestionnaire prend en charge
+  r.historique.push({ statut: 'encours', at: 1, par: 'Faux' } as EtapeRemontee); // entrée incomplète volontaire
   const treated = mergeState(next, m, manager).remontees.find((x) => x.id === created.id)!;
-  assert.deepEqual([treated.statut, treated.historique.at(-1)!.par], ['corrige', 'G. Bernard']);
+  assert.deepEqual([treated.statut, treated.historique.at(-1)!.par], ['encours', 'G. Bernard']);
   r.description = 'Texte remplacé';
   assert.throws(() => mergeState(next, m, manager), { status: 400 });
 });
@@ -94,7 +94,10 @@ test('remontée : prise en charge puis traitement, qui la termine', () => {
     return mergeState(state, view, actor);
   };
   assert.throws(() => move(TEACHER, 'encours'), { status: 403 });   // le formateur ne traite pas
+  for (const admin of [ADMIN, SUPER]) assert.throws(() => move(admin, 'encours'), { status: 403, message: /réservés au gestionnaire/ }); // les administrateurs non plus
+  for (const fin of ['remplace', 'corrige'] as const) assert.throws(() => move(MANAGER, fin), { status: 400, message: /d’abord la remontée en charge/ }); // prise en charge obligatoire
   state = move(MANAGER, 'encours');
+  for (const admin of [ADMIN, SUPER]) assert.throws(() => move(admin, 'corrige'), { status: 403 });
   assert.throws(() => move(MANAGER, 'attente'), { status: 400 });   // pas de retour en arrière
   state = move(MANAGER, 'remplace');
   const done = state.remontees.find((r) => r.id === id)!;
@@ -196,6 +199,30 @@ test('import : seuls les nouveaux matériels et les transferts validés sont tra
   assert.throws(() => importMateriels(state, manager, { ecoleId: 'e-num', materiels: [row(ici.serie)] }), { status: 400 }); // rien de nouveau
 });
 
+test('import : un matériel hors service d’une autre école ne rejoint que le stock', () => {
+  const state = initialState();
+  const open = new Set(state.remontees.filter(remonteeOuverte).flatMap((r) => r.materielIds));
+  const [hs, hs2] = state.materiels.filter((m) => m.ecoleId === 'e-res' && m.serie && !open.has(m.id)).slice(0, 2) as [AvecSerie, AvecSerie];
+  hs.hs = hs2.hs = true;
+  const manager = as(state, MANAGER);
+  assert.equal(analyseImport(state, manager, { ecoleId: 'e-num', series: [hs.serie] })[hs.serie.toLowerCase()].hs, true);
+  const salle = state.salles.find((s) => s.ecoleId === 'e-num')!.id;
+  const row = (serie: string, salleId: Id | null) => ({ modele: 'Écran', type: 'ecran', dateReception: 1_790_000_000_000, hs: true, serie, salleId });
+  const { next, bilan } = importMateriels(state, manager, { ecoleId: 'e-num', materiels: [row(hs.serie, salle), row(hs2.serie, null)], transferts: [hs.serie, hs2.serie] });
+  assert.deepEqual(bilan, { ajoutes: 0, transferes: 1, ignores: 1 });
+  assert.deepEqual([next.materiels.find((m) => m.id === hs.id)!.ecoleId, next.materiels.find((m) => m.id === hs2.id)!.salleId], ['e-res', null]);
+});
+
+test('données de départ : chaque remontée terminée a été prise en charge, puis terminée, par le gestionnaire', () => {
+  const state = initialState();
+  const gestionnaires = new Set(state.comptes.filter((c) => c.role === 'gestionnaire').map((c) => c.id));
+  for (const r of state.remontees) {
+    const attendu = { attente: ['attente'], encours: ['attente', 'encours'], remplace: ['attente', 'encours', 'remplace'], corrige: ['attente', 'encours', 'corrige'] }[r.statut];
+    assert.deepEqual(r.historique.map((h) => h.statut), attendu, r.id);
+    assert.ok(r.historique.slice(1).every((h) => gestionnaires.has(h.parId!)), r.id);
+  }
+});
+
 test('parc : gestionnaire sans suppression ni autre école ; identifiant ORION attribué', () => {
   const state = initialState();
   const manager = as(state, MANAGER);
@@ -215,11 +242,22 @@ test('parc : gestionnaire sans suppression ni autre école ; identifiant ORION a
 
 test('parc : un matériel cité par une remontée est conservé (RG-73)', () => {
   const state = initialState();
+  const cited = state.remontees[0].materielIds[0];
+  state.materiels.find((m) => m.id === cited)!.salleId = null; // au stock : seule la remontée empêche la suppression
   const admin = as(state, ADMIN);
   const input = scopedState(state, admin);
-  const cited = input.remontees[0].materielIds[0];
   input.materiels = input.materiels.filter((m) => m.id !== cited);
-  assert.throws(() => mergeState(state, input, admin), { status: 400 });
+  assert.throws(() => mergeState(state, input, admin), { status: 400, message: /cité par une remontée/ });
+});
+
+test('parc : seul un matériel du stock est supprimé', () => {
+  const state = initialState();
+  const admin = as(state, ADMIN);
+  const libre = (salle: boolean) => state.materiels.find((m) => m.ecoleId === 'e-num' && Boolean(m.salleId) === salle && !materielCite(state.remontees, m.id))!;
+  const sans = (id: Id) => { const input = scopedState(state, admin); input.materiels = input.materiels.filter((m) => m.id !== id); return input; };
+  assert.throws(() => mergeState(state, sans(libre(true).id), admin), { status: 400, message: /Seul un matériel du stock/ });
+  const stock = libre(false).id;
+  assert.ok(!mergeState(state, sans(stock), admin).materiels.some((m) => m.id === stock));
 });
 
 test('sécurité : poste cloisonné à son école, nom réseau unique ; sujet et image fixés par le serveur', () => {

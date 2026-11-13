@@ -15,7 +15,7 @@ import { parc, affectationOptions, batiments, batimentLabel, sallesOf, materiels
 import { installationOf, salleStatut, lieuNom, resteAFaire } from '../../core/installations.ts';
 import { EtatBar, Progress, avancement, etatMateriel } from '../../widgets/parts.tsx';
 import { InstallDot } from './salles-installation.tsx';
-import { openMaterielForm } from '../inventaire/inventaire-materiel.tsx';
+import { motifSuppression, openMaterielForm } from '../inventaire/inventaire-materiel.tsx';
 import { openNewRemontee } from '../remontees/remontees-create.tsx';
 import { floorLabel, floorLevel, roomOrder } from './salles-scene.tsx';
 import { openSalleForm, openBuildingForm } from './salles-forms.tsx';
@@ -26,10 +26,10 @@ import type { SalleEnInstallation } from '../../core/installations.ts';
 import type { Id, Materiel, Salle } from '#shared/types.ts';
 import type { DevHandlers, Mode, SalleActions } from './salles.tsx';
 
-/** Bouton désactivé, avec l'explication, si le droit manque. */
-function GuardedBtn({ cap, className, onClick, children, ...attrs }: ComponentProps<'button'> & { cap: Capability }) {
-  const ok = can(cap);
-  return <button className={className} {...attrs} {...(ok ? { onClick } : { 'aria-disabled': 'true', 'data-tip': why(cap) })}>{children}</button>;
+/** Bouton désactivé, avec l'explication, si le droit manque ou si une règle l'interdit (motif). */
+function GuardedBtn({ cap, motif = '', className, onClick, children, ...attrs }: ComponentProps<'button'> & { cap: Capability; motif?: string }) {
+  const refus = why(cap) || motif;
+  return <button className={className} {...attrs} {...(refus ? { 'aria-disabled': 'true', 'data-tip': refus } : { onClick })}>{children}</button>;
 }
 
 export function Overview({ mode, stageBat, stageFloor, hoverId }: { mode: Mode; stageBat: string | null; stageFloor: number | null; hoverId: Id | null }) {
@@ -138,7 +138,7 @@ export function DevCard({ ids, mode, salleId, act }: { ids: Id[]; mode: Mode; sa
       <span />
       <span className="flex-1" />
       {canEdit && <button className="icon-btn" aria-label="Modifier la fiche" data-tip="Modifier la fiche" onClick={() => openMaterielForm(m)}><Icon name="pencil" size={18} /></button>}
-      <GuardedBtn cap="materiel.delete" className="icon-btn icon-btn--danger" aria-label="Supprimer le matériel" onClick={() => act.deleteMat(m)}><Icon name="trash" size={18} /></GuardedBtn>
+      <GuardedBtn cap="materiel.delete" motif={motifSuppression(m)} className="icon-btn icon-btn--danger" aria-label="Supprimer le matériel" onClick={() => act.deleteMat(m)}><Icon name="trash" size={18} /></GuardedBtn>
     </div>
   </div>;
 }

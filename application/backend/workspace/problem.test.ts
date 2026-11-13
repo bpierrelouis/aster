@@ -89,7 +89,7 @@ test('problème libre : traiter une ancienne remontée conserve son libellé his
   const state = initialState();
   const old = state.remontees.find((r) => r.ecoleId === 'e-num' && r.statut === 'attente')!;
   old.probleme = 'Bruit USB #12';
-  const actor = actorOf(state, 'cpt-num-admin')!;
+  const actor = actorOf(state, 'cpt-num-gestionnaire')!;
   const input: Ecriture = scopedState(state, actor);
   input.remontees.find((r) => r.id === old.id)!.statut = 'encours';
   const saved = mergeState(state, input, actor);

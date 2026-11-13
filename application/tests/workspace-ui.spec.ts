@@ -658,6 +658,7 @@ test('le gestionnaire suit son travail dans le backlog : en attente, en cours, t
     await expect(page.locator('.bl-col .bl-head b')).toHaveText(['En attente', 'En cours', 'Terminées']);
     await expect(col('attente').locator('.bl-title').first()).toHaveText(/^(Ne s’allume pas|Pas d’image|Connexion|Casse|Fonctionnement anormal|Autre)$/); // la remontée, pas ses matériels
     await col('attente').locator('.bl-card', { hasText: report.id }).click();
+    await expect(page.getByRole('button', { name: /^(Remplacé|Corrigé)$/ })).toHaveCount(0); // prise en charge obligatoire avant la fin
     await page.getByRole('button', { name: 'Prendre en charge' }).click();
     await expect(col('encours').locator('.bl-card', { hasText: report.id })).toHaveCount(1);
     await expect(page.getByRole('button', { name: 'Corrigé', exact: true })).toBeVisible(); // remplacée ou corrigée
@@ -683,6 +684,38 @@ test('le gestionnaire suit son travail dans le backlog : en attente, en cours, t
   } finally {
     await asAccount(request, admin.id);
   }
+});
+
+test('les administrateurs suivent les remontées sans les prendre en charge ni les traiter', async ({ page, request }) => {
+  const data = await state(request);
+  for (const phase of ['attente', 'encours'] as const) {
+    const r = data.remontees.find((x) => x.statut === phase)!;
+    await open(page, `/remontees/${phase}/${r.id}`);
+    await expect(page.locator('.rm-detail .insp-title h2')).toHaveText(r.id);
+    await expect(page.locator('.insp-foot').getByRole('button')).toHaveText(['État des lieux']); // seule action possible
+  }
+});
+
+test('seul un matériel du stock, cité par aucune remontée, peut être supprimé', async ({ page, request }) => {
+  const data = await state(request);
+  const cites = new Set(data.remontees.flatMap((r) => r.materielIds));
+  const libre = (salle: boolean) => data.materiels.find((m) => m.ecoleId === 'e-num' && Boolean(m.salleId) === salle && !m.deplacement && !cites.has(m.id))!;
+  const [enSalle, auStock] = [libre(true), libre(false)];
+  const supprimer = async (m: Materiel) => {
+    await open(page, '/materiels/inventaire');
+    await page.getByRole('searchbox', { name: 'Rechercher un matériel' }).fill(m.idOrion);
+    await page.locator('tbody tr', { hasText: m.idOrion }).locator('.inv-device').click();
+    return page.getByRole('dialog', { name: m.modele }).getByRole('button', { name: 'Supprimer', exact: true });
+  };
+  const refus = await supprimer(enSalle);
+  await expect(refus).toHaveAttribute('aria-disabled', 'true');
+  await expect(refus).toHaveAttribute('data-tip', /Seul un matériel du stock/);
+  await page.keyboard.press('Escape');
+  await expect(await supprimer(auStock)).not.toHaveAttribute('aria-disabled', 'true');
+  await page.keyboard.press('Escape');
+  await open(page, `/salles/salle/${enSalle.salleId}`);
+  await page.locator(`.dev[aria-label*="${enSalle.idOrion}"]`).click();
+  await expect(page.getByRole('button', { name: 'Supprimer le matériel' })).toHaveAttribute('data-tip', /Seul un matériel du stock/);
 });
 
 test('l’import JSON n’ajoute que les nouveaux matériels et, une fois validés, les transferts d’une autre école', async ({ page, request }) => {

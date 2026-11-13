@@ -7,7 +7,8 @@
      la ligne n'est pas traitée ;
    - présent dans une autre école : le matériel existant est transféré si
      l'importeur l'a validé (échange entre écoles), sauf s'il est cité par
-     une remontée en cours de son école ; sinon la ligne n'est pas traitée ;
+     une remontée en cours de son école ou si, hors service, le fichier le
+     place dans une salle ; sinon la ligne n'est pas traitée ;
    - inconnu : un nouveau matériel est créé, avec les contrôles d'une
      création (identifiant ORION attribué, salle de l'école).
    Un matériel importé ou transféré est là où le fichier le déclare : pas de
@@ -50,13 +51,13 @@ export function analyseImport(state: WorkspaceState, actor: Actor, { ecoleId, se
   assert(Array.isArray(series) && series.length <= 2000, 'Numéros de série invalides.');
   const known = knownSeries(state, ecoleId);
   const open = inOpenReport(state);
-  const out: Record<string, { idOrion: string; modele: string; ecoleId: Id; ecole: string; bloque: string | null }> = {};
+  const out: Record<string, { idOrion: string; modele: string; ecoleId: Id; ecole: string; hs: boolean; bloque: string | null }> = {};
   for (const k of new Set(series.map(serieKey).filter(Boolean) as string[])) {
     const m = known.get(k);
     if (!m) continue;
     const other = m.ecoleId !== ecoleId;
     out[k] = {
-      idOrion: m.idOrion, modele: m.modele, ecoleId: m.ecoleId, ecole: state.ecoles.find((e) => e.id === m.ecoleId)?.nom ?? '',
+      idOrion: m.idOrion, modele: m.modele, ecoleId: m.ecoleId, ecole: state.ecoles.find((e) => e.id === m.ecoleId)?.nom ?? '', hs: m.hs,
       bloque: other && open.has(m.id) ? 'Cité par une remontée en cours dans son école' : null,
     };
   }
@@ -81,7 +82,8 @@ export function importMateriels(state: WorkspaceState, actor: Actor, { ecoleId, 
     if (k) seen.add(k);
     const m = k && known.get(k);
     if (!m) nouveaux.push(Object.fromEntries(FIELDS.filter((f) => row[f] !== undefined).map((f) => [f, row[f]])));
-    else if (m.ecoleId !== ecoleId && allowed.has(k) && !open.has(m.id)) moves.push({ id: m.id, salleId: row.salleId || null });
+    // Un matériel hors service ne peut aller qu'au stock (rules.ts) : son transfert vers une salle n'est pas traité
+    else if (m.ecoleId !== ecoleId && allowed.has(k) && !open.has(m.id) && !(m.hs && row.salleId)) moves.push({ id: m.id, salleId: row.salleId || null });
     else ignores++;
   }
   assert(nouveaux.length + moves.length > 0, 'Aucun nouveau matériel à importer.');

@@ -1,6 +1,8 @@
 /* ==========================================================================
    Droits par profil, d'après docs/12-MATRICE-DROITS.md
-   - Administrateur : tous les droits dans son école (RG-15)
+   - Administrateur : tous les droits dans son école (RG-15), sauf la prise en
+     charge et le traitement des remontées, réservés au gestionnaire
+     (décision de l'utilisateur du 13 novembre)
    - Super administrateur : mêmes droits, toutes les écoles (RG-15, RG-69)
    - Gestionnaire : parc et remontées, sans suppression (RG-16 à RG-18)
    - Formateur : salles, supervision, création et suivi de ses remontées (RG-19, RG-21)
@@ -22,8 +24,8 @@ const ALL = [
 export type Capability = (typeof ALL)[number];
 
 const CAPS: Record<RoleId, Set<Capability>> = {
-  admin: new Set(ALL.filter((c) => c !== 'ecole.switch')),
-  superadmin: new Set(ALL),
+  admin: new Set(ALL.filter((c) => c !== 'ecole.switch' && c !== 'remontee.treat')),
+  superadmin: new Set(ALL.filter((c) => c !== 'remontee.treat')),
   gestionnaire: new Set([
     'dashboard.perso', 'dashboard.parc', 'dashboard.remontees', 'dashboard.customize',
     'salle.view', 'materiel.view', 'materiel.create', 'materiel.edit', 'materiel.move', 'materiel.import', 'materiel.recensement',
@@ -43,6 +45,6 @@ export function why(cap: Capability) {
   if (cap === 'materiel.delete' || cap === 'salle.delete') return 'Suppression réservée aux administrateurs';
   if (cap === 'salle.manage') return 'Gestion des salles réservée aux administrateurs';
   if (cap === 'remontee.create') return 'Création réservée aux formateurs et administrateurs';
-  if (cap === 'remontee.treat') return 'Traitement réservé aux gestionnaires et administrateurs';
+  if (cap === 'remontee.treat') return 'Prise en charge et traitement réservés au gestionnaire';
   return 'Action réservée aux gestionnaires et administrateurs';
 }

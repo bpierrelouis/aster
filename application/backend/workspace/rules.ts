@@ -183,6 +183,8 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
     if (c === 'materiels' && actor.role === 'formateur') fail(403, 'Modification du parc non autorisée.');
     if (c === 'materiels' && deleted.length && !isAdmin(actor)) fail(403, 'Suppression réservée aux administrateurs.');
     if (c === 'materiels' && deleted.some((m) => materielCite(state.remontees, m.id))) fail(400, 'Un matériel cité par une remontée est conservé.');
+    // Seul un matériel du stock se supprime : un matériel affecté à une salle y retourne d'abord (décision de l'utilisateur du 13 novembre)
+    if (c === 'materiels' && deleted.some((m) => m.salleId)) fail(400, 'Seul un matériel du stock peut être supprimé : renvoyez-le d’abord au stock.');
     if (c === 'postes' && !isAdmin(actor)) fail(403, 'Action réservée aux administrateurs.');
     if (c === 'comptes' && deleted.length) fail(403, 'Un compte se désactive ; il n’est pas supprimé.');
     if (c === 'operations' && deleted.length) fail(403, 'Une demande d’intervention ne peut pas être supprimée.');
@@ -255,10 +257,11 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
           if (actor.role === 'gestionnaire') fail(403, 'Création de remontée non autorisée.');
           Object.assign(x, { auteur: actor.nom, auteurId: actor.id, createdAt: now, statut: 'attente', historique: [{ statut: 'attente', at: now, par: actor.nom, parId: actor.id }] });
         } else {
-          // Cycle : en attente → en cours → remplacé ou corrigé (traitement, gestionnaire ou administrateur) : terminée
-          const treatment = ['remplace', 'corrige'];
-          const possibles = ({ attente: ['encours', ...treatment], encours: treatment } as Partial<Record<string, string[]>>)[old.statut!] ?? [];
-          if (actor.role === 'formateur') fail(403, 'Traitement non autorisé.');
+          // Cycle : en attente → en cours (prise en charge) → remplacé ou corrigé : terminée. Le gestionnaire seul
+          // prend en charge et termine ; la prise en charge précède toujours la fin (décisions de l'utilisateur du 13 novembre)
+          const possibles = ({ attente: ['encours'], encours: ['remplace', 'corrige'] } as Partial<Record<string, string[]>>)[old.statut!] ?? [];
+          if (actor.role !== 'gestionnaire') fail(403, 'Prise en charge et traitement réservés au gestionnaire.');
+          if (old.statut === 'attente' && ['remplace', 'corrige'].includes(x.statut!)) fail(400, 'Prenez d’abord la remontée en charge avant de la terminer.');
           assert(possibles.includes(x.statut!), 'Transition de statut indisponible.');
           const stable = (r: LooseItem) => Object.fromEntries(Object.entries(r).filter(([k]) => !['statut', 'historique'].includes(k)));
           assert(same(stable(old), stable(x)), 'Seul le traitement peut être modifié.');

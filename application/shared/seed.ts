@@ -23,7 +23,7 @@ export function prng(seed: number) {
 }
 
 /** Version du jeu de données : un état enregistré plus ancien est régénéré. */
-export const SEED_VERSION = 16;
+export const SEED_VERSION = 17;
 
 /**
  * Comptes ORION de départ : profil et école de rattachement de chaque personne.
@@ -196,12 +196,12 @@ export function seed(now = Date.now()) {
     const gest = gestionnaireDe(first.ecoleId);
     const step = (statut: RemonteeStatut, at: number, by = gest) => historique.push({ statut, at, par: by.nom, parId: by.id });
     let st: RemonteeStatut = 'attente';
-    // Cycle : en attente → en cours (prise en charge) → remplacé ou corrigé (terminée)
+    // Cycle, par le gestionnaire seul : en attente → en cours (prise en charge) → remplacé ou corrigé (terminée)
     if (open) {
       if (rnd() < 0.45) { st = 'encours'; step(st, Math.min(now - HOUR, createdAt + between(1, 30) * HOUR)); }
     } else {
       const treatedAt = Math.min(now - HOUR, createdAt + between(3, 120) * HOUR);
-      if (rnd() < 0.8) step('encours', createdAt + (treatedAt - createdAt) * (0.2 + rnd() * 0.5));
+      step('encours', createdAt + (treatedAt - createdAt) * (0.2 + rnd() * 0.5)); // prise en charge obligatoire avant la fin
       st = rnd() < 0.55 ? 'remplace' : 'corrige';
       step(st, treatedAt);
     }
