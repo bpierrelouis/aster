@@ -13,8 +13,8 @@
 <symbol id="i-app-window" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></symbol>
 <symbol id="i-scroll-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 12h-5"/><path d="M15 8h-5"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></symbol>
 <symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
-<symbol id="i-folder-sync" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v.5"/><path d="M12 10v4h4"/><path d="m12 14 1.535-1.605a5 5 0 0 1 8 1.5"/><path d="M22 22v-4h-4"/><path d="m22 18-1.535 1.605a5 5 0 0 1-8-1.5"/></symbol>
 <symbol id="i-hard-drive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></symbol>
+<symbol id="i-folder-sync" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v.5"/><path d="M12 10v4h4"/><path d="m12 14 1.535-1.605a5 5 0 0 1 8 1.5"/><path d="M22 22v-4h-4"/><path d="m22 18-1.535 1.605a5 5 0 0 1-8-1.5"/></symbol>
 </defs>
 <style>
 text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
@@ -66,6 +66,10 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <rect x="40" y="422" width="155" height="70" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
 <use href="#i-monitor" x="52" y="434" width="22" height="22" style="color:#3d5a78"/>
 <text x="84" y="450" class="service" text-anchor="start">Postes Windows</text>
+<rect x="35" y="535" width="180" height="70" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-server" x="47" y="547" width="22" height="22" style="color:#3d5a78"/>
+<text x="79" y="563" class="service" text-anchor="start">Configuration Manager</text>
+<text x="79" y="582" class="caption" text-anchor="start">Option A</text>
 <rect x="420" y="115" width="265" height="70" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
 <use href="#i-key-round" x="432" y="127" width="22" height="22" style="color:#3d5a78"/>
 <text x="464" y="143" class="service" text-anchor="start">MindefConnect</text>
@@ -89,8 +93,8 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="748" y="377" class="caption" text-anchor="start">API · TCP 3001</text>
 <rect x="710" y="442" width="255" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
 <use href="#i-monitor" x="720" y="452" width="20" height="20" style="color:#a06a00"/>
-<text x="748" y="467" class="service" text-anchor="start">Administration des postes</text>
-<text x="748" y="485" class="caption" text-anchor="start">Système et version à préciser</text>
+<text x="748" y="467" class="service" text-anchor="start">Intégration Windows</text>
+<text x="748" y="485" class="caption" text-anchor="start">Option à retenir</text>
 <rect x="1160" y="548" width="255" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
 <use href="#i-scroll-text" x="1170" y="558" width="20" height="20" style="color:#a06a00"/>
 <text x="1198" y="573" class="service" text-anchor="start">Logstash 8.19.14</text>
@@ -101,15 +105,15 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="1198" y="343" class="service" text-anchor="start">PostgreSQL 17.7</text>
 <text x="1405" y="342" class="tag host" text-anchor="end">service hôte</text>
 <text x="1198" y="361" class="caption" text-anchor="start">PostgreSQL sur TLS · TCP 5432</text>
+<rect x="1177" y="420" width="220" height="40" rx="8" fill="#e6f4ec" stroke="#8fc4a3"/>
+<use href="#i-hard-drive" x="1187" y="432" width="16" height="16" style="color:#2f7a4f"/>
+<text x="1211" y="437" class="vol" text-anchor="start">100 Go SSD</text>
+<text x="1211" y="452" class="caption" text-anchor="start">Données PostgreSQL locales</text>
 <rect x="1590" y="318" width="250" height="300" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
 <use href="#i-folder-sync" x="1600" y="328" width="20" height="20" style="color:#a06a00"/>
-<text x="1628" y="343" class="service" text-anchor="start">Serveur NFSv4.2</text>
+<text x="1628" y="343" class="service" text-anchor="start">Fichiers</text>
 <text x="1830" y="342" class="tag host" text-anchor="end">service hôte</text>
-<text x="1628" y="361" class="caption" text-anchor="start">TCP 2049 · réseau privé</text>
-<rect x="1605" y="420" width="220" height="40" rx="8" fill="#e6f4ec" stroke="#8fc4a3"/>
-<use href="#i-hard-drive" x="1615" y="432" width="16" height="16" style="color:#2f7a4f"/>
-<text x="1639" y="437" class="vol" text-anchor="start">100 Go SSD</text>
-<text x="1639" y="452" class="caption" text-anchor="start">Données PostgreSQL</text>
+<text x="1628" y="361" class="caption" text-anchor="start">Service C1NP à qualifier</text>
 <rect x="1605" y="535" width="220" height="40" rx="8" fill="#e6f4ec" stroke="#8fc4a3"/>
 <use href="#i-hard-drive" x="1615" y="547" width="16" height="16" style="color:#2f7a4f"/>
 <text x="1639" y="552" class="vol" text-anchor="start">100 Go</text>
@@ -132,13 +136,13 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <path d="M965 380 L1040 380 L1040 562 L1160 562" class="flow" marker-end="url(#arrow)"/>
 <text x="1050" y="551" class="route" text-anchor="middle">7 · TLS 6514</text>
 <path d="M1415 583 L1590 583" class="flow" marker-end="url(#arrow)"/>
-<text x="1500" y="572" class="route" text-anchor="middle">8 · NFS 2049</text>
-<path d="M1415 350 L1590 350" class="flow" marker-end="url(#arrow)"/>
-<text x="1500" y="339" class="route" text-anchor="middle">9 · NFS 2049</text>
+<text x="1500" y="572" class="route" text-anchor="middle">8 · Service de fichiers</text>
 <path d="M837 388 L837 442" class="flow" marker-end="url(#arrow)"/>
-<text x="847" y="420" class="route" text-anchor="start">10 · Demandes</text>
-<path d="M107 492 L107 550 L633 550 L633 475 L710 475" class="flow" marker-end="url(#arrow)"/>
-<text x="280" y="545" class="route" text-anchor="middle">11 · Rapports et résultats</text>
-<path d="M710 459 L608 459 L608 510 L164 510 L164 492" class="flow" marker-end="url(#arrow)"/>
-<text x="294" y="500" class="route" text-anchor="middle">12 · Interventions</text>
+<text x="847" y="420" class="route" text-anchor="start">10A · Demandes</text>
+<path d="M107 492 L107 535" class="flow" marker-end="url(#arrow)"/>
+<text x="116" y="521" class="route" text-anchor="start">11A</text>
+<path d="M710 475 L640 475 L640 570 L215 570" class="flow" marker-end="url(#arrow)"/>
+<text x="420" y="560" class="route" text-anchor="middle">10A · API Configuration Manager</text>
+<path d="M195 457 L260 457 L260 370 L320 370" class="flow" marker-end="url(#arrow)"/>
+<text x="272" y="445" class="route" text-anchor="start">10B · Agent · HTTPS 443</text>
 </svg>

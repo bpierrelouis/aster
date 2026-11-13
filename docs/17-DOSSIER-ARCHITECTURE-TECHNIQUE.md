@@ -347,25 +347,25 @@ Les versions du déploiement sont des références à qualifier sur les VM ; cha
 
 ## 6. Architecture cible
 
-### 6.1. Implantation C1NP pour 1 000 postes
+### 6.1. Gabarit initial d’essai pour 1 000 postes
 
-Le ministère des Armées héberge ORION sur le C1NP. La cible de production comprend **quatre VM ORION**, pour un premier palier d’essai de **1 000 postes Windows actifs**. La [vue simplifiée](18-DIAGRAMMES-ARCHITECTURE.md#vue-simplifiée-de-la-cible) montre les rôles et les principaux échanges. La [vue détaillée](18-DIAGRAMMES-ARCHITECTURE.md#vue-détaillée-de-la-cible) indique les versions et les ports. MindefConnect est hébergé sur le C1NP, en dehors des quatre VM dédiées à ORION. Le puits de logs est exploité par ORION, faute d’offre sur le réseau visé. Les versions du tableau sont celles retenues pour l’architecture. L’intégration MindefConnect utilise OIDC, selon le contrat à obtenir auprès de son exploitant. Le CCT complet et l’offre d’hébergement n’ont pas été vérifiés pour cette proposition.
+Le ministère des Armées héberge ORION sur le C1NP. Le premier palier d’essai comprend **quatre VM ORION** pour **1 000 postes Windows actifs**. La [vue simplifiée](18-DIAGRAMMES-ARCHITECTURE.md#vue-simplifiée-de-la-cible) montre les rôles et les principaux échanges. La [vue détaillée](18-DIAGRAMMES-ARCHITECTURE.md#vue-détaillée-de-la-cible) indique les versions et les ports. MindefConnect est hébergé sur le C1NP, en dehors des quatre VM dédiées à ORION. Le puits de logs est exploité par ORION, faute d’offre disponible sur le réseau visé. Les produits applicatifs sont admis dans la colonne C1NP de la pile logicielle du CCT ; le système des VM, le service de fichiers, les certificats et les modalités d’exploitation restent à confirmer avec l’offre d’hébergement. L’intégration MindefConnect utilise OIDC, selon le contrat à obtenir auprès de son exploitant.
 
-| VM | Services de l’hôte | vCPU | RAM | Disques d’essai |
+| VM | Services | vCPU | RAM | Stockage initial d’essai |
 | --- | --- | ---: | ---: | --- |
 | VM 1 . Entrée | HAProxy 3.2.16 et Apache HTTP Server 2.4.69. Apache sert les fichiers React 19.3.1 sur la boucle locale. | 2 | 8 Go | 50 Go système |
 | VM 2 . Application | Node.js 22.22.3, Express 5.3.0 et composant d’administration des postes Windows à préciser. | 8 | 32 Go | 50 Go système |
-| VM 3 . Base et collecte | PostgreSQL 17.7 et Logstash 8.19.14. | 4 | 16 Go | 50 Go système, dont une file de collecte locale bornée. Données PostgreSQL sur VM 4 après qualification du stockage. |
-| VM 4 . Stockage | Service de fichiers NFSv4.2. Aucun processus ORION, PostgreSQL ou Logstash. | 2 | 8 Go | 50 Go système + 100 Go logs + 100 Go SSD PostgreSQL, sur deux volumes dédiés |
+| VM 3 . Base et collecte | PostgreSQL 17.7 et Logstash 8.19.14. | 4 | 16 Go | 50 Go système, dont une file de collecte locale bornée, et 100 Go SSD pour PostgreSQL |
+| VM 4 . Stockage | Service de fichiers autorisé par l’offre C1NP, à qualifier. Aucun processus ORION, PostgreSQL ou Logstash. | 2 | 8 Go | 50 Go système et 100 Go pour les fichiers de logs |
 | **Total** | **4 VM** | **16** | **64 Go** | **400 Go** |
 
-VM 4 porte les fichiers de logs centralisés. « Sans processus » signifie ici sans processus applicatif, moteur de base ni collecteur. Le système et le service de partage de fichiers restent nécessaires. VM 3 accède aux volumes de VM 4 avec des droits propres à chaque service. VM 1 assure l’entrée HTTPS, VM 2 exécute Express, et VM 3 regroupe Logstash et PostgreSQL. La file de collecte reste sur le disque local de VM 3. Borner la consommation CPU, mémoire et disque de Logstash pour préserver PostgreSQL, notamment lors de la reprise après une coupure.
+VM 1 assure l’entrée HTTPS, VM 2 exécute Express et VM 3 regroupe Logstash et PostgreSQL. VM 4 porte les fichiers de logs centralisés ; « sans processus » signifie sans processus applicatif, moteur de base ni collecteur. Le système et le service de fichiers restent nécessaires. La file de collecte reste sur le disque local de VM 3. Borner la consommation CPU, mémoire et disque de Logstash pour préserver PostgreSQL, notamment lors de la reprise après une coupure.
 
-Le partage NFSv4.2 utilise le réseau privé C1NP existant. Le filtrage autorise uniquement la VM 3 à joindre la VM 4 sur TCP 2049. Un réseau de stockage séparé serait justifié par une exigence d’isolement ou par les mesures de débit et de latence. [NFSv4 sur TCP](https://docs.oracle.com/en/operating-systems/oracle-linux/8/nfs/nfs-versions_concept.html).
+Le contrat du service de fichiers doit préciser le produit autorisé, le protocole, le port, les droits, les quotas, la supervision et le comportement en cas de coupure. Le réseau privé C1NP limite son accès à VM 3. Un réseau de stockage séparé n’est utile que si une exigence d’isolement ou les mesures de débit et de latence le justifient.
 
-Le répertoire PostgreSQL, journaux de transactions compris, peut aussi résider sur VM 4 si le C1NP autorise ce stockage et si les essais confirment la durabilité des écritures et la latence sous charge. La proposition utilise un montage NFS `hard`, un export serveur `sync` et une seule instance PostgreSQL autorisée à monter le volume en écriture. Le démarrage de PostgreSQL dépend du montage et doit échouer si le volume est absent. Tester la coupure de VM 4, la reprise et la concurrence des écritures de logs et de base. Si les essais échouent, attacher le SSD PostgreSQL à VM 3 et conserver VM 4 dédiée aux logs. [PostgreSQL 17 et stockage NFS](https://www.postgresql.org/docs/17/creating-cluster.html#CREATING-CLUSTER-NFS).
+PostgreSQL utilise d’abord le SSD local de VM 3. Ses données, journaux de transactions compris, ne passent sur VM 4 que si l’offre C1NP autorise ce stockage distant et si les essais confirment la durabilité des écritures et la latence sous charge. Une seule instance doit alors monter le volume en écriture et son démarrage doit échouer si le stockage est absent. Tester la coupure de VM 4, la reprise et la concurrence des écritures de logs et de base avant ce déplacement.
 
-La perte de VM 4 suspend l’archivage des logs et peut bloquer PostgreSQL si ses données y résident. La perte de VM 1 interrompt l’entrée HTTPS. La perte de VM 3 interrompt PostgreSQL et la collecte centralisée. La perte de VM 2 interrompt l’API. Prévoir une sauvegarde de la base sur un stockage indépendant des quatre VM. La disponibilité de cette capacité, les délais et pertes de données acceptables et les procédures de restauration restent à qualifier.
+La perte de VM 4 suspend l’archivage des logs ; elle ne bloque PostgreSQL que si le stockage distant a été qualifié et retenu. La perte de VM 1 interrompt l’entrée HTTPS, celle de VM 2 l’API, et celle de VM 3 PostgreSQL et la collecte centralisée. Prévoir une sauvegarde de la base sur un stockage indépendant des quatre VM. La capacité de sauvegarde, les délais et pertes de données acceptables et les procédures de restauration restent à qualifier.
 
 MindefConnect authentifie les utilisateurs. ORION applique les droits selon le compte, le profil et l’école dans PostgreSQL. Le back génère les PDF à la demande, après contrôle des droits, et les renvoie via HAProxy. Aucun document généré n’est conservé. La VM 2 accueille le composant d’administration Windows côté ORION. Son rôle et ses flux dépendent de l’option retenue (§ 6.5) : pilotage de l’agent ORION ou connecteur vers Configuration Manager. Un serveur de site Configuration Manager dédié conserve ses propres prérequis.
 
@@ -380,18 +380,18 @@ MindefConnect authentifie les utilisateurs. ORION applique les droits selon le c
 | 5. Firefox → MindefConnect | HTTPS, TCP 443 | Authentification et retour du navigateur vers ORION. |
 | 6. Express (VM 2) → MindefConnect | HTTPS, TCP 443 | Découverte, clés et échanges OIDC, selon le contrat d’intégration. |
 | 7. Émetteurs VM 1 et VM 2 → Logstash (VM 3) | Syslog RFC 5424 sur TLS, TCP 6514 | Logs techniques de l’entrée et du back. Les logs PostgreSQL sont collectés localement sur VM 3. |
-| 8. Logstash (VM 3) → stockage (VM 4) | NFSv4.2, TCP 2049, réseau privé C1NP | Écriture des fichiers de logs sur le volume dédié. |
-| 9. PostgreSQL (VM 3) → stockage (VM 4) | NFSv4.2, TCP 2049, réseau privé C1NP | Accès au volume de base, sous réserve de qualification. |
-| 10. Express → administration des postes (VM 2) | À préciser | Transmet les demandes autorisées et consulte leur état et leur résultat. |
-| 11. Postes Windows → administration des postes (flux fonctionnel) | À préciser | Authentification propre à chaque poste, inventaire, rapports de processus et résultats des interventions. |
-| 12. Administration des postes → postes Windows (flux fonctionnel) | À préciser | Remise des interventions autorisées au poste concerné. Avec l’agent ORION, les commandes sont renvoyées dans la réponse au rapport du poste. |
+| 8. Logstash (VM 3) → stockage (VM 4) | Protocole et port de l’offre C1NP, réseau privé | Écriture des fichiers de logs sur le volume dédié. |
+| 9. PostgreSQL (VM 3) → stockage (VM 4), si retenu | Protocole et port de l’offre C1NP, réseau privé | Accès au volume de base après qualification du stockage distant. |
+| 10A. Express → service d’administration de Configuration Manager | HTTPS et contrat d’API à obtenir | Option Configuration Manager : demandes autorisées, état et résultat des interventions. |
+| 11A. Clients Windows ↔ infrastructure Configuration Manager | Protocoles Microsoft à qualifier | Option Configuration Manager : inventaire, logiciels, images et opérations disponibles. |
+| 10B. Agent Windows → HAProxy puis Express | HTTPS, TCP 443 | Option agent ORION : rapport authentifié, résultats et récupération des interventions dans la réponse. |
 | Administration → VM 1 à 4 | SSH, TCP 22 | Depuis le réseau d’administration autorisé. |
 | VM 1 à 4 → services de plateforme | DNS TCP/UDP 53 et NTP UDP 123, à qualifier | Résolution des noms et synchronisation de l’heure. |
 | VM 3 → stockage de sauvegarde | Contrat et port à obtenir | Sauvegarde et restauration de PostgreSQL. |
 
-Les flux 11 et 12 montrent les deux sens du parcours fonctionnel. Avec l’agent ORION, le client Windows initie la connexion. Le code actuel authentifie chaque poste avec un jeton propre à son nom réseau. Les postes passent alors par HAProxy et l’API Express : le rapport récupère les interventions en attente et le poste renvoie leur résultat. Avec Configuration Manager, les clients communiquent avec le gestionnaire Microsoft et le composant ORION échange avec son service d’administration. Les points de terminaison, ports et protocoles du gestionnaire restent à préciser selon l’option retenue.
+Les options A et B sont exclusives. Avec Configuration Manager, ses clients communiquent avec l’infrastructure Microsoft et le composant ORION échange avec son service d’administration. Avec l’agent ORION, le poste initie toujours la connexion HTTPS : son rapport récupère les interventions en attente et il renvoie ensuite leur résultat. L’identité du poste et le contrat définitif restent à qualifier avec la solution retenue.
 
-Limiter les accès à PostgreSQL, au collecteur et aux interfaces d’exploitation aux seuls émetteurs autorisés. L’application expose actuellement `/api/health` et `/api/infos` ; filtrer leur accès depuis le réseau d’exploitation et harmoniser le nom avec le contrat cible. `/api/health` vérifie notamment PostgreSQL et MindefConnect : une sonde d’instance du répartiteur doit être distincte de ce diagnostic de dépendances. Obtenir les noms DNS, certificats, règles de filtrage et modalités de gestion des secrets auprès de l’exploitant.
+Limiter les accès à PostgreSQL, au collecteur et aux interfaces d’exploitation aux seuls émetteurs autorisés. `/api/health` et `/api/infos` restent publics avec une réponse minimale ; le détail des instances, adresses, ports et services est réservé au super administrateur. `/api/health` vérifie notamment PostgreSQL et MindefConnect : une sonde d’instance du répartiteur doit rester distincte de ce diagnostic de dépendances. Obtenir les noms DNS, certificats, règles de filtrage et modalités de gestion des secrets auprès de l’exploitant.
 
 Le collecteur écrit les fichiers centralisés sur VM 4, avec rotation, quotas, surveillance de l’espace libre et consultation sur place par les personnes habilitées. Les journaux propres à VM 4 restent locaux et la collecte ne rapatrie aucun fichier depuis VM 4. Lors d’une coupure du partage, sa file locale de VM 3 permet une reprise dans la limite de sa capacité. Prévoir une file locale bornée chez les émetteurs et tester la reprise après coupure. Une connexion TCP ouverte ne prouve ni la réception ni la conservation d’un événement. Le raccordement des émetteurs, le format des messages syslog sur TLS et la compatibilité du collecteur doivent être vérifiés en essai. Les logs techniques servent au diagnostic. Les actions métier à tracer, les habilitations, la durée de conservation et les exigences d’intégrité restent à définir. Le journal de fusion PostgreSQL sert à la synchronisation des modifications.
 
@@ -404,9 +404,9 @@ Hypothèses d’essai : une remontée de **10 000 octets** par poste toutes les 
 | Démarrage | 1 000 | 100 | 200 | 25 | 16 Mbit/s | 57,6 Go |
 | Croissance | 5 000 | 500 | 1 000 | 125 | 80 Mbit/s | 288 Go |
 
-Calculs en unités décimales : postes ÷ 5 pour les rapports/s, utilisateurs ÷ 4 pour les actualisations/s, puis rapports/s × 10 000 × 8 pour le débit en bit/s et rapports/s × 10 000 × 28 800 pour le volume entrant en octets. PostgreSQL conserve notamment l’état courant et les historiques métier prévus. Sa croissance doit être mesurée sur les tables, index et journaux de transactions. À titre d’essai pour les logs, une ligne de 300 octets par rapport représente 1,728 ou 8,64 Go par jour actif de 8 h, soit 51,84 ou 259,2 Go sur 30 jours actifs, avant compression et hors autres logs, fichiers en rotation et files. Les disques proposés laissent de la place à ces postes de consommation, dont la taille reste à mesurer.
+Calculs en unités décimales : postes ÷ 5 pour les rapports/s, utilisateurs ÷ 4 pour les actualisations/s, puis rapports/s × 10 000 × 8 pour le débit en bit/s et rapports/s × 10 000 × 28 800 pour le volume entrant en octets. PostgreSQL conserve notamment l’état courant et les historiques métier prévus. Sa croissance doit être mesurée sur les tables, index et journaux de transactions. Pour éprouver la capacité des logs, le scénario volontairement majorant d’une ligne de 300 octets par rapport représente 1,728 ou 8,64 Go par jour actif de 8 h, soit 51,84 ou 259,2 Go sur 30 jours actifs, avant compression et hors autres logs, fichiers en rotation et files. Il ne décrit pas un volume observé.
 
-L’accès à PostgreSQL sérialise les écritures sur la même ligne de révision avec `SELECT FOR UPDATE`. À 70 % d’occupation de ce verrou et cinq autres écritures/s supposées de même durée, la durée moyenne disponible sous verrou vaut 0,70 ÷ (rapports/s + 5) : **3,41 ms à 1 000 postes** et **0,697 ms à 5 000**. Les 675 postes calculés sur la branche cible correspondent à l’hypothèse de 5 ms sous verrou. Mesurer séparément les durées des rapports et des autres écritures, ainsi que l’attente du verrou et les pointes. Deux back partagent le même verrou.
+L’accès à PostgreSQL sérialise les écritures sur la même ligne de révision avec `SELECT FOR UPDATE`. Pour maintenir ce verrou sous 70 % d’occupation avec cinq autres écritures par seconde de même durée, le temps moyen disponible sous verrou est de **3,41 ms à 1 000 postes** et **0,697 ms à 5 000**. Mesurer séparément les durées des rapports et des autres écritures, ainsi que l’attente du verrou et les pointes. Le premier palier utilise un back ; les deux back du palier à 5 000 postes partagent le même verrou et n’augmentent donc pas sa capacité d’écriture.
 
 L’ETag dépend de la révision globale. Des rapports fréquents peuvent donc faire renvoyer une vue complète à la plupart des actualisations : ajouter 25 ou 125 fois la taille mesurée d’une vue par seconde. Les 2 000 révisions conservées couvrent environ **9,8 s** ou **2,0 s** aux cadences calculées si chaque transaction produit une révision. Une modification fondée sur une révision plus ancienne peut recevoir un HTTP 409. La collecte toutes les 5 s et la lecture toutes les 4 s peuvent aussi donner près de 9 s d’ancienneté à l’écran avant traitement, au-delà des 5 s attendues.
 
@@ -414,7 +414,7 @@ Avant mise en production, éprouver la charge mixte avec des jeux de données r�
 
 ### 6.4. Extension à 5 000 postes
 
-Pour préparer le palier de **5 000 postes**, prévoir **cinq VM ORION**. VM 1 porte l’entrée (4 vCPU, 16 Go). Deux VM back (8 vCPU, 32 Go chacune) servent les appels répartis par HAProxy. Une VM exécute PostgreSQL et Logstash (20 vCPU, 80 Go). Les deux back joignent PostgreSQL sur le réseau privé, en TLS sur TCP 5432, et envoient leurs logs au collecteur. La VM de stockage (2 vCPU, 8 Go) porte 400 Go pour les fichiers de logs et, sous les mêmes conditions de qualification qu’au premier palier, 500 Go SSD pour les données PostgreSQL. Chaque VM reçoit 50 Go de disque système. La file du collecteur reste locale sur la VM qui exécute PostgreSQL. En cas de repli, le SSD PostgreSQL est attaché à la VM qui exécute la base. Total : **42 vCPU, 168 Go de RAM et 1 150 Go de disques actifs**. VM 2 devient le premier back et une cinquième VM accueille le second. Les essais détermineront si le gabarit de VM 1 et les deux back suffisent après adaptation du traitement de la supervision.
+Pour préparer le palier de **5 000 postes**, le gabarit d’essai passe à **cinq VM ORION**. VM 1 porte l’entrée (4 vCPU, 16 Go). Deux VM back (8 vCPU, 32 Go chacune) servent les appels répartis par HAProxy. Une VM exécute PostgreSQL et Logstash (20 vCPU, 80 Go). Les deux back joignent PostgreSQL sur le réseau privé, en TLS sur TCP 5432, et envoient leurs logs au collecteur. La VM de stockage (2 vCPU, 8 Go) porte 400 Go pour les fichiers de logs. PostgreSQL utilise un SSD de 500 Go attaché à sa VM ; son déplacement vers le service de fichiers reste soumis aux mêmes essais qu’au premier palier. Chaque VM reçoit 50 Go de disque système. La file du collecteur reste locale sur la VM qui exécute PostgreSQL. Total : **42 vCPU, 168 Go de RAM et 1 150 Go de disques actifs**. VM 2 devient le premier back et une cinquième VM accueille le second. Les essais détermineront si ce gabarit suffit après adaptation du traitement de la supervision.
 
 ### 6.5. Deux solutions pour administrer les postes Windows
 
@@ -426,18 +426,18 @@ Configuration Manager fournit un client Windows, un serveur de site, une base SQ
 
 CMPivot interroge les postes connectés à la demande. La documentation ne garantit ni une télémétrie continue de tous les processus toutes les cinq secondes, ni le délai d’arrêt automatique attendu par ORION. Le pilote doit décider si un agent de supervision complémentaire est nécessaire. Dans ce cas, conserver Configuration Manager pour les logiciels et les images, puis estimer séparément le développement de la collecte et de l’arrêt local. [Fonctionnement de CMPivot](https://learn.microsoft.com/en-us/mem/configmgr/core/servers/manage/cmpivot).
 
-| Hypothèse de licence annuelle | 1 000 postes gérés | 5 000 postes gérés |
-| --- | ---: | ---: |
-| Droits Configuration Manager et service ministériel existants, si le parc est intégralement couvert | 0 € d’achat de licences supplémentaires | 0 € d’achat de licences supplémentaires |
-| Achat d’un abonnement Microsoft Intune Plan 1 Device par poste, si le marché permet d’utiliser ce droit pour Configuration Manager | **24 290 € HT/an** | **121 450 € HT/an** |
+| Hypothèse de licence annuelle | Coût supplémentaire |
+| --- | ---: |
+| Droits Configuration Manager et service ministériel existants, si le parc est intégralement couvert | **0 €** |
+| Nouvelles licences de gestion par utilisateur ou par appareil | **devis nécessaire** selon les droits existants, le marché ministériel et le mode de licence applicable aux postes partagés |
 
-Les conditions de produit Microsoft listent Intune P1 for Devices parmi les licences d’accès à Configuration Manager. Le calcul prend le tarif public français de **24,29 € HT par poste et par an** pour la référence annuelle, sans remise de volume, au 13 novembre 2026. Faire confirmer le droit d’usage sur les postes partagés, l’éligibilité du marché ministériel et le prix en volume par le titulaire du marché. Cette estimation couvre la licence client. Les éventuelles licences Windows Server, le support et l’intégration sont à confirmer séparément. Vérifier aussi les droits SQL Server réservés à l’usage du produit. [Conditions Microsoft](https://www.microsoft.com/licensing/terms/en-US/productoffering/SystemCenterConfigurationManager/allprograms) · [Tarif revendeur](https://www.senetic.fr/product/CFQ7TTC0LCH4-0004_P1YP1Y).
+Configuration Manager est inclus dans plusieurs abonnements Microsoft et les droits existants restent applicables. Le tarif public d’Intune Plan 1 est exprimé par utilisateur, pas par poste ; il ne permet donc pas de chiffrer correctement 1 000 ou 5 000 postes partagés. Obtenir du titulaire du marché le nombre de licences nécessaires, les droits Configuration Manager, le prix par appareil le cas échéant et les éventuels coûts Windows Server, SQL Server, support et intégration. [FAQ de licences Configuration Manager](https://learn.microsoft.com/intune/configmgr/core/understand/product-and-licensing-faq) · [Tarification officielle d’Intune](https://www.microsoft.com/fr-fr/security/business/microsoft-Intune-pricing).
 
 Réutiliser le service ministériel, s’il existe, permet de rester dans les quatre VM ORION. Une installation dédiée demande au minimum une VM Windows Server supplémentaire. Microsoft permet de placer la base SQL Server du site primaire sur le même serveur. Les points de distribution supplémentaires dépendent du réseau et de la taille des images. L’exploitant doit valider l’admission au CCT et les échanges nécessaires à la maintenance du produit, y compris la procédure de mise à jour hors ligne si elle est retenue. [Base de site](https://learn.microsoft.com/en-us/intune/configmgr/core/plan-design/hierarchy/plan-for-the-site-database) · [Maintenance hors ligne](https://learn.microsoft.com/en-us/intune/configmgr/core/servers/manage/use-the-service-connection-tool).
 
 #### Option B — Agent Windows développé par l’équipe ORION
 
-Créer un service Windows en C#/.NET qui envoie l’inventaire et les rapports de processus à l’API ORION. Le back autorise et suit les interventions. Le poste exécute les commandes métier prévues, telles que l’arrêt d’un processus ou l’installation d’un paquet approuvé, et renvoie le résultat associé à l’intervention. Prévoir une identité propre à chaque poste, la mise à jour signée de l’agent et le traitement des commandes déjà reçues après coupure. Le serveur de gestion reste le back ORION, sur les VM déjà dimensionnées.
+Créer un service Windows avec une technologie admise par le CCT, à sélectionner après vérification des versions de Windows et des contraintes de signature. Il envoie l’inventaire et les rapports de processus à l’API ORION. Le back autorise et suit les interventions. Le poste exécute les commandes métier prévues, telles que l’arrêt d’un processus ou l’installation d’un paquet approuvé, et renvoie le résultat associé à l’intervention. Prévoir une identité propre à chaque poste, la mise à jour signée de l’agent et le traitement des commandes déjà reçues après coupure. Le serveur de gestion reste le back ORION, sur les VM déjà dimensionnées.
 
 Pour une réinstallation complète, l’agent transmet la demande à un mécanisme de réimagerie autorisé, capable de fonctionner pendant l’effacement de Windows. Le retour de résultat doit être vérifié après réenrôlement. L’estimation suppose que le ministère fournit ce mécanisme, l’infrastructure de signature et un canal de déploiement de l’agent. Si la réimagerie est indisponible, le périmètre et l’effort d’une chaîne de réinstallation restent à estimer avant de comparer les deux offres à couverture égale.
 
@@ -460,12 +460,12 @@ Les jours-personnes mesurent la charge de l’équipe. Ils excluent les délais 
 | Dix VM Debian et pile Docker Swarm | Quatre VM C1NP pour le premier palier | Qualifier le système, les services de l’hôte et les modalités de déploiement du C1NP |
 | Keycloak et annuaire OpenLDAP locaux | MindefConnect | Obtenir le contrat, configurer les environnements et qualifier les attributs et parcours |
 | Simulateur des postes et de leur agent d’administration | Configuration Manager ou agent Windows ORION | Vérifier l’existant, qualifier la réimagerie et tester les interventions et la supervision (§ 6.5) |
-| Apache derrière HAProxy | Serveur front et reverse proxy HTTPS | Qualifier les services disponibles et leur déploiement sur le C1NP |
+| Apache derrière HAProxy | HAProxy en entrée, Apache pour les fichiers de l’interface | Qualifier leur déploiement sur le C1NP |
 | Express derrière HAProxy | Serveur back | Qualifier les contrôles de santé et le déploiement sur le C1NP |
-| `/api/health` et `/api/infos` | Points techniques restreints à l’exploitation | Définir et appliquer le filtrage des accès |
+| `/api/health` et `/api/infos` | Réponse minimale publique, détail réservé au super administrateur | Conserver la séparation entre contrôle externe et diagnostic détaillé |
 | Logstash sur orion-8, fichiers sur orion-10 | Collecteur sur VM 3, fichiers de logs sur VM 4 | Qualifier la collecte, le partage, la rétention et l’accès |
 | Secrets Swarm à noms fixes | Gestion des secrets du C1NP | Choisir le coffre, l’injection, la rotation et la révocation |
-| Volumes NFS sur orion-10, sans sauvegarde | Persistance exploitée et sauvegardée | Définir sauvegardes, restaurations, RPO, RTO et essais réguliers |
+| Volumes NFS sur orion-10, sans sauvegarde | Stockage C1NP qualifié et sauvegardé | Choisir le service autorisé, puis définir sauvegardes, restaurations, RPO, RTO et essais réguliers |
 
 ## 8. Références techniques
 
@@ -480,66 +480,3 @@ Les jours-personnes mesurent la charge de l’équipe. Ils excluent les délais 
 - [Gestion des utilisateurs et fédération Keycloak](https://www.keycloak.org/docs/latest/server_admin/), [base de données Keycloak](https://www.keycloak.org/server/db) et [limites des exports de realm](https://www.keycloak.org/server/importExport) ;
 - [Secrets Docker Swarm](https://docs.docker.com/engine/swarm/secrets/), [verrouillage des managers](https://docs.docker.com/engine/swarm/swarm_manager_locking/), [déploiement d’une pile Swarm](https://docs.docker.com/engine/swarm/stack-deploy/), [maillage de routage Swarm](https://docs.docker.com/engine/swarm/ingress/) ;
 - [Spécification OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html) et [RFC 7636 — PKCE](https://www.rfc-editor.org/rfc/rfc7636) ;
-
-## Annexe A — Fonctionnement de Keycloak
-
-### A.1. Rôle
-
-Keycloak est un serveur de gestion des identités et des accès, distribué en logiciel libre. Il centralise l’authentification des utilisateurs pour plusieurs applications : une application ne manipule pas les mots de passe et délègue la connexion à Keycloak, qui lui renvoie une identité vérifiée sous forme de jetons signés. Une même session Keycloak permet l’authentification unique (SSO) sur toutes les applications qui lui font confiance.
-
-Keycloak implémente les protocoles standard OpenID Connect (OIDC), construit sur OAuth 2.0, et SAML 2.0. Une application compatible OIDC peut donc changer de fournisseur d’identité sans modifier son code, en changeant seulement l’adresse du fournisseur et les paramètres de son client.
-
-### A.2. Concepts
-
-| Concept | Définition |
-| --- | --- |
-| Realm | Espace isolé regroupant utilisateurs, clients, rôles, paramètres de connexion et thèmes. Un realm ne voit pas les données d’un autre. |
-| Client | Application enregistrée dans un realm et autorisée à demander l’authentification d’un utilisateur. Il est public (navigateur, mobile) ou confidentiel (serveur capable de garder un secret). |
-| Utilisateur | Identité authentifiable : identifiant, adresse électronique, attributs et moyens d’authentification. |
-| Rôle et groupe | Droits attribués aux utilisateurs, au niveau du realm ou d’un client, et transmis dans les jetons si l’application les exploite. |
-| Portée (scope) | Ensemble d’informations demandées par l’application cliente OIDC, par exemple `openid`, `profile` ou `email`. |
-| Flux d’authentification | Enchaînement configurable des étapes de connexion : formulaire, second facteur, conditions. |
-| Fédération et courtage | Raccordement à un annuaire existant (LDAP, Active Directory) ou délégation à un autre fournisseur d’identité (OIDC, SAML). |
-| Thème | Apparence des pages de connexion, de compte et d’administration. |
-
-### A.3. Connexion par OpenID Connect
-
-Le flux recommandé pour une application web est **Authorization Code**, complété par **PKCE** :
-
-1. L’application redirige le navigateur vers le point d’autorisation de Keycloak, en indiquant son client, l’adresse de retour, les portées, un `state` contre la falsification de requête, un `nonce` contre le rejeu et un défi PKCE.
-2. Keycloak authentifie l’utilisateur, ou reconnaît sa session SSO existante.
-3. Keycloak redirige le navigateur vers l’adresse de retour enregistrée, avec un code d’autorisation à usage unique et de courte durée.
-4. Le serveur de l’application échange ce code auprès du point de jeton de Keycloak, en présentant le vérificateur PKCE et, pour un client confidentiel, son secret.
-5. Keycloak renvoie un jeton d’identité, un jeton d’accès et éventuellement un jeton de rafraîchissement.
-6. L’application vérifie la signature et l’expiration des jetons, ainsi que le `state` et le `nonce`, puis ouvre sa propre session.
-
-Les jetons sont des JWT signés par les clés du realm. Leur vérification ne demande pas d’appel à Keycloak : l’application lit les clés publiques publiées par le realm.
-
-| Jeton | Usage |
-| --- | --- |
-| Jeton d’identité | Prouve à l’application qui s’est authentifié (`sub`, adresse, nom). |
-| Jeton d’accès | Autorise des appels à une API au nom de l’utilisateur. |
-| Jeton de rafraîchissement | Obtient de nouveaux jetons sans nouvelle saisie, tant que la session Keycloak est valide. |
-
-Les flux implicite et par mot de passe direct (« Resource Owner Password Credentials ») sont déconseillés : ils exposent les jetons ou les mots de passe à l’application.
-
-### A.4. Découverte, sessions et déconnexion
-
-Chaque realm publie ses métadonnées à l’adresse `/.well-known/openid-configuration` : émetteur (`issuer`), points d’autorisation, de jeton et de fin de session, clés publiques. Une application configurée avec l’émetteur découvre automatiquement le reste.
-
-Keycloak conserve sa propre session SSO, distincte de celle de l’application. Une déconnexion complète ferme les deux : l’application détruit sa session, puis redirige le navigateur vers le point de fin de session de Keycloak.
-
-### A.5. Administration, persistance et fédération
-
-Keycloak s’administre par une console web et par une API REST d’administration, qui permet d’automatiser la création des realms, clients et utilisateurs. Un realm peut être exporté et importé au format JSON.
-
-En exploitation, Keycloak conserve sa configuration, ses utilisateurs et ses sessions persistantes dans une base de données relationnelle ; plusieurs instances partageant la même base forment un cluster. Les identités peuvent aussi rester dans un annuaire LDAP fédéré, en lecture seule ou en écriture : Keycloak y vérifie les mots de passe et en lit les attributs.
-
-### A.6. Modes d’exécution
-
-| Mode | Commande | Usage |
-| --- | --- | --- |
-| Développement | `start-dev` | HTTP autorisé, base embarquée, configuration permissive ; réservé aux postes de développement. |
-| Production | `start` | HTTPS et nom d’hôte obligatoires, base de données externe, configuration optimisée au démarrage. |
-
-En production, Keycloak est généralement placé derrière un proxy inverse HTTPS ; ses secrets, ses clés de signature et sa base sont sauvegardés et protégés comme des éléments critiques.

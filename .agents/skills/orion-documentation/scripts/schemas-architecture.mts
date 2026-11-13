@@ -104,7 +104,7 @@ if (kind === 'cible-simple') {
   card(290, 329, 'split', 'HAProxy et Apache', 'Interface React', 'VM 1 . Entrée', { w: 195 });
   card(586, 329, 'server', 'API Express', 'Administration des postes', 'VM 2 . Application', { w: 195 });
   card(882, 329, 'database', 'PostgreSQL et Logstash', 'Base et collecte des logs', 'VM 3 . Base et collecte', { w: 195 });
-  card(1180, 329, 'hard-drive', 'Stockage NFS', 'Logs et données PostgreSQL', 'VM 4 . Stockage', { w: 205 });
+  card(1180, 329, 'hard-drive', 'Stockage C1NP', 'Fichiers de logs', 'VM 4 . Stockage', { w: 205 });
 
   arrow([[177, 385], [290, 385]]);
   label(231, 373, 'Interface', 'middle');
@@ -153,15 +153,16 @@ if (kind === 'cible-simple') {
   frame(1570, 245, 290, 395, 'VM 4 . Stockage', '2 vCPU · 8 Go RAM · 50 Go système');
   ext(40, 318, 135, 70, 'users', 'Firefox', []);
   ext(40, 422, 155, 70, 'monitor', 'Postes Windows', []);
+  ext(35, 535, 180, 70, 'server', 'Configuration Manager', ['Option A']);
   ext(420, 115, 265, 70, 'key-round', 'MindefConnect', ['Service d’identité']);
   svc(320, 318, 210, 70, 'split', 'HAProxy 3.2.16', ['HTTPS · TCP 443'], true);
   svc(320, 442, 210, 70, 'app-window', 'Apache 2.4.69', ['HTTP 8080 · boucle locale', 'Interface React 19.3.1'], true);
   svc(710, 318, 255, 70, 'server', 'Express 5.3.0', ['Node.js 22.22.3', 'API · TCP 3001'], true);
-  svc(710, 442, 255, 70, 'monitor', 'Administration des postes', ['Système et version à préciser'], true, false);
+  svc(710, 442, 255, 70, 'monitor', 'Intégration Windows', ['Option à retenir'], true, false);
   svc(1160, 548, 255, 70, 'scroll-text', 'Logstash 8.19.14', ['Syslog sur TLS · TCP 6514'], true);
   svc(1160, 318, 255, 70, 'database', 'PostgreSQL 17.7', ['PostgreSQL sur TLS · TCP 5432'], true);
-  svc(1590, 318, 250, 300, 'folder-sync', 'Serveur NFSv4.2', ['TCP 2049 · réseau privé'], true);
-  vol(1605, 420, 220, '100 Go SSD', ['Données PostgreSQL']);
+  vol(1177, 420, 220, '100 Go SSD', ['Données PostgreSQL locales']);
+  svc(1590, 318, 250, 300, 'folder-sync', 'Fichiers', ['Service C1NP à qualifier'], true);
   vol(1605, 535, 220, '100 Go', ['Fichiers de logs']);
 
   arrow([[175, 340], [320, 340]]);
@@ -182,15 +183,15 @@ if (kind === 'cible-simple') {
   arrow([[965, 380], [1040, 380], [1040, 562], [1160, 562]]);
   label(1050, 551, '7 · TLS 6514', 'middle');
   arrow([[1415, 583], [1590, 583]]);
-  label(1500, 572, '8 · NFS 2049', 'middle');
-  arrow([[1415, 350], [1590, 350]]);
-  label(1500, 339, '9 · NFS 2049', 'middle');
+  label(1500, 572, '8 · Service de fichiers', 'middle');
   arrow([[837, 388], [837, 442]]);
-  label(847, 420, '10 · Demandes');
-  arrow([[107, 492], [107, 550], [633, 550], [633, 475], [710, 475]]);
-  label(280, 545, '11 · Rapports et résultats', 'middle');
-  arrow([[710, 459], [608, 459], [608, 510], [164, 510], [164, 492]]);
-  label(294, 500, '12 · Interventions', 'middle');
+  label(847, 420, '10A · Demandes');
+  arrow([[107, 492], [107, 535]]);
+  label(116, 521, '11A');
+  arrow([[710, 475], [640, 475], [640, 570], [215, 570]]);
+  label(420, 560, '10A · API Configuration Manager', 'middle');
+  arrow([[195, 457], [260, 457], [260, 370], [320, 370]]);
+  label(272, 445, '10B · Agent · HTTPS 443');
 } else if (kind === 'simple') {
   W = 1500; H = 1075;
   title = 'ORION — architecture du démonstrateur';

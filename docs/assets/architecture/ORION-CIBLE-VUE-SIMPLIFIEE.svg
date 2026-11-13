@@ -77,8 +77,8 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="979.5" y="441" class="cvm" text-anchor="middle">VM 3 . Base et collecte</text>
 <rect x="1180" y="329" width="205" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-hard-drive" x="1264.5" y="343" width="36" height="36" style="color:#0f6cbd"/>
-<text x="1282.5" y="401" class="cname" text-anchor="middle">Stockage NFS</text>
-<text x="1282.5" y="420" class="crole" text-anchor="middle">Logs et données PostgreSQL</text>
+<text x="1282.5" y="401" class="cname" text-anchor="middle">Stockage C1NP</text>
+<text x="1282.5" y="420" class="crole" text-anchor="middle">Fichiers de logs</text>
 <text x="1282.5" y="441" class="cvm" text-anchor="middle">VM 4 . Stockage</text>
 <path d="M177 385 L290 385" class="flow" marker-end="url(#arrow)"/>
 <text x="231" y="373" class="route" text-anchor="middle">Interface</text>
