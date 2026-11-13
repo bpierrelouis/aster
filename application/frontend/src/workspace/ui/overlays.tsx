@@ -129,11 +129,12 @@ export function Popover({ anchor, onClose, align = 'end', className = '', childr
     const pop = ref.current;
     if (!pop || !anchor) return;
     const a = anchor.getBoundingClientRect();
-    const p = pop.getBoundingClientRect();
-    let left = align === 'end' ? a.right - p.width : align === 'center' ? a.left + a.width / 2 - p.width / 2 : a.left;
-    left = Math.max(12, Math.min(innerWidth - p.width - 12, left));
-    let top = a.bottom + 10;
-    if (top + p.height > innerHeight - 12) top = Math.max(12, a.top - p.height - 10);
+    const width = pop.offsetWidth; // taille réelle, indépendante de l’animation d’ouverture
+    let left = align === 'end' ? a.right - width : align === 'center' ? a.left + a.width / 2 - width / 2 : a.left;
+    left = Math.max(12, Math.min(innerWidth - width - 12, left));
+    const top = Math.max(12, a.bottom + 10);
+    // Les menus de la barre haute restent sous leur bouton quand leur contenu change.
+    pop.style.maxHeight = `${Math.max(0, innerHeight - top - 12)}px`;
     pop.style.left = `${left}px`;
     pop.style.top = `${top}px`;
   }, [anchor, align]);

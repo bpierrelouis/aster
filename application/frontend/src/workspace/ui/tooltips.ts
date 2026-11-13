@@ -59,6 +59,7 @@ function showTip(target: HTMLElement) {
   if (!text && !target.dataset.tipTitle) return;
   tipTarget = target;
   fill({ title: target.dataset.tipTitle, text, kbd: target.dataset.tipKbd });
+  tipEl.showPopover();
   tipEl.classList.add('is-on');
   const r = target.getBoundingClientRect();
   const t = tipEl.getBoundingClientRect();
@@ -70,12 +71,14 @@ function showTip(target: HTMLElement) {
 function hideTip() {
   tipTarget = null;
   tipEl?.classList.remove('is-on');
+  tipEl?.hidePopover();
 }
 
 export function initTooltips() {
   if (tipEl) return;
   tipEl = document.createElement('div');
   tipEl.className = 'tooltip';
+  tipEl.popover = 'manual'; // couche native, au-dessus des fenêtres modales
   tipEl.setAttribute('role', 'tooltip');
   document.body.appendChild(tipEl);
   const selector = '[data-tip], [data-tip-title]';
@@ -104,6 +107,7 @@ export function floatTip(content: TipContent | null, x?: number, y?: number) {
   if (content == null) { hideTip(); return; }
   tipTarget = null;
   fill(content);
+  tipEl.showPopover();
   tipEl.classList.add('is-on');
   const t = tipEl.getBoundingClientRect();
   let top = y! - t.height - 14;

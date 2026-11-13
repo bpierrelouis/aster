@@ -121,6 +121,7 @@ test('administrateur : un matériel créé est enregistré par le serveur réel'
 });
 
 test('formateur : une remontée transmise produit son PDF ; le gestionnaire la traite', async ({ page }) => {
+  const problemType = 'Bruit de ventilation';
   const description = `Écran noir après allumage ${Date.now()}`;
   await login(page, 'formateur');
   await page.goto('/remontees/attente');
@@ -130,18 +131,21 @@ test('formateur : une remontée transmise produit son PDF ; le gestionnaire la t
   await dialog.locator('[data-mat]').first().click();
   await dialog.getByRole('button', { name: 'Continuer', exact: true }).click();
   await dialog.getByLabel('Description du problème *').fill(description);
+  await dialog.getByRole('radio', { name: 'Autre', exact: true }).click();
+  await dialog.getByLabel('Précisez le type de problème *').fill(problemType);
   await dialog.getByRole('button', { name: 'Transmettre la remontée', exact: true }).click();
   await expect(dialog).toHaveCount(0);
   let report!: Remontee;
   await expect.poll(async () => { report = (await (await page.request.get('/api/workspace')).json()).remontees.find((r: Remontee) => r.description === description); return Boolean(report); }).toBe(true);
+  expect(report.probleme).toBe(problemType);
   // Le serveur contrôle les droits puis produit le PDF à la demande
   const pdf = await page.request.get(`/api/workspace/reports/${report.id}/pdf`);
   expect(report.id).toMatch(/^REM-\d{4}$/);
   expect(pdf.ok()).toBeTruthy();
   expect(pdf.headers()['content-type']).toBe('application/pdf');
   expect((await pdf.body()).subarray(0, 5).toString()).toBe('%PDF-');
-  const [stored] = await sql('SELECT statut, auteur, auteur_id FROM orion_remontee WHERE id = $1', [report.id]);
-  expect(stored).toMatchObject({ statut: 'attente', auteur: 'L. Martin', auteur_id: 'cpt-num-formateur' });
+  const [stored] = await sql('SELECT statut, auteur, auteur_id, probleme FROM orion_remontee WHERE id = $1', [report.id]);
+  expect(stored).toMatchObject({ statut: 'attente', auteur: 'L. Martin', auteur_id: 'cpt-num-formateur', probleme: problemType });
   expect((await sql('SELECT materiel_id FROM orion_remontee_materiel WHERE remontee_id = $1 ORDER BY rang', [report.id])).map((r) => r.materiel_id)).toEqual(report.materielIds);
   await logout(page);
   expect((await page.request.get(`/api/workspace/reports/${report.id}/pdf`)).status()).toBe(401);

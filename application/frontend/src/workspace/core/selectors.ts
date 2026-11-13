@@ -78,6 +78,14 @@ export const scope = () => cached('scope', () => {
 
 export const batiments = () => cached('batiments', () => [...new Set(scope().salles.map((x) => x.batiment))].sort());
 export const sallesOf = (batiment?: string | null) => scope().salles.filter((x) => !batiment || x.batiment === batiment);
+/** Choix de salles : nom et bâtiment communs aux listes filtrables. */
+export const optionsSalles = (salles: readonly Salle[] = scope().salles) => salles.map((s) => ({ value: s.id, label: s.nom, group: batimentLabel(s.batiment) }));
+/** Choix d'affectation : stock et salles regroupées par bâtiment. */
+export function affectationOptions(ecoleId: Id | null) {
+  const salles = scope().salles.filter((x) => !ecoleId || x.ecoleId === ecoleId);
+  return [{ value: '', label: 'Stock (sans localisation)' }, ...optionsSalles(salles)];
+}
+
 export const materielsOf = (salleId?: Id | null) => scope().materiels.filter((m) => (salleId ? m.salleId === salleId : !m.salleId));
 
 const blank = (): Effectif => ({ total: 0, hs: 0, ok: 0 });

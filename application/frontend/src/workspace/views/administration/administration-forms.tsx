@@ -4,6 +4,7 @@
    (demande d'intervention : administration-intervention-form.tsx).
    ========================================================================== */
 
+import { FilterSelect } from '../../ui/filter-select.tsx';
 import { useState } from 'react';
 import { store, currentEcole, me } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
@@ -49,12 +50,12 @@ function AccountForm({ account }: { account: Compte | null }) {
     <label className="field"><span className="field-label">Nom *</span><input name="nom" required maxLength={100} defaultValue={account?.nom || ''} /></label>
     <label className="field"><span className="field-label">Adresse électronique *</span><input name="email" type="email" required maxLength={180} defaultValue={account?.email || ''} /></label>
     <div className="form-2">
-      <label className="field"><span className="field-label">Profil</span>
-        <select name="role" defaultValue={account?.role || 'formateur'}>{ROLES.filter((r) => me().role === 'superadmin' || r.id !== 'superadmin').map((r) => <option key={r.id} value={r.id}>{r.label}</option>)}</select>
-      </label>
-      <label className="field"><span className="field-label">École</span>
-        <select name="ecoleId" defaultValue={school!}>{state.ecoles.map((e) => <option key={e.id} value={e.id}>{e.nom}</option>)}</select>
-      </label>
+      <div className="field"><span className="field-label">Profil</span>
+        <FilterSelect aria-label="Profil" name="role" defaultValue={account?.role || 'formateur'} options={ROLES.filter((r) => me().role === 'superadmin' || r.id !== 'superadmin').map((r) => ({ value: r.id, label: r.label }))} />
+      </div>
+      <div className="field"><span className="field-label">École</span>
+        <FilterSelect aria-label="École" name="ecoleId" defaultValue={school!} options={state.ecoles.map((e) => ({ value: e.id, label: e.nom }))} />
+      </div>
     </div>
   </SheetForm>;
 }
@@ -105,9 +106,9 @@ function PostDetail({ id }: { id: Id }) {
         </li>)}</ul>
         : <p className="ops-muted">Aucune application inventoriée.</p>}
       <form id="post-install" className="form" onSubmit={(e) => { e.preventDefault(); if (choice) request(close, 'installation', choice); }}>
-        <label className="field"><span className="field-label">Installer une application</span>
-          <select value={choice} onChange={(e) => setChoice(e.target.value)}>{others.map((a) => <option key={a.id} value={a.id}>{a.nom}</option>)}</select>
-        </label>
+        <div className="field"><span className="field-label">Installer une application</span>
+          <FilterSelect aria-label="Installer une application" value={choice} onChange={(e) => setChoice(e.target.value)} options={others.map((a) => ({ value: a.id, label: a.nom }))} />
+        </div>
       </form>
     </>}
   </Sheet>;

@@ -6,6 +6,7 @@
    Type : classement visuel proposé. Fin de garantie : fonctionnalité bonus.
    ========================================================================== */
 
+import { FilterSelect } from '../../ui/filter-select.tsx';
 import { useEffect, useRef, useState } from 'react';
 import { Tile } from '../../ui/icons.tsx';
 import { uid } from '../../core/dom.ts';
@@ -14,22 +15,10 @@ import { useStore } from '../../hooks/use-store.ts';
 import { can } from '../../core/permissions.ts';
 import { DEVICE_TYPES, deviceType, materielCite } from '#shared/catalog.ts';
 import { inputDate, fromInputDate } from '#shared/format.ts';
-import { scope, batiments, batimentLabel, index } from '../../core/selectors.ts';
+import { affectationOptions, index } from '../../core/selectors.ts';
 import { Sheet, openSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
 import type { DeviceTypeId, Id, Materiel } from '#shared/types.ts';
-
-/** Options d'affectation : stock + salles regroupées par bâtiment (la sélection passe par le <select>) */
-export function AffectationOptions({ ecoleId }: { ecoleId: Id | null }) {
-  const salles = scope().salles.filter((x) => !ecoleId || x.ecoleId === ecoleId);
-  return <>
-    <option value="">Stock (sans localisation)</option>
-    {batiments().map((b) => {
-      const list = salles.filter((x) => x.batiment === b);
-      return list.length ? <optgroup key={b} label={batimentLabel(b)}>{list.map((x) => <option key={x.id} value={x.id}>{x.nom}</option>)}</optgroup> : null;
-    })}
-  </>;
-}
 
 /** Un matériel cité par une remontée est conservé (règle tenue par le serveur) : le signale ; true si l'un des matériels l'est */
 export function suppressionRefusee(items: Materiel[]) {
@@ -93,8 +82,8 @@ function MaterielForm({ materiel, salleId, ecoleId }: { materiel: Materiel | nul
         <label className="field"><span className="field-label">Marque</span><input name="marque" maxLength={40} defaultValue={materiel?.marque ?? ''} placeholder="Facultative" autoComplete="off" /></label>
         <label className="field"><span className="field-label">Date de réception *</span><input name="reception" type="date" required defaultValue={inputDate(materiel?.dateReception ?? Date.now())} /></label>
         <label className="field"><span className="field-label">Numéro de série</span><input name="serie" maxLength={40} defaultValue={materiel?.serie ?? ''} placeholder="Facultatif" autoComplete="off" /></label>
-        <label className="field"><span className="field-label">Affectation</span><select name="salle" defaultValue={(materiel ? materiel.salleId : salleId) ?? ''}><AffectationOptions ecoleId={ecoleId} /></select>
-          <span className="field-hint">Un matériel peut rester en stock sans salle.</span></label>
+        <div className="field"><span className="field-label">Affectation</span><FilterSelect aria-label="Affectation" name="salle" defaultValue={(materiel ? materiel.salleId : salleId) ?? ''} options={affectationOptions(ecoleId)} />
+          <span className="field-hint">Un matériel peut rester en stock sans salle.</span></div>
         <div className="field"><span className="field-label">Hors service *</span>
           <div className="seg seg--wide" role="radiogroup" aria-label="Hors service">
             <button type="button" role="radio" aria-checked={!hs} className={`seg-btn${!hs ? ' is-on' : ''}`} onClick={() => setHs(false)}><span className="led led--ok" />Non</button>

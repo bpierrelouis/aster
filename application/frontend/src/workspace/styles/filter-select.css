@@ -1,0 +1,27 @@
+/* Un déclencheur et son menu : recherche, groupes et options dans une même surface. */
+.filter-select { position: relative; width: 100%; min-width: 0; }
+.filter-select > select.filter-select-value { position: absolute; width: 1px; height: 1px; min-width: 0; margin: 0; padding: 0; border: 0; clip-path: inset(50%); opacity: 0; pointer-events: none; }
+.filter-select-trigger { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 44px; padding: 10px 14px; border-radius: 14px; background: var(--fill-1); box-shadow: inset 0 0 0 1px var(--hairline); text-align: left; font-size: 1rem; line-height: 1.5; transition: background var(--dur-1), box-shadow var(--dur-1); }
+.filter-select-trigger > span { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.filter-select-trigger > .ico { color: var(--ink-3); transition: rotate var(--dur-1); }
+.filter-select-trigger[aria-expanded="true"] > .ico { rotate: 180deg; }
+.filter-select-trigger:hover:not(:disabled) { background: var(--fill-2); }
+.filter-select-trigger:focus-visible, .filter-select-trigger[aria-expanded="true"] { outline: none; box-shadow: inset 0 0 0 2px var(--focus); }
+.filter-select-trigger[aria-invalid="true"] { box-shadow: inset 0 0 0 2px var(--crit); }
+.filter-select-trigger:disabled { opacity: .4; cursor: not-allowed; }
+.filter-select-popup { position: fixed; inset: auto; margin: 0; padding: 8px; border: 1px solid var(--hairline); border-radius: 20px; background: var(--glass-tint-strong); color: var(--ink-1); box-shadow: var(--glass-shadow-lift); backdrop-filter: blur(22px) saturate(1.3); max-width: calc(100vw - 24px); overflow: hidden; }
+.filter-select-popup:popover-open { display: flex; flex-direction: column; gap: 6px; animation: select-open 160ms var(--ease-out) both; }
+.filter-select-search { display: flex; align-items: center; gap: 8px; flex: none; min-width: 0; margin: 2px 2px 4px; padding-inline: 12px; border-radius: 12px; background: var(--fill-1); color: var(--ink-2); box-shadow: inset 0 0 0 1px var(--hairline); }
+.filter-select-search:focus-within { box-shadow: inset 0 0 0 2px var(--focus); }
+.filter-select .filter-select-search input { flex: 1; width: 100%; min-width: 0; margin: 0; padding: 10px 0; border: 0; border-radius: 0; background: none; box-shadow: none; font: inherit; font-size: 1rem; color: inherit; }
+.filter-select .filter-select-search input:focus { outline: none; background: none; box-shadow: none; }
+.filter-select-list { min-height: 0; flex: 1; overflow: auto; overscroll-behavior: contain; outline: none; }
+.filter-select-group { padding: 10px 12px 5px; color: var(--ink-3); font-size: .875rem; font-weight: 600; }
+.filter-select-option { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 42px; padding: 9px 12px; border-radius: 12px; text-align: left; line-height: 1.5; }
+.filter-select-option > span { min-width: 0; overflow-wrap: anywhere; }
+.filter-select-option.is-active:not(:disabled), .filter-select-option:hover:not(:disabled) { background: var(--fill-2); }
+.filter-select-option[aria-selected="true"] { color: var(--accent-text); font-weight: 650; background: var(--tint-1); }
+.filter-select-option:disabled { color: var(--ink-3); opacity: .5; cursor: not-allowed; }
+.filter-select-count { flex: none; padding: 4px 12px; color: var(--ink-3); font-size: .875rem; line-height: 1.4; }
+@keyframes select-open { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .filter-select-popup:popover-open { animation: none; } .filter-select-trigger, .filter-select-trigger > .ico { transition: none; } }

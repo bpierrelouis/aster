@@ -6,11 +6,12 @@
    intervention-form.tsx) ; chaque poste cible l'exécute et renvoie son résultat.
    ========================================================================== */
 
+import { FilterSelect } from '../../ui/filter-select.tsx';
 import { useState } from 'react';
 import { useParams } from 'react-router';
 import { store, currentEcole, me } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
-import { scope, index, parc, batimentLabel, emplacement } from '../../core/selectors.ts';
+import { scope, index, optionsSalles, parc, batimentLabel, emplacement } from '../../core/selectors.ts';
 import { can } from '../../core/permissions.ts';
 import { role } from '#shared/catalog.ts';
 import { num, plural } from '#shared/format.ts';
@@ -81,10 +82,8 @@ const POSTS_PAGE = 25;
 
 /** Filtre par salle (postes, applications) */
 function SalleFilter({ value, onChange }: { value: Id; onChange: (salleId: Id) => void }) {
-  return <select aria-label="Filtrer par salle" value={value} onChange={(e) => onChange(e.target.value)}>
-    <option value="">Toutes les salles</option>
-    {scope().salles.map((s) => <option key={s.id} value={s.id}>{s.nom} · Bâtiment {s.batiment}</option>)}
-  </select>;
+  return <FilterSelect aria-label="Filtrer par salle" value={value} onChange={(e) => onChange(e.target.value)}
+    options={[{ value: '', label: 'Toutes les salles' }, ...optionsSalles()]} />;
 }
 
 /** Postes : même carte que l'inventaire (filtres, tableau, pagination) ; un filtre revient à la première page.

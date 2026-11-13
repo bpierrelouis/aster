@@ -95,7 +95,7 @@
 .gal-stage--L .gal-scale { --s: .48; } .gal-stage--L .widget { width: 598px; height: 362px; }
 .gal-stage--XL .gal-scale { --s: .26; } .gal-stage--XL .widget { width: 1214px; height: 362px; }
 .gal-meta { display: flex; align-items: center; gap: 10px; }
-.gal-meta b { flex: 1; font-size: 15px; }
+.gal-meta b { flex: 1; font-size: 1rem; }
 .gal-sizes { display: flex; gap: 2px; padding: 3px; border-radius: var(--r-pill); background: var(--fill-1); }
 
 /* --------------------------------------------------------------------------

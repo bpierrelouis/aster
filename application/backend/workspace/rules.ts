@@ -16,9 +16,10 @@ import { seed } from '#shared/seed.ts';
 import { defaultLayouts } from '#shared/layouts.ts';
 import { displayPrefs } from '#shared/ambiance.ts';
 import { DAY } from '#shared/format.ts';
+import { normalizeProblemLabel, PROBLEM_LABEL_HELP } from '#shared/problem-label.ts';
 import { batimentCode } from '#shared/buildings.ts';
 import { initializeOperations, IMAGE_REFERENCE } from '#shared/operations-data.ts';
-import { isRole, materielCite, numeroMateriel, numeroRemontee, rangDuNumero } from '#shared/catalog.ts';
+import { isRole, materielCite, numeroMateriel, numeroRemontee, rangDuNumero, PROBLEMS } from '#shared/catalog.ts';
 import type { Actor, CollectionName, Collections, Compte, DisplayPrefs, Id, Item, OperationType, PreferencesCompte, RemonteeStatut, WorkspaceState, WorkspaceView } from '#shared/types.ts';
 
 type KeyOf<T> = T extends unknown ? keyof T : never;
@@ -225,6 +226,14 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
           const stable = (r: LooseItem) => Object.fromEntries(Object.entries(r).filter(([k]) => !['statut', 'historique'].includes(k)));
           assert(same(stable(old), stable(x)), 'Seul le traitement peut être modifié.');
           x.historique = [...old.historique!, { statut: x.statut as RemonteeStatut, at: now, par: actor.nom, parId: actor.id }];
+        }
+        if (x.probleme != null) {
+          assert(typeof x.probleme === 'string' && x.probleme.trim() && x.probleme.length <= 100, 'Type de problème invalide.');
+          if (!old && !PROBLEMS.some((p) => p.id === x.probleme)) {
+            const label = normalizeProblemLabel(x.probleme);
+            assert(!label.invalid, `Type de problème invalide. ${PROBLEM_LABEL_HELP}`);
+            x.probleme = label.value.trim();
+          } else x.probleme = x.probleme.trim();
         }
         assert(typeof x.description === 'string' && x.description.trim() && x.description.length <= 12000, 'Description obligatoire.');
         assert(Array.isArray(x.materielIds) && x.materielIds.length > 0 && x.materielIds.every((mid) => materiels.some((m) => m.id === mid && m.ecoleId === x.ecoleId)), 'Matériels invalides.');

@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { role as roleOf } from '#shared/catalog.ts';
 import type { APIRequestContext, Locator, Page } from '@playwright/test';
 import type { Compte, Materiel, WorkspaceView } from '#shared/types.ts';
 
@@ -25,6 +26,12 @@ async function state(request: APIRequestContext): Promise<WorkspaceView> {
   return response.json();
 }
 
+async function pick(page: Page, control: Locator, name: string | RegExp) {
+  if (await control.getAttribute('aria-expanded') !== 'true') await control.click();
+  await page.getByRole('listbox').getByRole('option', { name, exact: typeof name === 'string' }).click();
+  await expect(control).toHaveAttribute('aria-expanded', 'false');
+}
+
 test('tous les écrans se chargent sans erreur JavaScript', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
@@ -49,8 +56,8 @@ test('un étage choisi est mis en évidence parmi tous les étages, salles ordon
   // Tous les étages restent affichés ; celui choisi est mis en évidence et filtre la liste
   await expect(page.locator('.floor-slab')).toHaveCount(levels.length);
   await expect(page.locator('.blk')).toHaveCount(rooms.length);
-  expect(await page.locator('.floor-slab.is-active .blk .blk-label b').allTextContents()).toEqual(expected.map((s) => s.nom));
-  expect(await page.locator('.salle-row > b').allTextContents()).toEqual(expected.map((s) => s.nom));
+  await expect(page.locator('.floor-slab.is-active .blk .blk-label b')).toHaveText(expected.map((s) => s.nom));
+  await expect(page.locator('.salle-row > b')).toHaveText(expected.map((s) => s.nom));
   expect(await page.locator('.blk').evaluateAll((nodes) => new Set(nodes.map((n) => getComputedStyle(n).height + getComputedStyle(n).getPropertyValue('--h3'))).size)).toBe(1);
   // Huit salles : grille de trois colonnes sur trois rangées, la plus proche d'un carré
   const cells = await page.locator('.floor-slab.is-active .blk').evaluateAll((nodes) => nodes.map((n) => [n.style.getPropertyValue('--bx'), n.style.getPropertyValue('--by')]));
@@ -230,19 +237,41 @@ test('un matériel créé est conservé après rechargement', async ({ page, req
   await expect.poll(async () => page.evaluate((name) => window.orion.store.state.materiels.some((m) => m.modele === name), model)).toBe(true);
 });
 
-test('une remontée créée produit un PDF téléchargeable', async ({ page, request }) => {
+test('une remontée créée produit un PDF téléchargeable', async ({ page, request }, testInfo) => {
+  const problemType = 'Bruit de ventilation';
   const description = `Écran noir après allumage ${Date.now()}`;
   await open(page, '/remontees/attente');
   await page.getByRole('button', { name: 'Signaler un problème', exact: true }).last().click();
   const dialog = page.getByRole('dialog', { name: 'Signaler un problème', exact: true });
+  await dialog.getByRole('searchbox', { name: 'Rechercher une salle' }).fill('a012');
+  await expect(dialog.locator('.pick-room')).toHaveCount(1);
   await dialog.locator('[data-salle]').filter({ hasText: 'A012' }).click();
   await dialog.locator('[data-mat]').first().click();
   await dialog.getByRole('button', { name: 'Continuer', exact: true }).click();
   await dialog.getByLabel('Description du problème *').fill(description);
+  await dialog.getByRole('radio', { name: 'Autre', exact: true }).click();
+  const customType = dialog.getByLabel('Précisez le type de problème *');
+  await expect(customType).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Transmettre la remontée', exact: true })).toBeDisabled();
+  await customType.fill('bRUIT# DE VENTILATION!');
+  await expect(customType).toHaveValue(problemType);
+  await expect(dialog.locator('#probleme-autre-info')).toContainText('Les caractères non autorisés ont été retirés.');
+  await customType.fill(problemType.toLocaleUpperCase('fr-FR'));
+  await expect(dialog.locator('#probleme-autre-info')).not.toContainText('ont été retirés');
+  await page.screenshot({ path: testInfo.outputPath('signalement-autre-desktop.png'), fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(customType).toBeVisible();
+  const panel = (await dialog.locator('.sheet-panel').boundingBox())!;
+  expect(panel.x).toBeGreaterThanOrEqual(0);
+  expect(panel.x + panel.width).toBeLessThanOrEqual(391);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('signalement-autre-mobile.png'), fullPage: true });
   await dialog.getByRole('button', { name: 'Transmettre la remontée', exact: true }).click();
   await expect(dialog).toHaveCount(0);
   await expect.poll(async () => (await state(request)).remontees.some((r) => r.description === description)).toBe(true);
   const report = (await state(request)).remontees.find((r) => r.description === description)!;
+  expect(report.probleme).toBe(problemType);
+  await expect(page.locator('#view')).toContainText(problemType);
   const pdf = await request.get(`/api/workspace/reports/${report.id}/pdf`);
   expect(pdf.ok()).toBeTruthy();
   expect(pdf.headers()['content-type']).toContain('application/pdf');
@@ -519,8 +548,10 @@ test('une application s’installe sur une salle entière, des postes se réinit
   await card.getByRole('button', { name: 'Installer', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Installer PuTTY' });
   await expect(dialog.getByRole('radio', { name: 'Salle entière' })).toHaveAttribute('aria-checked', 'true');
-  await expect(dialog.getByRole('combobox', { name: 'Salle', exact: true })).toHaveValue(''); // aucune salle filtrée : à choisir
-  await dialog.getByRole('combobox', { name: 'Salle', exact: true }).selectOption(salle.id);
+  await expect(dialog.getByRole('combobox', { name: 'Salle', exact: true })).toContainText('Choisir une salle'); // aucune salle filtrée : à choisir
+  await dialog.getByRole('button', { name: 'Installer', exact: true }).click();
+  await expect(dialog.getByRole('combobox', { name: 'Salle', exact: true })).toHaveAttribute('aria-expanded', 'true');
+  await pick(page, dialog.getByRole('combobox', { name: 'Salle', exact: true }), new RegExp(`^${salle.nom} ·`));
   await expect(dialog.locator('.ops-summary')).toContainText(`${postes.length} postes visés, toute la salle`);
   await dialog.getByRole('button', { name: 'Installer', exact: true }).click();
   await expect(dialog).toHaveCount(0);
@@ -548,10 +579,10 @@ test('une application s’installe sur une salle entière, des postes se réinit
   await expect(page.locator('.inv-table thead th')).toHaveText(['Poste', 'Emplacement', 'Matériel', 'État', 'Applications', 'Actions']);
   await expect(page.locator('.inv-table tbody tr').first().locator('td').nth(1)).toHaveText(/^[A-Z] – (RDC|\d+e?r?|SS\d) – .+$/);
   // Réinitialisation : la salle filtrée est proposée ; plusieurs postes choisis
-  await page.getByRole('combobox', { name: 'Filtrer par salle' }).selectOption(salle.id);
+  await pick(page, page.getByRole('combobox', { name: 'Filtrer par salle' }), salle.nom);
   await page.getByRole('button', { name: 'Réinitialiser', exact: true }).click();
   const reinstall = page.getByRole('dialog', { name: 'Réinitialiser Windows' });
-  await expect(reinstall.getByRole('combobox', { name: 'Salle', exact: true })).toHaveValue(salle.id);
+  await expect(reinstall.getByRole('combobox', { name: 'Salle', exact: true })).toContainText(salle.nom);
   await reinstall.getByRole('radio', { name: 'Postes' }).click();
   for (const p of postes.slice(0, 2)) await reinstall.getByRole('button', { name: p.nomReseau, exact: true }).click();
   await expect(reinstall.locator('.ops-summary')).toContainText('2 postes visés');
@@ -574,7 +605,7 @@ test('supervision : Alertes par défaut ; la recherche ignore casse et espaces, 
   await open(page, '/supervision/inconnu');
   await expect(page.locator('#view h1')).toHaveText('Alertes & détections');
   await open(page, '/supervision/listes');
-  const search = page.getByRole('searchbox', { name: 'Rechercher' });
+  const search = page.getByRole('searchbox', { name: 'Rechercher', exact: true });
   await search.fill('  LibreOffice ');
   await expect(page.locator('.ops-table tbody tr')).toHaveText([/soffice\.exe/, /soffice\.bin/]);
   await search.fill('blacklist STEAM');
@@ -660,7 +691,7 @@ test('l’import JSON n’ajoute que les nouveaux matériels et, une fois valid�
     await preview.getByRole('switch', { name: `Transférer ${ailleurs.idOrion} depuis École des réseaux` }).click();
     await page.getByRole('button', { name: 'Importer 2 matériels' }).click();
     await expect(page.getByRole('button', { name: 'Import terminé' })).toBeVisible(); // coche, puis bouton initial
-    await expect(page.locator('.inv-import [role="status"]')).toContainText('1 matériel ajouté, 1 transféré, 2 non traités');
+    await expect(page.locator('.inv-import').getByRole('status')).toContainText('1 matériel ajouté, 1 transféré, 2 non traités');
     await expect(preview).toHaveCount(0);
     const resultat = page.getByRole('region', { name: 'Résultat de l’import' }); // la liste reste, avec le résultat
     await expect(resultat.locator('tbody tr', { hasText: /APERCU-0001/ })).toContainText('Ajouté');
@@ -715,7 +746,7 @@ test('les notifications sont regroupées par nature ; l’espace Notifications l
     await expect(page.locator('.group-card')).toHaveCount(groups);
     await page.locator('.group-card', { hasText: /sous garantie échue/ }).getByRole('link', { name: 'Ouvrir' }).click();
     await expect(page).toHaveURL(/\/materiels\/inventaire\?garantie=/);
-    await expect(page.getByRole('combobox', { name: 'Garantie' })).toHaveValue('Échue');
+    await expect(page.getByRole('combobox', { name: 'Garantie' })).toContainText('Échue');
   } finally {
     await asAccount(admin.id);
   }
@@ -728,7 +759,7 @@ test('en mode interface seule, le menu du compte change d’utilisateur', async 
   const formateur = comptes.find((c) => c.role === 'formateur')!;
   const switchTo = async (compte: Compte) => {
     await page.getByRole('button', { name: 'Compte' }).click();
-    await page.getByRole('combobox', { name: /Changer d’utilisateur/ }).selectOption(compte.id);
+    await pick(page, page.getByRole('combobox', { name: /Changer d’utilisateur/ }), `${compte.nom} · ${roleOf(compte.role).label}`);
     await expect(page).toHaveURL(/\/accueil$/);
     await expect(page.locator('#view h1')).toBeAttached();
   };
@@ -740,7 +771,7 @@ test('en mode interface seule, le menu du compte change d’utilisateur', async 
 });
 
 
-test('la palette circulaire conserve la couleur du compte dans les deux ambiances', async ({ page }, testInfo) => {
+test('la palette Orion conserve la couleur du compte et Minarm garde les couleurs du DSFR', async ({ page }, testInfo) => {
   await open(page, '/materiels/inventaire');
   await page.evaluate(() => window.orion.store.update('prefs', (s) => { s.prefs.tone = 'auto'; }));
   const saves: object[] = [];
@@ -804,7 +835,10 @@ test('la palette circulaire conserve la couleur du compte dans les deux ambiance
         await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(7, 10, 16)');
       }
       await expect(page.locator('.btn--primary').first()).toHaveCSS('background-image', 'none');
-      await expect.poll(() => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim())).toBe('#b4477c');
+      if (theme === 'Orion') await expect(trigger).toBeVisible();
+      else { await expect(trigger).toHaveCount(0); await expect(palette).toHaveCount(0); }
+      const expectedAccent = theme === 'Orion' ? '#b4477c' : colorScheme === 'light' ? '#000091' : '#8585f6';
+      await expect.poll(() => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim())).toBe(expectedAccent);
       await page.screenshot({ path: testInfo.outputPath(`apparence-${theme}-${colorScheme}.png`), fullPage: true, animations: 'disabled' });
       if (theme === 'Orion') {
         await page.evaluate(() => window.orion.store.flush());
@@ -816,6 +850,9 @@ test('la palette circulaire conserve la couleur du compte dans les deux ambiance
       }
     }
   }
+  await ambiance.getByRole('radio', { name: 'Orion', exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-accent', 'pink');
+  await trigger.click();
   await page.setViewportSize({ width: 390, height: 600 });
   const pop = page.locator('.popover');
   await expect(palette).toBeVisible();
@@ -850,4 +887,140 @@ test('la palette circulaire conserve la couleur du compte dans les deux ambiance
   await page.evaluate(() => window.orion.store.flush());
   expect(saves.length).toBeGreaterThan(0);
   for (const saved of saves) expect(Object.keys(saved).sort()).toEqual(['prefs', 'role']);
+});
+
+
+test('les listes longues intègrent leur recherche sans perdre la sélection ni la valeur du formulaire', async ({ page, request }, testInfo) => {
+  await open(page, '/materiels/inventaire');
+  const salle = (await state(request)).salles.find((s) => s.nom === 'C201')!;
+  const location = page.getByRole('combobox', { name: 'Localisation', exact: true });
+  const search = page.getByRole('searchbox', { name: 'Rechercher dans : Localisation', exact: true });
+  await expect(search).toHaveCount(0); // Le filtre appartient au menu, pas à un champ distinct sur l'écran.
+  await location.click();
+  await search.fill('batiment c C201');
+  await expect(page.getByRole('listbox', { name: 'Localisation' }).getByRole('option')).toHaveText(['C201']);
+  await search.press('ArrowDown');
+  await search.press('Enter');
+  await expect(location).toContainText('C201');
+  await expect(location).toHaveAttribute('aria-expanded', 'false');
+  await location.click();
+  await search.fill('introuvable');
+  await expect(page.getByRole('listbox', { name: 'Localisation' }).getByRole('option')).toHaveCount(0);
+  await expect(page.getByText('Aucun résultat', { exact: true })).toBeVisible();
+  await search.press('Escape');
+  await expect(location).toBeFocused();
+  await expect(location).toContainText('C201');
+  await page.getByRole('button', { name: 'Ajouter un matériel', exact: true }).first().click();
+  const dialog = page.getByRole('dialog', { name: 'Ajouter un matériel', exact: true });
+  const affectation = dialog.getByRole('combobox', { name: 'Affectation', exact: true });
+  const filter = dialog.getByRole('searchbox', { name: 'Rechercher dans : Affectation', exact: true });
+  await affectation.click();
+  await filter.fill('c201');
+  await filter.press('ArrowDown');
+  await filter.press('Enter');
+  await expect(affectation).toContainText('C201');
+  await affectation.click();
+  await filter.fill('aucune correspondance');
+  expect(await dialog.locator('form').evaluate((form: HTMLFormElement) => new FormData(form).get('salle'))).toBe(salle.id);
+  await filter.press('Escape');
+  await expect(dialog).toBeVisible(); // Échap ferme le choix, pas la fenêtre de formulaire.
+  await dialog.getByLabel('Modèle *', { exact: true }).fill('Matériel de vérification');
+  await affectation.click();
+  await filter.fill('c201');
+  await filter.press('Enter');
+  await expect(dialog).toBeVisible(); // Confirmer une option ne soumet pas le formulaire.
+  await affectation.click();
+  await filter.fill('c201');
+  await page.screenshot({ path: testInfo.outputPath('liste-integree-desktop.png'), fullPage: true, animations: 'disabled' });
+  await filter.press('Escape');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await affectation.click();
+  await filter.fill('c201');
+  const panel = (await dialog.locator('.filter-select-popup:popover-open').boundingBox())!;
+  expect(panel.x).toBeGreaterThanOrEqual(0);
+  expect(panel.x + panel.width).toBeLessThanOrEqual(391);
+  expect(panel.y).toBeGreaterThanOrEqual(0);
+  expect(panel.y + panel.height).toBeLessThanOrEqual(845);
+  await page.screenshot({ path: testInfo.outputPath('liste-integree-mobile.png'), fullPage: true, animations: 'disabled' });
+});
+
+test('les listes courtes partagent le menu de choix et se parcourent au clavier', async ({ page }, testInfo) => {
+  await open(page, '/materiels/inventaire');
+  const status = page.getByRole('combobox', { name: 'État', exact: true });
+  await status.click();
+  await expect(status).toHaveAttribute('aria-expanded', 'true');
+  await status.click({ delay: 80 });
+  await expect(status).toHaveAttribute('aria-expanded', 'false');
+  await status.press('ArrowDown');
+  await expect(page.getByRole('listbox', { name: 'État' }).getByRole('option')).toHaveText(['Tous les états', 'En service', 'Hors service']);
+  await expect(page.getByRole('searchbox', { name: 'Rechercher dans : État', exact: true })).toHaveCount(0);
+  await page.keyboard.press('End');
+  await page.keyboard.press('Enter');
+  await expect(status).toContainText('Hors service');
+  await expect(status).toBeFocused();
+  await status.press('ArrowDown');
+  await page.keyboard.press('Home');
+  await page.keyboard.press('Escape');
+  await expect(status).toContainText('Hors service');
+  await expect(status).toHaveAttribute('aria-expanded', 'false');
+  await status.press('ArrowDown');
+  await page.keyboard.press('Home');
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+  await expect(status).toContainText('En service');
+  for (const ambiance of ['orion', 'minarm']) for (const tone of ['light', 'dark']) {
+    await page.evaluate(({ ambiance, tone }) => window.orion.store.update('prefs', (s) => { s.prefs.ambiance = ambiance; s.prefs.tone = tone; }), { ambiance, tone });
+    await expect(page.locator('html')).toHaveAttribute('data-ambiance', ambiance);
+    await expect(page.locator('html')).toHaveAttribute('data-tone', tone);
+    await status.click();
+    await expect(page.getByRole('listbox', { name: 'État' })).toBeVisible();
+    await page.screenshot({ path: testInfo.outputPath(`choix-${ambiance}-${tone}.png`), fullPage: true, animations: 'disabled' });
+    await page.keyboard.press('Escape');
+  }
+});
+
+test('le menu du compte reste ancré pendant les changements d’apparence', async ({ page }, testInfo) => {
+  for (const viewport of [{ width: 1280, height: 800 }, { width: 390, height: 600 }]) {
+    await page.setViewportSize(viewport);
+    await open(page, '/accueil');
+    await page.evaluate(() => window.orion.store.update('prefs', (s) => { s.prefs.ambiance = 'orion'; s.prefs.tone = 'light'; }));
+    await expect(page.locator('html')).toHaveAttribute('data-ambiance', 'orion');
+    const account = page.getByRole('button', { name: 'Compte', exact: true });
+    await account.click();
+    const menu = page.locator('.popover');
+    await expect.poll(() => menu.evaluate((node) => node.getAnimations().length)).toBe(0);
+    const origin = (await menu.boundingBox())!;
+    const anchor = (await account.boundingBox())!;
+    expect(Math.abs(origin.y - anchor.y - anchor.height - 10)).toBeLessThan(1);
+    const stable = async () => {
+      await expect(async () => {
+        const box = (await menu.boundingBox())!;
+        expect(Math.abs(box.x - origin.x)).toBeLessThan(1);
+        expect(Math.abs(box.y - origin.y)).toBeLessThan(1);
+        expect(box.y + box.height).toBeLessThanOrEqual(viewport.height - 11);
+      }).toPass({ timeout: 3000 });
+    };
+    const themes = page.getByRole('radiogroup', { name: 'Ambiance' });
+    await themes.getByRole('radio', { name: 'Minarm', exact: true }).hover();
+    await stable();
+    for (const theme of ['Minarm', 'Orion']) {
+      await themes.getByRole('radio', { name: theme, exact: true }).click();
+      await expect(page.locator('html')).toHaveAttribute('data-ambiance', theme.toLowerCase());
+      await page.evaluate(() => document.fonts.ready);
+      await stable();
+    }
+    await page.getByRole('button', { name: 'Passer en sombre', exact: true }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-tone', 'dark');
+    await stable();
+    await page.getByRole('radiogroup', { name: 'Verre' }).getByRole('radio', { name: 'Opaque', exact: true }).click();
+    await stable();
+    await page.getByRole('button', { name: 'Choisir la couleur', exact: true }).click();
+    await stable();
+    await page.getByRole('radiogroup', { name: 'Couleur' }).getByRole('radio', { name: 'Violet', exact: true }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-accent', 'violet');
+    await stable();
+    await page.screenshot({ path: testInfo.outputPath(`menu-stable-${viewport.width}.png`), fullPage: true, animations: 'disabled' });
+    await account.click();
+    await expect(menu).toHaveCount(0);
+  }
 });
