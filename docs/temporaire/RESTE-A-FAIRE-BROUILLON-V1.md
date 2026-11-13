@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Brouillon interne | Ajouter DCU à compléter, modèle de données, points documentaires oubliés et plan d’organisation du code | [2 versions](../../archive/README.md#reste-a-faire-brouillon-v1) |
+| 2.1 | 13/11/2026 | Brouillon interne | Diagrammes 06 et 07 à reprendre avec les collègues | [3 versions](../../archive/README.md#reste-a-faire-brouillon-v1) |
 <!-- version:fin -->
 
 Document de travail interne, établi le 13 novembre 2026 à l’issue du contrôle du renommage, de la conversion en TypeScript, de la revue de qualité et de l’analyse de sécurité. Il recense ce qui n’a pas été traité. Les décisions et questions ouvertes font foi dans le [cadrage](../02-CADRAGE.md) (§ 19) ; ce document n’en est qu’un aide-mémoire.
@@ -50,7 +50,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 - [ ] Cadrage § 22 : dater le prochain rendez-vous ; consigner le sort des propositions préparées pour le 12 novembre (application de scan, livraisons) quand un retour existera.
 - [ ] Cadrage : reporter en « Application : … », sans fermer la question côté client, les réponses que l’application apporte déjà : détection des applications par les postes (§ 8), intervention immédiate sur un sous-ensemble des postes d’une seule salle et image de référence fixée par le serveur (§ 9), suivi par poste et échec partiel signalé (§ 9), refus de compléter un signalement par le formateur (§ 13).
 - [ ] Backlog (suivi par l’utilisateur) : les noms GitHub conservent l’ancien nom (dépôt `bpierrelouis/aster`, projet « aster development ») ; les commits `09ac7b0` et `cecf0d7` et la référence locale `0762961…` du brouillon de suivi n’existent plus dans l’historique.
-- [ ] Les archives (`archive/`) conservent l’ancien nom du projet dans les versions antérieures au renommage : historique à conserver tel quel.
+- [ ] Le registre des archives et les copies de l’ancien design conservent l’ancien nom du projet dans les versions antérieures au renommage : historique à conserver tel quel.
 
 ## DCU à compléter
 
@@ -61,7 +61,7 @@ Ajouts identifiés le 13 novembre en comparant les DCU à l’application ; à r
 - [ ] [DCU 10 — Supervision des postes](../10-DCU-SUPERVISION-POSTES.md) : notification du lancement d’une application interdite à l’administrateur ; adresse IP du poste dans la liste des processus.
 - [ ] Nouveau DCU « Administrer ORION » (ou extension du DCU 09) : gérer les comptes ORION (création, modification, désactivation, réactivation ; RG-70) et les écoles (création, renommage ; RG-76), réservés aux administrateurs et au super administrateur.
 - [ ] Préférences personnelles (ambiance d’affichage, tableaux de bord ajoutés par l’utilisateur) : décider si elles relèvent d’un DCU ou restent un détail d’interface.
-- [ ] Diagrammes protégés [06](../06-DIAGRAMME-CONTEXTE.md) et [07](../07-DIAGRAMMES-ACTIVITE.md) : super administrateur, authentification par MindefConnect et PDF produit à la demande, après accord de l’utilisateur.
+- [ ] Diagrammes protégés [06](../06-DIAGRAMME-CONTEXTE.md) et [07](../07-DIAGRAMMES-ACTIVITE.md) : des collègues les ont modifiés sans publier leur travail ; faire le point avec eux le lundi 16 novembre, puis intégrer le super administrateur, l’authentification par MindefConnect et le PDF produit à la demande s’ils manquent.
 
 ## Modèle de données
 

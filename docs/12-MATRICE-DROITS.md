@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | Production destinée à la remise | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | [6 versions](../archive/README.md#12-matrice-droits) |
+| 3.0 | 13/11/2026 | Production destinée à la remise | Formateur : consultation des matériels d’une salle, sans recherche dans le parc | [7 versions](../archive/README.md#12-matrice-droits) |
 <!-- version:fin -->
 
 Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
@@ -31,7 +31,7 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 
 | Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
 | --- | --- | --- | --- | --- | --- | --- |
-| Consulter les salles et leur matériel | Oui | Oui | Oui | Oui | Consultation seule pour le formateur. | RG-17, RG-69 et RG-78 |
+| Consulter les salles | Oui | Oui | Oui | Oui | Consultation seule pour le formateur. | RG-17, RG-69 et RG-78 |
 | Créer, modifier ou supprimer une salle ou un étage | Non | Non | Oui | Oui | Une salle qui accueille des postes ne peut pas être supprimée ; ses matériels passent en stock. | RG-74 et RG-75 |
 | Créer ou renommer une école | Non | Non | Non | Oui | Le super administrateur intervient sur toutes les écoles. | RG-15 et RG-76 |
 
@@ -39,7 +39,8 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 
 | Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
 | --- | --- | --- | --- | --- | --- | --- |
-| Rechercher et consulter un matériel | Oui | Oui | Oui | Oui | Consultation seule pour le formateur. | RG-17, RG-69 et RG-78, DCU 08 |
+| Consulter les matériels d’une salle | Oui | Oui | Oui | Oui | Depuis la salle ; consultation seule pour le formateur. | RG-17, RG-69 et RG-78 |
+| Rechercher et consulter un matériel | Oui | Non | Oui | Oui | Recherche dans tout le parc de l’école, inventaire compris. | RG-17, RG-69 et RG-78, DCU 08 |
 | Créer et modifier un matériel | Oui | Non | Oui | Oui | Le gestionnaire intervient sur l’ensemble du parc de son école, sans restriction à un bâtiment. | RG-15 à RG-17, RG-69 et RG-78, DCU 08 |
 | Affecter ou déplacer un ou plusieurs matériels | Oui | Non | Oui | Oui | L’opération prend effet immédiatement et peut concerner plusieurs matériels. Les matériels d’une même opération appartiennent à une même école. | RG-15, RG-16, RG-18, RG-26, RG-27, RG-72 et RG-78, DCU 08 |
 | Importer de nouveaux matériels en JSON | Oui | Non | Oui | Oui | Les données sont appliquées immédiatement, sans validation métier préalable ; seuls la lisibilité du fichier et les données obligatoires sont contrôlés. | RG-15, RG-28 et RG-29 |

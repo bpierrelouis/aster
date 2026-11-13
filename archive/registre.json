@@ -799,6 +799,13 @@
         "version": "2.1",
         "date": "2026-11-13",
         "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
+        "archive": null,
+        "commit": "ddc3262"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-13",
+        "modification": "Formateur : consultation des matériels d’une salle, sans recherche dans le parc",
         "archive": null
       }
     ]
@@ -1159,6 +1166,13 @@
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Ajouter DCU à compléter, modèle de données, points documentaires oubliés et plan d’organisation du code",
+        "archive": null,
+        "commit": "6768d09"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-13",
+        "modification": "Diagrammes 06 et 07 à reprendre avec les collègues",
         "archive": null
       }
     ]
