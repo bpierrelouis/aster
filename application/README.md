@@ -33,6 +33,8 @@ Les changements d’ambiance, de tonalité et de couleur révèlent la nouvelle 
 
 Les changements d’apparence n’envoient que les préférences au serveur : l’activité des postes ne peut pas faire rejeter un choix de couleur ou de tonalité.
 
+La barre de navigation latérale mesure 120 px dans les deux ambiances afin de garder les libellés, dont « Administration », dans ses limites.
+
 La typographie suit les repères de taille du [DSFR](https://www.systeme-de-design.gouv.fr/v1.14/fr/fondamentaux/typographie) : corps courant de 16 px avec un interligne de 24 px, mentions secondaires de 14 px et titres hiérarchisés. Les tailles courantes sont exprimées en `rem` pour suivre les préférences de taille du navigateur ; les boutons principaux, les champs et le corps des tableaux utilisent 16 px.
 
 Les couleurs et les fonds sont des jetons ([styles/tokens.css](frontend/src/workspace/styles/tokens.css) : `--backdrop`, `--backdrop-waves`, `--backdrop-edge`, flèche des listes déroulantes `--chevron`) : les composants utilisent `--accent` et ne codent aucune couleur d’ambiance. `data-tone` (clair ou sombre) regroupe les réglages communs aux ambiances sombres, où aucune lumière ne suit le pointeur. Le verre a deux niveaux : Liquide (clair, presque transparent, liseré lumineux ; réfraction des bords des barres fixes dans Chrome et Edge, sans mention dans le menu du compte) et Opaque (surfaces pleines, filet net).

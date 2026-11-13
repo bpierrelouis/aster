@@ -109,7 +109,7 @@
   --board-gap: 18px;
 
   /* Navigation */
-  --rail-w: 92px;
+  --rail-w: 120px;
   --rail-gap: 20px;
   --top-h: 92px; /* bas de la barre haute : début du contenu */
 
@@ -273,7 +273,6 @@
 :root[data-ambiance="minarm"] {
   --font-text: Marianne, Arial, sans-serif;
   --font-display: Marianne, Arial, sans-serif;
-  --rail-w: 108px; /* libellés Marianne lisibles, dont Administration */
   color-scheme: light;
   --ink: 22 22 22;                 /* text-title-grey #161616 */
   --ink-2: #3a3a3a;                /* text-default-grey */
