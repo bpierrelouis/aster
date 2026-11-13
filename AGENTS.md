@@ -48,7 +48,7 @@ Ces instructions s'appliquent à tout le dépôt.
 
 ### Schémas d’architecture
 
-- Deux schémas, générés par `.agents/skills/orion-documentation/scripts/schemas-architecture.mjs` (commandes en tête du fichier) : modifier ce générateur plutôt que redessiner, puis régénérer les deux SVG de `docs/assets/architecture/`.
+- Deux schémas, générés par `.agents/skills/orion-documentation/scripts/schemas-architecture.mts` (commandes en tête du fichier) : modifier ce générateur plutôt que redessiner, puis régénérer les deux SVG de `docs/assets/architecture/`.
 - Vue simplifiée, dans le style des schémas Azure : zones (Entrée, Application, Données, Services simulés, Pilotage), une carte par service (icône, nom, rôle en un ou deux mots, VM), échanges numérotés expliqués dans le § 4.5 du dossier.
 - Vue complète : chaque groupe de VM avec son rôle, les noms d’hôte et IPv4 de ses VM et son badge manager, worker ou hors Swarm ; chaque service avec produit et version, conteneur ou service de l’hôte, image, port d’écoute et nombre d’instances s’il diffère de un ; volumes en vert ; tous les flux réels avec protocole et port.
 - Contenu factuel uniquement : produit, version, exécution, image, port, volume, instances, rôle Swarm. Aucune explication ni justification (« simule… », « non publié », « realm importé », « sans état », « verrou PostgreSQL »…), aucune variable d’environnement, aucun secret. Les explications vont dans le dossier.

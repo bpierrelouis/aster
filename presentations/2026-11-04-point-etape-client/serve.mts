@@ -1,10 +1,10 @@
-const http = require("node:http");
-const fs = require("node:fs");
-const path = require("node:path");
+import http from "node:http";
+import fs from "node:fs";
+import path from "node:path";
 
-const repositoryRoot = path.resolve(__dirname, "..", "..");
+const repositoryRoot = path.resolve(import.meta.dirname, "..", "..");
 const port = Number.parseInt(process.env.ORION_PRESENTATION_PORT || "4173", 10);
-const mimeTypes = {
+const mimeTypes: Record<string, string> = {
   ".css": "text/css; charset=utf-8",
   ".gif": "image/gif",
   ".html": "text/html; charset=utf-8",
@@ -13,13 +13,14 @@ const mimeTypes = {
 };
 
 const server = http.createServer((request, response) => {
-  const requestedUrl = new URL(request.url, `http://${request.headers.host}`);
+  const requestedUrl = new URL(request.url ?? "/", `http://${request.headers.host}`);
   const requestedPath = requestedUrl.pathname.endsWith("/")
     ? `${requestedUrl.pathname}index.html`
     : requestedUrl.pathname;
   const filePath = path.resolve(repositoryRoot, `.${decodeURIComponent(requestedPath)}`);
 
-  if (!filePath.startsWith(repositoryRoot)) {
+  // Seuls les fichiers du dépôt sont servis (séparateur exigé : /depot-voisin n'est pas /depot)
+  if (!filePath.startsWith(repositoryRoot + path.sep)) {
     response.writeHead(403);
     response.end("Accès interdit");
     return;

@@ -1,12 +1,17 @@
 // Génère les deux schémas de l'architecture réelle (icônes Lucide, licence ISC), depuis la racine du dépôt :
-//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mjs application/node_modules/lucide-react simple docs/assets/architecture/ORION-VUE-SIMPLIFIEE.svg
-//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mjs application/node_modules/lucide-react complet docs/assets/architecture/ORION-DEPLOIEMENT-VM.svg
+//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mts application/node_modules/lucide-react simple docs/assets/architecture/ORION-VUE-SIMPLIFIEE.svg
+//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mts application/node_modules/lucide-react complet docs/assets/architecture/ORION-DEPLOIEMENT-VM.svg
 // Coordonnées écrites à la main ; règles de contenu et de tracé dans AGENTS.md (Architecture technique).
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const [, , lucideDir, kind, out] = process.argv;
-const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-function iconNode(name) {
+type Pt = [number, number];
+type Ton = 'manager' | 'worker' | 'hors';
+/** Nœud d'icône Lucide : [balise, attributs] */
+type IconNode = [string, Record<string, string>][];
+
+const esc = (s: unknown) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+function iconNode(name: string): IconNode {
   const src = readFileSync(`${lucideDir}/dist/esm/icons/${name}.js`, 'utf8');
   const body = src.slice(src.indexOf('[', src.indexOf('createLucideIcon(')), src.lastIndexOf(']);') + 1);
   return JSON.parse(body.replace(/(\w+):/g, '"$1":').replace(/,\s*"key":\s*"[^"]*"/g, ''));
@@ -16,18 +21,18 @@ const C = {
   zone: '#f3f8fd', zoneStroke: '#9cc0e4', vm: '#ffffff', vmStroke: '#b9c7d6',
   green: '#e6f4ec', greenStroke: '#8fc4a3', amber: '#fff6e5', amberStroke: '#e3bd6d', ext: '#eef3f8', extStroke: '#b3c3d3',
 };
-const used = new Set();
-const parts = [];
-const add = (s) => parts.push(s);
-const icon = (name, x, y, size = 20, color = C.blue) => { used.add(name); add(`<use href="#i-${name}" x="${x}" y="${y}" width="${size}" height="${size}" style="color:${color}"/>`); };
-const text = (x, y, s, cls, anchor = 'start') => add(`<text x="${x}" y="${y}" class="${cls}" text-anchor="${anchor}">${esc(s)}</text>`);
-const rect = (x, y, w, h, fill, stroke, opts = {}) => add(`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${opts.rx ?? 10}" fill="${fill}" stroke="${stroke}"${opts.dashed ? ' stroke-dasharray="7 5"' : ''}${opts.sw ? ` stroke-width="${opts.sw}"` : ''}/>`);
-function arrow(points, opts = {}) {
+const used = new Set<string>();
+const parts: string[] = [];
+const add = (s: string) => parts.push(s);
+const icon = (name: string, x: number, y: number, size = 20, color = C.blue) => { used.add(name); add(`<use href="#i-${name}" x="${x}" y="${y}" width="${size}" height="${size}" style="color:${color}"/>`); };
+const text = (x: number, y: number, s: string | number, cls: string, anchor = 'start') => add(`<text x="${x}" y="${y}" class="${cls}" text-anchor="${anchor}">${esc(s)}</text>`);
+const rect = (x: number, y: number, w: number, h: number, fill: string, stroke: string, opts: { rx?: number; dashed?: boolean; sw?: number } = {}) => add(`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${opts.rx ?? 10}" fill="${fill}" stroke="${stroke}"${opts.dashed ? ' stroke-dasharray="7 5"' : ''}${opts.sw ? ` stroke-width="${opts.sw}"` : ''}/>`);
+function arrow(points: Pt[], opts: { dashed?: boolean } = {}) {
   const d = points.map(([x, y], i) => `${i ? 'L' : 'M'}${x} ${y}`).join(' ');
   add(`<path d="${d}" class="flow${opts.dashed ? ' auto' : ''}" marker-end="url(#arrow)"/>`);
 }
-const label = (x, y, s, anchor = 'start') => text(x, y, s, 'route', anchor);
-function pill(xRight, y, s, tone) {
+const label = (x: number, y: number, s: string, anchor = 'start') => text(x, y, s, 'route', anchor);
+function pill(xRight: number, y: number, s: string, tone: Ton) {
   const w = s.length * 7.2 + 14;
   const fill = { manager: '#d7e8fb', worker: '#e8eef5', hors: C.amber }[tone];
   rect(xRight - w, y, w, 19, fill, 'none', { rx: 9.5 });
@@ -36,14 +41,14 @@ function pill(xRight, y, s, tone) {
 
 const ips = ["172.16.131.188","172.16.131.133","172.16.131.193","172.16.131.208","172.16.131.142","172.16.131.131","172.16.131.137","172.16.131.146","172.16.131.190","172.16.131.197"];
 
-let W, H, title, desc;
+let W: number, H: number, title: string, desc: string;
 
 if (kind === 'simple') {
   W = 1500; H = 935;
   title = 'ORION — vue simplifiée de l’architecture réelle';
   desc = 'Rôles du démonstrateur, regroupés par zone, et principaux échanges numérotés.';
   // Carte façon Azure : icône au-dessus, nom, rôle, VM
-  const card = (x, y, ic, name, role, vm, opts = {}) => {
+  const card = (x: number, y: number, ic: string, name: string, role: string, vm: string, opts: { w?: number; stroke?: string; color?: string } = {}) => {
     const w = opts.w ?? 170;
     rect(x, y, w, 128, '#fff', opts.stroke ?? '#c8d6e4', { rx: 8 });
     icon(ic, x + w / 2 - 18, y + 14, 36, opts.color ?? C.blue);
@@ -51,8 +56,8 @@ if (kind === 'simple') {
     text(x + w / 2, y + 91, role, 'crole', 'middle');
     text(x + w / 2, y + 112, vm, 'cvm', 'middle');
   };
-  const zone = (x, y, w, h, name) => { rect(x, y, w, h, C.zone, C.zoneStroke, { rx: 6 }); text(x + 14, y + 24, name, 'zname'); };
-  const step = (x, y, n) => { add(`<circle cx="${x}" cy="${y}" r="11" fill="${C.blue}"/>`); text(x, y + 4.5, n, 'step', 'middle'); };
+  const zone = (x: number, y: number, w: number, h: number, name: string) => { rect(x, y, w, h, C.zone, C.zoneStroke, { rx: 6 }); text(x + 14, y + 24, name, 'zname'); };
+  const step = (x: number, y: number, n: string | number) => { add(`<circle cx="${x}" cy="${y}" r="11" fill="${C.blue}"/>`); text(x, y + 4.5, n, 'step', 'middle'); };
 
   text(40, 44, 'Architecture réelle du démonstrateur ORION', 'title');
   text(40, 72, 'Déploiement proposé · dix VM Debian 13 · réseau privé · conteneurs Docker, DNS et stockage NFS', 'body');
@@ -111,7 +116,7 @@ if (kind === 'simple') {
   title = 'ORION — architecture réelle complète sur dix VM';
   desc = 'Placement des services par VM ou groupe de VM, conteneurs ou services de l’hôte, rôles Swarm, versions, ports, volumes et flux.';
   // VM ou groupe de VM : rôle en titre, puis une ligne par VM (nom d'hôte et IPv4)
-  const groupe = (x, y, w, h, role, vms, tone) => {
+  const groupe = (x: number, y: number, w: number, h: number, role: string, vms: number[], tone: Ton) => {
     rect(x, y, w, h, C.vm, C.vmStroke);
     icon('server', x + 12, y + 11, 16, '#5b7690');
     text(x + 34, y + 24, role, 'vm');
@@ -119,20 +124,20 @@ if (kind === 'simple') {
     pill(x + w - 10, y + 10, { manager: 'MANAGER', worker: 'WORKER', hors: 'HORS SWARM' }[tone], tone);
   };
   // Service : conteneur (bleu) ou service de l'hôte (ambre)
-  const svc = (x, y, w, h, ic, name, lines, host = false) => {
+  const svc = (x: number, y: number, w: number, h: number, ic: string, name: string, lines: string[], host = false) => {
     rect(x, y, w, h, host ? C.amber : '#f2f7fd', host ? C.amberStroke : '#aac6e3', { rx: 8 });
     icon(ic, x + 10, y + 10, 20, host ? '#a06a00' : C.blue);
     text(x + 38, y + 25, name, 'service');
     text(x + w - 10, y + 24, host ? 'service hôte' : 'conteneur', host ? 'tag host' : 'tag', 'end');
     lines.forEach((l, i) => text(x + 38, y + 43 + i * 16, l, 'caption'));
   };
-  const vol = (x, y, w, name, lines) => {
+  const vol = (x: number, y: number, w: number, name: string, lines: string[]) => {
     rect(x, y, w, 25 + lines.length * 15, C.green, C.greenStroke, { rx: 8 });
     icon('hard-drive', x + 10, y + 12, 16, '#2f7a4f');
     text(x + 34, y + 17, name, 'vol');
     lines.forEach((l, i) => text(x + 34, y + 32 + i * 15, l, 'caption'));
   };
-  const ext = (x, y, w, h, ic, name, lines) => {
+  const ext = (x: number, y: number, w: number, h: number, ic: string, name: string, lines: string[]) => {
     rect(x, y, w, h, C.ext, C.extStroke);
     icon(ic, x + 12, y + 12, 22, '#3d5a78');
     text(x + 44, y + 28, name, 'service');
@@ -186,7 +191,7 @@ if (kind === 'simple') {
   vol(1010, 1320, 337, 'Disque des logs · ext4', ['/srv/orion/logs : conteneurs, bind']);
 
   // Flux du navigateur : DNS (BIND), puis HAProxy, sur un des managers
-  [['DNS 53', 320], ['443 · ORION', 400], ['8443 · connexion', 435]].forEach(([t, y]) => { arrow([[190, y], [316, y]]); label(196, y - 6, t); });
+  ([['DNS 53', 320], ['443 · ORION', 400], ['8443 · connexion', 435]] as const).forEach(([t, y]) => { arrow([[190, y], [316, y]]); label(196, y - 6, t); });
   // HAProxy → Apache et Express ; Express → HAProxy (adresse publique de Keycloak)
   arrow([[567, 418], [661, 418]]); label(575, 411, '8080');
   arrow([[567, 500], [661, 500]]); label(575, 493, '3001');
