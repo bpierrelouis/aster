@@ -7,6 +7,8 @@ const error = { description: 'Erreur', content: { 'application/json': { schema: 
 const json = (schema: object, description = 'Succès') => ({ description, content: { 'application/json': { schema } } });
 const session = [{ session: [] }];
 const poste = [{ jetonPoste: [] }];
+const connecteur = [{ jetonRecon: [] }];
+const bloc = { type: 'object', required: ['iv', 'data'], properties: { iv: { type: 'string' }, data: { type: 'string' } }, description: 'Bloc chiffré AES-GCM (base64url)' };
 
 export const openapi = {
   openapi: '3.1.0',
@@ -21,6 +23,7 @@ export const openapi = {
     { name: 'Connexion', description: 'Connexion par le fournisseur d’identité (OIDC) et session' },
     { name: 'Espace de travail', description: 'Données métier visibles par l’utilisateur connecté' },
     { name: 'Postes', description: 'Rapports d’activité et résultats d’intervention des postes' },
+    { name: 'Recensement', description: 'Connecteur du relais de l’application mobile RECON : campagnes publiées et constats des téléphones, chiffrés' },
   ],
   paths: {
     '/api/health': {
@@ -142,6 +145,13 @@ export const openapi = {
         },
       },
     },
+    '/api/workspace/recensements/{id}/appairage': {
+      get: {
+        tags: ['Espace de travail'], summary: 'Adresse d’appairage d’un téléphone à une campagne de recensement', security: session,
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: { 200: json({ type: 'object', properties: { url: { type: 'string' }, expireLe: { type: 'integer' } } }), 400: error, 401: error, 403: error, 404: error, 503: error },
+      },
+    },
     '/api/agent/postes': {
       get: {
         tags: ['Postes'], summary: 'Lister les postes', security: poste,
@@ -185,11 +195,33 @@ export const openapi = {
         responses: { 200: json({ type: 'object', properties: { ok: { type: 'boolean' } } }), 400: error, 401: error },
       },
     },
+    '/api/recon/campagnes': {
+      get: {
+        tags: ['Recensement'], summary: 'Campagnes ouvertes et leur instantané chiffré', security: connecteur,
+        responses: { 200: json({ type: 'object', properties: { campagnes: { type: 'array', items: { type: 'object', properties: {
+          id: { type: 'string' }, expireLe: { type: 'integer' }, empreinte: { type: 'string', description: 'SHA-256 du jeton des téléphones' }, version: { type: 'string' }, instantane: bloc,
+        } } } } }), 401: error },
+      },
+    },
+    '/api/recon/campagnes/{id}/evenements': {
+      post: {
+        tags: ['Recensement'], summary: 'Transmettre les constats chiffrés des téléphones', security: connecteur,
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        requestBody: { required: true, content: { 'application/json': { schema: {
+          type: 'object', required: ['evenements'],
+          properties: { evenements: { type: 'array', maxItems: 1000, items: { type: 'object', required: ['id', 'bloc'], properties: { id: { type: 'string' }, bloc } } } },
+        } } } },
+        responses: { 200: json({ type: 'object', properties: { resultats: { type: 'array', items: { type: 'object', properties: {
+          id: { type: 'string' }, statut: { type: 'string', enum: ['applique', 'doublon', 'refuse'] }, message: { type: 'string' },
+        } } } } }), 400: error, 401: error },
+      },
+    },
   },
   components: {
     securitySchemes: {
       session: { type: 'apiKey', in: 'cookie', name: 'orion.sid', description: 'Session ouverte par /auth/login' },
       jetonPoste: { type: 'http', scheme: 'bearer', description: 'Jeton des postes' },
+      jetonRecon: { type: 'http', scheme: 'bearer', description: 'Secret du connecteur RECON (RECON_SECRET)' },
     },
     schemas: {
       Erreur: { type: 'object', properties: { error: { type: 'string' } } },
