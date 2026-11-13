@@ -553,6 +553,13 @@
         "version": "1.0",
         "date": "2026-11-13",
         "modification": "Source draw.io du MCD",
+        "archive": null,
+        "commit": "19f0488"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-13",
+        "modification": "COMPTE_ORION et DÉMÉNAGER, identifiants des comptes distincts",
         "archive": null
       }
     ]
@@ -591,6 +598,13 @@
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Refaire le MCD avec draw.io : historique des statuts, poste et unité centrale, IP, MAC, dates du compte, verbes d’un mot",
+        "archive": null,
+        "commit": "19f0488"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-13",
+        "modification": "COMPTE_ORION et DÉMÉNAGER, identifiants des comptes distincts",
         "archive": null
       }
     ]

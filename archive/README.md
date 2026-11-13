@@ -16,8 +16,8 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) | Source de travail interne | [3.0](#02-cadrage) | 13/11/2026 |
 | [docs/03-COMPTE-RENDU-ENTRETIENS.md](../docs/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.0](#03-compte-rendu-entretiens) | 13/11/2026 |
 | [docs/04-REGLES-DE-GESTION.md](../docs/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [1.7](#04-regles-de-gestion) | 13/11/2026 |
-| [docs/05-MCD-MERISE.drawio](../docs/05-MCD-MERISE.drawio) | Production destinée à la remise | [1.0](#05-mcd-merise) | 13/11/2026 |
-| [docs/05-MCD-MERISE.svg](../docs/05-MCD-MERISE.svg) | Production destinée à la remise | [2.0](#05-mcd-merise) | 13/11/2026 |
+| [docs/05-MCD-MERISE.drawio](../docs/05-MCD-MERISE.drawio) | Production destinée à la remise | [1.1](#05-mcd-merise) | 13/11/2026 |
+| [docs/05-MCD-MERISE.svg](../docs/05-MCD-MERISE.svg) | Production destinée à la remise | [2.1](#05-mcd-merise) | 13/11/2026 |
 | [docs/06-DIAGRAMME-CONTEXTE.md](../docs/06-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [1.2](#06-diagramme-contexte) | 13/11/2026 |
 | [docs/07-DIAGRAMMES-ACTIVITE.md](../docs/07-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [1.4](#07-diagrammes-activite) | 13/11/2026 |
 | [docs/08-DCU-GESTION-PARC.md](../docs/08-DCU-GESTION-PARC.md) | Production destinée à la remise | [1.3](#08-dcu-gestion-parc) | 12/11/2026 |
@@ -155,7 +155,8 @@ Fichier : [docs/05-MCD-MERISE.drawio](../docs/05-MCD-MERISE.drawio) · Productio
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 13/11/2026 | Source draw.io du MCD | en vigueur | — |
+| 1.1 | 13/11/2026 | COMPTE_ORION et DÉMÉNAGER, identifiants des comptes distincts | en vigueur | — |
+| 1.0 | 13/11/2026 | Source draw.io du MCD | `19f0488` | — |
 
 ### 05-MCD-MERISE
 
@@ -163,7 +164,8 @@ Fichier : [docs/05-MCD-MERISE.svg](../docs/05-MCD-MERISE.svg) · Production dest
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Refaire le MCD avec draw.io : historique des statuts, poste et unité centrale, IP, MAC, dates du compte, verbes d’un mot | en vigueur | — |
+| 2.1 | 13/11/2026 | COMPTE_ORION et DÉMÉNAGER, identifiants des comptes distincts | en vigueur | — |
+| 2.0 | 13/11/2026 | Refaire le MCD avec draw.io : historique des statuts, poste et unité centrale, IP, MAC, dates du compte, verbes d’un mot | `19f0488` | — |
 | 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | — |
 | 1.2 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` | — |
 | 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
