@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <title>Tableau de bord du formateur</title>
+  <g id="Tableau de bord du formateur">
+    <rect id="Fond" x="0" y="0" width="1440" height="900" fill="#F4F4F5"/>
+    <g id="Menu latéral">
+      <rect x="20" y="20" width="120" height="860" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <path id="Marque ORION" transform="translate(64 47) scale(0.8)" fill="#52525B" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/>
+      <g id="Navigation Accueil">
+        <rect x="70" y="130" width="20" height="20" rx="5" fill="none" stroke="#52525B"/>
+        <text x="80" y="171" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#27272A" text-anchor="middle">Accueil</text>
+      </g>
+      <g id="Navigation Salles">
+        <rect x="70" y="198" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="239" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Salles</text>
+      </g>
+      <g id="Navigation Remontées">
+        <rect x="70" y="266" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="307" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Remontées</text>
+        <circle cx="92" cy="267" r="7" fill="#52525B"/>
+      </g>
+      <g id="Navigation Supervision">
+        <rect x="70" y="334" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="375" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Supervision</text>
+      </g>
+    </g>
+    <g id="Onglets">
+      <rect x="164" y="20" width="269.3" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="169" y="25" width="215.3" height="38" rx="19" fill="#E4E4E7"/>
+      <rect x="183" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="205" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27272A">Mon tableau de bord</text>
+      <text x="406.3" y="50" font-family="Inter, Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#71717A" text-anchor="middle">+</text>
+    </g>
+    <g id="Barre d’outils">
+      <rect x="1060" y="20" width="340" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="1064" y="24" width="196" height="40" rx="20" fill="#E4E4E7"/>
+      <rect x="1076" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="1098" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A">École</text>
+      <polyline points="1236,41 1242,47 1248,41" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="1286" cy="43" r="7" fill="none" stroke="#52525B" stroke-width="1.5"/>
+      <line x1="1291" y1="48" x2="1296" y2="53" stroke="#52525B" stroke-width="1.5"/>
+      <rect x="1321" y="35" width="16" height="17" rx="6" fill="none" stroke="#52525B"/>
+      <circle cx="1373" cy="44" r="18" fill="#D4D4D8"/>
+    </g>
+    <g id="Bouton Personnaliser">
+      <rect x="876.9" y="22" width="165.1" height="44" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="890.9" y="37" width="14" height="14" rx="3" fill="none" stroke="#27272A"/>
+      <text x="969.45" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Personnaliser</text>
+    </g>
+    <g id="Contenu">
+      <g id="Indicateur Mes remontées en attente">
+        <rect x="164" y="92" width="295" height="172" rx="20" fill="#F4F4F5" stroke="#D4D4D8"/>
+        <text x="182" y="127" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#71717A">Mes remontées en attente</text>
+        <rect x="182" y="208" width="90" height="32" rx="6" fill="#A1A1AA"/>
+      </g>
+      <g id="Indicateur Salles de l’école">
+        <rect x="478" y="92" width="295" height="172" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <text x="496" y="127" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#71717A">Salles de l’école</text>
+        <rect x="496" y="208" width="90" height="32" rx="6" fill="#A1A1AA"/>
+      </g>
+      <g id="Carte Postes allumés par bâtiment">
+        <rect x="791" y="92" width="609" height="172" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <text x="811" y="129" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">Postes allumés par bâtiment</text>
+      </g>
+      <g id="Anneaux">
+        <circle cx="861" cy="195" r="48" fill="none" stroke="#A1A1AA" stroke-width="1.5"/>
+        <circle cx="861" cy="195" r="38" fill="none" stroke="#A1A1AA" stroke-width="1.5"/>
+        <circle cx="861" cy="195" r="28" fill="none" stroke="#A1A1AA" stroke-width="1.5"/>
+        <circle cx="861" cy="195" r="18" fill="none" stroke="#A1A1AA" stroke-width="1.5"/>
+        <rect x="932" y="172" width="10" height="10" rx="2" fill="#A1A1AA"/>
+        <rect x="950" y="172" width="80" height="10" rx="5" fill="#D4D4D8"/>
+        <rect x="1107" y="172" width="40" height="10" rx="5" fill="#D4D4D8"/>
+        <rect x="1164" y="172" width="10" height="10" rx="2" fill="#A1A1AA"/>
+        <rect x="1182" y="172" width="80" height="10" rx="5" fill="#D4D4D8"/>
+        <rect x="1339" y="172" width="40" height="10" rx="5" fill="#D4D4D8"/>
+        <rect x="932" y="202" width="10" height="10" rx="2" fill="#A1A1AA"/>
+        <rect x="950" y="202" width="80" height="10" rx="5" fill="#D4D4D8"/>
+        <rect x="1107" y="202" width="40" height="10" rx="5" fill="#D4D4D8"/>
+        <rect x="1164" y="202" width="10" height="10" rx="2" fill="#A1A1AA"/>
+        <rect x="1182" y="202" width="80" height="10" rx="5" fill="#D4D4D8"/>
+        <rect x="1339" y="202" width="40" height="10" rx="5" fill="#D4D4D8"/>
+      </g>
+      <g id="Carte Mes remontées">
+        <rect x="164" y="282" width="1236" height="362" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <text x="184" y="319" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">Mes remontées</text>
+        <rect x="1346" y="302" width="34" height="24" rx="12" fill="#E4E4E7"/>
+      </g>
+      <g id="Liste de mes remontées">
+        <rect x="184" y="356" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+        <rect x="232" y="354" width="220" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="232" y="376" width="64" height="22" rx="11" fill="#E4E4E7"/>
+        <rect x="306" y="382" width="70" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="386" y="382" width="30" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1284" y="362" width="96" height="26" rx="13" fill="#E4E4E7"/>
+        <text x="1332" y="379" font-family="Inter, Arial, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#27272A" text-anchor="middle">Statut</text>
+        <rect x="184" y="423" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+        <rect x="232" y="421" width="220" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="232" y="443" width="64" height="22" rx="11" fill="#E4E4E7"/>
+        <rect x="306" y="449" width="70" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="386" y="449" width="30" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1284" y="429" width="96" height="26" rx="13" fill="#E4E4E7"/>
+        <text x="1332" y="446" font-family="Inter, Arial, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#27272A" text-anchor="middle">Statut</text>
+        <rect x="184" y="490" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+        <rect x="232" y="488" width="220" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="232" y="510" width="64" height="22" rx="11" fill="#E4E4E7"/>
+        <rect x="306" y="516" width="70" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="386" y="516" width="30" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1284" y="496" width="96" height="26" rx="13" fill="#E4E4E7"/>
+        <text x="1332" y="513" font-family="Inter, Arial, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#27272A" text-anchor="middle">Statut</text>
+        <rect x="184" y="557" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+        <rect x="232" y="555" width="220" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="232" y="577" width="64" height="22" rx="11" fill="#E4E4E7"/>
+        <rect x="306" y="583" width="70" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="386" y="583" width="30" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1284" y="563" width="96" height="26" rx="13" fill="#E4E4E7"/>
+        <text x="1332" y="580" font-family="Inter, Arial, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#27272A" text-anchor="middle">Statut</text>
+      </g>
+    </g>
+  </g>
+</svg>

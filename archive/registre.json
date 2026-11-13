@@ -35,6 +35,13 @@
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Présenter l'identité ORION conforme à l'application et archiver les anciennes directions",
+        "archive": "design-README/README-v2.0-2026-11-13.md",
+        "commit": "e594af2"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-13",
+        "modification": "Décrire les maquettes simplifiées et les logos à l’étoile",
         "archive": null
       }
     ]
@@ -101,6 +108,13 @@
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Refondre la charte sur l'application : étoile ORION, palette, ambiances Orion et Minarm, composants",
+        "archive": "design-charte-graphique-index/index-v2.0-2026-11-13.html",
+        "commit": "e594af2"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-13",
+        "modification": "Centrer ORION sur sa signature, logos à l’étoile",
         "archive": null
       }
     ]
@@ -139,6 +153,13 @@
         "version": "1.0",
         "date": "2026-11-13",
         "modification": "Présenter les écrans de l'application par module et par profil",
+        "archive": "design-maquettes-index/index-v1.0-2026-11-13.html",
+        "commit": "e594af2"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-13",
+        "modification": "Ajouter les maquettes simplifiées à côté des captures",
         "archive": null
       }
     ]

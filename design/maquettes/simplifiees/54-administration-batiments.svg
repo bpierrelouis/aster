@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <title>Bâtiments</title>
+  <g id="Bâtiments">
+    <rect id="Fond" x="0" y="0" width="1440" height="900" fill="#F4F4F5"/>
+    <g id="Menu latéral">
+      <rect x="20" y="20" width="120" height="860" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <path id="Marque ORION" transform="translate(64 47) scale(0.8)" fill="#52525B" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/>
+      <g id="Navigation Accueil">
+        <rect x="70" y="130" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="171" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Accueil</text>
+      </g>
+      <g id="Navigation Salles">
+        <rect x="70" y="198" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="239" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Salles</text>
+      </g>
+      <g id="Navigation Matériels">
+        <rect x="70" y="266" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="307" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Matériels</text>
+      </g>
+      <g id="Navigation Remontées">
+        <rect x="70" y="334" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="375" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Remontées</text>
+        <circle cx="92" cy="335" r="7" fill="#52525B"/>
+      </g>
+      <g id="Navigation Supervision">
+        <rect x="70" y="402" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="443" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Supervision</text>
+      </g>
+      <g id="Navigation Administration">
+        <rect x="70" y="470" width="20" height="20" rx="5" fill="none" stroke="#52525B"/>
+        <text x="80" y="511" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#27272A" text-anchor="middle">Administration</text>
+      </g>
+    </g>
+    <g id="Onglets">
+      <rect x="164" y="20" width="668.9" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="183" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="205" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">Postes</text>
+      <rect x="285.2" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="307.2" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">Applications</text>
+      <rect x="439.6" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="461.6" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">Interventions</text>
+      <rect x="588.7" y="25" width="128.3" height="38" rx="19" fill="#E4E4E7"/>
+      <rect x="602.7" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="624.7" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27272A">Bâtiments</text>
+      <rect x="731" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="753" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">Comptes</text>
+    </g>
+    <g id="Barre d’outils">
+      <rect x="1060" y="20" width="340" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="1064" y="24" width="196" height="40" rx="20" fill="#E4E4E7"/>
+      <rect x="1076" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="1098" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A">École</text>
+      <polyline points="1236,41 1242,47 1248,41" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="1286" cy="43" r="7" fill="none" stroke="#52525B" stroke-width="1.5"/>
+      <line x1="1291" y1="48" x2="1296" y2="53" stroke="#52525B" stroke-width="1.5"/>
+      <rect x="1321" y="35" width="16" height="17" rx="6" fill="none" stroke="#52525B"/>
+      <circle cx="1373" cy="44" r="18" fill="#D4D4D8"/>
+    </g>
+    <g id="Contenu">
+      <g id="Champ Rechercher">
+        <text x="164" y="112" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#71717A">Rechercher</text>
+        <rect x="164" y="122" width="360" height="46" rx="12" fill="#F4F4F5" stroke="#D4D4D8"/>
+        <text x="180" y="150" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">Bâtiment…</text>
+      </g>
+      <rect x="164" y="190" width="1236" height="372" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <g id="Tableau">
+        <rect x="164" y="190" width="1236" height="56" fill="#F4F4F5"/>
+        <text x="184" y="223" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#71717A">BÂTIMENT</text>
+        <text x="481" y="223" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#71717A">ÉTAGES</text>
+        <text x="665" y="223" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#71717A">SALLES</text>
+        <text x="846" y="223" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#71717A">MATÉRIELS</text>
+        <text x="1078" y="223" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#71717A">ACTIONS</text>
+        <line x1="164" y1="246" x2="1400" y2="246" stroke="#D4D4D8" stroke-width="1"/>
+        <rect x="218" y="279.5" width="120" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="481" y="279.5" width="110" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="665" y="279.5" width="110" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="846" y="279.5" width="110" height="12" rx="6" fill="#E4E4E7"/>
+        <g id="Bouton Renommer">
+          <rect x="1078" y="265.5" width="101.6" height="40" rx="20" fill="#E4E4E7"/>
+          <text x="1128.8" y="290.5" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Renommer</text>
+        </g>
+        <line x1="164" y1="325" x2="1400" y2="325" stroke="#D4D4D8" stroke-width="1"/>
+        <rect x="218" y="358.5" width="120" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="481" y="358.5" width="110" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="665" y="358.5" width="110" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="846" y="358.5" width="110" height="12" rx="6" fill="#E4E4E7"/>
+        <g id="Bouton Renommer">
+          <rect x="1078" y="344.5" width="101.6" height="40" rx="20" fill="#E4E4E7"/>
+          <text x="1128.8" y="369.5" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Renommer</text>
+        </g>
+        <line x1="164" y1="404" x2="1400" y2="404" stroke="#D4D4D8" stroke-width="1"/>
+        <rect x="218" y="437.5" width="120" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="481" y="437.5" width="110" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="665" y="437.5" width="110" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="846" y="437.5" width="110" height="12" rx="6" fill="#E4E4E7"/>
+        <g id="Bouton Renommer">
+          <rect x="1078" y="423.5" width="101.6" height="40" rx="20" fill="#E4E4E7"/>
+          <text x="1128.8" y="448.5" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Renommer</text>
+        </g>
+        <line x1="164" y1="483" x2="1400" y2="483" stroke="#D4D4D8" stroke-width="1"/>
+        <rect x="218" y="516.5" width="120" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="481" y="516.5" width="110" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="665" y="516.5" width="110" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="846" y="516.5" width="110" height="12" rx="6" fill="#E4E4E7"/>
+        <g id="Bouton Renommer">
+          <rect x="1078" y="502.5" width="101.6" height="40" rx="20" fill="#E4E4E7"/>
+          <text x="1128.8" y="527.5" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Renommer</text>
+        </g>
+      </g>
+      <rect x="184" y="275" width="24" height="24" rx="6" fill="#52525B"/>
+      <rect x="184" y="354" width="24" height="24" rx="6" fill="#52525B"/>
+      <rect x="184" y="433" width="24" height="24" rx="6" fill="#52525B"/>
+      <rect x="184" y="512" width="24" height="24" rx="6" fill="#52525B"/>
+    </g>
+  </g>
+</svg>

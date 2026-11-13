@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <title>Fiche d’un matériel</title>
+  <g id="Fiche d’un matériel">
+    <rect id="Fond" x="0" y="0" width="1440" height="900" fill="#F4F4F5"/>
+    <g id="Menu latéral">
+      <rect x="20" y="20" width="120" height="860" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <path id="Marque ORION" transform="translate(64 47) scale(0.8)" fill="#52525B" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/>
+      <g id="Navigation Accueil">
+        <rect x="70" y="130" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="171" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Accueil</text>
+      </g>
+      <g id="Navigation Salles">
+        <rect x="70" y="198" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="239" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Salles</text>
+      </g>
+      <g id="Navigation Matériels">
+        <rect x="70" y="266" width="20" height="20" rx="5" fill="none" stroke="#52525B"/>
+        <text x="80" y="307" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#27272A" text-anchor="middle">Matériels</text>
+      </g>
+      <g id="Navigation Remontées">
+        <rect x="70" y="334" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="375" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Remontées</text>
+        <circle cx="92" cy="335" r="7" fill="#52525B"/>
+      </g>
+      <g id="Navigation Supervision">
+        <rect x="70" y="402" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="443" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Supervision</text>
+      </g>
+      <g id="Navigation Administration">
+        <rect x="70" y="470" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="511" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Administration</text>
+      </g>
+    </g>
+    <g id="Onglets">
+      <rect x="164" y="20" width="292.7" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="169" y="25" width="137" height="38" rx="19" fill="#E4E4E7"/>
+      <rect x="183" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="205" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27272A">Inventaire</text>
+      <rect x="320" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="342" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">Import JSON</text>
+    </g>
+    <g id="Barre d’outils">
+      <rect x="1060" y="20" width="340" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="1064" y="24" width="196" height="40" rx="20" fill="#E4E4E7"/>
+      <rect x="1076" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="1098" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A">École</text>
+      <polyline points="1236,41 1242,47 1248,41" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="1286" cy="43" r="7" fill="none" stroke="#52525B" stroke-width="1.5"/>
+      <line x1="1291" y1="48" x2="1296" y2="53" stroke="#52525B" stroke-width="1.5"/>
+      <rect x="1321" y="35" width="16" height="17" rx="6" fill="none" stroke="#52525B"/>
+      <circle cx="1373" cy="44" r="18" fill="#D4D4D8"/>
+    </g>
+    <g id="Bouton Ajouter un matériel">
+      <rect x="824.7" y="22" width="217.3" height="44" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="838.7" y="37" width="14" height="14" rx="3" fill="none" stroke="#27272A"/>
+      <text x="943.35" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Ajouter un matériel</text>
+    </g>
+    <g id="Inventaire">
+      <rect x="164" y="92" width="1236" height="788" rx="28" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <g id="Champ Modèle, identifiant, série…">
+        <rect x="186" y="114" width="309" height="54" rx="12" fill="#F4F4F5" stroke="#D4D4D8"/>
+        <circle cx="208" cy="140" r="6" fill="none" stroke="#A1A1AA" stroke-width="1.5"/>
+        <text x="226" y="146" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">Modèle, identifiant, série…</text>
+      </g>
+      <g id="Champ Tous les types">
+        <rect x="507" y="114" width="283" height="52" rx="12" fill="#F4F4F5" stroke="#D4D4D8"/>
+        <text x="523" y="145" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">Tous les types</text>
+        <polyline points="764,137 770,143 776,137" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      </g>
+      <g id="Champ Tous les états">
+        <rect x="802" y="114" width="283" height="52" rx="12" fill="#F4F4F5" stroke="#D4D4D8"/>
+        <text x="818" y="145" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">Tous les états</text>
+        <polyline points="1059,137 1065,143 1071,137" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      </g>
+      <g id="Champ Toutes les salles">
+        <rect x="1097" y="114" width="283" height="52" rx="12" fill="#F4F4F5" stroke="#D4D4D8"/>
+        <text x="1113" y="145" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">Toutes les salles</text>
+        <polyline points="1354,137 1360,143 1366,137" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      </g>
+      <g id="Champ Toutes les garanties">
+        <rect x="186" y="181" width="1192" height="52" rx="12" fill="#F4F4F5" stroke="#D4D4D8"/>
+        <text x="202" y="212" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">Toutes les garanties</text>
+        <polyline points="1352,204 1358,210 1364,204" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      </g>
+      <line x1="164" y1="255" x2="1400" y2="255" stroke="#D4D4D8" stroke-width="1"/>
+      <text x="186" y="294" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">0 sélectionné</text>
+      <g id="Bouton Affecter">
+        <rect x="294" y="267" width="121.6" height="40" rx="20" fill="none" stroke="#D4D4D8"/>
+        <rect x="308" y="280" width="14" height="14" rx="3" fill="none" stroke="#71717A"/>
+        <text x="364.8" y="292" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#71717A" text-anchor="middle">Affecter</text>
+      </g>
+      <g id="Bouton Supprimer">
+        <rect x="428" y="267" width="130.3" height="40" rx="20" fill="none" stroke="#D4D4D8"/>
+        <rect x="442" y="280" width="14" height="14" rx="3" fill="none" stroke="#71717A"/>
+        <text x="503.15" y="292" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#71717A" text-anchor="middle">Supprimer</text>
+      </g>
+      <rect x="1270" y="282" width="108" height="12" rx="6" fill="#E4E4E7"/>
+      <g id="Tableau">
+        <rect x="164" y="320" width="1236" height="52" fill="#F4F4F5"/>
+        <text x="184" y="351" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#71717A"></text>
+        <text x="250" y="351" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#71717A">Identifiant</text>
+        <text x="400" y="351" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#71717A">Matériel</text>
+        <text x="800" y="351" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#71717A">Localisation</text>
+        <text x="945" y="351" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#71717A">État</text>
+        <text x="1101" y="351" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#71717A">Réception</text>
+        <text x="1246" y="351" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#71717A">Garantie</text>
+        <line x1="164" y1="372" x2="1400" y2="372" stroke="#D4D4D8" stroke-width="1"/>
+        <rect x="250" y="405" width="100" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="440" y="397" width="200" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="440" y="417" width="150" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="800" y="397" width="95" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="800" y="417" width="75" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="945" y="405" width="106" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="1101" y="405" width="95" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="1246" y="397" width="124" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="1246" y="417" width="104" height="9" rx="4.5" fill="#E4E4E7"/>
+        <line x1="164" y1="450" x2="1400" y2="450" stroke="#D4D4D8" stroke-width="1"/>
+        <rect x="250" y="483" width="100" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="440" y="475" width="200" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="440" y="495" width="150" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="800" y="475" width="95" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="800" y="495" width="75" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="945" y="483" width="106" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="1101" y="483" width="95" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="1246" y="475" width="124" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="1246" y="495" width="104" height="9" rx="4.5" fill="#E4E4E7"/>
+        <line x1="164" y1="528" x2="1400" y2="528" stroke="#D4D4D8" stroke-width="1"/>
+        <rect x="250" y="561" width="100" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="440" y="553" width="200" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="440" y="573" width="150" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="800" y="553" width="95" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="800" y="573" width="75" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="945" y="561" width="106" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="1101" y="561" width="95" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="1246" y="553" width="124" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="1246" y="573" width="104" height="9" rx="4.5" fill="#E4E4E7"/>
+        <line x1="164" y1="606" x2="1400" y2="606" stroke="#D4D4D8" stroke-width="1"/>
+        <rect x="250" y="639" width="100" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="440" y="631" width="200" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="440" y="651" width="150" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="800" y="631" width="95" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="800" y="651" width="75" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="945" y="639" width="106" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="1101" y="639" width="95" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="1246" y="631" width="124" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="1246" y="651" width="104" height="9" rx="4.5" fill="#E4E4E7"/>
+        <line x1="164" y1="684" x2="1400" y2="684" stroke="#D4D4D8" stroke-width="1"/>
+        <rect x="250" y="717" width="100" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="440" y="709" width="200" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="440" y="729" width="150" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="800" y="709" width="95" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="800" y="729" width="75" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="945" y="717" width="106" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="1101" y="717" width="95" height="12" rx="6" fill="#E4E4E7"/>
+        <rect x="1246" y="709" width="124" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="1246" y="729" width="104" height="9" rx="4.5" fill="#E4E4E7"/>
+      </g>
+      <rect x="184" y="337" width="16" height="16" rx="3" fill="none" stroke="#A1A1AA"/>
+      <rect x="184" y="400" width="16" height="16" rx="3" fill="none" stroke="#A1A1AA"/>
+      <rect x="400" y="397" width="28" height="28" rx="7" fill="none" stroke="#A1A1AA"/>
+      <rect x="184" y="478" width="16" height="16" rx="3" fill="none" stroke="#A1A1AA"/>
+      <rect x="400" y="475" width="28" height="28" rx="7" fill="none" stroke="#A1A1AA"/>
+      <rect x="184" y="556" width="16" height="16" rx="3" fill="none" stroke="#A1A1AA"/>
+      <rect x="400" y="553" width="28" height="28" rx="7" fill="none" stroke="#A1A1AA"/>
+      <rect x="184" y="634" width="16" height="16" rx="3" fill="none" stroke="#A1A1AA"/>
+      <rect x="400" y="631" width="28" height="28" rx="7" fill="none" stroke="#A1A1AA"/>
+      <rect x="184" y="712" width="16" height="16" rx="3" fill="none" stroke="#A1A1AA"/>
+      <rect x="400" y="709" width="28" height="28" rx="7" fill="none" stroke="#A1A1AA"/>
+      <line x1="164" y1="805" x2="1400" y2="805" stroke="#D4D4D8" stroke-width="1"/>
+      <g id="Bouton Précédent">
+        <rect x="1039" y="822" width="110.3" height="42" rx="21" fill="none" stroke="#D4D4D8"/>
+        <text x="1094.15" y="848" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#71717A" text-anchor="middle">Précédent</text>
+      </g>
+      <text x="1218" y="849" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#27272A" text-anchor="middle">Page</text>
+      <g id="Bouton Suivant">
+        <rect x="1285" y="822" width="92.9" height="42" rx="21" fill="#E4E4E7"/>
+        <text x="1331.45" y="848" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Suivant</text>
+      </g>
+    </g>
+    <rect x="0" y="0" width="1440" height="900" fill="#18181B" fill-opacity="0.35"/>
+    <g id="Fenêtre Matériel">
+      <rect x="430" y="210" width="580" height="480" rx="28" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="450" y="230" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+      <text x="498" y="255" font-family="Inter, Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#27272A">Matériel</text>
+      <text x="974" y="255" font-family="Inter, Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#71717A">×</text>
+    </g>
+    <g id="Caractéristiques">
+      <text x="450" y="316" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">Identifiant Orion</text>
+      <rect x="450" y="332" width="110" height="14" rx="7" fill="#D4D4D8"/>
+      <text x="732" y="316" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">Type</text>
+      <rect x="732" y="332" width="110" height="14" rx="7" fill="#D4D4D8"/>
+      <text x="450" y="392" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">Marque</text>
+      <rect x="450" y="408" width="110" height="14" rx="7" fill="#D4D4D8"/>
+      <text x="732" y="392" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">Numéro de série</text>
+      <rect x="732" y="408" width="110" height="14" rx="7" fill="#D4D4D8"/>
+      <text x="450" y="468" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">Réception</text>
+      <rect x="450" y="484" width="110" height="14" rx="7" fill="#D4D4D8"/>
+      <text x="732" y="468" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">Localisation</text>
+      <rect x="732" y="484" width="110" height="14" rx="7" fill="#D4D4D8"/>
+      <text x="450" y="544" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">État</text>
+      <rect x="450" y="560" width="110" height="14" rx="7" fill="#D4D4D8"/>
+      <text x="732" y="544" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">Garantie</text>
+      <rect x="732" y="560" width="110" height="14" rx="7" fill="#D4D4D8"/>
+      <line x1="430" y1="616" x2="1010" y2="616" stroke="#D4D4D8" stroke-width="1"/>
+      <g id="Bouton Modifier">
+        <rect x="765" y="631" width="101.6" height="42" rx="21" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <text x="815.8" y="657" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Modifier</text>
+      </g>
+      <g id="Bouton Supprimer">
+        <rect x="874" y="631" width="110.3" height="42" rx="21" fill="#E4E4E7"/>
+        <text x="929.15" y="657" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Supprimer</text>
+      </g>
+    </g>
+  </g>
+</svg>

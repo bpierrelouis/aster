@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <title>Minarm : remontée</title>
+  <g id="Minarm : remontée">
+    <rect id="Fond" x="0" y="0" width="1440" height="900" fill="#F4F4F5"/>
+    <g id="Menu latéral">
+      <rect x="20" y="20" width="120" height="860" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <g id="Marque Marianne">
+        <circle cx="80" cy="63" r="20" fill="#D4D4D8"/>
+      </g>
+      <g id="Navigation Accueil">
+        <rect x="70" y="130" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="171" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Accueil</text>
+      </g>
+      <g id="Navigation Salles">
+        <rect x="70" y="198" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="239" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Salles</text>
+      </g>
+      <g id="Navigation Matériels">
+        <rect x="70" y="266" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="307" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Matériels</text>
+      </g>
+      <g id="Navigation Remontées">
+        <rect x="70" y="334" width="20" height="20" rx="5" fill="none" stroke="#52525B"/>
+        <text x="80" y="375" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#27272A" text-anchor="middle">Remontées</text>
+        <circle cx="92" cy="335" r="7" fill="#52525B"/>
+      </g>
+      <g id="Navigation Supervision">
+        <rect x="70" y="402" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="443" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Supervision</text>
+      </g>
+      <g id="Navigation Administration">
+        <rect x="70" y="470" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="511" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Administration</text>
+      </g>
+    </g>
+    <g id="Barre d’outils">
+      <rect x="1060" y="20" width="340" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="1064" y="24" width="196" height="40" rx="20" fill="#E4E4E7"/>
+      <rect x="1076" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="1098" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A">École</text>
+      <polyline points="1236,41 1242,47 1248,41" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="1286" cy="43" r="7" fill="none" stroke="#52525B" stroke-width="1.5"/>
+      <line x1="1291" y1="48" x2="1296" y2="53" stroke="#52525B" stroke-width="1.5"/>
+      <rect x="1321" y="35" width="16" height="17" rx="6" fill="none" stroke="#52525B"/>
+      <circle cx="1373" cy="44" r="18" fill="#D4D4D8"/>
+    </g>
+    <g id="Bouton Signaler un problème">
+      <rect x="816" y="22" width="226" height="44" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="830" y="37" width="14" height="14" rx="3" fill="none" stroke="#27272A"/>
+      <text x="939" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Signaler un problème</text>
+    </g>
+    <g id="Onglets (icônes)">
+      <rect x="164" y="20" width="224" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="169" y="25" width="74" height="38" rx="19" fill="#E4E4E7"/>
+      <rect x="179" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <rect x="203" y="33" width="30" height="22" rx="11" fill="#D4D4D8"/>
+      <rect x="254" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <rect x="289" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <rect x="324" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <rect x="359" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+    </g>
+    <g id="Liste des remontées">
+      <rect x="164" y="92" width="796" height="788" rx="28" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <g id="Champ Matériel, identifiant, description, auteur…">
+        <rect x="182" y="110" width="410" height="44" rx="12" fill="#F4F4F5" stroke="#D4D4D8"/>
+        <circle cx="204" cy="131" r="6" fill="none" stroke="#A1A1AA" stroke-width="1.5"/>
+        <text x="222" y="137" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">Matériel, identifiant, description, auteur…</text>
+      </g>
+      <rect x="603" y="111" width="288" height="42" rx="21" fill="#E4E4E7"/>
+      <rect x="607" y="115" width="64" height="34" rx="17" fill="#FFFFFF"/>
+      <text x="639" y="138" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A" text-anchor="middle">Tous</text>
+      <rect x="688" y="121" width="22" height="22" rx="6" fill="#52525B"/>
+      <rect x="742" y="121" width="22" height="22" rx="6" fill="#52525B"/>
+      <rect x="796" y="121" width="22" height="22" rx="6" fill="#52525B"/>
+      <rect x="850" y="121" width="22" height="22" rx="6" fill="#52525B"/>
+      <rect x="901" y="116" width="42" height="32" rx="16" fill="#D4D4D8"/>
+      <rect x="179" y="166" width="766" height="102" rx="18" fill="none" stroke="#52525B"/>
+      <rect x="190" y="200" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+      <rect x="240" y="182" width="100" height="12" rx="6" fill="#D4D4D8"/>
+      <rect x="240" y="210" width="300" height="10" rx="5" fill="#E4E4E7"/>
+      <rect x="826" y="192" width="108" height="24" rx="12" fill="#E4E4E7"/>
+      <text x="880" y="208" font-family="Inter, Arial, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#27272A" text-anchor="middle">Statut</text>
+      <rect x="240" y="232" width="64" height="22" rx="11" fill="#E4E4E7"/>
+      <rect x="314" y="239" width="64" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="388" y="239" width="70" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="916" y="230" width="18" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="190" y="306" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+      <rect x="240" y="288" width="100" height="12" rx="6" fill="#D4D4D8"/>
+      <rect x="240" y="316" width="300" height="10" rx="5" fill="#E4E4E7"/>
+      <rect x="826" y="298" width="108" height="24" rx="12" fill="#E4E4E7"/>
+      <text x="880" y="314" font-family="Inter, Arial, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#27272A" text-anchor="middle">Statut</text>
+      <rect x="240" y="338" width="64" height="22" rx="11" fill="#E4E4E7"/>
+      <rect x="314" y="345" width="64" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="388" y="345" width="70" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="916" y="336" width="18" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="190" y="412" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+      <rect x="240" y="394" width="100" height="12" rx="6" fill="#D4D4D8"/>
+      <rect x="240" y="422" width="300" height="10" rx="5" fill="#E4E4E7"/>
+      <rect x="826" y="404" width="108" height="24" rx="12" fill="#E4E4E7"/>
+      <text x="880" y="420" font-family="Inter, Arial, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#27272A" text-anchor="middle">Statut</text>
+      <rect x="240" y="444" width="64" height="22" rx="11" fill="#E4E4E7"/>
+      <rect x="314" y="451" width="64" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="388" y="451" width="70" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="916" y="442" width="18" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="190" y="518" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+      <rect x="240" y="500" width="100" height="12" rx="6" fill="#D4D4D8"/>
+      <rect x="240" y="528" width="300" height="10" rx="5" fill="#E4E4E7"/>
+      <rect x="826" y="510" width="108" height="24" rx="12" fill="#E4E4E7"/>
+      <text x="880" y="526" font-family="Inter, Arial, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#27272A" text-anchor="middle">Statut</text>
+      <rect x="240" y="550" width="64" height="22" rx="11" fill="#E4E4E7"/>
+      <rect x="314" y="557" width="64" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="388" y="557" width="70" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="916" y="548" width="18" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="190" y="624" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+      <rect x="240" y="606" width="100" height="12" rx="6" fill="#D4D4D8"/>
+      <rect x="240" y="634" width="300" height="10" rx="5" fill="#E4E4E7"/>
+      <rect x="826" y="616" width="108" height="24" rx="12" fill="#E4E4E7"/>
+      <text x="880" y="632" font-family="Inter, Arial, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#27272A" text-anchor="middle">Statut</text>
+      <rect x="240" y="656" width="64" height="22" rx="11" fill="#E4E4E7"/>
+      <rect x="314" y="663" width="64" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="388" y="663" width="70" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="916" y="654" width="18" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="190" y="730" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+      <rect x="240" y="712" width="100" height="12" rx="6" fill="#D4D4D8"/>
+      <rect x="240" y="740" width="300" height="10" rx="5" fill="#E4E4E7"/>
+      <rect x="826" y="722" width="108" height="24" rx="12" fill="#E4E4E7"/>
+      <text x="880" y="738" font-family="Inter, Arial, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#27272A" text-anchor="middle">Statut</text>
+      <rect x="240" y="762" width="64" height="22" rx="11" fill="#E4E4E7"/>
+      <rect x="314" y="769" width="64" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="388" y="769" width="70" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="916" y="760" width="18" height="9" rx="4.5" fill="#E4E4E7"/>
+      <rect x="190" y="836" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+      <rect x="240" y="818" width="100" height="12" rx="6" fill="#D4D4D8"/>
+      <rect x="240" y="846" width="300" height="10" rx="5" fill="#E4E4E7"/>
+      <rect x="826" y="828" width="108" height="24" rx="12" fill="#E4E4E7"/>
+      <text x="880" y="844" font-family="Inter, Arial, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#27272A" text-anchor="middle">Statut</text>
+    </g>
+    <g id="Détail de la remontée">
+      <rect x="980" y="92" width="420" height="788" rx="28" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="1002" y="114" width="52" height="52" rx="13" fill="none" stroke="#A1A1AA"/>
+      <text x="1068" y="136" font-family="Inter, Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#27272A">Remontée</text>
+      <rect x="1068" y="146" width="108" height="24" rx="12" fill="#E4E4E7"/>
+      <text x="1122" y="162" font-family="Inter, Arial, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#27272A" text-anchor="middle">Statut</text>
+      <text x="1360" y="138" font-family="Inter, Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#71717A" text-anchor="middle">×</text>
+      <rect x="1002" y="187" width="184" height="72" rx="14" fill="#E4E4E7"/>
+      <text x="1038" y="214" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#71717A">Problème</text>
+      <rect x="1015" y="202" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <rect x="1015" y="229" width="80" height="14" rx="7" fill="#D4D4D8"/>
+      <rect x="1194" y="187" width="184" height="72" rx="14" fill="#E4E4E7"/>
+      <text x="1230" y="214" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#71717A">Déclarée par</text>
+      <rect x="1207" y="202" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <rect x="1207" y="229" width="80" height="14" rx="7" fill="#D4D4D8"/>
+      <rect x="1002" y="268" width="184" height="72" rx="14" fill="#E4E4E7"/>
+      <text x="1038" y="295" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#71717A">Créée</text>
+      <rect x="1015" y="283" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <rect x="1015" y="310" width="80" height="14" rx="7" fill="#D4D4D8"/>
+      <rect x="1194" y="268" width="184" height="72" rx="14" fill="#E4E4E7"/>
+      <text x="1230" y="295" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#71717A">Matériels</text>
+      <rect x="1207" y="283" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <rect x="1207" y="310" width="80" height="14" rx="7" fill="#D4D4D8"/>
+      <rect x="1002" y="357" width="376" height="52" rx="14" fill="#E4E4E7"/>
+      <rect x="1002" y="357" width="4" height="52" fill="#52525B"/>
+      <rect x="1018" y="378" width="300" height="11" rx="5.5" fill="#E4E4E7"/>
+      <rect x="1002" y="430" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="1028" y="443" font-family="Inter, Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#27272A">Matériels concernés</text>
+      <rect x="1002" y="474" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+      <rect x="1050" y="472" width="150" height="12" rx="6" fill="#D4D4D8"/>
+      <rect x="1050" y="494" width="66" height="22" rx="11" fill="#E4E4E7"/>
+      <rect x="1124" y="500" width="64" height="9" rx="4.5" fill="#E4E4E7"/>
+      <polyline points="1366,486 1372,492 1366,498" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      <rect x="1002" y="541" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+      <rect x="1050" y="539" width="150" height="12" rx="6" fill="#D4D4D8"/>
+      <rect x="1050" y="561" width="66" height="22" rx="11" fill="#E4E4E7"/>
+      <rect x="1124" y="567" width="64" height="9" rx="4.5" fill="#E4E4E7"/>
+      <polyline points="1366,553 1372,559 1366,565" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      <rect x="1002" y="608" width="36" height="36" rx="9" fill="none" stroke="#A1A1AA"/>
+      <rect x="1050" y="606" width="150" height="12" rx="6" fill="#D4D4D8"/>
+      <rect x="1050" y="628" width="66" height="22" rx="11" fill="#E4E4E7"/>
+      <rect x="1124" y="634" width="64" height="9" rx="4.5" fill="#E4E4E7"/>
+      <polyline points="1366,620 1372,626 1366,632" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      <rect x="1002" y="679" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="1028" y="692" font-family="Inter, Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#27272A">Suivi</text>
+      <circle cx="1020" cy="726" r="20" fill="#D4D4D8"/>
+      <line x1="1020" y1="746" x2="1020" y2="800" stroke="#D4D4D8" stroke-width="1"/>
+      <rect x="1052" y="720" width="168" height="13" rx="6.5" fill="#D4D4D8"/>
+      <rect x="1052" y="746" width="150" height="10" rx="5" fill="#E4E4E7"/>
+      <rect x="1052" y="771" width="70" height="10" rx="5" fill="#E4E4E7"/>
+      <line x1="980" y1="805" x2="1400" y2="805" stroke="#D4D4D8" stroke-width="1"/>
+      <circle cx="1023" cy="841" r="21" fill="#FFFFFF" stroke="#D4D4D8" stroke-width="1.5"/>
+      <g id="Bouton Prendre en charge">
+        <rect x="1052" y="820" width="326" height="42" rx="21" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <rect x="1129.05" y="834" width="14" height="14" rx="3" fill="none" stroke="#27272A"/>
+        <text x="1225" y="846" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Prendre en charge</text>
+      </g>
+    </g>
+  </g>
+</svg>
