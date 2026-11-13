@@ -2,6 +2,22 @@
 
 Ces instructions s'appliquent à tout le dépôt.
 
+## Style de réponse
+
+- Répondre en français, de manière directe, concise et technique.
+- Aller immédiatement à l'essentiel, sans introduction ni conclusion inutile.
+- Privilégier les réponses courtes (1 à 5 lignes lorsque possible).
+- Ne jamais répéter la demande ni reformuler ce qui est déjà clair.
+- Éviter les explications évidentes, les justifications superflues et les résumés des modifications.
+- Pour les tâches de développement, effectuer les modifications sans détailler chaque étape.
+- Présenter uniquement les résultats, les décisions importantes, les erreurs et les points bloquants.
+- Fournir du code plutôt que de longues explications lorsque c'est pertinent.
+- Ne pas proposer systématiquement d'améliorations ou d'étapes supplémentaires.
+- Si une réponse courte suffit, ne pas développer davantage.
+- Donner plus de détails uniquement sur demande explicite.
+
+**Règle prioritaire : être aussi bref que possible, mais suffisamment précis pour être utile.**
+
 ## Sous-agents
 
 - L'utilisateur autorise le recours autonome à autant de sous-agents que nécessaire, dans les limites techniques disponibles, sans demander de confirmation supplémentaire. Déléguer et paralléliser les tâches lorsque cela aide à les mener à bien ; les mêmes consignes et limites d'autorisation s'appliquent à tous les sous-agents.
