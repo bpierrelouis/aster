@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.3 | 12/11/2026 | Ressource de préparation | Renommer ASTER en ORION dans tout le dépôt | [4 versions](../archive/README.md#design-readme) |
+| 1.3 | 12/11/2026 | Ressource de préparation | Renommer le projet en ORION dans tout le dépôt | [4 versions](../archive/README.md#design-readme) |
 <!-- version:fin -->
 
 Ce dossier rassemble les livrables de conception visuelle de l’application.

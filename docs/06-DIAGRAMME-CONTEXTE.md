@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Production destinée à la remise | Renommer ASTER en ORION dans tout le dépôt | [2 versions](../archive/README.md#06-diagramme-contexte) |
+| 1.1 | 12/11/2026 | Production destinée à la remise | Renommer le projet en ORION dans tout le dépôt | [2 versions](../archive/README.md#06-diagramme-contexte) |
 <!-- version:fin -->
 
 ```mermaid

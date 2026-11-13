@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Brouillon interne | Renommer ASTER en ORION dans tout le dépôt | [2 versions](../../archive/README.md#diagrammes-activite-cas-utilisation-brouillon-v2) |
+| 1.1 | 12/11/2026 | Brouillon interne | Renommer le projet en ORION dans tout le dépôt | [2 versions](../../archive/README.md#diagrammes-activite-cas-utilisation-brouillon-v2) |
 <!-- version:fin -->
 
 ## 1. Importer de nouveaux matériels en JSON — scénario nominal, acteur habilité

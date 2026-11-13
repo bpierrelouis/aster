@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Source de travail interne | Renommer ASTER en ORION dans tout le dépôt | [5 versions](../archive/README.md#03-compte-rendu-entretiens) |
+| 1.4 | 12/11/2026 | Source de travail interne | Renommer le projet en ORION dans tout le dépôt | [5 versions](../archive/README.md#03-compte-rendu-entretiens) |
 <!-- version:fin -->
 
 **Source historique de travail interne, non destinée à la remise aux cadres évaluateurs.** Les propos datés sont conservés tels quels, y compris lorsqu’ils concernent la démonstration ; ils ne doivent pas être recopiés comme exigences de production dans les livrables. Voir le [classement documentaire](../README.md#destination-des-documents).
