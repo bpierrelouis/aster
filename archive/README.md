@@ -1,6 +1,6 @@
 # Archives de la documentation ORION
 
-Compte rendu des évolutions de chaque fichier suivi : version, date et modification. La version en vigueur est le fichier lui-même ; chaque version remplacée est retrouvée dans l’historique Git par son commit (`git show <commit>:<chemin>`). Seules les versions de `design/`, qui font partie de la capture du besoin, sont copiées dans les archives. Ce document et les en-têtes de version sont générés à partir de [registre.json](registre.json) par [versions.py](../.agents/skills/orion-documentation/scripts/versions.py) ; ne pas les modifier à la main.
+Compte rendu des évolutions de chaque fichier suivi : version, date et modification. La version en vigueur est le fichier lui-même ; chaque version remplacée est retrouvée dans l’historique Git par son commit (`git show <commit>:<chemin>`). Seules les versions de `design/`, qui font partie de la capture du besoin, sont copiées, dans [design/](design/index.html) : chartes, maquettes et présentation du dossier, avec leurs logos et icônes d’époque. Ce document et les en-têtes de version sont générés à partir de [registre.json](registre.json) par [versions.py](../.agents/skills/orion-documentation/scripts/versions.py) ; ne pas les modifier à la main.
 
 Numérotation : version majeure pour un changement de sens (décision, règle, périmètre, structure), version mineure pour une correction ou une précision. L’historique antérieur au 13 novembre 2026 est reconstitué depuis Git, à raison d’une version par jour de modification.
 
@@ -47,12 +47,12 @@ Fichier : [design/README.md](../design/README.md) · Ressource de préparation
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
 | 2.2 | 13/11/2026 | Icônes métier en Bleu Orion, captures compressées | en vigueur | — |
-| 2.1 | 13/11/2026 | Décrire les maquettes simplifiées et les logos à l’étoile | `bf823e8` | [archive](design-README/README-v2.1-2026-11-13.md) |
-| 2.0 | 13/11/2026 | Présenter l'identité ORION conforme à l'application et archiver les anciennes directions | `e594af2` | [archive](design-README/README-v2.0-2026-11-13.md) |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | [archive](design-README/README-v1.3-2026-11-12.md) |
-| 1.2 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design-README/README-v1.2-2026-11-10.md) |
-| 1.1 | 06/11/2026 | Proposer l'identité VIGIE ; Ajouter les références visuelles MindefConnect ; Réduire le formulaire et centrer le bouton | `7e9e76b` | [archive](design-README/README-v1.1-2026-11-06.md) |
-| 1.0 | 03/11/2026 | Organiser les livrables et intégrer la maquette | `03728b6` | [archive](design-README/README-v1.0-2026-11-03.md) |
+| 2.1 | 13/11/2026 | Décrire les maquettes simplifiées et les logos à l’étoile | `bf823e8` | [archive](design/readme/README-v2.1-2026-11-13.md) |
+| 2.0 | 13/11/2026 | Présenter l'identité ORION conforme à l'application et archiver les anciennes directions | `e594af2` | [archive](design/readme/README-v2.0-2026-11-13.md) |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | [archive](design/readme/README-v1.3-2026-11-12.md) |
+| 1.2 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design/readme/README-v1.2-2026-11-10.md) |
+| 1.1 | 06/11/2026 | Proposer l'identité VIGIE ; Ajouter les références visuelles MindefConnect ; Réduire le formulaire et centrer le bouton | `7e9e76b` | [archive](design/readme/README-v1.1-2026-11-06.md) |
+| 1.0 | 03/11/2026 | Organiser les livrables et intégrer la maquette | `03728b6` | [archive](design/readme/README-v1.0-2026-11-03.md) |
 
 ### design-charte-graphique-index
 
@@ -61,10 +61,10 @@ Fichier : [design/charte-graphique/index.html](../design/charte-graphique/index.
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
 | 2.1 | 13/11/2026 | Centrer ORION sur sa signature, logos à l’étoile | en vigueur | — |
-| 2.0 | 13/11/2026 | Refondre la charte sur l'application : étoile ORION, palette, ambiances Orion et Minarm, composants | `e594af2` | [archive](design-charte-graphique-index/index-v2.0-2026-11-13.html) |
-| 1.2 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design-charte-graphique-index/index-v1.2-2026-11-12.html) |
-| 1.1 | 03/11/2026 | Organiser les livrables et intégrer la maquette | `03728b6` | [archive](design-charte-graphique-index/index-v1.1-2026-11-03.html) |
-| 1.0 | 21/10/2026 | Apercu + loader | `a4ba64a` (`da/apercu.html`) | [archive](design-charte-graphique-index/index-v1.0-2026-10-21.html) |
+| 2.0 | 13/11/2026 | Refondre la charte sur l'application : étoile ORION, palette, ambiances Orion et Minarm, composants | `e594af2` | [archive](design/chartes/charte-graphique-v2.0-2026-11-13.html) |
+| 1.2 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design/chartes/charte-graphique-v1.2-2026-11-12.html) |
+| 1.1 | 03/11/2026 | Organiser les livrables et intégrer la maquette | `03728b6` | [archive](design/chartes/charte-graphique-v1.1-2026-11-03.html) |
+| 1.0 | 21/10/2026 | Apercu + loader | `a4ba64a` (`da/apercu.html`) | [archive](design/chartes/charte-graphique-v1.0-2026-10-21.html) |
 
 ### design-maquettes-index
 
@@ -73,7 +73,7 @@ Fichier : [design/maquettes/index.html](../design/maquettes/index.html) · Resso
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
 | 2.0 | 13/11/2026 | Ajouter les maquettes simplifiées à côté des captures | en vigueur | — |
-| 1.0 | 13/11/2026 | Présenter les écrans de l'application par module et par profil | `e594af2` | [archive](design-maquettes-index/index-v1.0-2026-11-13.html) |
+| 1.0 | 13/11/2026 | Présenter les écrans de l'application par module et par profil | `e594af2` | [archive](design/maquettes/maquettes-v1.0-2026-11-13.html) |
 
 ### 00-GLOSSAIRE
 
@@ -410,8 +410,8 @@ Ancien emplacement : `design/charte-graphique-vigie/index.html`. Retiré le 13/1
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design-charte-graphique-vigie-index/index-v1.1-2026-11-12.html) |
-| 1.0 | 06/11/2026 | Proposer l'identité VIGIE | `9177f93` | [archive](design-charte-graphique-vigie-index/index-v1.0-2026-11-06.html) |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design/chartes/charte-graphique-vigie-v1.1-2026-11-12.html) |
+| 1.0 | 06/11/2026 | Proposer l'identité VIGIE | `9177f93` | [archive](design/chartes/charte-graphique-vigie-v1.0-2026-11-06.html) |
 
 ### design-charte-graphique-charte-graphique-orion
 
@@ -419,7 +419,7 @@ Ancien emplacement : `design/charte-graphique/charte-graphique-orion.html`. Reti
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 09/11/2026 | Ajouter la maquette et la charte graphique ORION | `a6cf32e` | [archive](design-charte-graphique-charte-graphique-orion/charte-graphique-orion-v1.0-2026-11-09.html) |
+| 1.0 | 09/11/2026 | Ajouter la maquette et la charte graphique ORION | `a6cf32e` | [archive](design/chartes/charte-graphique-orion-v1.0-2026-11-09.html) |
 
 ### design-maquettes-gestion-materiels
 
@@ -427,9 +427,9 @@ Ancien emplacement : `design/maquettes/gestion-materiels.html`. Retiré le 13/11
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.2 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.2-2026-11-12.html) |
-| 1.1 | 06/11/2026 | Adapter les écrans et captures à la cible | `4a3e92b` | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.1-2026-11-06.html) |
-| 1.0 | 03/11/2026 | Organiser les livrables et intégrer la maquette | `03728b6` | [archive](design-maquettes-gestion-materiels/gestion-materiels-v1.0-2026-11-03.html) |
+| 1.2 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design/maquettes/gestion-materiels-v1.2-2026-11-12.html) |
+| 1.1 | 06/11/2026 | Adapter les écrans et captures à la cible | `4a3e92b` | [archive](design/maquettes/gestion-materiels-v1.1-2026-11-06.html) |
+| 1.0 | 03/11/2026 | Organiser les livrables et intégrer la maquette | `03728b6` | [archive](design/maquettes/gestion-materiels-v1.0-2026-11-03.html) |
 
 ### design-maquettes-maquette-dashboard-orion
 
@@ -437,7 +437,7 @@ Ancien emplacement : `design/maquettes/maquette-dashboard-orion.html`. Retiré l
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 09/11/2026 | Ajouter la maquette et la charte graphique ORION | `a6cf32e` | [archive](design-maquettes-maquette-dashboard-orion/maquette-dashboard-orion-v1.0-2026-11-09.html) |
+| 1.0 | 09/11/2026 | Ajouter la maquette et la charte graphique ORION | `a6cf32e` | [archive](design/maquettes/maquette-dashboard-orion-v1.0-2026-11-09.html) |
 
 ### design-maquettes-maquette-dashboard-proposition-a-cockpit
 
@@ -445,8 +445,8 @@ Ancien emplacement : `design/maquettes/maquette-dashboard-proposition-a-cockpit.
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design-maquettes-maquette-dashboard-proposition-a-cockpit/maquette-dashboard-proposition-a-cockpit-v1.1-2026-11-12.html) |
-| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design-maquettes-maquette-dashboard-proposition-a-cockpit/maquette-dashboard-proposition-a-cockpit-v1.0-2026-11-10.html) |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design/maquettes/maquette-dashboard-proposition-a-cockpit-v1.1-2026-11-12.html) |
+| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design/maquettes/maquette-dashboard-proposition-a-cockpit-v1.0-2026-11-10.html) |
 
 ### design-maquettes-maquette-dashboard-proposition-b-a-traiter
 
@@ -454,8 +454,8 @@ Ancien emplacement : `design/maquettes/maquette-dashboard-proposition-b-a-traite
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design-maquettes-maquette-dashboard-proposition-b-a-traiter/maquette-dashboard-proposition-b-a-traiter-v1.1-2026-11-12.html) |
-| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design-maquettes-maquette-dashboard-proposition-b-a-traiter/maquette-dashboard-proposition-b-a-traiter-v1.0-2026-11-10.html) |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design/maquettes/maquette-dashboard-proposition-b-a-traiter-v1.1-2026-11-12.html) |
+| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design/maquettes/maquette-dashboard-proposition-b-a-traiter-v1.0-2026-11-10.html) |
 
 ### design-maquettes-maquette-dashboard-proposition-c-analyse
 
@@ -463,8 +463,8 @@ Ancien emplacement : `design/maquettes/maquette-dashboard-proposition-c-analyse.
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design-maquettes-maquette-dashboard-proposition-c-analyse/maquette-dashboard-proposition-c-analyse-v1.1-2026-11-12.html) |
-| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design-maquettes-maquette-dashboard-proposition-c-analyse/maquette-dashboard-proposition-c-analyse-v1.0-2026-11-10.html) |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design/maquettes/maquette-dashboard-proposition-c-analyse-v1.1-2026-11-12.html) |
+| 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design/maquettes/maquette-dashboard-proposition-c-analyse-v1.0-2026-11-10.html) |
 
 ### 05-MCD-MERISE-MOCODO
 

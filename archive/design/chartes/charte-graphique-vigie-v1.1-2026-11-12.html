@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VIGIE — Direction artistique 02</title>
+  <style>
+    :root {
+      --night: #102d36;
+      --deep: #0b6173;
+      --aqua: #77d7d0;
+      --mist: #edf7f5;
+      --coral: #f06449;
+      --line: rgba(16, 45, 54, .14);
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
+    body {
+      margin: 0;
+      color: var(--night);
+      background:
+        linear-gradient(rgba(11,97,115,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(11,97,115,.045) 1px, transparent 1px),
+        #f8fbfa;
+      background-size: 32px 32px;
+      font: 16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    main { width: min(1160px, calc(100% - 40px)); margin: auto; }
+    header { display: flex; justify-content: space-between; gap: 24px; padding: 32px 0; border-bottom: 1px solid var(--line); }
+    .eyebrow, h2, .label { font-size: 12px; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
+    .muted { color: #557079; }
+    .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr); gap: 64px; align-items: center; min-height: 620px; padding: 72px 0; }
+    h1 { margin: 16px 0 24px; max-width: 760px; font-size: clamp(48px, 7vw, 92px); line-height: .96; letter-spacing: -.06em; }
+    h1 span { color: var(--deep); }
+    .lead { max-width: 650px; font-size: clamp(18px, 2vw, 23px); line-height: 1.5; }
+    .expansion { display: inline-flex; gap: 8px; align-items: center; margin-top: 16px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.7); font-size: 13px; }
+    .expansion b { color: var(--deep); }
+    .radar-card { position: relative; display: grid; place-items: center; aspect-ratio: 1; overflow: hidden; border-radius: 28px; background: var(--night); box-shadow: 0 24px 70px rgba(16,45,54,.19); }
+    .radar-card::before { content: ""; position: absolute; inset: 8%; border: 1px solid rgba(119,215,208,.15); border-radius: 50%; box-shadow: 0 0 0 68px rgba(119,215,208,.04), 0 0 0 136px rgba(119,215,208,.025); }
+    .radar { width: 74%; overflow: visible; }
+    section { padding: 72px 0; border-top: 1px solid var(--line); }
+    section > h2 { margin: 0 0 28px; }
+    .signatures, .principles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .sample { min-height: 220px; display: flex; flex-direction: column; justify-content: space-between; padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: rgba(255,255,255,.82); }
+    .sample.dark { color: white; background: var(--night); border-color: transparent; }
+    .sample img { width: min(100%, 410px); height: 104px; object-fit: contain; object-position: left center; }
+    .sample small { color: #647d84; }
+    .sample.dark small { color: #a8c1c5; }
+    .palette { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+    .swatch { min-width: 0; }
+    .chip { display: block; height: 96px; border: 1px solid rgba(16,45,54,.12); border-radius: 14px; }
+    .swatch b, .swatch code { display: block; margin-top: 8px; }
+    .swatch code { color: #60777d; font-size: 12px; }
+    .principle { min-height: 210px; padding: 28px; overflow: hidden; border-radius: 20px; background: white; border: 1px solid var(--line); }
+    .principle strong { display: block; margin: 18px 0 8px; font-size: 22px; }
+    .principle p { margin: 0; color: #557079; }
+    .motif { height: 82px; display: flex; align-items: center; gap: 14px; }
+    .node { width: 12px; height: 12px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 7px rgba(240,100,73,.12); }
+    .route { flex: 1; height: 2px; background: repeating-linear-gradient(90deg, var(--deep) 0 12px, transparent 12px 20px); }
+    .coordinate { color: var(--deep); font: 750 28px/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: -.06em; }
+    .ui-strip { display: grid; grid-template-columns: 1.3fr .7fr; gap: 20px; }
+    .panel { padding: 28px; border-radius: 20px; background: var(--night); color: white; }
+    .panel-top { display: flex; justify-content: space-between; gap: 18px; align-items: center; }
+    .status { padding: 7px 10px; border-radius: 999px; color: #073740; background: var(--aqua); font-size: 12px; font-weight: 750; }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 34px; }
+    .metric { padding: 18px; border-radius: 14px; background: rgba(255,255,255,.07); }
+    .metric b { display: block; font-size: 30px; }
+    .metric span { color: #a8c1c5; font-size: 12px; }
+    .alert { display: flex; flex-direction: column; justify-content: space-between; padding: 28px; border-radius: 20px; color: #4b2018; background: #ffe5df; }
+    .alert-dot { width: 16px; height: 16px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 8px rgba(240,100,73,.15); }
+    .alert strong { font-size: 24px; }
+    footer { display: flex; justify-content: space-between; gap: 24px; padding: 32px 0 48px; border-top: 1px solid var(--line); color: #60777d; font-size: 12px; }
+    @media (max-width: 760px) {
+      .hero { grid-template-columns: 1fr; gap: 36px; min-height: auto; padding: 56px 0; }
+      .radar-card { max-width: 460px; }
+      .palette { grid-template-columns: repeat(2, 1fr); }
+      .signatures, .principles, .ui-strip { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: 1fr; }
+      header, footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header><span class="eyebrow">Identité proposée · piste 02</span><span class="muted">VIGIE / Direction opérationnelle</span></header>
+    <div class="hero">
+      <div>
+        <span class="eyebrow muted">Voir · situer · agir</span>
+        <h1>Le parc,<br><span>en ligne de mire.</span></h1>
+        <p class="lead">Une identité précise et structurée pour l’outil qui donne une vue d’ensemble, signale les situations utiles et permet d’agir au bon endroit.</p>
+        <p class="expansion"><b>VIGIE</b> Vision et Gestion Intégrée des Équipements</p>
+      </div>
+      <div class="radar-card" aria-label="Symbole VIGIE inspiré d’un repère de navigation">
+        <svg class="radar" viewBox="0 0 128 128" role="img" aria-labelledby="radar-title">
+          <title id="radar-title">Repère VIGIE</title>
+          <circle cx="64" cy="64" r="48" fill="none" stroke="#77D7D0" stroke-width="6"/>
+          <circle cx="64" cy="64" r="27" fill="none" stroke="#0B6173" stroke-width="5"/>
+          <path d="M64 64 101 32" stroke="#FF765C" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <section>
+      <h2>01 / Le signe</h2>
+      <div class="signatures">
+        <article class="sample"><span class="label muted">Fond clair</span><img src="../ressources/2026-11-06/logos/vigie-horizontal.svg" alt="Logo VIGIE sur fond clair"><small>Les deux cercles structurent la vue ; le faisceau désigne ce qui appelle l’attention.</small></article>
+        <article class="sample dark"><span class="label">Fond sombre</span><img src="../ressources/2026-11-06/logos/vigie-horizontal-inverse.svg" alt="Logo VIGIE sur fond sombre"><small>La signature conserve son contraste dans la navigation et sur l’écran de connexion.</small></article>
+      </div>
+    </section>
+
+    <section>
+      <h2>02 / Palette</h2>
+      <div class="palette">
+        <div class="swatch"><span class="chip" style="background:#102d36"></span><b>Nuit</b><code>#102D36</code></div>
+        <div class="swatch"><span class="chip" style="background:#0b6173"></span><b>Balise</b><code>#0B6173</code></div>
+        <div class="swatch"><span class="chip" style="background:#77d7d0"></span><b>Signal</b><code>#77D7D0</code></div>
+        <div class="swatch"><span class="chip" style="background:#edf7f5"></span><b>Brume</b><code>#EDF7F5</code></div>
+        <div class="swatch"><span class="chip" style="background:#f06449"></span><b>Alerte</b><code>#F06449</code></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>03 / Langage graphique</h2>
+      <div class="principles">
+        <article class="principle"><div class="motif"><span class="node"></span><span class="route"></span><span class="node"></span></div><strong>Relier sans encombrer</strong><p>Des lignes fines et des points actifs matérialisent les salles, postes, matériels et alertes.</p></article>
+        <article class="principle"><div class="motif coordinate">B-204 / 16:42</div><strong>Donner des repères</strong><p>Les coordonnées et horodatages utilisent une graisse technique, toujours en complément d’un libellé clair.</p></article>
+        <article class="principle"><div class="motif"><svg width="82" height="82" viewBox="0 0 82 82" aria-hidden="true"><circle cx="41" cy="41" r="31" fill="none" stroke="#0B6173" stroke-width="2"/><circle cx="41" cy="41" r="17" fill="none" stroke="#77D7D0" stroke-width="2"/><path d="M41 41 67 20" stroke="#F06449" stroke-width="5" stroke-linecap="round"/></svg></div><strong>Montrer l’essentiel</strong><p>Ce signe devient le logo VIGIE : deux niveaux de lecture et un faisceau qui désigne ce qui appelle l’attention.</p></article>
+        <article class="principle"><div class="motif coordinate">Aa 01</div><strong>Rester lisible</strong><p>Une sans-serif nette pour l’interface, une monospace ponctuelle pour les identifiants et les données techniques.</p></article>
+      </div>
+    </section>
+
+    <section>
+      <h2>04 / Mise en situation</h2>
+      <div class="ui-strip">
+        <div class="panel">
+          <div class="panel-top"><div><span class="label" style="color:#77d7d0">Vue du parc</span><h3>École de Rennes</h3></div><span class="status">Situation nominale</span></div>
+          <div class="metrics"><div class="metric"><b>284</b><span>matériels suivis</span></div><div class="metric"><b>18</b><span>salles équipées</span></div><div class="metric"><b>7</b><span>en stock</span></div></div>
+        </div>
+        <div class="alert"><span class="alert-dot"></span><div><span class="label">Signal récent</span><br><strong>2 postes à vérifier</strong><p>Une alerte reste visible, localisée et directement actionnable.</p></div></div>
+      </div>
+    </section>
+
+    <footer><span>Proposition à soumettre au client, sans présumer de sa validation.</span><span>Alternative volontairement distincte de l’univers floral d’ORION.</span></footer>
+  </main>
+</body>
+</html>

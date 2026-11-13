@@ -155,7 +155,7 @@ Exemples de demandes :
 - « Utilise $orion-documentation pour répercuter cette réponse dans les documents concernés, en préservant les diagrammes protégés. »
 - « Utilise $orion-documentation pour proposer les user stories stratégiques à partir du cadrage. »
 
-Chaque document suivi porte sous son titre un en-tête de version (version, date, destination, dernière évolution) généré par [versions.py](.agents/skills/orion-documentation/scripts/versions.py) ; le [compte rendu des évolutions](archive/README.md) liste toutes les versions et donne le commit de chaque version remplacée (`git show <commit>:<chemin>`) ; seules les anciennes versions de `design/` sont copiées dans `archive/`. Après une mise à jour, depuis la racine :
+Chaque document suivi porte sous son titre un en-tête de version (version, date, destination, dernière évolution) généré par [versions.py](.agents/skills/orion-documentation/scripts/versions.py) ; le [compte rendu des évolutions](archive/README.md) liste toutes les versions et donne le commit de chaque version remplacée (`git show <commit>:<chemin>`) ; seules les anciennes versions de `design/` sont copiées, dans `archive/design/`, avec une [galerie](archive/design/index.html) qui permet de les ouvrir telles qu’elles étaient. Après une mise à jour, depuis la racine :
 
 ```sh
 python3 .agents/skills/orion-documentation/scripts/versions.py publier docs/02-CADRAGE.md --majeure -m "Intégrer les retours du client du 12 novembre"

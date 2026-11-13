@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ASTER — Démonstrateur de gestion du parc</title>
+  <link rel="icon" href="../ressources/2026-10-21/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --ink: #17243b;
+      --ink-soft: #52617b;
+      --iris: #6954c0;
+      --iris-dark: #47358b;
+      --lilac: #b8a3ea;
+      --mist: #f4f3f8;
+      --heart: #e8b84e;
+      --line: #dedde8;
+      --white: #ffffff;
+      --danger: #b84a62;
+      --success: #3e9b4b;
+      --shadow-sm: 0 1px 2px rgb(23 36 59 / 5%), 0 3px 12px rgb(23 36 59 / 3%);
+      --shadow-md: 0 1px 2px rgb(23 36 59 / 4%), 0 18px 46px rgb(23 36 59 / 7%);
+      --ease-out: cubic-bezier(.23, 1, .32, 1);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--mist); color: var(--ink); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid rgb(105 84 192 / 28%); outline-offset: 2px; }
+    button:disabled { cursor: not-allowed; opacity: .48; }
+    .app { display: grid; grid-template-columns: 268px minmax(0, 1fr); min-height: 100vh; }
+    .sidebar { position: sticky; top: 0; isolation: isolate; display: flex; flex-direction: column; gap: 42px; height: 100vh; padding: 30px 20px 22px; overflow: hidden; background: linear-gradient(180deg, #1a2942 0%, var(--ink) 54%, #111c30 100%); color: var(--white); box-shadow: 10px 0 34px rgb(23 36 59 / 7%); }
+    .sidebar::before { position: absolute; z-index: -1; top: -170px; left: -110px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, rgb(105 84 192 / 22%) 0%, transparent 68%); content: ""; pointer-events: none; }
+    .brand { display: block; width: fit-content; padding: 3px 11px; }
+    .brand img { display: block; width: 146px; max-width: 100%; height: auto; }
+    .nav-label { margin: 0 0 10px; padding: 0 13px; color: rgb(255 255 255 / 42%); font-size: 10px; font-weight: 750; letter-spacing: 1.5px; text-transform: uppercase; }
+    .nav { display: grid; gap: 4px; }
+    .nav button { display: flex; align-items: center; gap: 12px; min-height: 47px; padding: 11px 13px; border: 1px solid transparent; border-radius: 11px; background: transparent; color: rgb(255 255 255 / 64%); text-align: left; font-weight: 680; transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, transform 140ms var(--ease-out); }
+    .nav button:hover { background: rgb(255 255 255 / 6%); color: var(--white); }
+    .nav button:active { transform: scale(.98); }
+    .nav button.active { border-color: rgb(184 163 234 / 17%); background: rgb(184 163 234 / 15%); color: var(--white); box-shadow: inset 3px 0 0 var(--lilac), 0 8px 24px rgb(0 0 0 / 10%); }
+    .nav img { width: 21px; height: 21px; filter: brightness(0) invert(1); opacity: .58; }
+    .nav button:hover img, .nav button.active img { opacity: 1; }
+    .profile { display: flex; align-items: center; gap: 11px; margin-top: auto; padding: 13px; border: 1px solid rgb(255 255 255 / 10%); border-radius: 13px; background: rgb(255 255 255 / 6%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 5%); }
+    .avatar { display: grid; flex: 0 0 auto; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--iris); color: var(--white); font-weight: 800; box-shadow: inset 0 1px 0 rgb(255 255 255 / 20%); }
+    .profile strong, .profile small { display: block; }
+    .profile strong { font-size: 13px; }
+    .profile small { overflow: hidden; color: rgb(255 255 255 / 48%); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    main { min-width: 0; background: radial-gradient(circle at 88% -8%, rgb(184 163 234 / 18%), transparent 390px), var(--mist); }
+    .topbar { position: sticky; top: 0; z-index: 4; display: flex; align-items: center; justify-content: space-between; min-height: 68px; padding: 0 42px; border-bottom: 1px solid rgb(220 220 231 / 75%); background: rgb(255 255 255 / 88%); box-shadow: 0 1px 0 rgb(255 255 255 / 70%); backdrop-filter: blur(16px); }
+    .breadcrumb { color: var(--ink-soft); font-size: 13px; }
+    .breadcrumb b { color: var(--ink); }
+    .content { width: min(100%, 1340px); margin: 0 auto; padding: 44px 44px 72px; }
+    .hidden { display: none !important; }
+    .page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; margin-bottom: 32px; }
+    .eyebrow { margin-bottom: 7px; color: var(--iris); font-size: 10px; font-weight: 850; letter-spacing: 1.55px; text-transform: uppercase; }
+    h1 { margin: 0 0 6px; font-size: clamp(30px, 2.5vw, 38px); font-weight: 780; letter-spacing: -1.35px; line-height: 1.1; }
+    h2 { margin: 0; font-size: 16px; letter-spacing: -.2px; }
+    .sub { margin: 0; color: var(--ink-soft); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 43px; padding: 9px 16px; border: 1px solid #d6d5e1; border-radius: 10px; background: var(--white); color: var(--ink); font-weight: 750; box-shadow: var(--shadow-sm), inset 0 1px 0 rgb(255 255 255 / 90%); transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 140ms var(--ease-out); }
+    .btn:hover { border-color: #c1bed5; box-shadow: 0 6px 18px rgb(23 36 59 / 8%), inset 0 1px 0 rgb(255 255 255 / 90%); }
+    .btn:active { transform: scale(.97); }
+    .btn.primary { border-color: var(--iris); background: var(--iris); color: var(--white); box-shadow: 0 8px 22px rgb(105 84 192 / 22%), inset 0 1px 0 rgb(255 255 255 / 20%); }
+    .btn.primary:hover { border-color: var(--iris-dark); background: var(--iris-dark); box-shadow: 0 10px 26px rgb(71 53 139 / 25%), inset 0 1px 0 rgb(255 255 255 / 16%); }
+    .btn.small { min-height: 34px; padding: 6px 10px; font-size: 12px; }
+    .grid { display: grid; gap: 20px; }
+    .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 22px; }
+    .two-col { grid-template-columns: 1.25fr .75fr; margin-bottom: 22px; }
+    .card { padding: 24px; border: 1px solid rgb(220 220 231 / 90%); border-radius: 16px; background: rgb(255 255 255 / 96%); box-shadow: var(--shadow-md); }
+    .stat-card { position: relative; overflow: hidden; }
+    .stat-card::after { position: absolute; top: 0; right: 24px; left: 24px; height: 1px; background: linear-gradient(90deg, transparent, rgb(184 163 234 / 45%), transparent); content: ""; }
+    .stat-card:first-child { border-color: rgb(105 84 192 / 28%); box-shadow: 0 1px 2px rgb(23 36 59 / 4%), 0 18px 46px rgb(105 84 192 / 9%); }
+    .stat-top, .card-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .stat-top { color: var(--ink-soft); font-size: 11px; font-weight: 700; letter-spacing: .15px; }
+    .stat-icon, .asset-icon { display: grid; place-items: center; border-radius: 10px; background: rgb(184 163 234 / 16%); }
+    .stat-icon { width: 38px; height: 38px; box-shadow: inset 0 0 0 1px rgb(105 84 192 / 6%); }
+    .stat-icon img { width: 21px; height: 21px; }
+    .stat-number { margin: 14px 0 2px; font-size: 34px; font-weight: 800; letter-spacing: -1.4px; line-height: 1; }
+    .stat-foot { color: var(--ink-soft); font-size: 11px; }
+    .card-title { margin-bottom: 20px; }
+    .text-link { padding: 5px 0; border: 0; background: transparent; color: var(--iris-dark); font-size: 12px; font-weight: 750; transition: color 140ms ease; }
+    .text-link:hover { color: var(--iris); }
+    .bar-row { display: grid; grid-template-columns: 130px minmax(80px, 1fr) 42px; align-items: center; gap: 12px; margin: 15px 0; font-size: 12px; }
+    .bar { height: 6px; overflow: hidden; border-radius: 20px; background: rgb(184 163 234 / 16%); }
+    .bar span { display: block; width: var(--size); height: 100%; border-radius: inherit; background: var(--iris); }
+    .bar-row:nth-child(3) .bar span { background: #8670cd; }
+    .bar-row:nth-child(4) .bar span { background: var(--heart); }
+    .bar-row:nth-child(5) .bar span { background: var(--lilac); }
+    .bar-row b { text-align: right; }
+    .room-list { display: grid; gap: 13px; }
+    .room-line { display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #ecebf2; }
+    .room-line:last-child { padding-bottom: 0; border: 0; }
+    .room-line span { color: var(--ink-soft); }
+    .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .toolbar-meta { min-width: 86px; color: var(--ink-soft); font-size: 12px; text-align: right; }
+    .search { position: relative; flex: 1; }
+    .search img { position: absolute; top: 50%; left: 13px; width: 18px; transform: translateY(-50%); pointer-events: none; }
+    .search input, .filter, .field input, .field select { width: 100%; min-height: 44px; border: 1px solid #d8d7e2; border-radius: 10px; background: rgb(255 255 255 / 96%); color: var(--ink); box-shadow: 0 1px 2px rgb(23 36 59 / 2%); transition: border-color 160ms ease, box-shadow 160ms ease; }
+    .search input:hover, .filter:hover, .field input:hover, .field select:hover { border-color: #c7c4d5; }
+    .search input:focus, .filter:focus, .field input:focus, .field select:focus { border-color: var(--iris); box-shadow: 0 0 0 3px rgb(105 84 192 / 10%); outline: 0; }
+    .search input { padding: 10px 13px 10px 40px; }
+    .filter { width: auto; min-width: 170px; padding: 9px 12px; }
+    .table-wrap { overflow: auto; border: 1px solid rgb(220 220 231 / 92%); border-radius: 15px; background: var(--white); box-shadow: var(--shadow-md); }
+    table { width: 100%; min-width: 820px; border-collapse: collapse; }
+    th { position: sticky; top: 0; z-index: 1; padding: 15px 17px; background: #faf9fd; color: var(--ink-soft); font-size: 9px; font-weight: 850; letter-spacing: 1.2px; text-align: left; text-transform: uppercase; }
+    td { padding: 15px 17px; border-top: 1px solid #ecebf2; font-size: 12px; }
+    tbody tr { transition: background-color 140ms ease; }
+    tr.clickable { cursor: pointer; }
+    tr.clickable:hover, tr.clickable:focus-visible { background: rgb(184 163 234 / 8%); outline: 0; }
+    tr.clickable:focus-visible td:first-child { box-shadow: inset 3px 0 0 var(--iris); }
+    tr.selectable-row { cursor: pointer; transition: background-color 140ms ease; }
+    tr.selectable-row:hover { background: rgb(184 163 234 / 16%); }
+    tr.selectable-row.is-selected { background: rgb(184 163 234 / 24%); }
+    tr.selectable-row td:first-child { border-left: 3px solid transparent; }
+    tr.selectable-row:hover td:first-child,
+    tr.selectable-row.is-selected td:first-child { border-left-color: var(--iris); }
+    .asset { display: flex; align-items: center; gap: 10px; }
+    .asset-icon { width: 37px; height: 37px; }
+    .asset-icon img { width: 21px; height: 21px; }
+    .asset strong, .asset small { display: block; }
+    .asset small { color: var(--ink-soft); }
+    .status { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border: 1px solid rgb(62 155 75 / 9%); border-radius: 20px; background: rgb(62 155 75 / 8%); color: #267533; font-size: 10px; font-weight: 800; }
+    .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .status.out { border-color: rgb(184 74 98 / 10%); background: rgb(184 74 98 / 9%); color: var(--danger); }
+    .empty { padding: 36px; color: var(--ink-soft); text-align: center; }
+    .form-card { max-width: 940px; padding: 30px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .field { display: grid; gap: 7px; }
+    .field label { font-size: 12px; font-weight: 750; }
+    .field input, .field select { padding: 10px 12px; }
+    .hint { color: var(--ink-soft); font-size: 10px; }
+    .form-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 24px; }
+    .detail-grid { grid-template-columns: 1.25fr .75fr; }
+    .detail-list { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .detail-list small, .detail-list strong { display: block; }
+    .detail-list small { margin-bottom: 3px; color: var(--ink-soft); }
+    .action-list { display: grid; gap: 10px; }
+    .action-list .btn { justify-content: flex-start; }
+    .bulk-actions { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 66px; margin-bottom: 14px; padding: 10px 12px 10px 17px; border: 1px solid rgb(105 84 192 / 17%); border-radius: 13px; background: linear-gradient(90deg, rgb(184 163 234 / 14%), rgb(184 163 234 / 7%)); }
+    .bulk-actions .form-actions { margin: 0; }
+    .selection-count { color: var(--iris-dark); font-size: 12px; font-weight: 800; }
+    .selection-help { display: block; margin-top: 1px; color: var(--ink-soft); font-size: 11px; font-weight: 500; }
+    .toast { position: fixed; right: 24px; bottom: 24px; z-index: 10; max-width: 380px; padding: 13px 18px; border-radius: 10px; background: var(--ink); color: var(--white); box-shadow: 0 14px 45px rgb(23 36 59 / 28%); opacity: 0; pointer-events: none; transform: translateY(10px) scale(.98); transition: opacity 180ms ease, transform 180ms var(--ease-out); }
+    .toast.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+
+    @media (max-width: 980px) {
+      .app { grid-template-columns: 80px minmax(0, 1fr); }
+      .sidebar { padding-inline: 10px; }
+      .brand { padding: 4px; }
+      .brand img { width: 54px; height: 42px; object-fit: cover; object-position: left; }
+      .nav-label, .nav span, .profile div:not(.avatar) { display: none; }
+      .nav button { justify-content: center; }
+      .profile { justify-content: center; padding-inline: 0; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .two-col, .detail-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      .app { display: block; }
+      .sidebar { position: sticky; top: 0; z-index: 5; flex-direction: row; align-items: center; height: auto; padding: 9px 12px; overflow: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+      .brand, .profile { display: none; }
+      .nav { display: flex; }
+      .topbar { min-height: 58px; padding-inline: 18px; }
+      .content { padding: 24px 15px 44px; }
+      .page-head { display: block; }
+      .page-head > .btn { margin-top: 16px; }
+      .stats, .form-grid, .detail-list { grid-template-columns: 1fr; }
+      .toolbar { align-items: stretch; flex-direction: column; }
+      .filter { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .btn, .nav button, .toast { transition-duration: 0ms; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Retour au tableau de bord" onclick="show('dashboard'); return false"><img src="../ressources/2026-10-21/logos/aster-horizontal-inverse.svg" alt="ASTER"></a>
+      <div>
+        <p class="nav-label">Gestion du parc</p>
+        <nav class="nav" aria-label="Navigation principale">
+          <button type="button" class="active" data-screen="dashboard"><img src="../ressources/2026-10-21/icons/materiel.svg" alt=""><span>Tableau de bord</span></button>
+          <button type="button" data-screen="materiels"><img src="../ressources/2026-10-21/icons/recherche.svg" alt=""><span>Matériels</span></button>
+          <button type="button" data-screen="groupe"><img src="../ressources/2026-10-21/icons/salles.svg" alt=""><span>Affectation</span></button>
+        </nav>
+      </div>
+      <div class="profile"><div class="avatar">GB</div><div><strong>Gestionnaire</strong><small>École de démonstration</small></div></div>
+    </aside>
+
+    <main>
+      <header class="topbar"><div class="breadcrumb">Gestion des matériels <span aria-hidden="true">/</span> <b id="breadcrumb">Tableau de bord</b></div></header>
+      <div class="content">
+        <section id="dashboard" class="screen">
+          <div class="page-head"><div><div class="eyebrow">École de démonstration</div><h1>Gestion du parc</h1><p class="sub">Localisation et état des matériels informatiques.</p></div><button class="btn primary" type="button" onclick="show('ajouter')"><span aria-hidden="true">＋</span> Ajouter un matériel</button></div>
+          <div class="grid stats">
+            <div class="card stat-card"><div class="stat-top">Matériels <span class="stat-icon"><img src="../ressources/2026-10-21/icons/materiel.svg" alt=""></span></div><div class="stat-number">248</div><div class="stat-foot">Référencés dans ASTER</div></div>
+            <div class="card stat-card"><div class="stat-top">Affectés en salle <span class="stat-icon"><img src="../ressources/2026-10-21/icons/salles.svg" alt=""></span></div><div class="stat-number">185</div><div class="stat-foot">Sur 14 salles</div></div>
+            <div class="card stat-card warning"><div class="stat-top">En stock <span class="stat-icon"><img src="../ressources/2026-10-21/icons/documents.svg" alt=""></span></div><div class="stat-number">49</div><div class="stat-foot">Sans affectation</div></div>
+            <div class="card stat-card danger"><div class="stat-top">Hors service <span class="stat-icon"><img src="../ressources/2026-10-21/icons/alertes.svg" alt=""></span></div><div class="stat-number">14</div><div class="stat-foot">À traiter</div></div>
+          </div>
+          <div class="grid two-col">
+            <div class="card"><div class="card-title"><h2>Répartition du matériel</h2><button class="text-link" type="button" onclick="show('materiels')">Voir la liste</button></div><div class="bar-row"><span>Écrans</span><div class="bar"><span style="--size:82%"></span></div><b>92</b></div><div class="bar-row"><span>Claviers</span><div class="bar"><span style="--size:61%"></span></div><b>68</b></div><div class="bar-row"><span>Câbles réseau</span><div class="bar"><span style="--size:48%"></span></div><b>54</b></div><div class="bar-row"><span>Vidéoprojecteurs</span><div class="bar"><span style="--size:30%"></span></div><b>34</b></div></div>
+            <div class="card"><div class="card-title"><h2>Salles les plus équipées</h2></div><div class="room-list"><div class="room-line"><span>Salle B203</span><b>28 matériels</b></div><div class="room-line"><span>Salle A112</span><b>24 matériels</b></div><div class="room-line"><span>Salle B204</span><b>21 matériels</b></div><div class="room-line"><span>Atelier 1</span><b>19 matériels</b></div></div></div>
+          </div>
+          <div class="card"><div class="card-title"><h2>Matériels récemment enregistrés</h2><button class="text-link" type="button" onclick="show('materiels')">Accéder à la liste</button></div><div class="table-wrap"><table><thead><tr><th>Modèle</th><th>Identifiant ASTER</th><th>Localisation</th><th>État</th></tr></thead><tbody id="recent-rows"></tbody></table></div></div>
+        </section>
+
+        <section id="materiels" class="screen hidden">
+          <div class="page-head"><div><div class="eyebrow">Inventaire</div><h1>Matériels</h1><p class="sub">Rechercher, consulter et mettre à jour les matériels.</p></div><button class="btn primary" type="button" onclick="show('ajouter')"><span aria-hidden="true">＋</span> Ajouter un matériel</button></div>
+          <div class="toolbar"><div class="search"><img src="../ressources/2026-10-21/icons/recherche.svg" alt=""><input id="search" aria-label="Rechercher un matériel" placeholder="Modèle, numéro de série ou salle" oninput="renderTable()"></div><select class="filter" id="filterRoom" aria-label="Filtrer par localisation" onchange="renderTable()"><option value="">Toutes les localisations</option><option>Stock</option><option>B203</option><option>A112</option><option>B204</option><option>Atelier 1</option></select><select class="filter" id="filterState" aria-label="Filtrer par état" onchange="renderTable()"><option value="">Tous les états</option><option value="service">En service</option><option value="out">Hors service</option></select><span class="toolbar-meta" id="result-count" aria-live="polite"></span></div>
+          <div class="table-wrap"><table><thead><tr><th>Modèle</th><th>Identifiant ASTER</th><th>N° de série</th><th>Date de réception</th><th>Localisation</th><th>État</th><th></th></tr></thead><tbody id="asset-rows"></tbody></table></div>
+        </section>
+
+        <section id="ajouter" class="screen hidden">
+          <div class="page-head"><div><div class="eyebrow">Inventaire</div><h1>Ajouter un matériel</h1><p class="sub">L’identifiant ASTER sera attribué automatiquement.</p></div></div>
+          <div class="card form-card"><form id="addForm"><div class="form-grid">
+            <div class="field"><label for="add-model">Modèle *</label><input id="add-model" name="model" required placeholder="Écran 24 pouces"></div>
+            <div class="field"><label for="add-brand">Marque</label><input id="add-brand" name="brand" placeholder="Facultative"></div>
+            <div class="field"><label for="add-received">Date de réception *</label><input id="add-received" type="date" name="received" required></div>
+            <div class="field"><label for="add-serial">Numéro de série</label><input id="add-serial" name="serial" placeholder="Facultatif"></div>
+            <div class="field"><label for="add-room">Affectation</label><select id="add-room" name="room"><option>Stock</option><option>B203</option><option>A112</option><option>B204</option><option>Atelier 1</option></select><span class="hint">Un matériel peut rester en stock sans salle.</span></div>
+            <div class="field"><label for="add-out">Hors service *</label><select id="add-out" name="out" required><option value="false">Non</option><option value="true">Oui</option></select></div>
+          </div><div class="form-actions"><button class="btn" type="button" onclick="show('materiels')">Annuler</button><button class="btn primary" type="submit">Enregistrer</button></div></form></div>
+        </section>
+
+        <section id="fiche" class="screen hidden">
+          <div class="page-head"><div><div class="eyebrow">Fiche matériel</div><h1 id="detail-model">Matériel</h1><p class="sub" id="detail-id"></p></div><button class="btn" type="button" onclick="show('materiels')">Retour à la liste</button></div>
+          <div class="grid detail-grid"><div class="card"><div class="card-title"><h2>Informations</h2><span id="detail-status" class="status">En service</span></div><div class="detail-list" id="detail-fields"></div></div><div class="card"><div class="card-title"><h2>Actions</h2></div><div class="action-list"><button class="btn" type="button" onclick="editCurrent()"><img src="../ressources/2026-10-21/icons/documents.svg" alt="" width="20">Modifier la fiche</button><button class="btn" type="button" onclick="show('affecter')"><img src="../ressources/2026-10-21/icons/deplacement.svg" alt="" width="20">Changer l’affectation</button></div></div></div>
+        </section>
+
+        <section id="modifier" class="screen hidden">
+          <div class="page-head"><div><div class="eyebrow">Fiche matériel</div><h1>Modifier un matériel</h1><p class="sub">Mettre à jour les informations enregistrées.</p></div></div>
+          <div class="card form-card"><form id="editForm"><div class="form-grid">
+            <div class="field"><label for="edit-model">Modèle *</label><input id="edit-model" name="model" required></div>
+            <div class="field"><label for="edit-brand">Marque</label><input id="edit-brand" name="brand"></div>
+            <div class="field"><label for="edit-received">Date de réception *</label><input id="edit-received" type="date" name="received" required></div>
+            <div class="field"><label for="edit-serial">Numéro de série</label><input id="edit-serial" name="serial"></div>
+            <div class="field"><label for="edit-room">Affectation</label><select id="edit-room" name="room"><option>Stock</option><option>B203</option><option>A112</option><option>B204</option><option>Atelier 1</option></select></div>
+            <div class="field"><label for="edit-out">Hors service *</label><select id="edit-out" name="out"><option value="false">Non</option><option value="true">Oui</option></select></div>
+          </div><div class="form-actions"><button class="btn" type="button" onclick="show('fiche')">Annuler</button><button class="btn primary" type="submit">Enregistrer</button></div></form></div>
+        </section>
+
+        <section id="affecter" class="screen hidden">
+          <div class="page-head"><div><div class="eyebrow">Affectation</div><h1>Changer la localisation</h1><p class="sub">Affecter le matériel à une salle ou le remettre en stock.</p></div></div>
+          <div class="card form-card"><form id="assignForm"><div class="form-grid"><div class="field"><label for="assign-asset">Matériel *</label><select id="assign-asset" name="asset" required></select></div><div class="field"><label for="assign-room">Nouvelle localisation *</label><select id="assign-room" name="room" required><option>Stock</option><option>B203</option><option>A112</option><option>B204</option><option>Atelier 1</option></select></div></div><div class="form-actions"><button class="btn" type="button" onclick="show('fiche')">Annuler</button><button class="btn primary" type="submit">Enregistrer l’affectation</button></div></form></div>
+        </section>
+
+        <section id="groupe" class="screen hidden">
+          <div class="page-head"><div><div class="eyebrow">Affectation</div><h1>Affecter des matériels</h1><p class="sub">Sélectionner les matériels puis choisir leur destination.</p></div></div>
+          <div class="card"><div class="toolbar"><div class="search"><img src="../ressources/2026-10-21/icons/recherche.svg" alt=""><input id="group-search" aria-label="Filtrer les matériels" placeholder="Modèle, identifiant ou numéro de série" oninput="renderGroup()"></div></div><div class="bulk-actions"><div><span class="selection-count" id="selected-count">Aucun matériel sélectionné</span><span class="selection-help">Cliquer sur une ligne pour la sélectionner.</span></div><div class="form-actions"><select class="filter" id="group-room" aria-label="Destination" onchange="updateBulkAction()"><option value="">Choisir une destination</option><option>Stock</option><option>B203</option><option>A112</option><option>B204</option><option>Atelier 1</option></select><button class="btn primary" id="bulk-button" type="button" onclick="bulkAssign()" disabled>Affecter</button></div></div><div class="table-wrap"><table><thead><tr><th></th><th>Modèle</th><th>Identifiant ASTER</th><th>N° de série</th><th>Localisation</th><th>État</th></tr></thead><tbody id="group-rows"></tbody></table></div></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    let assets = [
+      { id: "MAT-0248", model: "Écran 24 pouces", brand: "Dell", serial: "SN-00482", received: "2026-09-12", room: "B203", out: false },
+      { id: "MAT-0247", model: "Clavier USB", brand: "Logitech", serial: "", received: "2026-09-08", room: "Stock", out: false },
+      { id: "MAT-0246", model: "Câble Ethernet 5 m", brand: "", serial: "", received: "2026-09-05", room: "A112", out: true },
+      { id: "MAT-0245", model: "Vidéoprojecteur EB-W06", brand: "Epson", serial: "VP-38271", received: "2026-08-28", room: "B204", out: false },
+      { id: "MAT-0244", model: "Souris filaire", brand: "Logitech", serial: "", received: "2026-08-21", room: "Atelier 1", out: false },
+      { id: "MAT-0243", model: "Enceintes USB", brand: "Creative", serial: "SP-10294", received: "2026-08-15", room: "Stock", out: false }
+    ];
+    const screenNames = { dashboard: "Tableau de bord", materiels: "Matériels", ajouter: "Ajouter un matériel", fiche: "Fiche matériel", modifier: "Modifier un matériel", affecter: "Affectation", groupe: "Affectation" };
+    const navParents = { ajouter: "materiels", fiche: "materiels", modifier: "materiels", affecter: "groupe" };
+    let current = assets[0];
+    const selected = new Set();
+    let toastTimer;
+
+    function show(id) {
+      document.querySelectorAll(".screen").forEach(screen => screen.classList.add("hidden"));
+      document.getElementById(id).classList.remove("hidden");
+      document.getElementById("breadcrumb").textContent = screenNames[id] || id;
+      const activeNav = navParents[id] || id;
+      document.querySelectorAll(".nav button").forEach(button => {
+        const isActive = button.dataset.screen === activeNav;
+        button.classList.toggle("active", isActive);
+        if (isActive) button.setAttribute("aria-current", "page"); else button.removeAttribute("aria-current");
+      });
+      if (id === "dashboard") renderRecent();
+      if (id === "materiels") renderTable();
+      if (id === "fiche") renderDetail();
+      if (id === "affecter") fillAssetSelect();
+      if (id === "groupe") renderGroup();
+      window.scrollTo(0, 0);
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>'"]/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", "\"": "&quot;" })[character]);
+    }
+    function formatDate(value) { return value ? new Intl.DateTimeFormat("fr-FR").format(new Date(`${value}T12:00:00`)) : "Non renseignée"; }
+    function statusMarkup(asset) { return `<span class="status ${asset.out ? "out" : ""}">${asset.out ? "Hors service" : "En service"}</span>`; }
+    function materialMarkup(asset) { return `<div class="asset"><span class="asset-icon"><img src="../ressources/2026-10-21/icons/materiel.svg" alt=""></span><div><strong>${escapeHtml(asset.model)}</strong><small>${escapeHtml(asset.brand || "Marque non renseignée")}</small></div></div>`; }
+    function renderRows(list, compact = false) {
+      return list.map(asset => compact
+        ? `<tr class="clickable" tabindex="0" onclick="openAsset('${asset.id}')" onkeydown="activateRow(event, '${asset.id}', openAsset)"><td>${materialMarkup(asset)}</td><td>${escapeHtml(asset.id)}</td><td>${escapeHtml(asset.room)}</td><td>${statusMarkup(asset)}</td></tr>`
+        : `<tr class="clickable" tabindex="0" onclick="openAsset('${asset.id}')" onkeydown="activateRow(event, '${asset.id}', openAsset)"><td>${materialMarkup(asset)}</td><td>${escapeHtml(asset.id)}</td><td>${escapeHtml(asset.serial || "—")}</td><td>${formatDate(asset.received)}</td><td>${escapeHtml(asset.room)}</td><td>${statusMarkup(asset)}</td><td><button class="btn small" type="button" onclick="event.stopPropagation(); openAsset('${asset.id}')">Ouvrir</button></td></tr>`
+      ).join("");
+    }
+    function activateRow(event, id, callback) {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      callback(id);
+    }
+    function renderRecent() { document.getElementById("recent-rows").innerHTML = renderRows(assets.slice(0, 3), true); }
+    function renderTable() {
+      const query = document.getElementById("search").value.trim().toLowerCase();
+      const room = document.getElementById("filterRoom").value;
+      const state = document.getElementById("filterState").value;
+      const list = assets.filter(asset => `${asset.model} ${asset.brand} ${asset.serial} ${asset.room}`.toLowerCase().includes(query) && (!room || asset.room === room) && (!state || (state === "out" ? asset.out : !asset.out)));
+      document.getElementById("asset-rows").innerHTML = list.length ? renderRows(list) : `<tr><td colspan="7" class="empty">Aucun matériel ne correspond à la recherche.</td></tr>`;
+      document.getElementById("result-count").textContent = `${list.length} résultat${list.length > 1 ? "s" : ""}`;
+    }
+    function openAsset(id) { current = assets.find(asset => asset.id === id); show("fiche"); }
+    function renderDetail() {
+      if (!current) return;
+      document.getElementById("detail-model").textContent = current.model;
+      document.getElementById("detail-id").textContent = current.id;
+      const status = document.getElementById("detail-status");
+      status.textContent = current.out ? "Hors service" : "En service";
+      status.className = `status ${current.out ? "out" : ""}`;
+      document.getElementById("detail-fields").innerHTML = [["Marque", current.brand || "Non renseignée"], ["Numéro de série", current.serial || "Non renseigné"], ["Date de réception", formatDate(current.received)], ["Localisation", current.room], ["Hors service", current.out ? "Oui" : "Non"], ["Identifiant ASTER", current.id]].map(([label, value]) => `<div><small>${escapeHtml(label)}</small><strong>${escapeHtml(value)}</strong></div>`).join("");
+    }
+    function editCurrent() {
+      show("modifier");
+      const form = document.getElementById("editForm");
+      ["model", "brand", "received", "serial", "room"].forEach(key => { form.elements[key].value = current[key] || ""; });
+      form.elements.out.value = String(current.out);
+    }
+    function fillAssetSelect() {
+      const select = document.getElementById("assign-asset");
+      select.innerHTML = assets.map(asset => `<option value="${escapeHtml(asset.id)}">${escapeHtml(asset.model)} — ${escapeHtml(asset.id)}</option>`).join("");
+      select.value = current?.id || assets[0].id;
+      document.getElementById("assign-room").value = current?.room || "Stock";
+    }
+    function toast(message) {
+      const element = document.getElementById("toast");
+      element.textContent = message;
+      element.classList.add("is-visible");
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => element.classList.remove("is-visible"), 2400);
+    }
+
+    document.getElementById("addForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(event.target));
+      const nextNumber = Math.max(...assets.map(asset => Number(asset.id.replace("MAT-", "")))) + 1;
+      current = { id: `MAT-${String(nextNumber).padStart(4, "0")}`, ...data, out: data.out === "true" };
+      assets.unshift(current);
+      event.target.reset();
+      toast("Matériel ajouté à la démonstration.");
+      show("fiche");
+    });
+    document.getElementById("editForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(event.target));
+      Object.assign(current, data, { out: data.out === "true" });
+      toast("Fiche mise à jour.");
+      show("fiche");
+    });
+    document.getElementById("assignForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(event.target));
+      current = assets.find(asset => asset.id === data.asset);
+      current.room = data.room;
+      toast("Affectation mise à jour.");
+      show("fiche");
+    });
+    function renderGroup() {
+      const query = document.getElementById("group-search").value.trim().toLowerCase();
+      const list = assets.filter(asset => `${asset.model} ${asset.serial} ${asset.id}`.toLowerCase().includes(query));
+      document.getElementById("group-rows").innerHTML = list.length
+        ? list.map(asset => `<tr class="selectable-row ${selected.has(asset.id) ? "is-selected" : ""}" tabindex="0" aria-selected="${selected.has(asset.id)}" onclick="toggleRow('${asset.id}')" onkeydown="activateRow(event, '${asset.id}', toggleRow)"><td><input type="checkbox" aria-label="Sélectionner ${escapeHtml(asset.model)}" ${selected.has(asset.id) ? "checked" : ""} onclick="event.stopPropagation()" onchange="toggleSelect('${asset.id}', this.checked)"></td><td>${materialMarkup(asset)}</td><td>${escapeHtml(asset.id)}</td><td>${escapeHtml(asset.serial || "—")}</td><td>${escapeHtml(asset.room)}</td><td>${statusMarkup(asset)}</td></tr>`).join("")
+        : `<tr><td colspan="6" class="empty">Aucun matériel ne correspond à la recherche.</td></tr>`;
+      document.getElementById("selected-count").textContent = selected.size ? `${selected.size} matériel${selected.size > 1 ? "s" : ""} sélectionné${selected.size > 1 ? "s" : ""}` : "Aucun matériel sélectionné";
+      updateBulkAction();
+    }
+    function updateBulkAction() {
+      document.getElementById("bulk-button").disabled = !selected.size || !document.getElementById("group-room").value;
+    }
+    function toggleSelect(id, checked) {
+      if (checked) selected.add(id); else selected.delete(id);
+      renderGroup();
+    }
+    function toggleRow(id) {
+      if (selected.has(id)) selected.delete(id); else selected.add(id);
+      renderGroup();
+    }
+    function bulkAssign() {
+      const room = document.getElementById("group-room").value;
+      if (!selected.size || !room) { toast("Sélectionner des matériels et une destination."); return; }
+      assets.filter(asset => selected.has(asset.id)).forEach(asset => { asset.room = room; });
+      const count = selected.size;
+      selected.clear();
+      document.getElementById("group-room").value = "";
+      renderGroup();
+      toast(`${count} matériel${count > 1 ? "s" : ""} affecté${count > 1 ? "s" : ""}.`);
+    }
+    document.querySelectorAll(".nav button[data-screen]").forEach(button => button.addEventListener("click", () => show(button.dataset.screen)));
+    const initialScreen = new URLSearchParams(window.location.search).get("screen");
+    show(Object.hasOwn(screenNames, initialScreen) ? initialScreen : "dashboard");
+  </script>
+</body>
+</html>

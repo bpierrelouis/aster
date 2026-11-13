@@ -5,7 +5,7 @@ const slides = [
     duration: 45,
     notes: "Introduire le support comme une proposition de cadrage. Le déroulé suit les priorités fonctionnelles : matériels, remontées, puis processus et applications.",
     html: `
-      <img class="cover-logo" src="../../archive/design-assets/logos/orion-horizontal-inverse.svg" alt="ORION">
+      <img class="cover-logo" src="../../archive/design/ressources/2026-11-12/logos/orion-horizontal-inverse.svg" alt="ORION">
       <div>
         <p class="eyebrow">Présentation client · 4 novembre 2026</p>
         <h1>ORION, proposition de cadrage</h1>
@@ -49,8 +49,8 @@ const slides = [
       <h2>Direction artistique proposée</h2>
       <div class="brand-layout">
         <div class="brand-signatures">
-          <div class="signature-light"><img src="../../archive/design-assets/logos/orion-horizontal.svg" alt="Logo ORION sur fond clair"></div>
-          <div class="signature-dark"><img src="../../archive/design-assets/logos/orion-horizontal-inverse.svg" alt="Logo ORION sur fond sombre"></div>
+          <div class="signature-light"><img src="../../archive/design/ressources/2026-11-12/logos/orion-horizontal.svg" alt="Logo ORION sur fond clair"></div>
+          <div class="signature-dark"><img src="../../archive/design/ressources/2026-11-12/logos/orion-horizontal-inverse.svg" alt="Logo ORION sur fond sombre"></div>
         </div>
         <div class="palette-line" aria-label="Palette de couleurs">
           <div style="--swatch:#17243B"><span></span><b>Encre</b><small>#17243B</small></div>
@@ -60,10 +60,10 @@ const slides = [
           <div style="--swatch:#E8B84E"><span></span><b>Cœur</b><small>#E8B84E</small></div>
         </div>
         <div class="brand-icons">
-          <div><img src="../../archive/design-assets/icons/materiel.svg" alt=""><span>Matériels</span></div>
-          <div><img src="../../archive/design-assets/icons/documents.svg" alt=""><span>Remontées</span></div>
-          <div><img src="../../archive/design-assets/icons/supervision.svg" alt=""><span>Processus</span></div>
-          <div><img src="../../archive/design-assets/icons/administration.svg" alt=""><span>Applications</span></div>
+          <div><img src="../../archive/design/ressources/2026-10-21/icons/materiel.svg" alt=""><span>Matériels</span></div>
+          <div><img src="../../archive/design/ressources/2026-10-21/icons/documents.svg" alt=""><span>Remontées</span></div>
+          <div><img src="../../archive/design/ressources/2026-10-21/icons/supervision.svg" alt=""><span>Processus</span></div>
+          <div><img src="../../archive/design/ressources/2026-10-21/icons/administration.svg" alt=""><span>Applications</span></div>
         </div>
       </div>`
   },
@@ -77,19 +77,19 @@ const slides = [
       <div class="understanding-sequence">
         <div>
           <b>01</b>
-          <img src="../../archive/design-assets/icons/materiel.svg" alt="">
+          <img src="../../archive/design/ressources/2026-10-21/icons/materiel.svg" alt="">
           <h3>Gestion des matériels</h3>
           <p>Remplacer le suivi sous Excel par un inventaire centralisé et relié aux salles.</p>
         </div>
         <div>
           <b>02</b>
-          <img src="../../archive/design-assets/icons/documents.svg" alt="">
+          <img src="../../archive/design/ressources/2026-10-21/icons/documents.svg" alt="">
           <h3>Remontées utilisateur</h3>
           <p>Déclarer un problème sur un ou plusieurs matériels et produire un état des lieux.</p>
         </div>
         <div>
           <b>03</b>
-          <img src="../../archive/design-assets/icons/supervision.svg" alt="">
+          <img src="../../archive/design/ressources/2026-10-21/icons/supervision.svg" alt="">
           <h3>Processus et applications</h3>
           <p>Superviser l'utilisation des postes et déclencher les opérations d'administration.</p>
         </div>
@@ -120,13 +120,13 @@ const slides = [
         <p class="lead">Le premier incrément utile couvre le cycle quotidien d'un matériel, de son arrivée à son affectation.</p>
       </div>
       <div class="mvp-path">
-        <div><span>1</span><img src="../../archive/design-assets/icons/materiel.svg" alt=""><p>Enregistrer ou importer</p></div>
+        <div><span>1</span><img src="../../archive/design/ressources/2026-10-21/icons/materiel.svg" alt=""><p>Enregistrer ou importer</p></div>
         <i aria-hidden="true"></i>
-        <div><span>2</span><img src="../../archive/design-assets/icons/recherche.svg" alt=""><p>Rechercher et consulter</p></div>
+        <div><span>2</span><img src="../../archive/design/ressources/2026-10-21/icons/recherche.svg" alt=""><p>Rechercher et consulter</p></div>
         <i aria-hidden="true"></i>
-        <div><span>3</span><img src="../../archive/design-assets/icons/salles.svg" alt=""><p>Affecter à une salle</p></div>
+        <div><span>3</span><img src="../../archive/design/ressources/2026-10-21/icons/salles.svg" alt=""><p>Affecter à une salle</p></div>
         <i aria-hidden="true"></i>
-        <div><span>4</span><img src="../../archive/design-assets/icons/deplacement.svg" alt=""><p>Déplacer et suivre l'état</p></div>
+        <div><span>4</span><img src="../../archive/design/ressources/2026-10-21/icons/deplacement.svg" alt=""><p>Déplacer et suivre l'état</p></div>
       </div>`
   },
   {
@@ -192,13 +192,13 @@ const slides = [
     html: `
       <h2>Parcours proposé pour les remontées</h2>
       <div class="simple-flow">
-        <div><b>01</b><img src="../../archive/design-assets/icons/materiel.svg" alt=""><h3>Matériels concernés</h3><p>Un ou plusieurs matériels</p></div>
+        <div><b>01</b><img src="../../archive/design/ressources/2026-10-21/icons/materiel.svg" alt=""><h3>Matériels concernés</h3><p>Un ou plusieurs matériels</p></div>
         <i aria-hidden="true"></i>
-        <div><b>02</b><img src="../../archive/design-assets/icons/alertes.svg" alt=""><h3>Problème décrit</h3><p>Type et description</p></div>
+        <div><b>02</b><img src="../../archive/design/ressources/2026-10-21/icons/alertes.svg" alt=""><h3>Problème décrit</h3><p>Type et description</p></div>
         <i aria-hidden="true"></i>
-        <div><b>03</b><img src="../../archive/design-assets/icons/documents.svg" alt=""><h3>PDF généré</h3><p>État des lieux</p></div>
+        <div><b>03</b><img src="../../archive/design/ressources/2026-10-21/icons/documents.svg" alt=""><h3>PDF généré</h3><p>État des lieux</p></div>
         <i aria-hidden="true"></i>
-        <div><b>04</b><img src="../../archive/design-assets/icons/recherche.svg" alt=""><h3>Traitement suivi</h3><p>En attente, remplacé ou corrigé</p></div>
+        <div><b>04</b><img src="../../archive/design/ressources/2026-10-21/icons/recherche.svg" alt=""><h3>Traitement suivi</h3><p>En attente, remplacé ou corrigé</p></div>
       </div>`
   },
   {
@@ -210,13 +210,13 @@ const slides = [
       <h2>Gestion proposée des processus et applications</h2>
       <div class="process-columns">
         <div>
-          <img src="../../archive/design-assets/icons/supervision.svg" alt="">
+          <img src="../../archive/design/ressources/2026-10-21/icons/supervision.svg" alt="">
           <h3>Processus</h3>
           <p>Consulter les processus utilisateur d'une salle.</p>
           <p>Arrêter un processus autorisé manuellement ou appliquer une règle de blacklist.</p>
         </div>
         <div>
-          <img src="../../archive/design-assets/icons/administration.svg" alt="">
+          <img src="../../archive/design/ressources/2026-10-21/icons/administration.svg" alt="">
           <h3>Applications</h3>
           <p>Consulter les applications installées sur un poste.</p>
           <p>Déclencher l'installation prévue ou la réapplication d'une image Windows.</p>
@@ -255,15 +255,15 @@ const slides = [
         <span class="target-link directory-link" aria-hidden="true"></span>
         <div class="target-node directory-node"><h3>LDAP</h3><p>Annuaire des utilisateurs</p></div>
         <span class="auth-branch" aria-hidden="true"></span>
-        <div class="target-node browser-node"><img src="../../archive/design-assets/icons/recherche.svg" alt=""><h3>Utilisateurs</h3><p>Firefox · réseau interne NP</p></div>
+        <div class="target-node browser-node"><img src="../../archive/design/ressources/2026-10-21/icons/recherche.svg" alt=""><h3>Utilisateurs</h3><p>Firefox · réseau interne NP</p></div>
         <span class="target-link browser-link" aria-hidden="true"></span>
-        <div class="target-node front-node"><img src="../../archive/design-assets/logos/orion-horizontal.svg" alt="ORION"><h3>Serveur front</h3><p>Interface web</p></div>
+        <div class="target-node front-node"><img src="../../archive/design/ressources/2026-11-12/logos/orion-horizontal.svg" alt="ORION"><h3>Serveur front</h3><p>Interface web</p></div>
         <span class="target-link front-link" aria-hidden="true"></span>
         <div class="target-node back-node"><h3>Serveur back</h3><p>API, fonctions métier et droits</p></div>
         <span class="target-link back-link" aria-hidden="true"></span>
-        <div class="target-node windows-node"><img src="../../archive/design-assets/icons/administration.svg" alt=""><h3>Services Windows</h3><p>Administration et déploiement</p></div>
+        <div class="target-node windows-node"><img src="../../archive/design/ressources/2026-10-21/icons/administration.svg" alt=""><h3>Services Windows</h3><p>Administration et déploiement</p></div>
         <span class="target-link posts-link" aria-hidden="true"></span>
-        <div class="target-node posts-node"><img src="../../archive/design-assets/icons/salles.svg" alt=""><h3>Postes Windows</h3><p>Aucun agent ORION</p></div>
+        <div class="target-node posts-node"><img src="../../archive/design/ressources/2026-10-21/icons/salles.svg" alt=""><h3>Postes Windows</h3><p>Aucun agent ORION</p></div>
         <span class="storage-branch" aria-hidden="true"></span>
         <div class="target-stores">
           <div class="target-store"><h3>Base de données ORION</h3><p>Parc, profils et remontées</p></div>
