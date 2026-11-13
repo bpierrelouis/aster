@@ -1072,9 +1072,17 @@
         "version": "1.5",
         "date": "2026-11-13",
         "modification": "Aligner l’architecture réelle sur la configuration versionnée : création des identités, image Keycloak, flux d’Express, absence de filtrage, secrets et versions",
+        "archive": null,
+        "commit": "c563b5a"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-13",
+        "modification": "DAT de référence du collègue repris de main (recensement RECON, cible C1NP fiabilisée) ; fichier sans en-tête de version, à ne pas modifier",
         "archive": null
       }
-    ]
+    ],
+    "sans_entete": true
   },
   "docs/18-DIAGRAMMES-ARCHITECTURE.md": {
     "destination": "Production destinée à la remise",

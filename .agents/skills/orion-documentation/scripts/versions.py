@@ -94,7 +94,7 @@ def entete(chemin, fiche):
 
 def poser_entete(chemin, fiche):
     fichier = ROOT / chemin
-    if fichier.suffix != ".md" or fiche.get("retire") or not fichier.exists():
+    if fichier.suffix != ".md" or fiche.get("retire") or fiche.get("sans_entete") or not fichier.exists():
         return
     texte = BLOC.sub("\n", fichier.read_text(encoding="utf-8"), count=1)
     lignes = texte.split("\n")
