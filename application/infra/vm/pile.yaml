@@ -1,5 +1,5 @@
-# Pile Docker Swarm « orion » du démonstrateur (dossier d'architecture, § 4.5) : managers orion-1 à orion-3 ; entrée (HAProxy) sur orion-1,
-# seule adresse des utilisateurs (https://172.16.131.188) ; application orion-4 et orion-5, PostgreSQL orion-6, identité orion-7,
+# Pile Docker Swarm « orion » du démonstrateur (dossier d'architecture, § 4.5) : managers orion-1 à orion-3 ; entrée (HAProxy) sur orion-1 ;
+# application orion-4 et orion-5, PostgreSQL orion-6, identité orion-7,
 # Logstash orion-8, VM de secours orion-9 ; données et logs sur le stockage NFS d'orion-10, hors Swarm.
 # Déployée par deployer.sh, qui fournit ORION_IMAGES, ORION_TAG et les empreintes des configurations.
 
@@ -22,7 +22,7 @@ x-relance: &relance
 # Volumes NFSv4 d'orion-10 (stockage, hors Swarm), montés par la VM qui exécute le service
 x-nfs: &nfs
   type: nfs
-  o: addr=172.16.131.197,nfsvers=4.2,hard
+  o: addr=${ORION_STOCKAGE},nfsvers=4.2,hard
 
 services:
   # Une instance, relancée sur orion-1 (seule VM étiquetée orion=entree), dont l'adresse est celle des utilisateurs
@@ -58,8 +58,8 @@ services:
     <<: *logs
     image: ${ORION_IMAGES}/orion-api:${ORION_TAG}
     environment:
-      APP_URL: https://172.16.131.188
-      OIDC_ISSUER: https://172.16.131.188/realms/orion
+      APP_URL: https://${ORION_ENTREE}
+      OIDC_ISSUER: https://${ORION_ENTREE}/realms/orion
       OIDC_CLIENT_ID: orion-web
       IDENTITY_PROVISIONING: 'true'
       SEED_RESET: 'true'
@@ -145,9 +145,9 @@ services:
     <<: *logs
     image: ${ORION_IMAGES}/orion-keycloak:${ORION_TAG}
     environment:
-      APP_URL: https://172.16.131.188
-      KC_HOSTNAME: https://172.16.131.188
-      KC_HOSTNAME_ADMIN: https://172.16.131.188:8444
+      APP_URL: https://${ORION_ENTREE}
+      KC_HOSTNAME: https://${ORION_ENTREE}
+      KC_HOSTNAME_ADMIN: https://${ORION_ENTREE}:8444
       KC_BOOTSTRAP_ADMIN_USERNAME: keycloak-admin
       ORION_COMPTES_PRESENTATION: 'true' # jetons de présentation au client, retirés en production
     secrets:
@@ -223,8 +223,7 @@ secrets:
   orion_postgres_password: { external: true }
   ldap_admin: { external: true }
   ca: { external: true }
-  # Certificats émis pour une adresse IP (entrée : 172.16.131.188, collecteur : 127.0.0.1) ; un secret Swarm est immuable,
-  # le suffixe « ip » distingue ceux-ci des certificats émis pour l'ancien nom orion.internal
+  # Certificats émis pour les adresses IP de l'entrée et du collecteur ; un secret Swarm est immuable.
   tls_entree: { external: true, name: orion_tls_entree_ip }
   tls_collecteur_cle: { external: true, name: orion_tls_collecteur_cle_ip }
   tls_collecteur_cert: { external: true, name: orion_tls_collecteur_cert_ip }

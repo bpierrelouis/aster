@@ -254,6 +254,7 @@ Contenu attendu :
 - **contexte** : besoins et contraintes structurantes, présentés au plus près de l’architecture cible ;
 - **justification des briques** : rôle et choix de chaque composant, également au plus près de l’architecture cible ;
 - **architecture réelle** : celle effectivement mise en place pour la démonstration, réalisée le plus proprement possible avec les capacités et le savoir-faire de l’équipe ;
+- **configurations de l’architecture réelle** : tous les fichiers versionnés nécessaires à sa construction, son installation et son déploiement, remis avec le DAT dans leur arborescence, sans secret ni valeur générée à l’exécution ;
 - **versions des technologies** utilisées ;
 - **architecture cible**.
 
@@ -261,7 +262,7 @@ Contraintes de l’architecture cible :
 
 - une application non protégée (NP) du ministère des Armées est hébergée sur le C1NP (cloud maîtrisé non protégé) ;
 - le système dispose d’un puits de logs ;
-- le système expose les points d’accès `/api/health` et `/api/info` ;
+- le système expose les points d’accès `/api/health` et `/api/infos` ;
 - le système peut accéder à MindefConnect sur Internet, à Medusa (dépôt de paquets) et à Sismel (plateforme de messagerie).
 
 ### Soutenance

@@ -22,7 +22,7 @@ HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=3 \
   CMD ["node", "-e", "fetch('http://127.0.0.1:3001/api/health').then(() => process.exit(0), () => process.exit(1))"]
 CMD ["node", "backend/start-production.ts"]
 
-# Émulateur des postes Windows
+# Simulateur des postes Windows et de leur agent d'administration
 FROM node AS postes
 CMD ["node", "backend/demonstrateur/agents.ts"]
 

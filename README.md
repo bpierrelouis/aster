@@ -12,7 +12,7 @@ Elle vise à remplacer la gestion du parc informatique sous Excel par un outil c
 
 ## Développement
 
-Le dossier [application/](application/README.md) regroupe le front React/Vite (`frontend/`), le back Express (`backend/`) et l’infrastructure PostgreSQL/Keycloak (`infra/`). Le code applicatif est écrit en JavaScript ; les icônes de l’interface utilisent Lucide.
+Le dossier [application/](application/README.md) regroupe le front React/Vite (`frontend/`), le back Express (`backend/`) et l’infrastructure PostgreSQL/Keycloak (`infra/`). Le code applicatif est écrit en TypeScript strict ; les icônes de l’interface utilisent Lucide.
 
 Avec Node.js 22.22 ou supérieur et Docker Desktop démarré :
 
@@ -37,10 +37,10 @@ Les productions remises aux cadres évaluateurs décrivent l’application cible
 
 | Destination | Fichiers concernés | Règle de contenu |
 | --- | --- | --- |
-| Productions destinées à la remise | Glossaire `docs/00-*`, règles et productions `docs/04-*` à `docs/18-*`, avec leurs images nécessaires dans `docs/assets/` | Fonctionnement cible, droits, données et contraintes de production ; aucune modalité propre au démonstrateur, sauf l’architecture réelle que le dossier d’architecture technique doit présenter, sans identifiant ni consigne de lancement |
+| Productions destinées à la remise | Glossaire `docs/00-*`, règles et productions `docs/04-*` à `docs/18-*`, avec leurs images nécessaires dans `docs/assets/` ; configurations versionnées décrites dans le [déploiement sur les VM](application/README.md#déploiement-sur-les-vm) | Fonctionnement cible, droits, données et contraintes de production ; le DAT, ses schémas et les configurations associées présentent aussi l’architecture réelle, sans inclure de secret ni de valeur générée à l’exécution |
 | Sources de travail internes | Cadrage `docs/02-*` et entretiens `docs/03-*` | Réponses en vigueur et historique des échanges ; ne pas les joindre automatiquement à une remise |
 | Source fournie par l’encadrement | Consignes `docs/01-*` | Sujet et critères d’évaluation, distincts des productions de l’équipe |
-| Réalisation et exploitation internes | `application/`, son README et ses configurations ; README général et `AGENTS.md` | Implémentation, démarrage, comptes de test et limites du démonstrateur |
+| Réalisation et exploitation internes | Le reste d’`application/`, son README, le README général et `AGENTS.md` | Implémentation, démarrage, comptes de test et limites du démonstrateur ; seules les configurations décrites dans le guide applicatif accompagnent la remise du DAT |
 | Brouillons et ressources de préparation | `docs/temporaire/`, `design/` et sources éditables des modèles | Travaux et ressources à sélectionner avant inclusion dans un livrable |
 | Supports datés | `presentations/` | Conserver le contexte historique ; sélectionner et adapter le support destiné à chaque nouvelle remise |
 

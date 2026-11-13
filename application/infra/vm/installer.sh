@@ -6,8 +6,8 @@
 # DISQUE_DONNEES et DISQUE_LOGS : disques de données et de logs d'orion-10, formatés en ext4 s'ils sont vierges (/dev/sdb et /dev/sdc par défaut) ;
 # un disque absent est remplacé par un fichier image ext4 (6 Go pour les données, 4 Go pour les logs) dans /srv/orion/disques.
 # Idempotent : relancer le script ne recrée ni le cluster, ni les secrets, ni les certificats existants ; il amène un cluster
-# existant à la répartition prévue (managers, workers, étiquettes), fait quitter le cluster à orion-10 et à toute VM
-# membre d'un autre cluster, et retire toute autre pile que « orion ».
+# existant à la répartition prévue (managers, workers, étiquettes), et fait quitter le cluster à orion-10 et à toute VM
+# membre d'un autre cluster. Les autres piles éventuellement présentes ne sont pas modifiées.
 set -euo pipefail
 cd "$(dirname "$0")"
 . ./vm.sh
@@ -147,12 +147,6 @@ for n in 1 2 3 4 5 6 7 8 9; do
   for e in $voulues; do [[ $actuelles == *" $e "* ]] || modifications+=(--label-add "$e"); done
   [ ${#modifications[@]} -eq 0 ] || docker_vm node update "${modifications[@]}" "orion-$n" >/dev/null
 done
-for pile in $(docker_vm stack ls --format '{{.Name}}'); do
-  [ "$pile" = orion ] && continue
-  echo "== retrait de la pile « $pile », remplacée par « orion »"
-  docker_vm stack rm "$pile" >/dev/null
-done
-
 # 5. Secrets Swarm, créés une fois avec des valeurs aléatoires (aucune copie sur le poste, sauf les certificats)
 aleatoire() { openssl rand -hex 32; }
 secret() { # nom valeur

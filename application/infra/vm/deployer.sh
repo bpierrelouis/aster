@@ -8,9 +8,15 @@ cd "$(dirname "$0")"
 
 [ $# -eq 2 ] || { echo "Usage : $0 <compte Docker Hub> <étiquette>" >&2; exit 2; }
 ORION_IMAGES=$1 ORION_TAG=$2
+[[ $ORION_IMAGES =~ ^[A-Za-z0-9._/-]+$ ]] || { echo "Compte Docker Hub invalide : $ORION_IMAGES" >&2; exit 2; }
+[[ $ORION_TAG =~ ^[0-9a-fA-F]{7,64}$ ]] || { echo "Étiquette attendue : SHA Git de 7 à 64 caractères hexadécimaux" >&2; exit 2; }
 # Les configurations Swarm sont immuables : leur nom porte l'empreinte du contenu
-empreinte() { tr -d '\r' < "$1" | sha256sum | cut -c1-12; }
-VARIABLES="ORION_IMAGES=$ORION_IMAGES ORION_TAG=$ORION_TAG EMPREINTE_HAPROXY=$(empreinte haproxy.cfg) \
+empreinte() {
+  if command -v sha256sum >/dev/null; then tr -d '\r' < "$1" | sha256sum | cut -c1-12
+  else tr -d '\r' < "$1" | shasum -a 256 | cut -c1-12
+  fi
+}
+VARIABLES="ORION_IMAGES=$ORION_IMAGES ORION_TAG=$ORION_TAG ORION_ENTREE=$ENTREE ORION_STOCKAGE=${VM[10]} EMPREINTE_HAPROXY=$(empreinte haproxy.cfg) \
 EMPREINTE_LOGSTASH=$(empreinte logstash.conf) EMPREINTE_LDAP=$(empreinte ../ldap/orion-utilisateurs.ldif)"
 
 # La VM de secours est vidée pendant le déploiement, pour que PostgreSQL, l'identité et Logstash démarrent sur leur VM ;

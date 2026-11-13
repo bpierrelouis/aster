@@ -47,7 +47,7 @@ Les couleurs et les fonds sont des jetons ([styles/tokens.css](frontend/src/work
 
 Ambiance Minarm (ministère des Armées, nommée État jusqu’au 11 novembre ; une préférence `etat` devient `minarm`) : valeurs reprises du paquet officiel [@gouvfr/dsfr](https://www.npmjs.com/package/@gouvfr/dsfr) 1.15.4 (Service d’information du Gouvernement, licence Etalab 2.0 ; documentation : [systeme-de-design.gouv.fr](https://www.systeme-de-design.gouv.fr/), rubrique Couleurs), modes clair et sombre (jetons `background-*`, `text-*`, `border-*`, `*-blue-france`, `success`, `error`, `warning` et couleurs illustratives). La police officielle Marianne est servie localement pour les textes et les titres (graisses Regular, Medium et Bold et leurs italiques, fichiers WOFF2 inchangés du même paquet, [sources et licence](frontend/src/workspace/assets/fonts/SOURCES.md)) ; Arial est utilisée en repli. Le symbole de la Marianne ([ui/marianne.tsx](frontend/src/workspace/ui/marianne.tsx), tracés du bloc-marque du DSFR) remplace la fleur dans le menu, dans un cercle : le dessin officiel, coupé en haut et en bas, y est complété (haut de la tête, buste). Au survol, le médaillon grandit légèrement et un reflet le traverse, comme sur une médaille, sans déformer le dessin officiel (animation supprimée si le système demande de réduire les animations) : la marque de l’État est réservée aux services de l’État, ce qui correspond à la cible d’ORION (ministère des Armées), mais son emploi reste à confirmer avec le client.
 
-PostgreSQL et JavaScript répondent à la demande de l’utilisateur du 6 novembre 2026. React, React Router, Vite, Express et OpenID Connect sont des choix d’implémentation. L’interface est une seule application React : la page de connexion, puis l’espace de travail, chargé seulement après la connexion, avec une adresse par écran (`/accueil`, `/salles/batiment/A`, `/remontees/backlog`, `/remontees/attente`…). Le thème Keycloak reprend les captures de référence du [bouton d’accès](../design/MinDefConnect/reference-bouton-acces-mindefconnect.png) et du [formulaire de connexion](../design/MinDefConnect/reference-formulaire-connexion-mindefconnect.png).
+PostgreSQL et une préférence initiale pour JavaScript ont orienté la réalisation ; le code applicatif est désormais écrit en TypeScript strict. React, React Router, Vite, Express et OpenID Connect sont des choix d’implémentation. L’interface est une seule application React : la page de connexion, puis l’espace de travail, chargé seulement après la connexion, avec une adresse par écran (`/accueil`, `/salles/batiment/A`, `/remontees/backlog`, `/remontees/attente`…). Le thème Keycloak reprend les captures de référence du [bouton d’accès](../design/MinDefConnect/reference-bouton-acces-mindefconnect.png) et du [formulaire de connexion](../design/MinDefConnect/reference-formulaire-connexion-mindefconnect.png).
 
 ## Deux modes de lancement
 
@@ -69,7 +69,7 @@ npm run infra:up
 npm run dev
 ```
 
-`npm run dev` lance le serveur Express, l’interface Vite et l’émulateur de postes (`npm run dev:postes`).
+`npm run dev` lance le serveur Express, l’interface Vite et le simulateur des postes et de leur agent d’administration (`npm run dev:postes`).
 
 | Service | Adresse | Usage |
 | --- | --- | --- |
@@ -159,7 +159,7 @@ Le serveur ne garde aucun état qui fasse autorité : plusieurs serveurs Express
 Les postes communiquent par l’API `/api/agent` du serveur, authentifiée par un jeton porteur ([backend/workspace/routes.ts](backend/workspace/routes.ts)) :
 
 - **Jeton propre à un poste** : `NOM:signature`, signature HMAC-SHA256 du nom réseau par le secret `AGENT_TOKEN`, que le poste ne connaît pas. Un administrateur l’obtient pour un poste de son périmètre par `GET /api/workspace/postes/:id/jeton`. Le poste n’envoie que ses propres rapports et résultats ; un jeton extrait d’un poste ne permet pas d’agir au nom d’un autre.
-- **Secret `AGENT_TOKEN`** : réservé à une passerelle de confiance qui rapporte pour plusieurs postes en un envoi (l’émulateur du démonstrateur) ; seul à lister les postes.
+- **Secret `AGENT_TOKEN`** : réservé à une passerelle de confiance qui rapporte pour plusieurs postes en un envoi (le simulateur du démonstrateur) ; seul à lister les postes.
 
 | Route | Rôle |
 | --- | --- |
@@ -285,13 +285,13 @@ Variables complémentaires, notamment pour le démonstrateur déployé sur VM en
 
 | Variable | Rôle | Valeur par défaut |
 | --- | --- | --- |
-| `HOST` | Adresse d’écoute du serveur ; `0.0.0.0` dans un conteneur, pour être joint par le proxy et par l’émulateur | `127.0.0.1` |
+| `HOST` | Adresse d’écoute du serveur ; `0.0.0.0` dans un conteneur, pour être joint par le proxy et par le simulateur | `127.0.0.1` |
 | `SEED_RESET` | `true` : réinitialise les données quand la version du jeu de départ (`SEED_VERSION`) change, même en mode production (démonstrateur sur VM) ; sinon le serveur refuse de démarrer sur des données d’une autre version | actif hors production seulement |
 | `IDENTITY_PROVISIONING` | `true` : crée dans le Keycloak local les identités des comptes actifs, même en mode production ; exige alors un `PROVISIONING_CLIENT_SECRET` dédié | actif hors production seulement |
 | `PROVISIONING_CLIENT_SECRET` | Secret du client `orion-provisionnement` (compte de service de création des identités ; secret Swarm sur les VM, repris par l’import du realm) | `orion-provisionnement-local` |
 | `KEYCLOAK_ADMIN_URL` | Adresse de l’API d’administration de Keycloak, si elle diffère de l’émetteur (sur les VM : `http://keycloak:8080`) | origine de `OIDC_ISSUER` |
 | `NODE_EXTRA_CA_CERTS` | Fichier de l’autorité de certification à reconnaître pour joindre Keycloak en HTTPS (variable native de Node.js) | aucune |
-| `ORION_API` | Adresse du serveur pour l’émulateur des postes (sur les VM : `http://api:3001`) | `http://127.0.0.1:3001` |
+| `ORION_API` | Adresse du serveur pour le simulateur des postes (sur les VM : `http://api:3001`) | `http://127.0.0.1:3001` |
 | `WEB_URL` | Serveur web contrôlé par `/api/health` (sur les VM : `http://apache:8080`) | non contrôlé |
 | `LDAP_URL` | Annuaire contrôlé par `/api/health` (sur les VM : `ldap://ldap:389`) | non contrôlé |
 | `SYSLOG_URL` | Collecteur de logs contrôlé par `/api/health` (sur les VM : `tcp://logstash:6514`) | non contrôlé |
@@ -305,7 +305,7 @@ Le [Dockerfile](Dockerfile) produit une image par cible :
 | --- | --- | --- | --- |
 | `web` | Apache 2.4 et le build React ; toute adresse sans fichier renvoie `index.html` | `8080` | `docker build --target web .` |
 | `api` | Express en mode production, écoute sur `0.0.0.0` | `3001` | `docker build --target api .` |
-| `postes` | Émulateur des postes | aucun | `docker build --target postes .` |
+| `postes` | Simulateur des postes et de leur agent d’administration | aucun | `docker build --target postes .` |
 | `keycloak` | Keycloak des VM avec le realm et le thème de connexion | `8080` | `docker build --target keycloak .` |
 
 Au démarrage, les images `api`, `postes` et `keycloak` transmettent chaque secret Docker Swarm `/run/secrets/NOM` au service dans la variable d’environnement `NOM` ([infra/images/secrets.sh](infra/images/secrets.sh)) : le secret porte donc le nom de la variable (`SESSION_SECRET`, `DATABASE_URL`…). Le contrôle de santé de `api` vérifie seulement que le serveur répond, pas que PostgreSQL et Keycloak sont joignables : une panne d’un service voisin ne fait pas relancer les instances d’Express.
@@ -329,13 +329,14 @@ Les VM `orion-1` à `orion-10` (adresses dans [infra/vm/vm.sh](infra/vm/vm.sh), 
 | [pile.yaml](infra/vm/pile.yaml) | Pile Swarm `orion` : services, placement, instances, secrets, volumes, logs `syslog` |
 | [haproxy.cfg](infra/vm/haproxy.cfg) | Entrée : TLS, `443` interface, API et connexion Keycloak (console refusée), `8444` console Keycloak |
 | [logstash.conf](infra/vm/logstash.conf) | Collecteur : syslog RFC 5424 sur TLS `6514`, `<service>/<jour>.log` dans le volume `logs-nfs` (`/srv/orion/logs/conteneurs` sur orion-10) |
+| [vm.sh](infra/vm/vm.sh) | Source unique des adresses des VM, du réseau, du DNS de formation, de l’entrée et de la VM de secours |
 | [installer.sh](infra/vm/installer.sh) | Certificats, préparation des VM (nom d’hôte, DNS du réseau, horloge, autorité, client NFS), stockage d’orion-10, cluster Swarm (managers, workers, étiquettes), secrets ; reprend un cluster existant |
 | [deployer.sh](infra/vm/deployer.sh) | À chaque version : `docker stack deploy` de la pile `orion` sur orion-1, VM de secours vidée pendant le déploiement, puis contrôle de la version servie par `https://172.16.131.188/api/infos` |
 | [runner.sh](infra/vm/runner.sh) | Runner GitHub Actions du déploiement continu sur orion-3 : service systemd, étiquette `orion`, clé SSH propre autorisée sur orion-1 |
 
 Le realm Keycloak lit `APP_URL`, `OIDC_CLIENT_SECRET` et `LDAP_ADMIN_PASSWORD` s’ils sont définis (`${VARIABLE:valeur locale}`) ; sans eux, il garde les valeurs locales de Compose.
 
-**Installation.** Depuis Git Bash, avec une clé SSH `~/.ssh/orion_deploy` autorisée pour le compte des VM (`ORION_SSH_KEY` et `VM_USER` pour en changer) : `infra/vm/installer.sh`. Le mot de passe `sudo` est lu dans `SUDO_PASSWORD`, sinon demandé ; il n’est enregistré nulle part. Les disques de données et de logs d’orion-10 sont `/dev/sdb` et `/dev/sdc` par défaut (`DISQUE_DONNEES` et `DISQUE_LOGS` pour en changer, `lsblk` sur la VM pour les repérer) : un disque n’est formaté que s’il est vierge, jamais s’il porte des partitions ou un autre système de fichiers ; un disque absent est remplacé par un fichier image ext4 monté en boucle (`/srv/orion/disques`). Le script est idempotent et reprend un cluster existant : il promeut orion-1, orion-2 et orion-3 avant de rétrograder les anciens managers, remet toutes les VM en service, pose les étiquettes, fait quitter le cluster à orion-10 et à toute VM membre d’un autre cluster Swarm (`docker swarm leave --force`), relance Docker sur une VM dont le démon ne porte pas encore son nom `orion-N` et retire toute autre pile que `orion`. Les secrets sont aléatoires et ne sont conservés que dans Swarm ; l’autorité et les certificats restent sur le poste, dans `~/.orion-pki` (hors dépôt). Faire reconnaître `~/.orion-pki/ca.crt` par Firefox (Paramètres → Certificats → Autorités → Importer) ; si le navigateur passe par un proxy, y exclure `172.16.131.188`. Le mot de passe de la console Keycloak (`https://172.16.131.188:8444`, compte `keycloak-admin`) se lit sur la VM qui exécute Keycloak (orion-7, ou orion-9 si elle a repris l’identité) : `docker exec $(docker ps -qf name=orion_keycloak) cat /run/secrets/KC_BOOTSTRAP_ADMIN_PASSWORD`.
+**Installation.** Depuis Git Bash, avec une clé SSH `~/.ssh/orion_deploy` autorisée pour le compte des VM (`ORION_SSH_KEY` et `VM_USER` pour en changer) : `infra/vm/installer.sh`. Le mot de passe `sudo` est lu dans `SUDO_PASSWORD`, sinon demandé ; il n’est enregistré nulle part. Les disques de données et de logs d’orion-10 sont `/dev/sdb` et `/dev/sdc` par défaut (`DISQUE_DONNEES` et `DISQUE_LOGS` pour en changer, `lsblk` sur la VM pour les repérer) : un disque n’est formaté que s’il est vierge, jamais s’il porte des partitions ou un autre système de fichiers ; un disque absent est remplacé par un fichier image ext4 monté en boucle (`/srv/orion/disques`). Le script est idempotent et reprend un cluster existant : il promeut orion-1, orion-2 et orion-3 avant de rétrograder les anciens managers, remet toutes les VM en service, pose les étiquettes, fait quitter le cluster à orion-10 et à toute VM membre d’un autre cluster Swarm (`docker swarm leave --force`) et relance Docker sur une VM dont le démon ne porte pas encore son nom `orion-N`. Les autres piles éventuellement présentes ne sont pas modifiées. Les secrets sont aléatoires et ne sont conservés que dans Swarm ; l’autorité et les certificats restent sur le poste, dans `~/.orion-pki` (hors dépôt). Faire reconnaître `~/.orion-pki/ca.crt` par Firefox (Paramètres → Certificats → Autorités → Importer) ; si le navigateur passe par un proxy, y exclure `172.16.131.188`. Le mot de passe de la console Keycloak (`https://172.16.131.188:8444`, compte `keycloak-admin`) se lit sur la VM qui exécute Keycloak (orion-7, ou orion-9 si elle a repris l’identité) : `docker exec $(docker ps -qf name=orion_keycloak) cat /run/secrets/KC_BOOTSTRAP_ADMIN_PASSWORD`.
 
 **Runner, une fois.** Copier le jeton d’enregistrement proposé par GitHub (Settings → Actions → Runners → New self-hosted runner, valable une heure), puis, depuis le poste : `infra/vm/runner.sh <jeton>`. Le script installe le runner dans `~/actions-runner` sur orion-3, en service systemd du compte des VM avec l’étiquette `orion` et le proxy du réseau, et lui crée une clé SSH autorisée sur orion-1 seulement. Créer ensuite la variable `DEPLOIEMENT_VM` = `true`. Le dépôt étant public, restreindre dans Settings → Actions → General les workflows des contributions externes (« Require approval for all outside collaborators ») : un runner auto-hébergé exécute le code des workflows qu’on lui confie.
 
