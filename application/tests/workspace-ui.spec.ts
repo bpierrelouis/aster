@@ -915,3 +915,50 @@ test('les listes longues se filtrent sans perdre la sélection ni la valeur du f
   expect(panel.x + panel.width).toBeLessThanOrEqual(391);
   await page.screenshot({ path: testInfo.outputPath('liste-filtrable-mobile.png'), fullPage: true });
 });
+
+
+test('le menu du compte reste ancré pendant les changements d’apparence', async ({ page }, testInfo) => {
+  for (const viewport of [{ width: 1280, height: 800 }, { width: 390, height: 600 }]) {
+    await page.setViewportSize(viewport);
+    await open(page, '/accueil');
+    await page.evaluate(() => window.orion.store.update('prefs', (s) => { s.prefs.ambiance = 'orion'; s.prefs.tone = 'light'; }));
+    await expect(page.locator('html')).toHaveAttribute('data-ambiance', 'orion');
+    const account = page.getByRole('button', { name: 'Compte', exact: true });
+    await account.click();
+    const menu = page.locator('.popover');
+    await expect.poll(() => menu.evaluate((node) => node.getAnimations().length)).toBe(0);
+    const origin = (await menu.boundingBox())!;
+    const anchor = (await account.boundingBox())!;
+    expect(Math.abs(origin.y - anchor.y - anchor.height - 10)).toBeLessThan(1);
+    const stable = async () => {
+      await expect(async () => {
+        const box = (await menu.boundingBox())!;
+        expect(Math.abs(box.x - origin.x)).toBeLessThan(1);
+        expect(Math.abs(box.y - origin.y)).toBeLessThan(1);
+        expect(box.y + box.height).toBeLessThanOrEqual(viewport.height - 11);
+      }).toPass({ timeout: 3000 });
+    };
+    const themes = page.getByRole('radiogroup', { name: 'Ambiance' });
+    await themes.getByRole('radio', { name: 'Minarm', exact: true }).hover();
+    await stable();
+    for (const theme of ['Minarm', 'Orion']) {
+      await themes.getByRole('radio', { name: theme, exact: true }).click();
+      await expect(page.locator('html')).toHaveAttribute('data-ambiance', theme.toLowerCase());
+      await page.evaluate(() => document.fonts.ready);
+      await stable();
+    }
+    await page.getByRole('button', { name: 'Passer en sombre', exact: true }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-tone', 'dark');
+    await stable();
+    await page.getByRole('radiogroup', { name: 'Verre' }).getByRole('radio', { name: 'Opaque', exact: true }).click();
+    await stable();
+    await page.getByRole('button', { name: 'Choisir la couleur', exact: true }).click();
+    await stable();
+    await page.getByRole('radiogroup', { name: 'Couleur' }).getByRole('radio', { name: 'Violet', exact: true }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-accent', 'violet');
+    await stable();
+    await page.screenshot({ path: testInfo.outputPath(`menu-stable-${viewport.width}.png`), fullPage: true, animations: 'disabled' });
+    await account.click();
+    await expect(menu).toHaveCount(0);
+  }
+});
