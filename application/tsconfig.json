@@ -14,5 +14,5 @@
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["backend", "shared", "tests", "*.config.ts", "frontend/vite.config.ts", "frontend/vite.rigel.config.ts", "frontend/ui-development.ts"]
+  "include": ["backend", "shared", "outils", "tests", "*.config.ts", "frontend/vite.config.ts", "frontend/vite.rigel.config.ts"]
 }

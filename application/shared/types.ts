@@ -240,7 +240,7 @@ export interface Constat {
   traite?: Trace & { action: ActionConstat };
 }
 
-/** Collections de l'espace de travail, dans l'ordre de `collections` (backend/workspace/rules.ts) */
+/** Collections de l'espace de travail, dans l'ordre de `collections` (backend/domaine/commun.ts) */
 export interface Collections {
   ecoles: Ecole[];
   salles: Salle[];

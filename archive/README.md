@@ -8,8 +8,8 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 
 | Fichier | Destination | Version | Mise à jour |
 | --- | --- | --- | --- |
-| [design/README.md](../design/README.md) | Ressource de préparation | [2.3](#design-readme) | 14/11/2026 |
-| [design/charte-graphique/index.html](../design/charte-graphique/index.html) | Ressource de préparation | [2.1](#design-charte-graphique-index) | 13/11/2026 |
+| [design/README.md](../design/README.md) | Ressource de préparation | [2.4](#design-readme) | 14/11/2026 |
+| [design/charte-graphique/index.html](../design/charte-graphique/index.html) | Ressource de préparation | [2.2](#design-charte-graphique-index) | 14/11/2026 |
 | [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [2.0](#design-maquettes-index) | 13/11/2026 |
 | [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md) | Production destinée à la remise | [3.5](#00-glossaire) | 14/11/2026 |
 | [docs/01-CONTEXTE/01-CONSIGNES.md](../docs/01-CONTEXTE/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.4](#01-consignes) | 14/11/2026 |
@@ -27,7 +27,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md) | Production destinée à la remise | [6.3](#12-matrice-droits) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx) | Production destinée à la remise | [1.1](#13-fiche-descriptive-gestionnaire) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [4.3](#13-fiche-descriptive-gestionnaire) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx) | Production destinée à la remise | [1.0](#14-fiche-descriptive-formateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx) | Production destinée à la remise | [1.1](#14-fiche-descriptive-formateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [3.0](#14-fiche-descriptive-formateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx) | Production destinée à la remise | [1.1](#15-fiche-descriptive-administrateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [4.2](#15-fiche-descriptive-administrateur) | 14/11/2026 |
@@ -41,7 +41,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.3](#20-backlog-et-suivi-projet) | 14/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.1](#20-backlog-et-suivi-projet) | 14/11/2026 |
 | [docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md) | Brouillon interne | [1.3](#20-suivi-backlog-brouillon-v1) | 14/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.10](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.11](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -51,7 +51,8 @@ Fichier : [design/README.md](../design/README.md) · Ressource de préparation
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.3 | 14/11/2026 | Documenter la commande de régénération des captures | en vigueur | — |
+| 2.4 | 14/11/2026 | Chemins de l'interface renommés (espace) | en vigueur | — |
+| 2.3 | 14/11/2026 | Documenter la commande de régénération des captures | `ad9efd5` | [archive](design/readme/README-v2.3-2026-11-14.md) |
 | 2.2 | 13/11/2026 | Icônes métier en Bleu Orion, captures compressées | `e0421f0` | [archive](design/readme/README-v2.2-2026-11-13.md) |
 | 2.1 | 13/11/2026 | Décrire les maquettes simplifiées et les logos à l’étoile | `bf823e8` | [archive](design/readme/README-v2.1-2026-11-13.md) |
 | 2.0 | 13/11/2026 | Présenter l'identité ORION conforme à l'application et archiver les anciennes directions | `e594af2` | [archive](design/readme/README-v2.0-2026-11-13.md) |
@@ -66,7 +67,8 @@ Fichier : [design/charte-graphique/index.html](../design/charte-graphique/index.
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | Centrer ORION sur sa signature, logos à l’étoile | en vigueur | — |
+| 2.2 | 14/11/2026 | Chemins de l'interface renommés (espace) | en vigueur | — |
+| 2.1 | 13/11/2026 | Centrer ORION sur sa signature, logos à l’étoile | `bf823e8` | [archive](design/chartes/charte-graphique-v2.1-2026-11-13.html) |
 | 2.0 | 13/11/2026 | Refondre la charte sur l'application : étoile ORION, palette, ambiances Orion et Minarm, composants | `e594af2` | [archive](design/chartes/charte-graphique-v2.0-2026-11-13.html) |
 | 1.2 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design/chartes/charte-graphique-v1.2-2026-11-12.html) |
 | 1.1 | 03/11/2026 | Organiser les livrables et intégrer la maquette | `03728b6` | [archive](design/chartes/charte-graphique-v1.1-2026-11-03.html) |
@@ -88,7 +90,7 @@ Fichier : [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
 | 3.5 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
-| 3.4 | 14/11/2026 | Système d’exploitation ; recensement, installation, écart et constat | `7aa82ae` | — |
+| 3.4 | 14/11/2026 | Système d’exploitation ; recensement, installation, écart et constat | `186f904` | — |
 | 3.3 | 14/11/2026 | RIGEL : accepter sur place ou ramener (RG-96) | `07a0096` | — |
 | 3.2 | 14/11/2026 | Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | `6219944` | — |
 | 3.1 | 14/11/2026 | RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95) | `1162c04` | — |
@@ -186,7 +188,7 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../do
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
 | 6.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
-| 6.0 | 14/11/2026 | RG-92 à RG-96 simplifiées : installation distincte du recensement, téléphone lié, code inconnu ajouté, matériel mal placé | `7aa82ae` | — |
+| 6.0 | 14/11/2026 | RG-92 à RG-96 simplifiées : installation distincte du recensement, téléphone lié, code inconnu ajouté, matériel mal placé | `186f904` | — |
 | 5.0 | 14/11/2026 | RG-96 : lieu ouvert dans RIGEL ; matériel trouvé ailleurs accepté sur place ou ramené ; RG-93 et RG-95 ajustées | `07a0096` | — |
 | 4.0 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | `6219944` | — |
 | 3.0 | 14/11/2026 | RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95) | `1162c04` | — |
@@ -234,7 +236,7 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md](../doc
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
 | 1.5 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
-| 1.4 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | `69eaf4e` | — |
+| 1.4 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | `186f904` | — |
 | 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/08-DCU-GESTION-PARC.md`) | — |
 | 1.2 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` (`docs/08-DCU-GESTION-PARC.md`) | — |
 | 1.1 | 03/11/2026 | Formaliser les profils et leurs autorisations | `f7310c1` (`docs/08-DCU-GESTION-PARC.md`) | — |
@@ -288,7 +290,7 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
 | 6.3 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
-| 6.2 | 14/11/2026 | Recensement, installation et anciens constats | `7aa82ae` | — |
+| 6.2 | 14/11/2026 | Recensement, installation et anciens constats | `186f904` | — |
 | 6.1 | 14/11/2026 | RIGEL : accepter sur place ou ramener (RG-96) | `07a0096` | — |
 | 6.0 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | `6219944` | — |
 | 5.0 | 14/11/2026 | RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95) | `1162c04` | — |
@@ -309,8 +311,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNA
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 14/11/2026 | Régénérée depuis la fiche | en vigueur | — |
-| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `07a0096` | — |
+| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
+| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `186f904` | — |
 
 ### 13-FICHE-DESCRIPTIVE-GESTIONNAIRE
 
@@ -319,7 +321,7 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNA
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
 | 4.3 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
-| 4.2 | 14/11/2026 | RIGEL : accepter sur place ou ramener (RG-96) | `07a0096` | — |
+| 4.2 | 14/11/2026 | RIGEL : accepter sur place ou ramener (RG-96) | `186f904` | — |
 | 4.1 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | `6219944` | — |
 | 4.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | `5383a9f` | — |
 | 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | `69eaf4e` | — |
@@ -337,7 +339,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | en vigueur | — |
+| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
+| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `186f904` | — |
 
 ### 14-FICHE-DESCRIPTIVE-FORMATEUR
 
@@ -360,8 +363,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTR
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 14/11/2026 | Régénérée depuis la fiche | en vigueur | — |
-| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `07a0096` | — |
+| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
+| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `186f904` | — |
 
 ### 15-FICHE-DESCRIPTIVE-ADMINISTRATEUR
 
@@ -370,7 +373,7 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTR
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
 | 4.2 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
-| 4.1 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école | `6219944` | — |
+| 4.1 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école | `186f904` | — |
 | 4.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | `5383a9f` | — |
 | 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | `69eaf4e` | — |
 | 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
@@ -388,8 +391,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADM
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 14/11/2026 | Régénérée depuis la fiche | en vigueur | — |
-| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `07a0096` | — |
+| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
+| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `186f904` | — |
 
 ### 16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR
 
@@ -398,7 +401,7 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADM
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
 | 4.2 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
-| 4.1 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école | `6219944` | — |
+| 4.1 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école | `186f904` | — |
 | 4.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | `5383a9f` | — |
 | 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | `69eaf4e` | — |
 | 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
@@ -512,7 +515,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.10 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
+| 4.11 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
+| 4.10 | 14/11/2026 | Organisation du code et migrations réalisées ; amorçage de production et écarts du DAT ajoutés | `186f904` | — |
 | 4.9 | 14/11/2026 | Comptes fictifs, tableau des comptes et changement de compte à la connexion ; réinitialisation des données préparée | `b5ee002` | — |
 | 4.8 | 14/11/2026 | Corrections de l’audit du 13 novembre réalisées | `d092d37` | — |
 | 4.7 | 14/11/2026 | RIGEL : accepter sur place ou ramener (RG-96) | `07a0096` | — |

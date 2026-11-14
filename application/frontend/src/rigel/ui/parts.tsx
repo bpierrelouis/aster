@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import type { CSSProperties, ReactNode } from 'react';
-import { Icon } from '../../workspace/ui/icons.tsx';
+import { Icon } from '../../espace/ui/icons.tsx';
 import { OrionMark } from '../../connexion/brand.tsx';
 import { deviceType, logistique } from '#shared/catalog.ts';
 import { num, plural } from '#shared/format.ts';

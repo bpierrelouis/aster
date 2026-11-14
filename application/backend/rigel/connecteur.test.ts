@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import express from 'express';
 import type { AddressInfo } from 'node:net';
 import type { Server } from 'node:http';
-import { createWorkspaceRepository } from '../workspace/engine.ts';
-import { createRigelRouter } from '../workspace/routes.ts';
+import { createWorkspaceRepository } from '../persistance/engine.ts';
+import { createRigelRouter } from '../api/routes.ts';
+import { etatDemonstration } from '../../outils/donnees-demonstration/charger.ts';
 import { createRelais } from './relais.ts';
 import { createMemoryStore } from './relais-store.ts';
 import { createConnecteur } from './connecteur.ts';
@@ -20,7 +21,7 @@ async function ecouter(app: express.Express) {
 }
 
 test('connecteur : publication, constat d’un téléphone intégré par ORION, acquittement, installation close retirée', async () => {
-  const repository = await createWorkspaceRepository();
+  const repository = await createWorkspaceRepository({ initialState: etatDemonstration() });
   const orion = await ecouter(express().use('/api/rigel', createRigelRouter({ repository, secret: SECRET })));
   const store = createMemoryStore();
   const relais = await ecouter(createRelais({ store, token: TOKEN, dist: 'absent' }));
@@ -63,7 +64,7 @@ test('connecteur : publication, constat d’un téléphone intégré par ORION, 
 });
 
 test('connecteur : une erreur du relais interrompt le cycle sans rien acquitter', async () => {
-  const repository = await createWorkspaceRepository();
+  const repository = await createWorkspaceRepository({ initialState: etatDemonstration() });
   const orion = await ecouter(express().use('/api/rigel', createRigelRouter({ repository, secret: SECRET })));
   const relais = await ecouter(createRelais({ store: createMemoryStore(), token: TOKEN, dist: 'absent' }));
   try {

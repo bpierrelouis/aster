@@ -3,10 +3,10 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.3 | 14/11/2026 | Ressource de préparation | Documenter la commande de régénération des captures | [8 versions](../archive/README.md#design-readme) |
+| 2.4 | 14/11/2026 | Ressource de préparation | Chemins de l'interface renommés (espace) | [9 versions](../archive/README.md#design-readme) |
 <!-- version:fin -->
 
-Ce dossier rassemble l’identité visuelle en vigueur d’ORION et les maquettes de l’application. Les deux suivent l’état actuel de l’application : couleurs, mesures et composants proviennent de `application/frontend/src/workspace/styles/`, les ambiances de `application/shared/ambiance.ts`, la marque de `application/frontend/src/connexion/` et les icônes de `application/frontend/src/workspace/core/icons.ts`.
+Ce dossier rassemble l’identité visuelle en vigueur d’ORION et les maquettes de l’application. Les deux suivent l’état actuel de l’application : couleurs, mesures et composants proviennent de `application/frontend/src/espace/styles/`, les ambiances de `application/shared/ambiance.ts`, la marque de `application/frontend/src/connexion/` et les icônes de `application/frontend/src/espace/core/icons.ts`.
 
 ## Identité en vigueur
 

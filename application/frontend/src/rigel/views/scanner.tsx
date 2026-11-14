@@ -2,7 +2,7 @@
    par reconnaissance de caractères. Dans l'inventaire d'un lieu, les matériels sont constatés dans ce lieu. */
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router';
-import { Icon } from '../../workspace/ui/icons.tsx';
+import { Icon } from '../../espace/ui/icons.tsx';
 import { lireCodes } from '../core/lecteur.ts';
 import { rigel } from '../core/etat.ts';
 import { choisirCode, lireEtiquette } from '#shared/rigel.ts';

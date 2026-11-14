@@ -56,6 +56,13 @@
         "version": "2.3",
         "date": "2026-11-14",
         "modification": "Documenter la commande de régénération des captures",
+        "archive": "design/readme/README-v2.3-2026-11-14.md",
+        "commit": "ad9efd5"
+      },
+      {
+        "version": "2.4",
+        "date": "2026-11-14",
+        "modification": "Chemins de l'interface renommés (espace)",
         "archive": null
       }
     ]
@@ -129,6 +136,13 @@
         "version": "2.1",
         "date": "2026-11-13",
         "modification": "Centrer ORION sur sa signature, logos à l’étoile",
+        "archive": "design/chartes/charte-graphique-v2.1-2026-11-13.html",
+        "commit": "bf823e8"
+      },
+      {
+        "version": "2.2",
+        "date": "2026-11-14",
+        "modification": "Chemins de l'interface renommés (espace)",
         "archive": null
       }
     ]
@@ -370,7 +384,7 @@
         "date": "2026-11-14",
         "modification": "Système d’exploitation ; recensement, installation, écart et constat",
         "archive": null,
-        "commit": "7aa82ae"
+        "commit": "186f904"
       },
       {
         "version": "3.5",
@@ -789,7 +803,7 @@
         "date": "2026-11-14",
         "modification": "RG-92 à RG-96 simplifiées : installation distincte du recensement, téléphone lié, code inconnu ajouté, matériel mal placé",
         "archive": null,
-        "commit": "7aa82ae"
+        "commit": "186f904"
       },
       {
         "version": "6.1",
@@ -936,7 +950,7 @@
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
         "archive": null,
-        "commit": "69eaf4e"
+        "commit": "186f904"
       },
       {
         "version": "1.5",
@@ -1210,7 +1224,7 @@
         "date": "2026-11-14",
         "modification": "Recensement, installation et anciens constats",
         "archive": null,
-        "commit": "7aa82ae"
+        "commit": "186f904"
       },
       {
         "version": "6.3",
@@ -1228,12 +1242,12 @@
         "date": "2026-11-14",
         "modification": "Version Word générée depuis la fiche Markdown",
         "archive": null,
-        "commit": "07a0096"
+        "commit": "186f904"
       },
       {
         "version": "1.1",
         "date": "2026-11-14",
-        "modification": "Régénérée depuis la fiche",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -1319,7 +1333,7 @@
         "date": "2026-11-14",
         "modification": "RIGEL : accepter sur place ou ramener (RG-96)",
         "archive": null,
-        "commit": "07a0096"
+        "commit": "186f904"
       },
       {
         "version": "4.3",
@@ -1336,6 +1350,13 @@
         "version": "1.0",
         "date": "2026-11-14",
         "modification": "Version Word générée depuis la fiche Markdown",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -1411,12 +1432,12 @@
         "date": "2026-11-14",
         "modification": "Version Word générée depuis la fiche Markdown",
         "archive": null,
-        "commit": "07a0096"
+        "commit": "186f904"
       },
       {
         "version": "1.1",
         "date": "2026-11-14",
-        "modification": "Régénérée depuis la fiche",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -1503,7 +1524,7 @@
         "date": "2026-11-14",
         "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école",
         "archive": null,
-        "commit": "6219944"
+        "commit": "186f904"
       },
       {
         "version": "4.2",
@@ -1521,12 +1542,12 @@
         "date": "2026-11-14",
         "modification": "Version Word générée depuis la fiche Markdown",
         "archive": null,
-        "commit": "07a0096"
+        "commit": "186f904"
       },
       {
         "version": "1.1",
         "date": "2026-11-14",
-        "modification": "Régénérée depuis la fiche",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -1612,7 +1633,7 @@
         "date": "2026-11-14",
         "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école",
         "archive": null,
-        "commit": "6219944"
+        "commit": "186f904"
       },
       {
         "version": "4.2",
@@ -2108,6 +2129,13 @@
       },
       {
         "version": "4.10",
+        "date": "2026-11-14",
+        "modification": "Organisation du code et migrations réalisées ; amorçage de production et écarts du DAT ajoutés",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "4.11",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null

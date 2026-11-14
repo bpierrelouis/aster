@@ -9,15 +9,15 @@ import swaggerUi from 'swagger-ui-express';
 import { fileURLToPath } from 'node:url';
 import { readConfig } from './config.ts';
 import { journal, raison } from './journal.ts';
-import { identityFromClaims, userFromAccount } from './profiles.ts';
-import { createWorkspaceRouter, createAgentRouter, createRigelRouter } from './workspace/routes.ts';
-import { createKeycloakProvisioning } from './demonstrateur/identity-provisioning.ts';
-import { createPostgresWorkspaceRepository } from './workspace/postgres.ts';
+import { identityFromClaims, userFromAccount } from './api/profiles.ts';
+import { createWorkspaceRouter, createAgentRouter, createRigelRouter } from './api/routes.ts';
+import { createPostgresWorkspaceRepository } from './persistance/postgres.ts';
 import { createServices } from './services.ts';
-import { openapi } from './openapi.ts';
-import { DISCONNECT_AFTER } from './workspace/postes.ts';
-import { editable, same } from './workspace/rules.ts';
-import { refuser } from './refus.ts';
+import { openapi } from './api/openapi.ts';
+import { DISCONNECT_AFTER } from './domaine/postes.ts';
+import { same } from './domaine/commun.ts';
+import { editable } from './domaine/espace.ts';
+import { refuser } from './api/refus.ts';
 import type { Compte, Id, WorkspaceState } from '#shared/types.ts';
 
 declare module 'express-session' {
@@ -82,8 +82,8 @@ const saveSession = (req: Request) => new Promise<void>((resolve, reject) => req
 const regenerateSession = (req: Request) => new Promise<void>((resolve, reject) => req.session.regenerate((error) => error ? reject(error) : resolve()));
 const destroySession = (req: Request) => new Promise<void>((resolve, reject) => req.session.destroy((error) => error ? reject(error) : resolve()));
 
-// Espace de travail : données métier dans PostgreSQL ; états des lieux PDF produits à la demande.
-const workspaceRepository = await createPostgresWorkspaceRepository({ pool, seedReset: config.seedReset });
+// Espace de travail : données métier dans PostgreSQL (schéma tenu par les migrations) ; états des lieux PDF produits à la demande.
+const workspaceRepository = await createPostgresWorkspaceRepository({ pool });
 
 // Système : état et description des services, documentation de l'API. Sans session de super administrateur,
 // l'état et la description se limitent au minimum utile aux contrôles (HAProxy, déploiement) : ni adresse, ni port.
@@ -101,8 +101,11 @@ const connected = async (req: Request, res: Response, next: NextFunction) => ((a
 app.get('/api/openapi.json', connected, (_req, res) => res.json(openapi));
 app.use('/api/docs', connected, swaggerUi.serve, swaggerUi.setup(openapi, { customSiteTitle: 'API ORION' }));
 
-// Identités du fournisseur local (démonstrateur) : créées pour les comptes ORION actifs
-const provisioning = config.identityProvisioning ? createKeycloakProvisioning({ issuer: config.issuer, ...config.provisioning }) : null;
+// Identités du fournisseur local (démonstrateur) : créées pour les comptes ORION actifs. Outil chargé seulement
+// s'il est activé : le serveur de production ne l'exécute pas.
+const provisioning = config.identityProvisioning
+  ? (await import('../outils/identites-keycloak/identity-provisioning.ts')).createKeycloakProvisioning({ issuer: config.issuer, ...config.provisioning })
+  : null;
 const provision = (accounts: Compte[]) => provisioning?.ensure(accounts).catch((error) => journal.error('provisionnement', { erreur: raison(error) }));
 provision((await workspaceRepository.snapshot()).comptes);
 // Comptes modifiés par un administrateur (une connexion ne change que des valeurs tenues par le serveur)

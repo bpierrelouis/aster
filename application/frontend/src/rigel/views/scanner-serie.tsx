@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import type { FormEvent, RefObject } from 'react';
-import { Icon } from '../../workspace/ui/icons.tsx';
+import { Icon } from '../../espace/ui/icons.tsx';
 import { lireTexte } from '../core/ocr.ts';
 import { parametreDe } from '../core/vue.ts';
 import { TypeMateriel } from '../ui/parts.tsx';
