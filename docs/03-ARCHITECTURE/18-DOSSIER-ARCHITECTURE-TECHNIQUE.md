@@ -55,7 +55,7 @@ Dans le déploiement du démonstrateur, HAProxy constitue l’entrée unique, Ap
 
 ### 4.2. Services applicatifs et persistance
 
-Express ne conserve aucun état faisant autorité dans son processus. Les données métier, les sessions, les opérations RIGEL (recensement ou installation), les constats de recensement et le journal de fusion résident dans PostgreSQL ORION. OpenLDAP conserve les identités du démonstrateur ; Keycloak réimporte son realm à la création du conteneur. Le relais RIGEL conserve dans PostgreSQL Hidora les instantanés et événements chiffrés ; le téléphone conserve dans IndexedDB l’appairage, l’instantané et les événements en attente. Ces deux copies servent au transport et au fonctionnement hors ligne : PostgreSQL ORION reste l’autorité. Les persistances et les ports du déploiement sont détaillés au § 4.5, sans répéter ici le tableau des VM.
+Express ne conserve aucun état faisant autorité dans son processus. Les données métier, les sessions, les recensements et installations RIGEL, leurs constats et le journal de fusion résident dans PostgreSQL ORION. OpenLDAP conserve les identités du démonstrateur ; Keycloak réimporte son realm à la création du conteneur. Le relais RIGEL conserve dans PostgreSQL Hidora les instantanés et événements chiffrés ; le téléphone conserve dans IndexedDB l’appairage, l’instantané et les événements en attente. Ces deux copies servent au transport et au fonctionnement hors ligne : PostgreSQL ORION reste l’autorité. Les persistances et les ports du déploiement sont détaillés au § 4.5, sans répéter ici le tableau des VM.
 
 ### 4.3. Authentification
 
@@ -103,7 +103,7 @@ Le point d’accès `/api/health` vérifie la base ORION et les métadonnées du
 - Le simulateur des postes et de M42 publie les processus et applications installées sur `/api/agent/rapports`.
 - Express renvoie dans cette réponse les interventions à exécuter.
 - Le simulateur exécute les arrêts, installations, désinstallations et réinstallations sur l’état simulé, puis publie leur résultat sur `/api/agent/resultats`.
-- Le téléphone charge la PWA et échange avec le relais Hidora en HTTPS. L’opération RIGEL (recensement ou installation), le jeton et la clé sont portés par le fragment du QR code, qui n’est pas envoyé au relais.
+- Le téléphone charge la PWA et échange avec le relais Hidora en HTTPS. Le recensement ou l’installation en cours, le jeton et la clé sont portés par le fragment du QR code, qui n’est pas envoyé au relais.
 - Le téléphone chiffre les instantanés et événements en AES-256-GCM et les conserve hors ligne dans IndexedDB jusqu’à leur synchronisation.
 - Le connecteur interroge le relais en HTTPS par le proxy du réseau, transmet les événements à Express sur le réseau overlay, puis acquitte au relais ceux qu’ORION a intégrés.
 
@@ -241,7 +241,7 @@ Les secrets sont des secrets Docker Swarm : chiffrés et répliqués entre les m
 
 Tous les secrets de la pile, y compris les clés et certificats TLS de HAProxy et de Logstash, sont des secrets Swarm, créés une fois par le script de préparation avec des valeurs aléatoires ; aucun n’est écrit dans la configuration remise, dans une image ou dans une variable d’environnement de la pile. Hors de Swarm ne restent que les clés SSH de l’opérateur et du runner, l’enregistrement du runner auprès de GitHub, conservé sur orion-3, et l’autorité de certification : sa clé privée reste sur le poste de l’opérateur ; son certificat, public, est déposé sur chaque VM pour que le pilote `syslog` de Docker vérifie le collecteur. Le script ne réalise pas la rotation : les noms de secrets externes sont fixes et Swarm ne modifie pas leur contenu. Une procédure de rotation doit donc créer de nouveaux noms, mettre à jour la pile, redéployer, vérifier, puis retirer les anciens secrets. Le verrouillage automatique des managers (`autolock`) n’est pas activé, pour qu’un redémarrage ne demande aucune action ; protéger en contrepartie l’accès aux disques des managers.
 
-`RIGEL_SECRET` dérive les clés et jetons des opérations RIGEL (recensement ou installation) : sa rotation révoque les appairages existants. `RELAIS_TOKEN` authentifie le connecteur auprès du relais ; sa rotation exige le retrait de la pile `orion-rigel` et de l’ancien secret Swarm avant redéploiement. Le jeton `HIDORA_TOKEN`, utilisé uniquement par l’intégration continue pour publier le relais, ne doit être transmis à aucun conteneur.
+`RIGEL_SECRET` dérive les clés et jetons des recensements et installations RIGEL : sa rotation révoque les appairages existants. `RELAIS_TOKEN` authentifie le connecteur auprès du relais ; sa rotation exige le retrait de la pile `orion-rigel` et de l’ancien secret Swarm avant redéploiement. Le jeton `HIDORA_TOKEN`, utilisé uniquement par l’intégration continue pour publier le relais, ne doit être transmis à aucun conteneur.
 
 #### Volumes
 
@@ -276,7 +276,7 @@ Aucune panne ne demande d’action manuelle : chaque service est relancé automa
 | Connecteur RIGEL indisponible | Swarm le relance après 30 secondes ; une mise à jour défaillante revient à la version précédente. | ORION reste disponible ; les téléphones continuent hors ligne et les événements déjà transmis attendent sur le relais. |
 | Relais RIGEL, PostgreSQL Hidora ou proxy indisponible | Le connecteur réessaie toutes les 10 secondes. Le relais répond indisponible si sa base ne répond plus. | ORION reste disponible ; la synchronisation mobile est différée. |
 
-Le relais purge toutes les dix minutes les opérations RIGEL (recensement ou installation) closes ou expirées. Les événements qui n’ont pas été relevés avant cette purge sont abandonnés ; les constats déjà intégrés restent conservés dans PostgreSQL ORION.
+Le relais purge toutes les dix minutes les recensements et installations clos ou expirés. Les événements qui n’ont pas été relevés avant cette purge sont abandonnés ; les constats déjà intégrés restent conservés dans PostgreSQL ORION.
 
 Les opérations planifiées (déploiement, mise à jour, rotation des secrets) ne sont pas des reprises automatiques.
 
@@ -407,7 +407,7 @@ Le module externe RIGEL exige un point d’accès public sans exposer le réseau
 | 11A. Clients Windows ↔ infrastructure Configuration Manager | Protocoles Microsoft à qualifier | Option Configuration Manager : inventaire, logiciels, images et opérations disponibles. |
 | 10B. M42 → HAProxy puis Express | HTTPS, TCP 443 | Option M42 : rapport authentifié, résultats et récupération des interventions dans la réponse. |
 | 12. Téléphone → relais public RIGEL | HTTPS, TCP 443 | Chargement de la PWA RIGEL et synchronisation de blocs chiffrés ; aucune connexion au réseau privé C1NP. |
-| 13. Connecteur RIGEL (VM 2) → relais public RIGEL | HTTPS, TCP 443, par le proxy C1NP | Publication des opérations RIGEL (recensement ou installation), relève et acquittement des événements ; flux sortant uniquement. |
+| 13. Connecteur RIGEL (VM 2) → relais public RIGEL | HTTPS, TCP 443, par le proxy C1NP | Publication des recensements et installations en cours, relève et acquittement des événements ; flux sortant uniquement. |
 | 14. Connecteur RIGEL → Express (VM 2) | HTTPS ou canal local protégé, port à fixer | Intégration des événements dans PostgreSQL ORION, qui reste l’autorité. |
 | Administration → VM 1 à 4 | SSH, TCP 22 | Depuis le réseau d’administration autorisé. |
 | VM 1 à 4 → services de plateforme | DNS TCP/UDP 53 et NTP UDP 123, à qualifier | Résolution des noms et synchronisation de l’heure. |
