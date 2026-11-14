@@ -151,7 +151,7 @@ export const ETATS_POSTE = {
   hs: { id: 'hs', label: 'Matériel hors service', led: 'hs' },
   eteint: { id: 'eteint', label: 'Poste déconnecté', led: 'wait' },
   allume: { id: 'allume', label: 'Allumé', led: 'ok' },
-  connecte: { id: 'connecte', label: 'Connecté', led: 'ok' },
+  connecte: { id: 'connecte', label: 'Session ouverte', led: 'ok' },
 };
 /** État d'un poste ; materiel : son unité centrale */
 export const etatPoste = (p: Pick<Poste, 'allume' | 'session'> | null | undefined, materiel: Pick<Materiel, 'hs'> | null | undefined) => (materiel?.hs ? ETATS_POSTE.hs : !p?.allume ? ETATS_POSTE.eteint : p.session ? ETATS_POSTE.connecte : ETATS_POSTE.allume);

@@ -42,7 +42,7 @@ const TITLES = {
   statistiques: 'Utilisation du parc',
 };
 type Tab = keyof typeof TITLES;
-const SEARCH: Record<Tab, string> = { alertes: 'Processus, poste, adresse IP ou compte…', salles: 'Poste, processus ou compte…', listes: 'Processus ou application…', statistiques: 'Processus ou application…' };
+const SEARCH: Record<Tab, string> = { alertes: 'Processus, poste, IP ou compte…', salles: 'Poste, processus ou compte…', listes: 'Processus ou application…', statistiques: 'Processus ou application…' };
 
 // Un exécutable se cherche aussi par le nom de son application
 const processText = (nom: string) => `${nom} ${logiciel(nom)?.nom ?? ''}`;
