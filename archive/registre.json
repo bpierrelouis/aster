@@ -64,7 +64,7 @@
         "date": "2026-11-14",
         "modification": "Chemins de l'interface renommés (espace)",
         "archive": "design/readme/README-v2.4-2026-11-14.md",
-        "commit": "6bb4670"
+        "commit": "fa8e2ad"
       },
       {
         "version": "2.5",
@@ -1236,7 +1236,14 @@
       {
         "version": "6.3",
         "date": "2026-11-14",
-        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Formateur : remontées sur les matériels d’une salle seulement",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
+        "archive": null,
+        "commit": "fa8e2ad"
+      },
+      {
+        "version": "6.4",
+        "date": "2026-11-14",
+        "modification": "Formateur : remontées sur les matériels d’une salle seulement",
         "archive": null
       }
     ]
@@ -1365,7 +1372,7 @@
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null,
-        "commit": "80413fc"
+        "commit": "fa8e2ad"
       },
       {
         "version": "1.2",
@@ -1435,7 +1442,7 @@
         "date": "2026-11-14",
         "modification": "Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application",
         "archive": null,
-        "commit": "5383a9f"
+        "commit": "fa8e2ad"
       },
       {
         "version": "3.1",
@@ -1687,7 +1694,7 @@
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
         "archive": null,
-        "commit": "69eaf4e"
+        "commit": "fa8e2ad"
       },
       {
         "version": "1.3",
@@ -1736,7 +1743,7 @@
         "date": "2026-11-14",
         "modification": "Promouvoir en livrable de la phase Analyse ; intervention complétée (gardes, effets, fin)",
         "archive": null,
-        "commit": "e99107c"
+        "commit": "fa8e2ad"
       },
       {
         "version": "4.1",
@@ -1934,7 +1941,7 @@
         "date": "2026-11-14",
         "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
         "archive": null,
-        "commit": "e99107c"
+        "commit": "fa8e2ad"
       },
       {
         "version": "1.4",
@@ -1990,6 +1997,13 @@
         "version": "3.2",
         "date": "2026-11-14",
         "modification": "Actualiser les graphiques depuis le projet GitHub",
+        "archive": null,
+        "commit": "b5f9cf9"
+      },
+      {
+        "version": "3.3",
+        "date": "2026-11-14",
+        "modification": "Reprendre les références de commits du brouillon de suivi",
         "archive": null
       }
     ]
@@ -2026,14 +2040,9 @@
         "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
         "archive": null,
         "commit": "e99107c"
-      },
-      {
-        "version": "1.4",
-        "date": "2026-11-14",
-        "modification": "Nom du projet GitHub : ORION development",
-        "archive": null
       }
-    ]
+    ],
+    "retire": "Retiré le 14/11/2026 : Remplacé par le backlog et suivi du projet, qui reprend ses références"
   },
   "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md": {
     "destination": "Pilotage interne",
@@ -2208,6 +2217,13 @@
         "version": "4.13",
         "date": "2026-11-14",
         "modification": "Jetons « Accès de présentation » rétablis à la place du tableau des comptes",
+        "archive": null,
+        "commit": "2a88faf"
+      },
+      {
+        "version": "4.14",
+        "date": "2026-11-14",
+        "modification": "Actualiser déploiement, CI, adresse MAC et proxy de développement ; Actualiser adresse MAC, proxy de développement et suivi GitHub",
         "archive": null
       }
     ]

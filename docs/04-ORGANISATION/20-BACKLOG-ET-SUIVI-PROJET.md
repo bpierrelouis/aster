@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.2 | 14/11/2026 | Production destinée à la remise | Actualiser les graphiques depuis le projet GitHub | [6 versions](../../archive/README.md#20-backlog-et-suivi-projet) |
+| 3.3 | 14/11/2026 | Production destinée à la remise | Reprendre les références de commits du brouillon de suivi | [7 versions](../../archive/README.md#20-backlog-et-suivi-projet) |
 <!-- version:fin -->
 
 **Période : du 20 octobre au 19 novembre 2026.**
@@ -234,11 +234,12 @@ Les références suivantes retracent les travaux déposés dans le projet. Les e
 
 | Domaine | Références historiques |
 | --- | --- |
-| Besoin et profils | [Cadrage initial — 288c524](https://github.com/bpierrelouis/aster/commit/288c524), [droits — f7310c1](https://github.com/bpierrelouis/aster/commit/f7310c1), [fiches — c757f41](https://github.com/bpierrelouis/aster/commit/c757f41) |
+| Besoin et profils | [Cadrage initial — 288c524](https://github.com/bpierrelouis/aster/commit/288c524), [droits — f7310c1](https://github.com/bpierrelouis/aster/commit/f7310c1), [fiches — c757f41](https://github.com/bpierrelouis/aster/commit/c757f41), [contexte — 336ee74](https://github.com/bpierrelouis/aster/commit/336ee74), [cadrage aligné — cc22229](https://github.com/bpierrelouis/aster/commit/cc22229), [rendez-vous du 12 novembre — d4c0d8c](https://github.com/bpierrelouis/aster/commit/d4c0d8c) |
 | Modélisation | [MCD — 23cb750](https://github.com/bpierrelouis/aster/commit/23cb750), [séquences — bde906a](https://github.com/bpierrelouis/aster/commit/bde906a), [classes — 31f7e5b](https://github.com/bpierrelouis/aster/commit/31f7e5b), [états — fcdc0b8](https://github.com/bpierrelouis/aster/commit/fcdc0b8) |
-| Connexion et intégration | [Connexion — 55e41d4](https://github.com/bpierrelouis/aster/commit/55e41d4), [règles partagées — 59bcae8](https://github.com/bpierrelouis/aster/commit/59bcae8), [API — 660a1ca](https://github.com/bpierrelouis/aster/commit/660a1ca) |
-| Parcours utilisateurs | [Tableaux de bord — d3b256d](https://github.com/bpierrelouis/aster/commit/d3b256d), [salles — dafc7e8](https://github.com/bpierrelouis/aster/commit/dafc7e8), [supervision — 22ada18](https://github.com/bpierrelouis/aster/commit/22ada18), [suivi — a1032c8](https://github.com/bpierrelouis/aster/commit/a1032c8) |
-| Architecture | [Dossier initial — 51bd591](https://github.com/bpierrelouis/aster/commit/51bd591), [cible C1NP — f0c6dea](https://github.com/bpierrelouis/aster/commit/f0c6dea) |
+| Connexion et intégration | [Connexion — 55e41d4](https://github.com/bpierrelouis/aster/commit/55e41d4), [règles partagées — 59bcae8](https://github.com/bpierrelouis/aster/commit/59bcae8), [API — 660a1ca](https://github.com/bpierrelouis/aster/commit/660a1ca), [écrans de l’espace — 1c50d70](https://github.com/bpierrelouis/aster/commit/1c50d70), [annuaire LDAP — c3927cf](https://github.com/bpierrelouis/aster/commit/c3927cf) |
+| Parcours utilisateurs | [Tableaux de bord — d3b256d](https://github.com/bpierrelouis/aster/commit/d3b256d), [salles — dafc7e8](https://github.com/bpierrelouis/aster/commit/dafc7e8), [supervision — 22ada18](https://github.com/bpierrelouis/aster/commit/22ada18), [suivi — a1032c8](https://github.com/bpierrelouis/aster/commit/a1032c8), [PDF — d1d10e5](https://github.com/bpierrelouis/aster/commit/d1d10e5), [tableaux — d4be5bf](https://github.com/bpierrelouis/aster/commit/d4be5bf), [stock — 304149c](https://github.com/bpierrelouis/aster/commit/304149c), [processus — 540df05](https://github.com/bpierrelouis/aster/commit/540df05) |
+| Architecture | [Dossier initial — 51bd591](https://github.com/bpierrelouis/aster/commit/51bd591), [déploiement sur VM — 3396072](https://github.com/bpierrelouis/aster/commit/3396072), [adresses des VM — cecf0d7](https://github.com/bpierrelouis/aster/commit/cecf0d7), [estimation de charge — 09ac7b0](https://github.com/bpierrelouis/aster/commit/09ac7b0), [cible C1NP — f0c6dea](https://github.com/bpierrelouis/aster/commit/f0c6dea) |
+| Exploitation et vérification | [Back sans état — 09ed10b](https://github.com/bpierrelouis/aster/commit/09ed10b), [CI — a20785a](https://github.com/bpierrelouis/aster/commit/a20785a), [configuration des VM — d7dff09](https://github.com/bpierrelouis/aster/commit/d7dff09), [tests e2e en CI — 8b7391f](https://github.com/bpierrelouis/aster/commit/8b7391f) |
 
 Le projet GitHub [« ORION development »](https://github.com/users/bpierrelouis/projects/2) est la référence de tableau demandée pour le suivi (§ 4.6) : ses tickets reprennent les identifiants BL-01 à BL-20 de ce document et ceux du backlog technique.
 
