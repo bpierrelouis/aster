@@ -39,9 +39,8 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [3.1](#18-dossier-architecture-technique) | 14/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.1](#19-diagrammes-architecture) | 14/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.3](#20-backlog-et-suivi-projet) | 14/11/2026 |
-| [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.2](#20-backlog-et-suivi-projet) | 14/11/2026 |
-| [docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md) | Brouillon interne | [1.3](#20-suivi-backlog-brouillon-v1) | 14/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.13](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
+| [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.3](#20-backlog-et-suivi-projet) | 14/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.14](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -492,23 +491,13 @@ Fichier : [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANI
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.2 | 14/11/2026 | Actualiser les graphiques depuis le projet GitHub | en vigueur | — |
+| 3.3 | 14/11/2026 | Reprendre les références de commits du brouillon de suivi | en vigueur | — |
+| 3.2 | 14/11/2026 | Actualiser les graphiques depuis le projet GitHub | `b5f9cf9` | — |
 | 3.1 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | `e99107c` | — |
 | 3.0 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ ; Rendu de l’application le 17 novembre, supports le 18, présentation le 19 ; graphiques régénérés | `69eaf4e` (`docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md`) | — |
 | 2.0 | 14/11/2026 | Deux sprints (19/10–08/11, 09/11–19/11), suivi dans le projet GitHub ORION et graphiques produits depuis GitHub | `ab5fb7d` (`docs/19-BACKLOG-ET-SUIVI-PROJET.md`) | — |
 | 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | `61abf4a` (`docs/19-BACKLOG-ET-SUIVI-PROJET.md`) | — |
 | 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `83658a3` (`docs/19-BACKLOG-ET-SUIVI-PROJET.md`) | — |
-
-### 20-SUIVI-BACKLOG-BROUILLON-V1
-
-Fichier : [docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md) · Brouillon interne
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 1.3 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | en vigueur | — |
-| 1.2 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ | `69eaf4e` (`docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |
-| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le commit de la cible C1NP | `61abf4a` (`docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |
-| 1.0 | 13/11/2026 | Consolider le suivi des progressions | `83658a3` (`docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |
 
 ### 21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE
 
@@ -516,7 +505,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.13 | 14/11/2026 | Jetons « Accès de présentation » rétablis à la place du tableau des comptes | en vigueur | — |
+| 4.14 | 14/11/2026 | Actualiser déploiement, CI, adresse MAC et proxy de développement ; Actualiser adresse MAC, proxy de développement et suivi GitHub | en vigueur | — |
+| 4.13 | 14/11/2026 | Jetons « Accès de présentation » rétablis à la place du tableau des comptes | `2a88faf` | — |
 | 4.12 | 14/11/2026 | Consigner la mise à jour des statuts GitHub | `baabbf7` | — |
 | 4.11 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | `80413fc` | — |
 | 4.10 | 14/11/2026 | Organisation du code et migrations réalisées ; amorçage de production et écarts du DAT ajoutés | `186f904` | — |
@@ -603,6 +593,17 @@ Ancien emplacement : `design/maquettes/maquette-dashboard-proposition-c-analyse.
 | --- | --- | --- | --- | --- |
 | 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design/maquettes/maquette-dashboard-proposition-c-analyse-v1.1-2026-11-12.html) |
 | 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design/maquettes/maquette-dashboard-proposition-c-analyse-v1.0-2026-11-10.html) |
+
+### 20-SUIVI-BACKLOG-BROUILLON-V1
+
+Ancien emplacement : `docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md`. Retiré le 14/11/2026 : Remplacé par le backlog et suivi du projet, qui reprend ses références
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.3 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | `e99107c` | — |
+| 1.2 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ | `69eaf4e` (`docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |
+| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le commit de la cible C1NP | `61abf4a` (`docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |
+| 1.0 | 13/11/2026 | Consolider le suivi des progressions | `83658a3` (`docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |
 
 ### 05-MCD-MERISE-MOCODO
 

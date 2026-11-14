@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.13 | 14/11/2026 | Pilotage interne | Jetons « Accès de présentation » rétablis à la place du tableau des comptes | [23 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.14 | 14/11/2026 | Pilotage interne | Actualiser déploiement, CI, adresse MAC et proxy de développement ; Actualiser adresse MAC, proxy de développement et suivi GitHub | [24 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -18,12 +18,12 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Avant le prochain déploiement sur les VM
 
-- [x] Prévoir la réinitialisation des données de démonstration : les VM servent `SEED_VERSION` 18 (commit `fe89b85`) ; `SEED_VERSION` passe à 19 avec les nouveaux comptes et `SEED_RESET=true` sur les VM : les données sont recréées au prochain déploiement.
+- [x] Réinitialisation des données de démonstration : le service `api` des VM recharge le jeu de départ à chaque changement de `SEED_VERSION` (21 au 14 novembre, comptes fictifs compris).
 - [ ] Vérifier après déploiement : `https://172.16.131.188/api/infos` (version servie) ; connexion des comptes (jetons « Accès de présentation » compris), leurs identités étant créées dans l’annuaire par le provisionnement au démarrage ; création d’un compte ; rapports des postes simulés ; recensement RIGEL. Les anciennes identités `@orion.demo` restent dans l’annuaire LDAP des VM (le LDIF n’est chargé qu’à la création du volume) : sans compte ORION, elles sont refusées ; les supprimer dans la console Keycloak si besoin.
 
 ### Avant le rendu de l’application (mardi 17 novembre)
 
-- [x] **Haute** — Comptes de démonstration remplacés par des personnes fictives aux adresses `prénom.nom` de messageries courantes (Gmail, Outlook, Yahoo, Hotmail, Orange, Free, La Poste), sans adresse `@orion.demo` ni `admin@`, `gestionnaire@` (14 novembre) : même répartition qu’avant (super administrateur ; administrateur, gestionnaire et quatre formateurs à l’École du numérique ; administrateur, gestionnaire et formateur à l’École des réseaux). Jeu de départ et fichier LDIF mis à jour ; sur la page de connexion, un tableau « Comptes » en marge, au style du bloc de connexion (adresse, profil, école, flèche de connexion directe), remplace les jetons « Accès de présentation ».
+- [x] **Haute** — Comptes de démonstration remplacés par des personnes fictives aux adresses `prénom.nom` de messageries courantes (Gmail, Outlook, Yahoo, Hotmail, Orange, Free, La Poste), sans adresse `@orion.demo` ni `admin@`, `gestionnaire@` (14 novembre) : même répartition qu’avant (super administrateur ; administrateur, gestionnaire et quatre formateurs à l’École du numérique ; administrateur, gestionnaire et formateur à l’École des réseaux). Jeu de départ et fichier LDIF mis à jour ; sur la page de connexion, un tableau « Comptes » en marge, au style du bloc de connexion (adresse, profil, école, flèche de connexion directe), remplaçait les jetons « Accès de présentation », rétablis ensuite (`baabbf7`).
 - [ ] **Haute** — Mots de passe des comptes : mot de passe dans l’annuaire, connexion par le formulaire habituel (le flux sans mot de passe du Keycloak local est alors retiré de l’image des VM). Les mots de passe ne sont jamais versionnés : secrets Swarm ou saisie au déploiement.
 - [ ] **Haute** — Créer un scénario complet de l’application : parcours de bout en bout par profil (connexion, parc, salles, recensement RIGEL, remontée de sa création à sa fin, supervision, intervention sur les postes, notifications, administration), avec données de départ adaptées et résultat attendu à chaque étape ; il sert de fil de la présentation et de test de recette.
 
@@ -37,7 +37,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ## 2. Pilotage du projet
 
-- [x] **Haute** — Traiter le backlog GitHub (14 novembre : projet « ORION development », 156 tickets, dont 142 rattachés aux deux sprints) : trier, mettre à jour et clore les éléments au regard de l’état actuel, puis reporter le résultat dans le [backlog](20-BACKLOG-ET-SUIVI-PROJET.md). Seize tickets réalisés ont été clôturés et passés en « Done » le 14 novembre. Les noms GitHub gardent l’ancien nom (dépôt `bpierrelouis/aster`, projet « aster development ») ; les commits `09ac7b0` et `cecf0d7` et la référence `0762961…` du brouillon de suivi n’existent plus dans l’historique.
+- [x] **Haute** — Traiter le backlog GitHub (14 novembre : projet « ORION development », 156 tickets, dont 142 rattachés aux deux sprints) : trier, mettre à jour et clore les éléments au regard de l’état actuel, puis reporter le résultat dans le [backlog](20-BACKLOG-ET-SUIVI-PROJET.md). Seize tickets réalisés ont été clôturés et passés en « Done » le 14 novembre. Le dépôt GitHub garde l’ancien nom (`bpierrelouis/aster`). Le brouillon de suivi du 13 novembre est retiré le 14 novembre : le [backlog](20-BACKLOG-ET-SUIVI-PROJET.md) le remplace et reprend ses références de commits (§ 9).
 - [ ] Cadrage § 22 : dater le prochain rendez-vous ; consigner le sort des propositions préparées pour le 12 novembre (application de scan, devenue RIGEL, et livraisons) quand un retour existera.
 
 ## 3. Application
@@ -79,10 +79,10 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
   - **Code** : types partagés, `rules.ts` (contrôles d’image et de paquet), schéma PostgreSQL, données de départ (`SEED_VERSION`), simulateur, écrans Administration › Applications et Postes, Supervision ; tests et guide de l’application.
 - [x] **Haute** — RIGEL aligné sur RG-92 à RG-96 (décisions de l’utilisateur du 14 novembre) : installation d’une salle (lancée depuis Salles › Déplacements, close d’elle-même au nom du gestionnaire qui la termine) distincte du recensement (« Nouveau recensement », présence seule) ; RIGEL, confirmation des installations et traitement des constats réservés au gestionnaire, suivi en lecture seule par l’administrateur et le super administrateur ; lieu ouvert = présence physique ; anciens écarts guidés dans ORION ; plus de « campagne » dans l’interface ; fiches 13, 15, 16, matrice, glossaire, DCU 08 et MCD à jour.
 - [ ] Jeton d’un poste : seule l’API `GET /api/workspace/postes/:id/jeton` permet de l’obtenir ; prévoir l’action dans Administration › Postes. Renouveler `AGENT_TOKEN` révoque tous les jetons à la fois : prévoir une révocation poste par poste si le besoin apparaît.
-- [ ] Adresse MAC du matériel : présente dans le MCD, absente du code ; à reprendre avec le collègue qui l’ajoute (scanner de matrice).
+- [x] Adresse MAC du matériel : saisie, import JSON et étiquettes du parc (`0505b22`, #128).
 - [ ] Import JSON : le transfert d’un matériel hors service vers une salle d’une autre école est bloqué (conséquence de RG-87) ; à confirmer par l’utilisateur.
 - [ ] Tests : ajouter un test du détail de `/api/health` et `/api/infos` réservé au super administrateur.
-- [ ] Mode développement : un gros corps refusé tôt par le serveur fait parfois échouer le proxy de Vite (502) ; sans effet derrière HAProxy.
+- [x] Mode développement : un gros corps refusé tôt ne coupe plus la connexion du proxy de Vite (le serveur lit le corps avant de refuser, `47544cf`, #131).
 
 ### Organisation du code : démonstrateur et espace de travail
 
@@ -123,7 +123,7 @@ Plan, une étape par commit, chacune vérifiée par `npm test`, `npm run build`,
 - [x] 4. Remplacer la création du schéma au démarrage par des migrations versionnées (`backend/persistance/migrations/`), pour faire évoluer une base de production sans réinitialisation. La migration `0001` reprend le schéma existant et s’applique aussi aux bases déjà créées.
 - [x] 5. Découper `rules.ts` par domaine dans `backend/domaine/` et renommer `workspace` en `espace` (back et front), en dernier : changement le plus large, purement structurel. Écarts au plan : `backend/rigel/` et `frontend/src/rigel/` gardent leur nom (au lieu de `recon/`) ; l’adresse `/api/workspace`, les types `Workspace…` et le script `test:workspace` sont conservés (contrat d’API et noms de code inchangés).
 - [x] 6. Mettre à jour `AGENTS.md` (chemins cités) et le guide de l’application ; signaler au collègue du DAT les chemins de l’inventaire des configurations remises (chemins inchangés ; contenus de `Dockerfile` et `pile.yaml` modifiés : § 6).
-- [ ] **Haute** — Espace de production neuf : sans données de démonstration, il ne contient ni école ni compte, donc personne ne peut se connecter. Prévoir la création du premier super administrateur (commande d’amorçage ou variable dédiée) avant toute mise en production.
+- [ ] **Haute** — Espace de production neuf : sans données de démonstration, il ne contient ni école ni compte, donc personne ne peut se connecter. Prévoir la création du premier super administrateur (commande d’amorçage ou variable dédiée) avant toute mise en production. (#159)
 
 ## 4. Sécurité
 
@@ -152,7 +152,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Priorité haute
 
-- [ ] RIGEL dans le cadrage (§ 19 et § 23 : la ligne `02:400` « application de scan non intégrée » est fausse) ; les livrables (glossaire, RG-92 à RG-96, matrice, fiches 13, 15 et 16, DCU 08, MCD) sont à jour depuis le 14 novembre.
+- [ ] RIGEL dans le cadrage (§ 19 et § 23 : la ligne `02:400` « application de scan non intégrée » est fausse) ; les livrables (glossaire, RG-92 à RG-96, matrice, fiches 13, 15 et 16, DCU 08, MCD) ont été mis à jour le 14 novembre et restent à relire (#158).
 - [x] Captures des fiches 13, 15 et 16 : les anciennes maquettes IHM sont supprimées ; les fiches reprennent les captures de l’application (`design/maquettes/captures/`, 14 novembre).
 - [ ] Cadrage § 23 : il dit que la documentation suit le client (`02:391`, `:405`, `:406`), contrairement à la règle en vigueur (la documentation suit l’état actuel, l’écart est inscrit au § 23). En découlent RG-36 (filtre par salle du tableau de bord du parc) et RG-37 (fenêtre contextuelle des notifications) **[RG]**, la matrice (`12:48`) et la fiche 13 (`:141`), qui décrivent ce que l’application n’a pas.
 
