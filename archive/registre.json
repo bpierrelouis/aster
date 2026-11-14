@@ -1883,6 +1883,13 @@
         "version": "3.3",
         "date": "2026-11-14",
         "modification": "Donner les versions épinglées de HAProxy et Apache",
+        "archive": null,
+        "commit": "8337387"
+      },
+      {
+        "version": "3.4",
+        "date": "2026-11-14",
+        "modification": "Préciser que Logstash garde ses propres logs sur sa VM",
         "archive": null
       }
     ],
@@ -2297,6 +2304,13 @@
         "version": "4.17",
         "date": "2026-11-14",
         "modification": "Cocher les versions de HAProxy et Apache",
+        "archive": null,
+        "commit": "8337387"
+      },
+      {
+        "version": "4.18",
+        "date": "2026-11-14",
+        "modification": "Cocher l'exception des logs de Logstash",
         "archive": null
       }
     ]
