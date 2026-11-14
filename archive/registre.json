@@ -1869,6 +1869,13 @@
         "version": "3.1",
         "date": "2026-11-14",
         "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
+        "archive": null,
+        "commit": "ca0187c"
+      },
+      {
+        "version": "3.2",
+        "date": "2026-11-14",
+        "modification": "Corriger secrets, données, migrations, provisionnement, filtrage et éléments manquants",
         "archive": null
       }
     ],
@@ -1927,6 +1934,13 @@
         "version": "2.1",
         "date": "2026-11-14",
         "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
+        "archive": null,
+        "commit": "e99107c"
+      },
+      {
+        "version": "2.2",
+        "date": "2026-11-14",
+        "modification": "Redessiner les quatre vues sans croisement et compléter les flux réels",
         "archive": null
       }
     ]
@@ -2262,6 +2276,13 @@
         "version": "4.15",
         "date": "2026-11-14",
         "modification": "Versions Word retirées",
+        "archive": null,
+        "commit": "5da7ebd"
+      },
+      {
+        "version": "4.16",
+        "date": "2026-11-14",
+        "modification": "Cocher les corrections du DAT et des schémas",
         "archive": null
       }
     ]

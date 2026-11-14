@@ -1,18 +1,18 @@
-# Architecture réelle du démonstrateur
+# Diagrammes d’architecture
 
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.1 | 14/11/2026 | Production destinée à la remise | Renuméroter après l’ajout des diagrammes d’états (17) | [7 versions](../../archive/README.md#19-diagrammes-architecture) |
+| 2.2 | 14/11/2026 | Production destinée à la remise | Redessiner les quatre vues sans croisement et compléter les flux réels | [8 versions](../../archive/README.md#19-diagrammes-architecture) |
 <!-- version:fin -->
 
 ## Vue simplifiée
 
-![Vue simplifiée avec les IPv4 du déploiement proposé du démonstrateur ORION](assets/ORION-VUE-SIMPLIFIEE.svg)
+![Vue simplifiée du démonstrateur ORION sur dix VM, avec leurs IPv4](assets/ORION-VUE-SIMPLIFIEE.svg)
 
 ## Architecture réelle sur VM
 
-![Déploiement proposé avec les IPv4 : vue complète du démonstrateur ORION sur dix VM](assets/ORION-DEPLOIEMENT-VM.svg)
+![Vue complète du démonstrateur ORION sur dix VM, avec leurs IPv4](assets/ORION-DEPLOIEMENT-VM.svg)
 
 ## Architecture cible sur le C1NP
 

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2250" height="710" viewBox="0 0 2250 710" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="2350" height="710" viewBox="0 0 2350 710" role="img" aria-labelledby="title desc">
 <title id="title">ORION — architecture cible</title>
 <desc id="desc">Quatre VM et les principaux flux applicatifs et de collecte. Les flux d’exploitation sont détaillés dans le DAT.</desc>
 <defs>
@@ -40,7 +40,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 .flow{fill:none;stroke:#0f6cbd;stroke-width:2}
 .auto{stroke-dasharray:6 4}
 </style>
-<rect width="2250" height="710" fill="#fff"/>
+<rect width="2350" height="710" fill="#fff"/>
 <text x="40" y="46" class="title" text-anchor="start">ORION — architecture cible</text>
 <text x="40" y="74" class="body" text-anchor="start">Vue détaillée · 1 000 postes actifs</text>
 <rect x="250" y="94" width="1640" height="587" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
@@ -48,11 +48,11 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="296" y="123" class="frame" text-anchor="start">C1NP</text>
 <rect x="275" y="201" width="1605" height="460" rx="12" fill="#fff" stroke="#9cc0e4"/>
 <text x="300" y="228" class="frame" text-anchor="start">VM ORION</text>
-<rect x="300" y="245" width="250" height="282" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<rect x="300" y="245" width="290" height="282" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
 <use href="#i-server" x="312" y="256" width="16" height="16" style="color:#5b7690"/>
 <text x="334" y="269" class="vm" text-anchor="start">VM 1 . Entrée</text>
 <text x="334" y="290" class="caption" text-anchor="start">2 vCPU · 8 Go RAM · 50 Go système</text>
-<rect x="690" y="245" width="295" height="395" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<rect x="690" y="245" width="355" height="395" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
 <use href="#i-server" x="702" y="256" width="16" height="16" style="color:#5b7690"/>
 <text x="724" y="269" class="vm" text-anchor="start">VM 2 . Application</text>
 <text x="724" y="290" class="caption" text-anchor="start">8 vCPU · 32 Go RAM · 50 Go système</text>
@@ -67,10 +67,10 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <rect x="40" y="318" width="135" height="70" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
 <use href="#i-users" x="52" y="330" width="22" height="22" style="color:#3d5a78"/>
 <text x="84" y="346" class="service" text-anchor="start">Firefox</text>
-<rect x="40" y="422" width="155" height="70" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<rect x="40" y="422" width="175" height="70" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
 <use href="#i-monitor" x="52" y="434" width="22" height="22" style="color:#3d5a78"/>
 <text x="84" y="450" class="service" text-anchor="start">Postes Windows</text>
-<rect x="35" y="535" width="180" height="70" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<rect x="35" y="535" width="215" height="70" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
 <use href="#i-server" x="47" y="547" width="22" height="22" style="color:#3d5a78"/>
 <text x="79" y="563" class="service" text-anchor="start">Configuration Manager</text>
 <text x="79" y="582" class="caption" text-anchor="start">Option A</text>
@@ -78,33 +78,34 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <use href="#i-key-round" x="432" y="127" width="22" height="22" style="color:#3d5a78"/>
 <text x="464" y="143" class="service" text-anchor="start">MindefConnect</text>
 <text x="464" y="162" class="caption" text-anchor="start">Service d’identité</text>
-<rect x="320" y="318" width="210" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
+<rect x="320" y="318" width="250" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
 <use href="#i-split" x="330" y="328" width="20" height="20" style="color:#a06a00"/>
 <text x="358" y="343" class="service" text-anchor="start">HAProxy 3.2.16</text>
-<text x="520" y="342" class="tag host" text-anchor="end">service hôte</text>
+<text x="560" y="342" class="tag host" text-anchor="end">service hôte</text>
 <text x="358" y="361" class="caption" text-anchor="start">HTTPS · TCP 443</text>
-<rect x="320" y="442" width="210" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
+<rect x="320" y="442" width="250" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
 <use href="#i-app-window" x="330" y="452" width="20" height="20" style="color:#a06a00"/>
 <text x="358" y="467" class="service" text-anchor="start">Apache 2.4.69</text>
-<text x="520" y="466" class="tag host" text-anchor="end">service hôte</text>
+<text x="560" y="466" class="tag host" text-anchor="end">service hôte</text>
 <text x="358" y="485" class="caption" text-anchor="start">HTTP 8080 · boucle locale</text>
 <text x="358" y="501" class="caption" text-anchor="start">Interface React 19.3.1</text>
-<rect x="710" y="318" width="255" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
+<rect x="710" y="318" width="240" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
 <use href="#i-server" x="720" y="328" width="20" height="20" style="color:#a06a00"/>
 <text x="748" y="343" class="service" text-anchor="start">Express 5.3.0</text>
-<text x="955" y="342" class="tag host" text-anchor="end">service hôte</text>
+<text x="940" y="342" class="tag host" text-anchor="end">service hôte</text>
 <text x="748" y="361" class="caption" text-anchor="start">Node.js 22.22.3</text>
 <text x="748" y="377" class="caption" text-anchor="start">API · TCP 3001</text>
-<rect x="710" y="442" width="255" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
+<rect x="710" y="442" width="240" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
 <use href="#i-monitor" x="720" y="452" width="20" height="20" style="color:#a06a00"/>
-<text x="748" y="467" class="service" text-anchor="start">Configuration Manager / M42</text>
-<text x="748" y="485" class="caption" text-anchor="start">Option à retenir</text>
-<rect x="710" y="525" width="255" height="70" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
-<use href="#i-refresh-cw" x="720" y="535" width="20" height="20" style="color:#0f6cbd"/>
-<text x="748" y="550" class="service" text-anchor="start">Connecteur RIGEL</text>
-<text x="955" y="549" class="tag" text-anchor="end">conteneur</text>
-<text x="748" y="568" class="caption" text-anchor="start">Image RIGEL versionnée</text>
-<text x="748" y="584" class="caption" text-anchor="start">HTTPS sortant · sans port</text>
+<text x="748" y="467" class="service" text-anchor="start">Administration des postes</text>
+<text x="748" y="485" class="caption" text-anchor="start">Configuration Manager ou M42</text>
+<text x="748" y="501" class="caption" text-anchor="start">option à retenir</text>
+<rect x="710" y="545" width="240" height="70" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
+<use href="#i-refresh-cw" x="720" y="555" width="20" height="20" style="color:#0f6cbd"/>
+<text x="748" y="570" class="service" text-anchor="start">Connecteur RIGEL</text>
+<text x="940" y="569" class="tag" text-anchor="end">conteneur</text>
+<text x="748" y="588" class="caption" text-anchor="start">image RIGEL versionnée</text>
+<text x="748" y="604" class="caption" text-anchor="start">HTTPS 443 sortant</text>
 <rect x="1160" y="548" width="255" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
 <use href="#i-scroll-text" x="1170" y="558" width="20" height="20" style="color:#a06a00"/>
 <text x="1198" y="573" class="service" text-anchor="start">Logstash 8.19.14</text>
@@ -137,46 +138,47 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="1986" y="244" class="frame" text-anchor="start">RIGEL</text>
 <text x="1956" y="266" class="caption" text-anchor="start">Reconnaissance d’identifiants graphiques</text>
 <text x="1956" y="282" class="caption" text-anchor="start">et extraction par lecture</text>
-<rect x="1980" y="300" width="220" height="90" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<rect x="1980" y="300" width="220" height="95" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
 <use href="#i-cloud" x="1992" y="312" width="22" height="22" style="color:#3d5a78"/>
 <text x="2024" y="328" class="service" text-anchor="start">Relais RIGEL</text>
 <text x="2190" y="324" class="tag" text-anchor="end">conteneur</text>
 <text x="2024" y="347" class="caption" text-anchor="start">image RIGEL versionnée</text>
-<text x="2024" y="363" class="caption" text-anchor="start">HTTPS 443 · hébergement à qualifier</text>
+<text x="2024" y="363" class="caption" text-anchor="start">HTTPS 443</text>
+<text x="2024" y="379" class="caption" text-anchor="start">hébergement à qualifier</text>
 <rect x="1980" y="500" width="220" height="90" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
 <use href="#i-database" x="1992" y="512" width="22" height="22" style="color:#3d5a78"/>
 <text x="2024" y="528" class="service" text-anchor="start">Stockage RIGEL</text>
 <text x="2024" y="547" class="caption" text-anchor="start">service durable à qualifier</text>
-<path d="M175 340 L320 340" class="flow" marker-end="url(#arrow)"/>
+<path d="M175 340 L318 340" class="flow" marker-end="url(#arrow)"/>
 <text x="245" y="330" class="route" text-anchor="middle">1 · HTTPS 443</text>
-<path d="M425 388 L425 442" class="flow" marker-end="url(#arrow)"/>
-<text x="434" y="420" class="route" text-anchor="start">2 · HTTP 8080</text>
-<path d="M530 350 L710 350" class="flow" marker-end="url(#arrow)"/>
-<text x="620" y="339" class="route" text-anchor="middle">3 · HTTPS 3001</text>
-<path d="M965 350 L1160 350" class="flow" marker-end="url(#arrow)"/>
-<text x="1062" y="339" class="route" text-anchor="middle">4 · TLS 5432</text>
-<path d="M105 318 L105 151 L420 151" class="flow" marker-end="url(#arrow)"/>
+<path d="M445 388 L445 440" class="flow" marker-end="url(#arrow)"/>
+<text x="454" y="420" class="route" text-anchor="start">2 · HTTP 8080</text>
+<path d="M570 350 L708 350" class="flow" marker-end="url(#arrow)"/>
+<text x="639" y="339" class="route" text-anchor="middle">3 · HTTPS 3001</text>
+<path d="M950 350 L1158 350" class="flow" marker-end="url(#arrow)"/>
+<text x="1054" y="339" class="route" text-anchor="middle">4 · TLS 5432</text>
+<path d="M105 318 L105 151 L418 151" class="flow" marker-end="url(#arrow)"/>
 <text x="258" y="140" class="route" text-anchor="middle">5 · HTTPS 443</text>
-<path d="M965 327 L1018 327 L1018 151 L685 151" class="flow" marker-end="url(#arrow)"/>
-<text x="852" y="140" class="route" text-anchor="middle">6 · HTTPS 443</text>
-<path d="M985 625 L1100 625 L1100 596 L1160 596" class="flow" marker-end="url(#arrow)"/>
-<text x="965" y="618" class="route" text-anchor="end">7 · Logs VM 1–2 · TLS 6514</text>
-<path d="M1415 583 L1590 583" class="flow" marker-end="url(#arrow)"/>
+<path d="M950 327 L1090 327 L1090 151 L687 151" class="flow" marker-end="url(#arrow)"/>
+<text x="888" y="140" class="route" text-anchor="middle">6 · HTTPS 443</text>
+<path d="M1045 600 L1158 600" class="flow" marker-end="url(#arrow)"/>
+<text x="1100" y="590" class="route" text-anchor="middle">7 · TLS 6514</text>
+<path d="M1415 583 L1588 583" class="flow" marker-end="url(#arrow)"/>
 <text x="1500" y="572" class="route" text-anchor="middle">8 · Service de fichiers</text>
-<path d="M837 388 L837 442" class="flow" marker-end="url(#arrow)"/>
-<text x="847" y="420" class="route" text-anchor="start">10A · Demandes</text>
-<path d="M107 492 L107 535" class="flow" marker-end="url(#arrow)"/>
-<text x="116" y="521" class="route" text-anchor="start">11A</text>
-<path d="M710 475 L640 475 L640 570 L215 570" class="flow" marker-end="url(#arrow)"/>
-<text x="420" y="560" class="route" text-anchor="middle">10A · API Configuration Manager</text>
-<path d="M195 457 L260 457 L260 370 L320 370" class="flow" marker-end="url(#arrow)"/>
-<text x="272" y="445" class="route" text-anchor="start">10B · M42 · HTTPS 443</text>
-<path d="M2200 152 L2230 152 L2230 345 L2202 345" class="flow" marker-end="url(#arrow)"/>
-<text x="2160" y="104" class="route" text-anchor="middle">12 · HTTPS 443</text>
-<path d="M2090 390 L2090 498" class="flow" marker-end="url(#arrow)"/>
+<path d="M825 388 L825 440" class="flow" marker-end="url(#arrow)"/>
+<text x="815" y="420" class="route" text-anchor="end">10A · Demandes</text>
+<path d="M107 492 L107 533" class="flow" marker-end="url(#arrow)"/>
+<text x="116" y="519" class="route" text-anchor="start">11A</text>
+<path d="M710 475 L640 475 L640 570 L252 570" class="flow" marker-end="url(#arrow)"/>
+<text x="445" y="560" class="route" text-anchor="middle">10A · API Configuration Manager</text>
+<path d="M215 457 L260 457 L260 370 L318 370" class="flow" marker-end="url(#arrow)"/>
+<text x="244" y="410" class="route" text-anchor="end">10B · HTTPS 443</text>
+<path d="M2200 152 L2235 152 L2235 345 L2202 345" class="flow" marker-end="url(#arrow)"/>
+<text x="2243" y="255" class="route" text-anchor="start">12 · HTTPS 443</text>
+<path d="M2090 395 L2090 498" class="flow" marker-end="url(#arrow)"/>
 <text x="2100" y="450" class="route" text-anchor="start">Stockage</text>
-<path d="M965 560 L975 560 L975 652 L1930 652 L1930 365 L1978 365" class="flow" marker-end="url(#arrow)"/>
+<path d="M950 590 L1020 590 L1020 652 L1930 652 L1930 365 L1978 365" class="flow" marker-end="url(#arrow)"/>
 <text x="1450" y="643" class="route" text-anchor="middle">13 · HTTPS 443 sortant par proxy</text>
-<path d="M710 582 L670 582 L670 370 L708 370" class="flow" marker-end="url(#arrow)"/>
-<text x="678" y="475" class="route" text-anchor="start">14 · Canal protégé</text>
+<path d="M950 560 L995 560 L995 375 L952 375" class="flow" marker-end="url(#arrow)"/>
+<text x="987" y="420" class="route" text-anchor="end">14 · Canal protégé</text>
 </svg>

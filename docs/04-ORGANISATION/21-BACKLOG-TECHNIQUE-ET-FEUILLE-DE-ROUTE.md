@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.15 | 14/11/2026 | Pilotage interne | Versions Word retirées | [25 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.16 | 14/11/2026 | Pilotage interne | Cocher les corrections du DAT et des schémas | [26 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -206,30 +206,26 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ## 6. Dossier d’architecture : écarts à soumettre au collègue [DAT]
 
-Le DAT validé fait foi ; ces écarts entre lui, la configuration réelle et ses schémas sont à lui soumettre, sans modifier le DAT.
+Le DAT validé fait foi ; ces écarts entre lui, la configuration réelle et ses schémas sont à lui soumettre. Le 14 novembre, l’utilisateur a fait corriger directement le DAT et les schémas pour les points cochés ci-dessous.
 
 ### DAT et configuration réelle
 
-- [ ] **Moyenne** — Secrets : « tous créés par le script de préparation », alors que `RIGEL_SECRET` et `RELAIS_TOKEN` sont créés par `deployer.sh` (le second peut venir du secret de la CI).
-- [ ] **Moyenne** — Données : « recréées au premier démarrage », alors que le service `api` des VM lance `outils/donnees-demonstration/charger.ts --reinitialiser` avant le serveur : les données sont remplacées à chaque déploiement qui change `SEED_VERSION` (`SEED_RESET` n’existe plus).
-- [ ] **Moyenne** — Migrations (`DAT:437`, « la procédure de migration reste à définir ») : le schéma évolue désormais par migrations versionnées appliquées au démarrage sous verrou consultatif (table `orion_migration`), sans réinitialisation ; le serveur n’embarque plus de données de démonstration. Configurations remises modifiées : `Dockerfile` (dossier `outils/` dans les images Node.js, simulateur lancé depuis `outils/simulateur-postes/agents.ts`) et `vm/pile.yaml` (commande du service `api`).
-- [ ] **Moyenne** — SSH : comptes nominatifs et vérification des clés d’hôte prescrits ; la configuration utilise le compte partagé `user`, `StrictHostKeyChecking=accept-new` et `sudo` par mot de passe ; recommandation non appliquée ou configuration à changer.
-- [ ] **Moyenne** — Filtrage : manquent `8080/TCP` vers le proxy depuis toutes les VM (images, paquets) et `443` d’orion-4 et orion-5 vers orion-1 (Express joint Keycloak par HAProxy).
+- [x] **Moyenne** — Secrets : « tous créés par le script de préparation », alors que `RIGEL_SECRET` et `RELAIS_TOKEN` sont créés par `deployer.sh` (le second peut venir du secret de la CI).
+- [x] **Moyenne** — Données : « recréées au premier démarrage », alors que le service `api` des VM lance `outils/donnees-demonstration/charger.ts --reinitialiser` avant le serveur : les données sont remplacées à chaque déploiement qui change `SEED_VERSION` (`SEED_RESET` n’existe plus).
+- [x] **Moyenne** — Migrations (`DAT:437`, « la procédure de migration reste à définir ») : le schéma évolue désormais par migrations versionnées appliquées au démarrage sous verrou consultatif (table `orion_migration`), sans réinitialisation ; le serveur n’embarque plus de données de démonstration. Configurations remises modifiées : `Dockerfile` (dossier `outils/` dans les images Node.js, simulateur lancé depuis `outils/simulateur-postes/agents.ts`) et `vm/pile.yaml` (commande du service `api`).
+- Décidé de ne pas faire (utilisateur, 14 novembre) — SSH : le compte partagé `user`, `StrictHostKeyChecking=accept-new` et `sudo` par mot de passe sont la configuration des VM fournies, que l’équipe n’a pas le droit de modifier.
+- [x] **Moyenne** — Filtrage : manquent `8080/TCP` vers le proxy depuis toutes les VM (images, paquets) et `443` d’orion-4 et orion-5 vers orion-1 (Express joint Keycloak par HAProxy).
 - [ ] **Moyenne** — Données de démonstration dans les livrables : compte `keycloak-admin` et commande de lecture de son mot de passe (§ 4.5) ; `ldap/orion-utilisateurs.ldif` remis avec les comptes `@orion.demo` (§ 4.8) ; flux de connexion sans mot de passe intégré à l’image Keycloak des VM, qui rend optimiste « authentifie l’utilisateur à partir de l’annuaire » (`17:64`) ; voir aussi § 1, comptes réels pour la présentation.
-- [ ] **Basse** — Provisionnement des identités « hors production uniquement » (`17:94`) alors que les VM tournent en `NODE_ENV=production` avec `IDENTITY_PROVISIONING=true` (le DAT le dit lui-même en `17:257`).
-- [ ] **Basse** — Absents : client Keycloak `orion-provisionnement`, secrets `PROVISIONING_CLIENT_SECRET` et `ca`, images `connecteur` et `relais` du `Dockerfile`, dépendance `swagger-ui-express` 5.0.1.
-- [ ] **Basse** — Versions et images : « HAProxy 3.2 » et « Apache 2.4 » au lieu des versions épinglées ; Keycloak présenté comme image officielle alors que c’est une image ORION construite sur `quay.io/keycloak/keycloak:26.7.4`.
+- [x] **Basse** — Provisionnement des identités « hors production uniquement » (`17:94`) alors que les VM tournent en `NODE_ENV=production` avec `IDENTITY_PROVISIONING=true` (le DAT le dit lui-même en `17:257`).
+- [x] **Basse** — Absents : client Keycloak `orion-provisionnement`, secrets `PROVISIONING_CLIENT_SECRET` et `ca`, images `connecteur` et `relais` du `Dockerfile`, dépendance `swagger-ui-express` 5.0.1.
+- [ ] **Basse** — Versions : « HAProxy 3.2 » et « Apache 2.4 » au lieu des versions épinglées (§ 5.3). L’image Keycloak, image officielle avec une légère surcouche ORION, est voulue (utilisateur, 14 novembre).
 - [ ] **Basse** — Logstash n’envoie pas ses propres logs au collecteur (« chaque conteneur… »).
 - [ ] **Basse** — Chemins `/srv/orion/…`, `/var/lib/…`, `/run/secrets/…` cités hors de l’inventaire des configurations : à confirmer qu’ils sont admis (chemins sur les VM).
 
 ### Schémas d’architecture (générateur)
 
-- [ ] **Moyenne** — Vue cible simplifiée : les rapports des postes Windows vont directement à Express, contrairement au flux 10B (par HAProxy) du DAT.
-- [ ] **Moyenne** — Vue complète : flux réels absents (Express → Keycloak pour le provisionnement, sondes de `/api/health` vers Apache, LDAP et Logstash, téléchargement des images par le proxy) ; le runner contourne la boîte du proxy ; flèche Connecteur → Express sans libellé « HTTP 3001 » ; « Swarm 2377/TCP » placé dans la boîte HAProxy.
-- [ ] **Moyenne** — Tracé : croisements et libellés sur des boîtes dans les quatre vues (Connecteur → Express, flèche 5 sur un titre de zone, libellés 7, 10A et 14 de la vue cible détaillée, flèche de 16 px dans la vue cible simplifiée, textes qui débordent).
-- [ ] **Basse** — Termes « émulateur » et « émulation » au lieu de « simulateur des postes et de leur agent d’administration » ; images d’Express, du simulateur et du connecteur non indiquées.
-- [ ] **Basse** — [Diagrammes d’architecture](../03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) : titre « Architecture réelle du démonstrateur » alors qu’il contient la cible ; textes alternatifs « déploiement proposé ».
-- [ ] **Basse** — Le générateur ne se relance plus : il utilise `lucide-react`, retiré de l’application le 13 novembre (inutilisé par l’interface) ; le réinstaller en dépendance de développement ou copier les icônes nécessaires.
+- [x] Les quatre vues sont redessinées le 14 novembre : rapports des postes par HAProxy (vue cible simplifiée) ; flux ajoutés (Express → Keycloak, Apache, OpenLDAP et Logstash, runner et connecteur par le proxy, proxy → GitHub) ; « Swarm · TCP 2377 » dans le groupe des managers ; images d’Express, du simulateur et du connecteur ; aucun croisement ni libellé sur une boîte ; « simulateur » au lieu d’« émulateur » ; titre et textes alternatifs du [document des diagrammes](../03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md). Le générateur se relance (`lucide-react` est resté une dépendance de l’application).
+- [ ] **Basse** — Vue complète : les flux d’hôte (horloge exceptée), syslog vers Logstash et téléchargement des images par le proxy, sont indiqués en texte dans « Sur chaque VM » plutôt que par des flèches, faute de tracé sans croisement.
 
 ## 7. Feuille de route : évolutions du projet
 

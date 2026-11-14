@@ -91,7 +91,7 @@ La session ORION expire au plus tard à l’expiration du jeton d’identité ou
 
 #### Cycle de vie des identités
 
-Hors production uniquement, le serveur ORION crée dans Keycloak, au démarrage et après chaque modification des comptes, l’identité des comptes ORION actifs qui n’en ont pas ; Keycloak l’enregistre dans l’annuaire. Ce provisionnement est désactivé en production, où les identités existent chez MindefConnect. Il ne crée ni compte ORION ni droit. Les changements de profil, d’école ou d’état actif sont portés par le compte ORION ; une désactivation ferme les sessions ORION en cours.
+Dans le démonstrateur, le serveur ORION crée dans Keycloak, au démarrage et après chaque modification des comptes, l’identité des comptes ORION actifs qui n’en ont pas ; Keycloak l’enregistre dans l’annuaire. Ce provisionnement passe par un client Keycloak dédié, `orion-provisionnement`, dont le compte de service n’a que les droits de gestion des utilisateurs. Il est désactivé par défaut en mode production et activé explicitement sur les VM, qui exécutent Express en mode production ; la cible ne l’active pas, les identités existant chez MindefConnect. Il ne crée ni compte ORION ni droit. Les changements de profil, d’école ou d’état actif sont portés par le compte ORION ; une désactivation ferme les sessions ORION en cours.
 
 #### Disponibilité et limites
 
@@ -191,8 +191,9 @@ Le filtrage autorise :
 - `6514/TCP` depuis le réseau des VM, sans filtrage dédié ; chaque pilote `syslog` joint sa propre adresse locale, puis le maillage de routage transmet le flux à la VM de Logstash ;
 - `2049/TCP` d’orion-6 à orion-9 vers orion-10 (NFSv4) ;
 - `123/UDP` des VM orion-2 à orion-10 vers orion-1, horloge de référence ;
-- `22/TCP` d’orion-3 vers orion-1 (déploiement par le runner), et `8080/TCP` d’orion-3 vers le proxy du réseau (`172.16.0.1`), par lequel le runner joint GitHub en HTTPS.
-- `8080/TCP` d’orion-4 et orion-5 vers le proxy du réseau (`172.16.0.1`), par lequel le connecteur RIGEL joint le relais Hidora en HTTPS ; aucune connexion n’est initiée du relais vers les VM.
+- `443/TCP` d’orion-4 et orion-5 vers orion-1 : Express joint Keycloak par HAProxy ;
+- `22/TCP` d’orion-3 vers orion-1 (déploiement par le runner) ;
+- `8080/TCP` des VM du cluster vers le proxy du réseau (`172.16.0.1`) : téléchargement des images par chaque VM, accès du runner d’orion-3 à GitHub et du connecteur RIGEL d’orion-4 ou orion-5 au relais Hidora, en HTTPS ; aucune connexion n’est initiée du relais vers les VM.
 
 #### Docker Swarm
 
@@ -222,7 +223,7 @@ Depuis son poste, l’opérateur pilote le cluster avec le client Docker, relié
 
 **Horloge.** Aucun serveur de temps n’est disponible. Les VM doivent pourtant avoir la même heure, à quelques secondes près : les jetons de connexion émis par Keycloak sont contrôlés par Express sur une autre VM, les deux instances d’Express datent les enregistrements, et Swarm vérifie les certificats échangés entre les VM. orion-1 sert donc d’horloge de référence : chrony, programme de synchronisation de l’heure, y est installé sur l’hôte et répond en NTP (`123/UDP`). Les VM orion-2 à orion-10 s’y règlent avec `systemd-timesyncd`, déjà présent dans Debian 13. L’heure commune peut dériver légèrement de l’heure réelle, sans effet sur ORION. Si orion-1 est indisponible, les horloges continuent de fonctionner et ne dérivent que lentement.
 
-Aucune sauvegarde n’est prévue : il s’agit d’une démonstration, et les données de départ sont recréées au premier démarrage.
+Aucune sauvegarde n’est prévue : il s’agit d’une démonstration. Avant de démarrer Express, le service `api` charge le jeu de démonstration ; il le remplace, en réinitialisant les données, à chaque déploiement d’une nouvelle version de ce jeu.
 
 #### Secrets
 
@@ -233,13 +234,15 @@ Les secrets sont des secrets Docker Swarm : chiffrés et répliqués entre les m
 | Accès PostgreSQL | Express et PostgreSQL |
 | Secret du client OIDC | Express ; même valeur enregistrée dans le client Keycloak |
 | Secret de session | Express |
+| Secret du client de provisionnement | Express ; même valeur enregistrée dans le client Keycloak `orion-provisionnement` |
 | Secret RIGEL (`RIGEL_SECRET`) | Express et connecteur RIGEL |
 | Jeton du relais RIGEL | Connecteur RIGEL ; même valeur configurée sur le relais Hidora |
 | Jeton des postes | Express et simulateur des postes |
 | Compte de liaison LDAP et administration de Keycloak | Keycloak et OpenLDAP |
 | Clé privée et certificat TLS | HAProxy et Logstash |
+| Certificat de l’autorité ORION (`ca`) | Express, pour reconnaître le certificat de HAProxy |
 
-Tous les secrets de la pile, y compris les clés et certificats TLS de HAProxy et de Logstash, sont des secrets Swarm, créés une fois par le script de préparation avec des valeurs aléatoires ; aucun n’est écrit dans la configuration remise, dans une image ou dans une variable d’environnement de la pile. Hors de Swarm ne restent que les clés SSH de l’opérateur et du runner, l’enregistrement du runner auprès de GitHub, conservé sur orion-3, et l’autorité de certification : sa clé privée reste sur le poste de l’opérateur ; son certificat, public, est déposé sur chaque VM pour que le pilote `syslog` de Docker vérifie le collecteur. Le script ne réalise pas la rotation : les noms de secrets externes sont fixes et Swarm ne modifie pas leur contenu. Une procédure de rotation doit donc créer de nouveaux noms, mettre à jour la pile, redéployer, vérifier, puis retirer les anciens secrets. Le verrouillage automatique des managers (`autolock`) n’est pas activé, pour qu’un redémarrage ne demande aucune action ; protéger en contrepartie l’accès aux disques des managers.
+Tous les secrets de la pile sont des secrets Swarm, créés une seule fois avec des valeurs aléatoires : par le script de préparation, y compris les clés et certificats TLS de HAProxy et de Logstash ; par le script de déploiement pour `RIGEL_SECRET` et `RELAIS_TOKEN`, ce dernier pouvant reprendre au premier déploiement la valeur fournie par l’intégration continue ; aucun n’est écrit dans la configuration remise, dans une image ou dans une variable d’environnement de la pile. Hors de Swarm ne restent que les clés SSH de l’opérateur et du runner, l’enregistrement du runner auprès de GitHub, conservé sur orion-3, et l’autorité de certification : sa clé privée reste sur le poste de l’opérateur ; son certificat, public, est déposé sur chaque VM pour que le pilote `syslog` de Docker vérifie le collecteur. Le script ne réalise pas la rotation : les noms de secrets externes sont fixes et Swarm ne modifie pas leur contenu. Une procédure de rotation doit donc créer de nouveaux noms, mettre à jour la pile, redéployer, vérifier, puis retirer les anciens secrets. Le verrouillage automatique des managers (`autolock`) n’est pas activé, pour qu’un redémarrage ne demande aucune action ; protéger en contrepartie l’accès aux disques des managers.
 
 `RIGEL_SECRET` dérive les clés et jetons des recensements et installations RIGEL : sa rotation révoque les appairages existants. `RELAIS_TOKEN` authentifie le connecteur auprès du relais ; sa rotation exige le retrait de la pile `orion-rigel` et de l’ancien secret Swarm avant redéploiement. Le jeton `HIDORA_TOKEN`, utilisé uniquement par l’intégration continue pour publier le relais, ne doit être transmis à aucun conteneur.
 
@@ -294,7 +297,7 @@ Les fichiers suivants constituent la configuration de l’architecture réelle r
 
 | Fichier ou dossier | Rôle |
 | --- | --- |
-| `Dockerfile` | Images Apache, Express, simulateur des postes et Keycloak |
+| `Dockerfile` | Images Apache, Express, simulateur des postes, connecteur et relais RIGEL, et Keycloak |
 | `images/apache-orion.conf` et `images/secrets.sh` | Configuration Apache et chargement des secrets Swarm dans les processus concernés |
 | `vm/vm.sh` | Adresses, réseau, DNS, VM de secours et accès SSH |
 | `vm/pile.yaml` | Services Swarm, placement, instances, réseaux, secrets, configurations et volumes NFS |
@@ -326,6 +329,7 @@ Les dépendances npm et les images Docker sont verrouillées sur des versions ex
 | `express-session` | 1.19.0 | Sessions serveur |
 | `connect-pg-simple` | 10.0.0 | Sessions dans PostgreSQL |
 | `pg` | 8.23.1 | Accès PostgreSQL depuis Node.js |
+| `swagger-ui-express` | 5.0.1 | Documentation interactive de l’API |
 | PostgreSQL | image `postgres:17.7-alpine` | Données métier et sessions |
 | Keycloak | image `quay.io/keycloak/keycloak:26.7.4` | Substitut local de MindefConnect |
 | OpenLDAP | image `osixia/openldap:1.5.0` | Annuaire local des identités |
@@ -434,7 +438,7 @@ L’accès à PostgreSQL sérialise les écritures sur la même ligne de révisi
 
 L’ETag dépend de la révision globale. Des rapports fréquents peuvent donc faire renvoyer une vue complète à la plupart des actualisations : ajouter 25 ou 125 fois la taille mesurée d’une vue par seconde. Les 2 000 révisions conservées couvrent environ **9,8 s** ou **2,0 s** aux cadences calculées si chaque transaction produit une révision. Une modification fondée sur une révision plus ancienne peut recevoir un HTTP 409. La collecte toutes les 5 s et la lecture toutes les 4 s peuvent aussi donner près de 9 s d’ancienneté à l’écran avant traitement, au-delà des 5 s attendues.
 
-Avant mise en production, éprouver la charge mixte avec des jeux de données réalistes, des rafales de reconnexion, des PDF concurrents, des imports, la collecte et une coupure du puits. Mesurer les tailles de vue et de rapport, la fraîcheur à l’écran, les conflits d’édition, les temps de réponse, le verrou, le CPU, la RAM, les IOPS, le débit des disques et la croissance des logs et de la base. Séparer les migrations de production du réamorçage du jeu de départ : en production, le serveur refuse une version de données incompatible tant que la réinitialisation est désactivée. La procédure de migration reste à définir. À 5 000 postes, qualifier en priorité des écritures de supervision moins sérialisées et des lectures UI plus ciblées. Les lots ne sont utiles que si l’agent les permet, si le temps par rapport sous verrou diminue et si le délai des interventions reste compatible.
+Avant mise en production, éprouver la charge mixte avec des jeux de données réalistes, des rafales de reconnexion, des PDF concurrents, des imports, la collecte et une coupure du puits. Mesurer les tailles de vue et de rapport, la fraîcheur à l’écran, les conflits d’édition, les temps de réponse, le verrou, le CPU, la RAM, les IOPS, le débit des disques et la croissance des logs et de la base. Le schéma de la base évolue par migrations versionnées, appliquées au démarrage d’Express sous un verrou consultatif PostgreSQL et inscrites dans la table `orion_migration` : une base de production évolue sans réinitialisation, et le serveur ne contient aucune donnée de démonstration. À 5 000 postes, qualifier en priorité des écritures de supervision moins sérialisées et des lectures UI plus ciblées. Les lots ne sont utiles que si l’agent les permet, si le temps par rapport sous verrou diminue et si le délai des interventions reste compatible.
 
 ### 6.4. Extension à 5 000 postes
 
