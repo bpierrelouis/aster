@@ -1984,6 +1984,13 @@
         "version": "4.7",
         "date": "2026-11-14",
         "modification": "RIGEL : accepter sur place ou ramener (RG-96)",
+        "archive": null,
+        "commit": "07a0096"
+      },
+      {
+        "version": "4.8",
+        "date": "2026-11-14",
+        "modification": "Corrections de l’audit du 13 novembre réalisées",
         "archive": null
       }
     ]

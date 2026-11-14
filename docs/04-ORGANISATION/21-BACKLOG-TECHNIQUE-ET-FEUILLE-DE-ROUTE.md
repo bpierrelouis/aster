@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.7 | 14/11/2026 | Pilotage interne | RIGEL : accepter sur place ou ramener (RG-96) | [17 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.8 | 14/11/2026 | Pilotage interne | Corrections de l’audit du 13 novembre réalisées | [18 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -43,16 +43,16 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Corrections relevées par l’audit du 13 novembre
 
-- [ ] **Moyenne** — Une remontée peut viser une salle d’une autre école : le serveur ne contrôle pas `salleId` (`backend/workspace/rules.ts`, création des remontées) ; le PDF affiche alors la salle de l’autre école.
-- [ ] **Moyenne** — Le formateur trouve par la recherche globale tous les matériels de son école, stock compris (`shell-menus.tsx`, `can('materiel.view')`), contrairement à la matrice (consultation depuis la salle seulement).
-- [ ] **Moyenne** — Test instable `workspace-ui.spec.ts` « deux ambiances… » : il ne rétablit pas les préférences (ambiance Minarm) et fait alors échouer « la palette Orion… » ; rétablir dans un `finally` ou un `beforeEach`.
-- [ ] **Moyenne** — Relais RIGEL : aucun plafond du nombre d’événements non acquittés par campagne ; un téléphone appairé ou un jeton divulgué peut remplir la base jusqu’à l’expiration.
-- [ ] **Basse** — `GET /api/workspace/postes/:id/jeton` absent de l’OpenAPI (`backend/openapi.ts`).
-- [ ] **Basse** — Postes : normaliser `nomReseau` en majuscules côté serveur (un poste en minuscules ne serait pas reconnu par ses rapports) et contrôler `materielId` (unité centrale de la même école).
-- [ ] **Basse** — Catalogue des applications : refuser la suppression d’une application encore référencée par des installations ou des interventions.
-- [ ] **Basse** — Factoriser la comparaison à temps constant (`routes.ts` et `relais.ts`) et le contrôle « seul ce champ est modifiable » (`rules.ts`, `recensement.ts`).
-- [ ] **Basse** — Guide de l’application : `Dockerfile` construit six images (ajouter relais et connecteur) ; arborescence sans `frontend/rigel/` ni `vite.rigel.config.ts` ; scripts `start:relais` et `dev:backend` absents ; la ligne « tous les secrets créés par `installer.sh` » contredit la section RIGEL (secrets créés au déploiement) et attribue le runner à `installer.sh` au lieu de `runner.sh` ; la section Keycloak réserve à tort le flux sans mot de passe à Compose ; périmètre des configurations remises avec le DAT plus large que le tableau « Déploiement sur les VM » (`Dockerfile`, `images/`, `rigel/`, `ldap/`).
-- [ ] **Basse** — Configuration Keycloak : le mapper `orion-roles` subsiste alors que les rôles Keycloak ne sont pas lus.
+- [x] **Moyenne** — Remontée : le serveur ne garde à la création que les champs saisis (école, matériels, type de problème, description) ; une salle ou toute autre valeur envoyée est ignorée (`rules.ts`, 14 novembre).
+- [x] **Moyenne** — Recherche globale du formateur limitée aux matériels de salle (`009cfd5`).
+- [x] **Moyenne** — Test « une synchronisation lue pendant un enregistrement… » instable : une synchronisation périodique, normale avant le choix de Minarm (le simulateur des postes fait avancer la révision), était comptée ; le test ne vérifie plus que les états qui suivent le choix. L’apparence est rétablie avant chaque test (`beforeEach`, `2ac9f50`).
+- [x] **Moyenne** — Relais RIGEL : au plus 5 000 événements non acquittés par campagne (`MAX_EN_ATTENTE`), refus 429 au-delà ; le téléphone garde ses constats et les renvoie.
+- [x] **Basse** — `GET /api/workspace/postes/:id/jeton` décrit dans l’OpenAPI.
+- [x] **Basse** — Postes : `nomReseau` enregistré en capitales par le serveur ; `materielId` contrôlé (unité centrale de l’école de la salle du poste).
+- [x] **Basse** — Catalogue des applications : suppression refusée pour une application installée sur un poste ou citée par une intervention.
+- [x] **Basse** — Comparaison à temps constant factorisée (`backend/securite.ts`) ; contrôle « seuls ces champs sont modifiables » factorisé (`seulsModifies`, `rules.ts`).
+- [x] **Basse** — Guide de l’application : six images, arborescence RIGEL, scripts `dev:backend` et `start:relais`, secrets RIGEL créés par `deployer.sh`, runner installé par `runner.sh`, flux sans mot de passe aussi dans l’image Keycloak des VM, configurations remises avec le DAT (`Dockerfile`, `images/`, `keycloak/`, `ldap/`, `rigel/`).
+- [x] **Basse** — Configuration Keycloak : mapper `orion-roles` retiré du realm (les rôles Keycloak ne sont pas lus).
 
 ### Évolutions
 
