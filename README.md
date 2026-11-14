@@ -76,7 +76,7 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 - [Diagrammes d’états](docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md) : cycles de vie d’une remontée (prise en charge obligatoire par le gestionnaire) et d’une intervention sur les postes (conditions, état par poste, effets et fin).
 - [Dossier d’architecture technique](docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) : contexte et contraintes, choix techniques, architecture réelle sur VM, configurations remises, versions et architecture cible sur le C1NP.
 - [Diagrammes d’architecture](docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) : vue simplifiée et vue complète du démonstrateur sur dix VM, puis vues simplifiée et détaillée de la cible sur quatre VM C1NP.
-- [Backlog et suivi du projet](docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) : backlog, organisation Agile et suivi des progressions, avec sa [version Word](docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx).
+- [Backlog et suivi du projet](docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) : backlog, organisation Agile et suivi des progressions.
 - [Backlog technique et feuille de route](docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) : travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre) et évolutions envisagées ; document de pilotage interne, non remis.
 - [Design](design/README.md) : charte graphique, ressources visuelles et maquettes d’interface.
 - [Présentations](presentations/README.md) : supports datés et instructions pour les consulter.

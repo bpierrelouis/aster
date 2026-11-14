@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.3 | 14/11/2026 | Production destinée à la remise | Reprendre les références de commits du brouillon de suivi | [7 versions](../../archive/README.md#20-backlog-et-suivi-projet) |
+| 3.4 | 14/11/2026 | Production destinée à la remise | Plus de version Word : le Markdown fait foi | [8 versions](../../archive/README.md#20-backlog-et-suivi-projet) |
 <!-- version:fin -->
 
 **Période : du 20 octobre au 19 novembre 2026.**
@@ -277,5 +277,5 @@ Ces identifiants définissent les traces à constituer ; aucun compte rendu de c
 | Capture initiale du besoin | Périmètre, PB-01 à PB-09 et décisions client. | [Cadrage](../01-CONTEXTE/02-CADRAGE.md) et [entretiens datés](../01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md), en sources internes de préparation. |
 | Dossier d’analyse — DSE | PB-08 ; tâches de modèles, droits et relecture. | Productions sélectionnées au [sommaire](../../README.md), assemblées pour la remise ; ce suivi ne remplace pas leur contenu. |
 | Organisation en équipe Agile | § 2 : responsabilités, domaines et entraide. | Répartition, coordination et contributions présentées par les seuls noms de famille. |
-| Présentation et suivi du backlog | § 3, § 5 à 8 et graphiques Word. | Product Backlog, tâches, estimations d’avancement, réserves et références Git. |
+| Présentation et suivi du backlog | § 3, § 4.6 (graphiques), § 5 à 8. | Product Backlog, tâches, estimations d’avancement, réserves et références Git. |
 | Cérémonies Scrum-XP et leur traçabilité | § 4 et § 11.1. | Calendrier, modalités, pratiques XP et comptes rendus effectivement renseignés. |

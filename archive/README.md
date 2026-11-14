@@ -25,22 +25,17 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md) | Production destinée à la remise | [1.5](#10-dcu-supervision-postes) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md) | Production destinée à la remise | [3.1](#11-dcu-remontees-utilisateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md) | Production destinée à la remise | [6.4](#12-matrice-droits) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx) | Production destinée à la remise | [1.1](#13-fiche-descriptive-gestionnaire) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [4.3](#13-fiche-descriptive-gestionnaire) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx) | Production destinée à la remise | [1.2](#14-fiche-descriptive-formateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [3.1](#14-fiche-descriptive-formateur) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx) | Production destinée à la remise | [1.1](#15-fiche-descriptive-administrateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [4.2](#15-fiche-descriptive-administrateur) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.docx) | Production destinée à la remise | [1.1](#16-fiche-descriptive-super-administrateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [4.2](#16-fiche-descriptive-super-administrateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) | Brouillon interne | [1.3](#diagrammes-activite-cas-utilisation-brouillon-v2) | 14/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [4.1](#17-diagrammes-etats) | 14/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/README.md](../docs/02-ANALYSE/04-CONCEPTION/README.md) | Production destinée à la remise | [1.1](#readme) | 14/11/2026 |
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [3.1](#18-dossier-architecture-technique) | 14/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.1](#19-diagrammes-architecture) | 14/11/2026 |
-| [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.4](#20-backlog-et-suivi-projet) | 14/11/2026 |
-| [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.3](#20-backlog-et-suivi-projet) | 14/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.14](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
+| [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.4](#20-backlog-et-suivi-projet) | 14/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.15](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -308,15 +303,6 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/
 
 ### 13-FICHE-DESCRIPTIVE-GESTIONNAIRE
 
-Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx) · Production destinée à la remise
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
-| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `186f904` | — |
-
-### 13-FICHE-DESCRIPTIVE-GESTIONNAIRE
-
 Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
@@ -336,16 +322,6 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNA
 
 ### 14-FICHE-DESCRIPTIVE-FORMATEUR
 
-Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx) · Production destinée à la remise
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 1.2 | 14/11/2026 | Régénérée depuis la fiche | en vigueur | — |
-| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | `fa8e2ad` | — |
-| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `186f904` | — |
-
-### 14-FICHE-DESCRIPTIVE-FORMATEUR
-
 Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
@@ -359,15 +335,6 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR
 | 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
 | 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
 | 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
-
-### 15-FICHE-DESCRIPTIVE-ADMINISTRATEUR
-
-Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx) · Production destinée à la remise
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
-| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `186f904` | — |
 
 ### 15-FICHE-DESCRIPTIVE-ADMINISTRATEUR
 
@@ -387,15 +354,6 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTR
 | 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
 | 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
 | 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
-
-### 16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR
-
-Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.docx) · Production destinée à la remise
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
-| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `186f904` | — |
 
 ### 16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR
 
@@ -482,23 +440,12 @@ Fichier : [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHIT
 
 ### 20-BACKLOG-ET-SUIVI-PROJET
 
-Fichier : [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx) · Production destinée à la remise
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 1.4 | 14/11/2026 | Version Word régénérée (graphiques à jour) | en vigueur | — |
-| 1.3 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | `fa8e2ad` | — |
-| 1.2 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ | `69eaf4e` (`docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
-| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | `61abf4a` (`docs/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
-| 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `b2a5a17` (`docs/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
-
-### 20-BACKLOG-ET-SUIVI-PROJET
-
 Fichier : [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.3 | 14/11/2026 | Reprendre les références de commits du brouillon de suivi | en vigueur | — |
+| 3.4 | 14/11/2026 | Plus de version Word : le Markdown fait foi | en vigueur | — |
+| 3.3 | 14/11/2026 | Reprendre les références de commits du brouillon de suivi | `6a9d33c` | — |
 | 3.2 | 14/11/2026 | Actualiser les graphiques depuis le projet GitHub | `b5f9cf9` | — |
 | 3.1 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | `e99107c` | — |
 | 3.0 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ ; Rendu de l’application le 17 novembre, supports le 18, présentation le 19 ; graphiques régénérés | `69eaf4e` (`docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md`) | — |
@@ -512,7 +459,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.14 | 14/11/2026 | Actualiser déploiement, CI, adresse MAC et proxy de développement ; Actualiser adresse MAC, proxy de développement et suivi GitHub | en vigueur | — |
+| 4.15 | 14/11/2026 | Versions Word retirées | en vigueur | — |
+| 4.14 | 14/11/2026 | Actualiser déploiement, CI, adresse MAC et proxy de développement ; Actualiser adresse MAC, proxy de développement et suivi GitHub | `6a9d33c` | — |
 | 4.13 | 14/11/2026 | Jetons « Accès de présentation » rétablis à la place du tableau des comptes | `2a88faf` | — |
 | 4.12 | 14/11/2026 | Consigner la mise à jour des statuts GitHub | `baabbf7` | — |
 | 4.11 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | `80413fc` | — |
@@ -600,6 +548,55 @@ Ancien emplacement : `design/maquettes/maquette-dashboard-proposition-c-analyse.
 | --- | --- | --- | --- | --- |
 | 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | [archive](design/maquettes/maquette-dashboard-proposition-c-analyse-v1.1-2026-11-12.html) |
 | 1.0 | 10/11/2026 | Proposer trois maquettes du tableau de bord | `284cbc0` | [archive](design/maquettes/maquette-dashboard-proposition-c-analyse-v1.0-2026-11-10.html) |
+
+### 13-FICHE-DESCRIPTIVE-GESTIONNAIRE
+
+Ancien emplacement : `docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx`. Retiré le 14/11/2026 : Version Word retirée : le Markdown fait foi
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | `80413fc` | — |
+| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `186f904` | — |
+
+### 14-FICHE-DESCRIPTIVE-FORMATEUR
+
+Ancien emplacement : `docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx`. Retiré le 14/11/2026 : Version Word retirée : le Markdown fait foi
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.2 | 14/11/2026 | Régénérée depuis la fiche | `fa8e2ad` | — |
+| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | `fa8e2ad` | — |
+| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `186f904` | — |
+
+### 15-FICHE-DESCRIPTIVE-ADMINISTRATEUR
+
+Ancien emplacement : `docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx`. Retiré le 14/11/2026 : Version Word retirée : le Markdown fait foi
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | `80413fc` | — |
+| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `186f904` | — |
+
+### 16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR
+
+Ancien emplacement : `docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.docx`. Retiré le 14/11/2026 : Version Word retirée : le Markdown fait foi
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | `80413fc` | — |
+| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `186f904` | — |
+
+### 20-BACKLOG-ET-SUIVI-PROJET
+
+Ancien emplacement : `docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx`. Retiré le 14/11/2026 : Version Word retirée : le Markdown fait foi
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.4 | 14/11/2026 | Version Word régénérée (graphiques à jour) | `fa8e2ad` | — |
+| 1.3 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | `fa8e2ad` | — |
+| 1.2 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ | `69eaf4e` (`docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
+| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | `61abf4a` (`docs/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
+| 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `b2a5a17` (`docs/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
 
 ### 20-SUIVI-BACKLOG-BROUILLON-V1
 

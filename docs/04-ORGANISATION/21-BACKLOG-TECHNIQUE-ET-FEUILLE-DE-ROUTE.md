@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.14 | 14/11/2026 | Pilotage interne | Actualiser déploiement, CI, adresse MAC et proxy de développement ; Actualiser adresse MAC, proxy de développement et suivi GitHub | [24 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.15 | 14/11/2026 | Pilotage interne | Versions Word retirées | [25 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -202,7 +202,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Brouillons
 
-- [x] Brouillons Word des fiches retirés le 14 novembre ; les fiches ont leur version Word générée depuis le Markdown (`fiches-word.sh`, #144).
+- [x] Versions Word des fiches et du backlog retirées le 15 novembre : le Markdown fait foi (#144).
 
 ## 6. Dossier d’architecture : écarts à soumettre au collègue [DAT]
 
