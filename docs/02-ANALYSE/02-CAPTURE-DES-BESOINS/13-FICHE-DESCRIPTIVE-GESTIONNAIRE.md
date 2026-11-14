@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.1 | 14/11/2026 | Production destinée à la remise | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | [10 versions](../../../archive/README.md#13-fiche-descriptive-gestionnaire) |
+| 4.2 | 14/11/2026 | Production destinée à la remise | RIGEL : accepter sur place ou ramener (RG-96) | [11 versions](../../../archive/README.md#13-fiche-descriptive-gestionnaire) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -121,7 +121,7 @@ RG-11 à RG-14, RG-23 à RG-25, RG-34 à RG-38, RG-64, RG-66, RG-67, RG-69, RG-7
 3. Sur place, il ouvre la salle dans RIGEL en scannant son QR code.
 4. Il scanne chaque matériel : Data Matrix, QR code, code-barres ou numéro de série lu par reconnaissance de caractères.
 5. Pour un matériel attendu dans la salle, RIGEL confirme l’installation. Dans ORION, le point passe au vert et l’avancement du trajet progresse.
-6. Pour un matériel affecté au stock ou à une autre salle, RIGEL propose de le relocaliser dans la salle ; s’il accepte, l’affectation et l’installation sont confirmées ensemble.
+6. Pour un matériel affecté au stock ou à une autre salle, RIGEL propose de l’accepter dans la salle (affectation et installation confirmées ensemble) ou de le ramener dans son lieu d’affectation (déplacement lancé, à confirmer au retour) ; un matériel hors service ne peut être accepté qu’au stock (RG-96).
 7. Lorsque tous les matériels d’une salle sont confirmés, la salle passe dans la colonne **Terminées** du backlog **Installations** de **Remontées**.
 
 ### Variantes et limites
@@ -156,9 +156,9 @@ RG-26, RG-27, RG-87, RG-92 et RG-94.
 1. Dans ORION (**Matériels › Recensement**), le gestionnaire lance un recensement sur toute son école ou sur des salles choisies.
 2. ORION affiche le QR code d’appairage du recensement ; il le scanne avec son téléphone professionnel, qui est lié à l’opération. RIGEL reçoit les salles et les matériels du recensement, et seulement ceux-là.
 3. Si nécessaire, il imprime depuis ORION les étiquettes QR des salles et du stock.
-4. Dans chaque salle, il scanne le QR code de la salle puis les matériels. RIGEL confirme la présence d’un matériel attendu, ou signale un écart sans déplacer le matériel ; un code inconnu est transmis avec les informations saisies sur le téléphone (type, modèle, numéro de série).
-5. ORION reçoit chaque scan comme un constat daté par le serveur et présente le bilan : matériels vus sur matériels attendus, installations confirmées, constats à traiter.
-6. Pour chaque écart, le gestionnaire choisit dans ORION de remettre le matériel au stock, de le ramener dans sa salle d’affectation ou de le réaffecter à la salle où il a été constaté.
+4. Dans chaque salle, ou au stock, il scanne le QR code du lieu, ce qui revient à déclarer qu’il s’y trouve, puis les matériels. RIGEL confirme la présence d’un matériel attendu ; un code inconnu est transmis avec les informations saisies sur le téléphone (type, modèle, numéro de série).
+5. Pour un matériel affecté ailleurs, RIGEL propose deux choix : **Accepter dans <salle>** (ou **Ranger au stock** s’il est au stock), qui le réaffecte au lieu et confirme son installation ; ou **Ramener dans <salle d’affectation>** (ou **Ramener au stock**), qui lance son déplacement vers son lieu d’affectation : le point passe à l’orange et le gestionnaire confirmera l’installation une fois le matériel rapporté. Depuis une salle, un matériel ne peut pas être rangé au stock.
+6. ORION reçoit chaque scan comme un constat daté par le serveur et présente le bilan : matériels vus sur matériels attendus, installations confirmées, retours lancés, constats à traiter.
 7. Pour un code inconnu, il ajoute le matériel au parc à partir des informations reçues, ou écarte le constat.
 8. Il clôt le recensement lorsqu’il est terminé.
 

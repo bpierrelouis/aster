@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.0 | 14/11/2026 | Production destinée à la remise | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | [12 versions](../../../archive/README.md#12-matrice-droits) |
+| 6.1 | 14/11/2026 | Production destinée à la remise | RIGEL : accepter sur place ou ramener (RG-96) | [13 versions](../../../archive/README.md#12-matrice-droits) |
 <!-- version:fin -->
 
 Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
@@ -48,8 +48,8 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 | Consulter le tableau de bord du parc | Oui | Non | Oui | Oui | La vue présente notamment l’état des stocks et peut être filtrée par salle. | RG-15, RG-24 et RG-36, DCU 08 |
 | Prévoir l’installation d’une salle (déplacements prévus dans ORION) | Oui | Non | Oui | Oui | Les matériels affectés passent « en cours de déplacement ». | RG-92 |
 | Confirmer l’installation d’un matériel (point de déplacement ou RIGEL) | Oui | Non | Non | Non | Dans ORION en cliquant sur le point de déplacement, ou sur place avec RIGEL ; l’administrateur et le super administrateur suivent l’avancement sans le modifier. | RG-92 et RG-94 |
-| Lancer et réaliser un recensement avec RIGEL | Oui | Non | Non | Non | Lancé depuis ORION, téléphone lié à l’opération ; aucun déplacement pendant un recensement. | RG-93 et RG-94 |
-| Traiter un écart ou un code inconnu | Oui | Non | Non | Non | Remettre au stock, ramener dans sa salle ou réaffecter à la salle constatée. | RG-95 |
+| Lancer et réaliser un recensement avec RIGEL | Oui | Non | Non | Non | Lancé depuis ORION, téléphone lié à l’opération ; un matériel trouvé ailleurs est accepté sur place ou ramené dans son lieu d’affectation. | RG-93, RG-94 et RG-96 |
+| Traiter un code inconnu ou un écart antérieur | Oui | Non | Non | Non | Ajouter le matériel au parc ou écarter le constat ; remettre au stock, ramener ou réaffecter un écart signalé avant RG-96. | RG-95 |
 
 ## Remontées utilisateur
 

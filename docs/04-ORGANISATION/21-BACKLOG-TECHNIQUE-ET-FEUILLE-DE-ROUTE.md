@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.6 | 14/11/2026 | Pilotage interne | Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | [16 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.7 | 14/11/2026 | Pilotage interne | RIGEL : accepter sur place ou ramener (RG-96) | [17 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -75,7 +75,8 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 - [ ] **Haute** — Aligner RIGEL sur RG-92 à RG-95 (décision de l’utilisateur du 14 novembre) ; l’application a aujourd’hui une seule « campagne » ouverte dans ORION :
   - séparer l’installation d’une salle (réalise les déplacements prévus dans ORION, relocalise) et le recensement (lancé depuis ORION par le gestionnaire, téléphone lié, vérifie sans déplacer) ;
   - réserver la réalisation avec RIGEL et le traitement des constats au gestionnaire (l’administrateur et le super administrateur prévoient seulement les déplacements) ;
-  - traiter un écart dans ORION en guidant l’action : remettre au stock, ramener dans la salle d’affectation ou réaffecter à la salle constatée ;
+  - RIGEL : un lieu ouvert vaut présence physique ; un matériel affecté ailleurs est accepté sur place ou ramené dans son lieu d’affectation (RG-96, en cours le 14 novembre) ;
+  - traiter dans ORION les écarts signalés avant RG-96 en guidant l’action : remettre au stock, ramener dans la salle d’affectation ou réaffecter à la salle constatée ;
   - mettre à jour les fiches descriptives, les DCU et le MCD (installation, recensement, constat).
 - [ ] Jeton d’un poste : seule l’API `GET /api/workspace/postes/:id/jeton` permet de l’obtenir ; prévoir l’action dans Administration › Postes. Renouveler `AGENT_TOKEN` révoque tous les jetons à la fois : prévoir une révocation poste par poste si le besoin apparaît.
 - [ ] Adresse MAC du matériel : présente dans le MCD, absente du code ; à reprendre avec le collègue qui l’ajoute (scanner de matrice).
