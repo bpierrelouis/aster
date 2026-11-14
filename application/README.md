@@ -277,8 +277,6 @@ L’environnement Hidora existant (conteneur Fastify et nœud PostgreSQL de l’
 
 L’image de la cible `relais` est publiée sous `HIDORA_IMAGE:<SHA>` avec les autres images (« 3 · Image relais ») ; le job de déploiement définit les variables du conteneur (`NODE_ENV=production`, `PORT` et `JELASTIC_EXPOSE` à `3000`, `TZ`, `RELAIS_TOKEN`) par l’API de la plateforme (`addcontainerenvvars`), le redéploie avec cette étiquette (`redeploycontainersbygroup`), puis attend `RELAIS_URL/api/health`. `DATABASE_URL` reste celui du conteneur. Il ne conditionne pas le déploiement des VM, et réciproquement. Un échec de ce job vient donc de la plateforme, pas de l’image. Retour arrière : relancer le job « 4 · Déploiement Hidora » d’une exécution précédente, ou « Redeploy container » vers l’étiquette précédente dans Hidora.
 
-Sans la CI : `.\infra\rigel\publier-hidora.ps1 -Image docker.io/<compte>/rigel -Tag <version>` depuis `application/`, puis, dans Hidora, ces variables et « Redeploy container » vers l’étiquette publiée.
-
 Ensuite, côté ORION : le déploiement des VM transmet `RELAIS_URL` et `RELAIS_TOKEN` à `deployer.sh` (voir ci-dessous), qui renseigne `RIGEL_URL` d’Express et déploie le connecteur. Hors des VM : `RIGEL_URL` et `RIGEL_SECRET` pour Express ; connecteur (image `connecteur` ou `npm run dev:connecteur`) avec `NODE_ENV=production`, `ORION_API`, le même `RIGEL_SECRET`, `RELAIS_URL`, `RELAIS_TOKEN` et `HTTPS_PROXY`/`NO_PROXY` du réseau. Contrôle du flux sortant depuis une VM : `curl -x "$HTTPS_PROXY" https://<environnement Hidora>/api/health`.
 
 Essai : ouvrir une campagne, « Appairer un téléphone », scanner le QR code avec l’appareil photo du téléphone, autoriser la caméra, scanner une étiquette de salle puis un matériel : le constat apparaît dans ORION au cycle suivant du connecteur.
@@ -520,7 +518,6 @@ Configurations du déploiement, remises avec le dossier d’architecture :
 | [infra/images/](infra/images/) | Transmission des secrets Swarm aux services (`secrets.sh`) et configuration Apache de l’image `web` |
 | [infra/keycloak/](infra/keycloak/) | Realm (fédération LDAP, clients, flux de connexion) et thème de connexion de l’image `keycloak` |
 | [infra/ldap/](infra/ldap/) | Identités de départ de l’annuaire (LDIF), chargées si l’annuaire est vide |
-| [infra/rigel/](infra/rigel/) | Publication manuelle du relais RIGEL sur Hidora |
 
 Le realm Keycloak lit `APP_URL`, `OIDC_CLIENT_SECRET`, `LDAP_ADMIN_PASSWORD` et `PROVISIONING_CLIENT_SECRET` s’ils sont définis (`${VARIABLE:valeur locale}`) ; sans eux, il garde les valeurs locales de Compose.
 
