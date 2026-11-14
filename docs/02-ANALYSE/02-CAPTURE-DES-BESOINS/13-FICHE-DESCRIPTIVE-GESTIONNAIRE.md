@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.2 | 14/11/2026 | Production destinée à la remise | RIGEL : accepter sur place ou ramener (RG-96) | [11 versions](../../../archive/README.md#13-fiche-descriptive-gestionnaire) |
+| 4.3 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée | [12 versions](../../../archive/README.md#13-fiche-descriptive-gestionnaire) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -20,8 +20,8 @@
 | Tableaux de bord | « Mon tableau de bord » personnalisable, tableaux spécialisés « Parc » et « Remontées », tableaux ajoutés par le compte |
 | Salles et stock | Vue éclatée des bâtiments, détail d’une salle, stock ; affecter un ou plusieurs matériels à une salle ou au stock (glisser-déposer, sélection ou « Équiper la salle ») ; déclarer un matériel hors service ou en service |
 | Matériels | Inventaire filtrable, création et modification d’un matériel, date de fin de garantie, import JSON |
-| Installation des salles | Prévoir les déplacements dans ORION ; les réaliser sur place avec RIGEL ; suivre l’avancement dans « Déplacements » et dans le backlog des installations |
-| Recensement | Appairer son téléphone professionnel, lancer un recensement depuis ORION et y lier son téléphone, scanner les matériels, traiter dans ORION les écarts et les codes inconnus |
+| Installation des salles | Prévoir les déplacements dans ORION ; les réaliser et les confirmer, sur place avec RIGEL ou dans « Déplacements » ; suivre l’avancement dans le backlog des installations |
+| Recensement | Lancer un recensement depuis ORION, y lier son téléphone professionnel, scanner les matériels, traiter dans ORION les anciens constats |
 | Remontées | Consulter toutes les remontées de son école ; les prendre en charge puis les terminer en « remplacé » ou « corrigé » ; état des lieux PDF |
 | Notifications | Nouvelles remontées, matériels à déplacer, garanties échues ou arrivant à échéance |
 | Exclusions | Suppression d’un matériel, gestion des salles et des étages, création de remontée, supervision, administration des postes, listes de processus et comptes ORION |
@@ -111,26 +111,27 @@ RG-11 à RG-14, RG-23 à RG-25, RG-34 à RG-38, RG-64, RG-66, RG-67, RG-69, RG-7
 ## UC-GEST-03 — Installer une salle avec RIGEL
 
 - **Objectif :** réaliser sur place les déplacements prévus dans ORION et confirmer l’installation de chaque matériel.
-- **Déclencheur :** des matériels ont été affectés à une salle ou renvoyés au stock et sont « en cours de déplacement ».
-- **Préconditions :** le gestionnaire est sur place avec son téléphone professionnel appairé à ORION (UC-GEST-04) ; la salle porte son QR code, affiché dans ORION ou apposé sur la porte.
+- **Déclencheur :** des matériels ont été affectés à une salle ou en sont retirés et sont « en cours de déplacement ».
+- **Préconditions :** le gestionnaire dispose de son téléphone professionnel ; la salle a au moins un déplacement en cours.
 
 ### Scénario nominal
 
-1. Un gestionnaire ou un administrateur affecte des matériels à une salle (UC-GEST-01). ORION les marque « en cours de déplacement » et notifie le gestionnaire (« matériels à déplacer »).
-2. Le gestionnaire ouvre **Salles › Déplacements**. ORION présente une carte par trajet (du stock vers une salle, d’une salle à une autre, d’une salle vers le stock) avec son avancement ; chaque matériel porte un point orange tant que son déplacement n’est pas confirmé.
-3. Sur place, il ouvre la salle dans RIGEL en scannant son QR code.
-4. Il scanne chaque matériel : Data Matrix, QR code, code-barres ou numéro de série lu par reconnaissance de caractères.
-5. Pour un matériel attendu dans la salle, RIGEL confirme l’installation. Dans ORION, le point passe au vert et l’avancement du trajet progresse.
-6. Pour un matériel affecté au stock ou à une autre salle, RIGEL propose de l’accepter dans la salle (affectation et installation confirmées ensemble) ou de le ramener dans son lieu d’affectation (déplacement lancé, à confirmer au retour) ; un matériel hors service ne peut être accepté qu’au stock (RG-96).
-7. Lorsque tous les matériels d’une salle sont confirmés, la salle passe dans la colonne **Terminées** du backlog **Installations** de **Remontées**.
+1. Un administrateur, un super administrateur ou le gestionnaire affecte des matériels à une salle (UC-GEST-01). ORION les marque « en cours de déplacement » et notifie le gestionnaire.
+2. Le gestionnaire ouvre **Salles › Déplacements** : une carte par trajet vers une salle et une seule carte des matériels à ramener au stock ; chaque matériel porte un point orange tant que son déplacement n’est pas confirmé.
+3. Sur la carte du trajet, **Installer avec un téléphone** lance l’installation de la salle, ou reprend celle en cours, et affiche le QR code d’appairage ainsi que ceux de la salle et du stock. Il le scanne : son téléphone est lié à l’installation et ne présente que la salle et le stock.
+4. Sur place, il ouvre la salle dans RIGEL en scannant son QR code, ce qui revient à déclarer qu’il s’y trouve, puis scanne chaque matériel.
+5. Pour un matériel attendu, **Confirmer l’installation** : le point passe au vert dans ORION.
+6. Pour un matériel affecté ailleurs, RIGEL propose **Accepter ici**, **Ramener dans <salle d’affectation>** ou **Mettre au stock** ; au stock, **Ranger au stock** ou **Ramener dans <salle d’affectation>**. Ramener ou mettre au stock lance un déplacement, à confirmer à l’arrivée.
+7. Pour un code inconnu, RIGEL avertit qu’il ne provient probablement pas du stock ; après confirmation et saisie de ses informations, ORION l’ajoute au parc dans la salle.
+8. Quand plus aucun matériel n’est à déplacer vers la salle ou depuis elle, l’installation se termine d’elle-même, au nom du gestionnaire dont la confirmation l’a achevée.
 
 ### Variantes et limites
 
-- Sans RIGEL, le gestionnaire confirme l’installation d’un matériel dans ORION en cliquant sur son point de déplacement ; lui seul le peut, l’administrateur et le super administrateur ne font que suivre l’avancement.
-- Un matériel hors service ne peut être relocalisé qu’au stock.
+- Sans téléphone, le gestionnaire confirme un matériel en cliquant sur son point orange, et tous les matériels de la carte du stock par **Terminer le restockage**.
+- Un matériel hors service n’est jamais accepté dans une salle ; il ne peut aller qu’au stock.
+- Une installation et un recensement peuvent être en cours en même temps dans une salle : son détail propose alors **Installation en cours** et **Recensement en cours**.
 - Hors connexion, RIGEL garde les scans et les transmet chiffrés au retour du réseau ; un scan plus ancien que la dernière information connue sur le matériel est refusé.
-- L’administrateur et le super administrateur prévoient les déplacements mais ne réalisent pas l’installation ; le formateur n’a pas accès à RIGEL.
-- Le backlog **Installations** classe les salles en **En attente** (aucun déplacement confirmé), **En cours** et **Terminées** (salles équipées depuis moins de 30 jours) ; une carte ouvre les déplacements de la salle.
+- L’administrateur et le super administrateur initient les déplacements et suivent l’installation en lecture seule ; le formateur n’a pas accès à RIGEL.
 
 ### Résultats attendus
 
@@ -143,35 +144,34 @@ RG-11 à RG-14, RG-23 à RG-25, RG-34 à RG-38, RG-64, RG-66, RG-67, RG-69, RG-7
 
 ### Règles applicables
 
-RG-26, RG-27, RG-87, RG-92 et RG-94.
+RG-26, RG-27, RG-87, RG-92, RG-94, RG-95 et RG-96.
 
-## UC-GEST-04 — Recenser le parc avec RIGEL et traiter les écarts
+## UC-GEST-04 — Recenser le parc avec RIGEL et traiter les anciens constats
 
-- **Objectif :** vérifier que chaque matériel se trouve dans sa salle d’affectation et aligner ORION sur la réalité.
+- **Objectif :** vérifier que chaque matériel se trouve dans son lieu d’affectation et aligner ORION sur la réalité.
 - **Déclencheur :** le gestionnaire décide de recenser toute son école ou certaines de ses salles.
 - **Préconditions :** le gestionnaire est connecté à ORION et dispose de son téléphone professionnel.
 
 ### Scénario nominal
 
-1. Dans ORION (**Matériels › Recensement**), le gestionnaire lance un recensement sur toute son école ou sur des salles choisies.
-2. ORION affiche le QR code d’appairage du recensement ; il le scanne avec son téléphone professionnel, qui est lié à l’opération. RIGEL reçoit les salles et les matériels du recensement, et seulement ceux-là.
-3. Si nécessaire, il imprime depuis ORION les étiquettes QR des salles et du stock.
-4. Dans chaque salle, ou au stock, il scanne le QR code du lieu, ce qui revient à déclarer qu’il s’y trouve, puis les matériels. RIGEL confirme la présence d’un matériel attendu ; un code inconnu est transmis avec les informations saisies sur le téléphone (type, modèle, numéro de série).
-5. Pour un matériel affecté ailleurs, RIGEL propose deux choix : **Accepter dans <salle>** (ou **Ranger au stock** s’il est au stock), qui le réaffecte au lieu et confirme son installation ; ou **Ramener dans <salle d’affectation>** (ou **Ramener au stock**), qui lance son déplacement vers son lieu d’affectation : le point passe à l’orange et le gestionnaire confirmera l’installation une fois le matériel rapporté. Depuis une salle, un matériel ne peut pas être rangé au stock.
-6. ORION reçoit chaque scan comme un constat daté par le serveur et présente le bilan : matériels vus sur matériels attendus, installations confirmées, retours lancés, constats à traiter.
-7. Pour un code inconnu, il ajoute le matériel au parc à partir des informations reçues, ou écarte le constat.
-8. Il clôt le recensement lorsqu’il est terminé.
+1. Dans **Matériels › Recensement**, il choisit **Nouveau recensement**, sur toute son école ou sur des salles choisies.
+2. Dans le bilan du recensement, **Appairer un téléphone** affiche le QR code d’appairage ; il le scanne et son téléphone est lié au recensement. Si nécessaire, **Étiquettes** imprime les QR codes des salles et du stock.
+3. Dans chaque salle, ou au stock, il scanne le QR code du lieu, puis les matériels. Pour un matériel du lieu, **Confirmer la présence** ; le recensement ne confirme pas d’installation.
+4. Un matériel affecté ailleurs et un code inconnu sont traités comme pendant une installation (UC-GEST-03, étapes 6 et 7).
+5. ORION reçoit chaque scan comme un constat daté par le serveur et présente le bilan : matériels vus sur matériels attendus, avancement par salle, derniers constats et constats à traiter.
+6. Il traite les anciens constats : pour un matériel vu dans un autre lieu, **Remettre au stock** ou **Ramener dans <salle d’affectation>** (déplacement à confirmer), ou **Réaffecter ici** (immédiat) ; pour un ancien code inconnu, **Ajouter au parc** ou **Écarter**.
+7. Il clôt le recensement lorsqu’il est terminé.
 
 ### Variantes et limites
 
-- Seul le gestionnaire lance et réalise un recensement ; aucun matériel n’est déplacé pendant le recensement.
+- Seul le gestionnaire lance et réalise un recensement ; l’administrateur et le super administrateur le suivent en lecture seule ; le formateur n’y a pas accès.
 - Un recensement dure au plus 14 jours ; il peut être clos plus tôt et, une fois clos, n’est ni rouvert ni supprimé.
 - RIGEL fonctionne hors connexion ; un scan plus ancien que la dernière information connue sur le matériel est refusé.
-- Le traitement d’un écart ou d’un code inconnu est daté, attribué à son auteur et définitif ; les constats ne sont jamais supprimés.
+- Le traitement d’un constat est daté, attribué à son auteur et définitif ; les constats ne sont jamais supprimés.
 
 ### Résultats attendus
 
-- Chaque matériel recensé est confirmé dans sa salle ou fait l’objet d’un écart traité.
+- Chaque matériel recensé est confirmé dans son lieu, relocalisé ou fait l’objet d’un constat traité.
 - ORION conserve l’ensemble des constats et de leurs traitements.
 
 ### Questions ouvertes
@@ -180,7 +180,7 @@ RG-26, RG-27, RG-87, RG-92 et RG-94.
 
 ### Règles applicables
 
-RG-72, RG-87, RG-93, RG-94 et RG-95.
+RG-72, RG-87, RG-93, RG-94, RG-95 et RG-96.
 
 ## UC-GEST-05 — Suivre son activité : tableaux de bord et notifications
 
@@ -237,7 +237,7 @@ Le stock regroupe les matériels sans salle ; le gestionnaire les affecte à une
 
 ![Déplacements](../../../design/maquettes/captures/14-salles-deplacements.png)
 
-Chaque trajet présente ses matériels à installer et son avancement ; le point d’un matériel passe de l’orange au vert lorsque son installation est confirmée sur place avec RIGEL.
+Chaque trajet vers une salle présente ses matériels à installer et son avancement ; une seule carte réunit les matériels à ramener au stock, avec **Terminer le restockage**. Le point d’un matériel passe de l’orange au vert lorsque le gestionnaire confirme son installation, dans ORION ou avec RIGEL.
 
 ### Inventaire
 

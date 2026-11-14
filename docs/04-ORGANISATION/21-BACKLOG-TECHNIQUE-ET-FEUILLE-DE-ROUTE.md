@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.9 | 14/11/2026 | Pilotage interne | Comptes fictifs, tableau des comptes et changement de compte à la connexion ; réinitialisation des données préparée | [19 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.10 | 14/11/2026 | Pilotage interne | RIGEL : installation et recensement consolidés, notion de campagne retirée | [20 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -51,7 +51,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 - [x] **Moyenne** — Remontée : le serveur ne garde à la création que les champs saisis (école, matériels, type de problème, description) ; une salle ou toute autre valeur envoyée est ignorée (`rules.ts`, 14 novembre).
 - [x] **Moyenne** — Recherche globale du formateur limitée aux matériels de salle (`009cfd5`).
 - [x] **Moyenne** — Test « une synchronisation lue pendant un enregistrement… » instable : une synchronisation périodique, normale avant le choix de Minarm (le simulateur des postes fait avancer la révision), était comptée ; le test ne vérifie plus que les états qui suivent le choix. L’apparence est rétablie avant chaque test (`beforeEach`, `2ac9f50`).
-- [x] **Moyenne** — Relais RIGEL : au plus 5 000 événements non acquittés par campagne (`MAX_EN_ATTENTE`), refus 429 au-delà ; le téléphone garde ses constats et les renvoie.
+- [x] **Moyenne** — Relais RIGEL : au plus 5 000 événements non acquittés par opération (`MAX_EN_ATTENTE`), refus 429 au-delà ; le téléphone garde ses constats et les renvoie.
 - [x] **Basse** — `GET /api/workspace/postes/:id/jeton` décrit dans l’OpenAPI.
 - [x] **Basse** — Postes : `nomReseau` enregistré en capitales par le serveur ; `materielId` contrôlé (unité centrale de l’école de la salle du poste).
 - [x] **Basse** — Catalogue des applications : suppression refusée pour une application installée sur un poste ou citée par une intervention.
@@ -77,12 +77,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
   - **Conception de M42** : fiche interne (cycle de vie, enrôlement et identité du poste, protocole avec ORION, commandes, états, sécurité, mise à jour signée), cohérente avec l’option B du DAT (§ 6.5) ; proposition à soumettre au collègue du DAT.
   - **Conséquences documentaires** : glossaire (image, paquet, M42), règles de gestion **[RG]** (image choisie à la réinitialisation, paquet requis pour installer, agent installé avec le système), MCD (`IMAGE`, `PAQUET`), DCU 09, matrice, fiche 15, diagramme d’états des interventions.
   - **Code** : types partagés, `rules.ts` (contrôles d’image et de paquet), schéma PostgreSQL, données de départ (`SEED_VERSION`), simulateur, écrans Administration › Applications et Postes, Supervision ; tests et guide de l’application.
-- [ ] **Haute** — Aligner RIGEL sur RG-92 à RG-95 (décision de l’utilisateur du 14 novembre) ; l’application a aujourd’hui une seule « campagne » ouverte dans ORION :
-  - séparer l’installation d’une salle (réalise les déplacements prévus dans ORION, relocalise) et le recensement (lancé depuis ORION par le gestionnaire, téléphone lié, vérifie sans déplacer) ;
-  - réserver la réalisation avec RIGEL et le traitement des constats au gestionnaire (l’administrateur et le super administrateur prévoient seulement les déplacements) ;
-  - RIGEL : un lieu ouvert vaut présence physique ; un matériel affecté ailleurs est accepté sur place ou ramené dans son lieu d’affectation (RG-96, en cours le 14 novembre) ;
-  - traiter dans ORION les écarts signalés avant RG-96 en guidant l’action : remettre au stock, ramener dans la salle d’affectation ou réaffecter à la salle constatée ;
-  - mettre à jour les fiches descriptives, les DCU et le MCD (installation, recensement, constat).
+- [x] **Haute** — RIGEL aligné sur RG-92 à RG-96 (décisions de l’utilisateur du 14 novembre) : installation d’une salle (lancée depuis Salles › Déplacements, close d’elle-même au nom du gestionnaire qui la termine) distincte du recensement (« Nouveau recensement », présence seule) ; RIGEL, confirmation des installations et traitement des constats réservés au gestionnaire, suivi en lecture seule par l’administrateur et le super administrateur ; lieu ouvert = présence physique ; anciens écarts guidés dans ORION ; plus de « campagne » dans l’interface ; fiches 13, 15, 16, matrice, glossaire, DCU 08 et MCD à jour.
 - [ ] Jeton d’un poste : seule l’API `GET /api/workspace/postes/:id/jeton` permet de l’obtenir ; prévoir l’action dans Administration › Postes. Renouveler `AGENT_TOKEN` révoque tous les jetons à la fois : prévoir une révocation poste par poste si le besoin apparaît.
 - [ ] Adresse MAC du matériel : présente dans le MCD, absente du code ; à reprendre avec le collègue qui l’ajoute (scanner de matrice).
 - [ ] Import JSON : le transfert d’un matériel hors service vers une salle d’une autre école est bloqué (conséquence de RG-87) ; à confirmer par l’utilisateur.
@@ -156,7 +151,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Priorité haute
 
-- [ ] RIGEL absent de tous les livrables : glossaire (campagne, constat, appairage, relais, connecteur), règles de gestion **[RG]** (gestionnaire, administrateur et super administrateur ouvrent, clôturent, appairent et traitent les constats ; formateur exclu ; campagne de 14 jours, close sans être supprimée ; constat conservé), DCU (recensement mobile, rattaché au DCU 08 ou nouveau), matrice, fiches 13, 15 et 16, MCD (`RECENSEMENT`, `CONSTAT`), backlog et cadrage (§ 19 et § 23 : la ligne `02:400` « application de scan non intégrée » est fausse).
+- [ ] RIGEL dans le cadrage (§ 19 et § 23 : la ligne `02:400` « application de scan non intégrée » est fausse) ; les livrables (glossaire, RG-92 à RG-96, matrice, fiches 13, 15 et 16, DCU 08, MCD) sont à jour depuis le 14 novembre.
 - [x] Captures des fiches 13, 15 et 16 : les anciennes maquettes IHM sont supprimées ; les fiches reprennent les captures de l’application (`design/maquettes/captures/`, 14 novembre).
 - [ ] Cadrage § 23 : il dit que la documentation suit le client (`02:391`, `:405`, `:406`), contrairement à la règle en vigueur (la documentation suit l’état actuel, l’écart est inscrit au § 23). En découlent RG-36 (filtre par salle du tableau de bord du parc) et RG-37 (fenêtre contextuelle des notifications) **[RG]**, la matrice (`12:48`) et la fiche 13 (`:141`), qui décrivent ce que l’application n’a pas.
 
@@ -182,7 +177,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Informations non répercutées
 
-- [ ] Installation physique des salles et notification « matériels à déplacer » du gestionnaire : décrites dans la fiche 13, RG-92 et le glossaire ; manquent encore au DCU 08.
+- [x] Installation physique des salles et notification « matériels à déplacer » du gestionnaire : décrites dans la fiche 13, RG-92, le glossaire et le DCU 08 (« Installer une salle », « Recenser le parc »).
 - [ ] Journal applicatif (`backend/journal.ts`, événement `enregistrement` des écritures des utilisateurs) : absent du cadrage (§§ 18 et 21) et de la fiche 15 (« Journalisation éventuelle », UC-ADMIN-06).
 - [ ] RG-56 : 30 jours de conservation des détections ; le code ne garde en plus que les 2 000 dernières **[RG]**.
 - [ ] Cadrage § 19 : aucune décision RIGEL ni Hidora ; « déploiement proposé » (`02:340-341`) alors que le DAT le présente comme en place ; « émulateur » au lieu de « simulateur ».
@@ -194,7 +189,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### DCU à compléter
 
-- [ ] [DCU 08 — Gestion du parc](../02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md) : import JSON avec rapprochement des numéros de série (lignes ignorées, transfert d’un matériel d’une autre école) ; changement d’école d’un matériel ; installation physique des salles si elle est retenue ; recensement RIGEL.
+- [ ] [DCU 08 — Gestion du parc](../02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md) : import JSON avec rapprochement des numéros de série (lignes ignorées, transfert d’un matériel d’une autre école) ; changement d’école d’un matériel (installation et recensement ajoutés le 14 novembre).
 - [ ] [DCU 09 — Administration des postes](../02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md) : « Gérer les postes supervisés et le catalogue des applications » (RG-77) ; suivre les interventions lancées et en être notifié à leur fin (RG-39).
 - [ ] [DCU 10 — Supervision des postes](../02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md) : notification du lancement d’une application interdite à l’administrateur ; adresse IP du poste dans la liste des processus.
 - [ ] Nouveau DCU « Administrer ORION » (ou extension du DCU 09) : comptes ORION (création, modification, désactivation, réactivation ; RG-70) et écoles (création, renommage ; RG-76), réservés aux administrateurs et au super administrateur.

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.2 | 14/11/2026 | Production destinée à la remise | Recensement, installation et anciens constats | [14 versions](../../../archive/README.md#12-matrice-droits) |
+| 6.3 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée | [15 versions](../../../archive/README.md#12-matrice-droits) |
 <!-- version:fin -->
 
 Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
@@ -47,7 +47,8 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 | Supprimer un matériel | Non | Non | Oui | Oui | L’interdiction du gestionnaire est explicite. Seul un matériel dans le stock peut être supprimé ; un matériel concerné par une remontée ne peut pas l’être. | RG-15, RG-17, RG-73, RG-78 et RG-91, DCU 08 |
 | Consulter le tableau de bord du parc | Oui | Non | Oui | Oui | La vue présente notamment l’état des stocks et peut être filtrée par salle. | RG-15, RG-24 et RG-36, DCU 08 |
 | Prévoir l’installation d’une salle (déplacements prévus dans ORION) | Oui | Non | Oui | Oui | Les matériels affectés passent « en cours de déplacement ». | RG-92 |
-| Confirmer l’installation d’un matériel (point de déplacement, « Terminer le restockage » ou RIGEL) | Oui | Non | Non | Non | Depuis Salles › Déplacements ou sur place avec RIGEL ; l’administrateur et le super administrateur suivent l’avancement sans le modifier. | RG-92 et RG-94 |
+| Confirmer l’installation d’un matériel (point de déplacement, « Terminer le restockage » ou RIGEL) | Oui | Non | Non | Non | Depuis Salles › Déplacements ou sur place avec RIGEL (« Installer avec un téléphone ») ; l’installation d’une salle se termine d’elle-même quand plus aucun matériel n’est à déplacer vers elle ou depuis elle. | RG-92 et RG-94 |
+| Suivre les installations, les déplacements et les recensements | Oui | Non | Oui | Oui | Lecture seule pour l’administrateur et le super administrateur ; le formateur n’a accès ni aux déplacements, ni à RIGEL, ni au recensement. | RG-92 et RG-93 |
 | Lancer et réaliser un recensement avec RIGEL | Oui | Non | Non | Non | « Nouveau recensement » dans ORION, téléphone lié ; un matériel trouvé ailleurs est accepté sur place, ramené ou mis au stock. | RG-93, RG-94 et RG-96 |
 | Traiter un ancien constat (écart ou code inconnu) | Oui | Non | Non | Non | Remettre au stock ou ramener (déplacement à confirmer), réaffecter au lieu constaté, ou écarter un ancien code inconnu ; un nouveau code inconnu est ajouté automatiquement au parc. | RG-95 |
 
