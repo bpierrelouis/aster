@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.2 | 14/11/2026 | Production destinée à la remise | Recherche du formateur limitée aux matériels de salle, menant à la salle (#118) | [10 versions](../../../archive/README.md#12-matrice-droits) |
+| 5.0 | 14/11/2026 | Production destinée à la remise | RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95) | [11 versions](../../../archive/README.md#12-matrice-droits) |
 <!-- version:fin -->
 
 Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
@@ -46,6 +46,10 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 | Importer de nouveaux matériels en JSON | Oui | Non | Oui | Oui | Les données sont appliquées immédiatement, sans validation métier préalable ; seuls la lisibilité du fichier et les données obligatoires sont contrôlés. Un matériel d’une autre école peut changer d’école si l’importeur valide son transfert. | RG-15, RG-28, RG-29 et RG-72 |
 | Supprimer un matériel | Non | Non | Oui | Oui | L’interdiction du gestionnaire est explicite. Seul un matériel dans le stock peut être supprimé ; un matériel concerné par une remontée ne peut pas l’être. | RG-15, RG-17, RG-73, RG-78 et RG-91, DCU 08 |
 | Consulter le tableau de bord du parc | Oui | Non | Oui | Oui | La vue présente notamment l’état des stocks et peut être filtrée par salle. | RG-15, RG-24 et RG-36, DCU 08 |
+| Prévoir l’installation d’une salle (déplacements prévus dans ORION) | Oui | Non | Oui | Oui | Les matériels affectés passent « en cours de déplacement ». | RG-92 |
+| Réaliser l’installation d’une salle avec RIGEL | Oui | Non | Non | Non | Sur place, avec le téléphone professionnel appairé. | RG-92 et RG-94 |
+| Lancer et réaliser un recensement avec RIGEL | Oui | Non | Non | Non | Depuis RIGEL ; aucun déplacement pendant un recensement. | RG-93 et RG-94 |
+| Traiter un écart ou un code inconnu | Oui | Non | Non | Non | Remettre au stock, ramener dans sa salle ou réaffecter à la salle constatée. | RG-95 |
 
 ## Remontées utilisateur
 

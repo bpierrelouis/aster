@@ -341,6 +341,13 @@
         "version": "3.0",
         "date": "2026-11-14",
         "modification": "Définir RIGEL et M42",
+        "archive": null,
+        "commit": "21c57cf"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95)",
         "archive": null
       }
     ]
@@ -725,6 +732,13 @@
         "version": "2.1",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95)",
         "archive": null
       }
     ]
@@ -1090,6 +1104,13 @@
         "version": "4.2",
         "date": "2026-11-14",
         "modification": "Recherche du formateur limitée aux matériels de salle, menant à la salle (#118)",
+        "archive": null,
+        "commit": "009cfd5"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95)",
         "archive": null
       }
     ]
@@ -1793,6 +1814,13 @@
         "version": "4.3",
         "date": "2026-11-14",
         "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
+        "archive": null,
+        "commit": "e99107c"
+      },
+      {
+        "version": "4.4",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95)",
         "archive": null
       }
     ]
