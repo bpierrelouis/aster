@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.8 | 14/11/2026 | Pilotage interne | Corrections de l’audit du 13 novembre réalisées | [18 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.9 | 14/11/2026 | Pilotage interne | Comptes fictifs, tableau des comptes et changement de compte à la connexion ; réinitialisation des données préparée | [19 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -18,12 +18,13 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Avant le prochain déploiement sur les VM
 
-- [ ] Prévoir la réinitialisation des données de démonstration : `SEED_VERSION` vaut 17 et `SEED_RESET=true` sur les VM ; les données sont recréées à ce déploiement.
-- [ ] Vérifier après déploiement : connexion des quatre profils, création d’un compte, rapports des postes simulés, recensement RIGEL, `https://172.16.131.188/api/infos` (version servie).
+- [x] Prévoir la réinitialisation des données de démonstration : les VM servent `SEED_VERSION` 18 (commit `fe89b85`) ; `SEED_VERSION` passe à 19 avec les nouveaux comptes et `SEED_RESET=true` sur les VM : les données sont recréées au prochain déploiement.
+- [ ] Vérifier après déploiement : `https://172.16.131.188/api/infos` (version servie) ; connexion des comptes (flèches du tableau « Comptes » comprises), leurs identités étant créées dans l’annuaire par le provisionnement au démarrage ; création d’un compte ; rapports des postes simulés ; recensement RIGEL. Les anciennes identités `@orion.demo` restent dans l’annuaire LDAP des VM (le LDIF n’est chargé qu’à la création du volume) : sans compte ORION, elles sont refusées ; les supprimer dans la console Keycloak si besoin.
 
 ### Avant le rendu de l’application (mardi 17 novembre)
 
-- [ ] **Haute** — Remplacer les utilisateurs de test des jetons « Accès de présentation » par de vrais comptes : adresse électronique d’identification et mot de passe dans l’annuaire, connexion par le formulaire habituel (le flux sans mot de passe du Keycloak local est alors retiré de l’image des VM). Les mots de passe ne sont jamais versionnés : secrets Swarm ou saisie au déploiement ; les adresses `@orion.demo` disparaissent du fichier LDIF remis avec le DAT.
+- [x] **Haute** — Comptes de démonstration remplacés par des personnes fictives aux adresses `prénom.nom` de messageries courantes (Gmail, Outlook, Yahoo, Hotmail, Orange, Free, La Poste), sans adresse `@orion.demo` ni `admin@`, `gestionnaire@` (14 novembre) : même répartition qu’avant (super administrateur ; administrateur, gestionnaire et quatre formateurs à l’École du numérique ; administrateur, gestionnaire et formateur à l’École des réseaux). Jeu de départ et fichier LDIF mis à jour ; sur la page de connexion, un tableau « Comptes » en marge, au style du bloc de connexion (adresse, profil, école, flèche de connexion directe), remplace les jetons « Accès de présentation ».
+- [ ] **Haute** — Mots de passe des comptes : mot de passe dans l’annuaire, connexion par le formulaire habituel (le flux sans mot de passe du Keycloak local est alors retiré de l’image des VM). Les mots de passe ne sont jamais versionnés : secrets Swarm ou saisie au déploiement.
 - [ ] **Haute** — Créer un scénario complet de l’application : parcours de bout en bout par profil (connexion, parc, salles, recensement RIGEL, remontée de sa création à sa fin, supervision, intervention sur les postes, notifications, administration), avec données de départ adaptées et résultat attendu à chaque étape ; il sert de fil de la présentation et de test de recette.
 
 ### Avant la présentation (supports prêts le mercredi 18 novembre ; présentation le jeudi 19 novembre, horaire non fixé)
@@ -32,7 +33,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Après la présentation
 
-- [ ] Retirer les jetons « Accès de présentation » de la page de connexion du Keycloak local : variable `ORION_COMPTES_PRESENTATION` (Compose, pile des VM) et bloc du thème `orion-mindef` (gabarit, styles, script).
+- [ ] Retirer le tableau « Comptes » de la page de connexion du Keycloak local : variable `ORION_COMPTES_PRESENTATION` (Compose, pile des VM) et bloc du thème `orion-mindef` (gabarit, styles, script).
 
 ## 2. Pilotage du projet
 
@@ -40,6 +41,10 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 - [ ] Cadrage § 22 : dater le prochain rendez-vous ; consigner le sort des propositions préparées pour le 12 novembre (application de scan, devenue RIGEL, et livraisons) quand un retour existera.
 
 ## 3. Application
+
+### Corrections signalées par l’utilisateur
+
+- [x] **Haute** — Connexion : « Vous êtes déjà authentifié avec un autre utilisateur » (local et VM) après un retour arrière vers la page de connexion ou avec deux onglets. La page d’erreur du thème ferme la session Keycloak et la connexion reprend avec le compte choisi ; ORION garde une tentative de connexion par onglet (14 novembre).
 
 ### Corrections relevées par l’audit du 13 novembre
 
