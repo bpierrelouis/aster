@@ -19,7 +19,7 @@
         <label for="username">email</label>
         <input id="username" name="username" type="text" autocomplete="username" value="${(login.username!'')}" placeholder="Veuillez entrer votre adresse courriel personnelle." required autofocus <#if messagesPerField.existsError('username')>aria-invalid="true"</#if>>
         <label for="password">Mot de passe</label>
-        <input id="password" type="password" autocomplete="off" placeholder="Veuillez indiquer votre mot de passe." readonly>
+        <input id="password" type="password" autocomplete="current-password" placeholder="Veuillez indiquer votre mot de passe.">
         <label class="show-password"><input id="show-password" type="checkbox">Afficher</label>
         <button class="text-button" type="button" data-help="password">Mot de passe oublié?</button>
         <button class="submit-button" id="login-button" type="submit">Se connecter</button>

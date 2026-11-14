@@ -26,6 +26,10 @@ if [ -n "$RELAIS_URL" ] && [[ $RELAIS_URL != *://* ]]; then RELAIS_URL="https://
 RELAIS_URL=${RELAIS_URL%/}
 VARIABLES="$VARIABLES ORION_RELAIS=$(printf '%q' "${RELAIS_URL:-}")"
 docker_vm secret inspect RIGEL_SECRET >/dev/null 2>&1 || printf '%s' "$(openssl rand -hex 32)" | docker_vm secret create RIGEL_SECRET - >/dev/null
+# Secret dont l'API dérive le mot de passe de chaque compte du démonstrateur, créé au premier déploiement ; tableau des
+# mots de passe affiché par une commande dans le conteneur de l'API (application/README.md). Jamais versionné.
+docker_vm secret inspect PROVISIONING_PASSWORD_SECRET >/dev/null 2>&1 \
+  || printf '%s' "$(openssl rand -hex 32)" | docker_vm secret create PROVISIONING_PASSWORD_SECRET - >/dev/null
 
 # La VM de secours est vidée pendant le déploiement, pour que PostgreSQL, l'identité et Logstash démarrent sur leur VM ;
 # elle ne l'est que si ces VM sont prêtes, sinon le service repris par le secours y reste.

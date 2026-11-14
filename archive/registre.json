@@ -2318,6 +2318,13 @@
         "version": "4.19",
         "date": "2026-11-14",
         "modification": "Admettre les chemins sur les VM dans le DAT",
+        "archive": null,
+        "commit": "d1239fb"
+      },
+      {
+        "version": "4.20",
+        "date": "2026-11-15",
+        "modification": "Cocher les mots de passe des comptes ; Cocher les mots de passe des comptes",
         "archive": null
       }
     ]

@@ -21,6 +21,7 @@
     "test": "node --test \"backend/**/*.test.ts\" \"outils/**/*.test.ts\"",
     "test:ui": "playwright test tests/login-ui.spec.ts",
     "test:e2e": "playwright test tests/auth.e2e.spec.ts",
+    "mots-de-passe": "node --env-file-if-exists=.env outils/identites-keycloak/mots-de-passe.ts",
     "test:workspace": "playwright test -c playwright.workspace.config.ts",
     "test:linux": "node tests/linux.ts",
     "captures": "node tests/captures.ts",

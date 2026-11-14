@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.19 | 14/11/2026 | Pilotage interne | Admettre les chemins sur les VM dans le DAT | [29 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.20 | 15/11/2026 | Pilotage interne | Cocher les mots de passe des comptes ; Cocher les mots de passe des comptes | [30 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -24,7 +24,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 ### Avant le rendu de l’application (mardi 17 novembre)
 
 - [x] **Haute** — Comptes de démonstration remplacés par des personnes fictives aux adresses `prénom.nom` de messageries courantes (Gmail, Outlook, Yahoo, Hotmail, Orange, Free, La Poste), sans adresse `@orion.demo` ni `admin@`, `gestionnaire@` (14 novembre) : même répartition qu’avant (super administrateur ; administrateur, gestionnaire et quatre formateurs à l’École du numérique ; administrateur, gestionnaire et formateur à l’École des réseaux). Jeu de départ et fichier LDIF mis à jour ; sur la page de connexion, un tableau « Comptes » en marge, au style du bloc de connexion (adresse, profil, école, flèche de connexion directe), remplaçait les jetons « Accès de présentation », rétablis ensuite (`baabbf7`).
-- [ ] **Haute** — Mots de passe des comptes : mot de passe dans l’annuaire, connexion par le formulaire habituel (le flux sans mot de passe du Keycloak local est alors retiré de l’image des VM). Les mots de passe ne sont jamais versionnés : secrets Swarm ou saisie au déploiement.
+- [x] **Haute** — Mots de passe des comptes (15 novembre) : un mot de passe par compte, dérivé du secret `PROVISIONING_PASSWORD_SECRET` (secret Swarm créé au premier déploiement, jamais versionné ; tableau affiché par `outils/identites-keycloak/mots-de-passe.ts`), posé par la création des identités ; l’annuaire n’en garde qu’une empreinte salée ; Keycloak demande l’adresse puis le mot de passe, repris de la page de connexion. Les jetons « Accès de présentation » connectent toujours sans mot de passe : le realm saute le mot de passe pour leurs trois adresses seulement, tant que `ORION_COMPTES_PRESENTATION=true`.
 - [ ] **Haute** — Créer un scénario complet de l’application : parcours de bout en bout par profil (connexion, parc, salles, recensement RIGEL, remontée de sa création à sa fin, supervision, intervention sur les postes, notifications, administration), avec données de départ adaptées et résultat attendu à chaque étape ; il sert de fil de la présentation et de test de recette.
 
 ### Avant la présentation (supports prêts le mercredi 18 novembre ; présentation le jeudi 19 novembre, horaire non fixé)
@@ -33,7 +33,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Après la présentation
 
-- [ ] Retirer les jetons « Accès de présentation » de la page de connexion du Keycloak local : variable `ORION_COMPTES_PRESENTATION` (Compose, pile des VM) et bloc du thème `orion-mindef` (gabarit, styles, script).
+- [ ] Retirer les jetons « Accès de présentation » de la page de connexion du Keycloak local : variable `ORION_COMPTES_PRESENTATION` (Compose, pile des VM ; elle choisit aussi le flux du realm, `orion-connexion-true` ou `-false`), flux `orion-connexion-true` et condition `orion-comptes-presentation` du realm et bloc du thème `orion-mindef` (gabarit, styles, script).
 
 ## 2. Pilotage du projet
 

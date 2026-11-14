@@ -24,6 +24,9 @@ export function readConfig(env = process.env) {
   if (production && identityProvisioning && (!env.PROVISIONING_CLIENT_SECRET || env.PROVISIONING_CLIENT_SECRET === 'orion-provisionnement-local')) {
     throw new Error('La création des identités en production exige un secret dédié du client orion-provisionnement.');
   }
+  if (production && identityProvisioning && (env.PROVISIONING_PASSWORD_SECRET?.length ?? 0) < 32) {
+    throw new Error('La création des identités en production exige un secret des mots de passe de 32 caractères minimum (PROVISIONING_PASSWORD_SECRET).');
+  }
   return {
     production,
     port: Number(env.PORT || 3001),
@@ -44,6 +47,8 @@ export function readConfig(env = process.env) {
       adminUrl: new URL(env.KEYCLOAK_ADMIN_URL || issuer.origin),
       clientId: env.PROVISIONING_CLIENT_ID || 'orion-provisionnement',
       clientSecret: env.PROVISIONING_CLIENT_SECRET || 'orion-provisionnement-local',
+      // Secret dont est dérivé le mot de passe de chaque compte (outils/identites-keycloak/mot-de-passe.ts)
+      passwordSecret: env.PROVISIONING_PASSWORD_SECRET || 'orion-local',
     },
   };
 }

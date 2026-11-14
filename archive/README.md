@@ -35,7 +35,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [3.4](#18-dossier-architecture-technique) | 14/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.2](#19-diagrammes-architecture) | 14/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.4](#20-backlog-et-suivi-projet) | 14/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.19](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.20](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -465,7 +465,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.19 | 14/11/2026 | Admettre les chemins sur les VM dans le DAT | en vigueur | — |
+| 4.20 | 15/11/2026 | Cocher les mots de passe des comptes ; Cocher les mots de passe des comptes | en vigueur | — |
+| 4.19 | 14/11/2026 | Admettre les chemins sur les VM dans le DAT | `d1239fb` | — |
 | 4.18 | 14/11/2026 | Cocher l'exception des logs de Logstash | `28ed8d4` | — |
 | 4.17 | 14/11/2026 | Cocher les versions de HAProxy et Apache | `8337387` | — |
 | 4.16 | 14/11/2026 | Cocher les corrections du DAT et des schémas | `e1c2f59` | — |

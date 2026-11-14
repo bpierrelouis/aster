@@ -2,11 +2,14 @@ import { test, expect } from '@playwright/test';
 import { expectPublicPresentation } from './presentation.ts';
 import pg from 'pg';
 import { readConfig } from '../backend/config.ts';
+import { motDePasse } from '../outils/identites-keycloak/mot-de-passe.ts';
 import type { Page } from '@playwright/test';
 import type { Materiel, Operation, Processus, Remontee } from '#shared/types.ts';
 
 // Contrôles directs de la persistance : PostgreSQL de l'infrastructure locale
 const config = readConfig();
+// Mot de passe de chaque compte, dérivé du secret local (outils/identites-keycloak/mot-de-passe.ts)
+const mdp = (email: string) => motDePasse(config.provisioning.passwordSecret, email);
 const sql = async (text: string, values: unknown[]) => { const client = new pg.Client({ connectionString: config.databaseUrl }); await client.connect(); try { return (await client.query(text, values)).rows; } finally { await client.end(); } };
 
 // Requires real PostgreSQL, Keycloak and the Express server. No mocked authentication.
@@ -29,8 +32,9 @@ async function login(page: Page, username: Profil | string) {
   await page.goto('/');
   await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
   await expect(page).toHaveURL(/localhost:8081/);
-  await page.getByLabel('email', { exact: true }).fill(username in EMAILS ? EMAILS[username as Profil] : username);
-  await expect(page.locator('#password')).toHaveValue('');
+  const email = username in EMAILS ? EMAILS[username as Profil] : username;
+  await page.getByLabel('email', { exact: true }).fill(email);
+  await page.locator('#password').fill(mdp(email));
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await expect(page).toHaveURL(/\/accueil$/);
   await expect(page.locator('#view h1')).toBeAttached();
@@ -67,7 +71,6 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
       await page.screenshot({ path: 'test-results/mindef-form-mobile.png', fullPage: true });
       await page.setViewportSize({ width: 1280, height: 800 });
-      await expect(page.locator('#password')).toHaveAttribute('readonly', '');
       await page.getByLabel('Afficher', { exact: true }).check();
       await expect(page.locator('#password')).toHaveAttribute('type', 'text');
       await page.getByRole('button', { name: 'Créer un compte', exact: true }).click();
@@ -80,7 +83,7 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
       await page.getByRole('button', { name: 'Fermer', exact: true }).click();
     }
     await page.getByLabel('email', { exact: true }).fill(EMAILS[username]);
-    await expect(page.locator('#password')).toHaveValue('');
+    await page.locator('#password').fill(mdp(EMAILS[username]));
     await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
     await expect(page).toHaveURL(/\/accueil$/);
     await expect(page.locator('#view h1')).toBeAttached();
@@ -217,6 +220,7 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
   await newcomer.goto('/');
   await newcomer.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
   await newcomer.getByLabel('email', { exact: true }).fill(email);
+  await newcomer.locator('#password').fill(mdp(email));
   await newcomer.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await expect(newcomer.getByRole('alert')).toContainText('aucun compte Orion actif');
   expect((await newcomer.request.get('/api/me')).status()).toBe(401);
@@ -226,12 +230,15 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
 
 test('une identité du fournisseur sans compte ORION est refusée', async ({ page }) => {
   const email = 'sans.compte@orion.demo';
-  if (!((await keycloak(`/users?email=${encodeURIComponent(email)}&exact=true`)) as unknown[]).length) {
-    await keycloak('/users', { method: 'POST', body: JSON.stringify({ username: email, email, firstName: 'Sans', lastName: 'Compte', enabled: true, emailVerified: true }) });
-  }
+  const credential = { type: 'password', value: mdp(email), temporary: false };
+  const [existante] = (await keycloak(`/users?email=${encodeURIComponent(email)}&exact=true`)) as { id: string }[];
+  // Test rejouable : identité créée au premier passage, mot de passe reposé ensuite
+  if (existante) await keycloak(`/users/${existante.id}/reset-password`, { method: 'PUT', body: JSON.stringify(credential) });
+  else await keycloak('/users', { method: 'POST', body: JSON.stringify({ username: email, email, firstName: 'Sans', lastName: 'Compte', enabled: true, emailVerified: true, credentials: [credential] }) });
   await page.goto('/');
   await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
   await page.getByLabel('email', { exact: true }).fill(email);
+  await page.locator('#password').fill(mdp(email));
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await expect(page.getByRole('alert')).toContainText('aucun compte Orion actif');
   expect((await page.request.get('/api/me')).status()).toBe(401);
@@ -290,11 +297,12 @@ test('changement de compte : adresse saisie sur une page déjà utilisée, repri
   await choisir(page, EMAILS.admin);
   await expect(page).toHaveURL(/\/accueil$/);
   await page.goBack();
-  // Envoyée par l'utilisateur après la reprise (mot de passe en production)
+  // Adresse saisie : la reprise est seulement préremplie, l'utilisateur ressaisit son mot de passe
   await page.getByLabel('email', { exact: true }).fill(EMAILS.gestionnaire);
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await expect(page.getByLabel('email', { exact: true })).toHaveValue(EMAILS.gestionnaire);
   await expectPublicPresentation(page);
+  await page.locator('#password').fill(mdp(EMAILS.gestionnaire));
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await expect(page).toHaveURL(/\/accueil$/);
   expect(await moi(page)).toMatchObject({ email: EMAILS.gestionnaire });
@@ -328,6 +336,21 @@ test('une écriture d’une autre origine est refusée', async ({ page }) => {
   // Corps réduit : le refus porte sur l'origine, avant toute lecture (un gros corps rejeté tôt fait échouer le proxy de Vite)
   const forged = await page.request.put('/api/workspace', { headers: { Origin: 'https://autre.example', 'Content-Type': 'application/json' }, data: { baseRevision: state.revision, state: { role: state.role } } });
   expect(forged.status()).toBe(403);
+  await logout(page);
+});
+
+test('un mot de passe erroné est refusé, puis ressaisi sur la page du mot de passe', async ({ page }) => {
+  await page.goto('/auth/login');
+  await page.getByLabel('email', { exact: true }).fill(EMAILS.superadmin);
+  await page.locator('#password').fill('mot-de-passe-errone');
+  await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
+  await expect(page.getByRole('alert')).toBeVisible();
+  await expect(page.getByLabel('email', { exact: true })).toHaveValue(EMAILS.superadmin);
+  expect((await page.request.get('http://localhost:5173/api/me')).status()).toBe(401);
+  await page.locator('#password').fill(mdp(EMAILS.superadmin));
+  await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
+  await expect(page).toHaveURL(/\/accueil$/);
+  expect(await moi(page)).toMatchObject({ email: EMAILS.superadmin });
   await logout(page);
 });
 
