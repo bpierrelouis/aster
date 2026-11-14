@@ -32,10 +32,10 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) | Brouillon interne | [1.3](#diagrammes-activite-cas-utilisation-brouillon-v2) | 14/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [4.1](#17-diagrammes-etats) | 14/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/README.md](../docs/02-ANALYSE/04-CONCEPTION/README.md) | Production destinée à la remise | [1.1](#readme) | 14/11/2026 |
-| [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [3.2](#18-dossier-architecture-technique) | 14/11/2026 |
+| [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [3.3](#18-dossier-architecture-technique) | 14/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.2](#19-diagrammes-architecture) | 14/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.4](#20-backlog-et-suivi-projet) | 14/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.16](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.17](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -415,7 +415,8 @@ Fichier : [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.2 | 14/11/2026 | Corriger secrets, données, migrations, provisionnement, filtrage et éléments manquants | en vigueur | — |
+| 3.3 | 14/11/2026 | Donner les versions épinglées de HAProxy et Apache | en vigueur | — |
+| 3.2 | 14/11/2026 | Corriger secrets, données, migrations, provisionnement, filtrage et éléments manquants | `e1c2f59` | — |
 | 3.1 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | `ca0187c` | — |
 | 3.0 | 14/11/2026 | Nommer M42 et préciser les accès RIGEL réels | `21c57cf` (`docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
 | 2.1 | 14/11/2026 | Déplacer dans docs/03-ARCHITECTURE/ | `69eaf4e` (`docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
@@ -463,7 +464,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.16 | 14/11/2026 | Cocher les corrections du DAT et des schémas | en vigueur | — |
+| 4.17 | 14/11/2026 | Cocher les versions de HAProxy et Apache | en vigueur | — |
+| 4.16 | 14/11/2026 | Cocher les corrections du DAT et des schémas | `e1c2f59` | — |
 | 4.15 | 14/11/2026 | Versions Word retirées | `5da7ebd` | — |
 | 4.14 | 14/11/2026 | Actualiser déploiement, CI, adresse MAC et proxy de développement ; Actualiser adresse MAC, proxy de développement et suivi GitHub | `6a9d33c` | — |
 | 4.13 | 14/11/2026 | Jetons « Accès de présentation » rétablis à la place du tableau des comptes | `2a88faf` | — |

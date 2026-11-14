@@ -1876,6 +1876,13 @@
         "version": "3.2",
         "date": "2026-11-14",
         "modification": "Corriger secrets, données, migrations, provisionnement, filtrage et éléments manquants",
+        "archive": null,
+        "commit": "e1c2f59"
+      },
+      {
+        "version": "3.3",
+        "date": "2026-11-14",
+        "modification": "Donner les versions épinglées de HAProxy et Apache",
         "archive": null
       }
     ],
@@ -2283,6 +2290,13 @@
         "version": "4.16",
         "date": "2026-11-14",
         "modification": "Cocher les corrections du DAT et des schémas",
+        "archive": null,
+        "commit": "e1c2f59"
+      },
+      {
+        "version": "4.17",
+        "date": "2026-11-14",
+        "modification": "Cocher les versions de HAProxy et Apache",
         "archive": null
       }
     ]

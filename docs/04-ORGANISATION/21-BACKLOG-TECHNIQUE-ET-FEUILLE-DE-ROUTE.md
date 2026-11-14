@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.16 | 14/11/2026 | Pilotage interne | Cocher les corrections du DAT et des schémas | [26 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.17 | 14/11/2026 | Pilotage interne | Cocher les versions de HAProxy et Apache | [27 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -218,7 +218,7 @@ Le DAT validé fait foi ; ces écarts entre lui, la configuration réelle et ses
 - [ ] **Moyenne** — Données de démonstration dans les livrables : compte `keycloak-admin` et commande de lecture de son mot de passe (§ 4.5) ; `ldap/orion-utilisateurs.ldif` remis avec les comptes `@orion.demo` (§ 4.8) ; flux de connexion sans mot de passe intégré à l’image Keycloak des VM, qui rend optimiste « authentifie l’utilisateur à partir de l’annuaire » (`17:64`) ; voir aussi § 1, comptes réels pour la présentation.
 - [x] **Basse** — Provisionnement des identités « hors production uniquement » (`17:94`) alors que les VM tournent en `NODE_ENV=production` avec `IDENTITY_PROVISIONING=true` (le DAT le dit lui-même en `17:257`).
 - [x] **Basse** — Absents : client Keycloak `orion-provisionnement`, secrets `PROVISIONING_CLIENT_SECRET` et `ca`, images `connecteur` et `relais` du `Dockerfile`, dépendance `swagger-ui-express` 5.0.1.
-- [ ] **Basse** — Versions : « HAProxy 3.2 » et « Apache 2.4 » au lieu des versions épinglées (§ 5.3). L’image Keycloak, image officielle avec une légère surcouche ORION, est voulue (utilisateur, 14 novembre).
+- [x] **Basse** — Versions : « HAProxy 3.2 » et « Apache 2.4 » remplacés par les versions épinglées 3.2.16 et 2.4.69 (§ 5.3). L’image Keycloak, image officielle avec une légère surcouche ORION, est voulue (utilisateur, 14 novembre).
 - [ ] **Basse** — Logstash n’envoie pas ses propres logs au collecteur (« chaque conteneur… »).
 - [ ] **Basse** — Chemins `/srv/orion/…`, `/var/lib/…`, `/run/secrets/…` cités hors de l’inventaire des configurations : à confirmer qu’ils sont admis (chemins sur les VM).
 

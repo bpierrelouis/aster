@@ -357,8 +357,8 @@ Les versions du déploiement sont des références à qualifier sur les VM ; cha
 | Debian | 13 | Exception : système des VM fournies pour la démonstration | Système des dix VM |
 | Docker Engine et Swarm | version installée sur les VM | Exception : exécution des conteneurs | VM orion-1 à orion-9 ; client sur le poste de l’opérateur |
 | chrony | paquet Debian 13 | R / S (NTPd/Chronyd) | Hôte d’orion-1 : horloge de référence des autres VM |
-| HAProxy | 3.2, image officielle | R / S | orion-1 |
-| Apache HTTP Server | 2.4, image officielle `httpd` | R / S (version 2.4) | Image d’ORION avec le build React ; orion-4 et orion-5 |
+| HAProxy | 3.2.16, image officielle | R / S | orion-1 |
+| Apache HTTP Server | 2.4.69, image officielle `httpd` | R / S (version 2.4) | Image d’ORION avec le build React ; orion-4 et orion-5 |
 | Node.js | 22.22.3, image officielle `node:22.22.3-alpine3.24` | R / S | Images d’Express, du simulateur, du connecteur et du relais RIGEL ; orion-4 et orion-5 pour les composants internes |
 | Express | 5.3.0 | R | Image d’Express |
 | PostgreSQL | 17.7, image officielle | R / S | orion-6 (secours orion-9) ; données sur orion-10 |
