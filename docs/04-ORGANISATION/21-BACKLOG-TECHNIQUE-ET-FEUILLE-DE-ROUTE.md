@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.11 | 14/11/2026 | Pilotage interne | RIGEL : installation et recensement consolidés, notion de campagne retirée | [21 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.12 | 14/11/2026 | Pilotage interne | Consigner la mise à jour des statuts GitHub | [22 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -37,7 +37,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ## 2. Pilotage du projet
 
-- [x] **Haute** — Traiter le backlog GitHub (14 novembre : projet « ORION development », 152 tickets sur deux sprints) : trier, mettre à jour et clore les éléments au regard de l’état actuel, puis reporter le résultat dans le [backlog](20-BACKLOG-ET-SUIVI-PROJET.md). Les noms GitHub gardent l’ancien nom (dépôt `bpierrelouis/aster`, projet « aster development ») ; les commits `09ac7b0` et `cecf0d7` et la référence `0762961…` du brouillon de suivi n’existent plus dans l’historique.
+- [x] **Haute** — Traiter le backlog GitHub (14 novembre : projet « ORION development », 156 tickets, dont 142 rattachés aux deux sprints) : trier, mettre à jour et clore les éléments au regard de l’état actuel, puis reporter le résultat dans le [backlog](20-BACKLOG-ET-SUIVI-PROJET.md). Seize tickets réalisés ont été clôturés et passés en « Done » le 14 novembre. Les noms GitHub gardent l’ancien nom (dépôt `bpierrelouis/aster`, projet « aster development ») ; les commits `09ac7b0` et `cecf0d7` et la référence `0762961…` du brouillon de suivi n’existent plus dans l’historique.
 - [ ] Cadrage § 22 : dater le prochain rendez-vous ; consigner le sort des propositions préparées pour le 12 novembre (application de scan, devenue RIGEL, et livraisons) quand un retour existera.
 
 ## 3. Application
