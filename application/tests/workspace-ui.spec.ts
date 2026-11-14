@@ -446,7 +446,11 @@ test('une synchronisation lue pendant un enregistrement ne rétablit pas l’app
   release();
   await page.evaluate(() => window.orion.store.flush());
   await expect(page.locator('html')).toHaveAttribute('data-ambiance', 'minarm');
-  expect(new Set(await page.evaluate(() => (window as unknown as { ambiances: string[] }).ambiances))).toEqual(new Set(['minarm']));
+  // Avant le choix, une synchronisation périodique peut reprendre l'apparence enregistrée (le simulateur des postes
+  // fait avancer la révision) : seul compte qu'aucune ne revienne en arrière une fois Minarm choisi
+  const ambiances = await page.evaluate(() => (window as unknown as { ambiances: string[] }).ambiances);
+  expect(ambiances).toContain('minarm');
+  expect(new Set(ambiances.slice(ambiances.indexOf('minarm')))).toEqual(new Set(['minarm']));
 });
 
 test('les tableaux de bord présentent des diagrammes ; indicateurs et diagrammes sans icône', async ({ page, request }, testInfo) => {
