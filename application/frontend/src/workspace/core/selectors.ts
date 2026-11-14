@@ -41,12 +41,12 @@ export const traceProvisoire = (): Trace => ({ at: Date.now(), par: me().nom, pa
 /** Fiche d'un matériel, dans sa salle ou au stock */
 export const materielPath = (m: Pick<Materiel, 'id' | 'salleId'>) => `/salles/${m.salleId ? `salle/${m.salleId}` : 'stock'}?m=${m.id}`;
 
-/** Garantie d'un matériel : échue à sa date de fin, à échéance dans les 6 mois qui la précèdent */
+/** Garantie d'un matériel : hors garantie à sa date de fin, à échéance dans les 6 mois qui la précèdent */
 export const GARANTIE_PROCHE = 182 * DAY;
-export const GARANTIES = ['Échue', 'À échéance', 'En cours', 'Non renseignée'] as const;
+export const GARANTIES = ['Hors garantie', 'À échéance', 'En cours', 'Non renseignée'] as const;
 export type Garantie = (typeof GARANTIES)[number];
 export const garantie = (m: Pick<Materiel, 'garantieFin'>, now = Date.now()): Garantie =>
-  !m.garantieFin ? 'Non renseignée' : m.garantieFin <= now ? 'Échue' : m.garantieFin - now <= GARANTIE_PROCHE ? 'À échéance' : 'En cours';
+  !m.garantieFin ? 'Non renseignée' : m.garantieFin <= now ? 'Hors garantie' : m.garantieFin - now <= GARANTIE_PROCHE ? 'À échéance' : 'En cours';
 /** Inventaire filtré sur une garantie (lien d'une notification) */
 export const garantiePath = (g: Garantie) => `/materiels/inventaire?garantie=${encodeURIComponent(g)}`;
 
@@ -54,8 +54,8 @@ export const batimentLabel = (b: string) => `Bâtiment ${b}`;
 /** Étage : « Rez-de-chaussée », « 1er étage », « Sous-sol 1 » ; forme courte : RDC, 1er, SS1 */
 export const floorLabel = (n: number) => n === 0 ? 'Rez-de-chaussée' : n < 0 ? `Sous-sol ${Math.abs(n)}` : `${n}${n === 1 ? 'er' : 'e'} étage`;
 export const floorShort = (n: number) => n === 0 ? 'RDC' : n < 0 ? `SS${Math.abs(n)}` : `${n}${n === 1 ? 'er' : 'e'}`;
-/** Emplacement d'une salle : bâtiment – étage – salle (« A – 1er – A101 ») */
-export const emplacement = (s: Salle | null | undefined) => (s ? `${s.batiment} – ${floorShort(s.etage ?? 0)} – ${s.nom}` : '');
+/** Emplacement d'une salle, format unique de l'application : « A101 · Bâtiment A · 1er étage » */
+export const emplacement = (s: Salle | null | undefined) => (s ? `${s.nom} · ${batimentLabel(s.batiment)} · ${floorLabel(Number(s.etage ?? 0))}` : '');
 
 export const index = () => cached('index', () => {
   const s = store.state;
@@ -120,7 +120,7 @@ export const parc = () => cached('parc', () => {
   const garanties: { proches: Materiel[]; echues: Materiel[] } = { proches: [], echues: [] };
   for (const m of materiels) {
     const g = garantie(m, now);
-    if (g === 'Échue') garanties.echues.push(m);
+    if (g === 'Hors garantie') garanties.echues.push(m);
     else if (g === 'À échéance') garanties.proches.push(m);
   }
   const recents = [...materiels].sort((a, b) => b.dateReception - a.dateReception);
@@ -148,7 +148,7 @@ export const parc = () => cached('parc', () => {
 /** Garanties par échéance : échue, sous 6 mois, 6 à 12 mois, plus d'un an, non renseignée */
 function garantieTranches(materiels: Materiel[], now: number) {
   const tranches = [
-    { id: 'echue', label: 'Échue', until: now },
+    { id: 'echue', label: 'Hors garantie', until: now },
     { id: 'proche', label: 'Sous 6 mois', until: now + GARANTIE_PROCHE },
     { id: 'annee', label: '6 à 12 mois', until: now + 365 * DAY },
     { id: 'longue', label: 'Plus d’un an', until: Infinity },

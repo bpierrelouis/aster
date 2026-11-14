@@ -21,7 +21,7 @@ import { can } from '../../core/permissions.ts';
 import { num, ago, dateLong, dateShort } from '#shared/format.ts';
 import { deviceType, problem, statut, phaseOf, suiviRemontee } from '#shared/catalog.ts';
 import { remontees, remonteeContext, batiments, batimentLabel, traceProvisoire } from '../../core/selectors.ts';
-import { StatutPill, LieuChip, PageHead } from '../../widgets/parts.tsx';
+import { StatutPill, LieuChip, PageHead, SearchField } from '../../widgets/parts.tsx';
 import { openNewRemontee } from './remontees-create.tsx';
 import { openEtatDesLieux } from './remontees-edl.tsx';
 import { TABS, remonteeTabs } from './remontees-tabs.ts';
@@ -162,8 +162,8 @@ export function Remontees() {
   const list = installs ? [] : filterRemontees(board ? rm.visible : TABS[tab].list(rm), query, bat);
   const filtered = Boolean(query || bat);
   const toolbar = <div className="rm-toolbar">
-    <label className="field field--search field--compact"><Icon name="recherche" size={20} /><input type="search" value={query} onChange={(e) => setQuery(e.target.value)}
-      placeholder={installs ? 'Salle…' : 'Matériel, identifiant, description, auteur…'} aria-label={installs ? 'Filtrer les installations' : 'Filtrer les remontées'} /></label>
+    <SearchField compact value={query} onChange={setQuery}
+      placeholder={installs ? 'Salle…' : 'Matériel, identifiant, description, auteur…'} label={installs ? 'Filtrer les installations' : 'Filtrer les remontées'} />
     <div className="seg" role="radiogroup" aria-label="Bâtiment">
       <button className={`seg-btn ${!bat ? 'is-on' : ''}`} role="radio" aria-checked={!bat} onClick={() => setBat('')}>Tous</button>
       {batiments().map((b) => (

@@ -11,16 +11,16 @@ import type { DeviceTypeId, Id, InterventionType, Materiel, Poste, ProblemId, Re
 export type Led = 'ok' | 'hs' | 'wait';
 
 /* Types de matériel : le cadrage ne fixe pas de liste exhaustive (§ 4) ;
-   ces catégories servent au classement visuel et restent modifiables. */
-export const DEVICE_TYPES: { id: DeviceTypeId; label: string; plural: string; icon: string; color: string }[] = [
-  { id: 'uc', label: 'Unité centrale', plural: 'Unités centrales', icon: 'tower', color: 'var(--c1)' },
-  { id: 'videoprojecteur', label: 'Vidéoprojecteur', plural: 'Vidéoprojecteurs', icon: 'projector', color: 'var(--c2)' },
-  { id: 'reseau', label: 'Réseau', plural: 'Matériel réseau', icon: 'switch', color: 'var(--c3)' },
-  { id: 'peripherique', label: 'Périphérique', plural: 'Périphériques', icon: 'periph', color: 'var(--c4)' },
-  { id: 'ecran', label: 'Écran', plural: 'Écrans', icon: 'monitor', color: 'var(--c5)' },
-  { id: 'audio', label: 'Audio et vidéo', plural: 'Audio et vidéo', icon: 'speaker', color: 'var(--c6)' },
-  { id: 'imprimante', label: 'Imprimante', plural: 'Imprimantes', icon: 'printer', color: 'var(--c7)' },
-  { id: 'autre', label: 'Autre', plural: 'Autres', icon: 'materiel', color: 'var(--c8)' },
+   ces catégories servent au classement visuel et restent modifiables. exemple : modèle proposé à la saisie. */
+export const DEVICE_TYPES: { id: DeviceTypeId; label: string; plural: string; icon: string; color: string; exemple: string }[] = [
+  { id: 'uc', label: 'Unité centrale', plural: 'Unités centrales', icon: 'tower', color: 'var(--c1)', exemple: 'Unité centrale OptiPlex 7010' },
+  { id: 'videoprojecteur', label: 'Vidéoprojecteur', plural: 'Vidéoprojecteurs', icon: 'projector', color: 'var(--c2)', exemple: 'Vidéoprojecteur EB-W06' },
+  { id: 'reseau', label: 'Réseau', plural: 'Matériel réseau', icon: 'switch', color: 'var(--c3)', exemple: 'Commutateur 24 ports' },
+  { id: 'peripherique', label: 'Périphérique', plural: 'Périphériques', icon: 'periph', color: 'var(--c4)', exemple: 'Clavier USB' },
+  { id: 'ecran', label: 'Écran', plural: 'Écrans', icon: 'monitor', color: 'var(--c5)', exemple: 'Écran 24 pouces' },
+  { id: 'audio', label: 'Audio et vidéo', plural: 'Audio et vidéo', icon: 'speaker', color: 'var(--c6)', exemple: 'Webcam HD' },
+  { id: 'imprimante', label: 'Imprimante', plural: 'Imprimantes', icon: 'printer', color: 'var(--c7)', exemple: 'Imprimante laser' },
+  { id: 'autre', label: 'Autre', plural: 'Autres', icon: 'materiel', color: 'var(--c8)', exemple: 'Onduleur' },
 ];
 
 /* État binaire « hors service : oui/non » (RG-08) */
@@ -127,7 +127,7 @@ export const rangDuNumero = (numero: unknown) => Number(String(numero).slice(4))
 export const isRole = (value: unknown): value is RoleId => ROLES.some((r) => r.id === value);
 
 /* Interventions sur les postes (Administration › Interventions) : une demande vise une salle entière ou un seul poste,
-   chaque poste l'exécute et renvoie son résultat. État d'un poste : en attente (éteint ou indisponible), en cours
+   chaque poste l'exécute et renvoie son résultat. État d'un poste : en attente (poste déconnecté), en cours
    (connecté, il l'exécute), fait, ou échec renvoyé par le poste. L'arrêt d'un processus relève de la supervision. */
 /** État d'un poste pour une intervention */
 export type EtatIntervention = 'attente' | 'encours' | 'fait' | 'echec';
@@ -144,12 +144,12 @@ export const ETATS_INTERVENTION: Record<EtatIntervention, { id: EtatIntervention
   echec: { id: 'echec', tone: 'hs', icon: 'alert', label: 'Échec' },
 };
 
-/* État d'un poste supervisé (orientation de l'utilisateur du 12 novembre) : éteint ou indisponible (aucun rapport
+/* État d'un poste supervisé (orientation de l'utilisateur du 12 novembre) : poste déconnecté (glossaire, aucun rapport
    depuis 30 secondes), allumé (rapports, aucune session) ou connecté (session ouverte) ; allumé et connecté ont le
    même témoin. Un poste dont l'unité centrale est hors service ne peut être ni allumé ni connecté. */
 export const ETATS_POSTE = {
   hs: { id: 'hs', label: 'Matériel hors service', led: 'hs' },
-  eteint: { id: 'eteint', label: 'Éteint ou indisponible', led: 'wait' },
+  eteint: { id: 'eteint', label: 'Poste déconnecté', led: 'wait' },
   allume: { id: 'allume', label: 'Allumé', led: 'ok' },
   connecte: { id: 'connecte', label: 'Connecté', led: 'ok' },
 };

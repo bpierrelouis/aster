@@ -18,7 +18,7 @@ import { ETATS_INTERVENTION, intervention, etatIntervention } from '#shared/cata
 import { num, plural, ago, dateLong, dateShort } from '#shared/format.ts';
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { AppIcon } from '../../ui/app-icon.tsx';
-import { LieuChip, PageHead, PosteEtat, Progress } from '../../widgets/parts.tsx';
+import { LieuChip, PageHead, PosteEtat, Progress, SearchField } from '../../widgets/parts.tsx';
 import type { TileSize } from '../../ui/icons.tsx';
 import type { SuiviIntervention } from '../../core/interventions.ts';
 import type { EtatIntervention } from '#shared/catalog.ts';
@@ -76,7 +76,7 @@ function Timeline({ x }: { x: SuiviIntervention }) {
       <div className="tl-body"><b>Demande enregistrée</b><span>{dateLong(o.at)}</span><span>{o.par}</span></div></li>
     <li className={`tl-item is-done tl-item--${fini ? 'encours' : `${x.etat} is-current`}`}><span className="tl-dot"><Icon name={t.icon} size={16} /></span>
       <div className="tl-body"><b>{fini ? `${t.label} sur ${x.n.total > 1 ? 'les postes' : 'le poste'}` : t.etats[x.etat as Exclude<EtatIntervention, 'echec'>]}</b><span>{reponses(n)}</span>
-        {n.attente > 0 && <span>{plural(n.attente, 'poste éteint ou indisponible', 'postes éteints ou indisponibles')}, en attente de {n.attente > 1 ? 'leur' : 'son'} retour</span>}</div></li>
+        {n.attente > 0 && <span>{plural(n.attente, 'poste déconnecté', 'postes déconnectés')}, en attente de {n.attente > 1 ? 'leur' : 'son'} retour</span>}</div></li>
     {fini
       ? <li className={`tl-item is-done is-current tl-item--${x.etat}`}><span className="tl-dot"><Icon name={ETATS_INTERVENTION[x.etat].icon} size={16} /></span>
         <div className="tl-body"><b>{x.etat === 'echec' ? `Échec sur ${plural(n.echec, 'poste')}` : t.etats.fait}</b><span>{o.termineLe ? dateLong(o.termineLe) : ''}</span></div></li>
@@ -134,13 +134,12 @@ export function Interventions({ id }: { id?: Id }) {
     <div className={`rm-layout ${id ? 'has-selection' : ''}`}>
       <section className="rm-panel glass" aria-label="Interventions">
         <div className="rm-toolbar">
-          <label className="field field--search field--compact"><Icon name="recherche" size={20} /><input type="search" value={query} onChange={(e) => setQuery(e.target.value)}
-            placeholder="Application, salle, poste, auteur…" aria-label="Filtrer les interventions" /></label>
+          <SearchField compact value={query} onChange={setQuery} placeholder="Application, salle, poste, auteur…" label="Filtrer les interventions" />
           <span className="rm-count" aria-live="polite">{num(list.length)}</span>
         </div>
         <div ref={listScroll} className="rm-scroll">
           {list.length
-            ? <ul className="rm-list">{list.map((x) => <Row key={x.o.id} x={x} selected={x.o.id === id} />)}</ul>
+            ? <ul className="rm-list rm-list--interventions">{list.map((x) => <Row key={x.o.id} x={x} selected={x.o.id === id} />)}</ul>
             : <div className="w-empty w-empty--l"><Icon name={query ? 'recherche' : 'download'} size={32} />
               <span>{query ? 'Aucune intervention ne correspond à cette recherche.' : 'Aucune intervention demandée. Installez ou désinstallez une application depuis Applications, réinitialisez des postes depuis Postes.'}</span></div>}
         </div>

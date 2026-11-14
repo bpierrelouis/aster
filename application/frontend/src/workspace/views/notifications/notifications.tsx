@@ -24,12 +24,12 @@ function NotificationRow({ n }: { n: NotificationItem }) {
   if (n.kind === 'garantie') {
     const t = deviceType(n.m.type);
     const salle = n.m.salleId ? ix.salle.get(n.m.salleId) : null;
-    const echue = garantie(n.m) === 'Échue';
+    const echue = garantie(n.m) === 'Hors garantie';
     return <li><Link className="row" to={materielPath(n.m)}>
       <Tile name={t.icon} color={t.color} size="m" className="tile--tint" />
       <span className="row-main"><span className="row-title">{n.m.modele}</span>
         <span className="row-sub"><span className="row-meta">{n.m.idOrion}</span><span className="row-meta">{salle ? salle.nom : 'Stock'}</span></span></span>
-      <span className="row-when">{echue ? 'Échue le' : 'Fin le'} {dateMed(n.m.garantieFin!)}</span>
+      <span className="row-when">{echue ? 'Hors garantie depuis le' : 'Fin le'} {dateMed(n.m.garantieFin!)}</span>
     </Link></li>;
   }
   if (n.kind === 'deplacement') {

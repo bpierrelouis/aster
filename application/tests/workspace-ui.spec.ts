@@ -88,23 +88,42 @@ test('les noms de toutes les salles sont visibles dans la vue d’ensemble', asy
   for (const name of ['Tous les bâtiments', 'Stock']) await expect(sub.getByRole('link', { name })).toBeVisible();
 });
 
-test('les onglets trop larges se réduisent à leur icône, avec une infobulle', async ({ page }) => {
+test('les onglets trop larges perdent d’abord leur icône, puis seulement leur libellé, avec une infobulle', async ({ page }) => {
   // Police embarquée (Marianne) : la largeur des onglets ne dépend pas de la police du système (CI Linux)
-  await page.setViewportSize({ width: 1100, height: 820 });
-  await open(page, '/salles');
+  await page.setViewportSize({ width: 1440, height: 820 });
+  await open(page, '/administration/postes');
   await page.evaluate(async () => {
     document.documentElement.style.setProperty('--font-text', 'Marianne');
     await document.fonts.ready;
   });
-  await page.setViewportSize({ width: 1000, height: 820 });
   const sub = page.locator('.subnav');
+  const onglet = sub.getByRole('link', { name: 'Comptes' });
+  const largeur = (sel: string) => onglet.locator(sel).evaluate((n) => n.getBoundingClientRect().width);
+  // Serrés : libellés gardés, icônes retirées
+  await page.setViewportSize({ width: 1300, height: 820 });
   await expect(sub).toHaveClass(/is-tight/);
-  const stock = sub.getByRole('link', { name: 'Stock' });
-  expect(await stock.locator(':scope > span').evaluate((n) => n.getBoundingClientRect().width)).toBeLessThanOrEqual(1);
-  await expect(stock).toHaveAttribute('data-tip', 'Stock');
+  await expect(sub).not.toHaveClass(/is-icons/);
+  expect(await largeur(':scope > span')).toBeGreaterThan(1);
+  expect(await largeur(':scope > .ico')).toBe(0);
+  await expect(onglet).not.toHaveAttribute('data-tip');
+  // En dernier recours : icône seule, libellé en infobulle
+  await page.setViewportSize({ width: 1000, height: 820 });
+  await expect(sub).toHaveClass(/is-icons/);
+  expect(await largeur(':scope > span')).toBeLessThanOrEqual(1);
+  await expect(onglet).toHaveAttribute('data-tip', 'Comptes');
   await page.setViewportSize({ width: 1600, height: 820 });
   await expect(sub).not.toHaveClass(/is-tight/);
-  await expect(stock).not.toHaveAttribute('data-tip');
+  await expect(onglet).not.toHaveAttribute('data-tip');
+});
+
+test('les sous-onglets des remontées de l’administrateur gardent leur libellé', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await open(page, '/remontees/attente');
+  const sub = page.locator('.subnav');
+  await expect(sub).not.toHaveClass(/is-icons/);
+  for (const name of ['En attente', 'En cours', 'Terminées', 'Toutes']) {
+    expect(await sub.getByRole('link', { name: new RegExp(`^${name}`) }).locator(':scope > span').first().evaluate((n) => n.getBoundingClientRect().width)).toBeGreaterThan(1);
+  }
 });
 
 test('le stock n’affiche que le stock', async ({ page }) => {
@@ -590,7 +609,7 @@ test('une application s’installe sur une salle entière, des postes se réinit
   await expect(page.locator('.inv-selection')).toHaveCount(0);
   await expect(page.locator('.pagination-total')).toHaveText(/^\d+ postes$/);
   await expect(page.locator('.inv-table thead th')).toHaveText(['Poste', 'Emplacement', 'Matériel', 'État', 'Applications', 'Actions']);
-  await expect(page.locator('.inv-table tbody tr').first().locator('td').nth(1)).toHaveText(/^[A-Z] – (RDC|\d+e?r?|SS\d) – .+$/);
+  await expect(page.locator('.inv-table tbody tr').first().locator('td').nth(1)).toHaveText(/^.+ · Bâtiment [A-Z] · (Rez-de-chaussée|\d+e?r? étage|Sous-sol \d)$/);
   // Réinitialisation : la salle filtrée est proposée ; plusieurs postes choisis
   await pick(page, page.getByRole('combobox', { name: 'Filtrer par salle' }), salle.nom);
   await page.getByRole('button', { name: 'Réinitialiser', exact: true }).click();
@@ -709,7 +728,8 @@ test('seul un matériel du stock, cité par aucune remontée, peut être supprim
   };
   const refus = await supprimer(enSalle);
   await expect(refus).toHaveAttribute('aria-disabled', 'true');
-  await expect(refus).toHaveAttribute('data-tip', /Seul un matériel du stock/);
+  await expect(refus).toHaveAccessibleDescription(/Seul un matériel du stock/); // motif visible sous les actions
+  await expect(page.locator('#motif-suppression')).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(await supprimer(auStock)).not.toHaveAttribute('aria-disabled', 'true');
   await page.keyboard.press('Escape');
@@ -790,16 +810,16 @@ test('les notifications sont regroupées par nature ; l’espace Notifications l
     await open(page, '/accueil');
     await page.getByRole('button', { name: 'Notifications', exact: true }).click();
     const pop = page.locator('.popover--list');
-    await expect(pop.locator('.pop-row', { hasText: /sous garantie échue/ })).toHaveCount(1);
+    await expect(pop.locator('.pop-row', { hasText: / hors garantie/ })).toHaveCount(1);
     await expect(pop.locator('.pop-row', { hasText: /à échéance/ })).toHaveCount(1);
     const groups = await pop.locator('.pop-row').count();
     await expect(page.locator('.topbar-actions .badge')).toHaveText(String(groups)); // un sujet par groupe
     await pop.getByRole('link', { name: 'Voir toutes les notifications' }).click();
     await expect(page).toHaveURL(/\/notifications$/);
     await expect(page.locator('.group-card')).toHaveCount(groups);
-    await page.locator('.group-card', { hasText: /sous garantie échue/ }).getByRole('link', { name: 'Ouvrir' }).click();
+    await page.locator('.group-card', { hasText: / hors garantie/ }).getByRole('link', { name: 'Ouvrir' }).click();
     await expect(page).toHaveURL(/\/materiels\/inventaire\?garantie=/);
-    await expect(page.getByRole('combobox', { name: 'Garantie' })).toContainText('Échue');
+    await expect(page.getByRole('combobox', { name: 'Garantie' })).toContainText('Hors garantie');
   } finally {
     await asAccount(request, admin.id);
   }

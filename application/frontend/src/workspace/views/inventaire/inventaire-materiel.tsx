@@ -69,7 +69,7 @@ function MaterielForm({ materiel, salleId, ecoleId, valeurs, lier }: { materiel:
     const newId = isNew ? uid('m') : null;
     store.update('data', (s) => {
       if (isNew) {
-        s.materiels.push({ id: newId!, ecoleId, idOrion: '', ...data }); // identifiant Orion attribué par le serveur à l'enregistrement
+        s.materiels.push({ id: newId!, ecoleId, idOrion: '', ...data }); // identifiant ORION attribué par le serveur à l'enregistrement
         lier?.(s, newId!);
       } else {
         Object.assign(s.materiels.find((m) => m.id === materiel!.id)!, data);
@@ -83,14 +83,14 @@ function MaterielForm({ materiel, salleId, ecoleId, valeurs, lier }: { materiel:
   return <Sheet title={isNew ? 'Ajouter un matériel' : `Modifier ${materiel!.idOrion}`} size="m" lead={<Tile name={t.icon} color={t.color} size="m" />}
     footer={<SheetFormActions form="materiel-form" icon="check" />}>
     <SheetForm id="materiel-form" onSave={save}>
-      <div className="field"><span className="field-label">Type</span>
+      <div className="field"><span className="field-label">Type <span className="field-value">{t.label}</span></span>
         <div className="type-picker type-picker--wide" role="radiogroup" aria-label="Type de matériel">
           {DEVICE_TYPES.map((d) => <button key={d.id} type="button" role="radio" aria-checked={d.id === type} className={d.id === type ? 'is-on' : ''}
-            data-tip={d.label} onClick={() => setType(d.id)}><Tile name={d.icon} color={d.color} size="m" /></button>)}
+            aria-label={d.label} data-tip={d.label} onClick={() => setType(d.id)}><Tile name={d.icon} color={d.color} size="m" /></button>)}
         </div>
       </div>
       <div className="form-2">
-        <label className="field"><span className="field-label">Modèle *</span><input ref={modeleRef} name="modele" required maxLength={60} defaultValue={materiel?.modele ?? valeurs?.modele ?? ''} placeholder="Écran 24 pouces" autoComplete="off" /></label>
+        <label className="field"><span className="field-label">Modèle *</span><input ref={modeleRef} name="modele" required maxLength={60} defaultValue={materiel?.modele ?? valeurs?.modele ?? ''} placeholder={t.exemple} autoComplete="off" /></label>
         <label className="field"><span className="field-label">Marque</span><input name="marque" maxLength={40} defaultValue={materiel?.marque ?? valeurs?.marque ?? ''} placeholder="Facultative" autoComplete="off" /></label>
         <label className="field"><span className="field-label">Date de réception *</span><input name="reception" type="date" required defaultValue={inputDate(materiel?.dateReception ?? Date.now())} /></label>
         <label className="field"><span className="field-label">Numéro de série</span><input name="serie" maxLength={40} defaultValue={materiel?.serie ?? valeurs?.serie ?? ''} placeholder="Facultatif" autoComplete="off" /></label>
@@ -104,8 +104,8 @@ function MaterielForm({ materiel, salleId, ecoleId, valeurs, lier }: { materiel:
         <label className="field"><span className="field-label">Fin de garantie</span><input name="garantie" type="date" defaultValue={inputDate(materiel ? materiel.garantieFin : valeurs?.garantieFin)} />
           <span className="field-hint">Facultative.</span></label>
         {materiel
-          ? <div className="field"><span className="field-label">Identifiant Orion</span><output className="id-orion">{materiel.idOrion}</output></div>
-          : <div className="field"><span className="field-label">Identifiant Orion</span><output className="id-orion is-muted">Attribué à l’enregistrement</output></div>}
+          ? <div className="field"><span className="field-label">Identifiant ORION</span><output className="id-orion">{materiel.idOrion}</output></div>
+          : <div className="field"><span className="field-label">Identifiant ORION</span><output className="id-orion is-muted">Attribué à l’enregistrement</output></div>}
       </div>
     </SheetForm>
   </Sheet>;

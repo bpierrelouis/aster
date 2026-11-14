@@ -291,7 +291,7 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
         if (!x.hs) delete x.dateHs;
         else if (old?.hs) { if (old.dateHs) x.dateHs = old.dateHs; else delete x.dateHs; }
         else x.dateHs = now;
-        if (old) assert(old.idOrion === x.idOrion, 'Identifiant Orion immuable.');
+        if (old) assert(old.idOrion === x.idOrion, 'Identifiant ORION immuable.');
         else x.idOrion = numeroMateriel(++lastOrionId);
         // Installation physique : toute nouvelle affectation reste en cours (deplacement) jusqu'à la confirmation du
         // déplacement physique, qui devient le dernier déplacement confirmé (installation). Les deux sont tenus ici ;

@@ -62,8 +62,8 @@ export function notificationGroups(now = Date.now()): NotificationGroup[] {
     });
     const { echues, proches } = parc().garanties;
     add({
-      id: 'garanties-echues', icon: 'calendarWarn', color: 'var(--crit)', href: garantiePath('Échue'), period: 'État du parc',
-      title: (n) => `${plural(n, 'matériel', 'matériels')} sous garantie échue`,
+      id: 'garanties-echues', icon: 'calendarWarn', color: 'var(--crit)', href: garantiePath('Hors garantie'), period: 'État du parc',
+      title: (n) => `${plural(n, 'matériel', 'matériels')} hors garantie`,
       items: echues.map((m) => ({ kind: 'garantie', at: m.garantieFin!, m })),
     });
     add({

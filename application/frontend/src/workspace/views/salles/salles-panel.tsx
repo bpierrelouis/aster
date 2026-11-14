@@ -165,7 +165,7 @@ export function SalleDetail({ x, stageBat, selected, devs, act }: { x: Salle; st
   return <>
     <div className="insp-head">
       <Tile name="salles" color="var(--c3)" size="l" />
-      <div className="insp-title"><h2>{x.nom}</h2><span><span className="code-badge">{x.batiment}</span>{batimentLabel(x.batiment)} · {floorLabel(floorLevel(x))}</span>{st && <b className="salle-statut"><span className={`inst-dot inst-dot--${st.tone} inst-dot--s`} />{st.label}</b>}</div>
+      <div className="insp-title"><h2>{x.nom}</h2><span><span className="code-badge" role="img" aria-label={batimentLabel(x.batiment)} data-tip={batimentLabel(x.batiment)}>{x.batiment}</span>{floorLabel(floorLevel(x))}</span>{st && <b className="salle-statut"><span className={`inst-dot inst-dot--${st.tone} inst-dot--s`} />{st.label}</b>}</div>
       <div className="insp-actions">
         <GuardedBtn cap="salle.manage" className="icon-btn" aria-label="Modifier la salle" onClick={() => openSalleForm(x)}><Icon name="pencil" size={18} /></GuardedBtn>
         {v.postes ? <button className="icon-btn" aria-disabled="true" aria-label="Suppression impossible" data-tip="La salle accueille des postes supervisés"><Icon name="trash" size={18} /></button>

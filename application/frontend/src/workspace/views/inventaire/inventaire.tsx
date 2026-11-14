@@ -6,7 +6,7 @@ import { outsideControls } from '../../core/dom.ts';
 import { store } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
 import { can } from '../../core/permissions.ts';
-import { scope, index, optionsSalles, affectationOptions, batimentLabel, garantie, GARANTIES } from '../../core/selectors.ts';
+import { scope, index, optionsSalles, affectationOptions, batimentLabel, emplacement, garantie, GARANTIES } from '../../core/selectors.ts';
 import { DEVICE_TYPES, deviceType, logistique } from '#shared/catalog.ts';
 import { motifSuppression, openMaterielForm, suppressionRefusee } from './inventaire-materiel.tsx';
 import { affecter } from '../salles/salles-affectation.tsx';
@@ -14,7 +14,7 @@ import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
 import { accord, dateNum, num, plural } from '#shared/format.ts';
 import { useTitle } from '../../hooks/use-title.ts';
-import { PageHead, DataPanel, LieuChip, Pagination, etatMateriel, paginate } from '../../widgets/parts.tsx';
+import { PageHead, DataPanel, LieuChip, Pagination, etatMateriel, paginate, SearchField } from '../../widgets/parts.tsx';
 import { ImportPanel } from './inventaire-import.tsx';
 import type { ChangeEvent } from 'react';
 import type { SheetClose } from '../../ui/overlays.tsx';
@@ -103,7 +103,7 @@ export function Inventaire() {
     </PageHead>
     {tab === 'import' ? <ImportPanel /> : <DataPanel
       filters={<>
-        <label className="field field--search"><Icon name="recherche" size={18} /><input type="search" value={q} onChange={filter(setQ)} placeholder="Modèle, identifiant, série…" aria-label="Rechercher un matériel" /></label>
+        <SearchField value={q} onChange={(v) => { setQ(v); setPage(1); }} placeholder="Modèle, identifiant, série…" label="Rechercher un matériel" />
         <FilterSelect aria-label="Type" value={type} onChange={filter(setType)} options={[{ value: '', label: 'Tous les types' }, ...DEVICE_TYPES.map((t) => ({ value: t.id, label: t.plural }))]} />
         <FilterSelect aria-label="État" value={status} onChange={filter(setStatus)} options={[{ value: '', label: 'Tous les états' }, { value: 'ok', label: 'En service' }, { value: 'hs', label: 'Hors service' }]} />
         <FilterSelect aria-label="Localisation" value={location} onChange={filter(setLocation)} options={[{ value: '', label: 'Toutes les salles' }, { value: 'stock', label: 'Stock' }, ...optionsSalles()]} />
@@ -130,7 +130,7 @@ export function Inventaire() {
           <td><LieuChip m={m} link />{room && <small className="inv-sub">{batimentLabel(room.batiment)}</small>}{m.deplacement && <span className="chip chip--move" data-tip="Affecté dans Orion, pas encore à sa place"><span className="inst-dot inst-dot--wait inst-dot--s" />{logistique(m).label}</span>}</td>
           <td><span className="inv-state"><i className={`led led--${m.hs ? 'hs' : 'ok'}`} />{m.hs ? 'Hors service' : 'En service'}</span></td>
           <td>{date(m.dateReception)}</td>
-          <td><span className={`inv-warranty${garantie(m) === 'Échue' ? ' is-expired' : ''}`}>{garantie(m)}</span><small className="inv-sub">{date(m.garantieFin)}</small></td>
+          <td><span className={`inv-warranty${garantie(m) === 'Hors garantie' ? ' is-expired' : ''}`}>{garantie(m)}</span><small className="inv-sub">{date(m.garantieFin)}</small></td>
         </tr>;
       }) : <tr><td colSpan={7}><div className="w-empty w-empty--l">Aucun matériel ne correspond aux filtres.</div></td></tr>}
     </DataPanel>}
@@ -156,14 +156,15 @@ function MoveSheet({ items, onDone }: { items: Materiel[]; onDone: () => void })
 /** Fiche d'un matériel, avec modification et suppression selon les droits */
 function DetailSheet({ m, onDelete }: { m: Materiel; onDelete: () => void }) {
   const t = deviceType(m.type), room = index().salle.get(m.salleId!);
-  const rows = [['Identifiant Orion', m.idOrion], ['Type', t.label], ['Marque', m.marque || '—'], ['Numéro de série', m.serie || '—'], ['Réception', date(m.dateReception)], ['Localisation', room ? `${room.nom} · ${batimentLabel(room.batiment)}` : 'Stock'], ['État', etatMateriel(m)], ['Garantie', `${garantie(m)} · ${date(m.garantieFin)}`]];
+  const rows = [['Identifiant ORION', m.idOrion], ['Type', t.label], ['Marque', m.marque || '—'], ['Numéro de série', m.serie || '—'], ['Réception', date(m.dateReception)], ['Localisation', room ? emplacement(room) : 'Stock'], ['État', etatMateriel(m)], ['Garantie', `${garantie(m)} · ${date(m.garantieFin)}`]];
   const ensuite = useRef<(() => void) | null>(null); // action ouverte une fois la fiche fermée
   const puis = (close: SheetClose, action: () => void) => { ensuite.current = action; close(); };
   const motif = motifSuppression(m); // suppression refusée par le serveur : bouton désactivé, avec le motif
   return <Sheet title={m.modele} lead={<Tile name={t.icon} color={t.color} size="m" />} onClose={() => ensuite.current?.()}
     footer={(close) => <>
+      {can('materiel.delete') && motif && <span className="sheet-hint" id="motif-suppression"><Icon name="alert" size={16} />{motif}</span>}
       {can('materiel.edit') && <button className="btn btn--primary" onClick={() => puis(close, () => openMaterielForm(m))}>Modifier</button>}
-      {can('materiel.delete') && <button className="btn btn--ghost" {...(motif ? { 'aria-disabled': 'true', 'data-tip': motif } : { onClick: () => puis(close, onDelete) })}>Supprimer</button>}
+      {can('materiel.delete') && <button className="btn btn--ghost" {...(motif ? { 'aria-disabled': 'true', 'aria-describedby': 'motif-suppression' } : { onClick: () => puis(close, onDelete) })}>Supprimer</button>}
     </>}>
     <dl className="inv-details">{rows.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
   </Sheet>;

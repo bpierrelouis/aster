@@ -22,7 +22,7 @@ import { Icon, Tile } from '../../ui/icons.tsx';
 import { AppIcon } from '../../ui/app-icon.tsx';
 import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
-import { OpsEmpty, OpsTable, PageHead, PosteEtat } from '../../widgets/parts.tsx';
+import { OpsEmpty, OpsTable, PageHead, PosteEtat, SearchField } from '../../widgets/parts.tsx';
 import { dateTime, clock, num, plural } from '#shared/format.ts';
 import { useTitle } from '../../hooks/use-title.ts';
 import type { Classement, Id, Operation, Portee, Processus, Regle, WorkspaceView } from '#shared/types.ts';
@@ -81,9 +81,7 @@ export function Supervision() {
       {['salles', 'alertes'].includes(tab) && <div className="field"><span className="field-label">Salle à superviser</span>
         <FilterSelect aria-label="Salle à superviser" value={salleId} onChange={(e) => setSalleId(e.target.value)} options={[{ value: '', label: 'Choisir une salle' }, ...optionsSalles()]} />
       </div>}
-      <label className="field"><span className="field-label">Rechercher</span>
-        <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={SEARCH[tab]} aria-label="Rechercher" />
-      </label>
+      <SearchField compact value={query} onChange={setQuery} placeholder={SEARCH[tab]} label="Rechercher" />
     </div>
     <div>
       {tab === 'listes' ? <Rules query={query} />
@@ -137,7 +135,8 @@ function Alerts({ salleId, query }: { salleId: Id; query: string }) {
   if (!can('administration.view') && !salleId) return <Empty title="Choisissez votre salle" text="Les alertes concernent la salle que vous supervisez." />;
   const matches = matcher(query);
   const items = detections().map((d) => ({ d, poste: index().poste.get(d.posteId) })).filter(({ d, poste }) => (!salleId || d.salleId === salleId)
-    && matches(processText(d.processus), poste?.nomReseau, poste?.adresseIp, index().salle.get(d.salleId)?.nom, d.compte));
+    && matches(processText(d.processus), poste?.nomReseau, poste?.adresseIp, index().salle.get(d.salleId)?.nom, d.compte))
+    .sort((x, y) => y.d.at - x.d.at); // détections les plus récentes d'abord
   if (!items.length) return <Empty title="Aucune détection" text="Aucun événement ne correspond à votre sélection." />;
   return <OpsTable head={['Processus', 'Poste / salle', 'Adresse IP', 'Compte Windows', 'Détection', 'Résultat']}>
     {items.map(({ d, poste }) => <tr key={d.id}>
@@ -166,20 +165,21 @@ function Rules({ query }: { query: string }) {
   const scopeLabel = (r: Regle) => (r.portee === 'global' ? 'Toutes les écoles' : r.portee === 'ecole' ? index().ecole.get(r.ecoleId!)?.nom : r.portee === 'batiment' ? batimentLabel(r.batiment!) : index().salle.get(r.salleId!)?.nom);
   const rules = (store.state.regles || []).filter((r) => (r.portee === 'global' || e === 'all' || r.ecoleId === e)
     && matches(processText(r.nom), CLASSEMENTS[r.classement]?.label, scopeLabel(r)));
+  // Règle globale : réservée au super administrateur ; sans règle modifiable, pas de colonne Actions
+  const editable = (r: Regle) => r.portee !== 'global' || me().role === 'superadmin';
+  const actions = rules.some(editable);
   return <>
     <p className="ops-muted" style={{ marginBottom: 20 }}>Les règles se cumulent. Une interdiction reste prioritaire sur une autorisation.</p>
-    <OpsTable head={['Processus', 'Classement', 'Portée', 'Actions']}>
-      {!rules.length && <tr><td colSpan={4}><div className="w-empty w-empty--l">Aucune règle ne correspond à cette recherche.</div></td></tr>}
+    <OpsTable head={['Processus', 'Classement', 'Portée', ...(actions ? ['Actions'] : [])]}>
+      {!rules.length && <tr><td colSpan={actions ? 4 : 3}><div className="w-empty w-empty--l">Aucune règle ne correspond à cette recherche.</div></td></tr>}
       {rules.map((r) => <tr key={r.id}>
         <td><span className="app-cell"><AppIcon name={r.nom} /><strong>{r.nom}</strong></span></td>
         <td><Status c={r.classement} /></td>
         <td>{scopeLabel(r)}</td>
-        <td>{r.portee !== 'global' || me().role === 'superadmin'
-          ? <>
-            <button className="icon-btn" onClick={() => openRuleForm(store.state.regles.find((x) => x.id === r.id))} aria-label={`Modifier ${r.nom}`}><Icon name="pencil" size={17} /></button>
-            <button className="icon-btn" onClick={() => deleteRule(r.id)} aria-label={`Supprimer ${r.nom}`}><Icon name="trash" size={17} /></button>
-          </>
-          : <span className="ops-muted">Règle globale</span>}</td>
+        {actions && <td>{editable(r) && <>
+          <button className="icon-btn" onClick={() => openRuleForm(store.state.regles.find((x) => x.id === r.id))} aria-label={`Modifier ${r.nom}`}><Icon name="pencil" size={17} /></button>
+          <button className="icon-btn" onClick={() => deleteRule(r.id)} aria-label={`Supprimer ${r.nom}`}><Icon name="trash" size={17} /></button>
+        </>}</td>}
       </tr>)}
     </OpsTable>
   </>;

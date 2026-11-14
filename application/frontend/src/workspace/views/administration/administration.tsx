@@ -22,7 +22,7 @@ import { openAccountForm, openSchoolForm, openPostDetail } from './administratio
 import { openInterventionForm } from './administration-intervention-form.tsx';
 import { Interventions } from './administration-interventions.tsx';
 import { openBuildingForm } from '../salles/salles-forms.tsx';
-import { DataPanel, OpsEmpty, OpsTable, PageHead, Pagination, PosteEtat, paginate } from '../../widgets/parts.tsx';
+import { DataPanel, OpsEmpty, OpsTable, PageHead, Pagination, PosteEtat, SearchField, paginate } from '../../widgets/parts.tsx';
 import { useTitle } from '../../hooks/use-title.ts';
 import type { Id, Poste } from '#shared/types.ts';
 
@@ -63,10 +63,7 @@ export function Administration() {
       : <>
         <div className="ops-toolbar">
           {tab === 'applications' && <label className="field"><span className="field-label">Salle</span><SalleFilter value={salleId} onChange={setSalleId} /></label>}
-          <label className="field"><span className="field-label">Rechercher</span>
-            <input type="search" value={query} onChange={(e) => setQuery(e.target.value)}
-              placeholder={SEARCH[tab] ?? SEARCH.postes} aria-label="Rechercher" />
-          </label>
+          <SearchField compact value={query} onChange={setQuery} placeholder={SEARCH[tab] ?? SEARCH.postes} label="Rechercher" />
         </div>
         <div>
           {tab === 'comptes' ? <Accounts query={q} />
@@ -95,7 +92,7 @@ function Posts({ list, salleId, onSalle, query, onQuery }: { list: Poste[]; sall
   const { pages, current, rows } = paginate(list, page, POSTS_PAGE);
   return <DataPanel
     filters={<>
-      <label className="field field--search"><Icon name="recherche" size={18} /><input type="search" value={query} onChange={(e) => filter(onQuery)(e.target.value)} placeholder={SEARCH.postes} aria-label="Rechercher un poste" /></label>
+      <SearchField value={query} onChange={filter(onQuery)} placeholder={SEARCH.postes} label="Rechercher un poste" />
       <SalleFilter value={salleId} onChange={filter(onSalle)} />
     </>}
     head={<><th>Poste</th><th>Emplacement</th><th>Matériel</th><th>État</th><th>Applications</th><th><span className="sr-only">Actions</span></th></>}

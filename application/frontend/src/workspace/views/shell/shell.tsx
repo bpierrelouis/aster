@@ -135,17 +135,20 @@ export function Shell() {
 
 
   // Sous-navigation : quand les onglets débordent, ceux à pastille (bâtiments) se réduisent à leur pastille ;
-  // s'ils débordent encore, les autres se réduisent à leur icône, leur libellé passant en infobulle
+  // s'ils débordent encore, les autres perdent leur icône et gardent leur libellé ; en dernier recours seulement
+  // (écran étroit), ils se réduisent à leur icône, leur libellé passant en infobulle
   const fitSub = useCallback(() => {
     const sub = subRef.current;
     if (!sub) return;
     const overflows = () => sub.scrollWidth > sub.clientWidth + 1;
-    sub.classList.remove('is-compact', 'is-tight');
-    if (overflows()) sub.classList.add('is-compact');
-    const tight = overflows();
-    sub.classList.toggle('is-tight', tight);
+    sub.classList.remove('is-compact', 'is-tight', 'is-icons');
+    for (const level of ['is-compact', 'is-tight', 'is-icons']) {
+      if (!overflows()) break;
+      sub.classList.add(level);
+    }
+    const icons = sub.classList.contains('is-icons');
     for (const btn of sub.querySelectorAll<HTMLElement>('.seg-btn:not(.has-badge):not(.seg-btn--add)')) {
-      if (tight) Object.assign(btn.dataset, { tip: btn.querySelector(':scope > span:not(.seg-count)')!.textContent, tipPos: 'bottom' });
+      if (icons) Object.assign(btn.dataset, { tip: btn.querySelector(':scope > span:not(.seg-count)')!.textContent, tipPos: 'bottom' });
       else { delete btn.dataset.tip; delete btn.dataset.tipPos; }
     }
   }, []);

@@ -111,7 +111,7 @@ const WIDGETS: WidgetDef[] = [
       return <div className="kpi kpi--split"><div className="kpi"><div className="kpi-top"><span className="kpi-label">Garanties</span></div></div>
         <div className="kpi-pair">
           <div><span className="kpi-value">{num(g.proches.length)}</span><span className="kpi-label">Échéance sous 6 mois</span></div>
-          <div><span className="kpi-value">{num(g.echues.length)}</span><span className="kpi-label">Arrivées à échéance</span></div>
+          <div><span className="kpi-value">{num(g.echues.length)}</span><span className="kpi-label">Hors garantie</span></div>
         </div></div>;
     },
   },
@@ -169,7 +169,7 @@ const WIDGETS: WidgetDef[] = [
     type: 'kpi.traitees', kind: 'kpi', title: 'Traitées sur 30 jours', icon: 'clipboardCheck', color: 'var(--ok)', sizes: ['S'], cap: 'remontee.viewAll',
     Body() {
       const rm = remontees();
-      const delta = <Delta diff={rm.recentTraitees.length - rm.traiteesAvant} period="vs 30 jours précédents" sense="up-good" />;
+      const delta = <Delta diff={rm.recentTraitees.length - rm.traiteesAvant} period="par rapport au mois précédent" sense="up-good" />;
       return <Link className="kpi kpi--link" to="/remontees/terminees"><KpiBody label="Traitées sur 30 jours" value={num(rm.recentTraitees.length)} sub={delta} /></Link>;
     },
   },

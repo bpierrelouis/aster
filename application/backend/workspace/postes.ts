@@ -8,7 +8,7 @@ import { DAY, HOUR } from '#shared/format.ts';
 import { id, schoolOf } from './rules.ts';
 import type { Id, OperationType, Processus, ResultatPoste, WorkspaceState } from '#shared/types.ts';
 
-export const DISCONNECT_AFTER = 30_000; // poste sans rapport depuis ce délai : éteint ou indisponible
+export const DISCONNECT_AFTER = 30_000; // poste sans rapport depuis ce délai : poste déconnecté
 /** Adresse IPv4 en notation décimale pointée (quatre octets de 0 à 255, sans zéro initial) */
 const IPV4 = /^(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$/;
 export const isIpv4 = (value: unknown): value is string => typeof value === 'string' && IPV4.test(value);

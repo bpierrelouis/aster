@@ -98,7 +98,7 @@ function InterventionForm({ type, app, salleId, posteId }: { type: InterventionT
       {vises.length ? <>
         <li><Icon name="desktop" size={16} /><b>{un ? vises[0].nomReseau : `${plural(vises.length, 'poste visé', 'postes visés')}${mode === 'salle' ? ', toute la salle' : ''}`}</b></li>
         {on > 0 && <li><i className="led led--ok" />{un ? 'Allumé' : plural(on, 'allumé', 'allumés')} : démarrage immédiat</li>}
-        {off > 0 && <li><i className="led led--wait" />{un ? 'Éteint ou indisponible' : plural(off, 'éteint ou indisponible', 'éteints ou indisponibles')} : en attente de {off > 1 ? 'leur' : 'son'} retour</li>}
+        {off > 0 && <li><i className="led led--wait" />{un ? 'Déconnecté' : plural(off, 'déconnecté', 'déconnectés')} : en attente de {off > 1 ? 'leur' : 'son'} retour</li>}
         {app && <li><AppIcon name={app.nom} size={16} />{deja ? `${app.nom} installé sur ${un ? 'ce poste' : plural(deja, 'poste')}` : `${app.nom} absent ${un ? 'de ce poste' : 'de ces postes'}`}</li>}
       </> : <li><Icon name="desktop" size={16} />{salle ? 'Choisissez au moins un poste.' : 'Choisissez la salle.'}</li>}
     </ul>

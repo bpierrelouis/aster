@@ -1,5 +1,5 @@
 .ops-muted { color:var(--ink-2); margin:0; font-size: 1rem; }
-.ops-toolbar { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:22px; }
+.ops-toolbar { display:flex; align-items:flex-end; flex-wrap:wrap; gap:12px; margin-bottom:22px; }
 .ops-toolbar > .filter-select { flex:1 1 220px; max-width:360px; }
 .ops-toolbar .field { min-width:220px; flex:1; max-width:360px; }
 .ops-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:18px; }
@@ -29,9 +29,6 @@
 .ops-table-wrap { overflow:hidden; border-radius:24px; --radius:24px; }
 .ops-table-scroll { overflow:auto; overscroll-behavior:none; }
 .ops-table { width:100%; border-collapse:collapse; font-size: 1rem; text-align:left; }
-.ops-table th { font-size: 0.875rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2); font-weight:600; }
-/* En-tête toujours visible : il reste en haut du tableau pendant le défilement */
-.ops-table thead th { position:sticky; top:0; z-index:2; background:var(--glass-tint-solid); border-bottom:0; box-shadow:inset 0 -1px 0 var(--hairline); }
 .ops-table th,.ops-table td { padding:18px 20px; border-bottom:1px solid var(--hairline); }
 .ops-table tr:last-child td { border-bottom:0; }
 .ops-table tbody tr:has(.ops-check) { cursor:pointer; }

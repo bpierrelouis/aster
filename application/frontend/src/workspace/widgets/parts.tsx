@@ -124,10 +124,16 @@ export function Delta({ diff, period, fmt = num, sense = 'neutral' }: { diff: nu
   return <p className="kpi-sub kpi-delta" data-tone={tone}><b>{diff > 0 ? '▲' : '▼'} {fmt(Math.abs(diff))}</b> {period}</p>;
 }
 
+/** Champ « Rechercher » commun à toutes les listes : loupe et saisie ; compact dans les barres d'outils des listes */
+export function SearchField({ value, onChange, placeholder, label, compact = false }: { value: string; onChange: (value: string) => void; placeholder: string; label: string; compact?: boolean }) {
+  return <label className={`field field--search${compact ? ' field--compact' : ''}`}><Icon name="recherche" size={compact ? 20 : 18} />
+    <input type="search" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} aria-label={label} /></label>;
+}
+
 /** Tableau des écrans Supervision et Administration : en-tête fixe, défilement dans le cadre */
 export function OpsTable({ head, scroll = true, children }: { head: string[]; scroll?: boolean; children: ReactNode }) {
   const ref = usePeek();
-  const table = <table className="ops-table">
+  const table = <table className="ops-table data-table">
     <thead><tr>{head.map((h) => <th key={h}>{h}</th>)}</tr></thead>
     <tbody>{children}</tbody>
   </table>;
@@ -146,7 +152,7 @@ export function DataPanel({ filters, selection = null, head, children, footer = 
     <div className="inv-filters">{filters}</div>
     <div>
       {selection && <div className="inv-selection">{selection}</div>}
-      <div ref={scroll} className="inv-table-scroll"><table className="inv-table">
+      <div ref={scroll} className="inv-table-scroll"><table className="inv-table data-table">
         <thead><tr>{head}</tr></thead>
         <tbody>{children}</tbody>
       </table></div>

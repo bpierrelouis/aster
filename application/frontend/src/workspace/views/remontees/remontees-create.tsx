@@ -17,6 +17,7 @@ import { normalizeProblemLabel, PROBLEM_LABEL_HELP } from '#shared/problem-label
 import { DEVICE_TYPES, PROBLEMS, deviceType } from '#shared/catalog.ts';
 import { batiments, batimentLabel, sallesOf, materielsOf, index, traceProvisoire } from '../../core/selectors.ts';
 import type { Id, Materiel, ProblemId } from '#shared/types.ts';
+import { SearchField } from '../../widgets/parts.tsx';
 
 export function openNewRemontee({ salleId = null, materielIds = [] }: { salleId?: Id | null; materielIds?: Id[] } = {}) {
   if (!can('remontee.create')) { notify(why('remontee.create'), { icon: 'alertes', tone: 'warn' }); return; }
@@ -89,9 +90,7 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
   const matchesSalle = matcher(salleQuery);
   const matchingRooms = (salleQuery.trim() ? sallesOf() : sallesOf(batiment)).filter((s) => matchesSalle(s.nom, batimentLabel(s.batiment)));
   const stepSalle = () => <>
-    <label className="field field--search"><Icon name="recherche" size={18} />
-      <input type="search" aria-label="Rechercher une salle" placeholder="Rechercher une salle, un bâtiment…" value={salleQuery} onChange={(e) => setSalleQuery(e.target.value)} />
-    </label>
+    <SearchField value={salleQuery} onChange={setSalleQuery} placeholder="Rechercher une salle, un bâtiment…" label="Rechercher une salle" />
     {!salleQuery.trim() && <div className="seg seg--chips" role="tablist" aria-label="Bâtiments">
       {batiments().map((b) => (
         <button key={b} role="tab" className={`seg-btn ${b === batiment ? 'is-on' : ''}`} aria-selected={b === batiment} onClick={() => setBatiment(b)}>
@@ -170,8 +169,8 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
 
   return (
     <Sheet title="Signaler un problème" size="l" lead={<Tile name="alertes" color="var(--c2)" size="m" />}
-      footer={<>
-        <button className="btn btn--ghost" hidden={step === 1} onClick={() => setStep(Math.max(1, step - 1))}><Icon name="chevL" size={18} /><span>Retour</span></button>
+      footer={step > 1 && <>{/* première étape : aucune action, pas de barre du bas */}
+        <button className="btn btn--ghost" onClick={() => setStep(step - 1)}><Icon name="chevL" size={18} /><span>Retour</span></button>
         <span className="flex-1" />
         {step === 2 && <button className="btn btn--primary" disabled={!selected.size} onClick={() => { focusDesc.current = true; setStep(3); }}><Icon name="chevR" size={18} /><span>Continuer</span></button>}
         {step === 3 && <button className="btn btn--primary" type="submit" form="remontee-form" disabled={!ready}><Icon name="documents" size={18} /><span>Transmettre la remontée</span></button>}

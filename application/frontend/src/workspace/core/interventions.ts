@@ -5,7 +5,7 @@
    - Une demande vise une salle entière (salleId) ou des postes d'une salle.
    - Poste : fait ou échec selon son résultat ; sans résultat, en cours s'il
      est allumé (il l'exécute à son prochain rapport), en attente s'il est
-     éteint ou indisponible.
+     poste déconnecté.
    - Demande : faite quand tous ses postes l'ont faite ; en échec quand tous
      ont répondu, dont un en échec ; en cours dès qu'un poste l'exécute ou y a
      répondu, tant que tous n'ont pas fini (installation commencée dans une
