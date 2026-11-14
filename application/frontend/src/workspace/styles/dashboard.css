@@ -51,8 +51,9 @@
 .w-remove:hover { color: var(--crit); }
 .is-editing .w-remove { opacity: 1; transform: none; pointer-events: auto; }
 
+/* Sélecteur de taille posé sur le bord bas du widget, sans couvrir son contenu (marge intérieure) */
 .w-sizes {
-  position: absolute; left: 50%; bottom: -15px; z-index: 6;
+  position: absolute; left: 50%; bottom: -13px; z-index: 6;
   display: flex; gap: 2px; padding: 3px; --radius: var(--r-pill);
   opacity: 0; transform: translate(-50%, 0) scale(.9); pointer-events: none;
   transition: opacity var(--dur-2), transform var(--dur-2) var(--ease-spring);
@@ -63,6 +64,7 @@
   color: var(--ink-3); transition: background var(--dur-1), color var(--dur-1);
 }
 .w-sizes button:hover, .gal-sizes button:hover { color: var(--ink-1); }
+.w-sizes button { height: 20px; }
 .w-sizes button[aria-pressed="true"], .gal-sizes button[aria-checked="true"] { color: var(--ink-1); background: var(--glass-tint-solid); box-shadow: 0 1px 3px rgb(var(--ink) / .15); }
 :root[data-tone="dark"] .w-sizes button[aria-pressed="true"], :root[data-tone="dark"] .gal-sizes button[aria-checked="true"] { background: rgb(255 255 255 / .16); }
 

@@ -169,7 +169,7 @@ const WIDGETS: WidgetDef[] = [
     type: 'kpi.traitees', kind: 'kpi', title: 'Traitées sur 30 jours', icon: 'clipboardCheck', color: 'var(--ok)', sizes: ['S'], cap: 'remontee.viewAll',
     Body() {
       const rm = remontees();
-      const delta = <Delta diff={rm.recentTraitees.length - rm.traiteesAvant} period="par rapport aux 30 jours précédents" sense="up-good" />;
+      const delta = <Delta diff={rm.recentTraitees.length - rm.traiteesAvant} period="vs 30 jours précédents" sense="up-good" />;
       return <Link className="kpi kpi--link" to="/remontees/terminees"><KpiBody label="Traitées sur 30 jours" value={num(rm.recentTraitees.length)} sub={delta} /></Link>;
     },
   },
