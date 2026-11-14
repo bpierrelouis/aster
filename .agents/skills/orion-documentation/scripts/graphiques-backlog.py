@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Graphiques du backlog ORION, produits depuis le projet GitHub (bpierrelouis, n° 2).
 
-Écrit docs/assets/backlog/BURNDOWN.svg et docs/assets/backlog/PROGRESSION-EQUIPE.svg.
+Écrit docs/04-ORGANISATION/assets/BURNDOWN.svg et PROGRESSION-EQUIPE.svg.
 Prérequis : `gh` authentifié avec le droit `project` (lecture).
 Usage, depuis la racine du dépôt : python3 .agents/skills/orion-documentation/scripts/graphiques-backlog.py [AAAA-MM-JJ]
 La date facultative fixe le jour de situation (par défaut : aujourd'hui).
@@ -15,8 +15,9 @@ from html import escape
 from pathlib import Path
 
 ROOT = Path(subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True, check=True).stdout.strip())
-SORTIE = ROOT / "docs" / "assets" / "backlog"
+SORTIE = ROOT / "docs" / "04-ORGANISATION" / "assets"
 DEBUT, FIN, BASCULE = dt.date(2026, 10, 19), dt.date(2026, 11, 19), dt.date(2026, 11, 9)
+RENDU = dt.date(2026, 11, 17)  # rendu de l’application ; présentation le 19 (FIN)
 MEMBRES = {"bpierrelouis": "BAELDE", "AlexV2204": "VILBERT-TAHON", "bbrandon971": "BONNEY",
            "WhiteYorozuya": "PHOMMAVONGSA", "louloubreizh": "LE MAÎTRE"}
 FOND, CARTE, ENCRE, DOUX, ACCENT, CHAUD, TRAIT = "#F4F7FA", "#FFFFFF", "#163246", "#617786", "#087E8B", "#D78435", "#D9E2E8"
@@ -62,18 +63,19 @@ def burndown(items, situation):
     Y = lambda v: y1 - (y1 - y0) * v / max(total, 1)
     corps = tuile(65, f"{total - reste[max(reste)]} / {total}", "Tickets terminés", ACCENT)
     corps += tuile(635, reste[max(reste)], "Tickets restants", CHAUD)
-    corps += tuile(1205, "19 NOV.", "Remise", ACCENT)
+    corps += tuile(1205, "17 NOV.", "Rendu · présentation le 19", ACCENT)
     corps += f"<rect x='65' y='340' width='1670' height='530' rx='18' fill='{CARTE}'/>"
     for v in range(0, total + 1, max(1, total // 5)):
         corps += f"<line x1='{x0}' y1='{Y(v):.1f}' x2='{x1}' y2='{Y(v):.1f}' stroke='{TRAIT}'/>" + texte(x0 - 12, Y(v) + 7, v, 18, DOUX, ancre="end")
-    for d in (DEBUT, BASCULE, FIN):
+    for d in (DEBUT, BASCULE, RENDU, FIN):
         corps += texte(X(d), y1 + 32, d.strftime("%d/%m"), 18, DOUX, ancre="middle")
     corps += f"<line x1='{X(BASCULE):.1f}' y1='{y0}' x2='{X(BASCULE):.1f}' y2='{y1}' stroke='{DOUX}' stroke-dasharray='6 6'/>"
     corps += texte((X(DEBUT) + X(BASCULE)) / 2, y0 - 10, "Sprint 1", 20, DOUX, 700, "middle") + texte((X(BASCULE) + X(FIN)) / 2, y0 - 10, "Sprint 2", 20, DOUX, 700, "middle")
-    corps += f"<line x1='{X(DEBUT):.1f}' y1='{Y(total):.1f}' x2='{X(FIN):.1f}' y2='{Y(0):.1f}' stroke='{DOUX}' stroke-width='2' stroke-dasharray='10 8'/>"
+    corps += f"<line x1='{X(RENDU):.1f}' y1='{y0}' x2='{X(RENDU):.1f}' y2='{y1}' stroke='{CHAUD}' stroke-dasharray='4 6'/>" + texte(X(RENDU) - 8, y0 + 24, "Rendu", 18, CHAUD, 700, "end") + texte(X(FIN), y1 + 56, "présentation", 16, DOUX, 400, "end")
+    corps += f"<line x1='{X(DEBUT):.1f}' y1='{Y(total):.1f}' x2='{X(RENDU):.1f}' y2='{Y(0):.1f}' stroke='{DOUX}' stroke-width='2' stroke-dasharray='10 8'/>"
     points = " ".join(f"{X(d):.1f},{Y(v):.1f}" for d, v in sorted(reste.items()))
     corps += f"<polyline points='{points}' fill='none' stroke='{CHAUD}' stroke-width='5' stroke-linejoin='round'/>"
-    corps += texte(x1, y0 + 30, "— travail restant réel", 20, CHAUD, 700, "end") + texte(x1, y0 + 58, "- - rythme idéal", 20, DOUX, 400, "end")
+    corps += texte(x0 + 20, y1 - 40, "— travail restant réel", 20, CHAUD, 700) + texte(x0 + 20, y1 - 14, "- - rythme idéal jusqu’au rendu", 20, DOUX)
     return cadre("Du travail engagé à la remise finale", "01 / PILOTAGE DU BACKLOG",
                  f"Burndown · tickets des sprints 1 et 2 restants · situation au {situation.strftime('%d/%m/%Y')} · source : projet GitHub", corps)
 

@@ -42,7 +42,7 @@ BLOC = re.compile(r"\n?<!-- version:debut.*?<!-- version:fin -->\n?", re.S)
 def destination(chemin):
     """Destination du fichier, selon le classement du README."""
     nom = Path(chemin).name
-    if chemin.startswith("docs/temporaire/"):
+    if "BROUILLON" in nom:
         return "Brouillon interne"
     if chemin.startswith("design/"):
         return "Ressource de préparation"

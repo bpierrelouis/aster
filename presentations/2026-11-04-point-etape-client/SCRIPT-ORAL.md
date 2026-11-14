@@ -261,11 +261,11 @@ Merci pour ces précisions. Nous allons consigner les décisions prises aujourd�
 
 ## Sources de préparation
 
-- [Sujet et attendus](../../docs/01-CONSIGNES.md) : objectifs généraux et livrables.
-- [Cadrage en vigueur](../../docs/02-CADRAGE.md) : §§ 1 à 5 pour le périmètre, les profils et les matériels ; §§ 8 à 15 pour l’administration, les processus, les remontées et les PDF ; §§ 18 et 19 pour l’authentification et l’architecture.
-- [Entretiens historiques](../../docs/03-COMPTE-RENDU-ENTRETIENS.md) : origine du besoin, à lire avec les précisions plus récentes du cadrage.
-- [Règles de gestion](../../docs/04-REGLES-DE-GESTION.md) : champs, droits et traitements confirmés.
-- [Source éditable du MCD proposé](../../docs/05-MCD-MERISE-MOCODO.url) : vocabulaire et représentation actuels, sans validation globale.
+- [Sujet et attendus](../../docs/01-CONTEXTE/01-CONSIGNES.md) : objectifs généraux et livrables.
+- [Cadrage en vigueur](../../docs/01-CONTEXTE/02-CADRAGE.md) : §§ 1 à 5 pour le périmètre, les profils et les matériels ; §§ 8 à 15 pour l’administration, les processus, les remontées et les PDF ; §§ 18 et 19 pour l’authentification et l’architecture.
+- [Entretiens historiques](../../docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md) : origine du besoin, à lire avec les précisions plus récentes du cadrage.
+- [Règles de gestion](../../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) : champs, droits et traitements confirmés.
+- [Source éditable du MCD](../../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio) : vocabulaire et représentation actuels, sans validation globale.
 - [Contenu du diaporama et notes existantes](slides.js) et [maquette de gestion des matériels](maquette-gestion-materiels.html).
 
 Ce script prépare la prise de parole ; il ne remplace ni le cadrage ni le compte rendu des décisions qui seront prises pendant l’entretien.

@@ -11,32 +11,33 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [design/README.md](../design/README.md) | Ressource de préparation | [2.2](#design-readme) | 13/11/2026 |
 | [design/charte-graphique/index.html](../design/charte-graphique/index.html) | Ressource de préparation | [2.1](#design-charte-graphique-index) | 13/11/2026 |
 | [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [2.0](#design-maquettes-index) | 13/11/2026 |
-| [docs/00-GLOSSAIRE.md](../docs/00-GLOSSAIRE.md) | Production destinée à la remise | [2.0](#00-glossaire) | 13/11/2026 |
-| [docs/01-CONSIGNES.md](../docs/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.3](#01-consignes) | 13/11/2026 |
-| [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) | Source de travail interne | [4.0](#02-cadrage) | 13/11/2026 |
-| [docs/03-COMPTE-RENDU-ENTRETIENS.md](../docs/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.0](#03-compte-rendu-entretiens) | 13/11/2026 |
-| [docs/04-REGLES-DE-GESTION.md](../docs/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [2.0](#04-regles-de-gestion) | 13/11/2026 |
-| [docs/05-MCD-MERISE.drawio](../docs/05-MCD-MERISE.drawio) | Production destinée à la remise | [1.1](#05-mcd-merise) | 13/11/2026 |
-| [docs/05-MCD-MERISE.svg](../docs/05-MCD-MERISE.svg) | Production destinée à la remise | [2.1](#05-mcd-merise) | 13/11/2026 |
-| [docs/06-DIAGRAMME-CONTEXTE.md](../docs/06-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [1.2](#06-diagramme-contexte) | 13/11/2026 |
-| [docs/07-DIAGRAMMES-ACTIVITE.md](../docs/07-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [1.4](#07-diagrammes-activite) | 13/11/2026 |
-| [docs/08-DCU-GESTION-PARC.md](../docs/08-DCU-GESTION-PARC.md) | Production destinée à la remise | [1.3](#08-dcu-gestion-parc) | 12/11/2026 |
-| [docs/09-DCU-ADMINISTRATION-POSTES.md](../docs/09-DCU-ADMINISTRATION-POSTES.md) | Production destinée à la remise | [1.5](#09-dcu-administration-postes) | 13/11/2026 |
-| [docs/10-DCU-SUPERVISION-POSTES.md](../docs/10-DCU-SUPERVISION-POSTES.md) | Production destinée à la remise | [1.4](#10-dcu-supervision-postes) | 12/11/2026 |
-| [docs/11-DCU-REMONTEES-UTILISATEUR.md](../docs/11-DCU-REMONTEES-UTILISATEUR.md) | Production destinée à la remise | [3.0](#11-dcu-remontees-utilisateur) | 13/11/2026 |
-| [docs/12-MATRICE-DROITS.md](../docs/12-MATRICE-DROITS.md) | Production destinée à la remise | [4.0](#12-matrice-droits) | 13/11/2026 |
-| [docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [3.0](#13-fiche-descriptive-gestionnaire) | 13/11/2026 |
-| [docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [2.0](#14-fiche-descriptive-formateur) | 13/11/2026 |
-| [docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [3.0](#15-fiche-descriptive-administrateur) | 13/11/2026 |
-| [docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [3.0](#16-fiche-descriptive-super-administrateur) | 13/11/2026 |
-| [docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [2.0](#17-dossier-architecture-technique) | 13/11/2026 |
-| [docs/18-DIAGRAMMES-ARCHITECTURE.md](../docs/18-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [1.3](#18-diagrammes-architecture) | 13/11/2026 |
-| [docs/19-BACKLOG-ET-SUIVI-PROJET.docx](../docs/19-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.1](#19-backlog-et-suivi-projet) | 13/11/2026 |
-| [docs/19-BACKLOG-ET-SUIVI-PROJET.md](../docs/19-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [2.0](#19-backlog-et-suivi-projet) | 14/11/2026 |
-| [docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.0](#20-backlog-technique-et-feuille-de-route) | 13/11/2026 |
-| [docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md) | Brouillon interne | [1.1](#19-suivi-backlog-brouillon-v1) | 13/11/2026 |
-| [docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) | Brouillon interne | [1.1](#diagrammes-activite-cas-utilisation-brouillon-v2) | 12/11/2026 |
-| [docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md) | Brouillon interne | [3.0](#diagrammes-etats-brouillon-v1) | 13/11/2026 |
+| [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md) | Production destinée à la remise | [2.1](#00-glossaire) | 14/11/2026 |
+| [docs/01-CONTEXTE/01-CONSIGNES.md](../docs/01-CONTEXTE/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.4](#01-consignes) | 14/11/2026 |
+| [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [4.1](#02-cadrage) | 14/11/2026 |
+| [docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.1](#03-compte-rendu-entretiens) | 14/11/2026 |
+| [docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [1.3](#06-diagramme-contexte) | 14/11/2026 |
+| [docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [1.5](#07-diagrammes-activite) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [2.1](#04-regles-de-gestion) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio) | Production destinée à la remise | [1.2](#05-mcd-merise) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) | Production destinée à la remise | [2.2](#05-mcd-merise) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md) | Production destinée à la remise | [1.4](#08-dcu-gestion-parc) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md) | Production destinée à la remise | [1.6](#09-dcu-administration-postes) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md) | Production destinée à la remise | [1.5](#10-dcu-supervision-postes) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md) | Production destinée à la remise | [3.1](#11-dcu-remontees-utilisateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md) | Production destinée à la remise | [4.1](#12-matrice-droits) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [3.1](#13-fiche-descriptive-gestionnaire) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [2.1](#14-fiche-descriptive-formateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [3.1](#15-fiche-descriptive-administrateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [3.1](#16-fiche-descriptive-super-administrateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) | Production destinée à la remise | [1.2](#diagrammes-activite-cas-utilisation-brouillon-v2) | 14/11/2026 |
+| [docs/02-ANALYSE/03-ANALYSE/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/02-ANALYSE/03-ANALYSE/DIAGRAMMES-ETATS-BROUILLON-V1.md) | Production destinée à la remise | [3.1](#diagrammes-etats-brouillon-v1) | 14/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/README.md](../docs/02-ANALYSE/04-CONCEPTION/README.md) | Production destinée à la remise | [1.0](#readme) | 14/11/2026 |
+| [docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [2.1](#17-dossier-architecture-technique) | 14/11/2026 |
+| [docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [1.4](#18-diagrammes-architecture) | 14/11/2026 |
+| [docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.2](#19-backlog-et-suivi-projet) | 14/11/2026 |
+| [docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.0](#19-backlog-et-suivi-projet) | 14/11/2026 |
+| [docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md) | Production destinée à la remise | [1.2](#19-suivi-backlog-brouillon-v1) | 14/11/2026 |
+| [docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.1](#20-backlog-technique-et-feuille-de-route) | 14/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -77,298 +78,360 @@ Fichier : [design/maquettes/index.html](../design/maquettes/index.html) · Resso
 
 ### 00-GLOSSAIRE
 
-Fichier : [docs/00-GLOSSAIRE.md](../docs/00-GLOSSAIRE.md) · Production destinée à la remise
+Fichier : [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
-| 1.8 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
-| 1.7 | 13/11/2026 | Préciser l’acteur de traitement : prise en charge puis fin du traitement | `38c405d` | — |
-| 1.6 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur | `83658a3` | — |
-| 1.5 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `0078180` | — |
-| 1.4 | 09/11/2026 | Consolider le modèle et les règles métier ; Harmoniser les diagrammes de cas d'utilisation | `af0e24e` | — |
-| 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
-| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
-| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Préparer le support du point client ; Formaliser les profils et leurs autorisations ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` | — |
-| 1.0 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | `a9aa9cd` | — |
+| 2.1 | 14/11/2026 | Déplacer dans docs/01-CONTEXTE/ | en vigueur | — |
+| 2.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/00-GLOSSAIRE.md`) | — |
+| 1.8 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/00-GLOSSAIRE.md`) | — |
+| 1.7 | 13/11/2026 | Préciser l’acteur de traitement : prise en charge puis fin du traitement | `38c405d` (`docs/00-GLOSSAIRE.md`) | — |
+| 1.6 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur | `83658a3` (`docs/00-GLOSSAIRE.md`) | — |
+| 1.5 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `0078180` (`docs/00-GLOSSAIRE.md`) | — |
+| 1.4 | 09/11/2026 | Consolider le modèle et les règles métier ; Harmoniser les diagrammes de cas d'utilisation | `af0e24e` (`docs/00-GLOSSAIRE.md`) | — |
+| 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` (`docs/00-GLOSSAIRE.md`) | — |
+| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` (`docs/00-GLOSSAIRE.md`) | — |
+| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Préparer le support du point client ; Formaliser les profils et leurs autorisations ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` (`docs/00-GLOSSAIRE.md`) | — |
+| 1.0 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | `a9aa9cd` (`docs/00-GLOSSAIRE.md`) | — |
 
 ### 01-CONSIGNES
 
-Fichier : [docs/01-CONSIGNES.md](../docs/01-CONSIGNES.md) · Source fournie par l’encadrement
+Fichier : [docs/01-CONTEXTE/01-CONSIGNES.md](../docs/01-CONTEXTE/01-CONSIGNES.md) · Source fournie par l’encadrement
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.3 | 13/11/2026 | Fiabiliser les configurations à remettre | en vigueur | — |
-| 1.2 | 09/11/2026 | Préciser le contenu attendu du dossier d'architecture | `44127a1` | — |
-| 1.1 | 02/11/2026 | Consolider le cadrage et les modèles | `12080db` | — |
-| 1.0 | 20/10/2026 | Consignes + cadrage | `288c524` | — |
+| 1.4 | 14/11/2026 | Déplacer dans docs/01-CONTEXTE/ | en vigueur | — |
+| 1.3 | 13/11/2026 | Fiabiliser les configurations à remettre | `83658a3` (`docs/01-CONSIGNES.md`) | — |
+| 1.2 | 09/11/2026 | Préciser le contenu attendu du dossier d'architecture | `44127a1` (`docs/01-CONSIGNES.md`) | — |
+| 1.1 | 02/11/2026 | Consolider le cadrage et les modèles | `12080db` (`docs/01-CONSIGNES.md`) | — |
+| 1.0 | 20/10/2026 | Consignes + cadrage | `288c524` (`docs/01-CONSIGNES.md`) | — |
 
 ### 02-CADRAGE
 
-Fichier : [docs/02-CADRAGE.md](../docs/02-CADRAGE.md) · Source de travail interne
+Fichier : [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) · Source de travail interne
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
-| 3.0 | 13/11/2026 | Faire de l’état actuel la référence ; entrée unique et absence de filtrage (13 novembre) ; retours du 12 novembre cités | `3caca82` | — |
-| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
-| 2.0 | 13/11/2026 | Inscrire les décisions de l’utilisateur du 13 novembre sur les remontées, les notifications et le changement d’école | `38c405d` | — |
-| 1.9 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur ; Inscrire les points de sécurité qui demandent une décision ; Reporter les décisions de sécurité du 13 novembre ; Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues ; Fiabiliser les configurations à remettre | `83658a3` | — |
-| 1.8 | 12/11/2026 | Préparer les points du rendez-vous du 12 novembre ; Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions de l'ancien nom | `b83aaca` | — |
-| 1.7 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | `3396072` | — |
-| 1.6 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` | — |
-| 1.5 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
-| 1.4 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
-| 1.3 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Préparer le support du point client ; Formaliser les profils et leurs autorisations ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` | — |
-| 1.2 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | `a9aa9cd` | — |
-| 1.1 | 24/10/2026 | Aligner le cadrage, les diagrammes et les consignes Git | `cc22229` | — |
-| 1.0 | 20/10/2026 | Consignes + cadrage | `288c524` | — |
+| 4.1 | 14/11/2026 | Déplacer dans docs/01-CONTEXTE/ | en vigueur | — |
+| 4.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/02-CADRAGE.md`) | — |
+| 3.0 | 13/11/2026 | Faire de l’état actuel la référence ; entrée unique et absence de filtrage (13 novembre) ; retours du 12 novembre cités | `3caca82` (`docs/02-CADRAGE.md`) | — |
+| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/02-CADRAGE.md`) | — |
+| 2.0 | 13/11/2026 | Inscrire les décisions de l’utilisateur du 13 novembre sur les remontées, les notifications et le changement d’école | `38c405d` (`docs/02-CADRAGE.md`) | — |
+| 1.9 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur ; Inscrire les points de sécurité qui demandent une décision ; Reporter les décisions de sécurité du 13 novembre ; Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues ; Fiabiliser les configurations à remettre | `83658a3` (`docs/02-CADRAGE.md`) | — |
+| 1.8 | 12/11/2026 | Préparer les points du rendez-vous du 12 novembre ; Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions de l'ancien nom | `b83aaca` (`docs/02-CADRAGE.md`) | — |
+| 1.7 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | `3396072` (`docs/02-CADRAGE.md`) | — |
+| 1.6 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` (`docs/02-CADRAGE.md`) | — |
+| 1.5 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` (`docs/02-CADRAGE.md`) | — |
+| 1.4 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` (`docs/02-CADRAGE.md`) | — |
+| 1.3 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Préparer le support du point client ; Formaliser les profils et leurs autorisations ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` (`docs/02-CADRAGE.md`) | — |
+| 1.2 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | `a9aa9cd` (`docs/02-CADRAGE.md`) | — |
+| 1.1 | 24/10/2026 | Aligner le cadrage, les diagrammes et les consignes Git | `cc22229` (`docs/02-CADRAGE.md`) | — |
+| 1.0 | 20/10/2026 | Consignes + cadrage | `288c524` (`docs/02-CADRAGE.md`) | — |
 
 ### 03-COMPTE-RENDU-ENTRETIENS
 
-Fichier : [docs/03-COMPTE-RENDU-ENTRETIENS.md](../docs/03-COMPTE-RENDU-ENTRETIENS.md) · Source de travail interne
+Fichier : [docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md) · Source de travail interne
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Ajouter les retours du client du 12 novembre (PDF à la demande, validation des remontées) | en vigueur | — |
-| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
-| 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
-| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
-| 1.1 | 02/11/2026 | Mcd | `23cb750` | — |
-| 1.0 | 24/10/2026 | Aligner le cadrage, les diagrammes et les consignes Git | `cc22229` | — |
-
-### 04-REGLES-DE-GESTION
-
-Fichier : [docs/04-REGLES-DE-GESTION.md](../docs/04-REGLES-DE-GESTION.md) · Production destinée à la remise
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
-| 1.7 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
-| 1.6 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur | `83658a3` | — |
-| 1.5 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `0078180` | — |
-| 1.4 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` | — |
-| 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
-| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
-| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
-| 1.0 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | `a9aa9cd` | — |
-
-### 05-MCD-MERISE
-
-Fichier : [docs/05-MCD-MERISE.drawio](../docs/05-MCD-MERISE.drawio) · Production destinée à la remise
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 1.1 | 13/11/2026 | COMPTE_ORION et DÉMÉNAGER, identifiants des comptes distincts | en vigueur | — |
-| 1.0 | 13/11/2026 | Source draw.io du MCD | `19f0488` | — |
-
-### 05-MCD-MERISE
-
-Fichier : [docs/05-MCD-MERISE.svg](../docs/05-MCD-MERISE.svg) · Production destinée à la remise
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 2.1 | 13/11/2026 | COMPTE_ORION et DÉMÉNAGER, identifiants des comptes distincts | en vigueur | — |
-| 2.0 | 13/11/2026 | Refaire le MCD avec draw.io : historique des statuts, poste et unité centrale, IP, MAC, dates du compte, verbes d’un mot | `19f0488` | — |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` | — |
-| 1.2 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` | — |
-| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
-| 1.0 | 02/11/2026 | Mcd ; Maj mcd | `e0cf540` | — |
+| 2.1 | 14/11/2026 | Déplacer dans docs/01-CONTEXTE/ | en vigueur | — |
+| 2.0 | 13/11/2026 | Ajouter les retours du client du 12 novembre (PDF à la demande, validation des remontées) | `655fc90` (`docs/03-COMPTE-RENDU-ENTRETIENS.md`) | — |
+| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/03-COMPTE-RENDU-ENTRETIENS.md`) | — |
+| 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` (`docs/03-COMPTE-RENDU-ENTRETIENS.md`) | — |
+| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` (`docs/03-COMPTE-RENDU-ENTRETIENS.md`) | — |
+| 1.1 | 02/11/2026 | Mcd | `23cb750` (`docs/03-COMPTE-RENDU-ENTRETIENS.md`) | — |
+| 1.0 | 24/10/2026 | Aligner le cadrage, les diagrammes et les consignes Git | `cc22229` (`docs/03-COMPTE-RENDU-ENTRETIENS.md`) | — |
 
 ### 06-DIAGRAMME-CONTEXTE
 
-Fichier : [docs/06-DIAGRAMME-CONTEXTE.md](../docs/06-DIAGRAMME-CONTEXTE.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.2 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
-| 1.0 | 02/11/2026 | Mcd ; Consolider le cadrage et épurer les diagrammes | `874689d` | — |
+| 1.3 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/01-MODELISATION-METIER/ | en vigueur | — |
+| 1.2 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/06-DIAGRAMME-CONTEXTE.md`) | — |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/06-DIAGRAMME-CONTEXTE.md`) | — |
+| 1.0 | 02/11/2026 | Mcd ; Consolider le cadrage et épurer les diagrammes | `874689d` (`docs/06-DIAGRAMME-CONTEXTE.md`) | — |
 
 ### 07-DIAGRAMMES-ACTIVITE
 
-Fichier : [docs/07-DIAGRAMMES-ACTIVITE.md](../docs/07-DIAGRAMMES-ACTIVITE.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.4 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
-| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
-| 1.1 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes | `874689d` | — |
+| 1.5 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/01-MODELISATION-METIER/ | en vigueur | — |
+| 1.4 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/07-DIAGRAMMES-ACTIVITE.md`) | — |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/07-DIAGRAMMES-ACTIVITE.md`) | — |
+| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` (`docs/07-DIAGRAMMES-ACTIVITE.md`) | — |
+| 1.1 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes | `874689d` (`docs/07-DIAGRAMMES-ACTIVITE.md`) | — |
 | 1.0 | 24/10/2026 | Aligner le cadrage, les diagrammes et les consignes Git | `12080db` (`docs/06-DIAGRAMMES-ACTIVITE.md`) | — |
+
+### 04-REGLES-DE-GESTION
+
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | en vigueur | — |
+| 2.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/04-REGLES-DE-GESTION.md`) | — |
+| 1.7 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/04-REGLES-DE-GESTION.md`) | — |
+| 1.6 | 13/11/2026 | Développer le sigle ORION et garantir RG-73 côté serveur | `83658a3` (`docs/04-REGLES-DE-GESTION.md`) | — |
+| 1.5 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `0078180` (`docs/04-REGLES-DE-GESTION.md`) | — |
+| 1.4 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` (`docs/04-REGLES-DE-GESTION.md`) | — |
+| 1.3 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` (`docs/04-REGLES-DE-GESTION.md`) | — |
+| 1.2 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` (`docs/04-REGLES-DE-GESTION.md`) | — |
+| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | `f7310c1` (`docs/04-REGLES-DE-GESTION.md`) | — |
+| 1.0 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | `a9aa9cd` (`docs/04-REGLES-DE-GESTION.md`) | — |
+
+### 05-MCD-MERISE
+
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.2 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | en vigueur | — |
+| 1.1 | 13/11/2026 | COMPTE_ORION et DÉMÉNAGER, identifiants des comptes distincts | `9c23199` (`docs/05-MCD-MERISE.drawio`) | — |
+| 1.0 | 13/11/2026 | Source draw.io du MCD | `19f0488` (`docs/05-MCD-MERISE.drawio`) | — |
+
+### 05-MCD-MERISE
+
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.2 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | en vigueur | — |
+| 2.1 | 13/11/2026 | COMPTE_ORION et DÉMÉNAGER, identifiants des comptes distincts | `9c23199` (`docs/05-MCD-MERISE.svg`) | — |
+| 2.0 | 13/11/2026 | Refaire le MCD avec draw.io : historique des statuts, poste et unité centrale, IP, MAC, dates du compte, verbes d’un mot | `19f0488` (`docs/05-MCD-MERISE.svg`) | — |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `0078180` (`docs/05-MCD-MERISE.svg`) | — |
+| 1.2 | 09/11/2026 | Consolider le modèle et les règles métier | `a8fc937` (`docs/05-MCD-MERISE.svg`) | — |
+| 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations | `f7310c1` (`docs/05-MCD-MERISE.svg`) | — |
+| 1.0 | 02/11/2026 | Mcd ; Maj mcd | `e0cf540` (`docs/05-MCD-MERISE.svg`) | — |
 
 ### 08-DCU-GESTION-PARC
 
-Fichier : [docs/08-DCU-GESTION-PARC.md](../docs/08-DCU-GESTION-PARC.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur | — |
-| 1.2 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` | — |
-| 1.1 | 03/11/2026 | Formaliser les profils et leurs autorisations | `f7310c1` | — |
-| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | `874689d` | — |
+| 1.4 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | en vigueur | — |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/08-DCU-GESTION-PARC.md`) | — |
+| 1.2 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` (`docs/08-DCU-GESTION-PARC.md`) | — |
+| 1.1 | 03/11/2026 | Formaliser les profils et leurs autorisations | `f7310c1` (`docs/08-DCU-GESTION-PARC.md`) | — |
+| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | `874689d` (`docs/08-DCU-GESTION-PARC.md`) | — |
 
 ### 09-DCU-ADMINISTRATION-POSTES
 
-Fichier : [docs/09-DCU-ADMINISTRATION-POSTES.md](../docs/09-DCU-ADMINISTRATION-POSTES.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.5 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | en vigueur | — |
-| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
-| 1.3 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` | — |
-| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
-| 1.1 | 03/11/2026 | Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
-| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | `874689d` | — |
+| 1.6 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | en vigueur | — |
+| 1.5 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/09-DCU-ADMINISTRATION-POSTES.md`) | — |
+| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/09-DCU-ADMINISTRATION-POSTES.md`) | — |
+| 1.3 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` (`docs/09-DCU-ADMINISTRATION-POSTES.md`) | — |
+| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` (`docs/09-DCU-ADMINISTRATION-POSTES.md`) | — |
+| 1.1 | 03/11/2026 | Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | `f7310c1` (`docs/09-DCU-ADMINISTRATION-POSTES.md`) | — |
+| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | `874689d` (`docs/09-DCU-ADMINISTRATION-POSTES.md`) | — |
 
 ### 10-DCU-SUPERVISION-POSTES
 
-Fichier : [docs/10-DCU-SUPERVISION-POSTES.md](../docs/10-DCU-SUPERVISION-POSTES.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur | — |
-| 1.3 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` | — |
-| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
-| 1.1 | 03/11/2026 | Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | `f7310c1` | — |
-| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | `874689d` | — |
+| 1.5 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | en vigueur | — |
+| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/10-DCU-SUPERVISION-POSTES.md`) | — |
+| 1.3 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` (`docs/10-DCU-SUPERVISION-POSTES.md`) | — |
+| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` (`docs/10-DCU-SUPERVISION-POSTES.md`) | — |
+| 1.1 | 03/11/2026 | Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | `f7310c1` (`docs/10-DCU-SUPERVISION-POSTES.md`) | — |
+| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | `874689d` (`docs/10-DCU-SUPERVISION-POSTES.md`) | — |
 
 ### 11-DCU-REMONTEES-UTILISATEUR
 
-Fichier : [docs/11-DCU-REMONTEES-UTILISATEUR.md](../docs/11-DCU-REMONTEES-UTILISATEUR.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` | — |
-| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
-| 1.2 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` | — |
-| 1.1 | 03/11/2026 | Formaliser les profils et leurs autorisations | `f7310c1` | — |
-| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | `874689d` | — |
+| 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | en vigueur | — |
+| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/11-DCU-REMONTEES-UTILISATEUR.md`) | — |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` (`docs/11-DCU-REMONTEES-UTILISATEUR.md`) | — |
+| 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/11-DCU-REMONTEES-UTILISATEUR.md`) | — |
+| 1.2 | 09/11/2026 | Harmoniser les diagrammes de cas d'utilisation | `af0e24e` (`docs/11-DCU-REMONTEES-UTILISATEUR.md`) | — |
+| 1.1 | 03/11/2026 | Formaliser les profils et leurs autorisations | `f7310c1` (`docs/11-DCU-REMONTEES-UTILISATEUR.md`) | — |
+| 1.0 | 02/11/2026 | Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes | `874689d` (`docs/11-DCU-REMONTEES-UTILISATEUR.md`) | — |
 
 ### 12-MATRICE-DROITS
 
-Fichier : [docs/12-MATRICE-DROITS.md](../docs/12-MATRICE-DROITS.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
-| 3.0 | 13/11/2026 | Formateur : consultation des matériels d’une salle, sans recherche dans le parc | `6d33a1f` | — |
-| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` | — |
-| 1.3 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
-| 1.2 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` | — |
-| 1.1 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
-| 1.0 | 03/11/2026 | Formaliser les profils et leurs autorisations | `f7310c1` | — |
+| 4.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | en vigueur | — |
+| 4.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/12-MATRICE-DROITS.md`) | — |
+| 3.0 | 13/11/2026 | Formateur : consultation des matériels d’une salle, sans recherche dans le parc | `6d33a1f` (`docs/12-MATRICE-DROITS.md`) | — |
+| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/12-MATRICE-DROITS.md`) | — |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` (`docs/12-MATRICE-DROITS.md`) | — |
+| 1.3 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/12-MATRICE-DROITS.md`) | — |
+| 1.2 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` (`docs/12-MATRICE-DROITS.md`) | — |
+| 1.1 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` (`docs/12-MATRICE-DROITS.md`) | — |
+| 1.0 | 03/11/2026 | Formaliser les profils et leurs autorisations | `f7310c1` (`docs/12-MATRICE-DROITS.md`) | — |
 
 ### 13-FICHE-DESCRIPTIVE-GESTIONNAIRE
 
-Fichier : [docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` | — |
-| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
-| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` | — |
-| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
-| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
-| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` | — |
+| 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | en vigueur | — |
+| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` (`docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
+| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
+| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` (`docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
+| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` (`docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
+| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` (`docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
+| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` (`docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
 
 ### 14-FICHE-DESCRIPTIVE-FORMATEUR
 
-Fichier : [docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | en vigueur | — |
-| 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
-| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` | — |
-| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
-| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
-| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` | — |
+| 2.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | en vigueur | — |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
+| 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
+| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
+| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
+| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
+| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
 
 ### 15-FICHE-DESCRIPTIVE-ADMINISTRATEUR
 
-Fichier : [docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
-| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` | — |
-| 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
-| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` | — |
-| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
-| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
-| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` | — |
+| 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | en vigueur | — |
+| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
+| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
+| 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
+| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
+| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
+| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
+| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
 
 ### 16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR
 
-Fichier : [docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
-| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
-| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` | — |
-| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | — |
-| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` | — |
-| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` | — |
-| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` | — |
-| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` | — |
+| 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | en vigueur | — |
+| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
+| 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
+| 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` (`docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
+| 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
+| 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` (`docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
+| 1.2 | 08/11/2026 | Intégrer le retour client du 4 novembre | `a592d58` (`docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
+| 1.1 | 06/11/2026 | Distinguer la cible MindefConnect du démonstrateur | `6212b60` (`docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
+| 1.0 | 03/11/2026 | Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back | `c6eed95` (`docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
+
+### DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2
+
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.2 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | en vigueur | — |
+| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md`) | — |
+| 1.0 | 06/11/2026 | Ajouter les parcours détaillés en brouillon | `d626315` (`docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md`) | — |
+
+### DIAGRAMMES-ETATS-BROUILLON-V1
+
+Fichier : [docs/02-ANALYSE/03-ANALYSE/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/02-ANALYSE/03-ANALYSE/DIAGRAMMES-ETATS-BROUILLON-V1.md) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/03-ANALYSE/ | en vigueur | — |
+| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md`) | — |
+| 2.0 | 13/11/2026 | Aligner sur l’application : état « en cours », traitement direct possible, PDF à la demande, type obligatoire, interventions sur une seule salle | `28bc990` (`docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md`) | — |
+| 1.0 | 09/11/2026 | Ajouter les diagrammes d'états de la remontée et des interventions | `83658a3` (`docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md`) | — |
+
+### README
+
+Fichier : [docs/02-ANALYSE/04-CONCEPTION/README.md](../docs/02-ANALYSE/04-CONCEPTION/README.md) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.0 | 14/11/2026 | Créer la partie Conception | en vigueur | — |
 
 ### 17-DOSSIER-ARCHITECTURE-TECHNIQUE
 
-Fichier : [docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) · Production destinée à la remise
+Fichier : [docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | DAT de référence du collègue repris de main (recensement RECON, cible C1NP fiabilisée) ; fichier sans en-tête de version, à ne pas modifier | en vigueur | — |
-| 1.5 | 13/11/2026 | Aligner l’architecture réelle sur la configuration versionnée : création des identités, image Keycloak, flux d’Express, absence de filtrage, secrets et versions | `c563b5a` | — |
-| 1.4 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` | — |
-| 1.3 | 13/11/2026 | Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues | `83658a3` | — |
-| 1.2 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renseigner les adresses des VM ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions de l'ancien nom ; Mettre à jour les noms des fichiers convertis en TypeScript | `335b44d` | — |
-| 1.1 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | `3396072` | — |
-| 1.0 | 09/11/2026 | Ajouter le dossier d'architecture technique et ses diagrammes | `51bd591` | — |
+| 2.1 | 14/11/2026 | Déplacer dans docs/03-ARCHITECTURE/ | en vigueur | — |
+| 2.0 | 13/11/2026 | DAT de référence du collègue repris de main (recensement RECON, cible C1NP fiabilisée) ; fichier sans en-tête de version, à ne pas modifier | `0b83eb6` (`docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
+| 1.5 | 13/11/2026 | Aligner l’architecture réelle sur la configuration versionnée : création des identités, image Keycloak, flux d’Express, absence de filtrage, secrets et versions | `c563b5a` (`docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
+| 1.4 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
+| 1.3 | 13/11/2026 | Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues | `83658a3` (`docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
+| 1.2 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renseigner les adresses des VM ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions de l'ancien nom ; Mettre à jour les noms des fichiers convertis en TypeScript | `335b44d` (`docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
+| 1.1 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | `3396072` (`docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
+| 1.0 | 09/11/2026 | Ajouter le dossier d'architecture technique et ses diagrammes | `51bd591` (`docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
 
 ### 18-DIAGRAMMES-ARCHITECTURE
 
-Fichier : [docs/18-DIAGRAMMES-ARCHITECTURE.md](../docs/18-DIAGRAMMES-ARCHITECTURE.md) · Production destinée à la remise
+Fichier : [docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.3 | 13/11/2026 | Documenter la cible C1NP et unifier les vues | en vigueur | — |
-| 1.2 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renseigner les adresses des VM ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM | `3e437e0` | — |
-| 1.1 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | `3396072` | — |
-| 1.0 | 09/11/2026 | Ajouter le dossier d'architecture technique et ses diagrammes | `51bd591` | — |
+| 1.4 | 14/11/2026 | Déplacer dans docs/03-ARCHITECTURE/ | en vigueur | — |
+| 1.3 | 13/11/2026 | Documenter la cible C1NP et unifier les vues | `83658a3` (`docs/18-DIAGRAMMES-ARCHITECTURE.md`) | — |
+| 1.2 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renseigner les adresses des VM ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM | `3e437e0` (`docs/18-DIAGRAMMES-ARCHITECTURE.md`) | — |
+| 1.1 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | `3396072` (`docs/18-DIAGRAMMES-ARCHITECTURE.md`) | — |
+| 1.0 | 09/11/2026 | Ajouter le dossier d'architecture technique et ses diagrammes | `51bd591` (`docs/18-DIAGRAMMES-ARCHITECTURE.md`) | — |
 
 ### 19-BACKLOG-ET-SUIVI-PROJET
 
-Fichier : [docs/19-BACKLOG-ET-SUIVI-PROJET.docx](../docs/19-BACKLOG-ET-SUIVI-PROJET.docx) · Production destinée à la remise
+Fichier : [docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | en vigueur | — |
-| 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `b2a5a17` | — |
+| 1.2 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ | en vigueur | — |
+| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | `61abf4a` (`docs/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
+| 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `b2a5a17` (`docs/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
 
 ### 19-BACKLOG-ET-SUIVI-PROJET
 
-Fichier : [docs/19-BACKLOG-ET-SUIVI-PROJET.md](../docs/19-BACKLOG-ET-SUIVI-PROJET.md) · Production destinée à la remise
+Fichier : [docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 14/11/2026 | Deux sprints (19/10–08/11, 09/11–19/11), suivi dans le projet GitHub ORION et graphiques produits depuis GitHub | en vigueur | — |
-| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | `61abf4a` | — |
-| 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `83658a3` | — |
+| 3.0 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ ; Rendu de l’application le 17 novembre, supports le 18, présentation le 19 ; graphiques régénérés | en vigueur | — |
+| 2.0 | 14/11/2026 | Deux sprints (19/10–08/11, 09/11–19/11), suivi dans le projet GitHub ORION et graphiques produits depuis GitHub | `ab5fb7d` (`docs/19-BACKLOG-ET-SUIVI-PROJET.md`) | — |
+| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | `61abf4a` (`docs/19-BACKLOG-ET-SUIVI-PROJET.md`) | — |
+| 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `83658a3` (`docs/19-BACKLOG-ET-SUIVI-PROJET.md`) | — |
+
+### 19-SUIVI-BACKLOG-BROUILLON-V1
+
+Fichier : [docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.2 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ | en vigueur | — |
+| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le commit de la cible C1NP | `61abf4a` (`docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |
+| 1.0 | 13/11/2026 | Consolider le suivi des progressions | `83658a3` (`docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |
 
 ### 20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE
 
-Fichier : [docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) · Pilotage interne
+Fichier : [docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) · Pilotage interne
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.0 | 13/11/2026 | Officialiser le reste à faire en backlog technique et feuille de route ; option Linux reportée en évolution du projet | en vigueur | — |
+| 4.1 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ ; Échéances du rendu (17/11) et de la présentation (19/11) ; backlog GitHub et captures des fiches faits | en vigueur | — |
+| 4.0 | 13/11/2026 | Officialiser le reste à faire en backlog technique et feuille de route ; option Linux reportée en évolution du projet | `f23bbce` (`docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md`) | — |
 | 3.2 | 13/11/2026 | Agent ORION simulé, paquets, images et système Windows ou Linux des salles | `47116b1` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
 | 3.1 | 13/11/2026 | Retrait au lieu de suppression, proposition de RG-91 | `8d426fd` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
 | 3.0 | 13/11/2026 | Restructurer par échéance et domaine ; intégrer l’audit de cohérence avec le DAT validé, le backlog GitHub, le scénario complet, les tests de sécurité, l’observatoire des parcours et les comptes réels de présentation | `95e38d4` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
@@ -378,34 +441,6 @@ Fichier : [docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/20-BACKLOG-
 | 2.1 | 13/11/2026 | Diagrammes 06 et 07 à reprendre avec les collègues | `6d33a1f` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
 | 2.0 | 13/11/2026 | Ajouter DCU à compléter, modèle de données, points documentaires oubliés et plan d’organisation du code | `6768d09` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
 | 1.0 | 13/11/2026 | Recenser ce qui reste à faire après le contrôle du 13 novembre ; Ajouter des jetons d'accès pour la présentation au client ; Décrire l'entrée unique par adresse IP, sans DNS | `83658a3` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
-
-### 19-SUIVI-BACKLOG-BROUILLON-V1
-
-Fichier : [docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md) · Brouillon interne
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le commit de la cible C1NP | en vigueur | — |
-| 1.0 | 13/11/2026 | Consolider le suivi des progressions | `83658a3` | — |
-
-### DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2
-
-Fichier : [docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) · Brouillon interne
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | en vigueur | — |
-| 1.0 | 06/11/2026 | Ajouter les parcours détaillés en brouillon | `d626315` | — |
-
-### DIAGRAMMES-ETATS-BROUILLON-V1
-
-Fichier : [docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md) · Brouillon interne
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | en vigueur | — |
-| 2.0 | 13/11/2026 | Aligner sur l’application : état « en cours », traitement direct possible, PDF à la demande, type obligatoire, interventions sur une seule salle | `28bc990` | — |
-| 1.0 | 09/11/2026 | Ajouter les diagrammes d'états de la remontée et des interventions | `83658a3` | — |
 
 ## Fichiers retirés
 

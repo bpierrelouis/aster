@@ -154,7 +154,8 @@ def audit(root):
         if identifier not in rg_definitions:
             report("erreur", "RG_ABSENTE", path, number, f"Aucune définition de {identifier} trouvée.")
 
-    docs = sorted((root / "docs").glob("*.md"))
+    # Documents numérotés de toutes les parties de docs/ ; brouillons et README de partie exclus
+    docs = sorted(p for p in (root / "docs").rglob("*.md") if "BROUILLON" not in p.name and p.name != "README.md")
     numbers = defaultdict(list)
     readme = root / "README.md"
     for path in docs:
@@ -172,7 +173,7 @@ def audit(root):
     # Un diagramme SVG lié directement depuis le sommaire est un livrable
     # numéroté à part entière ; il ne nécessite pas de page Markdown.
     occupied = set(numbers)
-    for path in (root / "docs").glob("*.svg"):
+    for path in (root / "docs").rglob("*.svg"):
         match = re.fullmatch(r"(\d{2})-([\w-]+)\.svg", path.name)
         if match and path.resolve() in local_links[readme]:
             occupied.add(int(match[1]))

@@ -27,7 +27,7 @@ Ouvrir [ORION en local](http://localhost:5173). Le [guide interne de développem
 
 ## Documentation
 
-Le sujet, l’application en cours de développement et le [dossier d’architecture](docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) (architecture réelle pour ce qui est en place, cible pour le concept) constituent les sources de référence pour l’analyse et la conception du projet ; les décisions prises avec le client en rendez-vous restent consignées. La conception vise le produit final, au-delà de la V1 demandée par le client : les écarts avec ses demandes sont inscrits au cadrage pour le prochain rendez-vous. Pour chaque sujet, la dernière réponse remplace les précédentes et l’état actuel fait référence ; les comptes rendus d’entretiens en conservent l’historique et le cadrage présente les réponses en vigueur. Le glossaire sert de référence transversale ; les autres documents suivent cet ordre : consignes du sujet, questions de cadrage, comptes rendus des entretiens, puis analyse et diagrammes.
+Le sujet, l’application en cours de développement et le [dossier d’architecture](docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) (architecture réelle pour ce qui est en place, cible pour le concept) constituent les sources de référence pour l’analyse et la conception du projet ; les décisions prises avec le client en rendez-vous restent consignées. La conception vise le produit final, au-delà de la V1 demandée par le client : les écarts avec ses demandes sont inscrits au cadrage pour le prochain rendez-vous. Pour chaque sujet, la dernière réponse remplace les précédentes et l’état actuel fait référence ; les comptes rendus d’entretiens en conservent l’historique et le cadrage présente les réponses en vigueur. Le glossaire sert de référence transversale ; les autres documents suivent cet ordre : consignes du sujet, questions de cadrage, comptes rendus des entretiens, puis analyse et diagrammes.
 
 Les conventions de travail, les protections des diagrammes et les règles de contribution sont définies dans [AGENTS.md](AGENTS.md).
 
@@ -37,12 +37,12 @@ Les productions remises aux cadres évaluateurs décrivent l’application cible
 
 | Destination | Fichiers concernés | Règle de contenu |
 | --- | --- | --- |
-| Productions destinées à la remise | Glossaire `docs/00-*`, règles et productions `docs/04-*` à `docs/19-*`, avec leurs images nécessaires dans `docs/assets/` ; configurations versionnées décrites dans le [déploiement sur les VM](application/README.md#déploiement-sur-les-vm) | Fonctionnement cible, droits, données et contraintes de production ; le DAT, ses schémas et les configurations associées présentent aussi l’architecture réelle, sans inclure de secret ni de valeur générée à l’exécution |
-| Sources de travail internes | Cadrage `docs/02-*` et entretiens `docs/03-*` | Réponses en vigueur et historique des échanges ; ne pas les joindre automatiquement à une remise |
-| Source fournie par l’encadrement | Consignes `docs/01-*` | Sujet et critères d’évaluation, distincts des productions de l’équipe |
+| Productions destinées à la remise | Glossaire `docs/01-CONTEXTE/00-*`, productions d’analyse `docs/02-ANALYSE/`, architecture `docs/03-ARCHITECTURE/` et backlog `docs/04-ORGANISATION/19-*`, avec leurs images nécessaires dans le dossier `assets/` de chaque partie et les captures de `design/maquettes/captures/` reprises par les fiches ; configurations versionnées décrites dans le [déploiement sur les VM](application/README.md#déploiement-sur-les-vm) | Fonctionnement cible, droits, données et contraintes de production ; le DAT, ses schémas et les configurations associées présentent aussi l’architecture réelle, sans inclure de secret ni de valeur générée à l’exécution |
+| Sources de travail internes | Cadrage `docs/01-CONTEXTE/02-*` et entretiens `docs/01-CONTEXTE/03-*` | Réponses en vigueur et historique des échanges ; ne pas les joindre automatiquement à une remise |
+| Source fournie par l’encadrement | Consignes `docs/01-CONTEXTE/01-*` | Sujet et critères d’évaluation, distincts des productions de l’équipe |
 | Réalisation et exploitation internes | Le reste d’`application/`, son README, le README général et `AGENTS.md` | Implémentation, démarrage, comptes de test et limites du démonstrateur ; seules les configurations décrites dans le guide applicatif accompagnent la remise du DAT |
 | Pilotage interne | Backlog technique et feuille de route `docs/20-*` | Travail technique restant et évolutions envisagées ; cite des éléments du démonstrateur, jamais remis comme livrable |
-| Brouillons et ressources de préparation | `docs/temporaire/`, `design/` et sources éditables des modèles | Travaux et ressources à sélectionner avant inclusion dans un livrable |
+| Brouillons et ressources de préparation | Fichiers `*-BROUILLON-Vn` rangés dans leur partie de `docs/`, `design/` et sources éditables des modèles | Travaux et ressources à sélectionner avant inclusion dans un livrable |
 | Archives | `archive/` | Compte rendu des évolutions des documents suivis, avec le commit de chaque version remplacée, et copies des anciennes versions du design ; historique à conserver tel quel, jamais remis comme livrable |
 | Supports datés | `presentations/` | Conserver le contexte historique ; sélectionner et adapter le support destiné à chaque nouvelle remise |
 
@@ -50,35 +50,37 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 
 ### Sommaire
 
-- [Glossaire](docs/00-GLOSSAIRE.md) : abréviations et définitions des termes employés dans le projet.
-- [Consignes du projet](docs/01-CONSIGNES.md) : besoin, périmètre fonctionnel, livrables et critères d’évaluation.
-- [Questions de cadrage](docs/02-CADRAGE.md) : réponses en vigueur et questions encore ouvertes pour préparer l’architecture et le backlog.
-- [Compte rendu des entretiens de cadrage](docs/03-COMPTE-RENDU-ENTRETIENS.md) : trace historique des échanges des 22 et 23 octobre, du 4 novembre et du 12 novembre.
-- [Règles de gestion](docs/04-REGLES-DE-GESTION.md) : contraintes confirmées sur les données, les droits et les traitements.
-- [MCD Merise](docs/05-MCD-MERISE.svg) : modèle conceptuel des données conservées par ORION, établi d’après les décisions du client et l’application, avec sa [source draw.io éditable](docs/05-MCD-MERISE.drawio).
-- [Diagramme de contexte](docs/06-DIAGRAMME-CONTEXTE.md) : acteurs, composants de la suite et principaux échanges autour d’ORION.
-- [Diagrammes d’activité](docs/07-DIAGRAMMES-ACTIVITE.md) : parcours général selon les droits et les tableaux de bord spécialisés, création d'une remontée avec génération du PDF, supervision des processus et notifications de garantie.
-- [DCU — Gestion du parc](docs/08-DCU-GESTION-PARC.md) : recherche, inventaire, affectations et tableau de bord du parc.
-- [DCU — Administration des postes](docs/09-DCU-ADMINISTRATION-POSTES.md) : consultation des applications et installation et désinstallation d’applications, réinitialisation des postes ou des salles.
-- [DCU — Supervision des postes](docs/10-DCU-SUPERVISION-POSTES.md) : état des postes, processus, alertes et statistiques d'utilisation dont les indicateurs restent à définir.
-- [DCU — Remontées utilisateur](docs/11-DCU-REMONTEES-UTILISATEUR.md) : création des remontées, consultation des PDF d'état des lieux et tableau de bord spécialisé.
-- [Matrice des droits applicatifs](docs/12-MATRICE-DROITS.md) : droits confirmés et conditions d’application pour chaque profil.
-- [Fiche descriptive — Gestionnaire](docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) : périmètre, parcours, interface et questions ouvertes du gestionnaire.
-- [Fiche descriptive — Formateur](docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md) : supervision, alertes et remontées accessibles au formateur.
-- [Fiche descriptive — Administrateur](docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) : parc, postes, supervision, remontées et comptes de son école.
-- [Fiche descriptive — Super administrateur](docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) : adaptation globale des capacités de l'administrateur à toutes les écoles.
-- [Dossier d’architecture technique](docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) : contexte et contraintes, choix techniques, architecture réelle sur VM, configurations remises, versions et architecture cible sur le C1NP.
-- [Diagrammes d’architecture](docs/18-DIAGRAMMES-ARCHITECTURE.md) : vue simplifiée et vue complète du démonstrateur sur dix VM, puis vues simplifiée et détaillée de la cible sur quatre VM C1NP.
-- [Backlog et suivi du projet](docs/19-BACKLOG-ET-SUIVI-PROJET.md) : backlog, organisation Agile et suivi des progressions, avec sa [version Word](docs/19-BACKLOG-ET-SUIVI-PROJET.docx).
-- [Backlog technique et feuille de route](docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) : travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre) et évolutions envisagées ; document de pilotage interne, non remis.
+`docs/` est rangé en quatre parties, chacune avec son dossier `assets/` : `01-CONTEXTE` (glossaire, consignes, cadrage, entretiens), `02-ANALYSE` (une sous-partie par phase : modélisation métier, capture des besoins, analyse, conception), `03-ARCHITECTURE` (DAT et schémas) et `04-ORGANISATION` (backlog, backlog technique et graphiques). Les brouillons (`-BROUILLON-Vn`) sont rangés dans la partie qu’ils concernent.
+
+- [Glossaire](docs/01-CONTEXTE/00-GLOSSAIRE.md) : abréviations et définitions des termes employés dans le projet.
+- [Consignes du projet](docs/01-CONTEXTE/01-CONSIGNES.md) : besoin, périmètre fonctionnel, livrables et critères d’évaluation.
+- [Questions de cadrage](docs/01-CONTEXTE/02-CADRAGE.md) : réponses en vigueur et questions encore ouvertes pour préparer l’architecture et le backlog.
+- [Compte rendu des entretiens de cadrage](docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md) : trace historique des échanges des 22 et 23 octobre, du 4 novembre et du 12 novembre.
+- [Règles de gestion](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) : contraintes confirmées sur les données, les droits et les traitements.
+- [MCD Merise](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) : modèle conceptuel des données conservées par ORION, établi d’après les décisions du client et l’application, avec sa [source draw.io éditable](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio).
+- [Diagramme de contexte](docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md) : acteurs, composants de la suite et principaux échanges autour d’ORION.
+- [Diagrammes d’activité](docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) : parcours général selon les droits et les tableaux de bord spécialisés, création d'une remontée avec génération du PDF, supervision des processus et notifications de garantie.
+- [DCU — Gestion du parc](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md) : recherche, inventaire, affectations et tableau de bord du parc.
+- [DCU — Administration des postes](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md) : consultation des applications et installation et désinstallation d’applications, réinitialisation des postes ou des salles.
+- [DCU — Supervision des postes](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md) : état des postes, processus, alertes et statistiques d'utilisation dont les indicateurs restent à définir.
+- [DCU — Remontées utilisateur](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md) : création des remontées, consultation des PDF d'état des lieux et tableau de bord spécialisé.
+- [Matrice des droits applicatifs](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md) : droits confirmés et conditions d’application pour chaque profil.
+- [Fiche descriptive — Gestionnaire](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) : périmètre, parcours, interface et questions ouvertes du gestionnaire.
+- [Fiche descriptive — Formateur](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) : supervision, alertes et remontées accessibles au formateur.
+- [Fiche descriptive — Administrateur](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) : parc, postes, supervision, remontées et comptes de son école.
+- [Fiche descriptive — Super administrateur](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) : adaptation globale des capacités de l'administrateur à toutes les écoles.
+- [Dossier d’architecture technique](docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) : contexte et contraintes, choix techniques, architecture réelle sur VM, configurations remises, versions et architecture cible sur le C1NP.
+- [Diagrammes d’architecture](docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md) : vue simplifiée et vue complète du démonstrateur sur dix VM, puis vues simplifiée et détaillée de la cible sur quatre VM C1NP.
+- [Backlog et suivi du projet](docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md) : backlog, organisation Agile et suivi des progressions, avec sa [version Word](docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx).
+- [Backlog technique et feuille de route](docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) : travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre) et évolutions envisagées ; document de pilotage interne, non remis.
 - [Design](design/README.md) : charte graphique, ressources visuelles et maquettes d’interface.
 - [Présentations](presentations/README.md) : supports datés et instructions pour les consulter.
 
-Les [diagrammes d’activité détaillés des cas d’utilisation — brouillon V2](docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) complètent les DCU par des parcours acteur/ORION, représentés en Mermaid comme approximations de diagrammes d’activité UML. Ils couvrent l’import JSON, la modification d’un matériel, la création d’une remontée, le changement de profil, l’ajout d’une règle de processus et les propositions de création de salle et d’école.
+Les [diagrammes d’activité détaillés des cas d’utilisation — brouillon V2](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) complètent les DCU par des parcours acteur/ORION, représentés en Mermaid comme approximations de diagrammes d’activité UML. Ils couvrent l’import JSON, la modification d’un matériel, la création d’une remontée, le changement de profil, l’ajout d’une règle de processus et les propositions de création de salle et d’école.
 
-Le [backlog technique et feuille de route](docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md), document de pilotage interne tenu à chaque itération, recense le travail technique restant par échéance et par domaine, puis les évolutions envisagées du projet.
+Le [backlog technique et feuille de route](docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md), document de pilotage interne tenu à chaque itération, recense le travail technique restant par échéance et par domaine, puis les évolutions envisagées du projet.
 
-Leurs sources sont le [cadrage](docs/02-CADRAGE.md) (§§ 4, 6 et 17 pour les matériels ; §§ 13 et 15 pour les remontées ; § 11 pour les règles ; §§ 2 et 3 pour les écoles, salles et profils), les [règles de gestion](docs/04-REGLES-DE-GESTION.md) et les fiches [Administrateur](docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) (UC-ADMIN-06) et [Super administrateur](docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md). L’import décrit uniquement le succès avec un fichier exploitable et des données conformes, sans validation métier préalable ; les contrôles techniques, doublons et échecs partiels restent à préciser. Le scénario de remontée se limite aux matériels d’une même école ; les remontées multi-écoles et leurs destinataires restent ouverts. Les transitions de profil et la gestion des comptes super administrateur, les droits de création des salles et les modalités de création des écoles restent à préciser ; la création d’école est une proposition hors V1. Ces parcours n’ajoutent aucune règle validée et ne modifient pas les premiers diagrammes d’activité.
+Leurs sources sont le [cadrage](docs/01-CONTEXTE/02-CADRAGE.md) (§§ 4, 6 et 17 pour les matériels ; §§ 13 et 15 pour les remontées ; § 11 pour les règles ; §§ 2 et 3 pour les écoles, salles et profils), les [règles de gestion](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) et les fiches [Administrateur](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) (UC-ADMIN-06) et [Super administrateur](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md). L’import décrit uniquement le succès avec un fichier exploitable et des données conformes, sans validation métier préalable ; les contrôles techniques, doublons et échecs partiels restent à préciser. Le scénario de remontée se limite aux matériels d’une même école ; les remontées multi-écoles et leurs destinataires restent ouverts. Les transitions de profil et la gestion des comptes super administrateur, les droits de création des salles et les modalités de création des écoles restent à préciser ; la création d’école est une proposition hors V1. Ces parcours n’ajoutent aucune règle validée et ne modifient pas les premiers diagrammes d’activité.
 
 ## Retrouver une information
 
@@ -160,7 +162,7 @@ Exemples de demandes :
 Chaque document suivi porte sous son titre un en-tête de version (version, date, destination, dernière évolution) généré par [versions.py](.agents/skills/orion-documentation/scripts/versions.py) ; le [compte rendu des évolutions](archive/README.md) liste toutes les versions et donne le commit de chaque version remplacée (`git show <commit>:<chemin>`) ; seules les anciennes versions de `design/` sont copiées, dans `archive/design/`, avec une [galerie](archive/design/index.html) qui permet de les ouvrir telles qu’elles étaient. Après une mise à jour, depuis la racine :
 
 ```sh
-python3 .agents/skills/orion-documentation/scripts/versions.py publier docs/02-CADRAGE.md --majeure -m "Intégrer les retours du client du 12 novembre"
+python3 .agents/skills/orion-documentation/scripts/versions.py publier docs/01-CONTEXTE/02-CADRAGE.md --majeure -m "Intégrer les retours du client du 12 novembre"
 ```
 
 Le [vérificateur documentaire](.agents/skills/orion-documentation/scripts/verifier_documentation.py) fonctionne avec Python 3.10 ou supérieur, sans dépendance supplémentaire. Depuis la racine du dépôt :

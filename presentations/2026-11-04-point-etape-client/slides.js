@@ -231,7 +231,7 @@ const slides = [
     notes: "Le MCD n'est pas validé. Présenter les principaux choix et recueillir les corrections. La connexion s'appuie sur Keycloak relié à LDAP ; la représentation des comptes dans le MCD reste à articuler avec cette architecture.",
     html: `
       <div class="mcd-visual">
-        <img src="../../docs/05-MCD-MERISE.svg" alt="Proposition de modèle conceptuel de données ORION">
+        <img src="../../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg" alt="Proposition de modèle conceptuel de données ORION">
       </div>
       <div class="mcd-copy">
         <h2>MCD proposé</h2>

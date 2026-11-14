@@ -1,8 +1,8 @@
 // Génère les deux schémas de l'architecture réelle (icônes Lucide, licence ISC), depuis la racine du dépôt :
-//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mts application/node_modules/lucide-react simple docs/assets/architecture/ORION-VUE-SIMPLIFIEE.svg
-//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mts application/node_modules/lucide-react complet docs/assets/architecture/ORION-DEPLOIEMENT-VM.svg
-//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mts application/node_modules/lucide-react cible docs/assets/architecture/ORION-CIBLE-C1NP.svg
-//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mts application/node_modules/lucide-react cible-simple docs/assets/architecture/ORION-CIBLE-VUE-SIMPLIFIEE.svg
+//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mts application/node_modules/lucide-react simple docs/03-ARCHITECTURE/assets/ORION-VUE-SIMPLIFIEE.svg
+//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mts application/node_modules/lucide-react complet docs/03-ARCHITECTURE/assets/ORION-DEPLOIEMENT-VM.svg
+//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mts application/node_modules/lucide-react cible docs/03-ARCHITECTURE/assets/ORION-CIBLE-C1NP.svg
+//   node .agents/skills/orion-documentation/scripts/schemas-architecture.mts application/node_modules/lucide-react cible-simple docs/03-ARCHITECTURE/assets/ORION-CIBLE-VUE-SIMPLIFIEE.svg
 // Coordonnées écrites à la main ; règles de contenu et de tracé dans AGENTS.md (Architecture technique).
 import { readFileSync, writeFileSync } from 'node:fs';
 

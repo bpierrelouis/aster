@@ -244,7 +244,7 @@
     ],
     "retire": "Retiré le 13/11/2026 : Proposition de tableau de bord remplacée par les captures de l'application"
   },
-  "docs/00-GLOSSAIRE.md": {
+  "docs/01-CONTEXTE/00-GLOSSAIRE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -252,392 +252,295 @@
         "date": "2026-11-02",
         "modification": "Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows",
         "resume": "Préciser les remontées et les comptes Windows",
-        "commit": "a9aa9cd"
+        "commit": "a9aa9cd",
+        "chemin": "docs/00-GLOSSAIRE.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-03",
         "modification": "Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Préparer le support du point client ; Formaliser les profils et leurs autorisations ; Intégrer Keycloak, S3 et les serveurs front et back",
         "resume": "Intégrer Keycloak, S3 et les serveurs front et back",
-        "commit": "c6eed95"
+        "commit": "c6eed95",
+        "chemin": "docs/00-GLOSSAIRE.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-06",
         "modification": "Distinguer la cible MindefConnect du démonstrateur",
-        "commit": "6212b60"
+        "commit": "6212b60",
+        "chemin": "docs/00-GLOSSAIRE.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-08",
         "modification": "Intégrer le retour client du 4 novembre",
-        "commit": "a592d58"
+        "commit": "a592d58",
+        "chemin": "docs/00-GLOSSAIRE.md"
       },
       {
         "version": "1.4",
         "date": "2026-11-09",
         "modification": "Consolider le modèle et les règles métier ; Harmoniser les diagrammes de cas d'utilisation",
         "resume": "Harmoniser les diagrammes de cas d'utilisation",
-        "commit": "af0e24e"
+        "commit": "af0e24e",
+        "chemin": "docs/00-GLOSSAIRE.md"
       },
       {
         "version": "1.5",
         "date": "2026-11-12",
         "modification": "Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt",
         "resume": "Renommer le projet en ORION dans tout le dépôt",
-        "commit": "0078180"
+        "commit": "0078180",
+        "chemin": "docs/00-GLOSSAIRE.md"
       },
       {
         "version": "1.6",
         "date": "2026-11-13",
         "modification": "Développer le sigle ORION et garantir RG-73 côté serveur",
-        "commit": "83658a3"
+        "commit": "83658a3",
+        "chemin": "docs/00-GLOSSAIRE.md"
       },
       {
         "version": "1.7",
         "date": "2026-11-13",
         "modification": "Préciser l’acteur de traitement : prise en charge puis fin du traitement",
-        "commit": "38c405d"
+        "commit": "38c405d",
+        "chemin": "docs/00-GLOSSAIRE.md"
       },
       {
         "version": "1.8",
         "date": "2026-11-13",
         "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
         "archive": null,
-        "commit": "ddc3262"
+        "commit": "ddc3262",
+        "chemin": "docs/00-GLOSSAIRE.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées",
+        "archive": null,
+        "commit": "d3c3785",
+        "chemin": "docs/00-GLOSSAIRE.md"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/01-CONTEXTE/",
         "archive": null
       }
     ]
   },
-  "docs/01-CONSIGNES.md": {
+  "docs/01-CONTEXTE/01-CONSIGNES.md": {
     "destination": "Source fournie par l’encadrement",
     "versions": [
       {
         "version": "1.0",
         "date": "2026-10-20",
         "modification": "Consignes + cadrage",
-        "commit": "288c524"
+        "commit": "288c524",
+        "chemin": "docs/01-CONSIGNES.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-02",
         "modification": "Consolider le cadrage et les modèles",
-        "commit": "12080db"
+        "commit": "12080db",
+        "chemin": "docs/01-CONSIGNES.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-09",
         "modification": "Préciser le contenu attendu du dossier d'architecture",
-        "commit": "44127a1"
+        "commit": "44127a1",
+        "chemin": "docs/01-CONSIGNES.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-13",
         "modification": "Fiabiliser les configurations à remettre",
+        "archive": null,
+        "commit": "83658a3",
+        "chemin": "docs/01-CONSIGNES.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/01-CONTEXTE/",
         "archive": null
       }
     ]
   },
-  "docs/02-CADRAGE.md": {
+  "docs/01-CONTEXTE/02-CADRAGE.md": {
     "destination": "Source de travail interne",
     "versions": [
       {
         "version": "1.0",
         "date": "2026-10-20",
         "modification": "Consignes + cadrage",
-        "commit": "288c524"
+        "commit": "288c524",
+        "chemin": "docs/02-CADRAGE.md"
       },
       {
         "version": "1.1",
         "date": "2026-10-24",
         "modification": "Aligner le cadrage, les diagrammes et les consignes Git",
-        "commit": "cc22229"
+        "commit": "cc22229",
+        "chemin": "docs/02-CADRAGE.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-02",
         "modification": "Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows",
         "resume": "Préciser les remontées et les comptes Windows",
-        "commit": "a9aa9cd"
+        "commit": "a9aa9cd",
+        "chemin": "docs/02-CADRAGE.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-03",
         "modification": "Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Préparer le support du point client ; Formaliser les profils et leurs autorisations ; Intégrer Keycloak, S3 et les serveurs front et back",
         "resume": "Intégrer Keycloak, S3 et les serveurs front et back",
-        "commit": "c6eed95"
+        "commit": "c6eed95",
+        "chemin": "docs/02-CADRAGE.md"
       },
       {
         "version": "1.4",
         "date": "2026-11-06",
         "modification": "Distinguer la cible MindefConnect du démonstrateur",
-        "commit": "6212b60"
+        "commit": "6212b60",
+        "chemin": "docs/02-CADRAGE.md"
       },
       {
         "version": "1.5",
         "date": "2026-11-08",
         "modification": "Intégrer le retour client du 4 novembre",
-        "commit": "a592d58"
+        "commit": "a592d58",
+        "chemin": "docs/02-CADRAGE.md"
       },
       {
         "version": "1.6",
         "date": "2026-11-09",
         "modification": "Consolider le modèle et les règles métier",
-        "commit": "a8fc937"
+        "commit": "a8fc937",
+        "chemin": "docs/02-CADRAGE.md"
       },
       {
         "version": "1.7",
         "date": "2026-11-11",
         "modification": "Décrire le déploiement du démonstrateur sur huit VM",
-        "commit": "3396072"
+        "commit": "3396072",
+        "chemin": "docs/02-CADRAGE.md"
       },
       {
         "version": "1.8",
         "date": "2026-11-12",
         "modification": "Préparer les points du rendez-vous du 12 novembre ; Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions de l'ancien nom",
         "resume": "Retirer les dernières mentions de l'ancien nom",
-        "commit": "b83aaca"
+        "commit": "b83aaca",
+        "chemin": "docs/02-CADRAGE.md"
       },
       {
         "version": "1.9",
         "date": "2026-11-13",
         "modification": "Développer le sigle ORION et garantir RG-73 côté serveur ; Inscrire les points de sécurité qui demandent une décision ; Reporter les décisions de sécurité du 13 novembre ; Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues ; Fiabiliser les configurations à remettre",
         "resume": "Fiabiliser les configurations à remettre",
-        "commit": "83658a3"
+        "commit": "83658a3",
+        "chemin": "docs/02-CADRAGE.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Inscrire les décisions de l’utilisateur du 13 novembre sur les remontées, les notifications et le changement d’école",
-        "commit": "38c405d"
+        "commit": "38c405d",
+        "chemin": "docs/02-CADRAGE.md"
       },
       {
         "version": "2.1",
         "date": "2026-11-13",
         "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
-        "commit": "ddc3262"
+        "commit": "ddc3262",
+        "chemin": "docs/02-CADRAGE.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-13",
         "modification": "Faire de l’état actuel la référence ; entrée unique et absence de filtrage (13 novembre) ; retours du 12 novembre cités",
         "archive": null,
-        "commit": "3caca82"
+        "commit": "3caca82",
+        "chemin": "docs/02-CADRAGE.md"
       },
       {
         "version": "4.0",
         "date": "2026-11-13",
         "modification": "Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées",
+        "archive": null,
+        "commit": "d3c3785",
+        "chemin": "docs/02-CADRAGE.md"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/01-CONTEXTE/",
         "archive": null
       }
     ]
   },
-  "docs/03-COMPTE-RENDU-ENTRETIENS.md": {
+  "docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md": {
     "destination": "Source de travail interne",
     "versions": [
       {
         "version": "1.0",
         "date": "2026-10-24",
         "modification": "Aligner le cadrage, les diagrammes et les consignes Git",
-        "commit": "cc22229"
+        "commit": "cc22229",
+        "chemin": "docs/03-COMPTE-RENDU-ENTRETIENS.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-02",
         "modification": "Mcd",
-        "commit": "23cb750"
+        "commit": "23cb750",
+        "chemin": "docs/03-COMPTE-RENDU-ENTRETIENS.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-06",
         "modification": "Distinguer la cible MindefConnect du démonstrateur",
-        "commit": "6212b60"
+        "commit": "6212b60",
+        "chemin": "docs/03-COMPTE-RENDU-ENTRETIENS.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-08",
         "modification": "Intégrer le retour client du 4 novembre",
-        "commit": "a592d58"
+        "commit": "a592d58",
+        "chemin": "docs/03-COMPTE-RENDU-ENTRETIENS.md"
       },
       {
         "version": "1.4",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "commit": "e072d65"
+        "commit": "e072d65",
+        "chemin": "docs/03-COMPTE-RENDU-ENTRETIENS.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Ajouter les retours du client du 12 novembre (PDF à la demande, validation des remontées)",
-        "archive": null
-      }
-    ]
-  },
-  "docs/04-REGLES-DE-GESTION.md": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-02",
-        "modification": "Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows",
-        "resume": "Préciser les remontées et les comptes Windows",
-        "commit": "a9aa9cd"
-      },
-      {
-        "version": "1.1",
-        "date": "2026-11-03",
-        "modification": "Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations",
-        "resume": "Formaliser les profils et leurs autorisations",
-        "commit": "f7310c1"
-      },
-      {
-        "version": "1.2",
-        "date": "2026-11-06",
-        "modification": "Distinguer la cible MindefConnect du démonstrateur",
-        "commit": "6212b60"
-      },
-      {
-        "version": "1.3",
-        "date": "2026-11-08",
-        "modification": "Intégrer le retour client du 4 novembre",
-        "commit": "a592d58"
-      },
-      {
-        "version": "1.4",
-        "date": "2026-11-09",
-        "modification": "Consolider le modèle et les règles métier",
-        "commit": "a8fc937"
-      },
-      {
-        "version": "1.5",
-        "date": "2026-11-12",
-        "modification": "Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt",
-        "resume": "Renommer le projet en ORION dans tout le dépôt",
-        "commit": "0078180"
-      },
-      {
-        "version": "1.6",
-        "date": "2026-11-13",
-        "modification": "Développer le sigle ORION et garantir RG-73 côté serveur",
-        "commit": "83658a3"
-      },
-      {
-        "version": "1.7",
-        "date": "2026-11-13",
-        "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
         "archive": null,
-        "commit": "ddc3262"
-      },
-      {
-        "version": "2.0",
-        "date": "2026-11-13",
-        "modification": "Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées",
-        "archive": null
-      }
-    ]
-  },
-  "docs/05-MCD-MERISE-MOCODO.url": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-02",
-        "modification": "Mcd ; Maj mcd",
-        "resume": "Maj mcd",
-        "commit": "e0cf540"
-      },
-      {
-        "version": "1.1",
-        "date": "2026-11-03",
-        "modification": "Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations",
-        "resume": "Formaliser les profils et leurs autorisations",
-        "commit": "f7310c1"
-      },
-      {
-        "version": "1.2",
-        "date": "2026-11-09",
-        "modification": "Consolider le modèle et les règles métier",
-        "commit": "a8fc937"
-      },
-      {
-        "version": "1.3",
-        "date": "2026-11-12",
-        "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "archive": null,
-        "commit": "0078180"
-      }
-    ],
-    "retire": "Retiré le 13/11/2026 : Remplacé par la source draw.io"
-  },
-  "docs/05-MCD-MERISE.drawio": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-13",
-        "modification": "Source draw.io du MCD",
-        "archive": null,
-        "commit": "19f0488"
-      },
-      {
-        "version": "1.1",
-        "date": "2026-11-13",
-        "modification": "COMPTE_ORION et DÉMÉNAGER, identifiants des comptes distincts",
-        "archive": null
-      }
-    ]
-  },
-  "docs/05-MCD-MERISE.svg": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-02",
-        "modification": "Mcd ; Maj mcd",
-        "resume": "Maj mcd",
-        "commit": "e0cf540"
-      },
-      {
-        "version": "1.1",
-        "date": "2026-11-03",
-        "modification": "Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations",
-        "resume": "Formaliser les profils et leurs autorisations",
-        "commit": "f7310c1"
-      },
-      {
-        "version": "1.2",
-        "date": "2026-11-09",
-        "modification": "Consolider le modèle et les règles métier",
-        "commit": "a8fc937"
-      },
-      {
-        "version": "1.3",
-        "date": "2026-11-12",
-        "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "archive": null,
-        "commit": "0078180"
-      },
-      {
-        "version": "2.0",
-        "date": "2026-11-13",
-        "modification": "Refaire le MCD avec draw.io : historique des statuts, poste et unité centrale, IP, MAC, dates du compte, verbes d’un mot",
-        "archive": null,
-        "commit": "19f0488"
+        "commit": "655fc90",
+        "chemin": "docs/03-COMPTE-RENDU-ENTRETIENS.md"
       },
       {
         "version": "2.1",
-        "date": "2026-11-13",
-        "modification": "COMPTE_ORION et DÉMÉNAGER, identifiants des comptes distincts",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/01-CONTEXTE/",
         "archive": null
       }
     ]
   },
-  "docs/06-DIAGRAMME-CONTEXTE.md": {
+  "docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -645,23 +548,33 @@
         "date": "2026-11-02",
         "modification": "Mcd ; Consolider le cadrage et épurer les diagrammes",
         "resume": "Consolider le cadrage et épurer les diagrammes",
-        "commit": "874689d"
+        "commit": "874689d",
+        "chemin": "docs/06-DIAGRAMME-CONTEXTE.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "commit": "e072d65"
+        "commit": "e072d65",
+        "chemin": "docs/06-DIAGRAMME-CONTEXTE.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-13",
         "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
+        "archive": null,
+        "commit": "ddc3262",
+        "chemin": "docs/06-DIAGRAMME-CONTEXTE.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/01-MODELISATION-METIER/",
         "archive": null
       }
     ]
   },
-  "docs/07-DIAGRAMMES-ACTIVITE.md": {
+  "docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -676,59 +589,204 @@
         "date": "2026-11-02",
         "modification": "Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes",
         "resume": "Consolider le cadrage et épurer les diagrammes",
-        "commit": "874689d"
+        "commit": "874689d",
+        "chemin": "docs/07-DIAGRAMMES-ACTIVITE.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-06",
         "modification": "Distinguer la cible MindefConnect du démonstrateur",
-        "commit": "6212b60"
+        "commit": "6212b60",
+        "chemin": "docs/07-DIAGRAMMES-ACTIVITE.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "commit": "e072d65"
+        "commit": "e072d65",
+        "chemin": "docs/07-DIAGRAMMES-ACTIVITE.md"
       },
       {
         "version": "1.4",
         "date": "2026-11-13",
         "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
+        "archive": null,
+        "commit": "ddc3262",
+        "chemin": "docs/07-DIAGRAMMES-ACTIVITE.md"
+      },
+      {
+        "version": "1.5",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/01-MODELISATION-METIER/",
         "archive": null
       }
     ]
   },
-  "docs/08-DCU-GESTION-PARC.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
         "version": "1.0",
         "date": "2026-11-02",
-        "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
-        "resume": "Consolider le cadrage et épurer les diagrammes",
-        "commit": "874689d"
+        "modification": "Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows",
+        "resume": "Préciser les remontées et les comptes Windows",
+        "commit": "a9aa9cd",
+        "chemin": "docs/04-REGLES-DE-GESTION.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-03",
-        "modification": "Formaliser les profils et leurs autorisations",
-        "commit": "f7310c1"
+        "modification": "Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations",
+        "resume": "Formaliser les profils et leurs autorisations",
+        "commit": "f7310c1",
+        "chemin": "docs/04-REGLES-DE-GESTION.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-06",
+        "modification": "Distinguer la cible MindefConnect du démonstrateur",
+        "commit": "6212b60",
+        "chemin": "docs/04-REGLES-DE-GESTION.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "commit": "a592d58",
+        "chemin": "docs/04-REGLES-DE-GESTION.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-09",
+        "modification": "Consolider le modèle et les règles métier",
+        "commit": "a8fc937",
+        "chemin": "docs/04-REGLES-DE-GESTION.md"
+      },
+      {
+        "version": "1.5",
+        "date": "2026-11-12",
+        "modification": "Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt",
+        "resume": "Renommer le projet en ORION dans tout le dépôt",
+        "commit": "0078180",
+        "chemin": "docs/04-REGLES-DE-GESTION.md"
+      },
+      {
+        "version": "1.6",
+        "date": "2026-11-13",
+        "modification": "Développer le sigle ORION et garantir RG-73 côté serveur",
+        "commit": "83658a3",
+        "chemin": "docs/04-REGLES-DE-GESTION.md"
+      },
+      {
+        "version": "1.7",
+        "date": "2026-11-13",
+        "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
+        "archive": null,
+        "commit": "ddc3262",
+        "chemin": "docs/04-REGLES-DE-GESTION.md"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-13",
+        "modification": "Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées",
+        "archive": null,
+        "commit": "d3c3785",
+        "chemin": "docs/04-REGLES-DE-GESTION.md"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-13",
+        "modification": "Source draw.io du MCD",
+        "archive": null,
+        "commit": "19f0488",
+        "chemin": "docs/05-MCD-MERISE.drawio"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-13",
+        "modification": "COMPTE_ORION et DÉMÉNAGER, identifiants des comptes distincts",
+        "archive": null,
+        "commit": "9c23199",
+        "chemin": "docs/05-MCD-MERISE.drawio"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Mcd ; Maj mcd",
+        "resume": "Maj mcd",
+        "commit": "e0cf540",
+        "chemin": "docs/05-MCD-MERISE.svg"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations",
+        "resume": "Formaliser les profils et leurs autorisations",
+        "commit": "f7310c1",
+        "chemin": "docs/05-MCD-MERISE.svg"
       },
       {
         "version": "1.2",
         "date": "2026-11-09",
-        "modification": "Harmoniser les diagrammes de cas d'utilisation",
-        "commit": "af0e24e"
+        "modification": "Consolider le modèle et les règles métier",
+        "commit": "a8fc937",
+        "chemin": "docs/05-MCD-MERISE.svg"
       },
       {
         "version": "1.3",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
+        "archive": null,
+        "commit": "0078180",
+        "chemin": "docs/05-MCD-MERISE.svg"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-13",
+        "modification": "Refaire le MCD avec draw.io : historique des statuts, poste et unité centrale, IP, MAC, dates du compte, verbes d’un mot",
+        "archive": null,
+        "commit": "19f0488",
+        "chemin": "docs/05-MCD-MERISE.svg"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-13",
+        "modification": "COMPTE_ORION et DÉMÉNAGER, identifiants des comptes distincts",
+        "archive": null,
+        "commit": "9c23199",
+        "chemin": "docs/05-MCD-MERISE.svg"
+      },
+      {
+        "version": "2.2",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
         "archive": null
       }
     ]
   },
-  "docs/09-DCU-ADMINISTRATION-POSTES.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -736,42 +794,96 @@
         "date": "2026-11-02",
         "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
         "resume": "Consolider le cadrage et épurer les diagrammes",
-        "commit": "874689d"
+        "commit": "874689d",
+        "chemin": "docs/08-DCU-GESTION-PARC.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Formaliser les profils et leurs autorisations",
+        "commit": "f7310c1",
+        "chemin": "docs/08-DCU-GESTION-PARC.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-09",
+        "modification": "Harmoniser les diagrammes de cas d'utilisation",
+        "commit": "af0e24e",
+        "chemin": "docs/08-DCU-GESTION-PARC.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-12",
+        "modification": "Renommer le projet en ORION dans tout le dépôt",
+        "archive": null,
+        "commit": "e072d65",
+        "chemin": "docs/08-DCU-GESTION-PARC.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
+        "resume": "Consolider le cadrage et épurer les diagrammes",
+        "commit": "874689d",
+        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-03",
         "modification": "Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations",
         "resume": "Formaliser les profils et leurs autorisations",
-        "commit": "f7310c1"
+        "commit": "f7310c1",
+        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-08",
         "modification": "Intégrer le retour client du 4 novembre",
-        "commit": "a592d58"
+        "commit": "a592d58",
+        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-09",
         "modification": "Harmoniser les diagrammes de cas d'utilisation",
-        "commit": "af0e24e"
+        "commit": "af0e24e",
+        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
       },
       {
         "version": "1.4",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "commit": "e072d65"
+        "commit": "e072d65",
+        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
       },
       {
         "version": "1.5",
         "date": "2026-11-13",
         "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
+        "archive": null,
+        "commit": "ddc3262",
+        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
+      },
+      {
+        "version": "1.6",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
         "archive": null
       }
     ]
   },
-  "docs/10-DCU-SUPERVISION-POSTES.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -779,36 +891,48 @@
         "date": "2026-11-02",
         "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
         "resume": "Consolider le cadrage et épurer les diagrammes",
-        "commit": "874689d"
+        "commit": "874689d",
+        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-03",
         "modification": "Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations",
         "resume": "Formaliser les profils et leurs autorisations",
-        "commit": "f7310c1"
+        "commit": "f7310c1",
+        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-08",
         "modification": "Intégrer le retour client du 4 novembre",
-        "commit": "a592d58"
+        "commit": "a592d58",
+        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-09",
         "modification": "Harmoniser les diagrammes de cas d'utilisation",
-        "commit": "af0e24e"
+        "commit": "af0e24e",
+        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
       },
       {
         "version": "1.4",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
+        "archive": null,
+        "commit": "e072d65",
+        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
+      },
+      {
+        "version": "1.5",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
         "archive": null
       }
     ]
   },
-  "docs/11-DCU-REMONTEES-UTILISATEUR.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -816,98 +940,126 @@
         "date": "2026-11-02",
         "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
         "resume": "Consolider le cadrage et épurer les diagrammes",
-        "commit": "874689d"
+        "commit": "874689d",
+        "chemin": "docs/11-DCU-REMONTEES-UTILISATEUR.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-03",
         "modification": "Formaliser les profils et leurs autorisations",
-        "commit": "f7310c1"
+        "commit": "f7310c1",
+        "chemin": "docs/11-DCU-REMONTEES-UTILISATEUR.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-09",
         "modification": "Harmoniser les diagrammes de cas d'utilisation",
-        "commit": "af0e24e"
+        "commit": "af0e24e",
+        "chemin": "docs/11-DCU-REMONTEES-UTILISATEUR.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "commit": "e072d65"
+        "commit": "e072d65",
+        "chemin": "docs/11-DCU-REMONTEES-UTILISATEUR.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire",
         "archive": null,
-        "commit": "38c405d"
+        "commit": "38c405d",
+        "chemin": "docs/11-DCU-REMONTEES-UTILISATEUR.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-13",
         "modification": "Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées",
+        "archive": null,
+        "commit": "d3c3785",
+        "chemin": "docs/11-DCU-REMONTEES-UTILISATEUR.md"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
         "archive": null
       }
     ]
   },
-  "docs/12-MATRICE-DROITS.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
         "version": "1.0",
         "date": "2026-11-03",
         "modification": "Formaliser les profils et leurs autorisations",
-        "commit": "f7310c1"
+        "commit": "f7310c1",
+        "chemin": "docs/12-MATRICE-DROITS.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-08",
         "modification": "Intégrer le retour client du 4 novembre",
-        "commit": "a592d58"
+        "commit": "a592d58",
+        "chemin": "docs/12-MATRICE-DROITS.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-09",
         "modification": "Synchroniser la matrice et les fiches de profils",
-        "commit": "d78a5a7"
+        "commit": "d78a5a7",
+        "chemin": "docs/12-MATRICE-DROITS.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-12",
         "modification": "Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt",
         "resume": "Renommer le projet en ORION dans tout le dépôt",
-        "commit": "e072d65"
+        "commit": "e072d65",
+        "chemin": "docs/12-MATRICE-DROITS.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire",
-        "commit": "38c405d"
+        "commit": "38c405d",
+        "chemin": "docs/12-MATRICE-DROITS.md"
       },
       {
         "version": "2.1",
         "date": "2026-11-13",
         "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
         "archive": null,
-        "commit": "ddc3262"
+        "commit": "ddc3262",
+        "chemin": "docs/12-MATRICE-DROITS.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-13",
         "modification": "Formateur : consultation des matériels d’une salle, sans recherche dans le parc",
         "archive": null,
-        "commit": "6d33a1f"
+        "commit": "6d33a1f",
+        "chemin": "docs/12-MATRICE-DROITS.md"
       },
       {
         "version": "4.0",
         "date": "2026-11-13",
         "modification": "Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées",
+        "archive": null,
+        "commit": "d3c3785",
+        "chemin": "docs/12-MATRICE-DROITS.md"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
         "archive": null
       }
     ]
   },
-  "docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -915,48 +1067,62 @@
         "date": "2026-11-03",
         "modification": "Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back",
         "resume": "Intégrer Keycloak, S3 et les serveurs front et back",
-        "commit": "c6eed95"
+        "commit": "c6eed95",
+        "chemin": "docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-06",
         "modification": "Distinguer la cible MindefConnect du démonstrateur",
-        "commit": "6212b60"
+        "commit": "6212b60",
+        "chemin": "docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-08",
         "modification": "Intégrer le retour client du 4 novembre",
-        "commit": "a592d58"
+        "commit": "a592d58",
+        "chemin": "docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-09",
         "modification": "Synchroniser la matrice et les fiches de profils",
-        "commit": "d78a5a7"
+        "commit": "d78a5a7",
+        "chemin": "docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md"
       },
       {
         "version": "1.4",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "commit": "e072d65"
+        "commit": "e072d65",
+        "chemin": "docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire",
         "archive": null,
-        "commit": "38c405d"
+        "commit": "38c405d",
+        "chemin": "docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-13",
         "modification": "Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées",
+        "archive": null,
+        "commit": "d3c3785",
+        "chemin": "docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM",
         "archive": null
       }
     ]
   },
-  "docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -964,42 +1130,55 @@
         "date": "2026-11-03",
         "modification": "Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back",
         "resume": "Intégrer Keycloak, S3 et les serveurs front et back",
-        "commit": "c6eed95"
+        "commit": "c6eed95",
+        "chemin": "docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-06",
         "modification": "Distinguer la cible MindefConnect du démonstrateur",
-        "commit": "6212b60"
+        "commit": "6212b60",
+        "chemin": "docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-08",
         "modification": "Intégrer le retour client du 4 novembre",
-        "commit": "a592d58"
+        "commit": "a592d58",
+        "chemin": "docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-09",
         "modification": "Synchroniser la matrice et les fiches de profils",
-        "commit": "d78a5a7"
+        "commit": "d78a5a7",
+        "chemin": "docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md"
       },
       {
         "version": "1.4",
         "date": "2026-11-12",
         "modification": "Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt",
         "resume": "Renommer le projet en ORION dans tout le dépôt",
-        "commit": "e072d65"
+        "commit": "e072d65",
+        "chemin": "docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire",
+        "archive": null,
+        "commit": "38c405d",
+        "chemin": "docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
         "archive": null
       }
     ]
   },
-  "docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -1007,55 +1186,70 @@
         "date": "2026-11-03",
         "modification": "Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back",
         "resume": "Intégrer Keycloak, S3 et les serveurs front et back",
-        "commit": "c6eed95"
+        "commit": "c6eed95",
+        "chemin": "docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-06",
         "modification": "Distinguer la cible MindefConnect du démonstrateur",
-        "commit": "6212b60"
+        "commit": "6212b60",
+        "chemin": "docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-08",
         "modification": "Intégrer le retour client du 4 novembre",
-        "commit": "a592d58"
+        "commit": "a592d58",
+        "chemin": "docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-09",
         "modification": "Synchroniser la matrice et les fiches de profils",
-        "commit": "d78a5a7"
+        "commit": "d78a5a7",
+        "chemin": "docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "1.4",
         "date": "2026-11-12",
         "modification": "Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt",
         "resume": "Renommer le projet en ORION dans tout le dépôt",
-        "commit": "e072d65"
+        "commit": "e072d65",
+        "chemin": "docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire",
-        "commit": "38c405d"
+        "commit": "38c405d",
+        "chemin": "docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "2.1",
         "date": "2026-11-13",
         "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
         "archive": null,
-        "commit": "ddc3262"
+        "commit": "ddc3262",
+        "chemin": "docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-13",
         "modification": "Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées",
+        "archive": null,
+        "commit": "d3c3785",
+        "chemin": "docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM",
         "archive": null
       }
     ]
   },
-  "docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -1063,153 +1257,246 @@
         "date": "2026-11-03",
         "modification": "Formaliser les parcours et interfaces par profil ; Intégrer Keycloak, S3 et les serveurs front et back",
         "resume": "Intégrer Keycloak, S3 et les serveurs front et back",
-        "commit": "c6eed95"
+        "commit": "c6eed95",
+        "chemin": "docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-06",
         "modification": "Distinguer la cible MindefConnect du démonstrateur",
-        "commit": "6212b60"
+        "commit": "6212b60",
+        "chemin": "docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-08",
         "modification": "Intégrer le retour client du 4 novembre",
-        "commit": "a592d58"
+        "commit": "a592d58",
+        "chemin": "docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-09",
         "modification": "Synchroniser la matrice et les fiches de profils",
-        "commit": "d78a5a7"
+        "commit": "d78a5a7",
+        "chemin": "docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md"
       },
       {
         "version": "1.4",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "commit": "e072d65"
+        "commit": "e072d65",
+        "chemin": "docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire",
-        "commit": "38c405d"
+        "commit": "38c405d",
+        "chemin": "docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md"
       },
       {
         "version": "2.1",
         "date": "2026-11-13",
         "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
         "archive": null,
-        "commit": "ddc3262"
+        "commit": "ddc3262",
+        "chemin": "docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-13",
         "modification": "Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées",
+        "archive": null,
+        "commit": "d3c3785",
+        "chemin": "docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM",
         "archive": null
       }
     ]
   },
-  "docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-06",
+        "modification": "Ajouter les parcours détaillés en brouillon",
+        "commit": "d626315",
+        "chemin": "docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-12",
+        "modification": "Renommer le projet en ORION dans tout le dépôt",
+        "archive": null,
+        "commit": "e072d65",
+        "chemin": "docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/03-ANALYSE/DIAGRAMMES-ETATS-BROUILLON-V1.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-09",
+        "modification": "Ajouter les diagrammes d'états de la remontée et des interventions",
+        "commit": "83658a3",
+        "chemin": "docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-13",
+        "modification": "Aligner sur l’application : état « en cours », traitement direct possible, PDF à la demande, type obligatoire, interventions sur une seule salle",
+        "archive": null,
+        "commit": "28bc990",
+        "chemin": "docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-13",
+        "modification": "Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées",
+        "archive": null,
+        "commit": "d3c3785",
+        "chemin": "docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/03-ANALYSE/",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/04-CONCEPTION/README.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-14",
+        "modification": "Créer la partie Conception",
+        "archive": null
+      }
+    ]
+  },
+  "docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
         "version": "1.0",
         "date": "2026-11-09",
         "modification": "Ajouter le dossier d'architecture technique et ses diagrammes",
-        "commit": "51bd591"
+        "commit": "51bd591",
+        "chemin": "docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-11",
         "modification": "Décrire le déploiement du démonstrateur sur huit VM",
-        "commit": "3396072"
+        "commit": "3396072",
+        "chemin": "docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-12",
         "modification": "Passage au nom ORION, mise à jour de l'interface utilisateur ; Renseigner les adresses des VM ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM ; Retirer les dernières mentions de l'ancien nom ; Mettre à jour les noms des fichiers convertis en TypeScript",
         "resume": "Mettre à jour les noms des fichiers convertis en TypeScript",
-        "commit": "335b44d"
+        "commit": "335b44d",
+        "chemin": "docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-13",
         "modification": "Décrire orion-3 en VM d'administration avec le runner ; Décrire l'entrée unique par adresse IP, sans DNS ; Documenter la cible C1NP et unifier les vues",
         "resume": "Documenter la cible C1NP et unifier les vues",
-        "commit": "83658a3"
+        "commit": "83658a3",
+        "chemin": "docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "1.4",
         "date": "2026-11-13",
         "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
-        "commit": "ddc3262"
+        "commit": "ddc3262",
+        "chemin": "docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "1.5",
         "date": "2026-11-13",
         "modification": "Aligner l’architecture réelle sur la configuration versionnée : création des identités, image Keycloak, flux d’Express, absence de filtrage, secrets et versions",
         "archive": null,
-        "commit": "c563b5a"
+        "commit": "c563b5a",
+        "chemin": "docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "DAT de référence du collègue repris de main (recensement RECON, cible C1NP fiabilisée) ; fichier sans en-tête de version, à ne pas modifier",
+        "archive": null,
+        "commit": "0b83eb6",
+        "chemin": "docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/03-ARCHITECTURE/",
         "archive": null
       }
     ],
     "sans_entete": true
   },
-  "docs/18-DIAGRAMMES-ARCHITECTURE.md": {
+  "docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
         "version": "1.0",
         "date": "2026-11-09",
         "modification": "Ajouter le dossier d'architecture technique et ses diagrammes",
-        "commit": "51bd591"
+        "commit": "51bd591",
+        "chemin": "docs/18-DIAGRAMMES-ARCHITECTURE.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-11",
         "modification": "Décrire le déploiement du démonstrateur sur huit VM",
-        "commit": "3396072"
+        "commit": "3396072",
+        "chemin": "docs/18-DIAGRAMMES-ARCHITECTURE.md"
       },
       {
         "version": "1.2",
         "date": "2026-11-12",
         "modification": "Passage au nom ORION, mise à jour de l'interface utilisateur ; Renseigner les adresses des VM ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM",
         "resume": "Décrire l'architecture orion sur dix VM",
-        "commit": "3e437e0"
+        "commit": "3e437e0",
+        "chemin": "docs/18-DIAGRAMMES-ARCHITECTURE.md"
       },
       {
         "version": "1.3",
         "date": "2026-11-13",
         "modification": "Documenter la cible C1NP et unifier les vues",
-        "archive": null
-      }
-    ]
-  },
-  "docs/19-BACKLOG-ET-SUIVI-PROJET.docx": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-13",
-        "modification": "Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word",
-        "resume": "Styliser les graphiques en SVG dans Word",
-        "commit": "b2a5a17"
+        "archive": null,
+        "commit": "83658a3",
+        "chemin": "docs/18-DIAGRAMMES-ARCHITECTURE.md"
       },
       {
-        "version": "1.1",
-        "date": "2026-11-13",
-        "modification": "Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP",
+        "version": "1.4",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/03-ARCHITECTURE/",
         "archive": null
       }
     ]
   },
-  "docs/19-BACKLOG-ET-SUIVI-PROJET.md": {
+  "docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -1217,24 +1504,87 @@
         "date": "2026-11-13",
         "modification": "Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word",
         "resume": "Styliser les graphiques en SVG dans Word",
-        "commit": "83658a3"
+        "commit": "b2a5a17",
+        "chemin": "docs/19-BACKLOG-ET-SUIVI-PROJET.docx"
       },
       {
         "version": "1.1",
         "date": "2026-11-13",
         "modification": "Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP",
         "archive": null,
-        "commit": "61abf4a"
+        "commit": "61abf4a",
+        "chemin": "docs/19-BACKLOG-ET-SUIVI-PROJET.docx"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/04-ORGANISATION/",
+        "archive": null
+      }
+    ]
+  },
+  "docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-13",
+        "modification": "Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word",
+        "resume": "Styliser les graphiques en SVG dans Word",
+        "commit": "83658a3",
+        "chemin": "docs/19-BACKLOG-ET-SUIVI-PROJET.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-13",
+        "modification": "Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP",
+        "archive": null,
+        "commit": "61abf4a",
+        "chemin": "docs/19-BACKLOG-ET-SUIVI-PROJET.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-14",
         "modification": "Deux sprints (19/10–08/11, 09/11–19/11), suivi dans le projet GitHub ORION et graphiques produits depuis GitHub",
+        "archive": null,
+        "commit": "ab5fb7d",
+        "chemin": "docs/19-BACKLOG-ET-SUIVI-PROJET.md"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/04-ORGANISATION/ ; Rendu de l’application le 17 novembre, supports le 18, présentation le 19 ; graphiques régénérés",
         "archive": null
       }
     ]
   },
-  "docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md": {
+  "docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-13",
+        "modification": "Consolider le suivi des progressions",
+        "commit": "83658a3",
+        "chemin": "docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-13",
+        "modification": "Remplacer l’ancien nom par ORION et corriger le commit de la cible C1NP",
+        "archive": null,
+        "commit": "61abf4a",
+        "chemin": "docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/04-ORGANISATION/",
+        "archive": null
+      }
+    ]
+  },
+  "docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md": {
     "destination": "Pilotage interne",
     "versions": [
       {
@@ -1313,66 +1663,49 @@
         "version": "4.0",
         "date": "2026-11-13",
         "modification": "Officialiser le reste à faire en backlog technique et feuille de route ; option Linux reportée en évolution du projet",
+        "archive": null,
+        "commit": "f23bbce",
+        "chemin": "docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/04-ORGANISATION/ ; Échéances du rendu (17/11) et de la présentation (19/11) ; backlog GitHub et captures des fiches faits",
         "archive": null
       }
     ]
   },
-  "docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md": {
-    "destination": "Brouillon interne",
+  "docs/05-MCD-MERISE-MOCODO.url": {
+    "destination": "Production destinée à la remise",
     "versions": [
       {
         "version": "1.0",
-        "date": "2026-11-13",
-        "modification": "Consolider le suivi des progressions",
-        "commit": "83658a3"
+        "date": "2026-11-02",
+        "modification": "Mcd ; Maj mcd",
+        "resume": "Maj mcd",
+        "commit": "e0cf540"
       },
       {
         "version": "1.1",
-        "date": "2026-11-13",
-        "modification": "Remplacer l’ancien nom par ORION et corriger le commit de la cible C1NP",
-        "archive": null
-      }
-    ]
-  },
-  "docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md": {
-    "destination": "Brouillon interne",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-06",
-        "modification": "Ajouter les parcours détaillés en brouillon",
-        "commit": "d626315"
+        "date": "2026-11-03",
+        "modification": "Harmoniser le compte Windows dans le modèle ; Formaliser les profils et leurs autorisations",
+        "resume": "Formaliser les profils et leurs autorisations",
+        "commit": "f7310c1"
       },
       {
-        "version": "1.1",
+        "version": "1.2",
+        "date": "2026-11-09",
+        "modification": "Consolider le modèle et les règles métier",
+        "commit": "a8fc937"
+      },
+      {
+        "version": "1.3",
         "date": "2026-11-12",
         "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "archive": null
-      }
-    ]
-  },
-  "docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md": {
-    "destination": "Brouillon interne",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-09",
-        "modification": "Ajouter les diagrammes d'états de la remontée et des interventions",
-        "commit": "83658a3"
-      },
-      {
-        "version": "2.0",
-        "date": "2026-11-13",
-        "modification": "Aligner sur l’application : état « en cours », traitement direct possible, PDF à la demande, type obligatoire, interventions sur une seule salle",
         "archive": null,
-        "commit": "28bc990"
-      },
-      {
-        "version": "3.0",
-        "date": "2026-11-13",
-        "modification": "Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées",
-        "archive": null
+        "commit": "0078180"
       }
-    ]
+    ],
+    "retire": "Retiré le 13/11/2026 : Remplacé par la source draw.io"
   }
 }
