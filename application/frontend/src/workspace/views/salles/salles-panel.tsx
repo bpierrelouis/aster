@@ -102,7 +102,7 @@ export function DevCard({ ids, mode, salleId, act }: { ids: Id[]; mode: Mode; sa
     <form className="move-row" onSubmit={(e) => { e.preventDefault(); act.move((e.currentTarget.elements as HTMLFormControlsCollection & { destination: HTMLSelectElement }).destination.value || null); }}>
       <label className="sr-only" htmlFor="move-to">Affecter à</label>
       <FilterSelect id="move-to" aria-label="Affecter à" name="destination" key={ids.join()} defaultValue={mode === 'stock' ? '' : salleId ?? ''} options={affectationOptions(null)} />
-      <button type="submit" className="btn btn--primary btn--s"><Icon name="deplacement" size={16} /><span>Affecter</span></button>
+      <button type="submit" className="btn btn--primary btn--s">Affecter</button>
     </form>) : null;
   if (ids.length > 1) {
     return <div className="dev-card">
