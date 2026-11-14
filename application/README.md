@@ -251,18 +251,18 @@ Avec `npm run dev:ui`, lancer le connecteur avec `ORION_API=http://127.0.0.1:517
 
 ### Transformer le projet RECON publié sur Hidora
 
-L’environnement Hidora existant (conteneur Fastify et nœud PostgreSQL de l’ancien prototype RECON) devient le relais, déployé par le job `hidora` du workflow à chaque push sur `main`. Le relais crée ses tables (`rigel_campagne`, `rigel_evenement`) dans la base existante, à côté de celles de l’ancien prototype (`locations`, `assets`, `observations`) et des tables `recon_campagne` et `recon_evenement` d’avant le renommage, qui ne sont pas reprises : ORION fait foi ; elles peuvent être supprimées une fois le relais vérifié.
+L’environnement Hidora existant (conteneur Fastify et nœud PostgreSQL de l’ancien prototype RECON) devient le relais, déployé par le job « 4 · Déploiement Hidora » du workflow [ci-cd.yml](../.github/workflows/ci-cd.yml) à chaque push sur `main`. Le relais crée ses tables (`rigel_campagne`, `rigel_evenement`) dans la base existante, à côté de celles de l’ancien prototype (`locations`, `assets`, `observations`) et des tables `recon_campagne` et `recon_evenement` d’avant le renommage, qui ne sont pas reprises : ORION fait foi ; elles peuvent être supprimées une fois le relais vérifié.
 
 | Réglage GitHub (Settings → Secrets and variables → Actions) | Valeur |
 | --- | --- |
 | Secret `HIDORA_TOKEN` | Jeton d’accès personnel Hidora (tableau de bord → Settings → Access Tokens) autorisant la gestion des environnements |
 | Secret `RELAIS_TOKEN` | Secret aléatoire de 32 caractères ou plus (`openssl rand -hex 32`), commun au relais et au connecteur |
-| Variable `HIDORA_ENV` | Nom de l’environnement Hidora (active le job) |
+| Variable `HIDORA_ENV` | Nom de l’environnement Hidora (active le déploiement) |
 | Variable `RELAIS_URL` | Adresse HTTPS de l’environnement Hidora (contrôle du relais, connecteur des VM) |
 | Variable `HIDORA_IMAGE` (facultative) | Dépôt Docker Hub de l’image du conteneur Hidora ; par défaut `<DOCKERHUB_USERNAME>/rigel` ; ce doit être l’image du conteneur Hidora : le redéploiement ne change que l’étiquette |
 | Variables `HIDORA_NODE_GROUP`, `HIDORA_API` (facultatives) | Groupe du conteneur (`cp` par défaut) et API de la plateforme (`https://app.hidora.com` par défaut) |
 
-Le job publie l’image de la cible `relais` sous `HIDORA_IMAGE:<SHA>`, définit les variables du conteneur (`NODE_ENV=production`, `PORT` et `JELASTIC_EXPOSE` à `3000`, `TZ`, `RELAIS_TOKEN`) par l’API de la plateforme (`addcontainerenvvars`), le redéploie avec cette étiquette (`redeploycontainersbygroup`), puis attend `RELAIS_URL/api/health`. `DATABASE_URL` reste celui du conteneur. Il ne conditionne pas le déploiement des VM, et réciproquement. Retour arrière : relancer le job `hidora` d’une exécution précédente, ou « Redeploy container » vers l’étiquette précédente dans Hidora.
+L’image de la cible `relais` est publiée sous `HIDORA_IMAGE:<SHA>` avec les autres images (« 3 · Image relais ») ; le job de déploiement définit les variables du conteneur (`NODE_ENV=production`, `PORT` et `JELASTIC_EXPOSE` à `3000`, `TZ`, `RELAIS_TOKEN`) par l’API de la plateforme (`addcontainerenvvars`), le redéploie avec cette étiquette (`redeploycontainersbygroup`), puis attend `RELAIS_URL/api/health`. `DATABASE_URL` reste celui du conteneur. Il ne conditionne pas le déploiement des VM, et réciproquement. Un échec de ce job vient donc de la plateforme, pas de l’image. Retour arrière : relancer le job « 4 · Déploiement Hidora » d’une exécution précédente, ou « Redeploy container » vers l’étiquette précédente dans Hidora.
 
 Sans la CI : `.\infra\rigel\publier-hidora.ps1 -Image docker.io/<compte>/rigel -Tag <version>` depuis `application/`, puis, dans Hidora, ces variables et « Redeploy container » vers l’étiquette publiée.
 
@@ -382,9 +382,12 @@ npm test               # Règles, API, identité ; intégration PostgreSQL si l'
 npm run build
 npm run test:ui        # Page de connexion
 npm run test:workspace # Écrans de l'espace de travail en mode interface seule (port 5174)
+npm run test:linux     # test:workspace sous Linux, comme la CI (Docker requis) ; npm run test:linux -- test:ui pour une autre suite
 ```
 
 Les tests d’intégration utilisent un schéma PostgreSQL temporaire, supprimé à la fin ; ils sont ignorés si l’infrastructure est absente. Les tests Playwright utilisent Google Chrome s’il est installé (comme sur les machines de la CI), sinon le Chromium de Playwright, à installer une fois avec `npx playwright install chromium` ([tests/navigateur.ts](tests/navigateur.ts)). `npm run test:ui` démarre l’interface sur le port 5173, ou réutilise celle qui y tourne déjà : il doit s’agir de `npm run dev:frontend`, pas du mode interface seule.
+
+Les tests de l’espace de travail imposent la police embarquée Marianne : la police système (Segoe UI sous Windows, San Francisco sous macOS, DejaVu Sans sur la CI Ubuntu) change la largeur des libellés et donc le repli des onglets. Avant de pousser une modification de mise en page, `npm run test:linux` rejoue la suite dans l’image Playwright munie des polices du runner GitHub ([tests/linux.Dockerfile](tests/linux.Dockerfile)), depuis Windows, macOS ou Linux.
 
 Captures des maquettes ([design/maquettes/captures/](../design/maquettes/captures/), 1440 × 900), avec l’interface seule lancée :
 
@@ -459,7 +462,12 @@ Le [Dockerfile](Dockerfile) produit une image par cible :
 
 Au démarrage, les images `api`, `postes` et `keycloak` transmettent chaque secret Docker Swarm `/run/secrets/NOM` au service dans la variable d’environnement `NOM` ([infra/images/secrets.sh](infra/images/secrets.sh)) : le secret porte donc le nom de la variable (`SESSION_SECRET`, `DATABASE_URL`…). Le contrôle de santé de `api` vérifie seulement que le serveur répond, pas que PostgreSQL et Keycloak sont joignables : une panne d’un service voisin ne fait pas relancer les instances d’Express.
 
-Le workflow GitHub Actions [ci.yml](../.github/workflows/ci.yml) exécute, à chaque push sur `main` seulement, `npm run typecheck`, `npm test`, `npm run build`, `npm run test:ui` et `npm run test:workspace`, puis, dans un second job, `npm run test:e2e` avec l’infrastructure Compose (serveur et postes lancés sans `.env`, sur les valeurs par défaut). Un nouveau push annule l’exécution en cours. En cas d’échec, les traces Playwright et les journaux du serveur sont téléchargeables depuis la page de l’exécution (7 jours). Un troisième job exécute le vérificateur documentaire. Si les tests et le vérificateur passent, il publie les cinq images sur Docker Hub en public, sous `<compte>/orion-web`, `<compte>/orion-api`, `<compte>/orion-postes`, `<compte>/orion-keycloak` et `<compte>/orion-connecteur`, avec le SHA du commit pour étiquette. Le job `deploiement` les déploie ensuite sur les VM (voir ci-dessous) : il s’exécute sur le runner auto-hébergé `[self-hosted, orion]` (orion-3), seulement si la variable `DEPLOIEMENT_VM` vaut `true`. Un job indépendant, `hidora`, publie et déploie le relais RIGEL (voir [Recensement mobile](#transformer-le-projet-recon-publié-sur-hidora)).
+Le workflow GitHub Actions [ci-cd.yml](../.github/workflows/ci-cd.yml) s’exécute à chaque push sur `main` ; un nouveau push annule l’exécution en cours. Ses quatre étapes s’enchaînent, chacune seulement si la précédente a réussi :
+
+1. **Vérifications** : vérificateur documentaire, `npm run typecheck`, `npm test` et `npm run build`, tous exécutés même si l’un échoue, pour obtenir toutes les erreurs en un passage.
+2. **Tests**, en parallèle : tests de l’interface (`npm run test:ui` et `npm run test:workspace`) et tests de bout en bout (`npm run test:e2e` avec l’infrastructure Compose, serveur et postes lancés sans `.env`, sur les valeurs par défaut). En cas d’échec, les traces Playwright et les journaux du serveur sont téléchargeables depuis la page de l’exécution (7 jours).
+3. **Images** : les six images, une tâche par image, publiées en public sur Docker Hub avec le SHA du commit pour étiquette : `<compte>/orion-web`, `<compte>/orion-api`, `<compte>/orion-postes`, `<compte>/orion-keycloak`, `<compte>/orion-connecteur` et le relais RIGEL (`HIDORA_IMAGE`, par défaut `<compte>/rigel`). Une image en échec n’interrompt pas les autres.
+4. **Déploiements**, en parallèle et indépendants : les VM (voir ci-dessous), sur le runner auto-hébergé `[self-hosted, orion]` (orion-3), seulement si la variable `DEPLOIEMENT_VM` vaut `true` ; le relais RIGEL sur Hidora (voir [Recensement mobile](#transformer-le-projet-recon-publié-sur-hidora)), seulement si la variable `HIDORA_ENV` est définie. Les images étant construites à l’étape 3, un échec à cette étape vient de la plateforme.
 
 Pour la publication, créer sur Docker Hub un jeton d’accès en lecture et écriture (Account settings → Personal access tokens), puis, dans le dépôt GitHub (Settings → Secrets and variables → Actions), la variable `DOCKERHUB_USERNAME` (nom du compte Docker Hub) et le secret `DOCKERHUB_TOKEN` (le jeton, pas le mot de passe). Sans la variable, les tests s’exécutent et la publication est ignorée.
 

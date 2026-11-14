@@ -52,4 +52,8 @@ export function applyAmbiance(id: string, tone = 'auto', accent = 'blue') {
   });
   // Une nouvelle sélection peut interrompre la capture sans que ce soit une erreur.
   void transition.ready.catch(() => {});
+  // Chromium peut perdre le changement de tonalité de la machine survenu pendant la transition : vérifié à la fin
+  void transition.finished.then(() => {
+    if (version === change && root.dataset.tone !== toneOf(current)) applyAmbiance(current.id, forced, selectedAccent);
+  });
 }

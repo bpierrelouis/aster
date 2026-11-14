@@ -1,0 +1,217 @@
+# Intégration et déploiement continus, à chaque push sur main (ou lancement manuel).
+#
+# Parcours : chaque étape ne démarre que si la précédente a entièrement réussi.
+#   1. Vérifications            documentation, types, tests unitaires, construction : rapide, échoue tôt
+#   2. Tests de l'interface     Playwright, interface seule (connexion, espace de travail)  ┐ en parallèle
+#      Tests de bout en bout    Playwright avec l'infrastructure Compose                    ┘
+#   3. Images                   les six images construites et publiées sur Docker Hub, une tâche par image,
+#                               étiquetées par le commit (relais RIGEL compris)
+#   4. Déploiement des VM       pile orion sur les VM du démonstrateur                      ┐ en parallèle,
+#      Déploiement Hidora       relais RIGEL                                                ┘ indépendants
+# Une image qui ne se construit pas échoue à l'étape 3 ; un échec à l'étape 4 vient donc de la plateforme.
+#
+# Configuration du dépôt GitHub (Settings → Secrets and variables → Actions) :
+#   images              variable DOCKERHUB_USERNAME, secret DOCKERHUB_TOKEN (jeton Docker Hub en lecture et écriture) ;
+#                       variable HIDORA_IMAGE facultative (dépôt de l'image du relais, par défaut <compte>/rigel)
+#   déploiement VM      variable DEPLOIEMENT_VM = true, une fois le runner auto-hébergé installé sur orion-3 ;
+#                       variable RELAIS_URL et secret RELAIS_TOKEN pour le connecteur RIGEL (facultatifs)
+#   déploiement Hidora  variable HIDORA_ENV, secret HIDORA_TOKEN (jeton d'accès personnel Hidora), secret RELAIS_TOKEN
+#                       (32 caractères minimum, commun au relais et au connecteur), variable RELAIS_URL pour le contrôle
+# Sans cette configuration, les étapes 1 et 2 s'exécutent et les suivantes sont ignorées. Voir application/README.md.
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Actions épinglées par empreinte de commit (étiquette en commentaire) : une étiquette déplacée ne change pas le code exécuté
+permissions:
+  contents: read
+
+# Un nouveau push annule l'exécution en cours, devenue inutile (les déploiements ont leur propre groupe, jamais annulé)
+concurrency:
+  group: ci-cd-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: application
+
+jobs:
+  # ── 1. Vérifications ────────────────────────────────────────────────────────────────────────────────
+  # Chaque contrôle s'exécute même si un précédent échoue : un seul passage donne la liste complète des erreurs
+  verifications:
+    name: 1 · Vérifications
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/dependances
+      - name: Vérificateur documentaire
+        working-directory: .
+        run: python3 .agents/skills/orion-documentation/scripts/verifier_documentation.py
+      - name: Types
+        if: ${{ !cancelled() }}
+        run: npm run typecheck
+      - name: Tests unitaires
+        if: ${{ !cancelled() }}
+        run: npm test
+      - name: Construction de l'interface
+        if: ${{ !cancelled() }}
+        run: npm run build
+
+  # ── 2. Tests ────────────────────────────────────────────────────────────────────────────────────────
+  tests-interface:
+    name: 2 · Tests de l'interface
+    needs: verifications
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/dependances
+      - name: Page de connexion
+        run: npm run test:ui
+      - name: Espace de travail
+        if: ${{ !cancelled() }}
+        run: npm run test:workspace
+      # Traces Playwright des tests en échec, téléchargeables depuis la page de l'exécution
+      - if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: tests-interface
+          path: application/test-results/
+          retention-days: 7
+
+  tests-e2e:
+    name: 2 · Tests de bout en bout
+    needs: verifications
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/dependances
+      - name: Infrastructure Compose
+        run: npm run infra:up
+      # Serveur et postes en arrière-plan, sans surveillance des fichiers ni .env : les valeurs
+      # par défaut correspondent à l'infrastructure Compose. Playwright démarre lui-même l'interface.
+      - name: Serveur et postes simulés
+        run: |
+          node backend/index.ts > serveur.log 2>&1 &
+          node backend/demonstrateur/agents.ts > postes.log 2>&1 &
+          for _ in $(seq 60); do curl -sf http://127.0.0.1:3001/api/health > /dev/null && exit 0; sleep 2; done
+          cat serveur.log; exit 1
+      - name: Parcours de bout en bout
+        run: npm run test:e2e
+      - if: failure()
+        run: cat serveur.log postes.log
+      - if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: tests-bout-en-bout
+          path: |
+            application/test-results/
+            application/*.log
+          retention-days: 7
+
+  # ── 3. Images ───────────────────────────────────────────────────────────────────────────────────────
+  # Une tâche par image, menées jusqu'au bout même si l'une échoue : l'image en cause est visible d'emblée
+  images:
+    name: 3 · Image ${{ matrix.cible }}
+    needs: [tests-interface, tests-e2e]
+    if: github.ref == 'refs/heads/main' && vars.DOCKERHUB_USERNAME != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { cible: web, depot: orion-web }
+          - { cible: api, depot: orion-api }
+          - { cible: postes, depot: orion-postes }
+          - { cible: keycloak, depot: orion-keycloak }
+          - { cible: connecteur, depot: orion-connecteur }
+          # Dépôt de l'image déjà utilisée par le conteneur Hidora : HIDORA_IMAGE s'il est défini, sinon <compte>/rigel
+          - { cible: relais, depot: rigel }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: application
+          target: ${{ matrix.cible }}
+          build-args: ORION_VERSION=${{ github.sha }}
+          push: true
+          tags: ${{ (matrix.cible == 'relais' && vars.HIDORA_IMAGE) || format('{0}/{1}', vars.DOCKERHUB_USERNAME, matrix.depot) }}:${{ github.sha }}
+          cache-from: type=gha,scope=${{ matrix.cible }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.cible }}
+
+  # ── 4. Déploiements ─────────────────────────────────────────────────────────────────────────────────
+  # VM du démonstrateur, joignables seulement depuis le réseau privé : runner auto-hébergé (étiquette « orion ») sur
+  # orion-3 (infra/vm/runner.sh), qui déploie la pile orion par SSH sur le manager orion-1.
+  deploiement-vm:
+    name: 4 · Déploiement des VM
+    needs: images
+    if: github.ref == 'refs/heads/main' && vars.DEPLOIEMENT_VM == 'true'
+    runs-on: [self-hosted, orion]
+    timeout-minutes: 20
+    concurrency:
+      group: deploiement-vm
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Déployer la pile orion
+        run: bash infra/vm/deployer.sh "${{ vars.DOCKERHUB_USERNAME }}" "${{ github.sha }}"
+        shell: bash
+        # Recensement mobile : relais (vide : connecteur non déployé) et jeton du relais, lu au premier déploiement seulement
+        env:
+          RELAIS_URL: ${{ vars.RELAIS_URL }}
+          RELAIS_TOKEN: ${{ secrets.RELAIS_TOKEN }}
+
+  # Relais RIGEL sur Hidora : variables du conteneur, puis redéploiement sur l'image publiée à l'étape 3, par l'API de la
+  # plateforme (Jelastic). Retour arrière : relancer ce job sur une exécution précédente, ou « Redeploy container » vers
+  # l'étiquette précédente dans Hidora. Base PostgreSQL et autres variables conservées.
+  deploiement-hidora:
+    name: 4 · Déploiement Hidora
+    needs: images
+    if: github.ref == 'refs/heads/main' && vars.HIDORA_ENV != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    concurrency:
+      group: deploiement-hidora
+      cancel-in-progress: false
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Redéployer le conteneur
+        env:
+          API: ${{ vars.HIDORA_API || 'https://app.hidora.com' }}
+          HIDORA_ENV: ${{ vars.HIDORA_ENV }}
+          GROUPE: ${{ vars.HIDORA_NODE_GROUP || 'cp' }}
+          HIDORA_TOKEN: ${{ secrets.HIDORA_TOKEN }}
+          RELAIS_TOKEN: ${{ secrets.RELAIS_TOKEN }}
+        run: |
+          [ -n "$HIDORA_TOKEN" ] || { echo "Secret HIDORA_TOKEN manquant" >&2; exit 1; }
+          [ ${#RELAIS_TOKEN} -ge 32 ] || { echo "Secret RELAIS_TOKEN manquant ou trop court (32 caractères minimum)" >&2; exit 1; }
+          # Appel de l'API de la plateforme ; réussite : « result » nul
+          appel() {
+            local methode=$1; shift
+            local reponse
+            reponse=$(curl -sS --retry 2 "$API/1.0/environment/control/rest/$methode" --data-urlencode "session=$HIDORA_TOKEN" --data-urlencode "envName=$HIDORA_ENV" --data-urlencode "nodeGroup=$GROUPE" "$@")
+            jq -e '.result == 0' <<<"$reponse" >/dev/null || { echo "$methode : $reponse" >&2; exit 1; }
+          }
+          variables=$(jq -nc --arg jeton "$RELAIS_TOKEN" '{NODE_ENV: "production", PORT: "3000", JELASTIC_EXPOSE: "3000", TZ: "Europe/Paris", RELAIS_TOKEN: $jeton}')
+          appel addcontainerenvvars --data-urlencode "vars=$variables"
+          appel redeploycontainersbygroup --data-urlencode "tag=${{ github.sha }}" --data-urlencode "useExistingVolumes=true"
+      - name: Contrôler le relais
+        if: vars.RELAIS_URL != ''
+        env:
+          RELAIS_URL: ${{ vars.RELAIS_URL }}
+        run: |
+          for _ in $(seq 30); do curl -sf "$RELAIS_URL/api/health" && exit 0; sleep 10; done
+          echo "Le relais ne répond pas sur $RELAIS_URL/api/health" >&2; exit 1

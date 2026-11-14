@@ -15,11 +15,24 @@ const routes = [
   '/salles/deplacements', '/notifications',
 ];
 
+// Police embarquée (Marianne) pour tous les tests : la police système (Segoe UI sous Windows, plus large sous la
+// CI Linux) change la largeur des libellés, donc les seuils de repli des onglets (is-compact, is-tight, is-icons).
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    document.addEventListener('DOMContentLoaded', () => {
+      const style = document.createElement('style');
+      style.textContent = ':root:root:root { --font-text: Marianne, sans-serif; --font-display: Marianne, sans-serif; }';
+      document.head.append(style);
+    });
+  });
+});
+
 // Le titre de chaque écran est réservé aux lecteurs d'écran : présent, mais non affiché
 async function open(page: Page, route: string) {
   await page.goto(route);
   await expect(page.locator('#view h1')).toBeAttached();
   await expect(page.locator('.loading')).toHaveCount(0);
+  await page.evaluate(() => document.fonts.ready);
 }
 
 async function state(request: APIRequestContext): Promise<WorkspaceView> {
@@ -97,13 +110,8 @@ test('les noms de toutes les salles sont visibles dans la vue d’ensemble', asy
 });
 
 test('les onglets trop larges perdent d’abord leur icône, puis seulement leur libellé, avec une infobulle', async ({ page }) => {
-  // Police embarquée (Marianne) : la largeur des onglets ne dépend pas de la police du système (CI Linux)
   await page.setViewportSize({ width: 1440, height: 820 });
   await open(page, '/administration/postes');
-  await page.evaluate(async () => {
-    document.documentElement.style.setProperty('--font-text', 'Marianne');
-    await document.fonts.ready;
-  });
   const sub = page.locator('.subnav');
   const onglet = sub.getByRole('link', { name: 'Comptes' });
   const largeur = (sel: string) => onglet.locator(sel).evaluate((n) => n.getBoundingClientRect().width);
