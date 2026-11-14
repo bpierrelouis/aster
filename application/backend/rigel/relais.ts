@@ -14,28 +14,29 @@ import express from 'express';
 import helmet from 'helmet';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { timingSafeEqual } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { empreinte } from '#shared/rigel.ts';
 import type { NextFunction, Request, Response } from 'express';
 import type { Bloc } from '#shared/rigel.ts';
 import type { RelaisStore } from './relais-store.ts';
 import { journal, raison } from '../journal.ts';
+import { egalConstant } from '../securite.ts';
 
 export const DIST_RIGEL = fileURLToPath(new URL('../../frontend/dist-rigel', import.meta.url));
 /** Intervalle de purge des campagnes expirées */
 export const PURGE = 10 * 60 * 1000;
+/** Plafond des événements non acquittés d'une campagne : un téléphone appairé ou un jeton divulgué ne remplit pas la base */
+export const MAX_EN_ATTENTE = 5000;
 
 const ID = /^[\w-]{8,100}$/;
 const CAMPAGNE = /^[\w-]{1,80}$/;
-const egal = (a: string, b: string) => { const x = Buffer.from(a), y = Buffer.from(b); return x.length === y.length && timingSafeEqual(x, y); };
 const jetonDe = (req: Request) => String(req.get('Authorization') ?? '').replace(/^Bearer /, '');
 const estBloc = (b: unknown): b is Bloc => !!b && typeof (b as Bloc).iv === 'string' && typeof (b as Bloc).data === 'string' && (b as Bloc).iv.length < 64 && (b as Bloc).data.length < 12_000_000;
 type Erreur = Error & { status?: number; type?: string };
 const refus = (status: number, message: string): never => { throw Object.assign(new Error(message), { status }); };
 
 /** Application Express du relais ; production : derrière le proxy TLS de l'hébergeur */
-export function createRelais({ store, token, dist = DIST_RIGEL, production = false }: { store: RelaisStore; token: string; dist?: string; production?: boolean }) {
+export function createRelais({ store, token, dist = DIST_RIGEL, production = false, maxEnAttente = MAX_EN_ATTENTE }: { store: RelaisStore; token: string; dist?: string; production?: boolean; maxEnAttente?: number }) {
   const app = express();
   app.disable('x-powered-by');
   setInterval(() => store.purger().catch((e: Error) => journal.error('purge', { erreur: raison(e) })), PURGE).unref();
@@ -63,7 +64,7 @@ export function createRelais({ store, token, dist = DIST_RIGEL, production = fal
       const id = String(req.params.id);
       const c = CAMPAGNE.test(id) ? await store.campagne(id) : null;
       if (!c || c.expireLe <= Date.now()) refus(404, 'Campagne inconnue ou close.');
-      if (!egal(await empreinte(jetonDe(req)), c!.empreinte)) refus(401, 'Accès à la campagne refusé.');
+      if (!egalConstant(await empreinte(jetonDe(req)), c!.empreinte)) refus(401, 'Accès à la campagne refusé.');
       res.locals.campagne = c;
       next();
     } catch (e) { next(e); }
@@ -74,6 +75,8 @@ export function createRelais({ store, token, dist = DIST_RIGEL, production = fal
       const evenements: unknown = req.body?.evenements;
       if (!Array.isArray(evenements) || evenements.length > 200 || !evenements.every((e) => e && ID.test(e.id) && estBloc(e.bloc))) refus(400, 'Événements invalides.');
       const liste = (evenements as { id: string; bloc: Bloc }[]).map(({ id, bloc }) => ({ id, bloc: { iv: bloc.iv, data: bloc.data } }));
+      // Le téléphone garde ses événements refusés et les renvoie une fois les précédents relevés par ORION
+      if (await store.enAttente(res.locals.campagne.id) + liste.length > maxEnAttente) refus(429, 'Trop d’événements en attente d’ORION : réessayez plus tard.');
       await store.ajouter(res.locals.campagne.id, liste);
       res.json({ recus: liste.map((e) => e.id) });
     } catch (e) { next(e); }
@@ -82,7 +85,7 @@ export function createRelais({ store, token, dist = DIST_RIGEL, production = fal
 
   /* ---------- Connecteur d'ORION : RELAIS_TOKEN ---------- */
   const connecteur = express.Router();
-  connecteur.use((req, _res, next) => { if (!egal(jetonDe(req), token)) refus(401, 'Connecteur non authentifié.'); next(); });
+  connecteur.use((req, _res, next) => { if (!egalConstant(jetonDe(req), token)) refus(401, 'Connecteur non authentifié.'); next(); });
   const campagneId = (req: Request) => { const id = String(req.params.id); if (!CAMPAGNE.test(id)) refus(400, 'Campagne invalide.'); return id; };
   connecteur.get('/campagnes', async (_req, res, next) => {
     try { res.json({ campagnes: await store.campagnes() }); } catch (e) { next(e); }

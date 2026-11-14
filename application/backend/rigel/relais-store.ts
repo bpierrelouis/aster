@@ -22,6 +22,8 @@ export interface RelaisStore {
   supprimer(id: string): Promise<void>;
   /** Ajoute les événements ; un événement déjà reçu (même identifiant) est ignoré */
   ajouter(campagne: string, evenements: { id: string; bloc: Bloc }[]): Promise<void>;
+  /** Nombre d'événements de la campagne non encore acquittés par le connecteur */
+  enAttente(campagne: string): Promise<number>;
   evenements(campagne: string, limite: number): Promise<EvenementRelais[]>;
   /** Efface les événements de rang inférieur ou égal à jusqua */
   acquitter(campagne: string, jusqua: number): Promise<void>;
@@ -45,6 +47,7 @@ export function createMemoryStore(): RelaisStore {
       for (const e of liste) if (!file.some((x) => x.id === e.id)) file.push({ rang: ++rang, id: e.id, bloc: e.bloc });
       evenements.set(campagne, file);
     },
+    async enAttente(campagne) { return evenements.get(campagne)?.length ?? 0; },
     async evenements(campagne, limite) { return (evenements.get(campagne) ?? []).slice(0, limite); },
     async acquitter(campagne, jusqua) { evenements.set(campagne, (evenements.get(campagne) ?? []).filter((e) => e.rang > jusqua)); },
     async purger(now = Date.now()) { for (const c of [...campagnes.values()]) if (c.expireLe <= now) await supprimer(c.id); },
@@ -86,6 +89,10 @@ export async function createPostgresStore({ pool, schema = 'public' }: { pool: P
       if (!liste.length) return;
       await pool.query(`INSERT INTO ${s}.rigel_evenement (campagne_id, id, bloc)
         SELECT $1, x->>'id', x->'bloc' FROM jsonb_array_elements($2::jsonb) AS x ON CONFLICT (campagne_id, id) DO NOTHING`, [campagne, JSON.stringify(liste)]);
+    },
+    async enAttente(campagne) {
+      const { rows } = await pool.query<{ n: number }>(`SELECT count(*)::int AS n FROM ${s}.rigel_evenement WHERE campagne_id = $1`, [campagne]);
+      return rows[0].n;
     },
     async evenements(campagne, limite) {
       const { rows } = await pool.query<{ rang: string; id: string; bloc: Bloc }>(`SELECT rang, id, bloc FROM ${s}.rigel_evenement WHERE campagne_id = $1 ORDER BY rang LIMIT $2`, [campagne, limite]);

@@ -15,15 +15,15 @@ const TOKEN = 'jeton-du-connecteur-de-test';
 const JETON = 'jeton-du-telephone';
 const bloc = { iv: 'aXY', data: 'ZGF0YQ' };
 
-async function demarrer(store: RelaisStore, dist?: string) {
-  const server = createRelais({ store, token: TOKEN, dist }).listen(0, '127.0.0.1');
+async function demarrer(store: RelaisStore, dist?: string, maxEnAttente?: number) {
+  const server = createRelais({ store, token: TOKEN, dist, maxEnAttente }).listen(0, '127.0.0.1');
   await new Promise<void>((resolve) => server.once('listening', resolve));
   return { server, url: `http://127.0.0.1:${(server.address() as AddressInfo).port}` };
 }
 
 /** Scénario commun aux deux stockages */
 async function scenario(store: RelaisStore) {
-  const { server, url } = await demarrer(store);
+  const { server, url } = await demarrer(store, undefined, 3);
   const connecteur = { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' };
   const telephone = { Authorization: `Bearer ${JETON}`, 'Content-Type': 'application/json' };
   try {
@@ -44,6 +44,8 @@ async function scenario(store: RelaisStore) {
     assert.equal((await envoi([{ id: 'court', bloc }])).status, 400);
     assert.deepEqual(await (await envoi([{ id: 'evenement-1', bloc }, { id: 'evenement-2', bloc }])).json(), { recus: ['evenement-1', 'evenement-2'] });
     assert.equal((await envoi([{ id: 'evenement-1', bloc }])).status, 200, 'renvoi après une coupure');
+    assert.equal((await envoi([{ id: 'evenement-3', bloc }, { id: 'evenement-4', bloc }])).status, 429, 'plafond des événements en attente');
+    assert.equal(await store.enAttente('rec-1'), 2);
 
     // Connecteur : relève, idempotence, acquittement ; une nouvelle version conserve les événements
     await fetch(`${url}/api/connecteur/campagnes/rec-1`, { method: 'PUT', headers: connecteur, body: JSON.stringify({ ...depot, version: 'v2' }) });
