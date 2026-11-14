@@ -12,16 +12,21 @@ import { traceProvisoire } from '../../core/selectors.ts';
 import { logistique } from '#shared/catalog.ts';
 import type { Materiel } from '#shared/types.ts';
 
-/** Confirme le déplacement physique d'un matériel ; le serveur enregistre l'installation (valeur provisoire affichée sans attendre) */
-async function confirmerInstallation(m: Materiel) {
+/**
+ * Confirme le déplacement physique de matériels, en une seule écriture ; le serveur enregistre leur installation
+ * (valeur provisoire affichée sans attendre). message : notification une fois enregistré.
+ */
+export async function confirmerDeplacements(materiels: Materiel[], message: string) {
+  const ids = new Set(materiels.map((m) => m.id));
   store.update('data', (s) => {
-    const x = s.materiels.find((y) => y.id === m.id);
-    if (!x?.deplacement) return;
-    x.installation = { de: x.deplacement.de, ...traceProvisoire() };
-    delete x.deplacement;
+    for (const x of s.materiels) {
+      if (!ids.has(x.id) || !x.deplacement) continue;
+      x.installation = { de: x.deplacement.de, ...traceProvisoire() };
+      delete x.deplacement;
+    }
   });
   try { await store.flush(); } catch { return; }
-  notify(`${m.idOrion} ${logistique(m).done}`, { icon: 'check', tone: 'ok' });
+  notify(message, { icon: 'check', tone: 'ok' });
 }
 
 /** Point d'installation d'un matériel (vert une fois à sa place, en salle ou rangé au stock) ; en cours, il confirme le déplacement au clic du gestionnaire */
@@ -35,5 +40,5 @@ export function InstallDot({ m }: { m: Materiel }) {
   }
   const action = `Marquer ${l.done}`;
   return <button type="button" className="inst-dot inst-dot--wait" aria-label={`${l.label} : ${action.toLowerCase()}`} data-tip-title={l.label} data-tip={action}
-    onClick={(e) => { e.stopPropagation(); confirmerInstallation(m); }} />;
+    onClick={(e) => { e.stopPropagation(); confirmerDeplacements([m], `${m.idOrion} ${l.done}`); }} />;
 }

@@ -13,7 +13,7 @@ export const parametreDe = (lieu: Id | null) => lieu ?? 'stock';
 export interface MaterielVu extends MaterielRigel {
   /** Lieu où il a été vu pendant la campagne (salle, ou null pour le stock) ; undefined : pas encore vu */
   vuDans: Id | null | undefined;
-  /** Vu dans un autre lieu que son affectation, sans y être accepté (retour lancé, ou écart d'une version antérieure) */
+  /** Vu dans un autre lieu que son affectation, sans y être accepté (retour ou mise au stock lancés, écart d'une version antérieure) */
   ecart: Id | null | undefined;
   /** Constat du téléphone pas encore intégré par ORION */
   attente: boolean;
@@ -28,7 +28,7 @@ export interface Vue {
   avancement(lieu: Id | null): { attendus: MaterielVu[]; vus: number };
 }
 
-const VU = new Set(['confirme', 'present', 'deplace', 'range']);
+const VU = new Set(['confirme', 'present', 'deplace', 'range', 'ajoute']);
 
 let cache: { etat: Etat; vue: Vue } | null = null;
 export function vueDe(etat: Etat): Vue {
@@ -39,15 +39,16 @@ export function vueDe(etat: Etat): Vue {
     const m = c.materielId ? materiels.get(c.materielId) : undefined;
     if (!m) continue;
     if (VU.has(c.resultat)) { m.vuDans = c.salleId; m.ecart = undefined; }
-    else if (c.resultat === 'ecart' || c.resultat === 'retour') m.ecart = c.salleId;
+    else if (['ecart', 'retour', 'stock'].includes(c.resultat)) m.ecart = c.salleId;
   }
   for (const { evenement: e } of etat.file) {
     const m = e.materielId ? materiels.get(e.materielId) : undefined;
     if (!m || e.type === 'inconnu') continue;
     m.attente = true;
     if (e.type === 'releve' && !(m.hs && e.salleId)) { m.salleId = e.salleId; m.enCours = false; }
+    if (e.type === 'stock' && e.salleId) m.salleId = null;
     if (m.salleId === e.salleId) { m.vuDans = e.salleId; m.ecart = undefined; m.enCours = false; }
-    else { m.ecart = e.salleId; if (e.type === 'retour') m.enCours = true; }
+    else { m.ecart = e.salleId; if (e.type === 'retour' || e.type === 'stock') m.enCours = true; }
   }
   const liste = [...materiels.values()].sort((a, b) => a.idOrion.localeCompare(b.idOrion, 'fr', { numeric: true }));
   const salles = inst?.salles ?? [];
@@ -63,4 +64,4 @@ export function vueDe(etat: Etat): Vue {
 }
 
 /** Nom d'un lieu : salle, « Stock » */
-export const nomLieu = (vue: Vue, lieu: Id | null) => (lieu === null ? 'Stock' : vue.salle.get(lieu)?.nom ?? 'Salle hors campagne');
+export const nomLieu = (vue: Vue, lieu: Id | null) => (lieu === null ? 'Stock' : vue.salle.get(lieu)?.nom ?? 'Salle hors périmètre');

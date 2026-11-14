@@ -126,7 +126,7 @@
 .proprietes dt { color: var(--ink-2); }
 .proprietes dd { margin: 0; overflow-wrap: anywhere; font-weight: 550; }
 .etats { display: flex; flex-wrap: wrap; gap: 6px; }
-.ecart {
+.avertissement {
   display: grid; gap: 4px; margin: 0; padding: 14px 18px; border-radius: var(--r-m);
   background: color-mix(in srgb, var(--install) 14%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--install) 40%, transparent);
 }

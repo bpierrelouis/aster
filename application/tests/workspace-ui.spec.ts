@@ -581,7 +581,7 @@ test('installation : un point orange passe au vert, la salle est équipée une f
     await expect(block).toContainText('En cours d’installation');
     const progress = () => block.getByRole('progressbar').getAttribute('aria-valuenow').then(Number);
     const start = await progress();
-    await block.click();
+    await page.getByRole('link', { name: 'Installation en cours' }).click();
     await expect(page).toHaveURL(new RegExp(`/salles/deplacements\\?salle=${atelier.id}$`));
     await expect(page.locator('.group-lead')).toContainText(/\d+ matériels? à déplacer$/);
     const card = page.getByRole('region', { name: 'Stock vers Atelier 2' });
@@ -591,7 +591,7 @@ test('installation : un point orange passe au vert, la salle est équipée une f
     await expect.poll(async () => (await state(request)).materiels.filter((m) => m.salleId === atelier.id && m.installation && !m.deplacement && m.installation.at > Date.now() - 60_000).length).toBe(1);
     await open(page, `/salles/salle/${atelier.id}`);
     expect(await progress()).toBeGreaterThan(start);
-    await page.locator('.inst-block').click();
+    await page.getByRole('link', { name: 'Installation en cours' }).click();
     const dots = page.getByRole('region', { name: 'Stock vers Atelier 2' }).locator('button.inst-dot');
     await expect(dots.first()).toBeVisible();
     await expect(page.getByRole('button', { name: /Tout est/ })).toHaveCount(0); // un matériel à la fois
@@ -602,6 +602,7 @@ test('installation : un point orange passe au vert, la salle est équipée une f
   await expect.poll(async () => (await state(request)).materiels.filter((m) => m.salleId === atelier.id && m.deplacement).length).toBe(0);
   await open(page, `/salles/salle/${atelier.id}`);
   await expect(page.locator('.inst-block')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Installation en cours' })).toHaveCount(0);
   await expect(page.locator('.insp-title')).toContainText('Équipée');
   }
 });
@@ -860,7 +861,8 @@ test('le gestionnaire suit l’installation des salles dans un second backlog ; 
     await expect(page).toHaveURL(/\/salles\/deplacements\?salle=/);
     await expect(page.getByRole('region', { name: 'C201 vers C202' })).toContainText('2 matériels à installer');
     await open(page, '/salles/deplacements');
-    await expect(page.getByRole('region', { name: 'Atelier 1 vers Stock' })).toContainText(/\d+ matériels? à rapatrier/);
+    await expect(page.getByRole('region', { name: 'Retour au stock' })).toContainText(/\d+ matériels? à ramener au stock/);
+    await expect(page.getByRole('region', { name: /vers Stock$/ })).toHaveCount(0); // une seule carte, quelle que soit la salle d'origine
   } finally {
     await asAccount(request, admin.id);
   }
@@ -1208,7 +1210,7 @@ test('le menu du compte reste ancré pendant les changements d’apparence', asy
   }
 });
 
-test('recensement : campagne, appairage par QR code, constats des téléphones à traiter puis ajout au parc', async ({ page, request }, testInfo) => {
+test('recensement : ouverture, appairage par QR code, code inconnu ajouté au parc par le serveur, anciens constats à traiter', async ({ page, request }, testInfo) => {
   const { chiffrer, lireAppairage } = await import('#shared/rigel.ts');
   const comptes = (await state(request)).comptes.filter((c) => c.actif);
   const admin = comptes.find((c) => c.role === 'admin')!;
@@ -1218,7 +1220,7 @@ test('recensement : campagne, appairage par QR code, constats des téléphones �
   try { await recenser(); } finally { await asAccount(request, admin.id); }
   // L'administrateur suit la campagne en lecture seule : aucune action
   await open(page, '/materiels/recensement');
-  await expect(page.getByRole('button', { name: 'Nouvelle campagne' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Nouveau recensement' })).toHaveCount(0);
   await page.locator('.rec-card', { hasText: 'Recensement de test' }).click();
   await expect(page.locator('.group-lead')).toContainText('Recensement de test');
   await expect(page.locator('#view').getByRole('button')).toHaveCount(0);
@@ -1229,11 +1231,11 @@ test('recensement : campagne, appairage par QR code, constats des téléphones �
 
   async function recenser() {
     await open(page, '/materiels/recensement');
-    await page.getByRole('button', { name: 'Nouvelle campagne' }).click();
+    await page.getByRole('button', { name: 'Nouveau recensement' }).click();
     await page.getByLabel('Nom *').fill('Recensement de test');
     await page.getByRole('radio', { name: 'Salles choisies' }).click();
     await page.locator('.rec-batiment').first().locator('legend input').check();
-    await page.getByRole('button', { name: 'Ouvrir la campagne' }).click();
+    await page.getByRole('button', { name: 'Ouvrir le recensement' }).click();
     await expect(page).toHaveURL(/\/materiels\/recensement\/rec-/);
     const id = page.url().split('/').at(-1)!;
     await expect(page.locator('.group-lead')).toContainText('Recensement de test');
@@ -1246,7 +1248,7 @@ test('recensement : campagne, appairage par QR code, constats des téléphones �
     const acces = lireAppairage(appairage.url)!;
     await page.getByRole('button', { name: 'Fermer' }).click();
 
-    // Constats d'un téléphone, transmis par le connecteur : présence d'un matériel, code inconnu
+    // Constats d'un téléphone, transmis par le connecteur : présence d'un matériel, code inconnu confirmé et renseigné
     const data = await state(request);
     const campagne = data.recensements.find((r) => r.id === id)!;
     const salle = data.salles.find((s) => s.id === campagne.salleIds[0])!;
@@ -1254,30 +1256,35 @@ test('recensement : campagne, appairage par QR code, constats des téléphones �
     const evenements = [
       { id: crypto.randomUUID(), type: 'vu', code: present.idOrion, salleId: salle.id, materielId: present.id, observeLe: Date.now() },
       { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-RECENSE-1', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'ecran', modele: 'Écran recensé', marque: 'Iiyama', serie: 'SN-RECENSE-1' } },
-      // Même code inconnu scanné par un second agent : une seule ligne à traiter
+      // Même code inconnu scanné par un second agent : rattaché au matériel ajouté, sans doublon
       { id: crypto.randomUUID(), type: 'inconnu', code: 'sn recense 1', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'ecran', modele: 'Ecran', marque: null, serie: 'sn-recense-1' } },
-      // Code inconnu dont le matériel est ensuite créé dans ORION par quelqu'un d'autre
-      { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-DEJA-CREE', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'autre', modele: 'Câble', marque: null, serie: 'SN-DEJA-CREE' } },
+      // Codes inconnus d'un téléphone d'une version antérieure (sans saisie) : à traiter dans ORION
+      { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-ANCIEN-1', salleId: salle.id, materielId: null, observeLe: Date.now() },
+      // … dont le matériel est ensuite créé dans ORION par quelqu'un d'autre
+      { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-DEJA-CREE', salleId: salle.id, materielId: null, observeLe: Date.now() },
     ];
     const blocs = await Promise.all(evenements.map(async (e) => ({ id: e.id, bloc: await chiffrer(acces.cle, id, e) })));
     const reponse = await request.post(`/api/rigel/campagnes/${id}/evenements`, { headers: { Authorization: 'Bearer orion-rigel-local' }, data: { evenements: blocs } });
-    expect((await reponse.json()).resultats.map((r: { statut: string }) => r.statut)).toEqual(['applique', 'applique', 'applique', 'applique']);
+    expect((await reponse.json()).resultats.map((r: { statut: string }) => r.statut)).toEqual(['applique', 'applique', 'applique', 'applique', 'applique']);
+    const ajoute = (await state(request)).materiels.filter((m) => m.serie === 'SN-RECENSE-1');
+    expect(ajoute.map((m) => [m.salleId, m.modele, Boolean(m.deplacement), /^MAT-\d{4}$/.test(m.idOrion)])).toEqual([[salle.id, 'Écran recensé', false, true]]);
 
     await page.reload();
     const aTraiter = page.locator('.group-card', { hasText: 'À traiter' });
     await expect(aTraiter.locator('.rec-row')).toHaveCount(2);
-    await expect(aTraiter.locator('.rec-row', { hasText: 'Écran recensé' })).toContainText('Vu 2 fois');
-    await expect(page.locator('.group-card', { hasText: 'Derniers constats' })).toContainText(present.idOrion);
+    const derniers = page.locator('.group-card', { hasText: 'Derniers constats' });
+    await expect(derniers).toContainText(present.idOrion);
+    await expect(derniers.locator('.rec-row', { hasText: 'Ajouté au parc' })).toContainText(ajoute[0].idOrion);
     await page.screenshot({ path: testInfo.outputPath('recensement-campagne.png'), fullPage: true });
 
-    await aTraiter.locator('.rec-row', { hasText: 'Écran recensé' }).getByRole('button', { name: 'Ajouter au parc' }).click();
-    await expect(page.getByLabel('Modèle *')).toHaveValue('Écran recensé');
-    await expect(page.getByLabel('Numéro de série')).toHaveValue('SN-RECENSE-1');
+    await aTraiter.locator('.rec-row', { hasText: 'SN-ANCIEN-1' }).getByRole('button', { name: 'Ajouter au parc' }).click();
+    await expect(page.getByLabel('Numéro de série')).toHaveValue('SN-ANCIEN-1');
+    await page.getByLabel('Modèle *').fill('Écran ancien');
     await page.locator('.sheet-foot').getByRole('button', { name: 'Enregistrer' }).click();
     await expect(aTraiter.locator('.rec-row')).toHaveCount(1);
     await expect.poll(async () => {
       const apres = await state(request);
-      return [apres.materiels.filter((m) => m.serie === 'SN-RECENSE-1').map((m) => m.salleId), apres.constats.filter((c) => /recense/i.test(c.code)).every((c) => c.traite?.par)];
+      return [apres.materiels.filter((m) => m.serie === 'SN-ANCIEN-1').map((m) => m.salleId), apres.constats.filter((c) => c.code === 'SN-ANCIEN-1').every((c) => c.traite?.par)];
     }).toEqual([[salle.id], true]);
 
     // Numéro de série déjà au parc : pas de doublon, le constat est seulement traité
@@ -1357,4 +1364,80 @@ test('la recherche du formateur ignore le stock et mène à la salle du matérie
   } finally {
     await asAccount(request, admin.id);
   }
+});
+
+test('installation et recensement simultanés d’une salle : deux boutons, QR codes de l’installation, restockage groupé', async ({ page, request }, testInfo) => {
+  const data = await state(request);
+  const admin = data.comptes.find((c) => c.actif && c.role === 'admin' && c.ecoleId === 'e-num')!;
+  const manager = data.comptes.find((c) => c.actif && c.role === 'gestionnaire' && c.ecoleId === admin.ecoleId)!;
+  const prevu = data.materiels.find((m) => m.ecoleId === admin.ecoleId && m.deplacement && m.salleId)!;
+  const salle = data.salles.find((s) => s.id === prevu.salleId)!;
+  // L'administrateur suit : ni installation avec un téléphone, ni restockage groupé
+  await open(page, '/salles/deplacements');
+  await expect(page.getByRole('button', { name: /avec un téléphone$/ })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Terminer le restockage' })).toHaveCount(0);
+  await asAccount(request, manager.id);
+  try {
+    // Campagne de recensement sur toute l'école, en même temps que l'installation de la salle
+    await open(page, '/materiels/recensement');
+    await page.getByRole('button', { name: 'Nouveau recensement' }).click();
+    await expect(page.getByRole('radio', { name: 'Réaliser une installation' })).toHaveCount(0);
+    await page.getByLabel('Nom *').fill('Recensement simultané');
+    await page.getByRole('button', { name: 'Ouvrir le recensement' }).click();
+    await expect(page).toHaveURL(/\/materiels\/recensement\/rec-/);
+    const campagne = page.url().split('/').at(-1)!;
+
+    await open(page, `/salles/salle/${salle.id}`);
+    await expect(page.getByRole('link', { name: 'Recensement en cours' })).toBeVisible();
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: testInfo.outputPath('salle-operations.png'), animations: 'disabled' });
+    await page.getByRole('link', { name: 'Recensement en cours' }).click();
+    await expect(page).toHaveURL(new RegExp(`/materiels/recensement/${campagne}$`));
+    await open(page, `/salles/salle/${salle.id}`);
+    await page.getByRole('link', { name: 'Installation en cours' }).click();
+    await expect(page).toHaveURL(new RegExp(`/salles/deplacements\\?salle=${salle.id}$`));
+
+    // Installation avec un téléphone : appairage, salle et stock ; lancée par le serveur, reprise à la réouverture
+    await page.getByRole('button', { name: `Installer ${salle.nom} avec un téléphone` }).click();
+    const fenetre = page.getByRole('dialog', { name: `Installer ${salle.nom}` });
+    await expect(fenetre.getByRole('img', { name: `QR code d’appairage de l’installation de ${salle.nom}` })).toBeVisible();
+    await expect(fenetre.getByRole('img', { name: `QR code de la salle ${salle.nom}` })).toBeVisible();
+    await expect(fenetre.getByRole('img', { name: 'QR code du stock' })).toBeVisible();
+    await page.waitForTimeout(600);
+    await page.screenshot({ path: testInfo.outputPath('installation-qr.png'), animations: 'disabled' });
+    const installations = (await state(request)).recensements.filter((r) => r.mode === 'installation' && r.salleIds[0] === salle.id && !r.close);
+    expect(installations).toHaveLength(1);
+    await open(page, '/materiels/recensement');
+    await expect(page.locator('.rec-card', { hasText: installations[0].nom })).toHaveCount(0); // pas présentée comme une campagne
+    await expect(page.locator('.rec-card', { hasText: 'Recensement simultané' })).toBeVisible();
+
+    await open(page, `/salles/deplacements?salle=${salle.id}`);
+    await page.getByRole('button', { name: `Installer ${salle.nom} avec un téléphone` }).click();
+    await expect(fenetre.getByRole('img', { name: /QR code d’appairage/ })).toBeVisible();
+    expect((await state(request)).recensements.filter((r) => r.mode === 'installation' && r.salleIds[0] === salle.id)).toHaveLength(1);
+    await fenetre.getByRole('button', { name: 'Clore l’installation' }).click();
+    await page.locator('.sheet-foot').getByRole('button', { name: 'Clore', exact: true }).click();
+    await expect.poll(async () => (await state(request)).recensements.find((r) => r.id === installations[0].id)?.close?.par).toBe(manager.nom);
+    expect((await state(request)).recensements.find((r) => r.id === campagne)?.close).toBeUndefined(); // le recensement continue
+
+    // Retour au stock : une seule carte, origine de chaque matériel, confirmation groupée en une écriture
+    await open(page, '/salles/deplacements');
+    const stock = page.getByRole('region', { name: 'Retour au stock' });
+    const aRamener = (await state(request)).materiels.filter((m) => m.ecoleId === manager.ecoleId && m.deplacement && !m.salleId);
+    expect(aRamener.length).toBeGreaterThan(0);
+    await expect(stock.getByRole('heading')).toHaveText(new RegExp(`^${aRamener.length} matériels? à ramener au stock$`));
+    await expect(stock).toContainText(/Depuis /);
+    await page.waitForTimeout(400);
+    await stock.screenshot({ path: testInfo.outputPath('retour-stock.png'), animations: 'disabled' });
+    let ecritures = 0;
+    page.on('request', (r) => { if (r.method() === 'PUT' && r.url().endsWith('/api/workspace') && r.postData()?.includes('"materiels"')) ecritures++; });
+    await stock.getByRole('button', { name: 'Terminer le restockage' }).click();
+    await page.locator('.sheet-foot').getByRole('button', { name: 'Terminer', exact: true }).click();
+    await expect(stock).toHaveCount(0);
+    await expect.poll(async () => (await state(request)).materiels.filter((m) => m.ecoleId === manager.ecoleId && m.deplacement && !m.salleId).length).toBe(0);
+    expect(ecritures).toBe(1);
+
+    await page.evaluate((id) => window.orion.store.update('data', (s) => { s.recensements.find((r) => r.id === id)!.close = { at: Date.now(), par: '', parId: null }; }), campagne);
+    await expect.poll(async () => Boolean((await state(request)).recensements.find((r) => r.id === campagne)?.close)).toBe(true);
+  } finally { await asAccount(request, admin.id); }
 });

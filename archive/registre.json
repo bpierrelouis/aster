@@ -362,6 +362,13 @@
         "version": "3.3",
         "date": "2026-11-14",
         "modification": "RIGEL : accepter sur place ou ramener (RG-96)",
+        "archive": null,
+        "commit": "07a0096"
+      },
+      {
+        "version": "3.4",
+        "date": "2026-11-14",
+        "modification": "Système d’exploitation ; recensement, installation, écart et constat",
         "archive": null
       }
     ]
@@ -767,6 +774,13 @@
         "version": "5.0",
         "date": "2026-11-14",
         "modification": "RG-96 : lieu ouvert dans RIGEL ; matériel trouvé ailleurs accepté sur place ou ramené ; RG-93 et RG-95 ajustées",
+        "archive": null,
+        "commit": "07a0096"
+      },
+      {
+        "version": "6.0",
+        "date": "2026-11-14",
+        "modification": "RG-92 à RG-96 simplifiées : installation distincte du recensement, téléphone lié, code inconnu ajouté, matériel mal placé",
         "archive": null
       }
     ]
@@ -794,6 +808,13 @@
         "version": "1.2",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-14",
+        "modification": "Système d’exploitation du poste, remontée liée à l’école, recensement et constat",
         "archive": null
       }
     ]
@@ -852,6 +873,13 @@
         "version": "2.2",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-14",
+        "modification": "Système d’exploitation du poste, remontée liée à l’école, recensement et constat",
         "archive": null
       }
     ]
@@ -1153,6 +1181,13 @@
         "version": "6.1",
         "date": "2026-11-14",
         "modification": "RIGEL : accepter sur place ou ramener (RG-96)",
+        "archive": null,
+        "commit": "07a0096"
+      },
+      {
+        "version": "6.2",
+        "date": "2026-11-14",
+        "modification": "Recensement, installation et anciens constats",
         "archive": null
       }
     ]

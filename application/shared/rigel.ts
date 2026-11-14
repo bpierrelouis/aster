@@ -9,7 +9,7 @@
      authentifiées : l'identifiant de la campagne.
    ========================================================================== */
 
-import type { ConstatResultat, ConstatType, DeviceTypeId, Id, ModeRecensement, Timestamp } from './types.ts';
+import type { ConstatResultat, ConstatType, DeviceTypeId, Id, Materiel, ModeRecensement, Recensement, Timestamp } from './types.ts';
 
 /* ---------- Échanges ---------- */
 
@@ -72,13 +72,31 @@ export const RESULTATS: Record<ConstatResultat, { label: string; icon: string; t
   deplace: { label: 'Relocalisé', icon: 'deplacement', tone: 'accent' },
   range: { label: 'Rangé au stock', icon: 'stockage', tone: 'stock' },
   retour: { label: 'Retour lancé', icon: 'deplacement', tone: 'install' },
+  stock: { label: 'Mise au stock lancée', icon: 'stockage', tone: 'install' },
+  ajoute: { label: 'Ajouté au parc', icon: 'plus', tone: 'accent' },
   ecart: { label: 'Vu dans une autre salle', icon: 'alert', tone: 'install' },
   inconnu: { label: 'Code inconnu', icon: 'search', tone: 'install' },
   refuse: { label: 'Refusé', icon: 'shieldX', tone: 'crit' },
 };
 
-/** Durée d'ouverture d'une campagne */
+/** Durée d'ouverture d'une campagne ou d'une installation */
 export const DUREE_CAMPAGNE = 14 * 24 * 60 * 60 * 1000;
+
+/* ---------- Opérations : campagne de recensement ou installation d'une salle ---------- */
+
+/** Opération en cours : ni close, ni expirée */
+export const ouverte = (r: Pick<Recensement, 'close' | 'expireLe'>, now = Date.now()) => !r.close && r.expireLe > now;
+/** Installation d'une salle ; toute autre opération (dont une ancienne campagne « installation » sur plusieurs salles) est un recensement */
+export const estInstallation = (r: Pick<Recensement, 'mode' | 'salleIds'>) => r.mode === 'installation' && r.salleIds.length === 1;
+/** Matériel en cours de déplacement vers la salle ou depuis elle */
+export const aDeplacer = (m: Pick<Materiel, 'deplacement' | 'salleId'>, salleId: Id) => Boolean(m.deplacement) && (m.salleId === salleId || m.deplacement!.de === salleId);
+/** Installation en cours d'une salle */
+export const installationDe = <R extends Recensement>(operations: readonly R[], salleId: Id, now = Date.now()) =>
+  operations.find((r) => estInstallation(r) && r.salleIds[0] === salleId && ouverte(r, now));
+/** Campagne de recensement en cours qui couvre une salle, la plus récente d'abord */
+export const recensementDe = <R extends Recensement>(operations: readonly R[], salle: { id: Id; ecoleId: Id }, now = Date.now()) =>
+  operations.filter((r) => !estInstallation(r) && ouverte(r, now) && r.ecoleId === salle.ecoleId && (!r.salleIds.length || r.salleIds.includes(salle.id)))
+    .sort((a, b) => b.at - a.at)[0];
 
 /* ---------- Étiquettes et appairage ---------- */
 

@@ -1,4 +1,5 @@
-/* Code inconnu : signalement rapide d'un matériel absent de la campagne, à traiter dans ORION.
+/* Code inconnu du parc : avertissement, confirmation, puis saisie (à la main, ou en partie par lecture du numéro de
+   série). À la synchronisation, ORION ajoute le matériel au parc, affecté au lieu, installation confirmée.
    Dans l'inventaire d'un lieu, ce lieu est utilisé ; sinon le lieu est demandé. */
 import { useNavigate, useSearchParams } from 'react-router';
 import { useState } from 'react';
@@ -23,19 +24,27 @@ export function Inconnu() {
   const [marque, setMarque] = useState(params.get('marque') ?? '');
   const [serie, setSerie] = useState(params.get('serie') ?? (code.length <= 40 && !code.includes(':') ? code : ''));
   const garantieFin = Number(params.get('garantie')) || undefined;
+  const [confirme, setConfirme] = useState(false);
+  const retour = () => navigate(contexte === undefined ? '/' : `/scanner?lieu=${encodeURIComponent(parametreDe(contexte))}`, { replace: true, state: { ignorer: code } });
 
-  async function signaler(e: FormEvent) {
+  async function ajouter(e: FormEvent) {
     e.preventDefault();
     const salleId = lieuDe(lieu) ?? null;
     await constater({ type: 'inconnu', code: code || serie.trim(), salleId, materielId: null, saisie: { type, modele: modele.trim(), marque: marque.trim() || null, serie: serie.trim() || null, ...(garantieFin && { garantieFin }) } });
-    annoncer(`Matériel signalé en ${nomLieu(vue, salleId)} · à ajouter dans ORION`, 'accent');
-    navigate(contexte === undefined ? '/' : `/scanner?lieu=${encodeURIComponent(parametreDe(contexte))}`, { replace: true, state: { ignorer: code } });
+    annoncer(`Ajouté au parc · ${nomLieu(vue, salleId)}`, 'accent');
+    retour();
   }
 
   return <Ecran titre="Matériel inconnu">
     {code && <p className="carte code-lu"><span className="surtitre">Code lu</span><code>{code}</code>
       {garantieFin && <span className="discret">Fin de garantie : {monthYear(garantieFin)}</span>}</p>}
-    <form className="carte formulaire" onSubmit={(e) => void signaler(e)}>
+    {!confirme ? <>
+      <p className="avertissement" role="alert">Matériel inconnu du système : il ne provient probablement pas du stock. Voulez-vous vraiment l’installer ici ?</p>
+      <div className="pile">
+        <button className="bouton bouton--principal" type="button" onClick={() => setConfirme(true)}>Installer ici</button>
+        <button className="bouton" type="button" onClick={retour}>Annuler</button>
+      </div>
+    </> : <form className="carte formulaire" onSubmit={(e) => void ajouter(e)}>
       {contexte === undefined
         ? <label className="champ"><span>Lieu</span>
           <select required value={lieu} onChange={(e) => setLieu(e.target.value)}>
@@ -53,7 +62,7 @@ export function Inconnu() {
       <label className="champ"><span>Modèle</span><input required maxLength={250} value={modele} onChange={(e) => setModele(e.target.value)} autoComplete="off" /></label>
       <label className="champ"><span>Marque <small>facultatif</small></span><input maxLength={120} value={marque} onChange={(e) => setMarque(e.target.value)} autoComplete="off" /></label>
       <label className="champ"><span>Numéro de série <small>facultatif</small></span><input maxLength={120} value={serie} onChange={(e) => setSerie(e.target.value)} autoComplete="off" autoCapitalize="characters" spellCheck={false} /></label>
-      <button className="bouton bouton--principal" type="submit">Signaler le matériel</button>
-    </form>
+      <button className="bouton bouton--principal" type="submit">Ajouter au parc</button>
+    </form>}
   </Ecran>;
 }

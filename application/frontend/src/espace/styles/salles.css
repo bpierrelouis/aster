@@ -280,11 +280,10 @@
 .dev.is-moving { outline: 2px dashed var(--install); outline-offset: 2px; }
 .salle-statut { display: inline-flex; align-items: center; gap: 7px; margin-top: 6px; white-space: nowrap; font-size: 0.875rem; font-weight: 650; color: var(--ink-2); }
 .inst-block { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 16px; background: var(--fill-1); color: var(--ink-1); }
-a.inst-block:hover { background: var(--fill-2); }
 .inst-block-head { display: flex; align-items: baseline; gap: 8px; }
 .inst-block-head b { font-size: 1rem; }
 .inst-block-head small { flex: 1; min-width: 0; font-size: 0.875rem; color: var(--ink-3); }
-.inst-block-head .ico { align-self: center; color: var(--ink-3); }
+.salle-operations { display: flex; flex-wrap: wrap; gap: 8px; }
 .salle-inst { display: inline-flex; align-items: center; gap: 6px; font-size: 0.875rem; color: var(--ink-2); }
 
 .seg--status { display: flex; }

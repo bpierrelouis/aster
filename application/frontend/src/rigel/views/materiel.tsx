@@ -1,6 +1,6 @@
-/* Fiche d'un matériel. Dans l'inventaire d'un lieu, où l'agent déclare se trouver (RG-96) : confirmer sa présence ;
-   affecté ailleurs, l'accepter ici (ranger au stock) ou le ramener à son affectation ; sans lieu : consultation,
-   puis choix du lieu constaté. */
+/* Fiche d'un matériel. Dans l'inventaire d'un lieu, où l'agent déclare se trouver (RG-96) : confirmer son installation
+   ou sa présence ; affecté ailleurs, l'accepter ici (au stock : le ranger), le ramener à son affectation ou, depuis une
+   salle, le mettre au stock ; sans lieu : consultation, puis choix du lieu constaté. */
 import { Navigate, useLocation, useNavigate, useParams, useSearchParams } from 'react-router';
 import { useState } from 'react';
 import type { FormEvent } from 'react';
@@ -12,7 +12,7 @@ import { deviceType } from '#shared/catalog.ts';
 import type { MaterielVu, Vue } from '../core/vue.ts';
 import type { Id } from '#shared/types.ts';
 
-type Constat = 'vu' | 'releve' | 'retour';
+type Constat = 'vu' | 'releve' | 'retour' | 'stock';
 
 export function Materiel() {
   const { etat, vue } = useRigel();
@@ -56,26 +56,25 @@ function Actions({ vue, m, lieu, installation, constat }: { vue: Vue; m: Materie
   const ici = nomLieu(vue, lieu);
   if (m.salleId === lieu) {
     return <div className="pile">
-      <button className="bouton bouton--principal" type="button" onClick={() => void constat('vu', lieu, installation && m.enCours ? `Installation confirmée · ${m.idOrion}` : `Présence confirmée · ${m.idOrion}`)}>
-        {installation && m.enCours ? 'Confirmer l’installation' : 'Confirmer la présence'}
+      <button className="bouton bouton--principal" type="button" onClick={() => void constat('vu', lieu, installation ? `Installation confirmée · ${m.idOrion}` : `Présence confirmée · ${m.idOrion}`)}>
+        {installation ? 'Confirmer l’installation' : 'Confirmer la présence'}
       </button>
     </div>;
   }
   const bloque = m.hs && lieu !== null;
   const affectation = nomLieu(vue, m.salleId);
-  return <>
-    <p className="ecart" role="note"><span>Affecté : <strong>{affectation}</strong></span><span>Constaté : <strong>{ici}</strong></span></p>
-    <div className="pile">
-      <button className="bouton bouton--principal" type="button" disabled={bloque} aria-describedby={bloque ? 'hs-explication' : undefined}
-        onClick={() => void constat('releve', lieu, lieu === null ? `Rangé au stock · ${m.idOrion}` : `Accepté dans ${ici} · ${m.idOrion}`, 'accent')}>
-        {lieu === null ? 'Ranger au stock' : `Accepter dans ${ici}`}
-      </button>
-      {bloque && <p id="hs-explication" className="discret">Un matériel hors service ne peut aller qu’au stock.</p>}
-      <button className="bouton" type="button" onClick={() => void constat('retour', lieu, `Retour lancé vers ${affectation} · ${m.idOrion}`, 'install')}>
-        {m.salleId === null ? 'Ramener au stock' : `Ramener dans ${affectation}`}
-      </button>
-    </div>
-  </>;
+  // Dans une salle, « Mettre au stock » lance le déplacement vers le stock ; affecté au stock, c'est « Ramener au stock »
+  return <div className="pile">
+    <button className="bouton bouton--principal" type="button" disabled={bloque} aria-describedby={bloque ? 'hs-explication' : undefined}
+      onClick={() => void constat('releve', lieu, lieu === null ? `Rangé au stock · ${m.idOrion}` : `Accepté dans ${ici} · ${m.idOrion}`, 'accent')}>
+      {lieu === null ? 'Ranger au stock' : 'Accepter ici'}
+    </button>
+    {bloque && <p id="hs-explication" className="discret">Un matériel hors service ne peut aller qu’au stock.</p>}
+    <button className="bouton" type="button" onClick={() => void constat('retour', lieu, `Retour lancé vers ${affectation} · ${m.idOrion}`, 'install')}>
+      {m.salleId === null ? 'Ramener au stock' : `Ramener dans ${affectation}`}
+    </button>
+    {lieu !== null && m.salleId !== null && <button className="bouton" type="button" onClick={() => void constat('stock', lieu, `Mise au stock lancée · ${m.idOrion}`, 'install')}>Mettre au stock</button>}
+  </div>;
 }
 
 /** Sans inventaire en cours : choix du lieu où le matériel est constaté */

@@ -14,9 +14,9 @@ export function Accueil() {
   return <div className="ecran ecran--accueil">
     <header className="accueil-entete"><Marque /></header>
     <main className="contenu">
-      <section className="carte campagne" aria-label="Campagne">
-        <p className="surtitre">{campagne ? `${campagne.mode === 'installation' ? 'Installation' : 'Recensement'} · ${campagne.ecole}` : 'Campagne RIGEL'}</p>
-        <h1>{campagne?.nom ?? 'Chargement de la campagne…'}</h1>
+      <section className="carte campagne" aria-label={campagne?.mode === 'installation' ? 'Installation' : 'Recensement'}>
+        <p className="surtitre">{campagne ? `${campagne.mode === 'installation' ? 'Installation' : 'Recensement'} · ${campagne.ecole}` : 'RIGEL'}</p>
+        <h1>{campagne?.nom ?? 'Chargement…'}</h1>
         {campagne && <p className="discret">Jusqu’au {dateShort(campagne.expireLe)}</p>}
         <Link className="synchro" to="/synchronisation" aria-label={`Synchronisation : ${synchro.texte}`}>
           <Pastille ton={synchro.ton} icone={synchro.icone}>{synchro.texte}</Pastille>
@@ -47,8 +47,8 @@ function Appairage() {
       <Marque />
       <section className="carte">
         <h1>Associer ce téléphone</h1>
-        <p>Scannez le QR d’appairage affiché dans ORION, rubrique <strong>Matériels › Recensement</strong>.</p>
-        <p className="discret">Les données de la campagne restent chiffrées : seul ce téléphone et ORION peuvent les lire.</p>
+        <p>Scannez le QR d’appairage affiché dans ORION, rubrique <strong>Matériels › Recensement</strong> ou <strong>Salles › Déplacements</strong>.</p>
+        <p className="discret">Les données restent chiffrées : seul ce téléphone et ORION peuvent les lire.</p>
       </section>
       <Link className="action action--principale" to="/scanner">
         <Icon name="recherche" size={30} />

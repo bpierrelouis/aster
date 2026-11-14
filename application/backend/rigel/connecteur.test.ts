@@ -20,27 +20,27 @@ async function ecouter(app: express.Express) {
   return { server, url: `http://127.0.0.1:${(server.address() as AddressInfo).port}` };
 }
 
-test('connecteur : publication, constat d’un téléphone intégré par ORION, acquittement, campagne close retirée', async () => {
+test('connecteur : publication, constat d’un téléphone intégré par ORION, acquittement, installation close retirée', async () => {
   const repository = await createWorkspaceRepository({ initialState: etatDemonstration() });
   const orion = await ecouter(express().use('/api/rigel', createRigelRouter({ repository, secret: SECRET })));
   const store = createMemoryStore();
   const relais = await ecouter(createRelais({ store, token: TOKEN, dist: 'absent' }));
   try {
-    // Campagne ouverte dans ORION par le gestionnaire
+    // Installation d'une salle lancée dans ORION par le gestionnaire, depuis ses déplacements
     const gestionnaire = (await repository.actor('cpt-num-gestionnaire'))!;
-    const vue = await repository.read(gestionnaire);
-    vue.recensements.push({ id: 'n', ecoleId: 'e-num', nom: 'Rentrée', mode: 'installation', salleIds: [], at: 0, par: '', parId: null, expireLe: 0 });
-    const campagne = (await repository.update(vue, vue.revision, gestionnaire)).recensements[0];
+    const prevu = (await repository.snapshot()).materiels.find((x) => x.ecoleId === 'e-num' && x.deplacement && x.salleId)!;
+    const lancee = await repository.rigel.installation(gestionnaire, prevu.salleId!, { secret: SECRET, url: 'https://rigel.test' });
+    const campagne = { id: lancee.id };
     const connecteur = createConnecteur({ orion: orion.url, secret: SECRET, relais: relais.url, token: TOKEN });
     assert.equal(await connecteur.cycle(), 0);
     assert.equal((await store.campagnes()).length, 1);
 
     // Téléphone appairé : lit l'instantané sur le relais, constate un matériel en cours d'installation dans sa salle
-    const acces = lireAppairage((await repository.rigel.appairage(gestionnaire, campagne.id, { secret: SECRET, url: 'https://rigel.test' })).url)!;
+    const acces = lireAppairage(lancee.url)!;
     const telephone = { Authorization: `Bearer ${acces.jeton}`, 'Content-Type': 'application/json' };
     const { instantane } = await (await fetch(`${relais.url}/api/campagnes/${campagne.id}/instantane`, { headers: telephone })).json();
     const inst = await dechiffrer<InstantaneRigel>(acces.cle, campagne.id, instantane);
-    const m = inst.materiels.find((x) => x.enCours && x.salleId)!;
+    const m = inst.materiels.find((x) => x.id === prevu.id)!;
     const e: EvenementRigel = { id: crypto.randomUUID(), type: 'vu', code: m.idOrion, salleId: m.salleId, materielId: m.id, observeLe: Date.now() };
     const envoi = await fetch(`${relais.url}/api/campagnes/${campagne.id}/evenements`, { method: 'POST', headers: telephone, body: JSON.stringify({ evenements: [{ id: e.id, bloc: await chiffrer(acces.cle, campagne.id, e) }] }) });
     assert.equal(envoi.status, 200);
@@ -55,7 +55,7 @@ test('connecteur : publication, constat d’un téléphone intégré par ORION, 
 
     // Clôture dans ORION : la campagne disparaît du relais
     const vue2 = await repository.read(gestionnaire);
-    vue2.recensements[0].close = { at: 0, par: '', parId: null };
+    vue2.recensements.find((r) => r.id === campagne.id)!.close = { at: 0, par: '', parId: null };
     await repository.update(vue2, vue2.revision, gestionnaire);
     await connecteur.cycle();
     assert.deepEqual(await store.campagnes(), []);
