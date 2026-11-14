@@ -1,26 +1,26 @@
 /* ==========================================================================
-   Recensement mobile (RIGEL) : campagnes de l'école affichée et leur bilan,
+   Recensement mobile (RIGEL) : campagnes de l'école affichée et leur bilan
+   (l'installation d'une salle, autre opération RIGEL, se suit dans ses déplacements),
    d'après les constats intégrés par le serveur (backend/workspace/recensement.ts).
    - Attendus : matériels affectés aux salles de la campagne ;
-   - Vus : matériels d'un constat de présence, de confirmation ou de
-     relocalisation dans la campagne ;
-   - À traiter : codes inconnus, écarts et refus non encore traités.
+   - Vus : matériels d'un constat de présence, de confirmation, de
+     relocalisation ou d'ajout au parc dans la campagne ;
+   - À traiter : anciens codes inconnus et écarts, refus, non encore traités.
    ========================================================================== */
 
 import { cached, scope } from './selectors.ts';
 import { store, currentEcole } from './store.ts';
 import { dateMed, plural } from '#shared/format.ts';
-import { compact } from '#shared/rigel.ts';
+import { compact, estInstallation, ouverte } from '#shared/rigel.ts';
 import type { Constat, Id, Materiel, Recensement, Salle } from '#shared/types.ts';
 
 /** Avancement d'une salle : matériels attendus et ceux déjà vus */
 export interface BilanSalle { salle: Salle; attendus: Materiel[]; vus: Materiel[] }
 
-const VU: readonly Constat['resultat'][] = ['confirme', 'present', 'deplace'];
+const VU: readonly Constat['resultat'][] = ['confirme', 'present', 'deplace', 'ajoute'];
 const A_TRAITER: readonly Constat['resultat'][] = ['inconnu', 'ecart', 'refuse'];
 
-/** Campagne en cours : ni close, ni expirée */
-export const ouverte = (r: Recensement, now = Date.now()) => !r.close && r.expireLe > now;
+export { ouverte };
 export const aTraiter = (c: Constat) => A_TRAITER.includes(c.resultat) && !c.traite;
 
 /** Constats à traiter, regroupés : un même code inconnu (numéro de série saisi, sinon code lu) scanné plusieurs fois, par un
@@ -44,7 +44,7 @@ export const perimetre = (r: Recensement) => (r.salleIds.length ? plural(r.salle
 /** Campagnes de l'école affichée : en cours d'abord, puis les plus récentes */
 export const recensements = () => cached('recensements', () => {
   const e = currentEcole();
-  return store.state.recensements.filter((r) => !e || e === 'all' || r.ecoleId === e).sort((a, b) => Number(ouverte(b)) - Number(ouverte(a)) || b.at - a.at);
+  return store.state.recensements.filter((r) => !estInstallation(r) && (!e || e === 'all' || r.ecoleId === e)).sort((a, b) => Number(ouverte(b)) - Number(ouverte(a)) || b.at - a.at);
 });
 
 /** Bilan d'une campagne : salles, constats (récents d'abord), avancement, à traiter */
@@ -62,7 +62,7 @@ export const bilan = (r: Recensement) => cached(`recensement:${r.id}`, () => {
   return {
     salles, parSalle, constats, attendus, vus: vusTotal,
     pct: attendus ? vusTotal / attendus : 0,
-    confirmes: constats.filter((c) => c.resultat === 'confirme').length,
+    ajoutes: constats.filter((c) => c.resultat === 'ajoute').length,
     deplaces: constats.filter((c) => ['deplace', 'range'].includes(c.resultat)).length,
     aTraiter: regrouper(constats),
   };

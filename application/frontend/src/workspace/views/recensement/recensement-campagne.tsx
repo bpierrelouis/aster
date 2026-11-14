@@ -12,7 +12,7 @@ import { index, materielPath, traceProvisoire } from '../../core/selectors.ts';
 import { bilan, echeance, ouverte, perimetre } from '../../core/recensements.ts';
 import { can } from '../../core/permissions.ts';
 import { confirmSheet, notify } from '../../ui/overlays.tsx';
-import { RESULTATS } from '#shared/rigel.ts';
+import { RESULTATS, estInstallation } from '#shared/rigel.ts';
 import { deviceType } from '#shared/catalog.ts';
 import { ago, dateMed, num, plural } from '#shared/format.ts';
 import { GroupCard, GroupGrid, PageHead, Progress } from '../../widgets/parts.tsx';
@@ -90,17 +90,17 @@ function ConstatRow({ c }: { c: Constat }) {
 }
 
 async function cloturer(r: Recensement) {
-  if (!await confirmSheet({ title: 'Clôturer la campagne', message: `Les téléphones appairés à « ${r.nom} » ne pourront plus envoyer de constats. Une campagne close ne peut pas être rouverte.`, confirm: 'Clôturer', iconName: 'check' })) return;
+  if (!await confirmSheet({ title: 'Clôturer le recensement', message: `Les téléphones appairés à « ${r.nom} » ne pourront plus envoyer de constats. Un recensement clos ne peut pas être rouvert.`, confirm: 'Clôturer', iconName: 'check' })) return;
   try {
     store.update('data', (s) => { s.recensements.find((x) => x.id === r.id)!.close = traceProvisoire(); });
     await store.flush();
-    notify('Campagne close', { icon: 'clipboardCheck' });
+    notify('Recensement clos', { icon: 'clipboardCheck' });
   } catch (error) { notify((error as Error).message, { tone: 'danger' }); }
 }
 
 export function Campagne({ id }: { id: string }) {
   const r = store.state.recensements.find((x) => x.id === id);
-  if (!r) return <Navigate to="/materiels/recensement" replace />;
+  if (!r || estInstallation(r)) return <Navigate to="/materiels/recensement" replace />;
   const b = bilan(r);
   const enCours = ouverte(r);
   const gerer = can('materiel.recensement');
@@ -111,15 +111,15 @@ export function Campagne({ id }: { id: string }) {
       {gerer && <button className="btn btn--ghost" onClick={() => openEtiquettes(r)}><Icon name="print" size={18} /><span>Étiquettes</span></button>}
       {gerer && enCours && <button className="btn btn--primary" onClick={() => openAppairage(r)}><Icon name="tablet" size={18} /><span>Appairer un téléphone</span></button>}
     </PageHead>
-    <p className="group-lead"><Link to="/materiels/recensement">Campagnes</Link> · <strong>{r.nom}</strong> · {r.mode === 'installation' ? 'Installation' : 'Recensement'} · {perimetre(r)} · ouverte par {r.par} le {dateMed(r.at)} · {echeance(r)}</p>
+    <p className="group-lead"><Link to="/materiels/recensement">Recensements</Link> · <strong>{r.nom}</strong> · {perimetre(r)} · ouverte par {r.par} le {dateMed(r.at)} · {echeance(r)}</p>
     <div className="ops-metrics">
-      <div className="ops-metric glass"><span>Matériels vus</span><strong>{num(b.vus)}<small> / {num(b.attendus)}</small></strong><Progress value={b.pct} label="Avancement de la campagne" /></div>
-      {r.mode === 'installation' && <div className="ops-metric glass"><span>Installations confirmées</span><strong>{num(b.confirmes)}</strong><span>{plural(b.deplaces, 'matériel relocalisé', 'matériels relocalisés')} ou rangé{b.deplaces > 1 ? 's' : ''}</span></div>}
-      <div className={`ops-metric glass${b.aTraiter.length ? ' rec-metric--alert' : ''}`}><span>À traiter</span><strong>{num(b.aTraiter.length)}</strong><span>Codes inconnus, écarts et refus</span></div>
+      <div className="ops-metric glass"><span>Matériels vus</span><strong>{num(b.vus)}<small> / {num(b.attendus)}</small></strong><Progress value={b.pct} label="Avancement du recensement" /></div>
+      <div className="ops-metric glass"><span>Relocalisés</span><strong>{num(b.deplaces)}</strong><span>{plural(b.ajoutes, 'matériel ajouté', 'matériels ajoutés')} au parc</span></div>
+      <div className={`ops-metric glass${b.aTraiter.length ? ' rec-metric--alert' : ''}`}><span>À traiter</span><strong>{num(b.aTraiter.length)}</strong><span>Anciens écarts, codes inconnus et refus</span></div>
     </div>
     <GroupGrid items={['traiter', 'salles', 'constats'] as const} weight={(k) => (k === 'salles' ? 3 + Math.min(14, salles.length) : 3 + Math.min(10, k === 'traiter' ? b.aTraiter.length : b.constats.length))} render={(k) => {
       if (k === 'traiter') return <GroupCard key={k} tile={<Tile name="alert" color="var(--install)" size="s" />} title="À traiter" sub={b.aTraiter.length ? plural(b.aTraiter.length, 'constat') : 'Rien à traiter'}>
-        {b.aTraiter.length ? b.aTraiter.map((g) => <ATraiterRow key={g.constat.id} g={g} />) : <li className="rec-empty">Les codes inconnus et les écarts constatés par les agents apparaîtront ici.</li>}
+        {b.aTraiter.length ? b.aTraiter.map((g) => <ATraiterRow key={g.constat.id} g={g} />) : <li className="rec-empty">Les constats refusés par ORION apparaîtront ici.</li>}
       </GroupCard>;
       if (k === 'salles') return <GroupCard key={k} tile={<Tile name="salles" color="var(--c3)" size="s" />} title="Avancement par salle" sub={plural(salles.length, 'salle')}>
         {salles.map((s) => <SalleRow key={s.salle.id} s={s} />)}

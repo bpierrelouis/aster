@@ -61,6 +61,10 @@ export function createWorkspaceRouter({ repository, actor, agentToken, rigel }: 
   router.get('/recensements/:id/appairage', async (req, res, next) => {
     try { res.json(await repository.rigel.appairage(res.locals.actor, req.params.id, rigel)); } catch (e) { next(e); }
   });
+  // Installation d'une salle avec RIGEL (gestionnaire) : lancée ou reprise, adresse d'appairage du téléphone
+  router.post('/salles/:id/installation', async (req, res, next) => {
+    try { res.json(await repository.rigel.installation(res.locals.actor, req.params.id, rigel)); } catch (e) { next(e); }
+  });
   router.post('/constats/:id/traitement', async (req, res, next) => {
     try { res.json(await repository.rigel.traiter(res.locals.actor, req.params.id, req.body?.action)); } catch (e) { next(e); }
   });

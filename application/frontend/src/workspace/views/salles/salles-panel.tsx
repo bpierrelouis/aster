@@ -7,7 +7,8 @@ import { FilterSelect } from '../../ui/filter-select.tsx';
 import { Link, useNavigate } from 'react-router';
 import { useEscape } from '../../hooks/use-escape.ts';
 import { Icon, Tile } from '../../ui/icons.tsx';
-import { currentEcole } from '../../core/store.ts';
+import { currentEcole, store } from '../../core/store.ts';
+import { recensementDe } from '#shared/rigel.ts';
 import { can, why } from '../../core/permissions.ts';
 import { num, dateMed } from '#shared/format.ts';
 import { DEVICE_TYPES, deviceType, logistique } from '#shared/catalog.ts';
@@ -145,11 +146,21 @@ export function DevCard({ ids, mode, salleId, act }: { ids: Id[]; mode: Mode; sa
 
 /** Installation en cours : avancement, matériels à apporter et à retirer ; confirmés un à un dans Déplacements */
 function InstallationBlock({ x, inst }: { x: Salle; inst: SalleEnInstallation }) {
-  const body = <>
-    <span className="inst-block-head"><b>En cours d’installation</b><small>{resteAFaire(inst)}</small>{can('materiel.move') && <Icon name="chevR" size={16} />}</span>
+  return <div className="inst-block">
+    <span className="inst-block-head"><b>En cours d’installation</b><small>{resteAFaire(inst)}</small></span>
     <Progress value={inst.pct} label={`Avancement de l’installation de ${x.nom}`} />
-  </>;
-  return can('materiel.move') ? <Link className="inst-block" to={`/salles/deplacements?salle=${x.id}`} aria-label={`Déplacements de ${x.nom}`}>{body}</Link> : <div className="inst-block">{body}</div>;
+  </div>;
+}
+
+/** Opérations en cours dans la salle, indépendantes l'une de l'autre : installation (ses déplacements) et campagne de recensement */
+function OperationsEnCours({ x, installation }: { x: Salle; installation: boolean }) {
+  const campagne = can('recensement.view') ? recensementDe(store.state.recensements, x) : undefined;
+  const vers = installation && can('materiel.move');
+  if (!vers && !campagne) return null;
+  return <div className="salle-operations">
+    {vers && <Link className="btn btn--ghost btn--s" to={`/salles/deplacements?salle=${x.id}`}><Icon name="deplacement" size={16} />Installation en cours</Link>}
+    {campagne && <Link className="btn btn--ghost btn--s" to={`/materiels/recensement/${campagne.id}`}><Icon name="clipboardCheck" size={16} />Recensement en cours</Link>}
+  </div>;
 }
 
 export function SalleDetail({ x, stageBat, selected, devs, act }: { x: Salle; stageBat: string | null; selected: Set<Id>; devs: DevHandlers; act: SalleActions }) {
@@ -181,6 +192,7 @@ export function SalleDetail({ x, stageBat, selected, devs, act }: { x: Salle; st
     </ul>
     {v.total ? <EtatBar c={v} thin /> : null}
     {inst ? <InstallationBlock x={x} inst={inst} /> : null}
+    <OperationsEnCours x={x} installation={Boolean(inst)} />
     <div className="insp-section">
       <span className="insp-section-title"><Icon name="materiel" size={18} />Matériels</span>
       <span className="insp-tools">

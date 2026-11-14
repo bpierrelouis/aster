@@ -42,7 +42,7 @@ export function Synchronisation() {
     <section className="groupe">
       {confirmer
         ? <div className="pile">
-          <p className="alerte" role="alert">Les données de la campagne et les constats non intégrés seront effacés de ce téléphone.</p>
+          <p className="alerte" role="alert">Les données de l’appairage et les constats non intégrés seront effacés de ce téléphone.</p>
           <button className="bouton bouton--danger" type="button" onClick={() => void dissocier().then(() => navigate('/', { replace: true }))}>Confirmer la dissociation</button>
           <button className="bouton" type="button" onClick={() => setConfirmer(false)}>Annuler</button>
         </div>

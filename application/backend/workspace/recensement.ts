@@ -5,27 +5,33 @@
      au gestionnaire (ticket #156) : les administrateurs suivent en lecture.
    - Constats : produits par les téléphones, transmis chiffrés par le relais
      et le connecteur, intégrés ici (valeurs d'autorité fixées par le serveur).
+   - Deux opérations, indépendantes même sur une même salle (décisions de
+     l'utilisateur du 14 novembre) : la campagne de recensement, ouverte dans
+     Matériels › Recensement, et l'installation d'une salle, lancée depuis ses
+     déplacements, limitée à la salle et au stock, close par le serveur quand
+     plus aucun déplacement ne la concerne. Un téléphone est appairé à une
+     opération ; ses constats lui sont rattachés.
    - Ouvrir un lieu sur le téléphone, c'est déclarer s'y trouver (RG-96) : un
-     matériel scanné dans sa salle confirme son déplacement en mode installation
-     ou enregistre sa présence en mode recensement ; affecté ailleurs, il est
-     accepté ici (affecté au lieu, déplacement confirmé) ou
-     refusé (retour lancé vers son affectation, à confirmer par le
-     gestionnaire) ; un code inconnu reste à traiter dans ORION.
+     matériel scanné dans sa salle confirme son déplacement (installation) ou
+     sa présence (recensement) ; affecté ailleurs, il est accepté ici (affecté
+     au lieu, déplacement confirmé) ou refusé (retour lancé vers son
+     affectation, à confirmer par le gestionnaire) ou, dans une salle, mis au
+     stock (affecté au stock, déplacement lancé) ; un code inconnu, confirmé
+     et renseigné sur le téléphone, est ajouté au parc dans le lieu ouvert.
    - Clé et jeton d'une campagne sont dérivés du secret RIGEL_SECRET :
      aucun secret n'est conservé dans les données.
    ========================================================================== */
 
 import { createHmac } from 'node:crypto';
-import { DEVICE_TYPES } from '#shared/catalog.ts';
-import { DUREE_CAMPAGNE, adresseAppairage, chiffrer, compact, dechiffrer, empreinte, parSerie } from '#shared/rigel.ts';
-import { assert, fail, same } from './rules.ts';
+import { DEVICE_TYPES, numeroMateriel, rangDuNumero } from '#shared/catalog.ts';
+import { DUREE_CAMPAGNE, aDeplacer, adresseAppairage, chiffrer, compact, dechiffrer, empreinte, estInstallation, installationDe, ouverte, parSerie } from '#shared/rigel.ts';
+import { assert, fail, id as identifiant, same } from './rules.ts';
 import { journal, raison } from '../journal.ts';
 import type { ActionConstat, Actor, Constat, Id, Materiel, Recensement, WorkspaceState } from '#shared/types.ts';
 import type { Bloc, CampagnePubliee, EvenementRigel, InstantaneRigel, ResultatRigel } from '#shared/rigel.ts';
 import type { LooseItem } from './rules.ts';
 
-/** Campagne en cours : ni close, ni expirée */
-export const ouverte = (r: Pick<Recensement, 'close' | 'expireLe'>, now = Date.now()) => !r.close && r.expireLe > now;
+export { ouverte };
 
 /** Salles d'une campagne : celles qu'elle désigne, sinon toutes les salles de l'école */
 export const sallesDe = (state: Pick<WorkspaceState, 'salles'>, r: Pick<Recensement, 'ecoleId' | 'salleIds'>) =>
@@ -42,7 +48,9 @@ export function regleRecensement(x: LooseItem, old: LooseItem | undefined, state
   if (!old) {
     assert(typeof x.nom === 'string' && x.nom.trim() && x.nom.length <= 120, 'Nom de la campagne obligatoire.');
     x.nom = x.nom.trim();
-    assert(['installation', 'recensement'].includes(String(x.mode)), 'Type de campagne invalide.');
+    // Une campagne est un recensement ; l'installation d'une salle se lance depuis ses déplacements (lancerInstallation)
+    assert(x.mode === undefined || x.mode === 'recensement', 'Une installation se lance depuis les déplacements de la salle.');
+    x.mode = 'recensement';
     assert(Array.isArray(x.salleIds) && x.salleIds.length <= 2000 && new Set(x.salleIds).size === x.salleIds.length, 'Salles invalides.');
     assert(x.salleIds.every((sid) => state.salles.some((s) => s.id === sid && s.ecoleId === x.ecoleId)), 'Salle inconnue ou hors école.');
     Object.assign(x, { at: now, par: actor.nom, parId: actor.id, expireLe: now + DUREE_CAMPAGNE });
@@ -79,21 +87,44 @@ export function traiterConstat(s: WorkspaceState, id: Id, action: ActionConstat,
   const m = s.materiels.find((x) => x.id === c.materielId && x.ecoleId === c.ecoleId);
   if (!m) fail(404, 'Matériel introuvable.');
   const trace = { at: now, par: actor.nom, parId: actor.id };
-  const affectation = m.salleId ?? null;
-  if (action === 'stock') {
-    m.salleId = null;
+  // Lieu visé : le stock, l'affectation inchangée ou le lieu constaté ; hors service, le stock seul (RG-87)
+  const cible = action === 'stock' ? null : action === 'affectation' ? m.salleId ?? null : c.salleId;
+  if (m.hs && cible) fail(400, 'Un matériel hors service ne peut aller qu’au stock.');
+  if (cible === c.salleId) {
+    // Réaffecté où il a été constaté : il y est, affectation et déplacement confirmés ensemble
+    const de = m.deplacement ? m.deplacement.de : m.salleId ?? null;
+    m.salleId = cible;
     delete m.deplacement;
-    m.installation = { de: c.salleId, ...trace };
-  } else if (action === 'affectation') {
-    delete m.deplacement;
-    m.installation = { de: c.salleId, ...trace };
+    m.installation = { de, ...trace };
   } else {
-    if (m.hs && c.salleId) fail(400, 'Un matériel hors service ne peut aller qu’au stock.');
-    m.salleId = c.salleId;
-    delete m.deplacement;
-    m.installation = { de: affectation, ...trace };
+    // Ailleurs que le lieu constaté : déplacement lancé depuis ce lieu, à confirmer par le gestionnaire une fois le matériel rapporté
+    m.salleId = cible;
+    m.deplacement = { de: c.salleId, ...trace };
+    delete m.installation;
   }
   c.traite = { ...trace, action };
+}
+
+/* ---------- Installation d'une salle ---------- */
+
+/** Installation en cours de la salle, sinon lancée : gestionnaire seul, salle de son école concernée par un déplacement */
+export function lancerInstallation(s: WorkspaceState, actor: Actor, salleId: Id, now = Date.now()) {
+  reserve(actor);
+  const salle = s.salles.find((x) => x.id === salleId && x.ecoleId === actor.ecoleId);
+  if (!salle) fail(404, 'Salle introuvable.');
+  const existante = installationDe(s.recensements, salleId, now);
+  if (existante) return existante;
+  if (!s.materiels.some((m) => aDeplacer(m, salleId))) fail(400, 'Aucun déplacement en cours pour cette salle.');
+  const r: Recensement = { id: identifiant('ins'), ecoleId: salle.ecoleId, nom: `Installation de ${salle.nom}`, mode: 'installation', salleIds: [salleId], at: now, par: actor.nom, parId: actor.id, expireLe: now + DUREE_CAMPAGNE };
+  s.recensements.push(r);
+  return r;
+}
+
+/** Installations en cours dont plus aucun déplacement ne concerne la salle : closes par le serveur (état modifié en place) */
+export function cloreInstallations(s: WorkspaceState, now = Date.now()) {
+  for (const r of s.recensements) {
+    if (estInstallation(r) && ouverte(r, now) && !s.materiels.some((m) => aDeplacer(m, r.salleIds[0]))) r.close = { at: now, par: 'ORION', parId: null };
+  }
 }
 
 /* ---------- Clé, jeton et appairage ---------- */
@@ -156,7 +187,7 @@ export async function dechiffrerEvenements(secret: string, campagne: Id, blocs: 
 
 const ID = /^[\w-]{8,100}$/;
 const texte = (v: unknown, max: number) => (typeof v === 'string' && v.trim() ? v.trim().slice(0, max) : null);
-const LOCALISE: readonly Constat['resultat'][] = ['confirme', 'present', 'deplace', 'range', 'retour'];
+const LOCALISE: readonly Constat['resultat'][] = ['confirme', 'present', 'deplace', 'range', 'retour', 'stock', 'ajoute'];
 
 /**
  * Date de la dernière information sur l'emplacement d'un matériel : observation d'un téléphone (sa date d'observation, pas
@@ -167,7 +198,7 @@ function derniereInformation(s: WorkspaceState, m: Materiel) {
   const constats = s.constats.filter((c) => c.materielId === m.id && LOCALISE.includes(c.resultat));
   // Installation confirmée ou retour lancé par un constat : sa date d'observation compte, pas celle de son intégration
   const parTelephone = new Set(constats.map((c) => c.at));
-  const retours = new Set(constats.filter((c) => c.resultat === 'retour').map((c) => c.at));
+  const retours = new Set(constats.filter((c) => ['retour', 'stock'].includes(c.resultat)).map((c) => c.at));
   const dansOrion = m.installation && !parTelephone.has(m.installation.at) ? m.installation.at : 0;
   const prevu = m.deplacement && !retours.has(m.deplacement.at) ? m.deplacement.at : 0;
   return Math.max(0, prevu, dansOrion, ...constats.map((c) => c.observeLe));
@@ -198,16 +229,17 @@ function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRi
   if (!r || !ouverte(r, now)) return { id, statut: 'refuse', message: 'Campagne close.' };
   // Les constats confirment des installations au nom de l'ouvreur : une campagne d'un autre profil n'est plus appliquée
   if (s.comptes.find((c) => c.id === r.parId)?.role !== 'gestionnaire') return { id, statut: 'refuse', message: 'Campagne non ouverte par un gestionnaire.' };
-  if (!['vu', 'releve', 'retour', 'inconnu'].includes(e.type)) return { id, statut: 'refuse', message: 'Constat inconnu.' };
+  if (!['vu', 'releve', 'retour', 'stock', 'inconnu'].includes(e.type)) return { id, statut: 'refuse', message: 'Constat inconnu.' };
   const salleId = e.salleId ?? null;
   if (salleId !== null && !sallesDe(s, r).some((x) => x.id === salleId)) return { id, statut: 'refuse', message: 'Salle hors de la campagne.' };
   const code = texte(e.code, 200) ?? '';
   const ecole = s.materiels.filter((m) => m.ecoleId === r.ecoleId);
   // Un code « inconnu » pour un téléphone dont l'instantané est ancien peut désigner un matériel connu
   const serieSaisie = typeof e.saisie?.serie === 'string' ? e.saisie.serie : '';
-  const connu = e.type === 'inconnu' && code ? ecole.find((m) => compact(m.idOrion) === compact(code)) ?? parSerie(ecole, code) ?? parSerie(ecole, serieSaisie) : undefined;
+  const connu = e.type === 'inconnu' ? (code ? ecole.find((m) => compact(m.idOrion) === compact(code)) ?? parSerie(ecole, code) : undefined) ?? (serieSaisie ? parSerie(ecole, serieSaisie) : undefined) : undefined;
   const m = connu ?? ecole.find((x) => x.id === e.materielId);
-  const type = connu ? 'vu' : e.type;
+  // Code « inconnu » d'un matériel du parc (instantané ancien) : rattaché à ce matériel, accepté dans le lieu ouvert
+  const type = connu ? 'releve' : e.type;
   const constat: Constat = {
     id: cid, recensementId: r.id, ecoleId: r.ecoleId, type, code, salleId, materielId: m?.id ?? null,
     observeLe: Number.isFinite(e.observeLe) ? Math.min(e.observeLe, now) : now, at: now, resultat: 'inconnu',
@@ -220,18 +252,33 @@ function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRi
         modele: texte(t.modele, 250) ?? 'Non renseigné', marque: texte(t.marque, 120), serie: texte(t.serie, 120),
         ...(Number.isFinite(t.garantieFin) && { garantieFin: t.garantieFin }),
       };
+      // Installation confirmée sur le téléphone : ajouté au parc dans le lieu ouvert, où il se trouve (identifiant ORION fixé ici)
+      const rang = Math.max(0, ...s.materiels.map((x) => rangDuNumero(x.idOrion)));
+      const ajout: Materiel = {
+        id: identifiant('mat'), ecoleId: r.ecoleId, idOrion: numeroMateriel(rang + 1), salleId, type: constat.saisie.type, modele: constat.saisie.modele,
+        marque: constat.saisie.marque, serie: constat.saisie.serie, dateReception: now, garantieFin: constat.saisie.garantieFin ?? null, hs: false,
+      };
+      s.materiels.push(ajout);
+      Object.assign(constat, { materielId: ajout.id, resultat: 'ajoute' });
     }
   } else if (!m) return { id, statut: 'refuse', message: 'Matériel inconnu ou hors école.' };
   else if (constat.observeLe < derniereInformation(s, m)) Object.assign(constat, { resultat: 'refuse', message: 'Constat dépassé : ce matériel a été vu ou déplacé depuis.' });
   else if ((m.salleId ?? null) === salleId) {
-    if (r.mode === 'installation' && m.deplacement) { m.installation = { de: m.deplacement.de, at: now, ...par }; delete m.deplacement; constat.resultat = 'confirme'; }
+    if (estInstallation(r) && m.deplacement) { m.installation = { de: m.deplacement.de, at: now, ...par }; delete m.deplacement; constat.resultat = 'confirme'; }
     else constat.resultat = 'present';
-  } else if (e.type === 'vu' || connu) constat.resultat = 'ecart'; // téléphone d'une version antérieure (« Signaler sans déplacer »)
+  } else if (type === 'vu') constat.resultat = 'ecart'; // téléphone d'une version antérieure (« Signaler sans déplacer »)
   else if (e.type === 'retour') {
     // Présence refusée : le matériel est ici et doit être ramené à son affectation, inchangée ; le gestionnaire confirmera son installation
     m.deplacement = { de: salleId, at: now, ...par };
     delete m.installation;
     constat.resultat = 'retour';
+  } else if (type === 'stock') {
+    // Mis au stock depuis une salle : affecté au stock, déplacement lancé depuis la salle, à confirmer une fois le matériel au stock
+    if (salleId === null) return { id, statut: 'refuse', message: 'Au stock, rangez le matériel.' };
+    m.salleId = null;
+    m.deplacement = { de: salleId, at: now, ...par };
+    delete m.installation;
+    constat.resultat = 'stock';
   }
   else if (m.hs && salleId) Object.assign(constat, { resultat: 'refuse', message: 'Un matériel hors service ne peut aller qu’au stock.' });
   else {

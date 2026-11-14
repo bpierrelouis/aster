@@ -7,14 +7,14 @@ import { plural } from '#shared/format.ts';
 export function Remplacer() {
   const { etat } = useRigel();
   const attente = etat.file.length;
-  return <Ecran titre="Nouvelle campagne" retour={false}>
+  return <Ecran titre="Nouvel appairage" retour={false}>
     <section className="carte">
-      <p>Ce téléphone est associé à la campagne <strong>{etat.instantane?.campagne.nom ?? 'en cours'}</strong>. Le remplacer par la nouvelle campagne efface ses données locales.</p>
+      <p>Ce téléphone est associé à <strong>{etat.instantane?.campagne.nom ?? 'en cours'}</strong>. Le remplacer par le nouvel appairage efface ses données locales.</p>
       {attente > 0 && <p className="alerte" role="alert">{plural(attente, 'constat')} pas encore intégré{attente > 1 ? 's' : ''} par ORION sera perdu{attente > 1 ? 's' : ''}.</p>}
     </section>
     <div className="pile">
-      <button className="bouton bouton--principal" type="button" onClick={() => void appairer(etat.proposition!)}>Remplacer la campagne</button>
-      <button className="bouton" type="button" onClick={ecarterProposition}>Garder la campagne actuelle</button>
+      <button className="bouton bouton--principal" type="button" onClick={() => void appairer(etat.proposition!)}>Remplacer</button>
+      <button className="bouton" type="button" onClick={ecarterProposition}>Garder l’appairage actuel</button>
     </div>
   </Ecran>;
 }

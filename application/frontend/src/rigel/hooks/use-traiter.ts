@@ -16,7 +16,7 @@ export function useTraiter(lieu: Lieu) {
     const cible = resoudre(valeur, instantane ?? { salles: [], materiels: [] });
     if (cible.type === 'appairage') { void proposer(cible.appairage); navigate('/'); return true; }
     if (!appairage) { annoncer('Scannez d’abord le QR d’appairage affiché dans ORION.', 'install'); return false; }
-    if (!instantane) { annoncer('Campagne en cours de chargement : réessayez dans un instant.', 'install'); return false; }
+    if (!instantane) { annoncer('Données en cours de chargement : réessayez dans un instant.', 'install'); return false; }
     if (cible.type === 'salle') navigate(`/salles/${encodeURIComponent(cible.salle.id)}`);
     else if (cible.type === 'stock') navigate('/salles/stock');
     else if (cible.type === 'materiel') navigate(`/materiels/${encodeURIComponent(cible.materiel.id)}${contexte && `?${contexte}`}`, { state: { code: valeur } });

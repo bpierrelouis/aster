@@ -21,10 +21,12 @@ export type OperationStatut = 'enregistree' | 'terminee' | 'echec';
 export type ResultatPoste = 'en_attente' | 'reussie' | 'echec';
 export type Portee = 'global' | 'ecole' | 'batiment' | 'salle';
 /** Constat du recensement mobile (RIGEL) : présence (vu), présence acceptée dans le lieu ouvert (releve), retour vers
- * l'affectation (retour), code inconnu ; vu ailleurs que son affectation : écart, envoyé par les anciennes versions */
-export type ConstatType = 'vu' | 'releve' | 'retour' | 'inconnu';
-/** ecart : constats d'avant RG-96 (décision du 14 novembre), conservés et traitables */
-export type ConstatResultat = 'confirme' | 'present' | 'ecart' | 'deplace' | 'range' | 'retour' | 'inconnu' | 'refuse';
+ * l'affectation (retour), mise au stock lancée depuis une salle (stock), code inconnu ; vu ailleurs que son affectation : écart, envoyé par les anciennes versions */
+export type ConstatType = 'vu' | 'releve' | 'retour' | 'stock' | 'inconnu';
+/** ecart : constats d'avant RG-96 (décision du 14 novembre), conservés et traitables ; ajoute : code inconnu ajouté au parc
+ * par le serveur ; inconnu : code inconnu antérieur, à traiter dans ORION */
+export type ConstatResultat = 'confirme' | 'present' | 'ecart' | 'deplace' | 'range' | 'retour' | 'stock' | 'ajoute' | 'inconnu' | 'refuse';
+/** Opération RIGEL : campagne de recensement, ou installation d'une salle (lancée depuis ses déplacements, jamais présentée comme une campagne) */
 export type ModeRecensement = 'installation' | 'recensement';
 export type ActionConstat = 'stock' | 'affectation' | 'constat' | 'ajoute' | 'ecarte';
 
@@ -199,7 +201,10 @@ export interface Installation {
   applicationId: Id;
 }
 
-/** Campagne de recensement mobile (RIGEL), ouverte par par ; salleIds vide : toutes les salles de l'école */
+/**
+ * Opération RIGEL ouverte par par. Recensement : campagne, salleIds vide pour toute l'école. Installation : une seule salle
+ * (salleIds), avec le stock ; close par le serveur quand plus aucun déplacement ne la concerne (décision du 14 novembre).
+ */
 export interface Recensement extends Trace {
   id: Id;
   ecoleId: Id;

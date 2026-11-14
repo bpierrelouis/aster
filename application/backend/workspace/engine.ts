@@ -14,9 +14,10 @@ import { journal, raison } from '../journal.ts';
 import { DISCONNECT_AFTER, applyReports, applyResults, markDisconnected, pendingCommands } from './postes.ts';
 import { reportPdf } from './pdf.ts';
 import { analyseImport, importMateriels } from './import.ts';
-import { appairage, appliquerEvenements, campagnesPubliees, dechiffrerEvenements, traiterConstat } from './recensement.ts';
+import { appairage, appliquerEvenements, campagnesPubliees, cloreInstallations, dechiffrerEvenements, lancerInstallation, traiterConstat } from './recensement.ts';
+import { installationDe } from '#shared/rigel.ts';
 import type { Bloc } from '#shared/rigel.ts';
-import type { Actor, Id, Item, WorkspaceState } from '#shared/types.ts';
+import type { ActionConstat, Actor, Id, Item, WorkspaceState } from '#shared/types.ts';
 import type { WorkspaceInput } from './rules.ts';
 import type { Rapport, Resultat } from './postes.ts';
 import type { ImportAnalyseInput, ImportInput } from './import.ts';
@@ -67,6 +68,8 @@ export function createEngine({ store }: { store: Store }) {
     let modifies: string[] = [];
     const { before, next, result } = await store.write(async (state, since) => {
       const out = await change(state, since);
+      // Installation d'une salle close d'elle-même quand plus aucun déplacement ne la concerne, quelle que soit l'écriture
+      if (out.next !== state) cloreInstallations(out.next);
       const entry = { revision: out.next.revision, before: diffKeys(state, out.next) };
       modifies = [...entry.before.keys()];
       return { ...out, entry };
@@ -121,7 +124,19 @@ export function createEngine({ store }: { store: Store }) {
         const evenements = await dechiffrerEvenements(secret, campagne, blocs);
         return system((s) => appliquerEvenements(s, campagne, evenements));
       },
-      traiter: (actor: Actor, constat: Id, action: import('#shared/types.ts').ActionConstat) => write((state) => {
+      /** Installation d'une salle : reprise si elle est en cours, sinon lancée ; adresse d'appairage du téléphone */
+      async installation(actor: Actor, salleId: Id, config: { secret: string; url: string | null }) {
+        const courant = await store.read();
+        const existante = installationDe(courant.recensements, salleId);
+        if (existante) return { id: existante.id, ...appairage(courant, actor, existante.id, config) };
+        return write((state) => {
+          const next = structuredClone(state);
+          const r = lancerInstallation(next, actor, salleId);
+          next.revision = state.revision + 1;
+          return { next, result: { id: r.id, ...appairage(next, actor, r.id, config), state: scopedState(next, actor) } };
+        }, actor);
+      },
+      traiter: (actor: Actor, constat: Id, action: ActionConstat) => write((state) => {
         const next = structuredClone(state);
         traiterConstat(next, constat, action, actor);
         next.revision = state.revision + 1;

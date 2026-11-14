@@ -10,7 +10,7 @@ async function appel<T>(a: Appairage, chemin: string, init: RequestInit = {}): P
     ...init, cache: 'no-store',
     headers: { Authorization: `Bearer ${a.jeton}`, 'Content-Type': 'application/json' },
   });
-  if ([401, 403, 404, 410].includes(reponse.status)) throw new AccesRefuse('Cette campagne est close ou l’accès de ce téléphone a été retiré.');
+  if ([401, 403, 404, 410].includes(reponse.status)) throw new AccesRefuse('Cet appairage est clos ou l’accès de ce téléphone a été retiré.');
   if (!reponse.ok) throw new Error('Relais momentanément indisponible.');
   return reponse.json() as Promise<T>;
 }
