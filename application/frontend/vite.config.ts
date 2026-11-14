@@ -7,7 +7,7 @@ export default defineConfig(async ({ command, mode, isPreview }) => {
   const local = command === 'serve' && mode === 'ui' && !isPreview;
   const plugins: PluginOption[] = [react()];
   if (local) {
-    const { uiDevelopment } = await import('./ui-development.ts');
+    const { uiDevelopment } = await import('../outils/interface-seule/ui-development.ts');
     plugins.push(uiDevelopment());
   }
   return {

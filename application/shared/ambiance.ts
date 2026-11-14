@@ -3,7 +3,7 @@
    tonalité forcée des ambiances qui suivent la machine et niveau de verre.
    Les couleurs sont dans styles/tokens.css, le matériau dans
    styles/glass.css. Partagé avec le serveur, qui valide les préférences ;
-   l'application au document est dans frontend/src/workspace/core/theme.ts.
+   l'application au document est dans frontend/src/espace/core/theme.ts.
    ========================================================================== */
 
 import type { DisplayPrefs } from './types.ts';
@@ -37,7 +37,7 @@ export const GLASS = [
 export const TONES = [{ id: 'auto' }, { id: 'light' }, { id: 'dark' }];
 
 // Étoile ORION à quatre branches (charte ORION), marque de l'application : tracé SVG dans un carré de 40,
-// dessiné par l'interface (frontend/src/connexion/brand.tsx) et par l'état des lieux PDF (backend/workspace/pdf.ts)
+// dessiné par l'interface (frontend/src/connexion/brand.tsx) et par l'état des lieux PDF (backend/documents/pdf.ts)
 export const ORION_STAR = 'M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z';
 
 const known = <T extends { id: string }>(list: readonly T[], id: unknown): T => list.find((x) => x.id === id) ?? list[0];

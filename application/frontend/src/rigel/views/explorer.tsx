@@ -1,6 +1,6 @@
 /* Explorer : salles de la campagne par bâtiment, avec leur avancement, et le stock */
 import { Link } from 'react-router';
-import { Icon } from '../../workspace/ui/icons.tsx';
+import { Icon } from '../../espace/ui/icons.tsx';
 import { useRigel } from '../hooks/use-rigel.ts';
 import { Avancement, Ecran } from '../ui/parts.tsx';
 import type { SalleRigel } from '#shared/rigel.ts';

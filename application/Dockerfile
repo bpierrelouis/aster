@@ -12,6 +12,9 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 COPY shared ./shared
 COPY backend ./backend
+# Outillage du démonstrateur (jeu de démonstration, identités du Keycloak local, simulateur des postes) : présent dans
+# l'image unique, exécuté seulement quand la configuration du démonstrateur le demande, jamais importé par le serveur sinon
+COPY outils ./outils
 COPY --chmod=755 infra/images/secrets.sh /usr/local/bin/orion-secrets
 USER node
 ENTRYPOINT ["orion-secrets"]
@@ -26,7 +29,7 @@ CMD ["node", "backend/start-production.ts"]
 
 # Simulateur des postes Windows et de leur agent d'administration
 FROM node AS postes
-CMD ["node", "backend/demonstrateur/agents.ts"]
+CMD ["node", "outils/simulateur-postes/agents.ts"]
 
 # RIGEL : connecteur entre ORION et le relais, par requêtes sortantes (proxy : HTTPS_PROXY, NO_PROXY)
 FROM node AS connecteur
@@ -38,9 +41,10 @@ FROM node:22.22.3-alpine3.24 AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
-# La configuration de Vite référence le serveur (mode interface seule) : backend est nécessaire à son chargement
+# La configuration de Vite référence le mode interface seule (outils) et le serveur : nécessaires à son chargement
 COPY shared ./shared
 COPY backend ./backend
+COPY outils ./outils
 COPY frontend ./frontend
 RUN npm run build && npm run build:rigel
 

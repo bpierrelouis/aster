@@ -1,6 +1,6 @@
 /* Navigateur des tests Playwright : Google Chrome s'il est installé (postes de développement, machines de la CI),
    sinon le Chromium fourni par Playwright (npx playwright install chromium).
-   Types du code exécuté dans la page (page.evaluate) : DOM et window.orion, exposé par l'interface (workspace.tsx). */
+   Types du code exécuté dans la page (page.evaluate) : DOM et window.orion, exposé par l'interface (espace/espace.tsx). */
 /// <reference lib="dom" />
 import { existsSync } from 'node:fs';
 import type { WorkspaceView } from '#shared/types.ts';

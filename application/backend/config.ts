@@ -15,8 +15,6 @@ export function readConfig(env = process.env) {
   }
   // Démonstrateur : création des identités dans le Keycloak local, active hors production ou sur demande explicite
   const identityProvisioning = env.IDENTITY_PROVISIONING ? env.IDENTITY_PROVISIONING === 'true' : !production;
-  // Réinitialisation des données quand la version du jeu de départ change : jamais en production, sauf démonstrateur (SEED_RESET=true)
-  const seedReset = env.SEED_RESET ? env.SEED_RESET === 'true' : !production;
   // Recensement mobile (RIGEL), fonctionnalité complémentaire : adresse publique de l'application mobile (relais). Sans elle,
   // ou mal configurée en production (adresse invalide ou non HTTPS, secret absent ou trop court), l'appairage est indisponible
   // et le connecteur refusé, mais le serveur démarre : le recensement ne bloque jamais ORION.
@@ -42,7 +40,6 @@ export function readConfig(env = process.env) {
     rigel: { secret: (rigelValide && env.RIGEL_SECRET) || (production ? randomBytes(48).toString('base64url') : 'orion-rigel-local'), url: rigelValide ? rigelUrl : null },
     // Démonstrateur : compte de service du Keycloak local, limité à la gestion des utilisateurs du realm
     identityProvisioning,
-    seedReset,
     provisioning: {
       adminUrl: new URL(env.KEYCLOAK_ADMIN_URL || issuer.origin),
       clientId: env.PROVISIONING_CLIENT_ID || 'orion-provisionnement',

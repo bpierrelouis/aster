@@ -2,7 +2,7 @@
    puis matériels vus ici mais affectés ailleurs */
 import { Link, Navigate, useParams } from 'react-router';
 import { useState } from 'react';
-import { Icon } from '../../workspace/ui/icons.tsx';
+import { Icon } from '../../espace/ui/icons.tsx';
 import { useRigel } from '../hooks/use-rigel.ts';
 import { lieuDe, nomLieu, parametreDe } from '../core/vue.ts';
 import { Ecran, Pastille, TypeMateriel } from '../ui/parts.tsx';

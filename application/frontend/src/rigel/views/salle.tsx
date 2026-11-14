@@ -1,6 +1,6 @@
 /* Salle (ou stock) : avancement, puis « Faire l'inventaire » (scanner) et « Voir l'inventaire » (liste) */
 import { Link, Navigate, useParams } from 'react-router';
-import { Icon } from '../../workspace/ui/icons.tsx';
+import { Icon } from '../../espace/ui/icons.tsx';
 import { useRigel } from '../hooks/use-rigel.ts';
 import { lieuDe, nomLieu, parametreDe } from '../core/vue.ts';
 import { Avancement, Ecran } from '../ui/parts.tsx';

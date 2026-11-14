@@ -1,5 +1,5 @@
 # Annuaire local : identités des comptes ORION de départ (sans profil ni école), personnes fictives.
-# Identifiants formés comme ceux créés par ORION (backend/demonstrateur/identifiant.ts).
+# Identifiants formés comme ceux créés par ORION (outils/identites-keycloak/identifiant.ts).
 
 dn: ou=people,dc=orion,dc=demo
 objectClass: organizationalUnit

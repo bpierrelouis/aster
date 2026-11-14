@@ -1,6 +1,6 @@
 /* Accueil : appairage du téléphone, puis Scanner (salle ou matériel), Explorer et saisie manuelle */
 import { Link } from 'react-router';
-import { Icon } from '../../workspace/ui/icons.tsx';
+import { Icon } from '../../espace/ui/icons.tsx';
 import { useRigel, useTitre } from '../hooks/use-rigel.ts';
 import { Annonce, Marque, Pastille, etatSynchro } from '../ui/parts.tsx';
 import { dateShort } from '#shared/format.ts';

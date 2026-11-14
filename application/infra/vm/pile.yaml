@@ -58,12 +58,13 @@ services:
   api:
     <<: *logs
     image: ${ORION_IMAGES}/orion-api:${ORION_TAG}
+    # Démonstrateur : jeu de démonstration chargé avant le serveur, remplacé quand sa version change
+    command: [sh, -c, 'node outils/donnees-demonstration/charger.ts --reinitialiser && exec node backend/start-production.ts']
     environment:
       APP_URL: https://${ORION_ENTREE}
       OIDC_ISSUER: https://${ORION_ENTREE}/realms/orion
       OIDC_CLIENT_ID: orion-web
       IDENTITY_PROVISIONING: 'true'
-      SEED_RESET: 'true'
       KEYCLOAK_ADMIN_URL: http://keycloak:8080
       NODE_EXTRA_CA_CERTS: /etc/ssl/orion/ca.pem
       WEB_URL: http://apache:8080

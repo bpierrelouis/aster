@@ -97,8 +97,9 @@ jobs:
       # par défaut correspondent à l'infrastructure Compose. Playwright démarre lui-même l'interface.
       - name: Serveur et postes simulés
         run: |
+          node outils/donnees-demonstration/charger.ts --reinitialiser
           node backend/index.ts > serveur.log 2>&1 &
-          node backend/demonstrateur/agents.ts > postes.log 2>&1 &
+          node outils/simulateur-postes/agents.ts > postes.log 2>&1 &
           for _ in $(seq 60); do curl -sf http://127.0.0.1:3001/api/health > /dev/null && exit 0; sleep 2; done
           cat serveur.log; exit 1
       - name: Parcours de bout en bout

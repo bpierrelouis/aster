@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import { Login, Loading } from './connexion/login.tsx';
 
 // Espace de travail chargé seulement après la connexion : ses données exigent une session.
-const Workspace = lazy(() => import('./workspace/workspace.tsx'));
+const Workspace = lazy(() => import('./espace/espace.tsx'));
 
 /** Session : page de connexion, ou espace de travail du compte connecté. */
 export function App() {
