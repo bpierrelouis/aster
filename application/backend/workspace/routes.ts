@@ -7,6 +7,7 @@ import express from 'express';
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { assert } from './rules.ts';
 import { journal, raison } from '../journal.ts';
+import { refuser } from '../refus.ts';
 import type { NextFunction, Request, Response } from 'express';
 import type { Actor } from '#shared/types.ts';
 import type { HttpError } from './rules.ts';
@@ -22,7 +23,7 @@ export function createWorkspaceRouter({ repository, actor, agentToken, rigel }: 
     res.set('Cache-Control', 'no-store');
     try {
       const current = await actor(req);
-      if (!current) return res.status(401).json({ error: 'Connexion nécessaire.' });
+      if (!current) return refuser(req, res, 401, { error: 'Connexion nécessaire.' });
       res.locals.actor = current;
       next();
     } catch (error) { next(error); }
@@ -91,7 +92,7 @@ export function createAgentRouter({ repository, token }: { repository: Engine; t
     const nom = given.slice(0, Math.max(0, given.lastIndexOf(':')));
     if (equal(given, String(token))) res.locals.poste = null; // passerelle
     else if (nom && equal(given, jetonPoste(token, nom))) res.locals.poste = nom;
-    else return res.status(401).json({ error: 'Poste non authentifié.' });
+    else return refuser(req, res, 401, { error: 'Poste non authentifié.' });
     next();
   });
   router.use(express.json({ limit: '4mb' })); // corps lu seulement pour un poste authentifié
@@ -131,7 +132,7 @@ export function createRigelRouter({ repository, secret }: { repository: Engine; 
   const router = express.Router();
   router.use((req, res, next) => {
     res.set('Cache-Control', 'no-store');
-    if (!equal(String(req.get('Authorization') ?? '').replace(/^Bearer /, ''), secret)) return res.status(401).json({ error: 'Connecteur non authentifié.' });
+    if (!equal(String(req.get('Authorization') ?? '').replace(/^Bearer /, ''), secret)) return refuser(req, res, 401, { error: 'Connecteur non authentifié.' });
     next();
   });
   router.use(express.json({ limit: '4mb' }));

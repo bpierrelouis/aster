@@ -604,6 +604,10 @@ test('routeurs : session obligatoire, ETag, jeton de passerelle et jeton propre 
   const url = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
   try {
     assert.equal((await fetch(`${url}/api/workspace`)).status, 401);
+    // Refus avant lecture d'un gros corps : le corps est lu puis ignoré, la réponse arrive sans coupure (#131)
+    const gros = await fetch(`${url}/api/workspace`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify('a'.repeat(6 * 1024 * 1024)) });
+    assert.equal(gros.status, 401);
+    assert.equal((await gros.json()).error, 'Connexion nécessaire.');
     accountId = TEACHER;
     const first = await fetch(`${url}/api/workspace`);
     const body = await first.json();

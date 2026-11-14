@@ -17,6 +17,7 @@ import { createServices } from './services.ts';
 import { openapi } from './openapi.ts';
 import { DISCONNECT_AFTER } from './workspace/postes.ts';
 import { editable, same } from './workspace/rules.ts';
+import { refuser } from './refus.ts';
 import type { Compte, Id, WorkspaceState } from '#shared/types.ts';
 
 declare module 'express-session' {
@@ -192,7 +193,7 @@ app.post('/auth/logout', async (req, res) => {
 });
 
 app.use('/api/workspace', (req, res, next) => {
-  if (!['GET', 'HEAD'].includes(req.method) && req.get('origin') !== config.appUrl) return res.status(403).json({ error: 'Origine refusée.' });
+  if (!['GET', 'HEAD'].includes(req.method) && req.get('origin') !== config.appUrl) return refuser(req, res, 403, { error: 'Origine refusée.' });
   next();
 }, createWorkspaceRouter({
   repository: workspaceRepository,

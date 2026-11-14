@@ -390,6 +390,8 @@ npm run test:e2e
 
 Ces tests passent réellement par Keycloak pour chaque profil et vérifient : l’identité et les modules par profil, la session persistante et la déconnexion ; la création d’un compte puis la connexion de ce nouvel utilisateur, la coupure de session à sa désactivation ; le refus d’une identité sans compte ORION ; l’enregistrement d’un matériel en base ; une remontée transmise et son état des lieux PDF, produit à la demande ; un arrêt de processus exécuté par un poste ; le refus des écritures d’une autre origine, d’un state incorrect et d’un retour sans demande préalable.
 
+Un refus prononcé avant la lecture du corps (session absente, origine refusée, jeton de poste ou de connecteur invalide) lit d’abord le corps envoyé puis l’ignore ([backend/refus.ts](backend/refus.ts)) : la connexion n’est pas coupée pendant l’envoi et le proxy de développement renvoie le vrai refus au lieu d’une erreur 502 (au-delà de 16 Mo, la connexion est fermée avec la réponse).
+
 ## Journal applicatif
 
 Le serveur, le simulateur des postes, le connecteur et le relais RIGEL écrivent leur journal par [backend/journal.ts](backend/journal.ts) : une ligne par événement, `NIVEAU événement clé=valeur…` (`INFO` sur la sortie standard, `WARN` et `ERROR` sur la sortie d’erreur), sans horodatage (ajouté par le pilote `syslog` sur les VM), sans secret, jeton ni contenu de requête. Sur les VM, ces lignes arrivent dans `/srv/orion/logs/conteneurs/<service>/<jour>.log` d’orion-10 (`api`, `postes`…) ; en développement, dans le terminal.
