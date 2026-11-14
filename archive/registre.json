@@ -2311,6 +2311,13 @@
         "version": "4.18",
         "date": "2026-11-14",
         "modification": "Cocher l'exception des logs de Logstash",
+        "archive": null,
+        "commit": "28ed8d4"
+      },
+      {
+        "version": "4.19",
+        "date": "2026-11-14",
+        "modification": "Admettre les chemins sur les VM dans le DAT",
         "archive": null
       }
     ]

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.18 | 14/11/2026 | Pilotage interne | Cocher l'exception des logs de Logstash | [28 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.19 | 14/11/2026 | Pilotage interne | Admettre les chemins sur les VM dans le DAT | [29 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -220,7 +220,7 @@ Le DAT validé fait foi ; ces écarts entre lui, la configuration réelle et ses
 - [x] **Basse** — Absents : client Keycloak `orion-provisionnement`, secrets `PROVISIONING_CLIENT_SECRET` et `ca`, images `connecteur` et `relais` du `Dockerfile`, dépendance `swagger-ui-express` 5.0.1.
 - [x] **Basse** — Versions : « HAProxy 3.2 » et « Apache 2.4 » remplacés par les versions épinglées 3.2.16 et 2.4.69 (§ 5.3). L’image Keycloak, image officielle avec une légère surcouche ORION, est voulue (utilisateur, 14 novembre).
 - [x] **Basse** — Logstash n’envoie pas ses propres logs au collecteur, ce qui est voulu : le DAT le précise (« chaque conteneur, sauf Logstash… »).
-- [ ] **Basse** — Chemins `/srv/orion/…`, `/var/lib/…`, `/run/secrets/…` cités hors de l’inventaire des configurations : à confirmer qu’ils sont admis (chemins sur les VM).
+- [x] **Basse** — Chemins `/srv/orion/…`, `/var/lib/…`, `/run/secrets/…` cités hors de l’inventaire des configurations : admis, car ils décrivent le déploiement sur les VM et dans les conteneurs (utilisateur, 14 novembre ; règle précisée dans `AGENTS.md`).
 
 ### Schémas d’architecture (générateur)
 
