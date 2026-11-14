@@ -63,27 +63,11 @@
       ],
       "attributes": {
         "pkce.code.challenge.method": "S256",
-        "post.logout.redirect.uris": "${APP_URL:http://localhost:5173}/"
+        "post.logout.redirect.uris": "${APP_URL:http://localhost:5173}/##${APP_URL:http://localhost:5173}/auth/login"
       },
       "defaultClientScopes": [
         "profile",
         "email"
-      ],
-      "protocolMappers": [
-        {
-          "name": "orion-roles",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usermodel-realm-role-mapper",
-          "consentRequired": false,
-          "config": {
-            "multivalued": "true",
-            "claim.name": "orion_roles",
-            "jsonType.label": "String",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "userinfo.token.claim": "true"
-          }
-        }
       ],
       "fullScopeAllowed": true
     }

@@ -25,7 +25,7 @@ export interface ImportAnalyseInput { ecoleId?: Id; series?: unknown[] }
 /** Import : lignes du fichier et numéros de série dont le transfert est validé ; contrôlé ici et par mergeState */
 export interface ImportInput { ecoleId?: Id; materiels?: Record<string, unknown>[]; transferts?: unknown[] }
 
-const FIELDS: (keyof Materiel)[] = ['type', 'modele', 'marque', 'serie', 'dateReception', 'garantieFin', 'hs', 'salleId'];
+const FIELDS: (keyof Materiel)[] = ['type', 'modele', 'marque', 'serie', 'mac', 'dateReception', 'garantieFin', 'hs', 'salleId'];
 
 function checkTarget(state: WorkspaceState, actor: Actor, ecoleId: Id | undefined) {
   if (!['superadmin', 'admin', 'gestionnaire'].includes(actor.role)) fail(403, 'Import réservé aux gestionnaires et administrateurs.');

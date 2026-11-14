@@ -71,6 +71,8 @@ export interface Materiel {
   modele: string;
   marque: string | null;
   serie: string | null;
+  /** Adresse MAC : douze chiffres hexadécimaux en capitales, sans séparateur (écriture de l'étiquette d'inventaire) */
+  mac?: string | null;
   dateReception: Timestamp;
   garantieFin: Timestamp | null;
   hs: boolean;

@@ -121,7 +121,7 @@ export const openapi = {
             type: 'object', required: ['ecoleId', 'materiels'],
             properties: {
               ecoleId: { type: 'string', description: 'École de destination' },
-              materiels: { type: 'array', minItems: 1, maxItems: 2000, items: { type: 'object', description: 'modele, dateReception (obligatoires), type, marque, serie, hs, salleId, garantieFin' } },
+              materiels: { type: 'array', minItems: 1, maxItems: 2000, items: { type: 'object', description: 'modele, dateReception (obligatoires), type, marque, serie, mac, hs, salleId, garantieFin' } },
               transferts: { type: 'array', items: { type: 'string' }, description: 'Numéros de série des matériels d’une autre école à transférer' },
             },
           } } },
@@ -141,6 +141,16 @@ export const openapi = {
         parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
         responses: {
           200: { description: 'Document PDF, produit à la demande avec les informations actuelles', content: { 'application/pdf': { schema: { type: 'string', format: 'binary' } } } },
+          401: error, 403: error, 404: error,
+        },
+      },
+    },
+    '/api/workspace/postes/{id}/jeton': {
+      get: {
+        tags: ['Espace de travail'], summary: 'Jeton à installer sur un poste de son périmètre (administrateurs)', security: session,
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          200: json({ type: 'object', properties: { poste: { type: 'string', description: 'Nom réseau du poste, en capitales' }, jeton: { type: 'string', description: 'NOM:signature, à présenter en jeton porteur sur l’API des postes' } } }),
           401: error, 403: error, 404: error,
         },
       },

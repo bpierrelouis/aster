@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.7 | 14/11/2026 | Pilotage interne | RIGEL : accepter sur place ou ramener (RG-96) | [17 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.9 | 14/11/2026 | Pilotage interne | Comptes fictifs, tableau des comptes et changement de compte à la connexion ; réinitialisation des données préparée | [19 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -18,12 +18,13 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Avant le prochain déploiement sur les VM
 
-- [ ] Prévoir la réinitialisation des données de démonstration : `SEED_VERSION` vaut 17 et `SEED_RESET=true` sur les VM ; les données sont recréées à ce déploiement.
-- [ ] Vérifier après déploiement : connexion des quatre profils, création d’un compte, rapports des postes simulés, recensement RIGEL, `https://172.16.131.188/api/infos` (version servie).
+- [x] Prévoir la réinitialisation des données de démonstration : les VM servent `SEED_VERSION` 18 (commit `fe89b85`) ; `SEED_VERSION` passe à 19 avec les nouveaux comptes et `SEED_RESET=true` sur les VM : les données sont recréées au prochain déploiement.
+- [ ] Vérifier après déploiement : `https://172.16.131.188/api/infos` (version servie) ; connexion des comptes (flèches du tableau « Comptes » comprises), leurs identités étant créées dans l’annuaire par le provisionnement au démarrage ; création d’un compte ; rapports des postes simulés ; recensement RIGEL. Les anciennes identités `@orion.demo` restent dans l’annuaire LDAP des VM (le LDIF n’est chargé qu’à la création du volume) : sans compte ORION, elles sont refusées ; les supprimer dans la console Keycloak si besoin.
 
 ### Avant le rendu de l’application (mardi 17 novembre)
 
-- [ ] **Haute** — Remplacer les utilisateurs de test des jetons « Accès de présentation » par de vrais comptes : adresse électronique d’identification et mot de passe dans l’annuaire, connexion par le formulaire habituel (le flux sans mot de passe du Keycloak local est alors retiré de l’image des VM). Les mots de passe ne sont jamais versionnés : secrets Swarm ou saisie au déploiement ; les adresses `@orion.demo` disparaissent du fichier LDIF remis avec le DAT.
+- [x] **Haute** — Comptes de démonstration remplacés par des personnes fictives aux adresses `prénom.nom` de messageries courantes (Gmail, Outlook, Yahoo, Hotmail, Orange, Free, La Poste), sans adresse `@orion.demo` ni `admin@`, `gestionnaire@` (14 novembre) : même répartition qu’avant (super administrateur ; administrateur, gestionnaire et quatre formateurs à l’École du numérique ; administrateur, gestionnaire et formateur à l’École des réseaux). Jeu de départ et fichier LDIF mis à jour ; sur la page de connexion, un tableau « Comptes » en marge, au style du bloc de connexion (adresse, profil, école, flèche de connexion directe), remplace les jetons « Accès de présentation ».
+- [ ] **Haute** — Mots de passe des comptes : mot de passe dans l’annuaire, connexion par le formulaire habituel (le flux sans mot de passe du Keycloak local est alors retiré de l’image des VM). Les mots de passe ne sont jamais versionnés : secrets Swarm ou saisie au déploiement.
 - [ ] **Haute** — Créer un scénario complet de l’application : parcours de bout en bout par profil (connexion, parc, salles, recensement RIGEL, remontée de sa création à sa fin, supervision, intervention sur les postes, notifications, administration), avec données de départ adaptées et résultat attendu à chaque étape ; il sert de fil de la présentation et de test de recette.
 
 ### Avant la présentation (supports prêts le mercredi 18 novembre ; présentation le jeudi 19 novembre, horaire non fixé)
@@ -32,7 +33,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Après la présentation
 
-- [ ] Retirer les jetons « Accès de présentation » de la page de connexion du Keycloak local : variable `ORION_COMPTES_PRESENTATION` (Compose, pile des VM) et bloc du thème `orion-mindef` (gabarit, styles, script).
+- [ ] Retirer le tableau « Comptes » de la page de connexion du Keycloak local : variable `ORION_COMPTES_PRESENTATION` (Compose, pile des VM) et bloc du thème `orion-mindef` (gabarit, styles, script).
 
 ## 2. Pilotage du projet
 
@@ -41,18 +42,22 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ## 3. Application
 
+### Corrections signalées par l’utilisateur
+
+- [x] **Haute** — Connexion : « Vous êtes déjà authentifié avec un autre utilisateur » (local et VM) après un retour arrière vers la page de connexion ou avec deux onglets. La page d’erreur du thème ferme la session Keycloak et la connexion reprend avec le compte choisi ; ORION garde une tentative de connexion par onglet (14 novembre).
+
 ### Corrections relevées par l’audit du 13 novembre
 
-- [ ] **Moyenne** — Une remontée peut viser une salle d’une autre école : le serveur ne contrôle pas `salleId` (`backend/workspace/rules.ts`, création des remontées) ; le PDF affiche alors la salle de l’autre école.
-- [ ] **Moyenne** — Le formateur trouve par la recherche globale tous les matériels de son école, stock compris (`shell-menus.tsx`, `can('materiel.view')`), contrairement à la matrice (consultation depuis la salle seulement).
-- [ ] **Moyenne** — Test instable `workspace-ui.spec.ts` « deux ambiances… » : il ne rétablit pas les préférences (ambiance Minarm) et fait alors échouer « la palette Orion… » ; rétablir dans un `finally` ou un `beforeEach`.
-- [ ] **Moyenne** — Relais RIGEL : aucun plafond du nombre d’événements non acquittés par campagne ; un téléphone appairé ou un jeton divulgué peut remplir la base jusqu’à l’expiration.
-- [ ] **Basse** — `GET /api/workspace/postes/:id/jeton` absent de l’OpenAPI (`backend/openapi.ts`).
-- [ ] **Basse** — Postes : normaliser `nomReseau` en majuscules côté serveur (un poste en minuscules ne serait pas reconnu par ses rapports) et contrôler `materielId` (unité centrale de la même école).
-- [ ] **Basse** — Catalogue des applications : refuser la suppression d’une application encore référencée par des installations ou des interventions.
-- [ ] **Basse** — Factoriser la comparaison à temps constant (`routes.ts` et `relais.ts`) et le contrôle « seul ce champ est modifiable » (`rules.ts`, `recensement.ts`).
-- [ ] **Basse** — Guide de l’application : `Dockerfile` construit six images (ajouter relais et connecteur) ; arborescence sans `frontend/rigel/` ni `vite.rigel.config.ts` ; scripts `start:relais` et `dev:backend` absents ; la ligne « tous les secrets créés par `installer.sh` » contredit la section RIGEL (secrets créés au déploiement) et attribue le runner à `installer.sh` au lieu de `runner.sh` ; la section Keycloak réserve à tort le flux sans mot de passe à Compose ; périmètre des configurations remises avec le DAT plus large que le tableau « Déploiement sur les VM » (`Dockerfile`, `images/`, `rigel/`, `ldap/`).
-- [ ] **Basse** — Configuration Keycloak : le mapper `orion-roles` subsiste alors que les rôles Keycloak ne sont pas lus.
+- [x] **Moyenne** — Remontée : le serveur ne garde à la création que les champs saisis (école, matériels, type de problème, description) ; une salle ou toute autre valeur envoyée est ignorée (`rules.ts`, 14 novembre).
+- [x] **Moyenne** — Recherche globale du formateur limitée aux matériels de salle (`009cfd5`).
+- [x] **Moyenne** — Test « une synchronisation lue pendant un enregistrement… » instable : une synchronisation périodique, normale avant le choix de Minarm (le simulateur des postes fait avancer la révision), était comptée ; le test ne vérifie plus que les états qui suivent le choix. L’apparence est rétablie avant chaque test (`beforeEach`, `2ac9f50`).
+- [x] **Moyenne** — Relais RIGEL : au plus 5 000 événements non acquittés par campagne (`MAX_EN_ATTENTE`), refus 429 au-delà ; le téléphone garde ses constats et les renvoie.
+- [x] **Basse** — `GET /api/workspace/postes/:id/jeton` décrit dans l’OpenAPI.
+- [x] **Basse** — Postes : `nomReseau` enregistré en capitales par le serveur ; `materielId` contrôlé (unité centrale de l’école de la salle du poste).
+- [x] **Basse** — Catalogue des applications : suppression refusée pour une application installée sur un poste ou citée par une intervention.
+- [x] **Basse** — Comparaison à temps constant factorisée (`backend/securite.ts`) ; contrôle « seuls ces champs sont modifiables » factorisé (`seulsModifies`, `rules.ts`).
+- [x] **Basse** — Guide de l’application : six images, arborescence RIGEL, scripts `dev:backend` et `start:relais`, secrets RIGEL créés par `deployer.sh`, runner installé par `runner.sh`, flux sans mot de passe aussi dans l’image Keycloak des VM, configurations remises avec le DAT (`Dockerfile`, `images/`, `keycloak/`, `ldap/`, `rigel/`).
+- [x] **Basse** — Configuration Keycloak : mapper `orion-roles` retiré du realm (les rôles Keycloak ne sont pas lus).
 
 ### Évolutions
 

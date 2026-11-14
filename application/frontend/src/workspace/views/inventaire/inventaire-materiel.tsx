@@ -13,7 +13,7 @@ import { uid } from '../../core/dom.ts';
 import { store, currentEcole } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
 import { can } from '../../core/permissions.ts';
-import { DEVICE_TYPES, deviceType, materielCite } from '#shared/catalog.ts';
+import { adresseMac, DEVICE_TYPES, deviceType, materielCite } from '#shared/catalog.ts';
 import { inputDate, fromInputDate } from '#shared/format.ts';
 import { affectationOptions, index } from '../../core/selectors.ts';
 import { Sheet, openSheet, notify } from '../../ui/overlays.tsx';
@@ -62,8 +62,10 @@ function MaterielForm({ materiel, salleId, ecoleId, valeurs, lier }: { materiel:
     const modele = (form.get('modele') as string).trim();
     const reception = fromInputDate(form.get('reception') as string);
     if (!modele || !reception) throw Error('Renseignez le modèle et la date de réception.');
+    const saisieMac = (form.get('mac') as string).trim(), mac = adresseMac(saisieMac);
+    if (saisieMac && !mac) throw Error('Adresse MAC invalide : douze chiffres hexadécimaux attendus.');
     const data = {
-      type, modele, marque: (form.get('marque') as string).trim() || null, serie: (form.get('serie') as string).trim() || null,
+      type, modele, marque: (form.get('marque') as string).trim() || null, serie: (form.get('serie') as string).trim() || null, mac,
       dateReception: reception, hs, salleId: (form.get('salle') as string) || null, garantieFin: fromInputDate(form.get('garantie') as string),
     };
     const newId = isNew ? uid('m') : null;
@@ -94,6 +96,7 @@ function MaterielForm({ materiel, salleId, ecoleId, valeurs, lier }: { materiel:
         <label className="field"><span className="field-label">Marque</span><input name="marque" maxLength={40} defaultValue={materiel?.marque ?? valeurs?.marque ?? ''} placeholder="Facultative" autoComplete="off" /></label>
         <label className="field"><span className="field-label">Date de réception *</span><input name="reception" type="date" required defaultValue={inputDate(materiel?.dateReception ?? Date.now())} /></label>
         <label className="field"><span className="field-label">Numéro de série</span><input name="serie" maxLength={40} defaultValue={materiel?.serie ?? valeurs?.serie ?? ''} placeholder="Facultatif" autoComplete="off" /></label>
+        <label className="field"><span className="field-label">Adresse MAC</span><input name="mac" maxLength={17} defaultValue={materiel?.mac ?? ''} placeholder="Facultative" autoComplete="off" /></label>
         <div className="field"><span className="field-label">Affectation</span><FilterSelect aria-label="Affectation" name="salle" defaultValue={(materiel ? materiel.salleId : salleId) ?? ''} options={affectationOptions(ecoleId)} />
           <span className="field-hint">Un matériel peut rester en stock sans salle.</span></div>
         <div className="field"><span className="field-label">Hors service *</span>

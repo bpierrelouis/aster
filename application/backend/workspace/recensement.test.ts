@@ -93,7 +93,7 @@ test('campagne : ouverte par un gestionnaire, valeurs fixées par le serveur, cl
   const { next, campagne } = ouvrir(state, [salle.id]);
   assert.match(campagne.id, /^rec-/);
   assert.equal(campagne.nom, 'Rentrée');
-  assert.equal(campagne.par, 'G. Bernard');
+  assert.equal(campagne.par, 'Sophie Garnier');
   assert(campagne.expireLe > Date.now() + 13 * 86400e3);
   assert.equal(scopedState(next, as(next, TEACHER)).recensements.length, 0, 'invisible au formateur');
   assert.equal(scopedState(next, as(next, 'cpt-res-admin')).recensements.length, 0, 'invisible à une autre école');
@@ -131,7 +131,7 @@ test('campagne : ouverte par un gestionnaire, valeurs fixées par le serveur, cl
   close.recensements[0].close = { at: 1, par: 'falsifié', parId: null };
   const closed = mergeState(next, close, manager);
   const fermee = closed.recensements[0] as Recensement;
-  assert.equal(fermee.close?.par, 'G. Bernard');
+  assert.equal(fermee.close?.par, 'Sophie Garnier');
   assert(fermee.close!.at > 1);
   const rouvre: Ecriture = scopedState(closed, manager);
   delete rouvre.recensements[0].close;
@@ -215,7 +215,7 @@ test('constats : présence, écart (version antérieure), relocalisation, stock,
   assert.deepEqual(appliquerEvenements(s, campagne.id, [posterieur]).map((r) => r.statut), ['applique'], 'observée après, arrivée après : appliquée');
   assert.equal(m(libre.id).salleId, la.id);
   // Déplacement prévu dans ORION après l'observation : l'observation est dépassée
-  m(libre.id).deplacement = { de: la.id, at: Date.now(), par: 'G. Bernard', parId: MANAGER };
+  m(libre.id).deplacement = { de: la.id, at: Date.now(), par: 'Sophie Garnier', parId: MANAGER };
   m(libre.id).salleId = ici.id;
   assert.equal(appliquerEvenements(s, campagne.id, [evt({ type: 'releve', materielId: libre.id, salleId: la.id, observeLe: t0 + 50_000 })])[0].statut, 'refuse');
 
@@ -249,7 +249,7 @@ test('constats : présence refusée, retour lancé vers l’affectation, confirm
   assert.deepEqual(r.map((x) => x.statut), ['applique', 'applique', 'applique', 'applique']);
   assert.deepEqual(s.constats.slice(-4).map((c) => c.resultat), ['retour', 'retour', 'retour', 'retour']);
   assert.equal(m(installe.id).salleId, affectation, 'affectation inchangée');
-  assert.deepEqual(m(installe.id).deplacement, { de: ici.id, at: s.constats.at(-4)!.at, par: 'G. Bernard', parId: MANAGER }, 'à ramener depuis le lieu ouvert');
+  assert.deepEqual(m(installe.id).deplacement, { de: ici.id, at: s.constats.at(-4)!.at, par: 'Sophie Garnier', parId: MANAGER }, 'à ramener depuis le lieu ouvert');
   assert.equal(m(installe.id).installation, undefined, 'installation retirée');
   assert.equal(m(enCours.id).deplacement?.de, null, 'déplacement déjà en cours : origine remplacée par le lieu ouvert');
   assert.equal(m(hs.id).deplacement?.de, ici.id, 'hors service : retour vers son affectation possible');
@@ -284,7 +284,7 @@ test('ancien code inconnu : traité dans ORION avec la création du matériel, s
   input.materiels.push({ id: 'nouveau', ecoleId: 'e-num', idOrion: '', salleId: salle.id, type: 'autre', modele: 'Câble', marque: null, serie: null, dateReception: Date.now(), garantieFin: null, hs: false });
   input.constats[0].traite = { at: 0, par: 'falsifié', parId: null, action: 'ajoute' };
   const next = mergeState(s, input, manager);
-  assert.equal(next.constats[0].traite?.par, 'G. Bernard');
+  assert.equal(next.constats[0].traite?.par, 'Sophie Garnier');
   assert(next.materiels.some((m) => m.id === 'nouveau' && m.idOrion.startsWith('MAT-')));
   const modifie: Ecriture = scopedState(next, manager);
   modifie.constats[0].resultat = 'present';
@@ -373,7 +373,7 @@ test('installation d’une salle : lancée par le gestionnaire, salle et stock, 
   assert.throws(() => lancerInstallation(s, gestionnaire, sansDeplacement.id), /Aucun déplacement/);
   const ins = lancerInstallation(s, gestionnaire, salle);
   assert.equal(lancerInstallation(s, gestionnaire, salle).id, ins.id, 'reprise, pas de doublon');
-  assert.deepEqual([ins.mode, ins.salleIds, ins.par], ['installation', [salle], 'G. Bernard']);
+  assert.deepEqual([ins.mode, ins.salleIds, ins.par], ['installation', [salle], 'Sophie Garnier']);
   // Une installation ne se crée pas comme une campagne
   const input: Ecriture = scopedState(s, gestionnaire);
   input.recensements.push({ ...ins, id: 'x' });
@@ -407,7 +407,7 @@ test('installation d’une salle : lancée par le gestionnaire, salle et stock, 
 test('recensement : un scan antérieur à la dernière information est refusé avant toute confirmation', () => {
   const { next: s, campagne } = ouvrir(initialState());
   const m = s.materiels.find((x) => x.ecoleId === 'e-num' && x.salleId && !x.hs)!;
-  m.deplacement = { de: null, at: Date.now(), par: 'G. Bernard', parId: MANAGER };
+  m.deplacement = { de: null, at: Date.now(), par: 'Sophie Garnier', parId: MANAGER };
   const ancien = evt({ type: 'vu', materielId: m.id, salleId: m.salleId, observeLe: m.deplacement.at - 1000 });
   assert.equal(appliquerEvenements(s, campagne.id, [ancien])[0].statut, 'refuse');
   assert(m.deplacement, 'le déplacement reste à confirmer');

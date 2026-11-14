@@ -1,85 +1,86 @@
-# Annuaire local : identités des comptes ORION de départ (sans profil ni école).
+# Annuaire local : identités des comptes ORION de départ (sans profil ni école), personnes fictives.
+# Identifiants formés comme ceux créés par ORION (backend/demonstrateur/identifiant.ts).
 
 dn: ou=people,dc=orion,dc=demo
 objectClass: organizationalUnit
 ou: people
 
-dn: uid=superadmin,ou=people,dc=orion,dc=demo
+dn: uid=camille.rousseau,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
-uid: superadmin
-cn:: Uy4gTGVmw6h2cmU=
-givenName: S.
-sn:: TGVmw6h2cmU=
-mail: superadmin@orion.demo
+uid: camille.rousseau
+cn: Camille Rousseau
+givenName: Camille
+sn: Rousseau
+mail: camille.rousseau@gmail.com
 
-dn: uid=admin,ou=people,dc=orion,dc=demo
+dn: uid=julien.mercier,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
-uid: admin
-cn: C. Durand
-givenName: C.
-sn: Durand
-mail: admin@orion.demo
+uid: julien.mercier
+cn: Julien Mercier
+givenName: Julien
+sn: Mercier
+mail: julien.mercier@outlook.fr
 
-dn: uid=gestionnaire,ou=people,dc=orion,dc=demo
+dn: uid=sophie.garnier,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
-uid: gestionnaire
-cn: G. Bernard
-givenName: G.
-sn: Bernard
-mail: gestionnaire@orion.demo
+uid: sophie.garnier
+cn: Sophie Garnier
+givenName: Sophie
+sn: Garnier
+mail: sophie.garnier@yahoo.fr
 
-dn: uid=formateur,ou=people,dc=orion,dc=demo
+dn: uid=thomas.lefebvre,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
-uid: formateur
-cn: L. Martin
-givenName: L.
-sn: Martin
-mail: formateur@orion.demo
+uid: thomas.lefebvre
+cn: Thomas Lefebvre
+givenName: Thomas
+sn: Lefebvre
+mail: thomas.lefebvre@hotmail.fr
 
-dn: uid=n.petit,ou=people,dc=orion,dc=demo
+dn: uid=nadia.benali,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
-uid: n.petit
-cn: N. Petit
-givenName: N.
-sn: Petit
-mail: n.petit@orion.demo
+uid: nadia.benali
+cn: Nadia Benali
+givenName: Nadia
+sn: Benali
+mail: nadia.benali@orange.fr
 
-dn: uid=r.garcia,ou=people,dc=orion,dc=demo
+dn: uid=hugo.fontaine,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
-uid: r.garcia
-cn: R. Garcia
-givenName: R.
-sn: Garcia
-mail: r.garcia@orion.demo
+uid: hugo.fontaine
+cn: Hugo Fontaine
+givenName: Hugo
+sn: Fontaine
+mail: hugo.fontaine@free.fr
 
-dn: uid=m.robert,ou=people,dc=orion,dc=demo
+dn: uid=lea.chevalier,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
-uid: m.robert
-cn: M. Robert
-givenName: M.
-sn: Robert
-mail: m.robert@orion.demo
+uid: lea.chevalier
+cn:: TMOpYSBDaGV2YWxpZXI=
+givenName:: TMOpYQ==
+sn: Chevalier
+mail: lea.chevalier@laposte.net
 
-dn: uid=a.moreau,ou=people,dc=orion,dc=demo
+dn: uid=antoine.girard,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
-uid: a.moreau
-cn: A. Moreau
-givenName: A.
-sn: Moreau
-mail: a.moreau@orion.demo
+uid: antoine.girard
+cn: Antoine Girard
+givenName: Antoine
+sn: Girard
+mail: antoine.girard@gmail.com
 
-dn: uid=e.dubois,ou=people,dc=orion,dc=demo
+dn: uid=manon.faure,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
-uid: e.dubois
-cn: E. Dubois
-givenName: E.
-sn: Dubois
-mail: e.dubois@orion.demo
+uid: manon.faure
+cn: Manon Faure
+givenName: Manon
+sn: Faure
+mail: manon.faure@outlook.com
 
-dn: uid=j.lambert,ou=people,dc=orion,dc=demo
+dn: uid=kevin.morel,ou=people,dc=orion,dc=demo
 objectClass: inetOrgPerson
-uid: j.lambert
-cn: J. Lambert
-givenName: J.
-sn: Lambert
-mail: j.lambert@orion.demo
+uid: kevin.morel
+cn: Kevin Morel
+givenName: Kevin
+sn: Morel
+mail: kevin.morel@yahoo.com

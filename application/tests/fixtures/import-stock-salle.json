@@ -1081,21 +1081,22 @@
     "garantieFin": "2028-11-09"
   },
   {
-    "modele": "Écran 27 pouces",
+    "modele": "Écran 242V8A 24 pouces",
     "type": "ecran",
-    "dateReception": "2024-08-16",
+    "dateReception": "2024-11-16",
     "hs": false,
-    "marque": "Iiyama",
-    "serie": "XC-25693",
-    "garantieFin": "2027-08-16"
+    "marque": "Philips",
+    "serie": "UHB2032046325",
+    "garantieFin": "2025-11-30"
   },
   {
     "modele": "Unité centrale ThinkCentre M70",
     "type": "uc",
-    "dateReception": "2024-09-14",
+    "dateReception": "2023-11-26",
     "hs": false,
     "marque": "Lenovo",
-    "serie": "UN-82908",
-    "garantieFin": "2027-09-14"
+    "serie": "SMJ0H7987",
+    "garantieFin": "2026-11-30",
+    "mac": "6C4B90A17ADD"
   }
 ]

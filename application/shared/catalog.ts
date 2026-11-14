@@ -31,6 +31,9 @@ export const ETATS = {
 /** Clé de rapprochement d'un numéro de série (import JSON) : sans espaces de début et de fin, en minuscules ; null si absent */
 export const serieKey = (s: unknown) => (typeof s === 'string' && s.trim() ? s.trim().toLowerCase() : null);
 
+/** Adresse MAC normalisée (douze chiffres hexadécimaux en capitales, séparateurs « : », « - », « . » et espaces retirés) ; null si invalide */
+export const adresseMac = (s: unknown) => { const v = typeof s === 'string' ? s.toUpperCase().replace(/[\s:.\-]/g, '') : ''; return /^[0-9A-F]{12}$/.test(v) ? v : null; };
+
 /* Installation physique (orientation de l'utilisateur du 11 novembre, à soumettre au client,
    cadrage § 23). Une affectation enregistrée dans ORION reste en cours tant que le
    déplacement physique n'est pas confirmé (aujourd'hui d'un clic, demain par le scanner).
