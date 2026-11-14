@@ -71,6 +71,7 @@ export const RESULTATS: Record<ConstatResultat, { label: string; icon: string; t
   present: { label: 'Présent', icon: 'checkCircle', tone: 'ok' },
   deplace: { label: 'Relocalisé', icon: 'deplacement', tone: 'accent' },
   range: { label: 'Rangé au stock', icon: 'stockage', tone: 'stock' },
+  retour: { label: 'Retour lancé', icon: 'deplacement', tone: 'install' },
   ecart: { label: 'Vu dans une autre salle', icon: 'alert', tone: 'install' },
   inconnu: { label: 'Code inconnu', icon: 'search', tone: 'install' },
   refuse: { label: 'Refusé', icon: 'shieldX', tone: 'crit' },

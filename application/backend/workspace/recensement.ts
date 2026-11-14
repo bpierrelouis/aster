@@ -5,9 +5,11 @@
      au gestionnaire (ticket #156) : les administrateurs suivent en lecture.
    - Constats : produits par les téléphones, transmis chiffrés par le relais
      et le connecteur, intégrés ici (valeurs d'autorité fixées par le serveur).
-   - Un matériel scanné dans sa salle confirme son déplacement en cours ; une
-     relocalisation affecte la salle constatée, déplacement confirmé ; un code
-     inconnu reste à traiter dans ORION.
+   - Ouvrir un lieu sur le téléphone, c'est déclarer s'y trouver (RG-96) : un
+     matériel scanné dans sa salle confirme son déplacement en cours ; affecté
+     ailleurs, il est accepté ici (affecté au lieu, déplacement confirmé) ou
+     refusé (retour lancé vers son affectation, à confirmer par le
+     gestionnaire) ; un code inconnu reste à traiter dans ORION.
    - Clé et jeton d'une campagne sont dérivés du secret RIGEL_SECRET :
      aucun secret n'est conservé dans les données.
    ========================================================================== */
@@ -121,7 +123,7 @@ export async function dechiffrerEvenements(secret: string, campagne: Id, blocs: 
 
 const ID = /^[\w-]{8,100}$/;
 const texte = (v: unknown, max: number) => (typeof v === 'string' && v.trim() ? v.trim().slice(0, max) : null);
-const LOCALISE: readonly Constat['resultat'][] = ['confirme', 'present', 'deplace', 'range'];
+const LOCALISE: readonly Constat['resultat'][] = ['confirme', 'present', 'deplace', 'range', 'retour'];
 
 /**
  * Date de la dernière information sur l'emplacement d'un matériel : observation d'un téléphone (sa date d'observation, pas
@@ -130,9 +132,12 @@ const LOCALISE: readonly Constat['resultat'][] = ['confirme', 'present', 'deplac
  */
 function derniereInformation(s: WorkspaceState, m: Materiel) {
   const constats = s.constats.filter((c) => c.materielId === m.id && LOCALISE.includes(c.resultat));
-  const parTelephone = new Set(constats.map((c) => c.at)); // installation confirmée par un constat : sa date d'observation compte
+  // Installation confirmée ou retour lancé par un constat : sa date d'observation compte, pas celle de son intégration
+  const parTelephone = new Set(constats.map((c) => c.at));
+  const retours = new Set(constats.filter((c) => c.resultat === 'retour').map((c) => c.at));
   const dansOrion = m.installation && !parTelephone.has(m.installation.at) ? m.installation.at : 0;
-  return Math.max(0, m.deplacement?.at ?? 0, dansOrion, ...constats.map((c) => c.observeLe));
+  const prevu = m.deplacement && !retours.has(m.deplacement.at) ? m.deplacement.at : 0;
+  return Math.max(0, prevu, dansOrion, ...constats.map((c) => c.observeLe));
 }
 
 /**
@@ -160,7 +165,7 @@ function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRi
   if (!r || !ouverte(r, now)) return { id, statut: 'refuse', message: 'Campagne close.' };
   // Les constats confirment des installations au nom de l'ouvreur : une campagne d'un autre profil n'est plus appliquée
   if (s.comptes.find((c) => c.id === r.parId)?.role !== 'gestionnaire') return { id, statut: 'refuse', message: 'Campagne non ouverte par un gestionnaire.' };
-  if (!['vu', 'releve', 'inconnu'].includes(e.type)) return { id, statut: 'refuse', message: 'Constat inconnu.' };
+  if (!['vu', 'releve', 'retour', 'inconnu'].includes(e.type)) return { id, statut: 'refuse', message: 'Constat inconnu.' };
   const salleId = e.salleId ?? null;
   if (salleId !== null && !sallesDe(s, r).some((x) => x.id === salleId)) return { id, statut: 'refuse', message: 'Salle hors de la campagne.' };
   const code = texte(e.code, 200) ?? '';
@@ -186,9 +191,14 @@ function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRi
   else if ((m.salleId ?? null) === salleId) {
     if (m.deplacement) { m.installation = { de: m.deplacement.de, at: now, ...par }; delete m.deplacement; constat.resultat = 'confirme'; }
     else constat.resultat = 'present';
-  } else if (e.type === 'vu' || connu) constat.resultat = 'ecart';
+  } else if (e.type === 'vu' || connu) constat.resultat = 'ecart'; // téléphone d'une version antérieure (« Signaler sans déplacer »)
   else if (constat.observeLe < derniereInformation(s, m)) Object.assign(constat, { resultat: 'refuse', message: 'Constat dépassé : ce matériel a été vu ou déplacé depuis.' });
-  else if (m.hs && salleId) Object.assign(constat, { resultat: 'refuse', message: 'Un matériel hors service ne peut aller qu’au stock.' });
+  else if (e.type === 'retour') {
+    // Présence refusée : le matériel est ici et doit être ramené à son affectation, inchangée ; le gestionnaire confirmera son installation
+    m.deplacement = { de: salleId, at: now, ...par };
+    delete m.installation;
+    constat.resultat = 'retour';
+  } else if (m.hs && salleId) Object.assign(constat, { resultat: 'refuse', message: 'Un matériel hors service ne peut aller qu’au stock.' });
   else {
     // Relocalisation constatée sur place : affectation et déplacement physique confirmés ensemble
     const de = m.deplacement ? m.deplacement.de : m.salleId ?? null;

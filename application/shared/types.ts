@@ -20,9 +20,11 @@ export type InterventionType = Exclude<OperationType, 'arret'>;
 export type OperationStatut = 'enregistree' | 'terminee' | 'echec';
 export type ResultatPoste = 'en_attente' | 'reussie' | 'echec';
 export type Portee = 'global' | 'ecole' | 'batiment' | 'salle';
-/** Constat du recensement mobile (RIGEL) : présence (vu), relocalisation (releve), code inconnu */
-export type ConstatType = 'vu' | 'releve' | 'inconnu';
-export type ConstatResultat = 'confirme' | 'present' | 'ecart' | 'deplace' | 'range' | 'inconnu' | 'refuse';
+/** Constat du recensement mobile (RIGEL) : présence (vu), présence acceptée dans le lieu ouvert (releve), retour vers
+ * l'affectation (retour), code inconnu ; vu ailleurs que son affectation : écart, envoyé par les anciennes versions */
+export type ConstatType = 'vu' | 'releve' | 'retour' | 'inconnu';
+/** ecart : constats d'avant RG-96 (décision du 14 novembre), conservés et traitables */
+export type ConstatResultat = 'confirme' | 'present' | 'ecart' | 'deplace' | 'range' | 'retour' | 'inconnu' | 'refuse';
 
 /** Auteur et date d'une action enregistrée par le serveur */
 export interface Trace {

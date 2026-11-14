@@ -1,5 +1,5 @@
 /* Vue de la campagne sur le téléphone : instantané d'ORION complété par les constats du téléphone
-   non encore intégrés (présence, relocalisation), pour que l'écran reflète aussitôt chaque action. */
+   non encore intégrés (présence, acceptation, retour), pour que l'écran reflète aussitôt chaque action. */
 import type { Etat } from './etat.ts';
 import type { MaterielRigel, SalleRigel } from '#shared/rigel.ts';
 import type { Id } from '#shared/types.ts';
@@ -13,7 +13,7 @@ export const parametreDe = (lieu: Id | null) => lieu ?? 'stock';
 export interface MaterielVu extends MaterielRigel {
   /** Lieu où il a été vu pendant la campagne (salle, ou null pour le stock) ; undefined : pas encore vu */
   vuDans: Id | null | undefined;
-  /** Vu dans un autre lieu que son affectation, sans relocalisation */
+  /** Vu dans un autre lieu que son affectation, sans y être accepté (retour lancé, ou écart d'une version antérieure) */
   ecart: Id | null | undefined;
   /** Constat du téléphone pas encore intégré par ORION */
   attente: boolean;
@@ -39,7 +39,7 @@ export function vueDe(etat: Etat): Vue {
     const m = c.materielId ? materiels.get(c.materielId) : undefined;
     if (!m) continue;
     if (VU.has(c.resultat)) { m.vuDans = c.salleId; m.ecart = undefined; }
-    else if (c.resultat === 'ecart') m.ecart = c.salleId;
+    else if (c.resultat === 'ecart' || c.resultat === 'retour') m.ecart = c.salleId;
   }
   for (const { evenement: e } of etat.file) {
     const m = e.materielId ? materiels.get(e.materielId) : undefined;
@@ -47,7 +47,7 @@ export function vueDe(etat: Etat): Vue {
     m.attente = true;
     if (e.type === 'releve' && !(m.hs && e.salleId)) { m.salleId = e.salleId; m.enCours = false; }
     if (m.salleId === e.salleId) { m.vuDans = e.salleId; m.ecart = undefined; m.enCours = false; }
-    else m.ecart = e.salleId;
+    else { m.ecart = e.salleId; if (e.type === 'retour') m.enCours = true; }
   }
   const liste = [...materiels.values()].sort((a, b) => a.idOrion.localeCompare(b.idOrion, 'fr', { numeric: true }));
   const salles = inst?.salles ?? [];

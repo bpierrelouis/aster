@@ -1,5 +1,6 @@
-/* Fiche d'un matériel. Dans l'inventaire d'un lieu : confirmer sa présence, ou relocaliser (ranger au stock)
-   un matériel affecté ailleurs ; sans lieu : consultation, puis choix du lieu constaté. */
+/* Fiche d'un matériel. Dans l'inventaire d'un lieu, où l'agent déclare se trouver (RG-96) : confirmer sa présence ;
+   affecté ailleurs, l'accepter ici (ranger au stock) ou le ramener à son affectation ; sans lieu : consultation,
+   puis choix du lieu constaté. */
 import { Navigate, useLocation, useNavigate, useParams, useSearchParams } from 'react-router';
 import { useState } from 'react';
 import type { FormEvent } from 'react';
@@ -11,6 +12,8 @@ import { deviceType } from '#shared/catalog.ts';
 import type { MaterielVu, Vue } from '../core/vue.ts';
 import type { Id } from '#shared/types.ts';
 
+type Constat = 'vu' | 'releve' | 'retour';
+
 export function Materiel() {
   const { vue } = useRigel();
   const navigate = useNavigate();
@@ -21,7 +24,7 @@ export function Materiel() {
   const logistique = logistiqueDe(m);
 
   /** Constat enregistré : retour au scanner de l'inventaire, le code lu restant ignoré tant qu'il est devant l'objectif */
-  async function constat(type: 'vu' | 'releve', salleId: Id | null, message: string, ton: 'ok' | 'accent' | 'install' = 'ok') {
+  async function constat(type: Constat, salleId: Id | null, message: string, ton: 'ok' | 'accent' | 'install' = 'ok') {
     await constater({ type, code: code ?? m!.idOrion, salleId, materielId: m!.id });
     annoncer(message, ton);
     navigate(`/scanner?lieu=${encodeURIComponent(parametreDe(salleId))}`, { replace: true, state: { ignorer: code } });
@@ -48,7 +51,7 @@ export function Materiel() {
   </Ecran>;
 }
 
-function Actions({ vue, m, lieu, constat }: { vue: Vue; m: MaterielVu; lieu: Id | null; constat: (type: 'vu' | 'releve', salleId: Id | null, message: string, ton?: 'ok' | 'accent' | 'install') => Promise<void> }) {
+function Actions({ vue, m, lieu, constat }: { vue: Vue; m: MaterielVu; lieu: Id | null; constat: (type: Constat, salleId: Id | null, message: string, ton?: 'ok' | 'accent' | 'install') => Promise<void> }) {
   const ici = nomLieu(vue, lieu);
   if (m.salleId === lieu) {
     return <div className="pile">
@@ -58,15 +61,18 @@ function Actions({ vue, m, lieu, constat }: { vue: Vue; m: MaterielVu; lieu: Id 
     </div>;
   }
   const bloque = m.hs && lieu !== null;
+  const affectation = nomLieu(vue, m.salleId);
   return <>
-    <p className="ecart" role="note"><span>Affecté : <strong>{nomLieu(vue, m.salleId)}</strong></span><span>Constaté : <strong>{ici}</strong></span></p>
+    <p className="ecart" role="note"><span>Affecté : <strong>{affectation}</strong></span><span>Constaté : <strong>{ici}</strong></span></p>
     <div className="pile">
       <button className="bouton bouton--principal" type="button" disabled={bloque} aria-describedby={bloque ? 'hs-explication' : undefined}
-        onClick={() => void constat('releve', lieu, lieu === null ? `Rangé au stock · ${m.idOrion}` : `Relocalisé en ${ici} · ${m.idOrion}`, 'accent')}>
-        {lieu === null ? 'Ranger au stock' : `Relocaliser en ${ici}`}
+        onClick={() => void constat('releve', lieu, lieu === null ? `Rangé au stock · ${m.idOrion}` : `Accepté dans ${ici} · ${m.idOrion}`, 'accent')}>
+        {lieu === null ? 'Ranger au stock' : `Accepter dans ${ici}`}
       </button>
       {bloque && <p id="hs-explication" className="discret">Un matériel hors service ne peut aller qu’au stock.</p>}
-      <button className="bouton" type="button" onClick={() => void constat('vu', lieu, `Écart signalé · ${m.idOrion}`, 'install')}>Signaler sans déplacer</button>
+      <button className="bouton" type="button" onClick={() => void constat('retour', lieu, `Retour lancé vers ${affectation} · ${m.idOrion}`, 'install')}>
+        {m.salleId === null ? 'Ramener au stock' : `Ramener dans ${affectation}`}
+      </button>
     </div>
   </>;
 }

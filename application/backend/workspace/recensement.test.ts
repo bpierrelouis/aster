@@ -148,7 +148,7 @@ test('constats : une campagne qui n’a pas été ouverte par un gestionnaire n�
   assert(enCours.deplacement, 'déplacement toujours en cours');
 });
 
-test('constats : confirmation, présence, écart, relocalisation, stock, hors service, code inconnu, doublon', () => {
+test('constats : confirmation, présence, écart (version antérieure), relocalisation, stock, hors service, code inconnu, doublon', () => {
   const { next: s, campagne } = ouvrir(initialState());
   const enCours = s.materiels.find((m) => m.ecoleId === 'e-num' && m.deplacement && m.salleId)!;
   const installe = s.materiels.find((m) => m.ecoleId === 'e-num' && !m.deplacement && m.salleId && !m.hs && m.id !== enCours.id)!;
@@ -213,6 +213,54 @@ test('constats : confirmation, présence, écart, relocalisation, stock, hors se
   assert.equal(appliquerEvenements(horsCampagne.next, horsCampagne.campagne.id, [evt({ type: 'vu', materielId: installe.id, salleId: autrePiece.id })])[0].message, 'Salle hors de la campagne.');
   horsCampagne.campagne.close = { at: Date.now(), par: 'x', parId: null };
   assert.equal(appliquerEvenements(horsCampagne.next, horsCampagne.campagne.id, [evt({ type: 'vu', materielId: installe.id, salleId: autreSalle.id })])[0].message, 'Campagne close.');
+});
+
+test('constats : présence refusée, retour lancé vers l’affectation, confirmé par le gestionnaire (RG-96)', () => {
+  const { next: s, campagne } = ouvrir(initialState());
+  const m = (id: Id) => s.materiels.find((x) => x.id === id)!;
+  const installe = s.materiels.find((x) => x.ecoleId === 'e-num' && x.salleId && !x.deplacement && !x.hs)!;
+  const affectation = installe.salleId;
+  const ici = s.salles.find((x) => x.ecoleId === 'e-num' && x.id !== affectation)!;
+  const enCours = s.materiels.find((x) => x.ecoleId === 'e-num' && x.deplacement && x.salleId && x.salleId !== ici.id)!;
+  const hs = s.materiels.find((x) => x.ecoleId === 'e-num' && x.hs && x.salleId && x.salleId !== ici.id && !x.deplacement)!;
+  const enStock = s.materiels.find((x) => x.ecoleId === 'e-num' && x.salleId === null && !x.deplacement)!;
+
+  const r = appliquerEvenements(s, campagne.id, [
+    evt({ type: 'retour', materielId: installe.id, salleId: ici.id }),
+    evt({ type: 'retour', materielId: enCours.id, salleId: null }),
+    evt({ type: 'retour', materielId: hs.id, salleId: ici.id }),
+    evt({ type: 'retour', materielId: enStock.id, salleId: ici.id }),
+  ]);
+  assert.deepEqual(r.map((x) => x.statut), ['applique', 'applique', 'applique', 'applique']);
+  assert.deepEqual(s.constats.slice(-4).map((c) => c.resultat), ['retour', 'retour', 'retour', 'retour']);
+  assert.equal(m(installe.id).salleId, affectation, 'affectation inchangée');
+  assert.deepEqual(m(installe.id).deplacement, { de: ici.id, at: s.constats.at(-4)!.at, par: 'G. Bernard', parId: MANAGER }, 'à ramener depuis le lieu ouvert');
+  assert.equal(m(installe.id).installation, undefined, 'installation retirée');
+  assert.equal(m(enCours.id).deplacement?.de, null, 'déplacement déjà en cours : origine remplacée par le lieu ouvert');
+  assert.equal(m(hs.id).deplacement?.de, ici.id, 'hors service : retour vers son affectation possible');
+  assert.equal(m(enStock.id).salleId, null, 'à ramener au stock');
+  assert.equal(m(enStock.id).deplacement?.de, ici.id);
+
+  // Constat observé avant le retour : dépassé
+  const [ancien] = appliquerEvenements(s, campagne.id, [evt({ type: 'releve', materielId: installe.id, salleId: ici.id, observeLe: Date.now() - 60_000 })]);
+  assert.equal(ancien.message, 'Constat dépassé : ce matériel a été vu ou déplacé depuis.');
+
+  // Confirmation dans ORION, une fois le matériel rapporté : réservée au gestionnaire
+  const confirmer = (compte: Id) => {
+    const input: Ecriture = scopedState(s, as(s, compte));
+    delete input.materiels.find((x) => x.id === installe.id)!.deplacement;
+    return mergeState(s, input, as(s, compte));
+  };
+  assert.throws(() => confirmer(ADMIN), (e: HttpError) => e.status === 403);
+  const confirme = confirmer(MANAGER).materiels.find((x) => x.id === installe.id)!;
+  assert.equal(confirme.salleId, affectation);
+  assert.equal(confirme.deplacement, undefined);
+  assert.equal(confirme.installation?.de, ici.id);
+
+  // Ou rescanné dans son affectation : installation confirmée par le téléphone
+  appliquerEvenements(s, campagne.id, [evt({ type: 'vu', materielId: installe.id, salleId: affectation })]);
+  assert.equal(s.constats.at(-1)!.resultat, 'confirme');
+  assert.equal(m(installe.id).installation?.de, ici.id);
 });
 
 test('constat inconnu : traité dans ORION avec la création du matériel, seul le traitement est modifiable', () => {

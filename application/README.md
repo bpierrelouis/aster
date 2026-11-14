@@ -197,23 +197,25 @@ Téléphone (PWA) ──HTTPS──► Relais (Hidora) ◄──HTTPS sortant, p
 
 **Appairage.** « Appairer un téléphone » affiche le QR code d’une adresse de l’application mobile dont le fragment porte la campagne, le jeton du téléphone et la clé (`https://relais/#c=…&j=…&k=…`) ; le navigateur n’envoie jamais le fragment au relais. Clé et jeton sont dérivés de `RIGEL_SECRET` par HMAC : rien n’est stocké, et changer ce secret révoque tous les téléphones. Le relais ne connaît que l’empreinte SHA-256 du jeton. Aucune connexion MindefConnect sur le téléphone.
 
-**Constats.** Chaque action du téléphone est un événement (identifiant généré sur le téléphone, rejoué sans doublon) intégré par le serveur au nom de l’ouvreur de la campagne :
+**Constats.** Chaque action du téléphone est un événement (identifiant généré sur le téléphone, rejoué sans doublon) intégré par le serveur au nom de l’ouvreur de la campagne. Ouvrir une salle ou le stock, c’est déclarer s’y trouver physiquement (RG-96, décision de l’utilisateur du 14 novembre) : un matériel affecté ailleurs (autre salle ou stock) n’offre que deux choix, l’accepter ici ou le ramener à son affectation ; « Signaler sans déplacer » n’existe plus. Un matériel n’est jamais rangé au stock depuis une salle : le lieu constaté est toujours le lieu ouvert.
 
-| Constat | Effet dans ORION |
-| --- | --- |
-| Matériel vu dans sa salle, déplacement en cours | Déplacement confirmé (point vert), « Installation confirmée » |
-| Matériel vu dans sa salle | « Présent » |
-| Matériel vu dans une autre salle | « Écart », à traiter ; aucune modification |
-| Relocalisation sur place | Affectation à la salle constatée, déplacement confirmé ; au stock : rangé ; refusée pour un matériel hors service hors du stock |
-| Code inconnu | À traiter ; « Ajouter au parc » ouvre la fiche matériel préremplie (saisie du téléphone) et marque le constat traité, « Écarter » le marque traité |
+| Constat (événement) | Bouton du téléphone | Effet dans ORION |
+| --- | --- | --- |
+| Vu dans son lieu, déplacement en cours (`vu`) | « Confirmer l’installation » | Déplacement confirmé (point vert), « Installation confirmée » |
+| Vu dans son lieu (`vu`) | « Confirmer la présence » | « Présent » |
+| Accepté ici (`releve`) | « Accepter dans *salle* », au stock « Ranger au stock » | Affectation au lieu ouvert, déplacement confirmé : « Relocalisé » ou « Rangé au stock » ; refusé pour un matériel hors service hors du stock (RG-87) |
+| Refusé ici (`retour`) | « Ramener dans *salle d’affectation* » ou « Ramener au stock » | « Retour lancé » : affectation inchangée, déplacement ouvert depuis le lieu ouvert (`deplacement.de`, qui remplace l’origine d’un déplacement déjà en cours), installation retirée ; point orange jusqu’à la confirmation par le gestionnaire une fois le matériel rapporté (Salles › Déplacements, ou scan dans son lieu) |
+| Code inconnu (`inconnu`) | « Signaler le matériel » | À traiter ; « Ajouter au parc » ouvre la fiche matériel préremplie (saisie du téléphone) et marque le constat traité, « Écarter » le marque traité |
+
+Un constat « Vu dans une autre salle » (`ecart`), produit par les versions antérieures (`vu` hors de l’affectation), reste affiché et à traiter (« Traité »), sans modification du matériel.
 
 Un code « inconnu » qui correspond en fait à un identifiant ORION ou à un numéro de série de l’école (instantané du téléphone ancien) est traité comme un matériel vu. Un constat est conservé ; seul son traitement est modifiable.
 
 **Conflits.** ORION fait foi : chaque constat est réévalué à son arrivée sur l’état courant, pas sur l’instantané du téléphone.
 - Doublons (renvoi après coupure) : ignorés par le relais puis par ORION (identifiant de l’événement).
 - Matériel supprimé ou d’une autre école, salle hors campagne, campagne close ou expirée : refusé, avec le motif sur le téléphone et dans « À traiter ». Après la clôture, les constats non encore relevés sont abandonnés (décision de l’utilisateur du 13 novembre).
-- Ordre d’observation, pas d’arrivée : une relocalisation observée avant la dernière information sur l’emplacement du matériel (observation d’un autre téléphone, déplacement prévu ou installation confirmée dans ORION) est refusée comme « dépassée ». La date d’observation est celle du téléphone, bornée à l’heure du serveur.
-- Relocalisation sur place contre déplacement prévu antérieur : l’observation du terrain l’emporte, tracée par son constat (choix provisoire, non tranché par le client).
+- Ordre d’observation, pas d’arrivée : une acceptation ou un retour observé avant la dernière information sur l’emplacement du matériel (observation d’un autre téléphone, déplacement prévu ou installation confirmée dans ORION) est refusé comme « dépassé ». La date d’observation est celle du téléphone, bornée à l’heure du serveur.
+- Acceptation sur place contre déplacement prévu antérieur : l’observation du terrain l’emporte, tracée par son constat (choix provisoire, non tranché par le client).
 - Même code inconnu scanné plusieurs fois, par un ou plusieurs agents : une seule ligne « À traiter » (« Vu n fois »), regroupée par numéro de série saisi ou code lu ; « Ajouter au parc » ou « Écarter » traite tout le groupe. Si le numéro de série existe déjà dans l’école, « Ajouter au parc » propose seulement de marquer le constat traité, sans créer de doublon.
 - Écriture simultanée d’un utilisateur sur le même matériel : fusion élément par élément d’ORION ; l’utilisateur reçoit un conflit et recharge, rien n’est écrasé en silence.
 
