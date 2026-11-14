@@ -36,7 +36,7 @@ const ENTITIES: Entity[] = [
   { collection: 'salles', table: 'orion_salle', order: 'ecole_id, batiment, nom', cols: [['id', 'text', 'id'], ['ecole_id', 'text', 'ecoleId'], ['batiment', 'text', 'batiment'], ['nom', 'text', 'nom'], ['etage', 'integer', 'etage']] },
   { collection: 'materiels', table: 'orion_materiel', order: 'id_orion', cols: [
     ['id', 'text', 'id'], ['ecole_id', 'text', 'ecoleId'], ['id_orion', 'text', 'idOrion'], ['salle_id', 'text', 'salleId'], ['type', 'text', 'type'],
-    ['modele', 'text', 'modele'], ['marque', 'text', 'marque'], ['serie', 'text', 'serie'], ['date_reception', 'timestamptz', 'dateReception', ...ts],
+    ['modele', 'text', 'modele'], ['marque', 'text', 'marque'], ['serie', 'text', 'serie'], ['mac', 'text', 'mac'], ['date_reception', 'timestamptz', 'dateReception', ...ts],
     ['garantie_fin', 'timestamptz', 'garantieFin', ...ts], ['hors_service', 'boolean', 'hs'],
     ['date_hors_service', 'timestamptz', 'dateHs', ...ts],
   ] },

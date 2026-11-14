@@ -23,7 +23,7 @@ export function prng(seed: number) {
 }
 
 /** Version du jeu de données : un état enregistré plus ancien est régénéré. */
-export const SEED_VERSION = 19;
+export const SEED_VERSION = 21;
 
 /**
  * Comptes ORION de départ : profil et école de rattachement de chaque personne.
@@ -43,11 +43,16 @@ export const ACCOUNTS: Compte[] = [
   { id: 'cpt-res-formateur', nom: 'Kevin Morel', email: 'kevin.morel@yahoo.com', role: 'formateur', ecoleId: 'e-res', actif: true },
 ];
 
-/* Catalogue de modèles : [type, modèle, marque, a un n° de série, garantie (années)] */
-type Modele = [DeviceTypeId, string, string | null, boolean, number];
+/* Catalogue de modèles : [type, modèle, marque, a un n° de série, garantie (années), étiquette relevée sur le parc].
+   Étiquette : forme du numéro de série (« # » : un chiffre) et, pour un matériel relié au réseau, début de l'adresse MAC.
+   - unité centrale, étiquette d'inventaire DIRISI : « S » + numéro du constructeur (SS4SG0457 pour le S/N Lenovo S4SG0457),
+     adresse MAC, fin de garantie au mois (MM/AAAA) ;
+   - écran Philips 242V8A : numéro du constructeur (UHB ou ZV0, année et semaine de fabrication, rang), repris tel quel
+     par l'étiquette DIRISI, sans adresse MAC. */
+type Modele = [DeviceTypeId, string, string | null, boolean, number, { serie: string; mac?: string }?];
 const MODELES = {
-  uc: [['uc', 'Unité centrale OptiPlex 7010', 'Dell', true, 3], ['uc', 'Unité centrale ThinkCentre M70', 'Lenovo', true, 3]],
-  ecran: [['ecran', 'Écran 24 pouces', 'Dell', true, 3], ['ecran', 'Écran 27 pouces', 'Iiyama', true, 3]],
+  uc: [['uc', 'Unité centrale ThinkStation P340', 'Lenovo', true, 3, { serie: 'SS4SG####', mac: '2CF05DC8' }], ['uc', 'Unité centrale ThinkCentre M70', 'Lenovo', true, 3, { serie: 'SMJ0H####', mac: '6C4B90A1' }]],
+  ecran: [['ecran', 'Écran 242V8A 24 pouces', 'Philips', true, 1, { serie: 'UHB203#0#####' }], ['ecran', 'Écran 242V8A 24 pouces', 'Philips', true, 1, { serie: 'ZV0204#00####' }]],
   clavier: [['peripherique', 'Clavier USB', 'Logitech', false, 0]],
   souris: [['peripherique', 'Souris filaire', 'Logitech', false, 0]],
   vp: [['videoprojecteur', 'Vidéoprojecteur EB-W06', 'Epson', true, 2], ['videoprojecteur', 'Vidéoprojecteur MX560', 'BenQ', true, 2]],
@@ -64,11 +69,32 @@ type SalleGeneree = Salle & { profil?: number };
 /* Matériel en cours de génération : l'identifiant ORION est attribué une fois le parc complet */
 type MaterielGenere = Omit<Materiel, 'idOrion'> & { idOrion?: string };
 
+/** Fin de garantie d'une étiquette d'inventaire : dernier jour du mois, à midi (comme `lireEtiquette`) */
+const finDeMois = (annee: number, mois: number) => new Date(annee, mois, 0, 12).getTime();
+
+/* Étiquettes réelles relevées dans une salle, attribuées aux matériels de la salle indiquée :
+   - unités centrales ThinkStation P340 : numéro de poste manuscrit → [numéro de série, adresse MAC], fin de garantie 10/2024 ;
+   - écrans Philips 242V8A : numéros de série ; le premier porte l'étiquette d'inventaire (fin de garantie 12/2021). */
+const ETIQUETTES = {
+  salle: 'A112',
+  uc: { garantie: [2024, 10], ans: 3, postes: { 7: ['SS4SG0457', '2CF05DC8FAA8'], 8: ['SS4SG0495', '2CF05DC8FA16'], 12: ['SS4SG0589', '2CF05DC8F86A'] } },
+  ecrans: { garantie: [2021, 12], ans: 1, series: ['UHB2039018980', 'UHB2036004970', 'UHB2051003417', 'ZV02049004626'] },
+} as const;
+
 export function seed(now = Date.now()) {
   const rnd = prng(20261107);
   const pick = <T>(arr: readonly T[]): T => arr[Math.floor(rnd() * arr.length)];
   const between = (a: number, b: number) => a + Math.floor(rnd() * (b - a + 1));
   const serie = (prefix: string) => `${prefix}-${String(between(10000, 99999))}`;
+  // Valeur unique d'une étiquette : chaque « # » de la forme devient un chiffre, hexadécimal pour une adresse MAC
+  // (les valeurs réelles sont réservées)
+  const prises = new Set<string>([...Object.values(ETIQUETTES.uc.postes).flat(), ...ETIQUETTES.ecrans.series]);
+  const unique = (forme: string, base = 10) => {
+    for (;;) {
+      const v = forme.replace(/#/g, () => between(0, base - 1).toString(base).toUpperCase());
+      if (!prises.has(v)) { prises.add(v); return v; }
+    }
+  };
 
   const ecoles = [
     { id: 'e-num', nom: 'École du numérique' },
@@ -92,9 +118,10 @@ export function seed(now = Date.now()) {
   const materiels: MaterielGenere[] = [];
   // recentDays : réception récente, entre 2 et recentDays jours (sinon entre 20 jours et 3 ans)
   const mkMat = (ecoleId: Id, salleId: Id | null, key: ModeleKey, recentDays = 0) => {
-    const [type, modele, marque, hasSerie, garantie] = pick<Modele>(MODELES[key]);
+    const [type, modele, marque, hasSerie, garantie, etiquette] = pick<Modele>(MODELES[key]);
     const recu = now - (recentDays ? between(2, recentDays) : between(20, 1100)) * DAY;
     const r = rnd();
+    const fin = new Date(recu + garantie * 365 * DAY);
     materiels.push({
       id: `m-${materiels.length + 1}`,
       ecoleId,
@@ -102,10 +129,11 @@ export function seed(now = Date.now()) {
       type,
       modele,
       marque,
-      serie: hasSerie ? serie(modele.slice(0, 2).toUpperCase().replace(/[^A-Z]/g, 'X')) : null,
+      serie: etiquette ? unique(etiquette.serie) : hasSerie ? serie(modele.slice(0, 2).toUpperCase().replace(/[^A-Z]/g, 'X')) : null,
+      mac: etiquette?.mac ? unique(`${etiquette.mac}####`, 16) : null,
       dateReception: recu,
       hs: r < 0.018,
-      garantieFin: garantie ? recu + garantie * 365 * DAY : null,
+      garantieFin: !garantie ? null : etiquette ? finDeMois(fin.getFullYear(), fin.getMonth() + 1) : fin.getTime(),
     });
   };
 
@@ -132,6 +160,14 @@ export function seed(now = Date.now()) {
   // reçus ces dernières semaines (garanties en cours)
   const LOT: Partial<Record<ModeleKey, number>> = { uc: 20, ecran: 40, clavier: 20, souris: 20, vp: 3, switch: 2, borne: 3, cable: 24, audio: 4, imprimante: 2, autre: 3 };
   for (const [key, n] of Object.entries(LOT) as [ModeleKey, number][]) for (let i = 0; i < n; i++) mkMat('e-num', null, key, 21);
+  // Matériels des étiquettes réelles : reçus à la date que donne la fin de garantie imprimée
+  const reels = materiels.filter((m) => m.salleId === salles.find((x) => x.ecoleId === 'e-num' && x.nom === ETIQUETTES.salle)!.id);
+  const etiqueter = (m: MaterielGenere, [, modele, marque]: Modele, serie: string, mac: string | null, { garantie: [annee, mois], ans }: { garantie: readonly [number, number]; ans: number }) =>
+    Object.assign(m, { modele, marque, serie, mac, dateReception: new Date(annee - ans, mois - 1, 15, 12).getTime(), garantieFin: finDeMois(annee, mois) });
+  const ucsReelles = reels.filter((m) => m.type === 'uc');
+  for (const [poste, [serie, mac]] of Object.entries(ETIQUETTES.uc.postes)) etiqueter(ucsReelles[Number(poste) - 1], MODELES.uc[0], serie, mac, ETIQUETTES.uc);
+  const ecransReels = reels.filter((m) => m.type === 'ecran');
+  ETIQUETTES.ecrans.series.forEach((serie, i) => etiqueter(ecransReels[i], MODELES.ecran[0], serie, null, ETIQUETTES.ecrans));
   // Identifiant ORION attribué dans l'ordre de réception (RG-03)
   [...materiels].sort((a, b) => a.dateReception - b.dateReception).forEach((m, i) => { m.idOrion = numeroMateriel(i + 1); });
 

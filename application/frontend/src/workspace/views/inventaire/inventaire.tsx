@@ -156,7 +156,7 @@ function MoveSheet({ items, onDone }: { items: Materiel[]; onDone: () => void })
 /** Fiche d'un matériel, avec modification et suppression selon les droits */
 function DetailSheet({ m, onDelete }: { m: Materiel; onDelete: () => void }) {
   const t = deviceType(m.type), room = index().salle.get(m.salleId!);
-  const rows = [['Identifiant ORION', m.idOrion], ['Type', t.label], ['Marque', m.marque || '—'], ['Numéro de série', m.serie || '—'], ['Réception', date(m.dateReception)], ['Localisation', room ? emplacement(room) : 'Stock'], ['État', etatMateriel(m)], ['Garantie', `${garantie(m)} · ${date(m.garantieFin)}`]];
+  const rows = [['Identifiant ORION', m.idOrion], ['Type', t.label], ['Marque', m.marque || '—'], ['Numéro de série', m.serie || '—'], ['Adresse MAC', m.mac || '—'], ['Réception', date(m.dateReception)], ['Localisation', room ? emplacement(room) : 'Stock'], ['État', etatMateriel(m)], ['Garantie', `${garantie(m)} · ${date(m.garantieFin)}`]];
   const ensuite = useRef<(() => void) | null>(null); // action ouverte une fois la fiche fermée
   const puis = (close: SheetClose, action: () => void) => { ensuite.current = action; close(); };
   const motif = motifSuppression(m); // suppression refusée par le serveur : bouton désactivé, avec le motif

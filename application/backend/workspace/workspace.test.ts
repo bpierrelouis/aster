@@ -229,6 +229,19 @@ test('données de départ : chaque remontée terminée a été prise en charge, 
   }
 });
 
+test('parc : adresse MAC normalisée par le serveur, refusée si invalide ; données de départ sans doublon', () => {
+  const state = initialState();
+  const manager = as(state, MANAGER);
+  const write = (mac: string | null) => { const input = scopedState(state, manager); input.materiels[0].mac = mac; return mergeState(state, input, manager).materiels.find((m) => m.id === input.materiels[0].id)!.mac; };
+  assert.equal(write('2c:f0:5d:c8:fa:16'), '2CF05DC8FA16');
+  assert.equal(write(''), null);
+  assert.throws(() => write('2CF05DC8FA1'), { status: 400 });
+  const macs = state.materiels.filter((m) => m.mac).map((m) => m.mac);
+  assert.equal(new Set(macs).size, macs.length);
+  assert.ok(state.materiels.every((m) => (m.type === 'uc') === !!m.mac), 'seules les unités centrales ont une adresse MAC');
+  assert.equal(state.materiels.find((m) => m.serie === 'SS4SG0457')!.mac, '2CF05DC8FAA8'); // étiquette relevée
+});
+
 test('parc : gestionnaire sans suppression ni autre école ; identifiant ORION attribué', () => {
   const state = initialState();
   const manager = as(state, MANAGER);

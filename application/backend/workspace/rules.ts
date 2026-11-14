@@ -20,7 +20,7 @@ import { normalizeProblemLabel, PROBLEM_LABEL_HELP } from '#shared/problem-label
 import { batimentCode } from '#shared/buildings.ts';
 import { regleConstat, regleRecensement } from './recensement.ts';
 import { initializeOperations, IMAGE_REFERENCE } from '#shared/operations-data.ts';
-import { isRole, materielCite, numeroMateriel, numeroRemontee, rangDuNumero, PROBLEMS } from '#shared/catalog.ts';
+import { adresseMac, isRole, materielCite, numeroMateriel, numeroRemontee, rangDuNumero, PROBLEMS } from '#shared/catalog.ts';
 import type { Actor, CollectionName, Collections, Compte, DisplayPrefs, Id, Item, OperationType, PreferencesCompte, RemonteeStatut, WorkspaceState, WorkspaceView } from '#shared/types.ts';
 
 type KeyOf<T> = T extends unknown ? keyof T : never;
@@ -298,6 +298,7 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
       if (c === 'materiels') {
         assert(typeof x.modele === 'string' && x.modele.trim() && x.modele.length <= 250 && Number.isFinite(x.dateReception) && typeof x.hs === 'boolean');
         assert(!x.salleId || salles.some((s) => s.id === x.salleId && s.ecoleId === x.ecoleId), 'Salle inconnue ou hors école.');
+        if (x.mac != null && x.mac !== '') { x.mac = adresseMac(x.mac); assert(x.mac, 'Adresse MAC invalide : douze chiffres hexadécimaux attendus.'); } else x.mac = null;
         // Un matériel hors service ne peut qu'être remis en service ou renvoyé au stock (orientation de l'utilisateur du 12 novembre)
         if (old && x.hs && x.salleId && x.salleId !== (old.salleId ?? null)) fail(400, 'Un matériel hors service ne peut aller qu’au stock.');
         // Date de mise hors service : fixée au passage hors service, conservée tant qu'il dure, retirée au retour en service

@@ -31,7 +31,7 @@ export function schemaSQL(s: string) {
     date_reception timestamptz NOT NULL, garantie_fin timestamptz, hors_service boolean NOT NULL, extra jsonb NOT NULL DEFAULT '{}',
     CONSTRAINT orion_materiel_id_orion_unique UNIQUE (id_orion) DEFERRABLE INITIALLY DEFERRED);
   -- Date de mise hors service, fixée par le serveur (colonne ajoutée à une base existante)
-  ALTER TABLE ${s}.orion_materiel ADD COLUMN IF NOT EXISTS date_hors_service timestamptz;
+  ALTER TABLE ${s}.orion_materiel ADD COLUMN IF NOT EXISTS date_hors_service timestamptz, ADD COLUMN IF NOT EXISTS mac text;
   CREATE INDEX IF NOT EXISTS orion_materiel_ecole ON ${s}.orion_materiel (ecole_id);
   CREATE INDEX IF NOT EXISTS orion_materiel_salle ON ${s}.orion_materiel (salle_id);
   -- Compte ORION : profil et école ; le sujet relie le compte à l'identité du fournisseur

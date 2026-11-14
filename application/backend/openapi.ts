@@ -121,7 +121,7 @@ export const openapi = {
             type: 'object', required: ['ecoleId', 'materiels'],
             properties: {
               ecoleId: { type: 'string', description: 'École de destination' },
-              materiels: { type: 'array', minItems: 1, maxItems: 2000, items: { type: 'object', description: 'modele, dateReception (obligatoires), type, marque, serie, hs, salleId, garantieFin' } },
+              materiels: { type: 'array', minItems: 1, maxItems: 2000, items: { type: 'object', description: 'modele, dateReception (obligatoires), type, marque, serie, mac, hs, salleId, garantieFin' } },
               transferts: { type: 'array', items: { type: 'string' }, description: 'Numéros de série des matériels d’une autre école à transférer' },
             },
           } } },

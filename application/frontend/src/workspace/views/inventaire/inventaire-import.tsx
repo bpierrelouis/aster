@@ -19,7 +19,7 @@ import { store, currentEcole } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
 import { can } from '../../core/permissions.ts';
 import { index } from '../../core/selectors.ts';
-import { DEVICE_TYPES, deviceType, serieKey } from '#shared/catalog.ts';
+import { adresseMac, DEVICE_TYPES, deviceType, serieKey } from '#shared/catalog.ts';
 import { notify } from '../../ui/overlays.tsx';
 import { Switch } from '../../ui/forms.tsx';
 import { accord, dateNum, num, plural } from '#shared/format.ts';
@@ -63,9 +63,11 @@ function validateImport(text: string, ecoleId: Id, salles: Salle[]) {
     if (row.type && !DEVICE_TYPES.some((t) => t.id === row.type)) fail('type inconnu.');
     if (row.salleId && !salles.some((s) => s.id === row.salleId && s.ecoleId === ecoleId)) fail('salle absente de l’école sélectionnée.');
     for (const key of ['marque', 'serie']) if (row[key] != null && (typeof row[key] !== 'string' || row[key].length > 40)) fail(`${key} : texte de 40 caractères maximum.`);
+    const mac = row.mac ? adresseMac(row.mac) : null;
+    if (row.mac && !mac) fail('mac : douze chiffres hexadécimaux attendus.');
     const garantieFin = row.garantieFin ? typeof row.garantieFin === 'number' ? row.garantieFin : Date.parse(row.garantieFin) : null;
     if (garantieFin !== null && !Number.isFinite(garantieFin)) fail('date de garantie invalide.');
-    return { id: uid('m'), ecoleId, type: row.type || 'autre', modele: row.modele.trim(), marque: row.marque?.trim() || null, serie: row.serie?.trim() || null, dateReception: received, garantieFin, hs: row.hs ?? false, salleId: row.salleId || null };
+    return { id: uid('m'), ecoleId, type: row.type || 'autre', modele: row.modele.trim(), marque: row.marque?.trim() || null, serie: row.serie?.trim() || null, mac, dateReception: received, garantieFin, hs: row.hs ?? false, salleId: row.salleId || null };
   });
 }
 
@@ -232,14 +234,15 @@ export function ImportPanel() {
         </button>
       </form>
       <details className="inv-help"><summary>Format attendu et exemple</summary>
-        <p>Obligatoires : <code>modele</code> et <code>dateReception</code>. Facultatifs : <code>type</code>, <code>marque</code>, <code>serie</code>, <code>hs</code>, <code>salleId</code>, <code>garantieFin</code>. L’école est celle sélectionnée ci-dessus ; sans salle, le matériel entre en stock. Le numéro de série sert à reconnaître un matériel déjà connu.</p>
+        <p>Obligatoires : <code>modele</code> et <code>dateReception</code>. Facultatifs : <code>type</code>, <code>marque</code>, <code>serie</code>, <code>mac</code>, <code>hs</code>, <code>salleId</code>, <code>garantieFin</code>. L’école est celle sélectionnée ci-dessus ; sans salle, le matériel entre en stock. Le numéro de série sert à reconnaître un matériel déjà connu.</p>
         <pre>{`[{
-  "modele": "Écran 24 pouces",
-  "type": "ecran",
+  "modele": "Unité centrale ThinkStation P340",
+  "type": "uc",
   "dateReception": "2026-11-08",
   "hs": false,
-  "marque": "Dell",
-  "serie": "SN-12345",
+  "marque": "Lenovo",
+  "serie": "SS4SG0001",
+  "mac": "2CF05DC80001",
   "garantieFin": "2029-11-08"
 }]`}</pre>
         <p>Types : {DEVICE_TYPES.map((t, i) => <Fragment key={t.id}>{i ? ', ' : ''}<code>{t.id}</code></Fragment>)}.</p>
