@@ -12,14 +12,6 @@ Pour cette séance, suivre le minutage du script : les durées indicatives des n
 
 Ouvrir `index.html` dans Firefox ou un autre navigateur récent.
 
-Pour la servir localement avec Node.js depuis la racine du dépôt :
-
-```powershell
-node presentations/2026-11-04-point-etape-client/serve.mts
-```
-
-Puis ouvrir `http://127.0.0.1:4173/presentations/2026-11-04-point-etape-client/`.
-
 ## Commandes
 
 - flèches gauche et droite, espace : changer de diapositive ;
