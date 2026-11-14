@@ -32,7 +32,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [2.0](#17-dossier-architecture-technique) | 13/11/2026 |
 | [docs/18-DIAGRAMMES-ARCHITECTURE.md](../docs/18-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [1.3](#18-diagrammes-architecture) | 13/11/2026 |
 | [docs/19-BACKLOG-ET-SUIVI-PROJET.docx](../docs/19-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.1](#19-backlog-et-suivi-projet) | 13/11/2026 |
-| [docs/19-BACKLOG-ET-SUIVI-PROJET.md](../docs/19-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [1.1](#19-backlog-et-suivi-projet) | 13/11/2026 |
+| [docs/19-BACKLOG-ET-SUIVI-PROJET.md](../docs/19-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [2.0](#19-backlog-et-suivi-projet) | 14/11/2026 |
 | [docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.0](#20-backlog-technique-et-feuille-de-route) | 13/11/2026 |
 | [docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md) | Brouillon interne | [1.1](#19-suivi-backlog-brouillon-v1) | 13/11/2026 |
 | [docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) | Brouillon interne | [1.1](#diagrammes-activite-cas-utilisation-brouillon-v2) | 12/11/2026 |
@@ -358,7 +358,8 @@ Fichier : [docs/19-BACKLOG-ET-SUIVI-PROJET.md](../docs/19-BACKLOG-ET-SUIVI-PROJE
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | en vigueur | — |
+| 2.0 | 14/11/2026 | Deux sprints (19/10–08/11, 09/11–19/11), suivi dans le projet GitHub ORION et graphiques produits depuis GitHub | en vigueur | — |
+| 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | `61abf4a` | — |
 | 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `83658a3` | — |
 
 ### 20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE

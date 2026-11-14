@@ -30,6 +30,7 @@ Appliquer `AGENTS.md` pour les sources, les protections, le classement et les co
 - [Story et backlog](assets/MODELE-STORY-BACKLOG.md) : organisation des besoins.
 - [Règles de gestion](assets/MODELE-REGLES-GESTION.md) : contraintes confirmées.
 - [Dossier d'analyse](assets/MODELE-DOSSIER-ANALYSE.md) : assemblage des livrables.
+- [Graphiques du backlog](scripts/graphiques-backlog.py) : régénère `docs/assets/backlog/BURNDOWN.svg` et `PROGRESSION-EQUIPE.svg` depuis le projet GitHub (`gh` authentifié, droit `project`).
 - [Backlog Word](scripts/generer-backlog-word.ps1) : sous Windows (PowerShell et Word), régénère `docs/19-BACKLOG-ET-SUIVI-PROJET.docx` et ses graphiques SVG ([graphiques-backlog-svg.ps1](scripts/graphiques-backlog-svg.ps1)) depuis la version Markdown.
 
 Adapter les modèles, omettre les rubriques inutiles et laisser les inconnues explicites. Pour Word, PDF ou diaporama, utiliser le skill de format disponible, garder une source éditable et vérifier le rendu.

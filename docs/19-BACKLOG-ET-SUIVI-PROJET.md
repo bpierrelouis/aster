@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.1 | 13/11/2026 | Production destinée à la remise | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | [2 versions](../archive/README.md#19-backlog-et-suivi-projet) |
+| 2.0 | 14/11/2026 | Production destinée à la remise | Deux sprints (19/10–08/11, 09/11–19/11), suivi dans le projet GitHub ORION et graphiques produits depuis GitHub | [3 versions](../archive/README.md#19-backlog-et-suivi-projet) |
 <!-- version:fin -->
 
 **Période : du 20 octobre au 19 novembre 2026.**
@@ -100,14 +100,13 @@ Les priorités organisent la préparation de l’échéance : **P1** pour les pa
 
 ### 4.1. Découpage et objectifs
 
-Le calendrier distingue le lancement, deux sprints de dix jours calendaires et la remise. Les tâches peuvent être poursuivies d’un sprint à l’autre ; un élément inachevé est réexaminé lors de la planification suivante. Les dates décrivent le cadre d’organisation retenu pour la présentation, pas un registre de réunions effectivement tenues.
+Le projet s’est déroulé en deux sprints : le premier, du 19 octobre au 8 novembre, inclut le lancement ; le second, du 9 au 19 novembre, se termine par la remise. Les tâches peuvent être poursuivies d’un sprint à l’autre ; un élément inachevé est réexaminé lors de la planification suivante. Les dates décrivent le cadre d’organisation retenu pour la présentation, pas un registre de réunions effectivement tenues.
 
 | Période | Objectif | Sélection du backlog | Résultat à inspecter |
 | --- | --- | --- | --- |
-| Lancement — 20 au 29 octobre | Comprendre le problème et préparer le travail. | Capture du besoin, acteurs, premières règles et préparation de BL-01, BL-02, BL-17. | Cadrage initial et backlog ordonné ; les inconnues restent visibles. |
-| Sprint 1 — 30 octobre au 8 novembre | Préparer puis construire une première traversée de la connexion vers la consultation du parc. | PB-01 et PB-02 ; tâches de conception et d’intégration utiles à ce parcours. | Parcours inspectable, premières données et modèles associés ; travaux restants réévalués. |
-| Sprint 2 — 9 au 18 novembre | Compléter les parcours prioritaires et consolider la version de remise. | Compléments PB-01/PB-02, PB-03 à PB-07 et préparation documentaire PB-08/PB-09, selon la capacité. | Parcours intégrés, résultats de vérification, dossier et réserves. |
-| Remise — 19 novembre | Présenter le résultat et la démarche. | PB-08 et PB-09 ; clôture BL-04 et BL-20. | Version remise, présentation et limites identifiées. |
+| Sprint 1 — 19 octobre au 8 novembre | Comprendre le problème, préparer le travail, puis construire une première traversée de la connexion vers la consultation du parc. | Capture du besoin, acteurs, premières règles (BL-01, BL-02, BL-17), puis PB-01 et PB-02 avec les tâches de conception et d’intégration utiles à ce parcours. | Parcours inspectable, premières données et modèles associés ; travaux restants réévalués. |
+| Sprint 2 — 9 au 19 novembre | Compléter les parcours prioritaires et consolider la version de remise. | Compléments PB-01/PB-02, PB-03 à PB-07 et préparation documentaire PB-08/PB-09, selon la capacité. | Parcours intégrés, résultats de vérification, dossier et réserves. |
+| Remise — 19 novembre, fin du sprint 2 | Présenter le résultat et la démarche. | PB-08 et PB-09 ; clôture BL-04 et BL-20. | Version remise, présentation et limites identifiées. |
 
 ### 4.2. Cérémonies et modalités de mise en place
 
@@ -125,7 +124,7 @@ Les durées ci-dessous sont choisies pour ce projet court. Le refinement est une
 
 | Rendez-vous | Sprint 1 | Sprint 2 | Préparation et sortie |
 | --- | --- | --- | --- |
-| Planning | 30 octobre, 9 h–9 h 45 | 9 novembre, 9 h–9 h 45 | Objectif et Sprint Backlog disponibles à la sortie. |
+| Planning | 20 octobre, 9 h–9 h 45 | 9 novembre, 9 h–9 h 45 | Objectif et Sprint Backlog disponibles à la sortie. |
 | Daily Scrum | Chaque jour travaillé, hors créneau de Planning | Chaque jour travaillé, hors créneau de Planning | 9 h–9 h 15 ; mise à jour du tableau avant ou pendant le point. |
 | Refinement | 4 novembre, 14 h–14 h 30 | 13 novembre, 14 h–14 h 30 | Questions et critères préparés par BAELDE. |
 | Review | 8 novembre, 14 h–14 h 45 | 18 novembre, 14 h–14 h 45 | Invitations à adapter aux disponibilités ; à défaut de client, revue interne sans lui attribuer de retour. |
@@ -133,7 +132,7 @@ Les durées ci-dessous sont choisies pour ce projet court. Le refinement est une
 
 ### 4.4. Tableau de suivi et règles de clôture
 
-Le tableau de travail utilise les états **À préparer**, **Prêt**, **En cours**, **À vérifier** et **Terminé**. Un obstacle est signalé sur la carte avec sa cause, la personne qui le suit et la prochaine action ; il n’est pas masqué par un pourcentage. Une personne termine ou aide à vérifier une tâche engagée avant de multiplier les travaux simultanés.
+Le tableau de travail utilise les états **Backlog** (à préparer), **Ready** (prêt), **In progress** (en cours), **In review** (à vérifier), **Done** (terminé) et **Archive** (terminé, retiré du tableau courant). Un obstacle est signalé sur la carte avec sa cause, la personne qui le suit et la prochaine action ; il n’est pas masqué par un pourcentage. Une personne termine ou aide à vérifier une tâche engagée avant de multiplier les travaux simultanés.
 
 Un besoin est sélectionnable quand sa valeur, ses critères, sa source et ses dépendances sont compréhensibles. La **Definition of Done** commune exige un résultat accessible, les critères applicables vérifiés, une relecture par un autre membre, les contrôles adaptés consignés et la documentation concernée mise à jour. Une tâche de planification peut être close quand son support est livré ; cela ne clôture pas automatiquement le besoin utilisateur associé.
 
@@ -150,6 +149,14 @@ La Sprint Review inspecte le résultat ; elle ne dispense pas de la Definition o
 | Retour rapide sur le besoin | Soumettre les ambiguïtés au client et réordonner le backlog selon ses réponses. | Compte rendu daté et mise à jour du cadrage. |
 
 Ces pratiques complètent les événements Scrum ; elles ne constituent pas des cérémonies supplémentaires. Leur mise en œuvre se constate dans les traces de travail, pas dans leur seule mention dans ce document.
+
+### 4.6. Suivi dans le projet GitHub
+
+Le backlog est tenu dans le projet GitHub [« ORION development »](https://github.com/users/bpierrelouis/projects/2) : une épopée par type de travail (pilotage, capture des besoins, analyse, conception, architecture, design et IHM, réalisation par domaine, recette, présentation et remise, feuille de route) et ses tâches, chacune avec ses responsables, son statut, sa priorité (P0 à P2), son sprint et ses dates de début et de fin. Chaque ticket cite la tâche BL ou le point du backlog technique qu’il réalise, ainsi que les commits correspondants. Les graphiques suivants sont produits depuis ce projet.
+
+![Burndown des sprints 1 et 2](assets/backlog/BURNDOWN.svg)
+
+![Répartition du travail par membre](assets/backlog/PROGRESSION-EQUIPE.svg)
 
 ## 5. Jalons et évolution du travail
 
@@ -231,7 +238,7 @@ Les références suivantes retracent les travaux déposés dans le projet. Les e
 | Parcours utilisateurs | [Tableaux de bord — d3b256d](https://github.com/bpierrelouis/aster/commit/d3b256d), [salles — dafc7e8](https://github.com/bpierrelouis/aster/commit/dafc7e8), [supervision — 22ada18](https://github.com/bpierrelouis/aster/commit/22ada18), [suivi — a1032c8](https://github.com/bpierrelouis/aster/commit/a1032c8) |
 | Architecture | [Dossier initial — 51bd591](https://github.com/bpierrelouis/aster/commit/51bd591), [cible C1NP — f0c6dea](https://github.com/bpierrelouis/aster/commit/f0c6dea) |
 
-Le projet GitHub **« aster development »** est la référence de tableau demandée pour le suivi. Son contenu n’ayant pas été consulté, les identifiants BL-01 à BL-20 sont propres à ce document : ils ne reproduisent ni les cartes, ni les statuts, ni les affectations du Project.
+Le projet GitHub [« ORION development »](https://github.com/users/bpierrelouis/projects/2) est la référence de tableau demandée pour le suivi (§ 4.6) : ses tickets reprennent les identifiants BL-01 à BL-20 de ce document et ceux du backlog technique.
 
 ## 10. Contenu attendu de la remise du 19 novembre
 

@@ -1223,6 +1223,13 @@
         "version": "1.1",
         "date": "2026-11-13",
         "modification": "Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP",
+        "archive": null,
+        "commit": "61abf4a"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-14",
+        "modification": "Deux sprints (19/10–08/11, 09/11–19/11), suivi dans le projet GitHub ORION et graphiques produits depuis GitHub",
         "archive": null
       }
     ]
