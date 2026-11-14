@@ -16,7 +16,7 @@ import type { Ecriture, HttpError } from './commun.ts';
 const ADMIN = 'cpt-num-admin', MANAGER = 'cpt-num-gestionnaire', TEACHER = 'cpt-num-formateur';
 const as = (state: WorkspaceState, accountId: Id) => actorOf(state, accountId)!;
 
-/** Campagne ouverte par le gestionnaire de l'École du numérique (toutes les salles si salleIds est vide) */
+/** Recensement lancé par le gestionnaire de l'École du numérique (toutes les salles si salleIds est vide) */
 function ouvrir(state: WorkspaceState, salleIds: Id[] = []) {
   const actor = as(state, MANAGER);
   const input: Ecriture = scopedState(state, actor);
@@ -89,7 +89,7 @@ test('chiffrement : clé et campagne authentifiées', async () => {
   assert.notEqual(jetonCampagne('secret', 'rec-1'), jetonCampagne('secret', 'rec-2'));
 });
 
-test('campagne : ouverte par un gestionnaire, valeurs fixées par le serveur, clôture seule modifiable', () => {
+test('recensement : lancé par un gestionnaire, valeurs fixées par le serveur, clôture seule modifiable', () => {
   const state = etatDemonstration();
   const salle = state.salles.find((s) => s.ecoleId === 'e-num')!;
   const { next, campagne } = ouvrir(state, [salle.id]);
@@ -137,16 +137,16 @@ test('campagne : ouverte par un gestionnaire, valeurs fixées par le serveur, cl
   assert(fermee.close!.at > 1);
   const rouvre: Ecriture = scopedState(closed, manager);
   delete rouvre.recensements[0].close;
-  assert.throws(() => mergeState(closed, rouvre, manager), /rouverte/);
+  assert.throws(() => mergeState(closed, rouvre, manager), /rouvert/);
 });
 
-test('constats : une campagne qui n’a pas été ouverte par un gestionnaire n’est pas appliquée', () => {
+test('constats : une opération qui n’a pas été lancée par un gestionnaire n’est pas appliquée', () => {
   const s = etatDemonstration();
   const admin = s.comptes.find((c) => c.id === ADMIN)!;
   s.recensements.push({ id: 'rec-admin', ecoleId: 'e-num', nom: 'Ancienne', mode: 'recensement', salleIds: [], at: Date.now(), par: admin.nom, parId: admin.id, expireLe: Date.now() + 86400e3 });
   const enCours = s.materiels.find((m) => m.ecoleId === 'e-num' && m.deplacement && m.salleId)!;
   const [r] = appliquerEvenements(s, 'rec-admin', [evt({ type: 'vu', materielId: enCours.id, salleId: enCours.salleId })]);
-  assert.deepEqual(r, { id: r.id, statut: 'refuse', message: 'Campagne non ouverte par un gestionnaire.' });
+  assert.deepEqual(r, { id: r.id, statut: 'refuse', message: 'Opération non lancée par un gestionnaire.' });
   assert(enCours.deplacement, 'déplacement toujours en cours');
 });
 
@@ -227,9 +227,9 @@ test('constats : présence, écart (version antérieure), relocalisation, stock,
 
   const horsCampagne = ouvrir(s, [autreSalle.id]);
   const autrePiece = s.salles.find((x) => x.ecoleId === 'e-num' && x.id !== autreSalle.id)!;
-  assert.equal(appliquerEvenements(horsCampagne.next, horsCampagne.campagne.id, [evt({ type: 'vu', materielId: installe.id, salleId: autrePiece.id })])[0].message, 'Salle hors de la campagne.');
+  assert.equal(appliquerEvenements(horsCampagne.next, horsCampagne.campagne.id, [evt({ type: 'vu', materielId: installe.id, salleId: autrePiece.id })])[0].message, 'Salle hors de l’opération.');
   horsCampagne.campagne.close = { at: Date.now(), par: 'x', parId: null };
-  assert.equal(appliquerEvenements(horsCampagne.next, horsCampagne.campagne.id, [evt({ type: 'vu', materielId: installe.id, salleId: autreSalle.id })])[0].message, 'Campagne close.');
+  assert.equal(appliquerEvenements(horsCampagne.next, horsCampagne.campagne.id, [evt({ type: 'vu', materielId: installe.id, salleId: autreSalle.id })])[0].message, 'Opération close.');
 });
 
 test('constats : présence refusée, retour lancé vers l’affectation, confirmé par le gestionnaire (RG-96)', () => {
@@ -380,6 +380,10 @@ test('installation d’une salle : lancée par le gestionnaire, salle et stock, 
   const input: Ecriture = scopedState(s, gestionnaire);
   input.recensements.push({ ...ins, id: 'x' });
   assert.throws(() => mergeState(s, input, gestionnaire), /déplacements de la salle/);
+  // Ni close à la main : elle se clôt d'elle-même
+  const cloture: Ecriture = scopedState(s, gestionnaire);
+  cloture.recensements.find((r) => r.id === ins.id)!.close = { at: 0, par: '', parId: null };
+  assert.throws(() => mergeState(s, cloture, gestionnaire), /se clôt d’elle-même/);
 
   // Recensement simultané couvrant la même salle : opérations distinctes, constats rattachés à chacune
   const { next, campagne } = ouvrir(s, [salle]);
@@ -388,7 +392,7 @@ test('installation d’une salle : lancée par le gestionnaire, salle et stock, 
   assert.equal(instantane(next, insNext).campagne.mode, 'installation');
   assert.equal(instantane(next, campagne).campagne.mode, 'recensement');
   const autreSalle = next.salles.find((x) => x.ecoleId === 'e-num' && x.id !== salle)!;
-  assert.equal(appliquerEvenements(next, ins.id, [evt({ type: 'vu', materielId: enCours.id, salleId: autreSalle.id })])[0].message, 'Salle hors de la campagne.', 'installation limitée à sa salle et au stock');
+  assert.equal(appliquerEvenements(next, ins.id, [evt({ type: 'vu', materielId: enCours.id, salleId: autreSalle.id })])[0].message, 'Salle hors de l’opération.', 'installation limitée à sa salle et au stock');
   const enCoursNext = next.materiels.find((x) => x.id === enCours.id)!;
   appliquerEvenements(next, campagne.id, [evt({ type: 'vu', materielId: enCours.id, salleId: salle })]);
   assert(enCoursNext.deplacement, 'le recensement ne confirme pas l’installation');
@@ -401,9 +405,9 @@ test('installation d’une salle : lancée par le gestionnaire, salle et stock, 
   // Plus aucun déplacement ne concerne la salle : installation close par le serveur ; le recensement reste ouvert
   for (const m of next.materiels) if (m.deplacement && (m.salleId === salle || m.deplacement.de === salle)) delete m.deplacement;
   cloreInstallations(next);
-  assert.equal(insNext.close?.par, 'ORION');
+  assert.deepEqual([insNext.close?.par, insNext.close?.parId], ['Sophie Garnier', gestionnaire.id], 'signée par le gestionnaire qui l’a terminée');
   assert.equal(next.recensements.find((r) => r.id === campagne.id)!.close, undefined);
-  assert.equal(appliquerEvenements(next, ins.id, [evt({ type: 'vu', materielId: enCours.id, salleId: salle })])[0].message, 'Campagne close.');
+  assert.equal(appliquerEvenements(next, ins.id, [evt({ type: 'vu', materielId: enCours.id, salleId: salle })])[0].message, 'Opération close.');
 });
 
 test('recensement : un scan antérieur à la dernière information est refusé avant toute confirmation', () => {

@@ -383,6 +383,13 @@
         "version": "3.4",
         "date": "2026-11-14",
         "modification": "Système d’exploitation ; recensement, installation, écart et constat",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "3.5",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -795,6 +802,13 @@
         "version": "6.0",
         "date": "2026-11-14",
         "modification": "RG-92 à RG-96 simplifiées : installation distincte du recensement, téléphone lié, code inconnu ajouté, matériel mal placé",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "6.1",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -935,6 +949,13 @@
         "version": "1.4",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "1.5",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -1202,6 +1223,13 @@
         "version": "6.2",
         "date": "2026-11-14",
         "modification": "Recensement, installation et anciens constats",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "6.3",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -1213,6 +1241,13 @@
         "version": "1.0",
         "date": "2026-11-14",
         "modification": "Version Word générée depuis la fiche Markdown",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -1297,6 +1332,13 @@
         "version": "4.2",
         "date": "2026-11-14",
         "modification": "RIGEL : accepter sur place ou ramener (RG-96)",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "4.3",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -1308,6 +1350,13 @@
         "version": "1.0",
         "date": "2026-11-14",
         "modification": "Version Word générée depuis la fiche Markdown",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -1382,6 +1431,13 @@
         "version": "1.0",
         "date": "2026-11-14",
         "modification": "Version Word générée depuis la fiche Markdown",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -1467,6 +1523,13 @@
         "version": "4.1",
         "date": "2026-11-14",
         "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "4.2",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -1478,6 +1541,13 @@
         "version": "1.0",
         "date": "2026-11-14",
         "modification": "Version Word générée depuis la fiche Markdown",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -1562,6 +1632,13 @@
         "version": "4.1",
         "date": "2026-11-14",
         "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "4.2",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]
@@ -2054,6 +2131,13 @@
         "version": "4.10",
         "date": "2026-11-14",
         "modification": "Organisation du code et migrations réalisées ; amorçage de production et écarts du DAT ajoutés",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "4.11",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null
       }
     ]

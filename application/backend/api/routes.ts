@@ -58,7 +58,7 @@ export function createWorkspaceRouter({ repository, actor, agentToken, rigel }: 
       res.json({ poste: poste.nomReseau, jeton: jetonPoste(agentToken, poste.nomReseau) });
     } catch (e) { next(e); }
   });
-  // Adresse d'appairage d'un téléphone à une campagne de recensement (QR affiché par ORION)
+  // Adresse d'appairage d'un téléphone à un recensement (QR affiché par ORION)
   router.get('/recensements/:id/appairage', async (req, res, next) => {
     try { res.json(await repository.rigel.appairage(res.locals.actor, req.params.id, rigel)); } catch (e) { next(e); }
   });

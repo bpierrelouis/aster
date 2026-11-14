@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.0 | 14/11/2026 | Production destinée à la remise | RG-92 à RG-96 simplifiées : installation distincte du recensement, téléphone lié, code inconnu ajouté, matériel mal placé | [14 versions](../../../archive/README.md#04-regles-de-gestion) |
+| 6.1 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée | [15 versions](../../../archive/README.md#04-regles-de-gestion) |
 <!-- version:fin -->
 
 Ce document formalise uniquement les règles confirmées qui imposent une contrainte sur les données, les droits des utilisateurs ou les traitements réalisés par ORION. Il s'appuie sur les [consignes du projet](../../01-CONTEXTE/01-CONSIGNES.md), les [entretiens des 22 et 23 octobre et du 4 novembre](../../01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md), le fonctionnement de l'application ORION et le [cadrage consolidé](../../01-CONTEXTE/02-CADRAGE.md).
@@ -118,7 +118,7 @@ Les limites du périmètre, les questions ouvertes et les réponses historiques 
 - **RG-89 — Statut et suivi dans l'état des lieux.** Le PDF d'état des lieux d'une remontée présente son statut et son suivi ; il est produit par le serveur à chaque demande et n'est pas conservé, selon RG-35 (décision de l’utilisateur du 13 novembre 2026 et application).
 - **RG-90 — Unité centrale d'un poste.** Un poste correspond au plus à un matériel, son unité centrale (décision de l’utilisateur du 13 novembre 2026 et application).
 - **RG-91 — Suppression d'un matériel.** Un matériel ne peut être supprimé que s'il est dans le stock, sans affectation à une salle, et s'il n'est concerné par aucune remontée, selon RG-73 (décision de l’utilisateur du 13 novembre 2026 et application).
-- **RG-92 — Installation d'une salle.** Une installation est en cours tant que des matériels sont en déplacement vers une salle. Seul le gestionnaire la réalise, en confirmant chaque matériel dans ORION ou avec RIGEL ; l'administrateur et le super administrateur l'initient et la suivent (décision de l’utilisateur du 14 novembre 2026).
+- **RG-92 — Installation d'une salle.** Une installation est en cours tant que des matériels sont en déplacement vers une salle ou depuis elle. Seul le gestionnaire la réalise, en confirmant chaque matériel dans ORION ou avec RIGEL ; l'administrateur et le super administrateur l'initient et la suivent (décision de l’utilisateur du 14 novembre 2026).
 - **RG-93 — Recensement.** Seul le gestionnaire lance un recensement, depuis ORION, sur toute ou une partie de son école. Il confirme la présence des matériels, dure au plus 14 jours et n'est jamais rouvert ni supprimé. Il peut coexister avec une installation (décision de l’utilisateur du 14 novembre 2026).
 - **RG-94 — Téléphone lié.** Le téléphone du gestionnaire est lié à une installation ou à un recensement par un QR code affiché dans ORION, qui lui transmet des données à jour. Il fonctionne hors connexion ; un scan plus ancien que la dernière information connue sur le matériel est refusé (décision de l’utilisateur du 14 novembre 2026).
 - **RG-95 — Code inconnu.** Un matériel inconnu scanné n'est ajouté qu'après confirmation et saisie de ses informations ; ORION le crée alors dans le lieu du scan. Les constats ne sont jamais supprimés (décision de l’utilisateur du 14 novembre 2026).

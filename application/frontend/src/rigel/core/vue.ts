@@ -1,4 +1,4 @@
-/* Vue de la campagne sur le téléphone : instantané d'ORION complété par les constats du téléphone
+/* Vue de l’opération (recensement ou installation) sur le téléphone : instantané d'ORION complété par les constats du téléphone
    non encore intégrés (présence, acceptation, retour), pour que l'écran reflète aussitôt chaque action. */
 import type { Etat } from './etat.ts';
 import type { MaterielRigel, SalleRigel } from '#shared/rigel.ts';
@@ -11,7 +11,7 @@ export const lieuDe = (parametre: string | null | undefined): Lieu => (parametre
 export const parametreDe = (lieu: Id | null) => lieu ?? 'stock';
 
 export interface MaterielVu extends MaterielRigel {
-  /** Lieu où il a été vu pendant la campagne (salle, ou null pour le stock) ; undefined : pas encore vu */
+  /** Lieu où il a été vu pendant l’opération (salle, ou null pour le stock) ; undefined : pas encore vu */
   vuDans: Id | null | undefined;
   /** Vu dans un autre lieu que son affectation, sans y être accepté (retour ou mise au stock lancés, écart d'une version antérieure) */
   ecart: Id | null | undefined;

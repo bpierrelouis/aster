@@ -61,7 +61,7 @@ function StockCard({ trajets }: { trajets: Trajet[] }) {
     await confirmerDeplacements(enCours, `${plural(enCours.length, 'matériel rangé', 'matériels rangés')} au stock`);
   }
   return <GroupCard title={titre} label="Retour au stock" sub={plural(trajets.length, 'salle d’origine', 'salles d’origine')}
-    action={can('installation.confirm') ? <button className="btn btn--ghost btn--s" type="button" onClick={terminer}><Icon name="check" size={16} />Terminer le restockage</button> : null}
+    action={can('installation.confirm') && enCours.length ? <button className="btn btn--ghost btn--s" type="button" onClick={terminer}><Icon name="check" size={16} />Terminer le restockage</button> : null}
     extra={<Progress value={faits.length / (enCours.length + faits.length)} label="Avancement du retour au stock" />}>
     {[...enCours, ...faits].map((m) => <MoveRow key={m.id} m={m} origine />)}
   </GroupCard>;

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.1 | 14/11/2026 | Production destinée à la remise | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école | [11 versions](../../../archive/README.md#15-fiche-descriptive-administrateur) |
+| 4.2 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée | [12 versions](../../../archive/README.md#15-fiche-descriptive-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -19,13 +19,14 @@
 | Accès | Connexion par MindefConnect, avec un compte ORION actif de son école |
 | Tableaux de bord | « Mon tableau de bord » personnalisable, tableaux spécialisés « Parc » et « Remontées », tableaux ajoutés par le compte |
 | Parc matériel | Toutes les actions du gestionnaire sur les matériels, y compris l’import JSON, et la suppression d’un ou plusieurs matériels du stock |
-| Salles et bâtiments | Créer, modifier et supprimer une salle ; renommer un bâtiment ; prévoir les déplacements d’une installation |
+| Salles et bâtiments | Créer, modifier et supprimer une salle ; renommer un bâtiment ; initier les déplacements d’une installation et la suivre en lecture seule |
+| Recensement | Suivre en lecture seule les recensements de son école et leur bilan |
 | Administration des postes | Consulter les postes, leur état et leurs applications ; installer ou désinstaller une application sur un poste ou une salle ; demander la réinitialisation d’un ou plusieurs postes ; suivre les interventions |
 | Supervision | Alertes de toutes les salles, supervision d’une salle et arrêt d’un processus, listes de processus (liste blanche, liste noire) de son école, statistiques d’utilisation |
 | Remontées | Créer une remontée et suivre les siennes ; consulter toutes les remontées de son école et leurs états des lieux ; le traitement est réservé au gestionnaire |
-| Comptes ORION | Créer, modifier, désactiver et réactiver les comptes de son école ; consulter leur dernière connexion et leur date de désactivation |
+| Comptes ORION | Créer, modifier, désactiver et réactiver les comptes de son école, sans pouvoir les rattacher à une autre école ni changer la sienne ; consulter leur dernière connexion et leur date de désactivation |
 | Notifications | Évolution de ses propres remontées, fin des interventions qu’il a demandées, lancement d’un processus interdit |
-| Exclusions | Traitement des remontées, RIGEL (installation sur place et recensement), règles globales, écoles et comptes super administrateur |
+| Exclusions | Traitement des remontées, confirmation des installations, RIGEL (installation sur place et recensement), traitement des constats, règles globales, écoles et comptes super administrateur |
 
 Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-DROITS.md).
 
@@ -250,7 +251,8 @@ RG-02, RG-15, RG-61, RG-69, RG-74 et RG-75.
 
 ### Variantes et limites
 
-- L’administrateur prévoit les déplacements et suit l’installation, mais ne la confirme pas : les points de déplacement ne sont pas cliquables pour lui, et il n’utilise pas RIGEL.
+- L’administrateur initie les déplacements et suit l’installation en lecture seule : les points de déplacement ne sont pas cliquables pour lui, **Terminer le restockage** et **Installer avec un téléphone** ne lui sont pas proposés, et il n’utilise pas RIGEL.
+- Il consulte de même, sans action, les recensements de son école dans **Matériels › Recensement**.
 - Un matériel hors service ne peut être affecté qu’au stock.
 
 ### Résultats attendus

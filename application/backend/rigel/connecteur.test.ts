@@ -53,10 +53,11 @@ test('connecteur : publication, constat d’un téléphone intégré par ORION, 
     const { instantane: nouveau } = await (await fetch(`${relais.url}/api/campagnes/${campagne.id}/instantane`, { headers: telephone })).json();
     assert.equal((await dechiffrer<InstantaneRigel>(acces.cle, campagne.id, nouveau)).constats[0].resultat, 'confirme', 'nouvel instantané publié');
 
-    // Clôture dans ORION : la campagne disparaît du relais
+    // Derniers déplacements de la salle confirmés dans ORION : l'installation se clôt et disparaît du relais
     const vue2 = await repository.read(gestionnaire);
-    vue2.recensements.find((r) => r.id === campagne.id)!.close = { at: 0, par: '', parId: null };
+    for (const x of vue2.materiels) if (x.deplacement && (x.salleId === prevu.salleId || x.deplacement.de === prevu.salleId)) delete x.deplacement;
     await repository.update(vue2, vue2.revision, gestionnaire);
+    assert.equal((await repository.snapshot()).recensements.find((r) => r.id === campagne.id)!.close?.parId, gestionnaire.id);
     await connecteur.cycle();
     assert.deepEqual(await store.campagnes(), []);
   } finally { orion.server.close(); relais.server.close(); }

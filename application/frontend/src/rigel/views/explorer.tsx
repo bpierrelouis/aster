@@ -1,4 +1,4 @@
-/* Explorer : salles de la campagne par bâtiment, avec leur avancement, et le stock */
+/* Explorer : salles de l’opération par bâtiment, avec leur avancement, et le stock */
 import { Link } from 'react-router';
 import { Icon } from '../../espace/ui/icons.tsx';
 import { useRigel } from '../hooks/use-rigel.ts';
@@ -29,6 +29,6 @@ export function Explorer() {
         })}
       </ul>
     </section>)}
-    {!vue.salles.length && <p className="vide">Aucune salle dans cette campagne.</p>}
+    {!vue.salles.length && <p className="vide">Aucune salle dans cette opération.</p>}
   </Ecran>;
 }

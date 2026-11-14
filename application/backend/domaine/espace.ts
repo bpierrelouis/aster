@@ -140,7 +140,7 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
     if (c === 'comptes' && deleted.length) fail(403, 'Un compte se désactive ; il n’est pas supprimé.');
     if (c === 'operations' && deleted.length) fail(403, 'Une demande d’intervention ne peut pas être supprimée.');
     if (c === 'remontees' && deleted.length) fail(403, 'La suppression de remontées est indisponible.');
-    if (c === 'recensements' && deleted.length) fail(403, 'Une campagne se clôt ; elle n’est pas supprimée.');
+    if (c === 'recensements' && deleted.length) fail(403, 'Un recensement ou une installation se clôt ; il n’est pas supprimé.');
     if (c === 'constats' && deleted.length) fail(403, 'Un constat est conservé.');
     if (c === 'regles' && actor.role !== 'superadmin' && deleted.some((x) => x.portee === 'global')) fail(403, 'Règle globale réservée au super administrateur.');
     if (c === 'applications' && deleted.some((a) => state.installations.some((i) => i.applicationId === a.id) || state.operations.some((o) => o.applicationId === a.id))) {

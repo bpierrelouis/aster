@@ -23,7 +23,7 @@ export const openapi = {
     { name: 'Connexion', description: 'Connexion par le fournisseur d’identité (OIDC) et session' },
     { name: 'Espace de travail', description: 'Données métier visibles par l’utilisateur connecté' },
     { name: 'Postes', description: 'Rapports d’activité et résultats d’intervention des postes' },
-    { name: 'Recensement', description: 'Connecteur du relais de l’application mobile RIGEL : campagnes publiées et constats des téléphones, chiffrés' },
+    { name: 'Recensement', description: 'Connecteur du relais de l’application mobile RIGEL : opérations publiées et constats des téléphones, chiffrés' },
   ],
   paths: {
     '/api/health': {
@@ -157,7 +157,7 @@ export const openapi = {
     },
     '/api/workspace/recensements/{id}/appairage': {
       get: {
-        tags: ['Espace de travail'], summary: 'Adresse d’appairage d’un téléphone à une campagne de recensement', security: session,
+        tags: ['Espace de travail'], summary: 'Adresse d’appairage d’un téléphone à un recensement', security: session,
         parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
         responses: { 200: json({ type: 'object', properties: { url: { type: 'string' }, expireLe: { type: 'integer' } } }), 400: error, 401: error, 403: error, 404: error, 503: error },
       },
@@ -209,7 +209,7 @@ export const openapi = {
     },
     '/api/rigel/campagnes': {
       get: {
-        tags: ['Recensement'], summary: 'Campagnes ouvertes et leur instantané chiffré', security: connecteur,
+        tags: ['Recensement'], summary: 'Opérations en cours (recensements et installations) et leur instantané chiffré', security: connecteur,
         responses: { 200: json({ type: 'object', properties: { campagnes: { type: 'array', items: { type: 'object', properties: {
           id: { type: 'string' }, expireLe: { type: 'integer' }, empreinte: { type: 'string', description: 'SHA-256 du jeton des téléphones' }, version: { type: 'string' }, instantane: bloc,
         } } } } }), 401: error },

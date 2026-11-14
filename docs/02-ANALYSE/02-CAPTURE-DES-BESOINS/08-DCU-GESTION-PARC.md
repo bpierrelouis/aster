@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.4 | 14/11/2026 | Production destinée à la remise | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | [5 versions](../../../archive/README.md#08-dcu-gestion-parc) |
+| 1.5 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée | [6 versions](../../../archive/README.md#08-dcu-gestion-parc) |
 <!-- version:fin -->
 
 ```mermaid
@@ -38,6 +38,8 @@ flowchart LR
         consulterTableau(["Consulter le tableau de bord du parc"])
         supprimer(["Supprimer un ou plusieurs matériels"])
         gererSalles(["Gérer les salles et les étages"])
+        installer(["Installer une salle"])
+        recenser(["Recenser le parc"])
     end
 
     consultantParc --- consulterSalles
@@ -51,6 +53,8 @@ flowchart LR
     acteurGestion --- consulterStock
     acteurGestion --- consulterTableau
     gestionnaire --- recevoirGarantie
+    gestionnaire --- installer
+    gestionnaire --- recenser
     acteurAdministrationParc --- supprimer
     acteurAdministrationParc --- gererSalles
 
@@ -66,7 +70,7 @@ flowchart LR
 
     class formateur,gestionnaire,administrateur,superAdministrateur acteurReel
     class consultantParc,acteurGestion,acteurAdministrationParc acteurAbstrait
-    class consulterSalles,consulter,recevoirGarantie,rechercher,enregistrer,importer,modifier,renseignerGarantie,affecter,consulterStock,supprimer,gererSalles,consulterTableau casUtilisation
+    class consulterSalles,consulter,recevoirGarantie,rechercher,enregistrer,importer,modifier,renseignerGarantie,affecter,consulterStock,supprimer,gererSalles,consulterTableau,installer,recenser casUtilisation
 
     style orion fill:none,stroke:#7D8793,stroke-width:1px
 ```

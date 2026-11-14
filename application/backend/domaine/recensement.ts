@@ -1,15 +1,18 @@
 /* ==========================================================================
    Domaine · recensement mobile (RIGEL)
-   - Campagne : ouverte dans ORION par un gestionnaire, sur toute l'école ou
-     sur des salles ; close à la demande ou à expiration. RIGEL est réservé
-     au gestionnaire (ticket #156) : les administrateurs suivent en lecture.
+   - Opérations RIGEL (collection recensements, nommée « campagne » dans le
+     protocole du relais) : recensement ou installation d'une salle, lancés
+     par un gestionnaire ; RIGEL lui est réservé (ticket #156) : les
+     administrateurs suivent en lecture.
    - Constats : produits par les téléphones, transmis chiffrés par le relais
      et le connecteur, intégrés ici (valeurs d'autorité fixées par le serveur).
    - Deux opérations, indépendantes même sur une même salle (décisions de
-     l'utilisateur du 14 novembre) : la campagne de recensement, ouverte dans
-     Matériels › Recensement, et l'installation d'une salle, lancée depuis ses
-     déplacements, limitée à la salle et au stock, close par le serveur quand
-     plus aucun déplacement ne la concerne. Un téléphone est appairé à une
+     l'utilisateur du 14 novembre) : le recensement, lancé dans Matériels ›
+     Recensement sur l'école ou des salles, clos à la demande ou au bout de
+     14 jours, qui confirme la présence ; l'installation d'une salle, lancée
+     depuis ses déplacements, limitée à la salle et au stock, close par le
+     serveur, au nom du gestionnaire qui l'a terminée, quand plus aucun
+     déplacement ne la concerne. Un téléphone est appairé à une
      opération ; ses constats lui sont rattachés.
    - Ouvrir un lieu sur le téléphone, c'est déclarer s'y trouver (RG-96) : un
      matériel scanné dans sa salle confirme son déplacement (installation) ou
@@ -18,7 +21,7 @@
      affectation, à confirmer par le gestionnaire) ou, dans une salle, mis au
      stock (affecté au stock, déplacement lancé) ; un code inconnu, confirmé
      et renseigné sur le téléphone, est ajouté au parc dans le lieu ouvert.
-   - Clé et jeton d'une campagne sont dérivés du secret RIGEL_SECRET :
+   - Clé et jeton d'une opération sont dérivés du secret RIGEL_SECRET :
      aucun secret n'est conservé dans les données.
    ========================================================================== */
 
@@ -33,22 +36,22 @@ import type { LooseItem } from './commun.ts';
 
 export { ouverte };
 
-/** Salles d'une campagne : celles qu'elle désigne, sinon toutes les salles de l'école */
+/** Salles d'une opération : celles qu'elle désigne, sinon toutes les salles de l'école */
 export const sallesDe = (state: Pick<WorkspaceState, 'salles'>, r: Pick<Recensement, 'ecoleId' | 'salleIds'>) =>
   state.salles.filter((s) => s.ecoleId === r.ecoleId && (!r.salleIds.length || r.salleIds.includes(s.id)));
 
 /* ---------- Écritures des utilisateurs (appelées par mergeState) ---------- */
 
-/** RIGEL réservé au gestionnaire (ticket #156, décision de l'utilisateur du 14 novembre) : campagnes, constats et appairage */
+/** RIGEL réservé au gestionnaire (ticket #156, décision de l'utilisateur du 14 novembre) : opérations, constats et appairage */
 const reserve = (actor: Actor) => { if (actor.role !== 'gestionnaire') fail(403, 'Recensement réservé au gestionnaire.'); };
 
-/** Ouverture ou clôture d'une campagne ; x : élément proposé, old : élément enregistré */
+/** Lancement ou clôture d'un recensement ; x : élément proposé, old : élément enregistré */
 export function regleRecensement(x: LooseItem, old: LooseItem | undefined, state: WorkspaceState, actor: Actor, now: number) {
   reserve(actor);
   if (!old) {
-    assert(typeof x.nom === 'string' && x.nom.trim() && x.nom.length <= 120, 'Nom de la campagne obligatoire.');
+    assert(typeof x.nom === 'string' && x.nom.trim() && x.nom.length <= 120, 'Nom du recensement obligatoire.');
     x.nom = x.nom.trim();
-    // Une campagne est un recensement ; l'installation d'une salle se lance depuis ses déplacements (lancerInstallation)
+    // Seul un recensement se lance ainsi ; l'installation d'une salle se lance depuis ses déplacements (lancerInstallation)
     assert(x.mode === undefined || x.mode === 'recensement', 'Une installation se lance depuis les déplacements de la salle.');
     x.mode = 'recensement';
     assert(Array.isArray(x.salleIds) && x.salleIds.length <= 2000 && new Set(x.salleIds).size === x.salleIds.length, 'Salles invalides.');
@@ -57,9 +60,13 @@ export function regleRecensement(x: LooseItem, old: LooseItem | undefined, state
     delete x.close;
     return;
   }
-  seulsModifies(old, x, ['close'], 'Seule la clôture d’une campagne peut être modifiée.');
-  if (old.close) assert(same(old.close, x.close), 'Une campagne close ne peut pas être rouverte.');
-  else if (x.close) x.close = { at: now, par: actor.nom, parId: actor.id };
+  seulsModifies(old, x, ['close'], 'Seule la clôture d’un recensement peut être modifiée.');
+  if (old.close) assert(same(old.close, x.close), 'Un recensement clos ne peut pas être rouvert.');
+  // Une installation se clôt d'elle-même, quand plus aucun déplacement ne concerne sa salle (cloreInstallations)
+  else if (x.close) {
+    assert(!estInstallation(old as Recensement), 'Une installation se clôt d’elle-même.');
+    x.close = { at: now, par: actor.nom, parId: actor.id };
+  }
 }
 
 /** Traitement d'un constat (code inconnu ou écart) : seul ce suivi est modifiable par un utilisateur */
@@ -118,27 +125,34 @@ export function lancerInstallation(s: WorkspaceState, actor: Actor, salleId: Id,
   return r;
 }
 
-/** Installations en cours dont plus aucun déplacement ne concerne la salle : closes par le serveur (état modifié en place) */
+/**
+ * Installations en cours dont plus aucun déplacement ne concerne la salle : closes par le serveur (état modifié en place),
+ * au nom du gestionnaire dont la confirmation (dans ORION ou par un scan) a terminé l'installation, sinon de son lanceur.
+ */
 export function cloreInstallations(s: WorkspaceState, now = Date.now()) {
   for (const r of s.recensements) {
-    if (estInstallation(r) && ouverte(r, now) && !s.materiels.some((m) => aDeplacer(m, r.salleIds[0]))) r.close = { at: now, par: 'ORION', parId: null };
+    const salleId = r.salleIds[0];
+    if (!estInstallation(r) || !ouverte(r, now) || s.materiels.some((m) => aDeplacer(m, salleId))) continue;
+    const derniere = s.materiels.flatMap((m) => (m.installation && m.installation.at >= r.at && (m.salleId === salleId || m.installation.de === salleId) ? [m.installation] : []))
+      .sort((x, y) => y.at - x.at)[0];
+    r.close = { at: now, par: derniere?.par ?? r.par, parId: derniere?.parId ?? r.parId };
   }
 }
 
 /* ---------- Clé, jeton et appairage ---------- */
 
 const derive = (secret: string, usage: string, id: Id) => createHmac('sha256', secret).update(`${usage}:${id}`).digest('base64url');
-/** Clé AES-256 de la campagne (base64url) */
+/** Clé AES-256 de l'opération (base64url) */
 export const cleCampagne = (secret: string, id: Id) => derive(secret, 'cle', id);
 /** Jeton du téléphone auprès du relais ; le relais n'en connaît que l'empreinte */
 export const jetonCampagne = (secret: string, id: Id) => derive(secret, 'jeton', id);
 
-/** Adresse d'appairage d'une campagne ouverte du périmètre du compte */
+/** Adresse d'appairage d'une opération en cours du périmètre du compte */
 export function appairage(state: WorkspaceState, actor: Actor, id: Id, { secret, url }: { secret: string; url: string | null }) {
   reserve(actor);
   const r = state.recensements.find((x) => x.id === id && x.ecoleId === actor.ecoleId);
-  if (!r) fail(404, 'Campagne introuvable.');
-  if (!ouverte(r)) fail(400, 'Cette campagne est close.');
+  if (!r) fail(404, 'Opération introuvable.');
+  if (!ouverte(r)) fail(400, 'Cette opération est close.');
   if (!url) fail(503, 'L’application mobile n’est pas configurée.');
   return { url: adresseAppairage(url, { campagne: r.id, jeton: jetonCampagne(secret, r.id), cle: cleCampagne(secret, r.id) }), expireLe: r.expireLe };
 }
@@ -147,7 +161,7 @@ export function appairage(state: WorkspaceState, actor: Actor, id: Id, { secret,
 
 const versRigel = (m: Materiel) => ({ id: m.id, idOrion: m.idOrion, type: m.type, modele: m.modele, marque: m.marque, serie: m.serie, salleId: m.salleId, hs: m.hs, enCours: !!m.deplacement });
 
-/** Données consultées par le téléphone : salles de la campagne, matériels de l'école, constats déjà intégrés */
+/** Données consultées par le téléphone : salles de l'opération, matériels de l'école, constats déjà intégrés */
 export function instantane(state: WorkspaceState, r: Recensement): InstantaneRigel {
   return {
     campagne: { id: r.id, nom: r.nom, ecole: state.ecoles.find((e) => e.id === r.ecoleId)?.nom ?? '', mode: r.mode, expireLe: r.expireLe },
@@ -158,7 +172,7 @@ export function instantane(state: WorkspaceState, r: Recensement): InstantaneRig
   };
 }
 
-/** Campagnes ouvertes, chacune avec son instantané chiffré, sa version et l'empreinte du jeton des téléphones */
+/** Opérations en cours, chacune avec son instantané chiffré, sa version et l'empreinte du jeton des téléphones */
 export async function campagnesPubliees(state: WorkspaceState, secret: string, now = Date.now()): Promise<CampagnePubliee[]> {
   return Promise.all(state.recensements.filter((r) => ouverte(r, now)).map(async (r) => {
     const contenu = instantane(state, r);
@@ -203,8 +217,8 @@ function derniereInformation(s: WorkspaceState, m: Materiel) {
 }
 
 /**
- * Intègre les événements d'une campagne dans l'état (modifié en place) et renvoie le résultat de chacun.
- * Un événement déjà intégré est un doublon ; auteur et date sont ceux de la campagne et du serveur.
+ * Intègre les événements d'une opération dans l'état (modifié en place) et renvoie le résultat de chacun.
+ * Un événement déjà intégré est un doublon ; auteur et date sont ceux de l'opération et du serveur.
  */
 export function appliquerEvenements(s: WorkspaceState, campagne: Id, evenements: (EvenementRigel | { id: string; illisible: true })[], now = Date.now()): ResultatRigel[] {
   const r = s.recensements.find((x) => x.id === campagne);
@@ -224,12 +238,12 @@ function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRi
   const cid = `cst-${id}`;
   if (s.constats.some((c) => c.id === cid)) return { id, statut: 'doublon' };
   if ('illisible' in e) return { id, statut: 'refuse', message: 'Événement illisible.' };
-  if (!r || !ouverte(r, now)) return { id, statut: 'refuse', message: 'Campagne close.' };
-  // Les constats confirment des installations au nom de l'ouvreur : une campagne d'un autre profil n'est plus appliquée
-  if (s.comptes.find((c) => c.id === r.parId)?.role !== 'gestionnaire') return { id, statut: 'refuse', message: 'Campagne non ouverte par un gestionnaire.' };
+  if (!r || !ouverte(r, now)) return { id, statut: 'refuse', message: 'Opération close.' };
+  // Les constats confirment des installations au nom de son lanceur : une opération d'un autre profil n'est plus appliquée
+  if (s.comptes.find((c) => c.id === r.parId)?.role !== 'gestionnaire') return { id, statut: 'refuse', message: 'Opération non lancée par un gestionnaire.' };
   if (!['vu', 'releve', 'retour', 'stock', 'inconnu'].includes(e.type)) return { id, statut: 'refuse', message: 'Constat inconnu.' };
   const salleId = e.salleId ?? null;
-  if (salleId !== null && !sallesDe(s, r).some((x) => x.id === salleId)) return { id, statut: 'refuse', message: 'Salle hors de la campagne.' };
+  if (salleId !== null && !sallesDe(s, r).some((x) => x.id === salleId)) return { id, statut: 'refuse', message: 'Salle hors de l’opération.' };
   const code = texte(e.code, 200) ?? '';
   const ecole = s.materiels.filter((m) => m.ecoleId === r.ecoleId);
   // Un code « inconnu » pour un téléphone dont l'instantané est ancien peut désigner un matériel connu
