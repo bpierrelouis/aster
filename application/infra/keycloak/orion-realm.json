@@ -63,7 +63,7 @@
       ],
       "attributes": {
         "pkce.code.challenge.method": "S256",
-        "post.logout.redirect.uris": "${APP_URL:http://localhost:5173}/"
+        "post.logout.redirect.uris": "${APP_URL:http://localhost:5173}/##${APP_URL:http://localhost:5173}/auth/login"
       },
       "defaultClientScopes": [
         "profile",

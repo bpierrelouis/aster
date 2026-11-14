@@ -28,10 +28,10 @@ const online = (state: WorkspaceState) => { applyReports(state, state.postes.fil
 
 test('identité : rapprochement par sujet puis adresse, compte désactivé sans accès', () => {
   const state = initialState();
-  assert.equal(accountForIdentity(state, { sub: 'kc-1', email: 'Formateur@orion.demo' })?.id, TEACHER);
+  assert.equal(accountForIdentity(state, { sub: 'kc-1', email: 'Thomas.Lefebvre@Hotmail.fr' })?.id, TEACHER);
   state.comptes.find((c) => c.id === TEACHER)!.sujet = 'kc-1';
   assert.equal(accountForIdentity(state, { sub: 'kc-1', email: 'autre@orion.demo' })?.id, TEACHER);
-  assert.equal(accountForIdentity(state, { sub: 'kc-2', email: 'formateur@orion.demo' }), null, 'adresse déjà reliée à une autre identité');
+  assert.equal(accountForIdentity(state, { sub: 'kc-2', email: 'thomas.lefebvre@hotmail.fr' }), null, 'adresse déjà reliée à une autre identité');
   assert.equal(accountForIdentity(state, { sub: 'kc-3', email: 'inconnu@orion.demo' }), null);
   state.comptes.find((c) => c.id === TEACHER)!.actif = false;
   assert.equal(actorOf(state, TEACHER), null);
@@ -41,7 +41,7 @@ test('visibilité : école, auteur des remontées, comptes et données de superv
   const state = online(initialState());
   state.comptes[0].sujet = 'secret';
   const teacher = scopedState(state, as(state, TEACHER));
-  assert.equal(teacher.moi.nom, 'L. Martin');
+  assert.equal(teacher.moi.nom, 'Thomas Lefebvre');
   assert(teacher.materiels.every((m) => m.ecoleId === 'e-num'));
   assert(teacher.remontees.length && teacher.remontees.every((r) => r.auteurId === TEACHER));
   assert.equal(teacher.comptes.length, 0);
@@ -63,7 +63,7 @@ test('remontée : auteur, date, numéro et historique imposés par le serveur', 
   const next = mergeState(state, input, teacher, 1_800_000_000_000);
   const created = next.remontees.find((r) => r.description === 'Écran noir')!;
   assert.match(created.id, /^REM-\d{4}$/);
-  assert.deepEqual([created.auteur, created.auteurId, created.createdAt, created.statut], ['L. Martin', TEACHER, 1_800_000_000_000, 'attente']);
+  assert.deepEqual([created.auteur, created.auteurId, created.createdAt, created.statut], ['Thomas Lefebvre', TEACHER, 1_800_000_000_000, 'attente']);
   assert.equal(created.historique.length, 1);
 
   const manager = as(next, MANAGER);
@@ -74,7 +74,7 @@ test('remontée : auteur, date, numéro et historique imposés par le serveur', 
   r.statut = 'encours'; // le gestionnaire prend en charge
   r.historique.push({ statut: 'encours', at: 1, par: 'Faux' } as EtapeRemontee); // entrée incomplète volontaire
   const treated = mergeState(next, m, manager).remontees.find((x) => x.id === created.id)!;
-  assert.deepEqual([treated.statut, treated.historique.at(-1)!.par], ['encours', 'G. Bernard']);
+  assert.deepEqual([treated.statut, treated.historique.at(-1)!.par], ['encours', 'Sophie Garnier']);
   r.description = 'Texte remplacé';
   assert.throws(() => mergeState(next, m, manager), { status: 400 });
 });
@@ -135,7 +135,7 @@ test('installation : une affectation reste en cours jusqu’à la confirmation, 
   const [a, b] = state.salles.filter((s) => s.ecoleId === 'e-num');
   const mat = (s: { materiels: Materiel[] }) => s.materiels.find((m) => m.id === stock.id)!;
   state = move(MANAGER, (v) => { mat(v).salleId = a.id; });
-  assert.deepEqual(mat(state).deplacement, { de: null, at: 1_800_000_000_000, par: 'G. Bernard', parId: MANAGER });
+  assert.deepEqual(mat(state).deplacement, { de: null, at: 1_800_000_000_000, par: 'Sophie Garnier', parId: MANAGER });
   state = move(MANAGER, (v) => { mat(v).salleId = b.id; });            // pas encore déplacé : l'origine reste le stock
   assert.equal(mat(state).deplacement!.de, null);
   assert.throws(() => move(MANAGER, (v) => { mat(v).deplacement!.de = a.id; }), { status: 400 }); // tenu par le serveur
@@ -144,7 +144,7 @@ test('installation : une affectation reste en cours jusqu’à la confirmation, 
   for (const accountId of [ADMIN, SUPER]) assert.throws(() => move(accountId, (v) => { delete mat(v).deplacement; }), { status: 403, message: 'Confirmation de l’installation réservée au gestionnaire.' });
   state = move(MANAGER, (v) => { delete mat(v).deplacement; mat(v).installation = { de: a.id, at: 0, par: 'X' } as Mouvement; }); // confirmé ; valeur incomplète volontaire
   assert.equal(mat(state).deplacement, undefined);
-  assert.deepEqual(mat(state).installation, { de: null, at: 1_800_000_000_000, par: 'G. Bernard', parId: MANAGER }); // valeur du serveur
+  assert.deepEqual(mat(state).installation, { de: null, at: 1_800_000_000_000, par: 'Sophie Garnier', parId: MANAGER }); // valeur du serveur
   state = move(MANAGER, (v) => { mat(v).hs = true; delete mat(v).installation; }); // autre modification : installation conservée
   assert.equal(mat(state).installation!.de, null);
   assert.throws(() => move(MANAGER, (v) => { mat(v).salleId = a.id; }), { status: 400 }); // hors service : au stock seulement
@@ -154,7 +154,7 @@ test('installation : une affectation reste en cours jusqu’à la confirmation, 
   state = move(MANAGER, (v) => { mat(v).hs = false; mat(v).salleId = b.id; }); // remis en service et revenu à son emplacement physique : rien à faire
   assert.equal(mat(state).deplacement, undefined);
   state = move(ADMIN, (v) => { mat(v).salleId = a.id; });               // un administrateur initie un déplacement…
-  assert.deepEqual(mat(state).deplacement, { de: b.id, at: 1_800_000_000_000, par: 'C. Durand', parId: ADMIN });
+  assert.deepEqual(mat(state).deplacement, { de: b.id, at: 1_800_000_000_000, par: 'Julien Mercier', parId: ADMIN });
   state = move(ADMIN, (v) => { mat(v).salleId = b.id; });               // …et peut le défaire par un retour à l'origine, qui n'est pas une confirmation
   assert.equal(mat(state).deplacement, undefined);
 });
@@ -367,12 +367,12 @@ test('comptes : création dans son école, adresse unique, pas d’auto-désacti
   const admin = as(state, ADMIN);
   const input = scopedState(state, admin);
   input.comptes.push({ id: 'cpt-new', nom: 'P. Nouveau', email: 'P.Nouveau@Orion.Demo', role: 'formateur', ecoleId: 'e-num', actif: true });
-  input.comptes.find((c) => c.id === TEACHER)!.nom = 'L. Martin-Durand';
+  input.comptes.find((c) => c.id === TEACHER)!.nom = 'Thomas Lefebvre-Durand';
   const next = mergeState(state, input, admin);
   assert.equal(next.comptes.find((c) => c.id === 'cpt-new')!.email, 'p.nouveau@orion.demo');
   assert.equal(next.comptes.find((c) => c.id === TEACHER)!.sujet, 'kc-teacher');
   for (const bad of [
-    { id: 'x1', nom: 'X', email: 'admin@orion.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
+    { id: 'x1', nom: 'X', email: 'julien.mercier@outlook.fr', role: 'formateur', ecoleId: 'e-num', actif: true },
     { id: 'x2', nom: 'X', email: 'x2@orion.demo', role: 'superadmin', ecoleId: null, actif: true },
     { id: 'x3', nom: 'X', email: 'x3@orion.demo', role: 'formateur', ecoleId: 'e-res', actif: true },
   ] satisfies Compte[]) {
@@ -415,7 +415,7 @@ test('supervision : le formateur demande un arrêt ; seuls les postes modifient 
   const request: Ecriture = scopedState(state, teacher); request.operations.push({ id: 'x', type: 'arret', cibles: [proc.posteId], processusId: proc.id, statut: 'terminee' });
   const next = mergeState(state, request, teacher);
   const op = next.operations.find((o) => o.processusId === proc.id)!;
-  assert.deepEqual([op.statut, op.par, op.resultats[proc.posteId]], ['enregistree', 'L. Martin', 'en_attente']);
+  assert.deepEqual([op.statut, op.par, op.resultats[proc.posteId]], ['enregistree', 'Thomas Lefebvre', 'en_attente']);
   const again: Ecriture = scopedState(next, teacher); again.operations.push({ id: 'y', type: 'arret', cibles: [proc.posteId], processusId: proc.id });
   assert.throws(() => mergeState(next, again, teacher), { status: 400 });
   assert.equal(next.processus.find((p) => p.id === proc.id)!.stoppedAt, null, 'le processus reste actif jusqu’au résultat du poste');
@@ -532,7 +532,7 @@ test('comptes : dernière connexion et date de désactivation fixées par le ser
   assert.deepEqual([compte(TEACHER).derniereConnexion, compte(TEACHER).dateDesactivation], [undefined, 1_000], 'date de désactivation posée');
   assert.deepEqual([compte('cpt-new').derniereConnexion, compte('cpt-new').dateDesactivation], [undefined, undefined]);
   const rename: Ecriture = scopedState(state, admin);
-  rename.comptes.find((c) => c.id === TEACHER)!.nom = 'L. Martin-Durand';
+  rename.comptes.find((c) => c.id === TEACHER)!.nom = 'Thomas Lefebvre-Durand';
   state = mergeState(state, rename, admin, 2_000);
   assert.equal(compte(TEACHER).dateDesactivation, 1_000, 'conservée tant que le compte reste désactivé');
   const back: Ecriture = scopedState(state, admin);
@@ -544,10 +544,10 @@ test('comptes : dernière connexion et date de désactivation fixées par le ser
   const stale = await repo.read(admin);
   const avant = Date.now();
   await repo.connexion(TEACHER, 'kc-teacher');
-  stale.comptes.find((c) => c.id === TEACHER)!.nom = 'L. Martin';
+  stale.comptes.find((c) => c.id === TEACHER)!.nom = 'Thomas Lefebvre';
   await repo.update(stale, stale.revision, admin);
   const apres = (await repo.snapshot()).comptes.find((c) => c.id === TEACHER)!;
-  assert.equal(apres.nom, 'L. Martin');
+  assert.equal(apres.nom, 'Thomas Lefebvre');
   assert.ok(apres.derniereConnexion! >= avant);
 });
 
@@ -703,7 +703,7 @@ test('routeurs : session obligatoire, ETag, jeton de passerelle et jeton propre 
     accountId = TEACHER;
     const first = await fetch(`${url}/api/workspace`);
     const body = await first.json();
-    assert.equal(body.moi.nom, 'L. Martin');
+    assert.equal(body.moi.nom, 'Thomas Lefebvre');
     assert.equal(body.comptes.length, 0);
     assert.equal((await fetch(`${url}/api/workspace`, { headers: { 'If-None-Match': first.headers.get('ETag')! } })).status, 304);
     assert.equal((await fetch(`${url}/api/agent/postes`)).status, 401);

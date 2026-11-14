@@ -115,24 +115,26 @@ Le 6 novembre, l’utilisateur a retenu MindefConnect pour la production. Dans l
 
 | Adresse | Nom ORION | Profil | École |
 | --- | --- | --- | --- |
-| superadmin@orion.demo | S. Lefèvre | Super administrateur | Toutes |
-| admin@orion.demo | C. Durand | Administrateur | École du numérique |
-| gestionnaire@orion.demo | G. Bernard | Gestionnaire | École du numérique |
-| formateur@orion.demo | L. Martin | Formateur | École du numérique |
-| n.petit@orion.demo, r.garcia@orion.demo, m.robert@orion.demo | N. Petit, R. Garcia, M. Robert | Formateur | École du numérique |
-| a.moreau@orion.demo | A. Moreau | Administrateur | École des réseaux |
-| e.dubois@orion.demo | E. Dubois | Gestionnaire | École des réseaux |
-| j.lambert@orion.demo | J. Lambert | Formateur | École des réseaux |
+| camille.rousseau@gmail.com | Camille Rousseau | Super administrateur | Toutes |
+| julien.mercier@outlook.fr | Julien Mercier | Administrateur | École du numérique |
+| sophie.garnier@yahoo.fr | Sophie Garnier | Gestionnaire | École du numérique |
+| thomas.lefebvre@hotmail.fr | Thomas Lefebvre | Formateur | École du numérique |
+| nadia.benali@orange.fr, hugo.fontaine@free.fr, lea.chevalier@laposte.net | Nadia Benali, Hugo Fontaine, Léa Chevalier | Formateur | École du numérique |
+| antoine.girard@gmail.com | Antoine Girard | Administrateur | École des réseaux |
+| manon.faure@outlook.com | Manon Faure | Gestionnaire | École des réseaux |
+| kevin.morel@yahoo.com | Kevin Morel | Formateur | École des réseaux |
 
-Les quatre premiers acceptent aussi l’identifiant court (`superadmin`, `admin`, `gestionnaire`, `formateur`). Laisser le mot de passe vide : le realm `orion` utilise délibérément un flux qui identifie un utilisateur existant sans secret ; le champ mot de passe du thème est en lecture seule et n’est pas transmis. L’inscription et la récupération du mot de passe renvoient vers l’administrateur.
+Personnes fictives, adresses `prénom.nom` chez des messageries courantes. L’identifiant de connexion est la partie de l’adresse avant `@` (`thomas.lefebvre`), formé comme ceux que crée ORION ; l’adresse complète est aussi acceptée. Laisser le mot de passe vide : le realm `orion` utilise délibérément un flux qui identifie un utilisateur existant sans secret ; le champ mot de passe du thème est en lecture seule et n’est pas transmis. L’inscription et la récupération du mot de passe renvoient vers l’administrateur.
 
-Les tests de bout en bout utilisent aussi `nouveau.formateur@orion.demo` (créé puis désactivé par le test) et `sans.compte@orion.demo` (identité sans compte ORION).
+Les tests de bout en bout utilisent aussi les adresses fictives `nouveau.formateur@orion.demo` (créé puis désactivé par le test) et `sans.compte@orion.demo` (identité sans compte ORION).
 
 La consigne de présentation du 6 novembre impose de conserver ces modalités dans ce guide interne : aucune liste de comptes, indication de mot de passe vide, étiquette de démonstration ou aide technique de démarrage ne doit apparaître dans l’interface ou dans les productions remises aux cadres.
 
-**Exception pour la présentation finale au client (demande de l’utilisateur du 13 novembre), à retirer pour la mise en production :** la page de connexion du Keycloak local centre verticalement le formulaire et les accès de présentation quand la hauteur disponible le permet ; les petits écrans conservent le défilement. Elle affiche un encadré « Accès de présentation » sous le bloc de connexion, avec trois jetons (Administrateur, Gestionnaire, Formateur) reprenant les médaillons des thèmes et une icône de rôle (bouclier, gestion, diplôme). Ces jetons remplissent l’adresse du compte et lancent la connexion ([thème](infra/keycloak/themes/orion-mindef/login/login-username.ftl)). L’encadré n’apparaît que si `ORION_COMPTES_PRESENTATION=true` dans l’environnement de Keycloak (Compose et pile des VM) ; le retirer revient à supprimer cette variable, ou le bloc du thème, ses styles et son script.
+**Exception pour la présentation finale au client (demandes de l’utilisateur des 13 et 14 novembre), à retirer pour la mise en production :** la page de connexion du Keycloak local affiche un tableau « Comptes » hors du bloc de connexion, dans le même style (fond gris clair, angles droits, titres en gras, bleu `#000091`) : adresse, profil et école de chaque compte de départ, et une flèche qui connecte directement avec le compte choisi ([thème](infra/keycloak/themes/orion-mindef/login/login-username.ftl)). Il est fixé dans la marge droite quand la fenêtre fait au moins 1400 px de large ; de 1040 à 1399 px, le bloc de connexion et le tableau sont côte à côte, centrés ensemble ; en dessous, le tableau est placé sous la page. Le formulaire garde toujours sa taille et son apparence. L’ancien encadré « Accès de présentation » (trois jetons de profil) est retiré. Le tableau n’apparaît que si `ORION_COMPTES_PRESENTATION=true` dans l’environnement de Keycloak (Compose et pile des VM) ; le retirer revient à supprimer cette variable, ou le bloc du thème, ses styles et son script.
 
 Le compte technique de la console Keycloak est `keycloak-admin` avec le mot de passe local `keycloak-admin-local`. Il est distinct du super administrateur ORION. Les sessions ORION expirent au plus tard à l’expiration du jeton d’identité, ou après une heure ; une déconnexion détruit la session ORION puis termine la session Keycloak.
+
+Changement de compte sur une page de connexion déjà utilisée (retour arrière après une connexion, deux onglets) : Keycloak refuse d’ouvrir un autre compte tant que sa session est ouverte. Le thème remplace sa page d’erreur ([error.ftl](infra/keycloak/themes/orion-mindef/login/error.ftl)) : « Changer de compte » ferme la session Keycloak (confirmation [logout-confirm.ftl](infra/keycloak/themes/orion-mindef/login/logout-confirm.ftl)) et revient sur `/auth/login` (adresse de retour déclarée dans le realm, `appUrl` du thème lu dans `APP_URL`). Le compte choisi est gardé dans le stockage de session du navigateur pendant deux minutes ([login.js](infra/keycloak/themes/orion-mindef/login/resources/js/login.js)) : l’enchaînement est alors automatique, et la connexion reprend avec ce compte, envoyée d’elle-même pour un compte choisi dans le tableau, seulement préremplie pour une adresse saisie. Côté ORION, chaque onglet garde sa propre tentative de connexion (`logins`, par état OIDC : 10 minutes, 5 au plus).
 
 ## Données
 

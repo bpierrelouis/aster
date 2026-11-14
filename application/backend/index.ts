@@ -22,8 +22,8 @@ import type { Compte, Id, WorkspaceState } from '#shared/types.ts';
 
 declare module 'express-session' {
   interface SessionData {
-    /** Connexion OIDC en cours : vérificateur PKCE, état et nonce attendus au retour */
-    login: { verifier: string; state: string; nonce: string; createdAt: number };
+    /** Connexions OIDC en cours, par état (un onglet chacune) : vérificateur PKCE et nonce attendus au retour */
+    logins: Record<string, { verifier: string; nonce: string; createdAt: number }>;
     accountId: Id;
     idToken: string;
     expiresAt: number;
@@ -125,12 +125,15 @@ app.get('/api/me', async (req, res) => {
   res.json({ user: userFromAccount(actor, ecole?.nom) });
 });
 
+const LOGIN_TTL = 10 * 60 * 1000;
 app.get('/auth/login', async (req, res) => {
   const provider = await identityProvider();
   const verifier = oidc.randomPKCECodeVerifier();
   const state = oidc.randomState();
   const nonce = oidc.randomNonce();
-  req.session.login = { verifier, state, nonce, createdAt: Date.now() };
+  // Plusieurs onglets peuvent lancer une connexion : chacune garde sa tentative (10 minutes, 5 au plus)
+  const enCours = Object.entries(req.session.logins ?? {}).filter(([, l]) => Date.now() - l.createdAt <= LOGIN_TTL).slice(-4);
+  req.session.logins = Object.fromEntries([...enCours, [state, { verifier, nonce, createdAt: Date.now() }]]);
   const url = oidc.buildAuthorizationUrl(provider, {
     redirect_uri: `${config.appUrl}/auth/callback`,
     scope: 'openid profile email',
@@ -142,15 +145,16 @@ app.get('/auth/login', async (req, res) => {
 });
 
 app.get('/auth/callback', async (req, res) => {
-  const login = req.session.login;
-  delete req.session.login;
+  const state = new URL(req.originalUrl, config.appUrl).searchParams.get('state') ?? '';
+  const login = Object.hasOwn(req.session.logins ?? {}, state) ? req.session.logins![state] : undefined;
+  if (login) delete req.session.logins![state];
   await saveSession(req);
-  if (!login || Date.now() - login.createdAt > 10 * 60 * 1000) {
+  if (!login || Date.now() - login.createdAt > LOGIN_TTL) {
     return res.redirect('/?error=session');
   }
   try {
     const tokens = await oidc.authorizationCodeGrant(await identityProvider(), new URL(req.originalUrl, config.appUrl), {
-      pkceCodeVerifier: login.verifier, expectedState: login.state, expectedNonce: login.nonce, idTokenExpected: true,
+      pkceCodeVerifier: login.verifier, expectedState: state, expectedNonce: login.nonce, idTokenExpected: true,
     });
     const claims = tokens.claims()!;
     const identity = identityFromClaims(claims);

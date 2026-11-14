@@ -23,7 +23,7 @@ export function prng(seed: number) {
 }
 
 /** Version du jeu de données : un état enregistré plus ancien est régénéré. */
-export const SEED_VERSION = 18;
+export const SEED_VERSION = 19;
 
 /**
  * Comptes ORION de départ : profil et école de rattachement de chaque personne.
@@ -31,16 +31,16 @@ export const SEED_VERSION = 18;
  * ORION est rapproché de cette identité par son adresse électronique.
  */
 export const ACCOUNTS: Compte[] = [
-  { id: 'cpt-superadmin', nom: 'S. Lefèvre', email: 'superadmin@orion.demo', role: 'superadmin', ecoleId: null, actif: true },
-  { id: 'cpt-num-admin', nom: 'C. Durand', email: 'admin@orion.demo', role: 'admin', ecoleId: 'e-num', actif: true },
-  { id: 'cpt-num-gestionnaire', nom: 'G. Bernard', email: 'gestionnaire@orion.demo', role: 'gestionnaire', ecoleId: 'e-num', actif: true },
-  { id: 'cpt-num-formateur', nom: 'L. Martin', email: 'formateur@orion.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
-  { id: 'cpt-num-petit', nom: 'N. Petit', email: 'n.petit@orion.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
-  { id: 'cpt-num-garcia', nom: 'R. Garcia', email: 'r.garcia@orion.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
-  { id: 'cpt-num-robert', nom: 'M. Robert', email: 'm.robert@orion.demo', role: 'formateur', ecoleId: 'e-num', actif: true },
-  { id: 'cpt-res-admin', nom: 'A. Moreau', email: 'a.moreau@orion.demo', role: 'admin', ecoleId: 'e-res', actif: true },
-  { id: 'cpt-res-gestionnaire', nom: 'E. Dubois', email: 'e.dubois@orion.demo', role: 'gestionnaire', ecoleId: 'e-res', actif: true },
-  { id: 'cpt-res-formateur', nom: 'J. Lambert', email: 'j.lambert@orion.demo', role: 'formateur', ecoleId: 'e-res', actif: true },
+  { id: 'cpt-superadmin', nom: 'Camille Rousseau', email: 'camille.rousseau@gmail.com', role: 'superadmin', ecoleId: null, actif: true },
+  { id: 'cpt-num-admin', nom: 'Julien Mercier', email: 'julien.mercier@outlook.fr', role: 'admin', ecoleId: 'e-num', actif: true },
+  { id: 'cpt-num-gestionnaire', nom: 'Sophie Garnier', email: 'sophie.garnier@yahoo.fr', role: 'gestionnaire', ecoleId: 'e-num', actif: true },
+  { id: 'cpt-num-formateur', nom: 'Thomas Lefebvre', email: 'thomas.lefebvre@hotmail.fr', role: 'formateur', ecoleId: 'e-num', actif: true },
+  { id: 'cpt-num-formateur-2', nom: 'Nadia Benali', email: 'nadia.benali@orange.fr', role: 'formateur', ecoleId: 'e-num', actif: true },
+  { id: 'cpt-num-formateur-3', nom: 'Hugo Fontaine', email: 'hugo.fontaine@free.fr', role: 'formateur', ecoleId: 'e-num', actif: true },
+  { id: 'cpt-num-formateur-4', nom: 'Léa Chevalier', email: 'lea.chevalier@laposte.net', role: 'formateur', ecoleId: 'e-num', actif: true },
+  { id: 'cpt-res-admin', nom: 'Antoine Girard', email: 'antoine.girard@gmail.com', role: 'admin', ecoleId: 'e-res', actif: true },
+  { id: 'cpt-res-gestionnaire', nom: 'Manon Faure', email: 'manon.faure@outlook.com', role: 'gestionnaire', ecoleId: 'e-res', actif: true },
+  { id: 'cpt-res-formateur', nom: 'Kevin Morel', email: 'kevin.morel@yahoo.com', role: 'formateur', ecoleId: 'e-res', actif: true },
 ];
 
 /* Catalogue de modèles : [type, modèle, marque, a un n° de série, garantie (années)] */
@@ -176,7 +176,7 @@ export function seed(now = Date.now()) {
     other: ['Matériel manquant après la séance de la veille.', 'Étiquette d’inventaire illisible.', 'Odeur de brûlé signalée par les stagiaires.'],
   };
   const typeToProblem: Partial<Record<DeviceTypeId, ProblemId[]>> = { uc: ['power', 'malfunction', 'network'], ecran: ['display', 'broken'], videoprojecteur: ['display', 'power'], peripherique: ['malfunction', 'broken'], reseau: ['network'], audio: ['malfunction', 'other'], imprimante: ['malfunction', 'power'], autre: ['other', 'power'] };
-  // Auteurs : formateurs (L. Martin plus souvent) et administrateur de l'école du matériel
+  // Auteurs : formateurs (le premier plus souvent) et administrateur de l'école du matériel
   const auteursDe = (ecoleId: Id) => { const list = comptes.filter((c) => c.ecoleId === ecoleId && ['formateur', 'admin'].includes(c.role)); const lead = list.find((c) => c.role === 'formateur')!; return [lead, ...list]; };
   const remontees: Remontee[] = [];
   const placed = materiels.filter((m) => m.salleId);

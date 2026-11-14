@@ -11,18 +11,25 @@ const sql = async (text: string, values: unknown[]) => { const client = new pg.C
 
 // Requires real PostgreSQL, Keycloak and the Express server. No mocked authentication.
 // Modules visibles par profil (rail principal) et profil appliqué par le serveur à l'espace de travail.
-const PROFILES = [
-  { username: 'superadmin', profile: 'Super administrateur', role: 'superadmin', nom: 'S. Lefèvre', modules: ['Accueil', 'Salles', 'Matériels', 'Remontées', 'Supervision', 'Administration'] },
-  { username: 'admin', profile: 'Administrateur', role: 'admin', nom: 'C. Durand', modules: ['Accueil', 'Salles', 'Matériels', 'Remontées', 'Supervision', 'Administration'] },
-  { username: 'gestionnaire', profile: 'Gestionnaire', role: 'gestionnaire', nom: 'G. Bernard', modules: ['Accueil', 'Salles', 'Matériels', 'Remontées'] },
-  { username: 'formateur', profile: 'Formateur', role: 'formateur', nom: 'L. Martin', modules: ['Accueil', 'Salles', 'Remontées', 'Supervision'] },
+const EMAILS = {
+  superadmin: 'camille.rousseau@gmail.com',
+  admin: 'julien.mercier@outlook.fr',
+  gestionnaire: 'sophie.garnier@yahoo.fr',
+  formateur: 'thomas.lefebvre@hotmail.fr',
+};
+type Profil = keyof typeof EMAILS;
+const PROFILES: { username: Profil; profile: string; role: string; nom: string; modules: string[] }[] = [
+  { username: 'superadmin', profile: 'Super administrateur', role: 'superadmin', nom: 'Camille Rousseau', modules: ['Accueil', 'Salles', 'Matériels', 'Remontées', 'Supervision', 'Administration'] },
+  { username: 'admin', profile: 'Administrateur', role: 'admin', nom: 'Julien Mercier', modules: ['Accueil', 'Salles', 'Matériels', 'Remontées', 'Supervision', 'Administration'] },
+  { username: 'gestionnaire', profile: 'Gestionnaire', role: 'gestionnaire', nom: 'Sophie Garnier', modules: ['Accueil', 'Salles', 'Matériels', 'Remontées'] },
+  { username: 'formateur', profile: 'Formateur', role: 'formateur', nom: 'Thomas Lefebvre', modules: ['Accueil', 'Salles', 'Remontées', 'Supervision'] },
 ];
 
-async function login(page: Page, username: string) {
+async function login(page: Page, username: Profil | string) {
   await page.goto('/');
   await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
   await expect(page).toHaveURL(/localhost:8081/);
-  await page.getByLabel('email', { exact: true }).fill(`${username}@orion.demo`);
+  await page.getByLabel('email', { exact: true }).fill(username in EMAILS ? EMAILS[username as Profil] : username);
   await expect(page.locator('#password')).toHaveValue('');
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await expect(page).toHaveURL(/\/accueil$/);
@@ -48,7 +55,8 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
     await expect(page).toHaveURL(/localhost:8081/);
     await expectPublicPresentation(page);
     await expect(page.getByRole('list')).toHaveCount(0);
-    await expect(page.getByText(/superadmin@orion\.demo|gestionnaire@orion\.demo|formateur@orion\.demo/)).toHaveCount(0);
+    // Présentation au client : tableau des comptes en marge de la page de connexion (ORION_COMPTES_PRESENTATION)
+    await expect(page.getByRole('table', { name: 'Comptes' }).getByRole('row').filter({ hasText: EMAILS[username] })).toBeVisible();
     if (username === 'superadmin') {
       await page.setViewportSize({ width: 2048, height: 1118 });
       await page.waitForLoadState('networkidle');
@@ -71,7 +79,7 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
       await expectPublicPresentation(page);
       await page.getByRole('button', { name: 'Fermer', exact: true }).click();
     }
-    await page.getByLabel('email', { exact: true }).fill(`${username}@orion.demo`);
+    await page.getByLabel('email', { exact: true }).fill(EMAILS[username]);
     await expect(page.locator('#password')).toHaveValue('');
     await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
     await expect(page).toHaveURL(/\/accueil$/);
@@ -86,7 +94,7 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
     expect(user).not.toHaveProperty('idToken');
     const workspace = await (await page.request.get('/api/workspace')).json();
     expect(workspace.role).toBe(role);
-    expect(workspace.moi).toMatchObject({ nom, email: `${username}@orion.demo` });
+    expect(workspace.moi).toMatchObject({ nom, email: EMAILS[username] });
     expect(user.name).toBe(nom);
     expect(await page.locator('.rail-item:not([hidden]) .rail-label').allTextContents()).toEqual(modules);
 
@@ -145,7 +153,7 @@ test('formateur : une remontée transmise produit son PDF ; le gestionnaire la t
   expect(pdf.headers()['content-type']).toBe('application/pdf');
   expect((await pdf.body()).subarray(0, 5).toString()).toBe('%PDF-');
   const [stored] = await sql('SELECT statut, auteur, auteur_id, probleme FROM orion_remontee WHERE id = $1', [report.id]);
-  expect(stored).toMatchObject({ statut: 'attente', auteur: 'L. Martin', auteur_id: 'cpt-num-formateur', probleme: problemType });
+  expect(stored).toMatchObject({ statut: 'attente', auteur: 'Thomas Lefebvre', auteur_id: 'cpt-num-formateur', probleme: problemType });
   expect((await sql('SELECT materiel_id FROM orion_remontee_materiel WHERE remontee_id = $1 ORDER BY rang', [report.id])).map((r) => r.materiel_id)).toEqual(report.materielIds);
   await logout(page);
   expect((await page.request.get(`/api/workspace/reports/${report.id}/pdf`)).status()).toBe(401);
@@ -171,7 +179,7 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
   const email = 'nouveau.formateur@orion.demo';
   await login(page, 'admin');
   await page.goto('/administration/comptes');
-  await expect(page.locator('tr', { hasText: 'admin@orion.demo' })).toBeVisible(); // liste affichée avant de chercher le compte (test rejouable)
+  await expect(page.locator('tr', { hasText: EMAILS.admin })).toBeVisible(); // liste affichée avant de chercher le compte (test rejouable)
   const row = page.locator('tr', { hasText: email });
   if (await row.count()) {
     if (await row.getByRole('button', { name: 'Réactiver' }).count()) {
@@ -191,7 +199,7 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
   await expect.poll(async () => ((await keycloak(`/users?email=${encodeURIComponent(email)}&exact=true`)) as unknown[]).length ?? 0, { timeout: 10_000 }).toBe(1);
   const other = await browser.newContext();
   const newcomer = await other.newPage();
-  await login(newcomer, 'nouveau.formateur');
+  await login(newcomer, email);
   const mine = await (await newcomer.request.get('/api/workspace')).json();
   expect(mine.moi).toMatchObject({ nom: 'P. Nouveau', role: 'formateur', ecoleId: 'e-num' });
   const connecte = (await sql('SELECT sujet, derniere_connexion, date_desactivation FROM orion_compte WHERE email = $1', [email]))[0];
@@ -240,9 +248,71 @@ test('formateur : un arrêt de processus est exécuté par le poste', async ({ p
   // Le poste reçoit la commande, l'exécute et renvoie le résultat
   await expect.poll(async () => (await (await page.request.get('/api/workspace')).json()).operations.find((o: Operation) => o.processusId === processId)?.statut, { timeout: 20_000 }).toMatch(/^(terminee|echec)$/);
   const [op] = (await sql("SELECT data FROM orion_donnee WHERE collection = 'operations' AND data->>'processusId' = $1", [processId])).map((r) => r.data);
-  expect(op).toMatchObject({ type: 'arret', par: 'L. Martin', parId: 'cpt-num-formateur' });
+  expect(op).toMatchObject({ type: 'arret', par: 'Thomas Lefebvre', parId: 'cpt-num-formateur' });
   if (op.statut === 'terminee') expect((await (await page.request.get('/api/workspace')).json()).processus.find((p: Processus) => p.id === processId)?.stoppedAt ?? Date.now()).toBeTruthy();
   await logout(page);
+});
+
+test('tableau des comptes : la flèche connecte directement avec le compte choisi', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
+  const row = page.getByRole('table', { name: 'Comptes' }).getByRole('row').filter({ hasText: 'manon.faure@outlook.com' });
+  await expect(row).toContainText('Gestionnaire');
+  await expect(row).toContainText('Réseaux');
+  await row.getByRole('button', { name: 'Se connecter avec manon.faure@outlook.com' }).click();
+  await expect(page).toHaveURL(/\/accueil$/);
+  const workspace = await (await page.request.get('/api/workspace')).json();
+  expect(workspace.moi).toMatchObject({ nom: 'Manon Faure', role: 'gestionnaire', ecoleId: 'e-res' });
+  await logout(page);
+});
+
+// Page de connexion déjà utilisée (retour arrière, autre onglet) : la session Keycloak est ouverte avec un autre compte.
+// La page d'erreur ferme cette session et la connexion reprend avec le compte choisi.
+const choisir = (page: Page, email: string) => page.getByRole('table', { name: 'Comptes' }).getByRole('button', { name: `Se connecter avec ${email}` }).click();
+const moi = async (page: Page) => (await (await page.request.get('/api/workspace')).json()).moi;
+
+test('changement de compte : retour arrière vers la page de connexion puis autre compte', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
+  await choisir(page, EMAILS.superadmin);
+  await expect(page).toHaveURL(/\/accueil$/);
+  await page.goBack();
+  await choisir(page, EMAILS.admin);
+  await expect(page).toHaveURL(/\/accueil$/);
+  expect(await moi(page)).toMatchObject({ email: EMAILS.admin });
+  await logout(page);
+});
+
+test('changement de compte : adresse saisie sur une page déjà utilisée, reprise préremplie', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
+  await choisir(page, EMAILS.superadmin);
+  await expect(page).toHaveURL(/\/accueil$/);
+  await page.goBack();
+  // Envoyée par l'utilisateur après la reprise (mot de passe en production)
+  await page.getByLabel('email', { exact: true }).fill(EMAILS.gestionnaire);
+  await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
+  await expect(page.getByLabel('email', { exact: true })).toHaveValue(EMAILS.gestionnaire);
+  await expectPublicPresentation(page);
+  await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
+  await expect(page).toHaveURL(/\/accueil$/);
+  expect(await moi(page)).toMatchObject({ email: EMAILS.gestionnaire });
+  await logout(page);
+});
+
+test('changement de compte : deux onglets ouverts sur la page de connexion', async ({ context }) => {
+  const [a, b] = [await context.newPage(), await context.newPage()];
+  for (const p of [a, b]) {
+    await p.goto('/');
+    await p.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
+    await expect(p.getByRole('table', { name: 'Comptes' })).toBeVisible();
+  }
+  await choisir(a, EMAILS.formateur);
+  await expect(a).toHaveURL(/\/accueil$/);
+  await choisir(b, EMAILS.gestionnaire);
+  await expect(b).toHaveURL(/\/accueil$/);
+  expect(await moi(b)).toMatchObject({ email: EMAILS.gestionnaire });
+  await logout(b);
 });
 
 test('sans session, l’espace de travail renvoie à la connexion', async ({ page }) => {
@@ -273,7 +343,9 @@ test('un state incorrect pendant une tentative réelle ne crée pas de session',
   expect(login.status()).toBe(302);
   expect(new URL(login.headers().location).searchParams.get('state')).toBeTruthy();
   const callback = await request.get('/auth/callback?code=faux&state=incorrect', { maxRedirects: 0 });
-  expect(callback.headers().location).toBe('/?error=connexion');
+  expect(callback.headers().location).toBe('/?error=session'); // état inconnu : aucune tentative ne lui correspond
+  const faux = await request.get(`/auth/callback?code=faux&state=${new URL(login.headers().location).searchParams.get('state')}`, { maxRedirects: 0 });
+  expect(faux.headers().location).toBe('/?error=connexion'); // état connu, code refusé par le fournisseur
   expect((await request.get('/api/me')).status()).toBe(401);
 });
 
