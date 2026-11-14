@@ -25,10 +25,14 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md) | Production destinée à la remise | [1.5](#10-dcu-supervision-postes) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md) | Production destinée à la remise | [3.1](#11-dcu-remontees-utilisateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md) | Production destinée à la remise | [5.0](#12-matrice-droits) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [3.1](#13-fiche-descriptive-gestionnaire) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [2.1](#14-fiche-descriptive-formateur) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [3.1](#15-fiche-descriptive-administrateur) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [3.1](#16-fiche-descriptive-super-administrateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx) | Production destinée à la remise | [1.0](#13-fiche-descriptive-gestionnaire) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [4.0](#13-fiche-descriptive-gestionnaire) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx) | Production destinée à la remise | [1.0](#14-fiche-descriptive-formateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [3.0](#14-fiche-descriptive-formateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx) | Production destinée à la remise | [1.0](#15-fiche-descriptive-administrateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [4.0](#15-fiche-descriptive-administrateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.docx) | Production destinée à la remise | [1.0](#16-fiche-descriptive-super-administrateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [4.0](#16-fiche-descriptive-super-administrateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) | Production destinée à la remise | [1.2](#diagrammes-activite-cas-utilisation-brouillon-v2) | 14/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [4.0](#17-diagrammes-etats) | 14/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/README.md](../docs/02-ANALYSE/04-CONCEPTION/README.md) | Production destinée à la remise | [1.1](#readme) | 14/11/2026 |
@@ -37,7 +41,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.3](#20-backlog-et-suivi-projet) | 14/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.1](#20-backlog-et-suivi-projet) | 14/11/2026 |
 | [docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md) | Brouillon interne | [1.3](#20-suivi-backlog-brouillon-v1) | 14/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.4](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.5](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -286,11 +290,20 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/
 
 ### 13-FICHE-DESCRIPTIVE-GESTIONNAIRE
 
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | en vigueur | — |
+
+### 13-FICHE-DESCRIPTIVE-GESTIONNAIRE
+
 Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | en vigueur | — |
+| 4.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | en vigueur | — |
+| 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | `69eaf4e` | — |
 | 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
 | 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` (`docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
 | 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
@@ -301,11 +314,20 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNA
 
 ### 14-FICHE-DESCRIPTIVE-FORMATEUR
 
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | en vigueur | — |
+
+### 14-FICHE-DESCRIPTIVE-FORMATEUR
+
 Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | en vigueur | — |
+| 3.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | en vigueur | — |
+| 2.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | `69eaf4e` | — |
 | 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
 | 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
 | 1.3 | 09/11/2026 | Synchroniser la matrice et les fiches de profils | `d78a5a7` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
@@ -315,11 +337,20 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR
 
 ### 15-FICHE-DESCRIPTIVE-ADMINISTRATEUR
 
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | en vigueur | — |
+
+### 15-FICHE-DESCRIPTIVE-ADMINISTRATEUR
+
 Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | en vigueur | — |
+| 4.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | en vigueur | — |
+| 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | `69eaf4e` | — |
 | 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
 | 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
 | 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` (`docs/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
@@ -331,11 +362,20 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTR
 
 ### 16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR
 
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.docx) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | en vigueur | — |
+
+### 16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR
+
 Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | en vigueur | — |
+| 4.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | en vigueur | — |
+| 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | `69eaf4e` | — |
 | 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
 | 2.1 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
 | 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` (`docs/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
@@ -447,7 +487,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.4 | 14/11/2026 | RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95) | en vigueur | — |
+| 4.5 | 14/11/2026 | Fiches descriptives à jour, brouillons Word retirés | en vigueur | — |
+| 4.4 | 14/11/2026 | RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95) | `1162c04` | — |
 | 4.3 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | `e99107c` | — |
 | 4.2 | 14/11/2026 | Renommer RIGEL et planifier M42 | `21c57cf` (`docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md`) | — |
 | 4.1 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ ; Échéances du rendu (17/11) et de la présentation (19/11) ; backlog GitHub et captures des fiches faits | `69eaf4e` (`docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md`) | — |

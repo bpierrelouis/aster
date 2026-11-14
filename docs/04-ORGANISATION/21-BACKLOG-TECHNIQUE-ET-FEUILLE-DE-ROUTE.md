@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.4 | 14/11/2026 | Pilotage interne | RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95) | [14 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.5 | 14/11/2026 | Pilotage interne | Fiches descriptives à jour, brouillons Word retirés | [15 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -170,13 +170,13 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 - [ ] Renommage `Id_compte` → `Id_compte_Windows` (MCD) : glossaire (`00:47`), RG-43 (renommage, sans nouvel accord), cadrage (`02:168` ; `02:76` cite encore `UTILISATEUR` et `REGLE_PROCESSUS`).
 - [ ] Cadrage `02:168` : l’adresse MAC est encore attribuée au poste ; elle est passée au matériel.
 - [ ] Adresse IP du poste : absente de RG-44 **[RG]** et du DCU 10.
-- [ ] Dates de dernière connexion et de désactivation du compte : absentes de la fiche 15 (UC-ADMIN-06) et du cadrage § 18.
-- [ ] « Liste blanche » et « liste noire » (glossaire et interface) : les RG (13 occurrences), le DCU 10 et les fiches disent encore whitelist et blacklist (renommage, sans nouvel accord s’il est demandé).
+- [ ] Dates de dernière connexion et de désactivation du compte : absentes du cadrage § 18 (fiche 15 à jour le 14 novembre).
+- [ ] « Liste blanche » et « liste noire » (glossaire, interface et fiches) : les RG (13 occurrences) et le DCU 10 disent encore whitelist et blacklist (renommage, sans nouvel accord s’il est demandé).
 - [ ] Fiche 15 (`:94`) : « à replaquer » au lieu de « à réinitialiser ».
 
 ### Informations non répercutées
 
-- [ ] Installation physique des salles et notification « matériels à déplacer » du gestionnaire : absentes du glossaire, des RG **[RG]**, de la matrice, de la fiche 13 et du DCU 08 (ouvertes avec le client au § 23, mais la documentation doit suivre l’état actuel).
+- [ ] Installation physique des salles et notification « matériels à déplacer » du gestionnaire : décrites dans la fiche 13, RG-92 et le glossaire ; manquent encore au DCU 08.
 - [ ] Journal applicatif (`backend/journal.ts`, événement `enregistrement` des écritures des utilisateurs) : absent du cadrage (§§ 18 et 21) et de la fiche 15 (« Journalisation éventuelle », UC-ADMIN-06).
 - [ ] RG-56 : 30 jours de conservation des détections ; le code ne garde en plus que les 2 000 dernières **[RG]**.
 - [ ] Cadrage § 19 : aucune décision RIGEL ni Hidora ; « déploiement proposé » (`02:340-341`) alors que le DAT le présente comme en place ; « émulateur » au lieu de « simulateur ».
@@ -200,7 +200,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Brouillons
 
-- [ ] `docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/FICHE-DESCRIPTIVE-*-BROUILLON-V2.docx` : 24 à 50 occurrences d’ASTER ; ils ne sont pas suivis dans le registre, comme les images de brouillon de `02-CAPTURE-DES-BESOINS/assets/` ; les mettre à jour ou les retirer.
+- [x] Brouillons Word des fiches retirés le 14 novembre ; les fiches ont leur version Word générée depuis le Markdown (`fiches-word.sh`, #144).
 
 ## 6. Dossier d’architecture : écarts à soumettre au collègue [DAT]
 
