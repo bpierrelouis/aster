@@ -39,30 +39,18 @@ dialog::backdrop { background: #0006; }
   .separator { margin-left: 0; margin-right: 0; gap: 20px; }
   .no-account { margin-left: 0; margin-right: 0; }
 }
-/* Présentation au client : tableau des comptes, dans le style du bloc de connexion et hors de celui-ci (le formulaire
-   garde sa taille). Fixé dans la marge droite quand elle est assez large (1400 px), à côté du bloc de 1040 à 1399 px,
-   sinon placé sous la page. */
-.demo-accounts { width: min(546px, calc(100% - 31px)); margin: 0 auto 24px; padding: 28px 24px 24px; background: #f6f6f6; color: #161616; font-size: 14px; line-height: 1.4; }
-.demo-accounts table { width: 100%; border-collapse: collapse; }
-.demo-accounts caption { text-align: left; padding: 0 0 16px; font-size: 20px; line-height: 1.2; font-weight: 700; }
-.demo-accounts th { text-align: left; font-weight: 700; padding: 0 8px 8px; border-bottom: 2px solid #444; }
-.demo-accounts td { padding: 6px 8px; border-bottom: 1px solid #ddd; white-space: nowrap; vertical-align: middle; }
-.demo-accounts th:first-child, .demo-accounts td:first-child { padding-left: 0; }
-.demo-accounts th:last-child, .demo-accounts td:last-child { padding-right: 0; }
-.demo-accounts td:first-child, .demo-accounts td:nth-child(2) { white-space: normal; }
-.demo-accounts tr:last-child td { border-bottom: 0; }
-.demo-account-go { display: grid; place-items: center; width: 32px; height: 32px; padding: 0; border: 0; background: #000091; color: white; }
-.demo-account-go svg { width: 18px; height: 18px; }
-.demo-account-go:hover { background: #1212a9; }
-.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-@media (min-width: 1040px) and (max-width: 1399.98px) {
-  /* Marge trop étroite : bloc de connexion et tableau côte à côte, centrés ensemble (le bloc garde sa taille) */
-  body:has(.demo-accounts) { display: flex; justify-content: center; align-items: center; gap: 24px; min-height: 100vh; min-height: 100dvh; padding-inline: 16px; }
-  body:has(.demo-accounts) main { flex: none; width: 546px; }
-  body:has(.demo-accounts) .login-panel { width: 100%; }
-  .demo-accounts { flex: none; width: max-content; max-width: 420px; max-height: calc(100vh - 32px); overflow: auto; margin: 0; }
+/* Présentation au client : accès séparés du formulaire, dans le style des jetons de thèmes. */
+.demo-access { width: min(546px, calc(100% - 31px)); margin: 0 auto; padding: 20px 24px 24px; border: 1px solid #ddd; border-radius: 20px; background: #f6f6f6; text-align: center; }
+.demo-access-title { margin: 0 0 20px; color: #666; font-size: 14px; line-height: 1.5; font-weight: 600; }
+.demo-access-tokens { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.demo-token { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; padding: 4px 0; border: 0; background: transparent; color: #3a3a3a; font-size: 14px; line-height: 1.5; font-weight: 600; border-radius: 8px; }
+.demo-token-badge { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #e3e3fd; color: #000091; box-shadow: inset 0 0 0 1px rgb(0 0 145 / .1), 0 3px 8px rgb(0 0 18 / .12); transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease; }
+.demo-token-badge svg { width: 24px; height: 24px; }
+.demo-token:hover .demo-token-badge { transform: scale(1.05); background: #d6d6f0; box-shadow: inset 0 0 0 1px rgb(0 0 145 / .16), 0 4px 12px rgb(0 0 18 / .16); }
+.demo-token:active .demo-token-badge { transform: scale(.97); }
+@media (max-width: 600px) { .demo-access { width: calc(100% - 24px); padding-inline: 12px; } }
+@media (max-width: 360px) {
+  .demo-access-tokens { grid-template-columns: 1fr; gap: 12px; }
+  .demo-token { flex-direction: row; gap: 14px; padding-inline: 12px; }
 }
-@media (min-width: 1400px) {
-  .demo-accounts { position: fixed; top: 50%; right: 16px; transform: translateY(-50%); width: max-content; max-width: calc((100vw - 546px) / 2 - 32px); max-height: calc(100vh - 32px); overflow: auto; margin: 0; }
-}
-@media (max-width: 600px) { .demo-accounts { width: calc(100% - 24px); padding: 24px 16px; } }
+@media (prefers-reduced-motion: reduce) { .demo-token-badge { transition: none; } }

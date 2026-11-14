@@ -28,33 +28,18 @@
       <h2 class="no-account">Vous n’avez pas de compte ?</h2>
       <button class="create-button" type="button" data-help="register">Créer un compte</button>
     </section>
+    <#-- Démonstrateur uniquement (présentation au client) : retiré pour la mise en production -->
+    <#if properties.comptesPresentation?? && properties.comptesPresentation == "true">
+      <section class="demo-access" aria-labelledby="demo-access-title">
+        <p class="demo-access-title" id="demo-access-title">Accès de présentation</p>
+        <div class="demo-access-tokens">
+          <button type="button" class="demo-token" data-compte="julien.mercier@outlook.fr" title="julien.mercier@outlook.fr"><span class="demo-token-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg></span><span>Administrateur</span></button>
+          <button type="button" class="demo-token" data-compte="sophie.garnier@yahoo.fr" title="sophie.garnier@yahoo.fr"><span class="demo-token-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="14" height="18" x="5" y="4" rx="2"/><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M9 12h6M9 16h6"/></svg></span><span>Gestionnaire</span></button>
+          <button type="button" class="demo-token" data-compte="thomas.lefebvre@hotmail.fr" title="thomas.lefebvre@hotmail.fr"><span class="demo-token-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m2 10 10-5 10 5-10 5-10-5ZM6 12v5c3 3 9 3 12 0v-5M22 10v6"/></svg></span><span>Formateur</span></button>
+        </div>
+      </section>
+    </#if>
   </main>
-  <#-- Démonstrateur uniquement (présentation au client) : tableau des comptes en marge, retiré pour la mise en production -->
-  <#if properties.comptesPresentation?? && properties.comptesPresentation == "true">
-    <#assign comptes = [
-      {"adresse": "camille.rousseau@gmail.com", "profil": "Super administrateur", "ecole": "Toutes"},
-      {"adresse": "julien.mercier@outlook.fr", "profil": "Administrateur", "ecole": "Numérique"},
-      {"adresse": "sophie.garnier@yahoo.fr", "profil": "Gestionnaire", "ecole": "Numérique"},
-      {"adresse": "thomas.lefebvre@hotmail.fr", "profil": "Formateur", "ecole": "Numérique"},
-      {"adresse": "nadia.benali@orange.fr", "profil": "Formateur", "ecole": "Numérique"},
-      {"adresse": "hugo.fontaine@free.fr", "profil": "Formateur", "ecole": "Numérique"},
-      {"adresse": "lea.chevalier@laposte.net", "profil": "Formateur", "ecole": "Numérique"},
-      {"adresse": "antoine.girard@gmail.com", "profil": "Administrateur", "ecole": "Réseaux"},
-      {"adresse": "manon.faure@outlook.com", "profil": "Gestionnaire", "ecole": "Réseaux"},
-      {"adresse": "kevin.morel@yahoo.com", "profil": "Formateur", "ecole": "Réseaux"}
-    ]>
-    <aside class="demo-accounts" aria-labelledby="demo-accounts-title">
-      <table>
-        <caption id="demo-accounts-title">Comptes</caption>
-        <thead><tr><th scope="col">Adresse</th><th scope="col">Profil</th><th scope="col">École</th><th scope="col"><span class="visually-hidden">Connexion</span></th></tr></thead>
-        <tbody>
-          <#list comptes as c>
-            <tr><td>${c.adresse?keep_before("@")}<wbr>@${c.adresse?keep_after("@")}</td><td>${c.profil}</td><td>${c.ecole}</td><td><button type="button" class="demo-account-go" data-compte="${c.adresse}" aria-label="Se connecter avec ${c.adresse}" title="Se connecter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></td></tr>
-          </#list>
-        </tbody>
-      </table>
-    </aside>
-  </#if>
   <dialog id="help-dialog" aria-labelledby="help-title">
     <h2 id="help-title">Aide à la connexion</h2>
     <p id="help-message"></p>

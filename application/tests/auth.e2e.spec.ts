@@ -55,8 +55,8 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
     await expect(page).toHaveURL(/localhost:8081/);
     await expectPublicPresentation(page);
     await expect(page.getByRole('list')).toHaveCount(0);
-    // Présentation au client : tableau des comptes en marge de la page de connexion (ORION_COMPTES_PRESENTATION)
-    await expect(page.getByRole('table', { name: 'Comptes' }).getByRole('row').filter({ hasText: EMAILS[username] })).toBeVisible();
+    // Présentation au client : jetons « Accès de présentation » sous le formulaire (ORION_COMPTES_PRESENTATION)
+    await expect(page.getByRole('region', { name: 'Accès de présentation' }).getByRole('button')).toHaveText(['Administrateur', 'Gestionnaire', 'Formateur']);
     if (username === 'superadmin') {
       await page.setViewportSize({ width: 2048, height: 1118 });
       await page.waitForLoadState('networkidle');
@@ -253,28 +253,29 @@ test('formateur : un arrêt de processus est exécuté par le poste', async ({ p
   await logout(page);
 });
 
-test('tableau des comptes : la flèche connecte directement avec le compte choisi', async ({ page }) => {
+test('accès de présentation : un jeton connecte directement avec son compte', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
-  const row = page.getByRole('table', { name: 'Comptes' }).getByRole('row').filter({ hasText: 'manon.faure@outlook.com' });
-  await expect(row).toContainText('Gestionnaire');
-  await expect(row).toContainText('Réseaux');
-  await row.getByRole('button', { name: 'Se connecter avec manon.faure@outlook.com' }).click();
+  await page.getByRole('region', { name: 'Accès de présentation' }).getByRole('button', { name: 'Gestionnaire' }).click();
   await expect(page).toHaveURL(/\/accueil$/);
   const workspace = await (await page.request.get('/api/workspace')).json();
-  expect(workspace.moi).toMatchObject({ nom: 'Manon Faure', role: 'gestionnaire', ecoleId: 'e-res' });
+  expect(workspace.moi).toMatchObject({ email: EMAILS.gestionnaire, role: 'gestionnaire', ecoleId: 'e-num' });
   await logout(page);
 });
 
 // Page de connexion déjà utilisée (retour arrière, autre onglet) : la session Keycloak est ouverte avec un autre compte.
 // La page d'erreur ferme cette session et la connexion reprend avec le compte choisi.
-const choisir = (page: Page, email: string) => page.getByRole('table', { name: 'Comptes' }).getByRole('button', { name: `Se connecter avec ${email}` }).click();
+const JETONS: Partial<Record<Profil, string>> = { admin: 'Administrateur', gestionnaire: 'Gestionnaire', formateur: 'Formateur' };
+const choisir = (page: Page, email: string) => {
+  const profil = (Object.keys(EMAILS) as Profil[]).find((k) => EMAILS[k] === email)!;
+  return page.getByRole('region', { name: 'Accès de présentation' }).getByRole('button', { name: JETONS[profil]! }).click();
+};
 const moi = async (page: Page) => (await (await page.request.get('/api/workspace')).json()).moi;
 
 test('changement de compte : retour arrière vers la page de connexion puis autre compte', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
-  await choisir(page, EMAILS.superadmin);
+  await choisir(page, EMAILS.formateur);
   await expect(page).toHaveURL(/\/accueil$/);
   await page.goBack();
   await choisir(page, EMAILS.admin);
@@ -286,7 +287,7 @@ test('changement de compte : retour arrière vers la page de connexion puis autr
 test('changement de compte : adresse saisie sur une page déjà utilisée, reprise préremplie', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
-  await choisir(page, EMAILS.superadmin);
+  await choisir(page, EMAILS.admin);
   await expect(page).toHaveURL(/\/accueil$/);
   await page.goBack();
   // Envoyée par l'utilisateur après la reprise (mot de passe en production)
@@ -305,7 +306,7 @@ test('changement de compte : deux onglets ouverts sur la page de connexion', asy
   for (const p of [a, b]) {
     await p.goto('/');
     await p.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
-    await expect(p.getByRole('table', { name: 'Comptes' })).toBeVisible();
+    await expect(p.getByRole('region', { name: 'Accès de présentation' })).toBeVisible();
   }
   await choisir(a, EMAILS.formateur);
   await expect(a).toHaveURL(/\/accueil$/);

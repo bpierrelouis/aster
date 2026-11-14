@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.11 | 14/11/2026 | Pilotage interne | RIGEL : installation et recensement consolidés, notion de campagne retirée | [21 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.12 | 14/11/2026 | Pilotage interne | Jetons « Accès de présentation » rétablis à la place du tableau des comptes | [22 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -19,7 +19,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 ### Avant le prochain déploiement sur les VM
 
 - [x] Prévoir la réinitialisation des données de démonstration : les VM servent `SEED_VERSION` 18 (commit `fe89b85`) ; `SEED_VERSION` passe à 19 avec les nouveaux comptes et `SEED_RESET=true` sur les VM : les données sont recréées au prochain déploiement.
-- [ ] Vérifier après déploiement : `https://172.16.131.188/api/infos` (version servie) ; connexion des comptes (flèches du tableau « Comptes » comprises), leurs identités étant créées dans l’annuaire par le provisionnement au démarrage ; création d’un compte ; rapports des postes simulés ; recensement RIGEL. Les anciennes identités `@orion.demo` restent dans l’annuaire LDAP des VM (le LDIF n’est chargé qu’à la création du volume) : sans compte ORION, elles sont refusées ; les supprimer dans la console Keycloak si besoin.
+- [ ] Vérifier après déploiement : `https://172.16.131.188/api/infos` (version servie) ; connexion des comptes (jetons « Accès de présentation » compris), leurs identités étant créées dans l’annuaire par le provisionnement au démarrage ; création d’un compte ; rapports des postes simulés ; recensement RIGEL. Les anciennes identités `@orion.demo` restent dans l’annuaire LDAP des VM (le LDIF n’est chargé qu’à la création du volume) : sans compte ORION, elles sont refusées ; les supprimer dans la console Keycloak si besoin.
 
 ### Avant le rendu de l’application (mardi 17 novembre)
 
@@ -33,7 +33,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Après la présentation
 
-- [ ] Retirer le tableau « Comptes » de la page de connexion du Keycloak local : variable `ORION_COMPTES_PRESENTATION` (Compose, pile des VM) et bloc du thème `orion-mindef` (gabarit, styles, script).
+- [ ] Retirer les jetons « Accès de présentation » de la page de connexion du Keycloak local : variable `ORION_COMPTES_PRESENTATION` (Compose, pile des VM) et bloc du thème `orion-mindef` (gabarit, styles, script).
 
 ## 2. Pilotage du projet
 

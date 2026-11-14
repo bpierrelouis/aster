@@ -49,7 +49,7 @@ services:
       KC_SPI_THEME_STATIC_MAX_AGE: -1
       KC_SPI_THEME_CACHE_THEMES: "false"
       KC_SPI_THEME_CACHE_TEMPLATES: "false"
-      # Démonstrateur : tableau des comptes de présentation sur la page de connexion
+      # Démonstrateur : jetons « Accès de présentation » sur la page de connexion
       ORION_COMPTES_PRESENTATION: "true"
     ports:
       - "127.0.0.1:8081:8080"

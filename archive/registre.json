@@ -2138,6 +2138,13 @@
         "version": "4.11",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
+        "archive": null,
+        "commit": "80413fc"
+      },
+      {
+        "version": "4.12",
+        "date": "2026-11-14",
+        "modification": "Jetons « Accès de présentation » rétablis à la place du tableau des comptes",
         "archive": null
       }
     ]

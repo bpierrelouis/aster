@@ -17,7 +17,7 @@ for (const button of document.querySelectorAll('[data-help]')) {
 /* Changement de compte. Une page de connexion déjà utilisée (retour arrière, autre onglet) envoie le formulaire alors que
    la session Keycloak est ouverte avec un autre compte : Keycloak refuse (page d'erreur). Le compte choisi est gardé le
    temps de fermer cette session (page d'erreur, puis confirmation de déconnexion) ; ORION relance la connexion et la page
-   de connexion le reprend : envoyée d'elle-même pour un compte choisi dans le tableau, sinon seulement préremplie (mot de passe). */
+   de connexion le reprend : envoyée d'elle-même pour un compte choisi par un jeton, sinon seulement préremplie (mot de passe). */
 const CLE = 'orion.compte-choisi';
 const lire = () => { try { return JSON.parse(sessionStorage.getItem(CLE)); } catch { return null; } };
 const garder = (valeur) => { try { sessionStorage.setItem(CLE, JSON.stringify(valeur)); } catch { /* stockage indisponible */ } };
@@ -29,7 +29,7 @@ loginForm?.addEventListener('submit', () => {
   document.getElementById('login-button').disabled = true;
   garder({ compte: username.value, presentation, at: Date.now() });
 });
-// Démonstrateur (présentation au client) : une flèche du tableau des comptes remplit l'adresse et lance la connexion
+// Démonstrateur (présentation au client) : un jeton « Accès de présentation » remplit l'adresse et lance la connexion
 for (const token of document.querySelectorAll('[data-compte]')) {
   token.addEventListener('click', () => {
     username.value = token.dataset.compte;
