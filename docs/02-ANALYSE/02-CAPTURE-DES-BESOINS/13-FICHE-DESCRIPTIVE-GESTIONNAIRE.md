@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.0 | 14/11/2026 | Production destinée à la remise | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | [9 versions](../../../archive/README.md#13-fiche-descriptive-gestionnaire) |
+| 4.1 | 14/11/2026 | Production destinée à la remise | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | [10 versions](../../../archive/README.md#13-fiche-descriptive-gestionnaire) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -21,7 +21,7 @@
 | Salles et stock | Vue éclatée des bâtiments, détail d’une salle, stock ; affecter un ou plusieurs matériels à une salle ou au stock (glisser-déposer, sélection ou « Équiper la salle ») ; déclarer un matériel hors service ou en service |
 | Matériels | Inventaire filtrable, création et modification d’un matériel, date de fin de garantie, import JSON |
 | Installation des salles | Prévoir les déplacements dans ORION ; les réaliser sur place avec RIGEL ; suivre l’avancement dans « Déplacements » et dans le backlog des installations |
-| Recensement | Appairer son téléphone professionnel, lancer un recensement depuis RIGEL, scanner les matériels, traiter dans ORION les écarts et les codes inconnus |
+| Recensement | Appairer son téléphone professionnel, lancer un recensement depuis ORION et y lier son téléphone, scanner les matériels, traiter dans ORION les écarts et les codes inconnus |
 | Remontées | Consulter toutes les remontées de son école ; les prendre en charge puis les terminer en « remplacé » ou « corrigé » ; état des lieux PDF |
 | Notifications | Nouvelles remontées, matériels à déplacer, garanties échues ou arrivant à échéance |
 | Exclusions | Suppression d’un matériel, gestion des salles et des étages, création de remontée, supervision, administration des postes, listes de processus et comptes ORION |
@@ -126,6 +126,7 @@ RG-11 à RG-14, RG-23 à RG-25, RG-34 à RG-38, RG-64, RG-66, RG-67, RG-69, RG-7
 
 ### Variantes et limites
 
+- Sans RIGEL, le gestionnaire confirme l’installation d’un matériel dans ORION en cliquant sur son point de déplacement ; lui seul le peut, l’administrateur et le super administrateur ne font que suivre l’avancement.
 - Un matériel hors service ne peut être relocalisé qu’au stock.
 - Hors connexion, RIGEL garde les scans et les transmet chiffrés au retour du réseau ; un scan plus ancien que la dernière information connue sur le matériel est refusé.
 - L’administrateur et le super administrateur prévoient les déplacements mais ne réalisent pas l’installation ; le formateur n’a pas accès à RIGEL.
@@ -152,9 +153,9 @@ RG-26, RG-27, RG-87, RG-92 et RG-94.
 
 ### Scénario nominal
 
-1. Dans ORION, le gestionnaire affiche le QR code d’appairage et le scanne avec son téléphone. RIGEL reçoit les salles et les matériels de son école, et seulement ceux-là.
-2. Si nécessaire, il imprime depuis ORION les étiquettes QR des salles et du stock.
-3. Il lance le recensement depuis RIGEL, sur toute son école ou sur des salles choisies.
+1. Dans ORION (**Matériels › Recensement**), le gestionnaire lance un recensement sur toute son école ou sur des salles choisies.
+2. ORION affiche le QR code d’appairage du recensement ; il le scanne avec son téléphone professionnel, qui est lié à l’opération. RIGEL reçoit les salles et les matériels du recensement, et seulement ceux-là.
+3. Si nécessaire, il imprime depuis ORION les étiquettes QR des salles et du stock.
 4. Dans chaque salle, il scanne le QR code de la salle puis les matériels. RIGEL confirme la présence d’un matériel attendu, ou signale un écart sans déplacer le matériel ; un code inconnu est transmis avec les informations saisies sur le téléphone (type, modèle, numéro de série).
 5. ORION reçoit chaque scan comme un constat daté par le serveur et présente le bilan : matériels vus sur matériels attendus, installations confirmées, constats à traiter.
 6. Pour chaque écart, le gestionnaire choisit dans ORION de remettre le matériel au stock, de le ramener dans sa salle d’affectation ou de le réaffecter à la salle où il a été constaté.

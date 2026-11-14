@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.1 | 14/11/2026 | Production destinée à la remise | RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95) | [13 versions](../../archive/README.md#00-glossaire) |
+| 3.2 | 14/11/2026 | Production destinée à la remise | Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | [14 versions](../../archive/README.md#00-glossaire) |
 <!-- version:fin -->
 
 Ce glossaire centralise les abréviations et les termes employés dans la documentation du projet. Les définitions décrivent leur sens dans ORION. Lorsqu'un sigle n'est pas développé dans les sources, cette absence est signalée afin de ne pas inventer sa signification.
@@ -69,7 +69,7 @@ Ce glossaire centralise les abréviations et les termes employés dans la docume
 | Processus non référencé                     | Processus absent de la liste blanche et de la liste noire. Il reste autorisé et visible en temps réel, et sa détection est historisée.                                                                                                                                                                                             |
 | Processus utilisateur                       | Programme identifiable par son nom, distinct d'une exécution particulière. Les exécutions sont observées en temps réel sans être conservées ; une `DÉTECTION` est historisée lorsque le processus est non référencé ou blacklisté. |
 | Remontée utilisateur                        | Enregistrement d'un problème concernant un ou plusieurs matériels, déclaré par un formateur, un administrateur ou un super administrateur authentifié au moyen d'un formulaire. Sa localisation éventuelle provient des matériels concernés ; elle n'est pas rattachée directement à une salle. Le statut (« en attente », « en cours », « remplacé » ou « corrigé ») porte sur la remontée entière, y compris lorsqu’elle concerne plusieurs matériels.    |
-| Recensement | Vérification, avec RIGEL, que chaque matériel scanné se trouve dans sa salle d’affectation ; lancée et réalisée par le gestionnaire, sans déplacement (RG-93). |
+| Recensement | Vérification, avec RIGEL, que chaque matériel scanné se trouve dans sa salle d’affectation ; lancée depuis ORION par le gestionnaire, qui y lie son téléphone, sans déplacement (RG-93). |
 | Réinitialisation | Réinstallation du système d’exploitation d’un poste Windows par la réapplication d’une image système de référence, appelée « masterisation » ou « replaquage » par le client. L'administrateur ou le super administrateur la demande depuis ORION ; son exécution s'appuie sur les mécanismes de déploiement Windows qui restent à identifier. |
 | Salle                                       | Salle nommée, située à un étage d'un bâtiment d'une école. Elle peut accueillir des matériels et des postes supervisés. |
 | Stock                                       | Situation d'un matériel sans affectation à une salle et sans localisation. Ce terme n'est pas une valeur de l'état « hors service ».                                                                                                                                                                                         |

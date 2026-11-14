@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.0 | 14/11/2026 | Production destinée à la remise | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | [10 versions](../../../archive/README.md#16-fiche-descriptive-super-administrateur) |
+| 4.1 | 14/11/2026 | Production destinée à la remise | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école | [11 versions](../../../archive/README.md#16-fiche-descriptive-super-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -32,7 +32,7 @@ Afin d’éviter de dupliquer les scénarios, les parcours détaillés sont déc
 | Supervision | Alertes, supervision des salles, arrêt d’un processus et statistiques de toutes les écoles |
 | Règles de processus | Règles globales, en plus des règles d’école, de bâtiment et de salle |
 | Remontées | Création et suivi de ses remontées ; consultation des remontées et des états des lieux de toutes les écoles ; le traitement est réservé au gestionnaire |
-| Comptes ORION | Création, modification, désactivation et réactivation des comptes de toutes les écoles, y compris des comptes super administrateur |
+| Comptes ORION | Création, modification, désactivation et réactivation des comptes de toutes les écoles, y compris des comptes super administrateur ; changement de l’école d’un administrateur, rattaché à une seule école |
 | Notifications | Comme l’administrateur : évolution de ses propres remontées, fin des interventions qu’il a demandées, lancement d’un processus interdit |
 
 ## Adaptation des parcours administrateur
@@ -49,7 +49,7 @@ Les opérations de [UC-ADMIN-01](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin
 
 ### Salles et installation
 
-Les parcours [UC-ADMIN-07](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-07--gérer-les-salles-et-les-étages) et [UC-ADMIN-08](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-08--prévoir-linstallation-dune-salle) s’appliquent aux salles de toutes les écoles. Lorsque toutes les écoles sont affichées, **Administration › Bâtiments** ajoute la colonne **École**. Le super administrateur prévoit les déplacements ; le gestionnaire de l’école les réalise avec RIGEL.
+Les parcours [UC-ADMIN-07](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-07--gérer-les-salles-et-les-étages) et [UC-ADMIN-08](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-08--prévoir-linstallation-dune-salle) s’appliquent aux salles de toutes les écoles. Lorsque toutes les écoles sont affichées, **Administration › Bâtiments** ajoute la colonne **École**. Le super administrateur prévoit les déplacements et suit l’installation ; seul le gestionnaire de l’école la confirme, dans ORION ou avec RIGEL.
 
 ### Administration des postes
 

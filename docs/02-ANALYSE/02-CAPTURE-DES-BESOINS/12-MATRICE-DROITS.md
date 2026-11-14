@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.0 | 14/11/2026 | Production destinée à la remise | RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95) | [11 versions](../../../archive/README.md#12-matrice-droits) |
+| 6.0 | 14/11/2026 | Production destinée à la remise | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | [12 versions](../../../archive/README.md#12-matrice-droits) |
 <!-- version:fin -->
 
 Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
@@ -47,8 +47,8 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 | Supprimer un matériel | Non | Non | Oui | Oui | L’interdiction du gestionnaire est explicite. Seul un matériel dans le stock peut être supprimé ; un matériel concerné par une remontée ne peut pas l’être. | RG-15, RG-17, RG-73, RG-78 et RG-91, DCU 08 |
 | Consulter le tableau de bord du parc | Oui | Non | Oui | Oui | La vue présente notamment l’état des stocks et peut être filtrée par salle. | RG-15, RG-24 et RG-36, DCU 08 |
 | Prévoir l’installation d’une salle (déplacements prévus dans ORION) | Oui | Non | Oui | Oui | Les matériels affectés passent « en cours de déplacement ». | RG-92 |
-| Réaliser l’installation d’une salle avec RIGEL | Oui | Non | Non | Non | Sur place, avec le téléphone professionnel appairé. | RG-92 et RG-94 |
-| Lancer et réaliser un recensement avec RIGEL | Oui | Non | Non | Non | Depuis RIGEL ; aucun déplacement pendant un recensement. | RG-93 et RG-94 |
+| Confirmer l’installation d’un matériel (point de déplacement ou RIGEL) | Oui | Non | Non | Non | Dans ORION en cliquant sur le point de déplacement, ou sur place avec RIGEL ; l’administrateur et le super administrateur suivent l’avancement sans le modifier. | RG-92 et RG-94 |
+| Lancer et réaliser un recensement avec RIGEL | Oui | Non | Non | Non | Lancé depuis ORION, téléphone lié à l’opération ; aucun déplacement pendant un recensement. | RG-93 et RG-94 |
 | Traiter un écart ou un code inconnu | Oui | Non | Non | Non | Remettre au stock, ramener dans sa salle ou réaffecter à la salle constatée. | RG-95 |
 
 ## Remontées utilisateur
@@ -91,7 +91,7 @@ ORION génère le PDF d’état des lieux à chaque consultation ou télécharge
 
 | Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
 | --- | --- | --- | --- | --- | --- | --- |
-| Créer, modifier, désactiver ou réactiver un compte ORION | Non | Non | Oui | Oui | L’administrateur gère uniquement les comptes de son école. Le super administrateur gère les comptes de toutes les écoles. Un compte n’est jamais supprimé. Personne ne modifie son propre profil ni ne désactive son propre compte. Seul le super administrateur attribue le profil de super administrateur. | RG-70 et RG-82 |
+| Créer, modifier, désactiver ou réactiver un compte ORION | Non | Non | Oui | Oui | L’administrateur gère uniquement les comptes de son école, sans pouvoir les rattacher à une autre. Le super administrateur gère les comptes de toutes les écoles, crée d’autres super administrateurs et peut changer l’école d’un administrateur. Un compte n’est jamais supprimé. Personne ne modifie son propre profil ni ne désactive son propre compte. Seul le super administrateur attribue le profil de super administrateur. | RG-70 et RG-82 |
 
 ## Gestion des garanties
 

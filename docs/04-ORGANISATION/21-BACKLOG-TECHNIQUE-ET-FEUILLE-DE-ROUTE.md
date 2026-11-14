@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.5 | 14/11/2026 | Pilotage interne | Fiches descriptives à jour, brouillons Word retirés | [15 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.6 | 14/11/2026 | Pilotage interne | Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | [16 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -73,7 +73,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
   - **Conséquences documentaires** : glossaire (image, paquet, M42), règles de gestion **[RG]** (image choisie à la réinitialisation, paquet requis pour installer, agent installé avec le système), MCD (`IMAGE`, `PAQUET`), DCU 09, matrice, fiche 15, diagramme d’états des interventions.
   - **Code** : types partagés, `rules.ts` (contrôles d’image et de paquet), schéma PostgreSQL, données de départ (`SEED_VERSION`), simulateur, écrans Administration › Applications et Postes, Supervision ; tests et guide de l’application.
 - [ ] **Haute** — Aligner RIGEL sur RG-92 à RG-95 (décision de l’utilisateur du 14 novembre) ; l’application a aujourd’hui une seule « campagne » ouverte dans ORION :
-  - séparer l’installation d’une salle (réalise les déplacements prévus dans ORION, relocalise) et le recensement (lancé depuis RIGEL, vérifie sans déplacer) ;
+  - séparer l’installation d’une salle (réalise les déplacements prévus dans ORION, relocalise) et le recensement (lancé depuis ORION par le gestionnaire, téléphone lié, vérifie sans déplacer) ;
   - réserver la réalisation avec RIGEL et le traitement des constats au gestionnaire (l’administrateur et le super administrateur prévoient seulement les déplacements) ;
   - traiter un écart dans ORION en guidant l’action : remettre au stock, ramener dans la salle d’affectation ou réaffecter à la salle constatée ;
   - mettre à jour les fiches descriptives, les DCU et le MCD (installation, recensement, constat).

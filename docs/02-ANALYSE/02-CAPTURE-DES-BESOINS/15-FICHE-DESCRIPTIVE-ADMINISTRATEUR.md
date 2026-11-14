@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.0 | 14/11/2026 | Production destinée à la remise | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | [10 versions](../../../archive/README.md#15-fiche-descriptive-administrateur) |
+| 4.1 | 14/11/2026 | Production destinée à la remise | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école | [11 versions](../../../archive/README.md#15-fiche-descriptive-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -246,11 +246,11 @@ RG-02, RG-15, RG-61, RG-69, RG-74 et RG-75.
 
 1. Dans le détail d’une salle, l’administrateur clique sur **Équiper la salle** et choisit le nombre de postes complets et les matériels secondaires pris dans le stock en service, ou glisse des matériels vers la salle ou vers le stock.
 2. ORION enregistre les affectations ; les matériels passent « en cours de déplacement » et le gestionnaire est notifié des matériels à déplacer.
-3. L’administrateur suit l’avancement dans **Salles › Déplacements** ; chaque matériel passe au vert lorsque le gestionnaire confirme son installation sur place avec RIGEL.
+3. L’administrateur suit l’avancement dans **Salles › Déplacements** ; chaque matériel passe au vert lorsque le gestionnaire confirme son installation, dans ORION ou sur place avec RIGEL.
 
 ### Variantes et limites
 
-- L’administrateur prévoit les déplacements mais ne réalise pas l’installation et n’utilise pas RIGEL.
+- L’administrateur prévoit les déplacements et suit l’installation, mais ne la confirme pas : les points de déplacement ne sont pas cliquables pour lui, et il n’utilise pas RIGEL.
 - Un matériel hors service ne peut être affecté qu’au stock.
 
 ### Résultats attendus

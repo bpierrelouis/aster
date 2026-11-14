@@ -348,6 +348,13 @@
         "version": "3.1",
         "date": "2026-11-14",
         "modification": "RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95)",
+        "archive": null,
+        "commit": "1162c04"
+      },
+      {
+        "version": "3.2",
+        "date": "2026-11-14",
+        "modification": "Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération",
         "archive": null
       }
     ]
@@ -739,6 +746,13 @@
         "version": "3.0",
         "date": "2026-11-14",
         "modification": "RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95)",
+        "archive": null,
+        "commit": "1162c04"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-14",
+        "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération",
         "archive": null
       }
     ]
@@ -1111,6 +1125,13 @@
         "version": "5.0",
         "date": "2026-11-14",
         "modification": "RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95)",
+        "archive": null,
+        "commit": "1162c04"
+      },
+      {
+        "version": "6.0",
+        "date": "2026-11-14",
+        "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération",
         "archive": null
       }
     ]
@@ -1192,6 +1213,13 @@
         "version": "4.0",
         "date": "2026-11-14",
         "modification": "Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application",
+        "archive": null,
+        "commit": "5383a9f"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-14",
+        "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération",
         "archive": null
       }
     ]
@@ -1355,6 +1383,13 @@
         "version": "4.0",
         "date": "2026-11-14",
         "modification": "Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application",
+        "archive": null,
+        "commit": "5383a9f"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-14",
+        "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école",
         "archive": null
       }
     ]
@@ -1443,6 +1478,13 @@
         "version": "4.0",
         "date": "2026-11-14",
         "modification": "Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application",
+        "archive": null,
+        "commit": "5383a9f"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-14",
+        "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école",
         "archive": null
       }
     ]
@@ -1900,6 +1942,13 @@
         "version": "4.5",
         "date": "2026-11-14",
         "modification": "Fiches descriptives à jour, brouillons Word retirés",
+        "archive": null,
+        "commit": "5383a9f"
+      },
+      {
+        "version": "4.6",
+        "date": "2026-11-14",
+        "modification": "Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération",
         "archive": null
       }
     ]
