@@ -117,7 +117,7 @@ function Rooms({ salleId, query, relevant }: { salleId: Id; query: string; relev
   });
   if (!shown.length) return <Empty title="Aucun poste" text="Aucun poste ni processus en cours ne correspond à cette recherche." />;
   return <div className="ops-grid">{shown.map(({ p, processes }) => <article key={p.id} className="ops-card glass">
-    <div className="ops-card-top"><Tile name="desktop" color="var(--accent)" size="m" /><div><h2>{p.nomReseau}</h2><p><PosteEtat p={p} /></p></div></div>
+    <div className="ops-card-top"><Tile name="desktop" color="var(--accent)" size="m" /><div><h2>{p.nomReseau}</h2><p><PosteEtat p={p} carte /></p></div></div>
     {!p.allume ? <p className="ops-muted">Aucun processus disponible.</p>
       : !p.session ? <p className="ops-muted">Aucune session ouverte.</p>
       : !processes.length ? <p className="ops-muted">Aucun processus utilisateur en cours.</p>

@@ -3,7 +3,8 @@
    dans ORION reste en cours tant que le déplacement physique n'est pas
    confirmé (règle tenue par le serveur). Une carte par trajet (du stock vers
    une salle, d'une salle à une autre, d'une salle vers le stock) avec son
-   avancement ; le point orange d'un matériel le confirme. ?salle= limite
+   avancement ; le point orange d'un matériel le confirme (gestionnaire seul ;
+   les administrateurs suivent). ?salle= limite
    l'écran à une salle.
    ========================================================================== */
 

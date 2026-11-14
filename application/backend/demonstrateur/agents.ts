@@ -38,6 +38,7 @@ const PROGRAMMES: [string, number][] = [
   ['steam.exe', 0.2], ['EpicGamesLauncher.exe', 0.1], ['RobloxPlayerBeta.exe', 0.1], ['MinecraftLauncher.exe', 0.1],
   ['qbittorrent.exe', 0.08], ['uTorrent.exe', 0.05], ['tor.exe', 0.05], ['AnyDesk.exe', 0.05],
 ];
+const SYSTEME = 'Windows 11'; // système installé sur tous les postes émulés (version actuelle des machines)
 const IMAGE = ['app-firefox', 'app-vscode', 'app-git', 'app-python']; // applications de l'image de référence
 // Applications installées en plus de l'image, avec leur probabilité
 const OPTIONS: [string, number][] = [['app-libreoffice', 0.3], ['app-notepadpp', 0.3], ['app-nodejs', 0.25], ['app-putty', 0.2], ['app-intellij', 0.15],
@@ -130,7 +131,7 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
         }
       }
       const online = [...postes.values()].filter((p) => p.online);
-      const { commandes = [] } = await transport.rapports(online.map((p) => ({ poste: p.nomReseau, adresseIp: p.adresseIp, session: p.session, processus: [...p.processes].map((nom) => ({ nom, compte: p.session })), applications: [...p.apps] })));
+      const { commandes = [] } = await transport.rapports(online.map((p) => ({ poste: p.nomReseau, adresseIp: p.adresseIp, os: SYSTEME, session: p.session, processus: [...p.processes].map((nom) => ({ nom, compte: p.session })), applications: [...p.apps] })));
       const resultats = commandes.map(execute).filter(Boolean) as Resultat[];
       if (resultats.length) await transport.resultats(resultats);
     } catch (error) {

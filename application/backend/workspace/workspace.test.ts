@@ -11,7 +11,7 @@ import { applyReports, pendingCommands, applyResults, markDisconnected, DISCONNE
 import { createWorkspaceRepository } from './engine.ts';
 import { analyseImport, importMateriels } from './import.ts';
 import { createWorkspaceRouter, createAgentRouter, jetonPoste } from './routes.ts';
-import { adressesIp } from '../demonstrateur/agents.ts';
+import { adressesIp, createAgentEmulator } from '../demonstrateur/agents.ts';
 import { renameBuilding } from '#shared/buildings.ts';
 import { materielCite, remonteeOuverte } from '#shared/catalog.ts';
 import { processClass, logiciel, IMAGE_REFERENCE } from '#shared/operations-data.ts';
@@ -140,6 +140,8 @@ test('installation : une affectation reste en cours jusqu’à la confirmation, 
   assert.equal(mat(state).deplacement!.de, null);
   assert.throws(() => move(MANAGER, (v) => { mat(v).deplacement!.de = a.id; }), { status: 400 }); // tenu par le serveur
   assert.throws(() => move(TEACHER, (v) => { delete mat(v).deplacement; }), { status: 403 });
+  // Confirmation réservée au gestionnaire : les administrateurs initient et suivent (décision de l'utilisateur du 14 novembre)
+  for (const accountId of [ADMIN, SUPER]) assert.throws(() => move(accountId, (v) => { delete mat(v).deplacement; }), { status: 403, message: 'Confirmation de l’installation réservée au gestionnaire.' });
   state = move(MANAGER, (v) => { delete mat(v).deplacement; mat(v).installation = { de: a.id, at: 0, par: 'X' } as Mouvement; }); // confirmé ; valeur incomplète volontaire
   assert.equal(mat(state).deplacement, undefined);
   assert.deepEqual(mat(state).installation, { de: null, at: 1_800_000_000_000, par: 'G. Bernard', parId: MANAGER }); // valeur du serveur
@@ -150,6 +152,10 @@ test('installation : une affectation reste en cours jusqu’à la confirmation, 
   assert.equal(mat(state).deplacement!.de, b.id);
   assert.equal(mat(state).installation, undefined);
   state = move(MANAGER, (v) => { mat(v).hs = false; mat(v).salleId = b.id; }); // remis en service et revenu à son emplacement physique : rien à faire
+  assert.equal(mat(state).deplacement, undefined);
+  state = move(ADMIN, (v) => { mat(v).salleId = a.id; });               // un administrateur initie un déplacement…
+  assert.deepEqual(mat(state).deplacement, { de: b.id, at: 1_800_000_000_000, par: 'C. Durand', parId: ADMIN });
+  state = move(ADMIN, (v) => { mat(v).salleId = b.id; });               // …et peut le défaire par un retour à l'origine, qui n'est pas une confirmation
   assert.equal(mat(state).deplacement, undefined);
 });
 
@@ -338,6 +344,25 @@ test('comptes : création dans son école, adresse unique, pas d’auto-désacti
   assert.throws(() => mergeState(state, self, admin), { status: 400 });
   const removed = scopedState(state, admin); removed.comptes.pop();
   assert.throws(() => mergeState(state, removed, admin), { status: 403 });
+  // Un administrateur n'a qu'une école : il ne déplace pas un compte vers une autre école
+  const moved = scopedState(state, admin); moved.comptes.find((c) => c.id === TEACHER)!.ecoleId = 'e-res';
+  assert.throws(() => mergeState(state, moved, admin), { status: 403 });
+});
+
+test('comptes : le super administrateur crée un super administrateur et change l’école d’un administrateur', () => {
+  const state = initialState();
+  const sa = as(state, SUPER);
+  const input = scopedState(state, sa);
+  input.comptes.push({ id: 'cpt-sa2', nom: 'S. Second', email: 's.second@orion.demo', role: 'superadmin', ecoleId: 'e-num', actif: true });
+  input.comptes.find((c) => c.id === ADMIN)!.ecoleId = 'e-res';
+  const next = mergeState(state, input, sa);
+  assert.deepEqual(next.comptes.find((c) => c.id === 'cpt-sa2')!.ecoleId, null, 'un super administrateur n’a pas d’école');
+  assert.equal(next.comptes.find((c) => c.id === ADMIN)!.ecoleId, 'e-res');
+  for (const role of ['admin', 'gestionnaire', 'formateur'] as const) {
+    const attempt = scopedState(state, sa);
+    attempt.comptes.push({ id: `x-${role}`, nom: 'X', email: `x-${role}@orion.demo`, role, ecoleId: null, actif: true });
+    assert.throws(() => mergeState(state, attempt, sa), { status: 400, message: 'École de rattachement obligatoire.' });
+  }
 });
 
 test('supervision : le formateur demande un arrêt ; seuls les postes modifient les processus', () => {
@@ -418,6 +443,23 @@ test('postes : adresse IP remontée par le poste, validée et jamais saisie par 
   assert.equal(state.postes.find((p) => p.id === 'p-nouveau')!.adresseIp, undefined);
 });
 
+test('postes : système d’exploitation remonté par le poste, jamais saisi par le navigateur', () => {
+  let state = initialState();
+  const poste = state.postes.find((p) => p.salleId === 's-e-num-a012')!;
+  assert.equal(poste.os, undefined, 'inconnu avant le premier rapport');
+  applyReports(state, [{ poste: poste.nomReseau, os: ' Windows 11 ' }]);
+  assert.equal(poste.os, 'Windows 11');
+  applyReports(state, [{ poste: poste.nomReseau }, { poste: poste.nomReseau, os: 42 as unknown as string }]);
+  assert.equal(poste.os, 'Windows 11', 'valeur absente ou invalide : système connu conservé');
+  const admin = as(state, ADMIN);
+  const view: Ecriture = scopedState(state, admin);
+  view.postes.find((p) => p.id === poste.id)!.os = 'Linux';
+  view.postes.push({ id: 'p-os', salleId: poste.salleId, nomReseau: 'A012-PC98', materielId: null, allume: false, os: 'Windows 10' });
+  state = mergeState(state, view, admin);
+  assert.equal(state.postes.find((p) => p.id === poste.id)!.os, 'Windows 11');
+  assert.equal(state.postes.find((p) => p.id === 'p-os')!.os, undefined);
+});
+
 test('postes : état, session et dernier rapport remontés par le poste, jamais écrits par le navigateur', () => {
   let state = initialState();
   const [allume, eteint] = state.postes.filter((p) => p.salleId === 's-e-num-a012');
@@ -476,6 +518,17 @@ test('émulateur : une adresse IP stable par poste, un réseau par salle', () =>
     { nomReseau: 'A014-PC01', salleId: 's-b', ecoleId: 'e-1' }, { nomReseau: 'R101-PC01', salleId: 's-r', ecoleId: 'e-2' },
   ]);
   assert.deepEqual([...ips.values()], ['10.1.1.11', '10.1.1.12', '10.1.2.11', '10.2.1.11']);
+});
+
+test('émulateur : chaque poste allumé remonte Windows 11', async () => {
+  const envoyes: { os?: string }[] = [];
+  const emulator = createAgentEmulator({ seed: 1, transport: {
+    postes: async () => Array.from({ length: 20 }, (_, i) => ({ nomReseau: `A012-PC${i}`, horsService: false, salleId: 's-a', ecoleId: 'e-1' })),
+    rapports: async (rapports) => { envoyes.push(...rapports); return {}; },
+    resultats: async () => ({}),
+  } });
+  await emulator.tick();
+  assert(envoyes.length > 0 && envoyes.every((r) => r.os === 'Windows 11'));
 });
 
 test('postes : rapports, détection, arrêt automatique, résultats et déconnexion', () => {

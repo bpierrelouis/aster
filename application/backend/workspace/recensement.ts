@@ -1,7 +1,8 @@
 /* ==========================================================================
    Espace de travail · recensement mobile (RIGEL)
-   - Campagne : ouverte dans ORION par un gestionnaire ou un administrateur,
-     sur toute l'école ou sur des salles ; close à la demande ou à expiration.
+   - Campagne : ouverte dans ORION par un gestionnaire, sur toute l'école ou
+     sur des salles ; close à la demande ou à expiration. RIGEL est réservé
+     au gestionnaire (ticket #156) : les administrateurs suivent en lecture.
    - Constats : produits par les téléphones, transmis chiffrés par le relais
      et le connecteur, intégrés ici (valeurs d'autorité fixées par le serveur).
    - Un matériel scanné dans sa salle confirme son déplacement en cours ; une
@@ -29,9 +30,12 @@ export const sallesDe = (state: Pick<WorkspaceState, 'salles'>, r: Pick<Recensem
 
 /* ---------- Écritures des utilisateurs (appelées par mergeState) ---------- */
 
+/** RIGEL réservé au gestionnaire (ticket #156, décision de l'utilisateur du 14 novembre) : campagnes, constats et appairage */
+const reserve = (actor: Actor) => { if (actor.role !== 'gestionnaire') fail(403, 'Recensement réservé au gestionnaire.'); };
+
 /** Ouverture ou clôture d'une campagne ; x : élément proposé, old : élément enregistré */
 export function regleRecensement(x: LooseItem, old: LooseItem | undefined, state: WorkspaceState, actor: Actor, now: number) {
-  if (actor.role === 'formateur') fail(403, 'Recensement réservé aux gestionnaires et administrateurs.');
+  reserve(actor);
   if (!old) {
     assert(typeof x.nom === 'string' && x.nom.trim() && x.nom.length <= 120, 'Nom de la campagne obligatoire.');
     x.nom = x.nom.trim();
@@ -50,7 +54,7 @@ export function regleRecensement(x: LooseItem, old: LooseItem | undefined, state
 /** Traitement d'un constat (code inconnu ou écart) : seul ce suivi est modifiable par un utilisateur */
 export function regleConstat(x: LooseItem, old: LooseItem | undefined, actor: Actor, now: number) {
   if (!old) fail(403, 'Les constats sont transmis par les téléphones.');
-  if (actor.role === 'formateur') fail(403, 'Recensement réservé aux gestionnaires et administrateurs.');
+  reserve(actor);
   const stable = (c: LooseItem) => Object.fromEntries(Object.entries(c).filter(([k]) => k !== 'traite'));
   assert(same(stable(old), stable(x)), 'Seul le traitement d’un constat peut être modifié.');
   if (old.traite) assert(same(old.traite, x.traite), 'Ce constat est déjà traité.');
@@ -67,8 +71,8 @@ export const jetonCampagne = (secret: string, id: Id) => derive(secret, 'jeton',
 
 /** Adresse d'appairage d'une campagne ouverte du périmètre du compte */
 export function appairage(state: WorkspaceState, actor: Actor, id: Id, { secret, url }: { secret: string; url: string | null }) {
-  if (actor.role === 'formateur') fail(403, 'Recensement réservé aux gestionnaires et administrateurs.');
-  const r = state.recensements.find((x) => x.id === id && (actor.role === 'superadmin' || x.ecoleId === actor.ecoleId));
+  reserve(actor);
+  const r = state.recensements.find((x) => x.id === id && x.ecoleId === actor.ecoleId);
   if (!r) fail(404, 'Campagne introuvable.');
   if (!ouverte(r)) fail(400, 'Cette campagne est close.');
   if (!url) fail(503, 'L’application mobile n’est pas configurée.');
@@ -154,6 +158,8 @@ function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRi
   if (s.constats.some((c) => c.id === cid)) return { id, statut: 'doublon' };
   if ('illisible' in e) return { id, statut: 'refuse', message: 'Événement illisible.' };
   if (!r || !ouverte(r, now)) return { id, statut: 'refuse', message: 'Campagne close.' };
+  // Les constats confirment des installations au nom de l'ouvreur : une campagne d'un autre profil n'est plus appliquée
+  if (s.comptes.find((c) => c.id === r.parId)?.role !== 'gestionnaire') return { id, statut: 'refuse', message: 'Campagne non ouverte par un gestionnaire.' };
   if (!['vu', 'releve', 'inconnu'].includes(e.type)) return { id, statut: 'refuse', message: 'Constat inconnu.' };
   const salleId = e.salleId ?? null;
   if (salleId !== null && !sallesDe(s, r).some((x) => x.id === salleId)) return { id, statut: 'refuse', message: 'Salle hors de la campagne.' };

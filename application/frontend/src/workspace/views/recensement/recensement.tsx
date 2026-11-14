@@ -4,6 +4,8 @@
    téléphone par un QR code, scannent salles et matériels ; les constats
    reviennent ici (confirmations, relocalisations, codes à traiter).
    /materiels/recensement : campagnes ; /materiels/recensement/:id : bilan.
+   RIGEL est réservé au gestionnaire (ticket #156) : les administrateurs
+   suivent campagnes et bilans en lecture, sans action.
    ========================================================================== */
 
 import { Link, Navigate, useParams } from 'react-router';
@@ -38,15 +40,17 @@ export function Recensement() {
   useTitle('Recensement');
   useStore();
   const { id } = useParams();
-  if (!can('materiel.recensement')) return <Navigate to="/materiels/inventaire" replace />;
+  if (!can('recensement.view')) return <Navigate to="/materiels/inventaire" replace />;
   if (id) return <Campagne id={id} />;
   const list = recensements();
   return <div className="group-view">
     <PageHead title="Recensement">
-      <button className="btn btn--primary" onClick={() => openCampagneForm()}><Icon name="plus" size={18} /><span>Nouvelle campagne</span></button>
+      {can('materiel.recensement') && <button className="btn btn--primary" onClick={() => openCampagneForm()}><Icon name="plus" size={18} /><span>Nouvelle campagne</span></button>}
     </PageHead>
     {list.length
       ? <div className="ops-grid rec-grid">{list.map((r) => <CampagneCard key={r.id} r={r} />)}</div>
-      : <OpsEmpty icon="clipboardCheck" title="Aucune campagne de recensement" text="Ouvrez une campagne, puis appairez les téléphones des agents : ils scannent les salles et les matériels, et leurs constats arrivent ici." />}
+      : <OpsEmpty icon="clipboardCheck" title="Aucune campagne de recensement" text={can('materiel.recensement')
+        ? 'Ouvrez une campagne, puis appairez les téléphones des agents : ils scannent les salles et les matériels, et leurs constats arrivent ici.'
+        : 'Les campagnes ouvertes par le gestionnaire et leurs constats apparaîtront ici.'} />}
   </div>;
 }

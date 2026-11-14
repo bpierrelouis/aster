@@ -82,13 +82,15 @@ export interface Poste {
   nomReseau: string;
   /** Unité centrale du poste */
   materielId: Id | null;
-  /** allume, session, vuLe et adresseIp : remontés par le poste (API des postes), jamais écrits par le navigateur */
+  /** allume, session, vuLe, adresseIp et os : remontés par le poste (API des postes), jamais écrits par le navigateur */
   allume: boolean;
   /** Compte Windows connecté */
   session?: string | null;
   vuLe?: Timestamp | null;
   /** Adresse IPv4 remontée par le poste dans ses rapports ; jamais saisie par un utilisateur */
   adresseIp?: string;
+  /** Système d'exploitation installé, remonté par le poste dans ses rapports (« Windows 11 ») */
+  os?: string;
 }
 
 export interface Compte {

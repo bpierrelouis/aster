@@ -53,9 +53,15 @@ function AccountForm({ account }: { account: Compte | null }) {
       <div className="field"><span className="field-label">Profil</span>
         <FilterSelect aria-label="Profil" name="role" defaultValue={account?.role || 'formateur'} options={ROLES.filter((r) => me().role === 'superadmin' || r.id !== 'superadmin').map((r) => ({ value: r.id, label: r.label }))} />
       </div>
-      <div className="field"><span className="field-label">École</span>
-        <FilterSelect aria-label="École" name="ecoleId" defaultValue={school!} options={state.ecoles.map((e) => ({ value: e.id, label: e.nom }))} />
-      </div>
+      {/* Un administrateur n'a qu'une école : les comptes qu'il gère y sont rattachés ; le super administrateur choisit */}
+      {me().role === 'superadmin'
+        ? <div className="field"><span className="field-label">École</span>
+          <FilterSelect aria-label="École" name="ecoleId" defaultValue={school!} options={state.ecoles.map((e) => ({ value: e.id, label: e.nom }))} />
+        </div>
+        : <label className="field"><span className="field-label">École</span>
+          <input readOnly value={index().ecole.get(me().ecoleId!)?.nom ?? ''} />
+          <input type="hidden" name="ecoleId" value={me().ecoleId!} />
+        </label>}
     </div>
   </SheetForm>;
 }
@@ -96,7 +102,7 @@ function PostDetail({ id }: { id: Id }) {
     </>}>
     {(close) => p && <>
       <p className="sheet-text">{emplacement(index().salle.get(p.salleId))}{materiel && ` · ${materiel.idOrion}, ${materiel.modele}`}</p>
-      <p className="sheet-text"><PosteEtat p={p} />{p.adresseIp && ` · Adresse IP ${p.adresseIp}`}</p>
+      <p className="sheet-text"><PosteEtat p={p} />{p.adresseIp && ` · Adresse IP ${p.adresseIp}`}{p.os && ` · ${p.os}`}</p>
       <h3>Applications installées</h3>
       {installed.size
         ? <ul className="pop-list-plain">{state.applications.filter((a) => installed.has(a.id)).map((a) => <li key={a.id} className="ops-process">

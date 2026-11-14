@@ -103,6 +103,18 @@ test('campagne : ouverte par un gestionnaire, valeurs fixées par le serveur, cl
   parFormateur.recensements.push({ ...campagne, id: 'x' });
   assert.throws(() => mergeState(next, parFormateur, teacher), (e: HttpError) => e.status === 403);
 
+  // RIGEL réservé au gestionnaire (ticket #156) : les administrateurs suivent la campagne sans l'ouvrir ni la clore
+  for (const accountId of [ADMIN, 'cpt-superadmin']) {
+    const admin = as(next, accountId);
+    assert.equal(scopedState(next, admin).recensements.length, 1, `${accountId} : campagne visible en lecture`);
+    const ouverture: Ecriture = scopedState(next, admin);
+    ouverture.recensements.push({ ...campagne, id: 'z' });
+    assert.throws(() => mergeState(next, ouverture, admin), (e: HttpError) => e.status === 403 && /réservé au gestionnaire/.test(e.message));
+    const cloture: Ecriture = scopedState(next, admin);
+    cloture.recensements[0].close = { at: 1, par: '', parId: null };
+    assert.throws(() => mergeState(next, cloture, admin), (e: HttpError) => e.status === 403);
+  }
+
   const manager = as(next, MANAGER);
   const horsEcole: Ecriture = scopedState(next, manager);
   horsEcole.recensements.push({ ...campagne, id: 'y', salleIds: [next.salles.find((s) => s.ecoleId === 'e-res')!.id] });
@@ -124,6 +136,16 @@ test('campagne : ouverte par un gestionnaire, valeurs fixées par le serveur, cl
   const rouvre: Ecriture = scopedState(closed, manager);
   delete rouvre.recensements[0].close;
   assert.throws(() => mergeState(closed, rouvre, manager), /rouverte/);
+});
+
+test('constats : une campagne qui n’a pas été ouverte par un gestionnaire n’est pas appliquée', () => {
+  const s = initialState();
+  const admin = s.comptes.find((c) => c.id === ADMIN)!;
+  s.recensements.push({ id: 'rec-admin', ecoleId: 'e-num', nom: 'Ancienne', salleIds: [], at: Date.now(), par: admin.nom, parId: admin.id, expireLe: Date.now() + 86400e3 });
+  const enCours = s.materiels.find((m) => m.ecoleId === 'e-num' && m.deplacement && m.salleId)!;
+  const [r] = appliquerEvenements(s, 'rec-admin', [evt({ type: 'vu', materielId: enCours.id, salleId: enCours.salleId })]);
+  assert.deepEqual(r, { id: r.id, statut: 'refuse', message: 'Campagne non ouverte par un gestionnaire.' });
+  assert(enCours.deplacement, 'déplacement toujours en cours');
 });
 
 test('constats : confirmation, présence, écart, relocalisation, stock, hors service, code inconnu, doublon', () => {
@@ -228,8 +250,7 @@ test('API : appairage par un gestionnaire, connecteur authentifié, blocs chiffr
     const acces = lireAppairage(lien)!;
     assert(lien.startsWith('https://rigel.test/#c='));
     assert.equal(acces.cle, cleCampagne(secret, campagne.id));
-    accountId = TEACHER;
-    assert.equal((await fetch(`${url}/api/workspace/recensements/${campagne.id}/appairage`)).status, 403);
+    for (accountId of [TEACHER, ADMIN]) assert.equal((await fetch(`${url}/api/workspace/recensements/${campagne.id}/appairage`)).status, 403);
 
     assert.equal((await fetch(`${url}/api/rigel/campagnes`)).status, 401);
     const auth = { Authorization: `Bearer ${secret}`, 'Content-Type': 'application/json' };

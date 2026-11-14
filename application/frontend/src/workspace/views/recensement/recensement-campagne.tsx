@@ -1,7 +1,8 @@
 /* ==========================================================================
    Recensement · bilan d'une campagne : avancement, constats à traiter
    (codes inconnus, écarts, refus), avancement par salle et derniers
-   constats. Actions : appairer un téléphone, étiquettes, clôture.
+   constats. Actions du gestionnaire : appairer un téléphone, étiquettes,
+   clôture, traitement des constats ; les administrateurs suivent en lecture.
    ========================================================================== */
 
 import { Link, Navigate } from 'react-router';
@@ -9,6 +10,7 @@ import { Icon, Tile } from '../../ui/icons.tsx';
 import { store } from '../../core/store.ts';
 import { index, materielPath, traceProvisoire } from '../../core/selectors.ts';
 import { bilan, echeance, ouverte, perimetre } from '../../core/recensements.ts';
+import { can } from '../../core/permissions.ts';
 import { confirmSheet, notify } from '../../ui/overlays.tsx';
 import { RESULTATS } from '#shared/rigel.ts';
 import { deviceType } from '#shared/catalog.ts';
@@ -51,10 +53,10 @@ function ATraiterRow({ g }: { g: ATraiter }) {
   return <li><div className="row rec-row">
     <Resultat c={c} />
     <span className="row-main"><Sujet c={c} /><span className="row-sub"><span className="row-meta">{lieu(c.salleId)}</span>{detail && <span className="row-meta">{detail}</span>}{g.constats.length > 1 && <span className="row-meta">Vu {g.constats.length} fois</span>}</span></span>
-    <span className="rec-row-actions">
+    {can('materiel.recensement') && <span className="rec-row-actions">
       {c.resultat === 'inconnu' && <button className="btn btn--ghost btn--s" onClick={() => openAjoutParc(g)}><Icon name="plus" size={16} />Ajouter au parc</button>}
       <button className="btn btn--ghost btn--s" onClick={() => marquerTraite(g)}><Icon name="check" size={16} />{c.resultat === 'inconnu' ? 'Écarter' : 'Traité'}</button>
-    </span>
+    </span>}
   </div></li>;
 }
 
@@ -90,12 +92,13 @@ export function Campagne({ id }: { id: string }) {
   if (!r) return <Navigate to="/materiels/recensement" replace />;
   const b = bilan(r);
   const enCours = ouverte(r);
+  const gerer = can('materiel.recensement');
   const salles = [...b.parSalle].sort((x, y) => (x.vus.length / (x.attendus.length || 1)) - (y.vus.length / (y.attendus.length || 1)) || x.salle.nom.localeCompare(y.salle.nom, 'fr', { numeric: true }));
   return <div className="group-view">
     <PageHead title={r.nom}>
-      {enCours && <button className="btn btn--ghost" onClick={() => cloturer(r)}><Icon name="check" size={18} /><span>Clôturer</span></button>}
-      <button className="btn btn--ghost" onClick={() => openEtiquettes(r)}><Icon name="print" size={18} /><span>Étiquettes</span></button>
-      {enCours && <button className="btn btn--primary" onClick={() => openAppairage(r)}><Icon name="tablet" size={18} /><span>Appairer un téléphone</span></button>}
+      {gerer && enCours && <button className="btn btn--ghost" onClick={() => cloturer(r)}><Icon name="check" size={18} /><span>Clôturer</span></button>}
+      {gerer && <button className="btn btn--ghost" onClick={() => openEtiquettes(r)}><Icon name="print" size={18} /><span>Étiquettes</span></button>}
+      {gerer && enCours && <button className="btn btn--primary" onClick={() => openAppairage(r)}><Icon name="tablet" size={18} /><span>Appairer un téléphone</span></button>}
     </PageHead>
     <p className="group-lead"><Link to="/materiels/recensement">Campagnes</Link> · <strong>{r.nom}</strong> · {perimetre(r)} · ouverte par {r.par} le {dateMed(r.at)} · {echeance(r)}</p>
     <div className="ops-metrics">

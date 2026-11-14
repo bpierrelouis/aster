@@ -100,7 +100,7 @@ function Posts({ list, salleId, onSalle, query, onQuery }: { list: Poste[]; sall
     {rows.length ? rows.map((p) => {
       const m = index().materiel.get(p.materielId!);
       return <tr key={p.id}>
-        <td><strong>{p.nomReseau}</strong></td>
+        <td><strong>{p.nomReseau}</strong>{p.os && <small className="inv-sub">{p.os}</small>}</td>
         <td>{emplacement(index().salle.get(p.salleId))}</td>
         <td>{m ? <>{m.idOrion}<small className="inv-sub">{m.modele}</small></> : <span className="ops-muted">Aucun</span>}</td>
         <td><PosteEtat p={p} /></td>

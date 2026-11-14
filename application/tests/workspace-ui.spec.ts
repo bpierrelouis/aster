@@ -554,33 +554,44 @@ test('installation : un point orange passe au vert, la salle est équipée une f
   const atelier = data.salles.find((s) => s.nom === 'Atelier 2')!;
   const pending = data.materiels.filter((m) => m.salleId === atelier.id && m.deplacement?.de === null);
   expect(pending.length).toBeGreaterThan(1);
-  await open(page, `/salles/salle/${atelier.id}`);
-  const block = page.locator('.inst-block');
-  await expect(block).toContainText('En cours d’installation');
-  const progress = () => block.getByRole('progressbar').getAttribute('aria-valuenow').then(Number);
-  const start = await progress();
-  await block.click();
-  await expect(page).toHaveURL(new RegExp(`/salles/deplacements\\?salle=${atelier.id}$`));
-  await expect(page.locator('.group-lead')).toContainText(/\d+ matériels? à déplacer$/);
-  const card = page.getByRole('region', { name: 'Stock vers Atelier 2' });
-  await expect(card.locator('button.inst-dot')).toHaveCount(pending.length);
-  await card.locator('button.inst-dot').first().click(); // en cours → installé, enregistré par le serveur
-  await expect(card.locator('button.inst-dot')).toHaveCount(pending.length - 1);
-  await expect.poll(async () => (await state(request)).materiels.filter((m) => m.salleId === atelier.id && m.installation && !m.deplacement && m.installation.at > Date.now() - 60_000).length).toBe(1);
-  await open(page, `/salles/salle/${atelier.id}`);
-  expect(await progress()).toBeGreaterThan(start);
-  await page.locator('.inst-block').click();
-  const dots = page.getByRole('region', { name: 'Stock vers Atelier 2' }).locator('button.inst-dot');
-  await expect(dots.first()).toBeVisible();
-  await expect(page.getByRole('button', { name: /Tout est/ })).toHaveCount(0); // un matériel à la fois
-  for (let left = await dots.count(); left > 0; left--) {
-    await dots.first().click();
-    await expect(dots).toHaveCount(left - 1);
+  const admin = data.comptes.find((c) => c.actif && c.role === 'admin')!;
+  const manager = data.comptes.find((c) => c.actif && c.role === 'gestionnaire' && c.ecoleId === admin.ecoleId)!;
+  // L'administrateur suit l'installation sans la confirmer : points non cliquables, qui confirme en infobulle (décision du 14 novembre)
+  await open(page, `/salles/deplacements?salle=${atelier.id}`);
+  const suivi = page.getByRole('region', { name: 'Stock vers Atelier 2' });
+  await expect(suivi.locator('span.inst-dot--wait[data-tip="Confirmation par le gestionnaire"]')).toHaveCount(pending.length);
+  await expect(suivi.locator('button.inst-dot')).toHaveCount(0);
+  await asAccount(request, manager.id);
+  try { await installer(); } finally { await asAccount(request, admin.id); }
+  async function installer() {
+    await open(page, `/salles/salle/${atelier.id}`);
+    const block = page.locator('.inst-block');
+    await expect(block).toContainText('En cours d’installation');
+    const progress = () => block.getByRole('progressbar').getAttribute('aria-valuenow').then(Number);
+    const start = await progress();
+    await block.click();
+    await expect(page).toHaveURL(new RegExp(`/salles/deplacements\\?salle=${atelier.id}$`));
+    await expect(page.locator('.group-lead')).toContainText(/\d+ matériels? à déplacer$/);
+    const card = page.getByRole('region', { name: 'Stock vers Atelier 2' });
+    await expect(card.locator('button.inst-dot')).toHaveCount(pending.length);
+    await card.locator('button.inst-dot').first().click(); // en cours → installé, enregistré par le serveur
+    await expect(card.locator('button.inst-dot')).toHaveCount(pending.length - 1);
+    await expect.poll(async () => (await state(request)).materiels.filter((m) => m.salleId === atelier.id && m.installation && !m.deplacement && m.installation.at > Date.now() - 60_000).length).toBe(1);
+    await open(page, `/salles/salle/${atelier.id}`);
+    expect(await progress()).toBeGreaterThan(start);
+    await page.locator('.inst-block').click();
+    const dots = page.getByRole('region', { name: 'Stock vers Atelier 2' }).locator('button.inst-dot');
+    await expect(dots.first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /Tout est/ })).toHaveCount(0); // un matériel à la fois
+    for (let left = await dots.count(); left > 0; left--) {
+      await dots.first().click();
+      await expect(dots).toHaveCount(left - 1);
   }
   await expect.poll(async () => (await state(request)).materiels.filter((m) => m.salleId === atelier.id && m.deplacement).length).toBe(0);
   await open(page, `/salles/salle/${atelier.id}`);
   await expect(page.locator('.inst-block')).toHaveCount(0);
   await expect(page.locator('.insp-title')).toContainText('Équipée');
+  }
 });
 
 test('Échap ferme la fenêtre munie d’une croix ouverte en dernier', async ({ page }) => {
@@ -1187,79 +1198,129 @@ test('le menu du compte reste ancré pendant les changements d’apparence', asy
 
 test('recensement : campagne, appairage par QR code, constats des téléphones à traiter puis ajout au parc', async ({ page, request }, testInfo) => {
   const { chiffrer, lireAppairage } = await import('#shared/rigel.ts');
+  const comptes = (await state(request)).comptes.filter((c) => c.actif);
+  const admin = comptes.find((c) => c.role === 'admin')!;
+  const manager = comptes.find((c) => c.role === 'gestionnaire' && c.ecoleId === admin.ecoleId)!;
+  // RIGEL réservé au gestionnaire (ticket #156)
+  await asAccount(request, manager.id);
+  try { await recenser(); } finally { await asAccount(request, admin.id); }
+  // L'administrateur suit la campagne en lecture seule : aucune action
   await open(page, '/materiels/recensement');
-  await page.getByRole('button', { name: 'Nouvelle campagne' }).click();
-  await page.getByLabel('Nom *').fill('Recensement de test');
-  await page.getByRole('radio', { name: 'Salles choisies' }).click();
-  await page.locator('.rec-batiment').first().locator('legend input').check();
-  await page.getByRole('button', { name: 'Ouvrir la campagne' }).click();
-  await expect(page).toHaveURL(/\/materiels\/recensement\/rec-/);
-  const id = page.url().split('/').at(-1)!;
+  await expect(page.getByRole('button', { name: 'Nouvelle campagne' })).toHaveCount(0);
+  await page.locator('.rec-card', { hasText: 'Recensement de test' }).click();
   await expect(page.locator('.group-lead')).toContainText('Recensement de test');
-
-  await page.getByRole('button', { name: 'Appairer un téléphone' }).click();
-  await expect(page.getByRole('img', { name: /QR code d’appairage/ })).toBeVisible();
-  await page.waitForTimeout(600); // fin de l'ouverture de la fenêtre, pour la capture
-  await page.screenshot({ path: testInfo.outputPath('recensement-appairage.png') });
-  const appairage = await (await request.get(`/api/workspace/recensements/${id}/appairage`)).json();
-  const acces = lireAppairage(appairage.url)!;
-  await page.getByRole('button', { name: 'Fermer' }).click();
-
-  // Constats d'un téléphone, transmis par le connecteur : présence d'un matériel, code inconnu
-  const data = await state(request);
-  const campagne = data.recensements.find((r) => r.id === id)!;
-  const salle = data.salles.find((s) => s.id === campagne.salleIds[0])!;
-  const present = data.materiels.find((m) => m.salleId === salle.id && !m.deplacement)!;
-  const evenements = [
-    { id: crypto.randomUUID(), type: 'vu', code: present.idOrion, salleId: salle.id, materielId: present.id, observeLe: Date.now() },
-    { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-RECENSE-1', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'ecran', modele: 'Écran recensé', marque: 'Iiyama', serie: 'SN-RECENSE-1' } },
-    // Même code inconnu scanné par un second agent : une seule ligne à traiter
-    { id: crypto.randomUUID(), type: 'inconnu', code: 'sn recense 1', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'ecran', modele: 'Ecran', marque: null, serie: 'sn-recense-1' } },
-    // Code inconnu dont le matériel est ensuite créé dans ORION par quelqu'un d'autre
-    { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-DEJA-CREE', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'autre', modele: 'Câble', marque: null, serie: 'SN-DEJA-CREE' } },
-  ];
-  const blocs = await Promise.all(evenements.map(async (e) => ({ id: e.id, bloc: await chiffrer(acces.cle, id, e) })));
-  const reponse = await request.post(`/api/rigel/campagnes/${id}/evenements`, { headers: { Authorization: 'Bearer orion-rigel-local' }, data: { evenements: blocs } });
-  expect((await reponse.json()).resultats.map((r: { statut: string }) => r.statut)).toEqual(['applique', 'applique', 'applique', 'applique']);
-
-  await page.reload();
-  const aTraiter = page.locator('.group-card', { hasText: 'À traiter' });
-  await expect(aTraiter.locator('.rec-row')).toHaveCount(2);
-  await expect(aTraiter.locator('.rec-row', { hasText: 'Écran recensé' })).toContainText('Vu 2 fois');
-  await expect(page.locator('.group-card', { hasText: 'Derniers constats' })).toContainText(present.idOrion);
-  await page.screenshot({ path: testInfo.outputPath('recensement-campagne.png'), fullPage: true });
-
-  await aTraiter.locator('.rec-row', { hasText: 'Écran recensé' }).getByRole('button', { name: 'Ajouter au parc' }).click();
-  await expect(page.getByLabel('Modèle *')).toHaveValue('Écran recensé');
-  await expect(page.getByLabel('Numéro de série')).toHaveValue('SN-RECENSE-1');
-  await page.locator('.sheet-foot').getByRole('button', { name: 'Enregistrer' }).click();
-  await expect(aTraiter.locator('.rec-row')).toHaveCount(1);
-  await expect.poll(async () => {
-    const apres = await state(request);
-    return [apres.materiels.filter((m) => m.serie === 'SN-RECENSE-1').map((m) => m.salleId), apres.constats.filter((c) => /recense/i.test(c.code)).every((c) => c.traite?.par)];
-  }).toEqual([[salle.id], true]);
-
-  // Numéro de série déjà au parc : pas de doublon, le constat est seulement traité
-  await page.evaluate((ecoleId) => window.orion.store.update('data', (s) => { s.materiels.push({ id: 'm-deja-cree', ecoleId, idOrion: '', salleId: null, type: 'autre', modele: 'Câble', marque: null, serie: 'SN-DEJA-CREE', dateReception: Date.now(), garantieFin: null, hs: false }); }), campagne.ecoleId);
-  await aTraiter.getByRole('button', { name: 'Ajouter au parc' }).click();
-  await expect(page.getByRole('dialog')).toContainText('Matériel déjà au parc');
-  await page.getByRole('button', { name: 'Marquer traité' }).click();
-  await expect(aTraiter).toContainText('Rien à traiter');
-  await expect.poll(async () => (await state(request)).materiels.filter((m) => m.serie === 'SN-DEJA-CREE').length).toBe(1);
-
-  await page.getByRole('button', { name: 'Étiquettes' }).click();
-  await expect(page.getByRole('img', { name: `QR code de la salle ${salle.nom}` })).toBeVisible();
-  await page.waitForTimeout(600);
-  await page.screenshot({ path: testInfo.outputPath('recensement-etiquettes.png') });
-  await page.getByRole('button', { name: 'Fermer' }).click();
-  await page.getByRole('button', { name: 'Clôturer' }).click();
-  await page.locator('.sheet-foot').getByRole('button', { name: 'Clôturer' }).click();
-  await expect(page.getByRole('button', { name: 'Appairer un téléphone' })).toHaveCount(0);
-  await open(page, '/materiels/recensement');
-  await expect(page.locator('.rec-card', { hasText: 'Recensement de test' })).toContainText('Close le');
+  await expect(page.locator('#view').getByRole('button')).toHaveCount(0);
   await page.setViewportSize({ width: 390, height: 844 });
+  await open(page, '/materiels/recensement');
   await page.waitForTimeout(800);
   await page.screenshot({ path: testInfo.outputPath('recensement-liste-mobile.png'), fullPage: true, animations: 'disabled' });
+
+  async function recenser() {
+    await open(page, '/materiels/recensement');
+    await page.getByRole('button', { name: 'Nouvelle campagne' }).click();
+    await page.getByLabel('Nom *').fill('Recensement de test');
+    await page.getByRole('radio', { name: 'Salles choisies' }).click();
+    await page.locator('.rec-batiment').first().locator('legend input').check();
+    await page.getByRole('button', { name: 'Ouvrir la campagne' }).click();
+    await expect(page).toHaveURL(/\/materiels\/recensement\/rec-/);
+    const id = page.url().split('/').at(-1)!;
+    await expect(page.locator('.group-lead')).toContainText('Recensement de test');
+
+    await page.getByRole('button', { name: 'Appairer un téléphone' }).click();
+    await expect(page.getByRole('img', { name: /QR code d’appairage/ })).toBeVisible();
+    await page.waitForTimeout(600); // fin de l'ouverture de la fenêtre, pour la capture
+    await page.screenshot({ path: testInfo.outputPath('recensement-appairage.png') });
+    const appairage = await (await request.get(`/api/workspace/recensements/${id}/appairage`)).json();
+    const acces = lireAppairage(appairage.url)!;
+    await page.getByRole('button', { name: 'Fermer' }).click();
+
+    // Constats d'un téléphone, transmis par le connecteur : présence d'un matériel, code inconnu
+    const data = await state(request);
+    const campagne = data.recensements.find((r) => r.id === id)!;
+    const salle = data.salles.find((s) => s.id === campagne.salleIds[0])!;
+    const present = data.materiels.find((m) => m.salleId === salle.id && !m.deplacement)!;
+    const evenements = [
+      { id: crypto.randomUUID(), type: 'vu', code: present.idOrion, salleId: salle.id, materielId: present.id, observeLe: Date.now() },
+      { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-RECENSE-1', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'ecran', modele: 'Écran recensé', marque: 'Iiyama', serie: 'SN-RECENSE-1' } },
+      // Même code inconnu scanné par un second agent : une seule ligne à traiter
+      { id: crypto.randomUUID(), type: 'inconnu', code: 'sn recense 1', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'ecran', modele: 'Ecran', marque: null, serie: 'sn-recense-1' } },
+      // Code inconnu dont le matériel est ensuite créé dans ORION par quelqu'un d'autre
+      { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-DEJA-CREE', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'autre', modele: 'Câble', marque: null, serie: 'SN-DEJA-CREE' } },
+    ];
+    const blocs = await Promise.all(evenements.map(async (e) => ({ id: e.id, bloc: await chiffrer(acces.cle, id, e) })));
+    const reponse = await request.post(`/api/rigel/campagnes/${id}/evenements`, { headers: { Authorization: 'Bearer orion-rigel-local' }, data: { evenements: blocs } });
+    expect((await reponse.json()).resultats.map((r: { statut: string }) => r.statut)).toEqual(['applique', 'applique', 'applique', 'applique']);
+
+    await page.reload();
+    const aTraiter = page.locator('.group-card', { hasText: 'À traiter' });
+    await expect(aTraiter.locator('.rec-row')).toHaveCount(2);
+    await expect(aTraiter.locator('.rec-row', { hasText: 'Écran recensé' })).toContainText('Vu 2 fois');
+    await expect(page.locator('.group-card', { hasText: 'Derniers constats' })).toContainText(present.idOrion);
+    await page.screenshot({ path: testInfo.outputPath('recensement-campagne.png'), fullPage: true });
+
+    await aTraiter.locator('.rec-row', { hasText: 'Écran recensé' }).getByRole('button', { name: 'Ajouter au parc' }).click();
+    await expect(page.getByLabel('Modèle *')).toHaveValue('Écran recensé');
+    await expect(page.getByLabel('Numéro de série')).toHaveValue('SN-RECENSE-1');
+    await page.locator('.sheet-foot').getByRole('button', { name: 'Enregistrer' }).click();
+    await expect(aTraiter.locator('.rec-row')).toHaveCount(1);
+    await expect.poll(async () => {
+      const apres = await state(request);
+      return [apres.materiels.filter((m) => m.serie === 'SN-RECENSE-1').map((m) => m.salleId), apres.constats.filter((c) => /recense/i.test(c.code)).every((c) => c.traite?.par)];
+    }).toEqual([[salle.id], true]);
+
+    // Numéro de série déjà au parc : pas de doublon, le constat est seulement traité
+    await page.evaluate((ecoleId) => window.orion.store.update('data', (s) => { s.materiels.push({ id: 'm-deja-cree', ecoleId, idOrion: '', salleId: null, type: 'autre', modele: 'Câble', marque: null, serie: 'SN-DEJA-CREE', dateReception: Date.now(), garantieFin: null, hs: false }); }), campagne.ecoleId);
+    await aTraiter.getByRole('button', { name: 'Ajouter au parc' }).click();
+    await expect(page.getByRole('dialog')).toContainText('Matériel déjà au parc');
+    await page.getByRole('button', { name: 'Marquer traité' }).click();
+    await expect(aTraiter).toContainText('Rien à traiter');
+    await expect.poll(async () => (await state(request)).materiels.filter((m) => m.serie === 'SN-DEJA-CREE').length).toBe(1);
+
+    await page.getByRole('button', { name: 'Étiquettes' }).click();
+    await expect(page.getByRole('img', { name: `QR code de la salle ${salle.nom}` })).toBeVisible();
+    await page.waitForTimeout(600);
+    await page.screenshot({ path: testInfo.outputPath('recensement-etiquettes.png') });
+    await page.getByRole('button', { name: 'Fermer' }).click();
+    await page.getByRole('button', { name: 'Clôturer' }).click();
+    await page.locator('.sheet-foot').getByRole('button', { name: 'Clôturer' }).click();
+    await expect(page.getByRole('button', { name: 'Appairer un téléphone' })).toHaveCount(0);
+    await open(page, '/materiels/recensement');
+    await expect(page.locator('.rec-card', { hasText: 'Recensement de test' })).toContainText('Close le');
+  }
+});
+
+test('supervision : la carte d’un poste montre son système et, sous l’état, l’utilisateur tronqué dans le cadre', async ({ page }) => {
+  await open(page, '/supervision/salles?salle=s-e-num-a101');
+  const card = page.locator('.ops-card', { has: page.locator('.poste-session--ligne') }).first();
+  await expect(card.locator('.poste-os')).toHaveText('Windows 11', { timeout: 10_000 }); // remonté par le poste émulé
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    const [box, user, etat] = await Promise.all([card.boundingBox(), card.locator('.poste-session--ligne').boundingBox(), card.locator('.poste-etat > .inv-state').boundingBox()]);
+    expect(user!.y).toBeGreaterThanOrEqual(etat!.y + etat!.height - 1); // sous l'état, sur sa propre ligne
+    expect(user!.x + user!.width).toBeLessThanOrEqual(box!.x + box!.width); // dans le cadre
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+});
+
+test('comptes : l’administrateur rattache un compte à son école ; le super administrateur choisit l’école et peut créer un super administrateur', async ({ page, request }) => {
+  const comptes = (await state(request)).comptes.filter((c) => c.actif);
+  const admin = comptes.find((c) => c.role === 'admin' && c.ecoleId === 'e-num')!;
+  const nouveau = async () => {
+    await open(page, '/administration/comptes');
+    await page.getByRole('button', { name: 'Créer un compte', exact: true }).click();
+    return page.getByRole('dialog', { name: 'Créer un compte', exact: true });
+  };
+  let dialog = await nouveau();
+  await expect(dialog.getByRole('textbox', { name: 'École' })).toHaveValue('École du numérique');
+  await expect(dialog.getByRole('textbox', { name: 'École' })).toHaveAttribute('readonly', '');
+  await expect(dialog.getByRole('combobox', { name: 'École' })).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  try {
+    await asAccount(request, 'cpt-superadmin'); // invisible à l'administrateur d'une école
+    dialog = await nouveau();
+    await expect(dialog.getByRole('combobox', { name: 'École' })).toBeVisible();
+    await pick(page, dialog.getByRole('combobox', { name: 'Profil' }), 'Super administrateur');
+  } finally { await asAccount(request, admin.id); }
 });
 
 // #118 : le formateur ne trouve pas le stock par la recherche ; un matériel trouvé ouvre sa salle

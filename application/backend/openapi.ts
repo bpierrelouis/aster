@@ -163,7 +163,7 @@ export const openapi = {
     '/api/agent/rapports': {
       post: {
         tags: ['Postes'], summary: 'Envoyer les rapports d’activité', security: poste,
-        description: 'Adresse IP, session, processus utilisateur en cours et applications installées, 2 000 rapports au plus. La réponse donne les interventions à exécuter.',
+        description: 'Adresse IP, système d’exploitation, session, processus utilisateur en cours et applications installées, 2 000 rapports au plus. La réponse donne les interventions à exécuter.',
         requestBody: { required: true, content: { 'application/json': { schema: {
           type: 'object', required: ['rapports'],
           properties: { rapports: { type: 'array', maxItems: 2000, items: {
@@ -172,6 +172,7 @@ export const openapi = {
               poste: { type: 'string', description: 'Nom réseau du poste' },
               session: { type: ['string', 'null'], description: 'Compte Windows de la session ouverte ; absent ou null si le poste est seulement allumé' },
               adresseIp: { type: 'string', format: 'ipv4', description: 'Adresse IPv4 du poste, enregistrée sur le poste ; une valeur absente ou invalide laisse l’adresse connue inchangée' },
+              os: { type: 'string', maxLength: 80, description: 'Système d’exploitation installé (« Windows 11 »), enregistré sur le poste ; une valeur absente laisse la valeur connue inchangée' },
               processus: { type: 'array', maxItems: 200, items: { type: 'object', properties: { nom: { type: 'string', maxLength: 120 }, compte: { type: 'string', description: 'Compte Windows' } } } },
               applications: { type: 'array', items: { type: 'string', description: 'Identifiant d’application' } },
             },

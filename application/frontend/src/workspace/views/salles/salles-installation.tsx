@@ -1,13 +1,13 @@
 /* ==========================================================================
    Installation physique : point d'un matériel (orange en cours, vert
-   installé) et confirmation du déplacement. Le point orange est cliquable
-   pour le gestionnaire ; le scanner le fera passer au vert automatiquement
-   une fois validé par le client (cadrage § 23).
+   installé) et confirmation du déplacement. Le point orange n'est cliquable
+   que pour le gestionnaire, seul à confirmer une installation (ici ou avec
+   RIGEL) ; les administrateurs la suivent (décision du 14 novembre).
    ========================================================================== */
 
 import { notify } from '../../ui/overlays.tsx';
 import { store } from '../../core/store.ts';
-import { can } from '../../core/permissions.ts';
+import { can, why } from '../../core/permissions.ts';
 import { traceProvisoire } from '../../core/selectors.ts';
 import { logistique } from '#shared/catalog.ts';
 import type { Materiel } from '#shared/types.ts';
@@ -24,11 +24,13 @@ async function confirmerInstallation(m: Materiel) {
   notify(`${m.idOrion} ${logistique(m).done}`, { icon: 'check', tone: 'ok' });
 }
 
-/** Point d'installation d'un matériel (vert une fois à sa place, en salle ou rangé au stock) ; en cours et modifiable, il confirme le déplacement au clic */
+/** Point d'installation d'un matériel (vert une fois à sa place, en salle ou rangé au stock) ; en cours, il confirme le déplacement au clic du gestionnaire */
 export function InstallDot({ m }: { m: Materiel }) {
   const l = logistique(m);
-  if (l.tone !== 'wait' || !can('materiel.move')) {
+  if (l.tone !== 'wait' || !can('installation.confirm')) {
     const label = l.tone === 'none' ? 'Rangé au stock' : l.label;
+    // En cours, pour un administrateur qui suit sans confirmer : qui confirme (le formateur ne voit que l'état)
+    if (l.tone === 'wait' && can('materiel.move')) return <span className="inst-dot inst-dot--wait" role="img" aria-label={`${label}, ${why('installation.confirm').toLowerCase()}`} data-tip-title={label} data-tip={why('installation.confirm')} />;
     return <span className={`inst-dot inst-dot--${l.tone === 'wait' ? 'wait' : 'ok'}`} role="img" aria-label={label} data-tip={label} />;
   }
   const action = `Marquer ${l.done}`;

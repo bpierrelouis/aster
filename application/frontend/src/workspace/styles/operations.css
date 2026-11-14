@@ -48,5 +48,11 @@
 @media(max-width:700px) { .ops-metrics{grid-template-columns:1fr}.ops-table th,.ops-table td{padding:13px}.ops-grid{grid-template-columns:1fr}.ops-toolbar .field{max-width:none} }
 .ops-building { display:inline-flex; align-items:center; gap:10px; white-space:nowrap; }
 .poste-session { display:inline-flex; align-items:center; gap:3px; margin-left:4px; color:var(--ink-2); font-weight:600; } /* utilisateur de la session ouverte */
+/* Carte d'un poste (Supervision › Salles) : état, utilisateur sur sa ligne (tronqué dans le cadre), système en petit */
+.poste-etat { display:flex; flex-direction:column; gap:3px; min-width:0; }
+.poste-session--ligne { display:flex; margin-left:0; min-width:0; }
+.poste-session--ligne > span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.poste-session--ligne > svg { flex:none; }
+.poste-os { color:var(--ink-3); font-size:0.8125rem; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
 @media(max-width:700px) { .ops-toolbar > .filter-select { max-width:none; } }

@@ -32,10 +32,19 @@ export function StatutPill({ r }: { r: Pick<Remontee, 'statut'> }) {
   return <span className={`pill pill--${s.id}`}><Icon name={s.icon} size={14} />{s.label}</span>;
 }
 
-/** État d'un poste supervisé (éteint, allumé, connecté, matériel hors service) et, connecté, l'utilisateur de sa session */
-export function PosteEtat({ p }: { p: Poste }) {
+/**
+ * État d'un poste supervisé (éteint, allumé, connecté, matériel hors service) et, connecté, l'utilisateur de sa session.
+ * carte (Supervision › Salles) : sous l'état, l'utilisateur sur sa propre ligne, tronqué s'il est trop long, puis le système d'exploitation en petit.
+ */
+export function PosteEtat({ p, carte = false }: { p: Poste; carte?: boolean }) {
   const e = etatPoste(p, index().materiel.get(p?.materielId ?? ''));
-  return <span className="inv-state"><i className={`led led--${e.led}`} />{e.label}{e.id === 'connecte' && <span className="poste-session"><Icon name="user" size={13} />{p.session}</span>}</span>;
+  const led = <i className={`led led--${e.led}`} />;
+  if (!carte) return <span className="inv-state">{led}{e.label}{e.id === 'connecte' && <span className="poste-session"><Icon name="user" size={13} />{p.session}</span>}</span>;
+  return <span className="poste-etat">
+    <span className="inv-state">{led}{e.label}</span>
+    {e.id === 'connecte' && <span className="poste-session poste-session--ligne" data-tip={p.session!}><Icon name="user" size={13} /><span>{p.session}</span></span>}
+    {p.os && <small className="poste-os">{p.os}</small>}
+  </span>;
 }
 
 /**

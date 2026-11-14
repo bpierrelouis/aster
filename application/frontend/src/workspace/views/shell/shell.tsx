@@ -65,7 +65,7 @@ function subnav(navId: string): Onglet[] {
     case 'materiels': return [
       { path: '/materiels/inventaire', label: 'Inventaire', icon: 'recherche' },
       { path: '/materiels/import', label: 'Import JSON', icon: 'importJson' },
-      can('materiel.recensement') && { path: '/materiels/recensement', label: 'Recensement', icon: 'clipboardCheck', count: aTraiterEnCours() },
+      can('recensement.view') && { path: '/materiels/recensement', label: 'Recensement', icon: 'clipboardCheck', count: can('materiel.recensement') ? aTraiterEnCours() : undefined }, // constats à traiter : gestionnaire
     ].filter(Boolean) as Onglet[];
     case 'remontees': return remonteeTabs().map((id) => ({
       path: `/remontees/${id}`, label: TABS[id].label, icon: TABS[id].icon,

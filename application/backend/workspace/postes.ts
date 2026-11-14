@@ -19,6 +19,8 @@ export interface Rapport {
   session?: string | null;
   /** Adresse IPv4 du poste */
   adresseIp?: string;
+  /** Système d'exploitation installé (« Windows 11 ») */
+  os?: string;
   processus?: { nom: string; compte?: string | null }[];
   applications?: Id[];
 }
@@ -36,7 +38,7 @@ export interface Commande {
 
 /**
  * Rapports des postes : session ouverte (compte Windows, ou aucune si le poste est seulement allumé), adresse IP
- * (conservée si absente ou invalide), processus utilisateur en cours et applications installées. Le rapport d'un
+ * (conservée si absente ou invalide), système d'exploitation (conservé si absent), processus utilisateur en cours et applications installées. Le rapport d'un
  * poste dont l'unité centrale est hors service est ignoré : ce poste ne peut être ni allumé ni connecté (rules.ts, eteindreHorsService).
  */
 export function applyReports(s: WorkspaceState, rapports: Rapport[], now = Date.now()) {
@@ -52,6 +54,7 @@ export function applyReports(s: WorkspaceState, rapports: Rapport[], now = Date.
     p.session = typeof r.session === 'string' && r.session.trim() ? r.session.trim().slice(0, 120) : null;
     p.vuLe = now;
     if (isIpv4(r.adresseIp)) p.adresseIp = r.adresseIp;
+    if (typeof r.os === 'string' && r.os.trim()) p.os = r.os.trim().slice(0, 80);
     const reported = new Map((Array.isArray(r.processus) ? r.processus : []).slice(0, 200)
       .filter((x) => typeof x?.nom === 'string' && x.nom.length <= 120)
       .map((x) => [`${x.nom.toLowerCase()}|${String(x.compte ?? '').slice(0, 120)}`, { nom: x.nom, compte: String(x.compte ?? '').slice(0, 120) }]));

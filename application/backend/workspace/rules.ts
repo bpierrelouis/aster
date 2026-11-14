@@ -42,7 +42,7 @@ const SERVER_FIELDS: Partial<Record<CollectionName, Exclude<keyof LooseItem, 'id
 /** Valeurs tenues par le serveur seul (connexion, désactivation) ou remontées par les postes (API des postes) : une valeur du navigateur est ignorée */
 const SERVER_HELD: Partial<Record<CollectionName, Exclude<keyof LooseItem, 'id'>[]>> = {
   comptes: ['derniereConnexion', 'dateDesactivation'],
-  postes: ['allume', 'session', 'vuLe', 'adresseIp'],
+  postes: ['allume', 'session', 'vuLe', 'adresseIp', 'os'],
 };
 
 // Comparaison indépendante de l'ordre des propriétés : un élément relu en base ne garde pas l'ordre
@@ -199,7 +199,7 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
       if (c === 'recensements' && !before.has(x.id)) x.id = id('rec');
       if (c === 'postes') {
         delete x.ecoleId; // l'école d'un poste est celle de sa salle
-        // État, session, dernier rapport et adresse IP : remontés par le poste lui-même (postes.ts) ; un nouveau poste est éteint
+        // État, session, dernier rapport, adresse IP et système : remontés par le poste lui-même (postes.ts) ; un nouveau poste est éteint
         if (!stored.has(x.id)) Object.assign(x, { allume: false, session: null, vuLe: null });
       }
       const old = before.get(x.id);
@@ -295,7 +295,7 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
         else x.idOrion = numeroMateriel(++lastOrionId);
         // Installation physique : toute nouvelle affectation reste en cours (deplacement) jusqu'à la confirmation du
         // déplacement physique, qui devient le dernier déplacement confirmé (installation). Les deux sont tenus ici ;
-        // le navigateur peut seulement retirer deplacement (confirmation) et sa valeur d'installation est ignorée.
+        // le navigateur peut seulement retirer deplacement (confirmation, réservée au gestionnaire) et sa valeur d'installation est ignorée.
         // de : emplacement physique d'origine (null pour le stock), conservé si le matériel n'a pas encore bougé.
         const keepInstallation = () => { if (old?.installation) x.installation = old.installation; else delete x.installation; };
         if (!old) { delete x.deplacement; delete x.installation; } // un matériel déclaré ou importé est là où il est déclaré
@@ -304,7 +304,11 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
           if (de === (x.salleId ?? null)) { delete x.deplacement; keepInstallation(); } // retour à son emplacement physique
           else { x.deplacement = { de, at: now, par: actor.nom, parId: actor.id }; delete x.installation; }
         } else if (x.deplacement && !same(x.deplacement, old.deplacement)) fail(400, 'Le suivi du déplacement est tenu par le serveur.');
-        else if (old.deplacement && !x.deplacement) x.installation = { de: old.deplacement.de, at: now, par: actor.nom, parId: actor.id };
+        else if (old.deplacement && !x.deplacement) {
+          // Confirmation de l'installation : gestionnaire seul, dans ORION ou avec RIGEL ; les administrateurs initient et suivent (décision de l'utilisateur du 14 novembre)
+          if (actor.role !== 'gestionnaire') fail(403, 'Confirmation de l’installation réservée au gestionnaire.');
+          x.installation = { de: old.deplacement.de, at: now, par: actor.nom, parId: actor.id };
+        }
         else keepInstallation();
       }
       if (['salles', 'etages'].includes(c) || (c === 'regles' && x.portee === 'batiment')) x.batiment = batimentCode(x.batiment); // code en capitales, comme à la saisie
