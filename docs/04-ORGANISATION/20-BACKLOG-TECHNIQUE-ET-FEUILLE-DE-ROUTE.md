@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.1 | 14/11/2026 | Pilotage interne | Déplacer dans docs/04-ORGANISATION/ ; Échéances du rendu (17/11) et de la présentation (19/11) ; backlog GitHub et captures des fiches faits | [11 versions](../../archive/README.md#20-backlog-technique-et-feuille-de-route) |
+| 4.2 | 14/11/2026 | Pilotage interne | Renommer RIGEL et planifier M42 | [12 versions](../../archive/README.md#20-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](19-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -14,17 +14,17 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Lundi 16 novembre
 
-- [ ] Diagrammes [06](../02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md) et [07](../02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) **[PROT]** : des collègues les ont modifiés sans publier leur travail ; faire le point avec eux, puis vérifier le super administrateur, l’authentification par MindefConnect, le téléphone de recensement (RECON), le PDF produit à la demande (pas à la création), le traitement des remontées par le seul gestionnaire et l’absence de filtre par salle du tableau de bord. L’acteur « Agent ORION installé sur chaque machine » préjuge d’une solution d’administration encore ouverte.
+- [ ] Diagrammes [06](../02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md) et [07](../02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) **[PROT]** : des collègues les ont modifiés sans publier leur travail ; faire le point avec eux, puis vérifier le super administrateur, l’authentification par MindefConnect, le téléphone de recensement (RIGEL), le PDF produit à la demande (pas à la création), le traitement des remontées par le seul gestionnaire et l’absence de filtre par salle du tableau de bord. M42 reste une option candidate tant que la solution d’administration n’est pas retenue.
 
 ### Avant le prochain déploiement sur les VM
 
 - [ ] Prévoir la réinitialisation des données de démonstration : `SEED_VERSION` vaut 17 et `SEED_RESET=true` sur les VM ; les données sont recréées à ce déploiement.
-- [ ] Vérifier après déploiement : connexion des quatre profils, création d’un compte, rapports des postes simulés, recensement RECON, `https://172.16.131.188/api/infos` (version servie).
+- [ ] Vérifier après déploiement : connexion des quatre profils, création d’un compte, rapports des postes simulés, recensement RIGEL, `https://172.16.131.188/api/infos` (version servie).
 
 ### Avant le rendu de l’application (mardi 17 novembre)
 
 - [ ] **Haute** — Remplacer les utilisateurs de test des jetons « Accès de présentation » par de vrais comptes : adresse électronique d’identification et mot de passe dans l’annuaire, connexion par le formulaire habituel (le flux sans mot de passe du Keycloak local est alors retiré de l’image des VM). Les mots de passe ne sont jamais versionnés : secrets Swarm ou saisie au déploiement ; les adresses `@orion.demo` disparaissent du fichier LDIF remis avec le DAT.
-- [ ] **Haute** — Créer un scénario complet de l’application : parcours de bout en bout par profil (connexion, parc, salles, recensement RECON, remontée de sa création à sa fin, supervision, intervention sur les postes, notifications, administration), avec données de départ adaptées et résultat attendu à chaque étape ; il sert de fil de la présentation et de test de recette.
+- [ ] **Haute** — Créer un scénario complet de l’application : parcours de bout en bout par profil (connexion, parc, salles, recensement RIGEL, remontée de sa création à sa fin, supervision, intervention sur les postes, notifications, administration), avec données de départ adaptées et résultat attendu à chaque étape ; il sert de fil de la présentation et de test de recette.
 
 ### Avant la présentation (supports prêts le mercredi 18 novembre ; présentation le jeudi 19 novembre, horaire non fixé)
 
@@ -37,7 +37,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 ## 2. Pilotage du projet
 
 - [x] **Haute** — Traiter le backlog GitHub (14 novembre : projet « ORION development », 152 tickets sur deux sprints) : trier, mettre à jour et clore les éléments au regard de l’état actuel, puis reporter le résultat dans le [backlog](19-BACKLOG-ET-SUIVI-PROJET.md). Les noms GitHub gardent l’ancien nom (dépôt `bpierrelouis/aster`, projet « aster development ») ; les commits `09ac7b0` et `cecf0d7` et la référence `0762961…` du brouillon de suivi n’existent plus dans l’historique.
-- [ ] Cadrage § 22 : dater le prochain rendez-vous ; consigner le sort des propositions préparées pour le 12 novembre (application de scan, devenue RECON, et livraisons) quand un retour existera.
+- [ ] Cadrage § 22 : dater le prochain rendez-vous ; consigner le sort des propositions préparées pour le 12 novembre (application de scan, devenue RIGEL, et livraisons) quand un retour existera.
 
 ## 3. Application
 
@@ -46,12 +46,12 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 - [ ] **Moyenne** — Une remontée peut viser une salle d’une autre école : le serveur ne contrôle pas `salleId` (`backend/workspace/rules.ts`, création des remontées) ; le PDF affiche alors la salle de l’autre école.
 - [ ] **Moyenne** — Le formateur trouve par la recherche globale tous les matériels de son école, stock compris (`shell-menus.tsx`, `can('materiel.view')`), contrairement à la matrice (consultation depuis la salle seulement).
 - [ ] **Moyenne** — Test instable `workspace-ui.spec.ts` « deux ambiances… » : il ne rétablit pas les préférences (ambiance Minarm) et fait alors échouer « la palette Orion… » ; rétablir dans un `finally` ou un `beforeEach`.
-- [ ] **Moyenne** — Relais RECON : aucun plafond du nombre d’événements non acquittés par campagne ; un téléphone appairé ou un jeton divulgué peut remplir la base jusqu’à l’expiration.
+- [ ] **Moyenne** — Relais RIGEL : aucun plafond du nombre d’événements non acquittés par campagne ; un téléphone appairé ou un jeton divulgué peut remplir la base jusqu’à l’expiration.
 - [ ] **Basse** — `GET /api/workspace/postes/:id/jeton` absent de l’OpenAPI (`backend/openapi.ts`).
 - [ ] **Basse** — Postes : normaliser `nomReseau` en majuscules côté serveur (un poste en minuscules ne serait pas reconnu par ses rapports) et contrôler `materielId` (unité centrale de la même école).
 - [ ] **Basse** — Catalogue des applications : refuser la suppression d’une application encore référencée par des installations ou des interventions.
 - [ ] **Basse** — Factoriser la comparaison à temps constant (`routes.ts` et `relais.ts`) et le contrôle « seul ce champ est modifiable » (`rules.ts`, `recensement.ts`).
-- [ ] **Basse** — Guide de l’application : `Dockerfile` construit six images (ajouter relais et connecteur) ; arborescence sans `frontend/recon/` ni `vite.recon.config.ts` ; scripts `start:relais` et `dev:backend` absents ; la ligne « tous les secrets créés par `installer.sh` » contredit la section RECON (secrets créés au déploiement) et attribue le runner à `installer.sh` au lieu de `runner.sh` ; la section Keycloak réserve à tort le flux sans mot de passe à Compose ; périmètre des configurations remises avec le DAT plus large que le tableau « Déploiement sur les VM » (`Dockerfile`, `images/`, `recon/`, `ldap/`).
+- [ ] **Basse** — Guide de l’application : `Dockerfile` construit six images (ajouter relais et connecteur) ; arborescence sans `frontend/rigel/` ni `vite.rigel.config.ts` ; scripts `start:relais` et `dev:backend` absents ; la ligne « tous les secrets créés par `installer.sh` » contredit la section RIGEL (secrets créés au déploiement) et attribue le runner à `installer.sh` au lieu de `runner.sh` ; la section Keycloak réserve à tort le flux sans mot de passe à Compose ; périmètre des configurations remises avec le DAT plus large que le tableau « Déploiement sur les VM » (`Dockerfile`, `images/`, `rigel/`, `ldap/`).
 - [ ] **Basse** — Configuration Keycloak : le mapper `orion-roles` subsiste alors que les rôles Keycloak ne sont pas lus.
 
 ### Évolutions
@@ -65,12 +65,12 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
   - journal métier des opérations sensibles (retrait, réactivation, transfert d’école, changement de droits), consultable par le super administrateur ;
   - rédaction proposée pour RG-91 **[RG]**, à soumettre à l’utilisateur : « Retrait d’un matériel. Un matériel n’est pas supprimé mais retiré : son retrait enregistre la date, l’auteur et le motif (réformé, perdu, transféré ou erreur de saisie). Seul un matériel du stock peut être retiré. Un matériel retiré n’apparaît plus dans l’inventaire courant, reste consultable avec son historique et peut être réactivé. Seul un matériel créé par erreur et cité nulle part peut être supprimé définitivement. » ;
   - conséquences : MCD (`MATÉRIEL`), matrice, DCU 08, fiches 13, 15 et 16, code (`rules.ts`, inventaire) et données de départ.
-- [ ] **Haute** — Agent ORION conceptualisé et simulé, avec paquets d’installation et images Windows (décision de l’utilisateur du 13 novembre ; l’agent n’est pas développé, il est conçu puis simulé par le simulateur des postes au travers de l’API réelle `/api/agent`) :
-  - **Images Windows** : catalogue d’images fictives tenu par ORION (nom, version de Windows, liste des applications de base) ; l’agent ORION fait partie de chaque image et s’installe avec le système. Une réinitialisation applique l’image choisie par l’administrateur, au lieu de l’image unique imposée (`IMAGE_REFERENCE`). La vue des postes affiche en petit l’image installée (liste, fiche du poste, cartes de Supervision › Salles).
+- [ ] **Haute** — M42 conceptualisé et simulé, avec paquets d’installation et images Windows (décisions de l’utilisateur des 13 et 14 novembre ; l’agent n’est pas développé, il est conçu puis simulé par le simulateur des postes au travers de l’API réelle `/api/agent`) :
+  - **Images Windows** : catalogue d’images fictives tenu par ORION (nom, version de Windows, liste des applications de base) ; M42 fait partie de chaque image et s’installe avec le système. Une réinitialisation applique l’image choisie par l’administrateur, au lieu de l’image unique imposée (`IMAGE_REFERENCE`). La vue des postes affiche en petit l’image installée (liste, fiche du poste, cartes de Supervision › Salles).
   - **Paquets d’installation** : chaque application du catalogue porte un paquet fictif (nom du fichier, version, commande d’installation silencieuse, empreinte SHA-256, éditeur signataire). Écran d’ajout, de modification et de retrait des applications (aujourd’hui absent : catalogue limité aux données de départ).
   - **Simulateur fidèle à l’agent** : vérification de l’empreinte avant installation, étapes d’intervention (téléchargement, installation, redémarrage, réenrôlement de l’agent après réinitialisation) avec durées réalistes, causes d’échec explicites (empreinte invalide, espace disque insuffisant).
-  - **Conception de l’agent** : fiche interne (cycle de vie, enrôlement et identité du poste, protocole avec ORION, commandes, états, sécurité, mise à jour signée), cohérente avec l’option B du DAT (§ 6.5) ; proposition à soumettre au collègue du DAT.
-  - **Conséquences documentaires** : glossaire (image, paquet, agent ORION), règles de gestion **[RG]** (image choisie à la réinitialisation, paquet requis pour installer, agent installé avec le système), MCD (`IMAGE`, `PAQUET`), DCU 09, matrice, fiche 15, diagramme d’états des interventions.
+  - **Conception de M42** : fiche interne (cycle de vie, enrôlement et identité du poste, protocole avec ORION, commandes, états, sécurité, mise à jour signée), cohérente avec l’option B du DAT (§ 6.5) ; proposition à soumettre au collègue du DAT.
+  - **Conséquences documentaires** : glossaire (image, paquet, M42), règles de gestion **[RG]** (image choisie à la réinitialisation, paquet requis pour installer, agent installé avec le système), MCD (`IMAGE`, `PAQUET`), DCU 09, matrice, fiche 15, diagramme d’états des interventions.
   - **Code** : types partagés, `rules.ts` (contrôles d’image et de paquet), schéma PostgreSQL, données de départ (`SEED_VERSION`), simulateur, écrans Administration › Applications et Postes, Supervision ; tests et guide de l’application.
 - [ ] Jeton d’un poste : seule l’API `GET /api/workspace/postes/:id/jeton` permet de l’obtenir ; prévoir l’action dans Administration › Postes. Renouveler `AGENT_TOKEN` révoque tous les jetons à la fois : prévoir une révocation poste par poste si le besoin apparaît.
 - [ ] Adresse MAC du matériel : présente dans le MCD, absente du code ; à reprendre avec le collègue qui l’ajoute (scanner de matrice).
@@ -80,7 +80,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Organisation du code : démonstrateur et espace de travail
 
-Reportée après l’intégration de RECON (décision de l’utilisateur du 13 novembre). `workspace` (`backend/workspace/`, `frontend/src/workspace/`) désigne l’espace de travail, c’est-à-dire toute l’application après connexion, et non la production. `backend/demonstrateur/` regroupe l’outillage propre à la démonstration : simulateur des postes, création des identités dans le Keycloak local. Production et recette se distinguent par la configuration (`NODE_ENV`, `IDENTITY_PROVISIONING`, `SEED_RESET`). Trois couplages font entrer la démonstration dans le code de production :
+Reportée après l’intégration de RIGEL (décision de l’utilisateur du 13 novembre). `workspace` (`backend/workspace/`, `frontend/src/workspace/`) désigne l’espace de travail, c’est-à-dire toute l’application après connexion, et non la production. `backend/demonstrateur/` regroupe l’outillage propre à la démonstration : simulateur des postes, création des identités dans le Keycloak local. Production et recette se distinguent par la configuration (`NODE_ENV`, `IDENTITY_PROVISIONING`, `SEED_RESET`). Trois couplages font entrer la démonstration dans le code de production :
 
 - `backend/workspace/rules.ts` (`initialState`) importe le jeu de départ `shared/seed.ts` : les données de démonstration sont embarquées dans le serveur ;
 - `backend/index.ts` importe toujours `demonstrateur/identity-provisioning.ts`, même lorsqu’il est désactivé ;
@@ -122,7 +122,7 @@ Plan, une étape par commit, chacune vérifiée par `npm test`, `npm run build`,
 
 - [ ] **Haute** — Tester la sécurité de l’application, côté code et côté applicatif :
   - code : revue des contrôles d’accès de chaque route et de chaque règle serveur, analyse statique, audit des dépendances (`npm audit`) et des images ;
-  - applicatif : tests d’intrusion sur l’application déployée (référentiel OWASP ASVS, outil de type OWASP ZAP), contournement des droits par profil et par école, falsification des valeurs d’autorité, jetons des postes et de RECON, relais public, en-têtes, TLS, sessions ;
+  - applicatif : tests d’intrusion sur l’application déployée (référentiel OWASP ASVS, outil de type OWASP ZAP), contournement des droits par profil et par école, falsification des valeurs d’autorité, jetons des postes et de RIGEL, relais public, en-têtes, TLS, sessions ;
   - consigner résultats et corrections ; signaler au collègue du DAT ce qui touche l’architecture.
 
 | Sujet | Constat | Proposition | Portée |
@@ -137,7 +137,7 @@ Plan, une étape par commit, chacune vérifiée par `npm test`, `npm run build`,
 | CI | Le runner auto-hébergé, sur orion-3, exécute tout push sur `main` | Protéger la branche `main` sur GitHub | Démonstrateur |
 | Configuration de production | La valeur de développement de `DATABASE_URL` n’est pas explicitement refusée | Refuser `orion-local` en production, comme les autres secrets | Cible |
 | Identité des postes | Jeton propre à chaque poste | Certificat client si le mécanisme d’administration des postes le permet | Cible |
-| Relais RECON | Le relais sert le code de l’application mobile : un relais compromis pourrait lire la clé du fragment `#k=` | Décrire ce point dans le modèle de menace ; intégrité du code servi (signature ou empreinte) | Démonstrateur et cible |
+| Relais RIGEL | Le relais sert le code de l’application mobile : un relais compromis pourrait lire la clé du fragment `#k=` | Décrire ce point dans le modèle de menace ; intégrité du code servi (signature ou empreinte) | Démonstrateur et cible |
 
 Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la console Keycloak (8444) et de Logstash (6514), pare-feu des VM.
 
@@ -145,7 +145,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Priorité haute
 
-- [ ] RECON absent de tous les livrables : glossaire (campagne, constat, appairage, relais, connecteur), règles de gestion **[RG]** (gestionnaire, administrateur et super administrateur ouvrent, clôturent, appairent et traitent les constats ; formateur exclu ; campagne de 14 jours, close sans être supprimée ; constat conservé), DCU (recensement mobile, rattaché au DCU 08 ou nouveau), matrice, fiches 13, 15 et 16, MCD (`RECENSEMENT`, `CONSTAT`), backlog et cadrage (§ 19 et § 23 : la ligne `02:400` « application de scan non intégrée » est fausse).
+- [ ] RIGEL absent de tous les livrables : glossaire (campagne, constat, appairage, relais, connecteur), règles de gestion **[RG]** (gestionnaire, administrateur et super administrateur ouvrent, clôturent, appairent et traitent les constats ; formateur exclu ; campagne de 14 jours, close sans être supprimée ; constat conservé), DCU (recensement mobile, rattaché au DCU 08 ou nouveau), matrice, fiches 13, 15 et 16, MCD (`RECENSEMENT`, `CONSTAT`), backlog et cadrage (§ 19 et § 23 : la ligne `02:400` « application de scan non intégrée » est fausse).
 - [x] Captures des fiches 13, 15 et 16 : les anciennes maquettes IHM sont supprimées ; les fiches reprennent les captures de l’application (`design/maquettes/captures/`, 14 novembre).
 - [ ] Cadrage § 23 : il dit que la documentation suit le client (`02:391`, `:405`, `:406`), contrairement à la règle en vigueur (la documentation suit l’état actuel, l’écart est inscrit au § 23). En découlent RG-36 (filtre par salle du tableau de bord du parc) et RG-37 (fenêtre contextuelle des notifications) **[RG]**, la matrice (`12:48`) et la fiche 13 (`:141`), qui décrivent ce que l’application n’a pas.
 
@@ -174,16 +174,16 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 - [ ] Installation physique des salles et notification « matériels à déplacer » du gestionnaire : absentes du glossaire, des RG **[RG]**, de la matrice, de la fiche 13 et du DCU 08 (ouvertes avec le client au § 23, mais la documentation doit suivre l’état actuel).
 - [ ] Journal applicatif (`backend/journal.ts`, événement `enregistrement` des écritures des utilisateurs) : absent du cadrage (§§ 18 et 21) et de la fiche 15 (« Journalisation éventuelle », UC-ADMIN-06).
 - [ ] RG-56 : 30 jours de conservation des détections ; le code ne garde en plus que les 2 000 dernières **[RG]**.
-- [ ] Cadrage § 19 : aucune décision RECON ni Hidora ; « déploiement proposé » (`02:340-341`) alors que le DAT le présente comme en place ; « émulateur » au lieu de « simulateur ».
+- [ ] Cadrage § 19 : aucune décision RIGEL ni Hidora ; « déploiement proposé » (`02:340-341`) alors que le DAT le présente comme en place ; « émulateur » au lieu de « simulateur ».
 - [ ] Glossaire : manquent Intervention, Compte ORION, Étape de remontée, Type de problème, C1NP et CCT ; `00:15` « aucune API d’intégration confirmée » alors que l’API des postes existe ; l’entrée LDAP ne sert que le démonstrateur.
 
 ### Modèle de données
 
-- [ ] [MCD](../02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio) : relier `REMONTÉE` à `ÉCOLE` (le code l’impose, RG-79 en dépend) ; représenter l’installation physique (déplacement et installation, avec auteur et date) si elle est retenue ; ajouter les entités RECON.
+- [ ] [MCD](../02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio) : relier `REMONTÉE` à `ÉCOLE` (le code l’impose, RG-79 en dépend) ; représenter l’installation physique (déplacement et installation, avec auteur et date) si elle est retenue ; ajouter les entités RIGEL.
 
 ### DCU à compléter
 
-- [ ] [DCU 08 — Gestion du parc](../02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md) : import JSON avec rapprochement des numéros de série (lignes ignorées, transfert d’un matériel d’une autre école) ; changement d’école d’un matériel ; installation physique des salles si elle est retenue ; recensement RECON.
+- [ ] [DCU 08 — Gestion du parc](../02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md) : import JSON avec rapprochement des numéros de série (lignes ignorées, transfert d’un matériel d’une autre école) ; changement d’école d’un matériel ; installation physique des salles si elle est retenue ; recensement RIGEL.
 - [ ] [DCU 09 — Administration des postes](../02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md) : « Gérer les postes supervisés et le catalogue des applications » (RG-77) ; suivre les interventions lancées et en être notifié à leur fin (RG-39).
 - [ ] [DCU 10 — Supervision des postes](../02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md) : notification du lancement d’une application interdite à l’administrateur ; adresse IP du poste dans la liste des processus.
 - [ ] Nouveau DCU « Administrer ORION » (ou extension du DCU 09) : comptes ORION (création, modification, désactivation, réactivation ; RG-70) et écoles (création, renommage ; RG-76), réservés aux administrateurs et au super administrateur.
@@ -203,7 +203,7 @@ Le DAT validé fait foi ; ces écarts entre lui, la configuration réelle et ses
 
 ### DAT et configuration réelle
 
-- [ ] **Moyenne** — Secrets : « tous créés par le script de préparation », alors que `RECON_SECRET` et `RELAIS_TOKEN` sont créés par `deployer.sh` (le second peut venir du secret de la CI).
+- [ ] **Moyenne** — Secrets : « tous créés par le script de préparation », alors que `RIGEL_SECRET` et `RELAIS_TOKEN` sont créés par `deployer.sh` (le second peut venir du secret de la CI).
 - [ ] **Moyenne** — Données : « recréées au premier démarrage », alors que `SEED_RESET=true` efface les données à chaque déploiement qui change `SEED_VERSION`.
 - [ ] **Moyenne** — SSH : comptes nominatifs et vérification des clés d’hôte prescrits ; la configuration utilise le compte partagé `user`, `StrictHostKeyChecking=accept-new` et `sudo` par mot de passe ; recommandation non appliquée ou configuration à changer.
 - [ ] **Moyenne** — Filtrage : manquent `8080/TCP` vers le proxy depuis toutes les VM (images, paquets) et `443` d’orion-4 et orion-5 vers orion-1 (Express joint Keycloak par HAProxy).
@@ -229,7 +229,7 @@ Le DAT validé fait foi ; ces écarts entre lui, la configuration réelle et ses
 
 - [ ] **Postes Linux** (idée de l’utilisateur du 13 novembre, reportée) :
   - chaque salle a un système, Windows ou Linux, commun à tous ses postes ; le parc compte davantage de salles sous Windows ;
-  - images Linux fictives et agent ORION Linux installé avec le système ; une réinitialisation applique une image du même système que la salle ;
+  - images Linux fictives et déclinaison Linux de M42 installée avec le système ; une réinitialisation applique une image du même système que la salle ;
   - un paquet par système pris en charge ; une application ne s’installe que sur une salle dont le système a un paquet ;
   - la vue des postes affiche le système en petit (liste, fiche du poste, cartes de Supervision › Salles) ;
   - écart à signaler avant ouverture : le sujet, le client et le DAT ne parlent que de postes Windows (cadrage § 23, collègue du DAT) ;
@@ -245,4 +245,4 @@ Le DAT validé fait foi ; ces écarts entre lui, la configuration réelle et ses
 - [x] Règles de gestion mises à jour avec l’accord de l’utilisateur (13 novembre) : RG-13, RG-15, RG-21, RG-39, RG-40, RG-64, RG-66 et RG-72 réécrites, RG-87 à RG-91 ajoutées ; glossaire, matrice, fiches, DCU 11, cadrage et diagramme d’états alignés ; application conforme (traitement par le seul gestionnaire, prise en charge obligatoire, suppression depuis le stock).
 - [x] [MCD](../02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) refait avec draw.io : étapes de la remontée, poste constitué de son unité centrale, adresse IP du poste, adresse MAC du matériel, dates du compte, `COMPTE_ORION` et `DÉMÉNAGER`.
 - [x] Secret Swarm `PROVISIONING_CLIENT_SECRET` créé par `installer.sh` sur les VM déjà installées.
-- [x] Fusion de `main` : DAT de référence et module RECON.
+- [x] Fusion de `main` : DAT de référence et module RIGEL.

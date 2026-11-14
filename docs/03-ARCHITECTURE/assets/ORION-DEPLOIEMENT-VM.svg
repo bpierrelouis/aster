@@ -8,6 +8,7 @@
 <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
 <symbol id="i-user-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="m21.7 16.4-.9-.3"/><path d="m15.2 13.9-.9-.3"/><path d="m16.6 18.7.3-.9"/><path d="m19.1 12.2.3-.9"/><path d="m19.6 18.7-.4-1"/><path d="m16.8 12.3-.4-1"/><path d="m14.3 16.6 1-.4"/><path d="m20.7 13.8 1-.4"/></symbol>
 <symbol id="i-smartphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
+<symbol id="i-scan-line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></symbol>
 <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></symbol>
 <symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
 <symbol id="i-network" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></symbol>
@@ -65,19 +66,27 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="64" y="1197" class="caption" text-anchor="start">son poste, sur le</text>
 <text x="64" y="1213" class="caption" text-anchor="start">réseau</text>
 <text x="64" y="1229" class="caption" text-anchor="start">d’administration</text>
-<rect x="1450" y="190" width="230" height="80" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
-<use href="#i-smartphone" x="1462" y="202" width="22" height="22" style="color:#3d5a78"/>
-<text x="1494" y="218" class="service" text-anchor="start">Téléphone</text>
-<text x="1494" y="237" class="caption" text-anchor="start">PWA hors ligne</text>
-<rect x="1450" y="360" width="230" height="95" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
-<use href="#i-cloud" x="1462" y="372" width="22" height="22" style="color:#3d5a78"/>
-<text x="1494" y="388" class="service" text-anchor="start">Relais RECON · Hidora</text>
-<text x="1494" y="407" class="caption" text-anchor="start">Node.js 22.22.3 · Express 5.3.0</text>
-<text x="1494" y="423" class="caption" text-anchor="start">HTTPS 443 · HTTP interne 3000</text>
-<rect x="1450" y="530" width="230" height="80" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
-<use href="#i-database" x="1462" y="542" width="22" height="22" style="color:#3d5a78"/>
-<text x="1494" y="558" class="service" text-anchor="start">PostgreSQL Hidora</text>
-<text x="1494" y="577" class="caption" text-anchor="start">données chiffrées · port à confirmer</text>
+<rect x="1450" y="120" width="230" height="80" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-smartphone" x="1462" y="132" width="22" height="22" style="color:#3d5a78"/>
+<text x="1494" y="148" class="service" text-anchor="start">Téléphone</text>
+<text x="1494" y="167" class="caption" text-anchor="start">PWA RIGEL hors ligne</text>
+<rect x="1415" y="270" width="300" height="380" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
+<use href="#i-scan-line" x="1431" y="282" width="22" height="22" style="color:#0f6cbd"/>
+<text x="1461" y="299" class="frame" text-anchor="start">RIGEL · Hidora</text>
+<text x="1431" y="321" class="caption" text-anchor="start">Reconnaissance d’identifiants graphiques</text>
+<text x="1431" y="337" class="caption" text-anchor="start">et extraction par lecture</text>
+<rect x="1450" y="350" width="230" height="95" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-cloud" x="1462" y="362" width="22" height="22" style="color:#3d5a78"/>
+<text x="1494" y="378" class="service" text-anchor="start">Relais RIGEL</text>
+<text x="1670" y="374" class="tag" text-anchor="end">conteneur</text>
+<text x="1494" y="397" class="caption" text-anchor="start">rigel.sh1.hidora.net</text>
+<text x="1494" y="413" class="caption" text-anchor="start">image rigel:&lt;SHA Git&gt;</text>
+<text x="1494" y="429" class="caption" text-anchor="start">HTTPS 443 · HTTP interne 3000</text>
+<rect x="1450" y="520" width="230" height="80" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-database" x="1462" y="532" width="22" height="22" style="color:#3d5a78"/>
+<text x="1494" y="548" class="service" text-anchor="start">PostgreSQL RIGEL</text>
+<text x="1494" y="567" class="caption" text-anchor="start">données chiffrées</text>
+<text x="1494" y="583" class="caption" text-anchor="start">TCP 5432</text>
 <rect x="1450" y="700" width="230" height="75" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
 <use href="#i-network" x="1462" y="712" width="22" height="22" style="color:#3d5a78"/>
 <text x="1494" y="728" class="service" text-anchor="start">Proxy du réseau</text>
@@ -126,7 +135,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="998" y="251" class="service" text-anchor="start">Runner GitHub Actions</text>
 <text x="1254" y="250" class="tag host" text-anchor="end">service hôte</text>
 <text x="998" y="269" class="caption" text-anchor="start">2.338.2 · systemd · sans port d’écoute</text>
-<rect x="650" y="305" width="710" height="265" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<rect x="650" y="305" width="710" height="275" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
 <use href="#i-server" x="662" y="316" width="16" height="16" style="color:#5b7690"/>
 <text x="684" y="329" class="vm" text-anchor="start">Application</text>
 <text x="684" y="346" class="caption" text-anchor="start">orion-4 · 172.16.131.208</text>
@@ -146,17 +155,18 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="927" y="495" class="tag" text-anchor="end">conteneur</text>
 <text x="701" y="514" class="caption" text-anchor="start">Node.js 22.22.3 · HTTP 3001</text>
 <text x="701" y="530" class="caption" text-anchor="start">2 instances · une par VM</text>
-<rect x="1043" y="435" width="304" height="72" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
-<use href="#i-monitor" x="1053" y="445" width="20" height="20" style="color:#0f6cbd"/>
-<text x="1081" y="460" class="service" text-anchor="start">Émulateur de postes</text>
-<text x="1337" y="459" class="tag" text-anchor="end">conteneur</text>
-<text x="1081" y="478" class="caption" text-anchor="start">Postes Windows · Node.js 22.22.3</text>
-<text x="1081" y="494" class="caption" text-anchor="start">1 instance · orion-4 ou orion-5</text>
-<rect x="1043" y="515" width="304" height="45" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
-<use href="#i-refresh-cw" x="1053" y="525" width="20" height="20" style="color:#0f6cbd"/>
-<text x="1081" y="540" class="service" text-anchor="start">Connecteur RECON</text>
-<text x="1337" y="539" class="tag" text-anchor="end">conteneur</text>
-<text x="1081" y="558" class="caption" text-anchor="start">1 instance · sans port publié</text>
+<rect x="1043" y="420" width="304" height="72" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
+<use href="#i-monitor" x="1053" y="430" width="20" height="20" style="color:#0f6cbd"/>
+<text x="1081" y="445" class="service" text-anchor="start">Simulateur M42</text>
+<text x="1337" y="444" class="tag" text-anchor="end">conteneur</text>
+<text x="1081" y="463" class="caption" text-anchor="start">Postes Windows · Node.js 22.22.3</text>
+<text x="1081" y="479" class="caption" text-anchor="start">1 instance · orion-4 ou orion-5</text>
+<rect x="1043" y="500" width="304" height="70" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
+<use href="#i-refresh-cw" x="1053" y="510" width="20" height="20" style="color:#0f6cbd"/>
+<text x="1081" y="525" class="service" text-anchor="start">Connecteur RIGEL</text>
+<text x="1337" y="524" class="tag" text-anchor="end">conteneur</text>
+<text x="1081" y="543" class="caption" text-anchor="start">image orion-connecteur:&lt;SHA Git&gt;</text>
+<text x="1081" y="559" class="caption" text-anchor="start">1 instance · sans port publié</text>
 <rect x="650" y="590" width="300" height="325" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
 <use href="#i-server" x="662" y="601" width="16" height="16" style="color:#5b7690"/>
 <text x="684" y="614" class="vm" text-anchor="start">Identité</text>
@@ -276,14 +286,14 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="1158" y="172" class="route" text-anchor="start">HTTPS 443</text>
 <path d="M960 258 L582 258" class="flow" marker-end="url(#arrow)"/>
 <text x="670" y="281" class="route" text-anchor="start">SSH 22 · orion-1</text>
-<path d="M1565 270 L1565 358" class="flow" marker-end="url(#arrow)"/>
-<text x="1575" y="320" class="route" text-anchor="start">HTTPS 443</text>
-<path d="M1565 455 L1565 528" class="flow" marker-end="url(#arrow)"/>
-<text x="1575" y="495" class="route" text-anchor="start">PostgreSQL</text>
-<path d="M1347 538 L1395 538 L1395 737 L1448 737" class="flow" marker-end="url(#arrow)"/>
+<path d="M1450 160 L1395 160 L1395 397 L1448 397" class="flow" marker-end="url(#arrow)"/>
+<text x="1420" y="150" class="route" text-anchor="middle">HTTPS 443</text>
+<path d="M1565 445 L1565 518" class="flow" marker-end="url(#arrow)"/>
+<text x="1575" y="485" class="route" text-anchor="start">TCP 5432</text>
+<path d="M1347 535 L1395 535 L1395 737 L1448 737" class="flow" marker-end="url(#arrow)"/>
 <text x="1403" y="650" class="route" text-anchor="start">TCP 8080</text>
-<path d="M1565 700 L1565 650 L1405 650 L1405 407 L1448 407" class="flow" marker-end="url(#arrow)"/>
-<text x="1575" y="675" class="route" text-anchor="start">HTTPS 443</text>
+<path d="M1680 737 L1735 737 L1735 397 L1682 397" class="flow" marker-end="url(#arrow)"/>
+<text x="1725" y="675" class="route" text-anchor="end">HTTPS 443</text>
 <path d="M1043 550 L939 550" class="flow" marker-end="url(#arrow)"/>
 </g>
 </svg>

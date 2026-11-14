@@ -17,6 +17,7 @@
 <symbol id="i-hard-drive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></symbol>
 <symbol id="i-folder-sync" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v.5"/><path d="M12 10v4h4"/><path d="m12 14 1.535-1.605a5 5 0 0 1 8 1.5"/><path d="M22 22v-4h-4"/><path d="m22 18-1.535 1.605a5 5 0 0 1-8-1.5"/></symbol>
 <symbol id="i-smartphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
+<symbol id="i-scan-line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></symbol>
 <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></symbol>
 </defs>
 <style>
@@ -96,13 +97,14 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="748" y="377" class="caption" text-anchor="start">API · TCP 3001</text>
 <rect x="710" y="442" width="255" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
 <use href="#i-monitor" x="720" y="452" width="20" height="20" style="color:#a06a00"/>
-<text x="748" y="467" class="service" text-anchor="start">Intégration Windows</text>
+<text x="748" y="467" class="service" text-anchor="start">Configuration Manager / M42</text>
 <text x="748" y="485" class="caption" text-anchor="start">Option à retenir</text>
-<rect x="710" y="548" width="255" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
-<use href="#i-refresh-cw" x="720" y="558" width="20" height="20" style="color:#a06a00"/>
-<text x="748" y="573" class="service" text-anchor="start">Connecteur RECON</text>
-<text x="955" y="572" class="tag host" text-anchor="end">service hôte</text>
-<text x="748" y="591" class="caption" text-anchor="start">Flux HTTPS sortant · sans port</text>
+<rect x="710" y="525" width="255" height="70" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
+<use href="#i-refresh-cw" x="720" y="535" width="20" height="20" style="color:#0f6cbd"/>
+<text x="748" y="550" class="service" text-anchor="start">Connecteur RIGEL</text>
+<text x="955" y="549" class="tag" text-anchor="end">conteneur</text>
+<text x="748" y="568" class="caption" text-anchor="start">Image RIGEL versionnée</text>
+<text x="748" y="584" class="caption" text-anchor="start">HTTPS sortant · sans port</text>
 <rect x="1160" y="548" width="255" height="70" rx="8" fill="#fff6e5" stroke="#e3bd6d"/>
 <use href="#i-scroll-text" x="1170" y="558" width="20" height="20" style="color:#a06a00"/>
 <text x="1198" y="573" class="service" text-anchor="start">Logstash 8.19.14</text>
@@ -126,18 +128,24 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <use href="#i-hard-drive" x="1615" y="547" width="16" height="16" style="color:#2f7a4f"/>
 <text x="1639" y="552" class="vol" text-anchor="start">100 Go</text>
 <text x="1639" y="567" class="caption" text-anchor="start">Fichiers de logs</text>
-<rect x="1980" y="135" width="220" height="75" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
-<use href="#i-smartphone" x="1992" y="147" width="22" height="22" style="color:#3d5a78"/>
-<text x="2024" y="163" class="service" text-anchor="start">Téléphone</text>
-<text x="2024" y="182" class="caption" text-anchor="start">PWA hors ligne</text>
-<rect x="1980" y="305" width="220" height="90" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
-<use href="#i-cloud" x="1992" y="317" width="22" height="22" style="color:#3d5a78"/>
-<text x="2024" y="333" class="service" text-anchor="start">Relais public</text>
-<text x="2024" y="352" class="caption" text-anchor="start">HTTPS 443</text>
-<text x="2024" y="368" class="caption" text-anchor="start">hébergement à qualifier</text>
+<rect x="1980" y="115" width="220" height="75" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-smartphone" x="1992" y="127" width="22" height="22" style="color:#3d5a78"/>
+<text x="2024" y="143" class="service" text-anchor="start">Téléphone</text>
+<text x="2024" y="162" class="caption" text-anchor="start">PWA RIGEL hors ligne</text>
+<rect x="1940" y="215" width="300" height="430" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
+<use href="#i-scan-line" x="1956" y="227" width="22" height="22" style="color:#0f6cbd"/>
+<text x="1986" y="244" class="frame" text-anchor="start">RIGEL</text>
+<text x="1956" y="266" class="caption" text-anchor="start">Reconnaissance d’identifiants graphiques</text>
+<text x="1956" y="282" class="caption" text-anchor="start">et extraction par lecture</text>
+<rect x="1980" y="300" width="220" height="90" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-cloud" x="1992" y="312" width="22" height="22" style="color:#3d5a78"/>
+<text x="2024" y="328" class="service" text-anchor="start">Relais RIGEL</text>
+<text x="2190" y="324" class="tag" text-anchor="end">conteneur</text>
+<text x="2024" y="347" class="caption" text-anchor="start">image RIGEL versionnée</text>
+<text x="2024" y="363" class="caption" text-anchor="start">HTTPS 443 · hébergement à qualifier</text>
 <rect x="1980" y="500" width="220" height="90" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
 <use href="#i-database" x="1992" y="512" width="22" height="22" style="color:#3d5a78"/>
-<text x="2024" y="528" class="service" text-anchor="start">Stockage du relais</text>
+<text x="2024" y="528" class="service" text-anchor="start">Stockage RIGEL</text>
 <text x="2024" y="547" class="caption" text-anchor="start">service durable à qualifier</text>
 <path d="M175 340 L320 340" class="flow" marker-end="url(#arrow)"/>
 <text x="245" y="330" class="route" text-anchor="middle">1 · HTTPS 443</text>
@@ -151,11 +159,8 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="258" y="140" class="route" text-anchor="middle">5 · HTTPS 443</text>
 <path d="M965 327 L1018 327 L1018 151 L685 151" class="flow" marker-end="url(#arrow)"/>
 <text x="852" y="140" class="route" text-anchor="middle">6 · HTTPS 443</text>
-<path d="M500 527V542" class="flow"/>
-<path d="M500 558 L500 596 L1160 596" class="flow" marker-end="url(#arrow)"/>
-<text x="800" y="585" class="route" text-anchor="middle">7 · TLS 6514</text>
-<path d="M965 380 L1040 380 L1040 562 L1160 562" class="flow" marker-end="url(#arrow)"/>
-<text x="1050" y="551" class="route" text-anchor="middle">7 · TLS 6514</text>
+<path d="M985 625 L1100 625 L1100 596 L1160 596" class="flow" marker-end="url(#arrow)"/>
+<text x="965" y="618" class="route" text-anchor="end">7 · Logs VM 1–2 · TLS 6514</text>
 <path d="M1415 583 L1590 583" class="flow" marker-end="url(#arrow)"/>
 <text x="1500" y="572" class="route" text-anchor="middle">8 · Service de fichiers</text>
 <path d="M837 388 L837 442" class="flow" marker-end="url(#arrow)"/>
@@ -165,12 +170,12 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <path d="M710 475 L640 475 L640 570 L215 570" class="flow" marker-end="url(#arrow)"/>
 <text x="420" y="560" class="route" text-anchor="middle">10A · API Configuration Manager</text>
 <path d="M195 457 L260 457 L260 370 L320 370" class="flow" marker-end="url(#arrow)"/>
-<text x="272" y="445" class="route" text-anchor="start">10B · Agent · HTTPS 443</text>
-<path d="M2090 210 L2090 303" class="flow" marker-end="url(#arrow)"/>
-<text x="2100" y="266" class="route" text-anchor="start">12 · HTTPS 443</text>
-<path d="M2090 395 L2090 498" class="flow" marker-end="url(#arrow)"/>
-<text x="2100" y="452" class="route" text-anchor="start">Stockage</text>
-<path d="M965 582 L1000 582 L1000 652 L1920 652 L1920 350 L1978 350" class="flow" marker-end="url(#arrow)"/>
+<text x="272" y="445" class="route" text-anchor="start">10B · M42 · HTTPS 443</text>
+<path d="M2200 152 L2230 152 L2230 345 L2202 345" class="flow" marker-end="url(#arrow)"/>
+<text x="2160" y="104" class="route" text-anchor="middle">12 · HTTPS 443</text>
+<path d="M2090 390 L2090 498" class="flow" marker-end="url(#arrow)"/>
+<text x="2100" y="450" class="route" text-anchor="start">Stockage</text>
+<path d="M965 560 L975 560 L975 652 L1930 652 L1930 365 L1978 365" class="flow" marker-end="url(#arrow)"/>
 <text x="1450" y="643" class="route" text-anchor="middle">13 · HTTPS 443 sortant par proxy</text>
 <path d="M710 582 L670 582 L670 370 L708 370" class="flow" marker-end="url(#arrow)"/>
 <text x="678" y="475" class="route" text-anchor="start">14 · Canal protégé</text>

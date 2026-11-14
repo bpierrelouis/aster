@@ -21,6 +21,7 @@
 <symbol id="i-refresh-cw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
 <symbol id="i-scroll-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 12h-5"/><path d="M15 8h-5"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></symbol>
 <symbol id="i-smartphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
+<symbol id="i-scan-line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></symbol>
 <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></symbol>
 </defs>
 <style>
@@ -77,7 +78,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <rect x="255" y="600" width="455" height="178" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="269" y="624" class="zname" text-anchor="start">Pilotage</text>
 <rect x="735" y="600" width="220" height="178" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
-<text x="749" y="624" class="zname" text-anchor="start">Recensement mobile</text>
+<text x="749" y="624" class="zname" text-anchor="start">Intégration RIGEL</text>
 <rect x="275" y="212" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-split" x="342" y="226" width="36" height="36" style="color:#0f6cbd"/>
 <text x="360" y="284" class="cname" text-anchor="middle">HAProxy</text>
@@ -115,7 +116,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="1340" y="324" class="cvm" text-anchor="middle">orion-7 · secours 9</text>
 <rect x="1005" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-monitor" x="1072" y="414" width="36" height="36" style="color:#0f6cbd"/>
-<text x="1090" y="472" class="cname" text-anchor="middle">Émulateur de postes</text>
+<text x="1090" y="472" class="cname" text-anchor="middle">Simulateur M42</text>
 <text x="1090" y="491" class="crole" text-anchor="middle">Postes Windows</text>
 <text x="1090" y="512" class="cvm" text-anchor="middle">orion-4 ou orion-5</text>
 <rect x="275" y="638" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
@@ -130,8 +131,8 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="600" y="750" class="cvm" text-anchor="middle">orion-3</text>
 <rect x="760" y="638" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-refresh-cw" x="827" y="652" width="36" height="36" style="color:#0f6cbd"/>
-<text x="845" y="710" class="cname" text-anchor="middle">Connecteur RECON</text>
-<text x="845" y="729" class="crole" text-anchor="middle">Flux sortant</text>
+<text x="845" y="710" class="cname" text-anchor="middle">Connecteur RIGEL</text>
+<text x="845" y="729" class="crole" text-anchor="middle">Conteneur versionné</text>
 <text x="845" y="750" class="cvm" text-anchor="middle">orion-4 ou orion-5</text>
 <rect x="1255" y="400" width="170" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-scroll-text" x="1322" y="414" width="36" height="36" style="color:#0f6cbd"/>
@@ -141,16 +142,21 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <rect x="275" y="970" width="170" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
 <use href="#i-smartphone" x="342" y="984" width="36" height="36" style="color:#0f6cbd"/>
 <text x="360" y="1042" class="cname" text-anchor="middle">Téléphone</text>
-<text x="360" y="1061" class="crole" text-anchor="middle">PWA hors ligne</text>
+<text x="360" y="1061" class="crole" text-anchor="middle">PWA RIGEL hors ligne</text>
+<rect x="485" y="910" width="700" height="200" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
+<use href="#i-scan-line" x="501" y="922" width="22" height="22" style="color:#0f6cbd"/>
+<text x="531" y="939" class="frame" text-anchor="start">RIGEL · Hidora</text>
+<text x="705" y="938" class="caption" text-anchor="start">Reconnaissance d’identifiants graphiques et extraction par lecture</text>
 <rect x="515" y="970" width="170" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
 <use href="#i-cloud" x="582" y="984" width="36" height="36" style="color:#0f6cbd"/>
-<text x="600" y="1042" class="cname" text-anchor="middle">Relais RECON</text>
-<text x="600" y="1061" class="crole" text-anchor="middle">Hidora</text>
+<text x="600" y="1042" class="cname" text-anchor="middle">Relais RIGEL</text>
+<text x="600" y="1061" class="crole" text-anchor="middle">rigel.sh1.hidora.net</text>
+<text x="600" y="1082" class="cvm" text-anchor="middle">Conteneur versionné</text>
 <rect x="755" y="970" width="170" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
 <use href="#i-database" x="822" y="984" width="36" height="36" style="color:#0f6cbd"/>
-<text x="840" y="1042" class="cname" text-anchor="middle">PostgreSQL</text>
+<text x="840" y="1042" class="cname" text-anchor="middle">PostgreSQL RIGEL</text>
 <text x="840" y="1061" class="crole" text-anchor="middle">Données chiffrées</text>
-<text x="840" y="1082" class="cvm" text-anchor="middle">Hidora</text>
+<text x="840" y="1082" class="cvm" text-anchor="middle">TCP 5432</text>
 <rect x="255" y="1120" width="1195" height="100" rx="6" fill="#f3f8fd" stroke="#9cc0e4"/>
 <text x="270" y="1148" class="caption" text-anchor="start">orion-1 · 172.16.131.188</text>
 <text x="565" y="1148" class="caption" text-anchor="start">orion-2 · 172.16.131.133</text>
@@ -204,8 +210,8 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <circle cx="479" cy="1034" r="11" fill="#0f6cbd"/>
 <text x="479" y="1038.5" class="step" text-anchor="middle">10</text>
 <path d="M685 1034 L753 1034" class="flow" marker-end="url(#arrow)"/>
-<path d="M845 766 L845 940 L600 940 L600 968" class="flow" marker-end="url(#arrow)"/>
-<circle cx="720" cy="940" r="11" fill="#0f6cbd"/>
-<text x="720" y="944.5" class="step" text-anchor="middle">11</text>
+<path d="M845 766 L845 890 L970 890 L970 1114 L600 1114 L600 1100" class="flow" marker-end="url(#arrow)"/>
+<circle cx="920" cy="890" r="11" fill="#0f6cbd"/>
+<text x="920" y="894.5" class="step" text-anchor="middle">11</text>
 <path d="M760 702 L710 702 L710 530 L640 530" class="flow" marker-end="url(#arrow)"/>
 </svg>

@@ -327,6 +327,13 @@
         "version": "2.1",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/01-CONTEXTE/",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-14",
+        "modification": "Définir RIGEL et M42",
         "archive": null
       }
     ]
@@ -482,6 +489,13 @@
         "version": "4.1",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/01-CONTEXTE/",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-14",
+        "modification": "Nommer M42 comme option d’agent ASTER",
         "archive": null
       }
     ]
@@ -570,6 +584,13 @@
         "version": "1.3",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/01-MODELISATION-METIER/",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-14",
+        "modification": "Nommer M42 comme agent candidat",
         "archive": null
       }
     ]
@@ -1386,6 +1407,13 @@
         "version": "1.0",
         "date": "2026-11-14",
         "modification": "Créer la partie Conception",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-14",
+        "modification": "Nommer la conception de l’agent M42",
         "archive": null
       }
     ]
@@ -1450,6 +1478,13 @@
         "version": "2.1",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/03-ARCHITECTURE/",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-14",
+        "modification": "Nommer M42 et préciser les accès RIGEL réels",
         "archive": null
       }
     ],
@@ -1492,6 +1527,13 @@
         "version": "1.4",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/03-ARCHITECTURE/",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-14",
+        "modification": "Intégrer RIGEL et M42 dans les vues d’architecture",
         "archive": null
       }
     ]
@@ -1671,6 +1713,13 @@
         "version": "4.1",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/04-ORGANISATION/ ; Échéances du rendu (17/11) et de la présentation (19/11) ; backlog GitHub et captures des fiches faits",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "4.2",
+        "date": "2026-11-14",
+        "modification": "Renommer RIGEL et planifier M42",
         "archive": null
       }
     ]

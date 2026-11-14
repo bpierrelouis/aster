@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.4 | 14/11/2026 | Production destinée à la remise | Déplacer dans docs/03-ARCHITECTURE/ | [5 versions](../../archive/README.md#18-diagrammes-architecture) |
+| 2.0 | 14/11/2026 | Production destinée à la remise | Intégrer RIGEL et M42 dans les vues d’architecture | [6 versions](../../archive/README.md#18-diagrammes-architecture) |
 <!-- version:fin -->
 
 ## Vue simplifiée

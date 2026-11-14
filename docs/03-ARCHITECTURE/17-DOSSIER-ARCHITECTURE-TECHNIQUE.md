@@ -13,7 +13,7 @@ Ce dossier présente deux architectures :
 - **l’architecture cible**, qui décrit le système attendu dans son environnement d’exploitation ;
 - **l’architecture réelle**, qui correspond au système effectivement développé, conteneurisé et présenté par l’équipe.
 
-L’architecture réelle décrit le déploiement du démonstrateur sur dix VM. Keycloak et OpenLDAP y tiennent lieu de MindefConnect. Un processus Node.js simule les postes Windows et leur agent d’administration : il remonte leur état, reçoit les interventions, les exécute sur l’état simulé et renvoie leurs résultats.
+L’architecture réelle décrit le déploiement du démonstrateur sur dix VM. Keycloak et OpenLDAP y tiennent lieu de MindefConnect. Un processus Node.js simule les postes Windows et **M42**, le futur agent de supervision et d’administration que l’équipe ASTER développerait si cette option était retenue : il remonte leur état, reçoit les interventions, les exécute sur l’état simulé et renvoie leurs résultats. M42 fait référence à Messier 42, la nébuleuse d’Orion ; l’agent n’est pas encore développé.
 
 ## 2. Contexte et contraintes structurantes
 
@@ -41,7 +41,7 @@ Les contraintes structurantes sont les suivantes :
 | Identité | MindefConnect en cible ; Keycloak et OpenLDAP dans l’architecture réelle | Authentification développée dans ORION | OIDC sépare l’authentification des comptes et profils ORION. Le flux Authorization Code utilise PKCE, `state` et `nonce` ; le fournisseur peut changer par configuration sans déplacer les droits applicatifs. |
 | Sessions | `express-session` et `connect-pg-simple` dans PostgreSQL ORION | Session en mémoire du processus | Le navigateur ne reçoit qu’un cookie HttpOnly et plusieurs instances d’Express partagent les mêmes sessions. Un redémarrage d’instance ne déconnecte pas les utilisateurs. |
 | Données structurées | PostgreSQL | Stockage propre à chaque instance | Les transactions et contraintes portent les données métier et les sessions. Une base partagée permet aux deux instances d’Express de rester sans état faisant autorité. |
-| Administration des postes Windows | Configuration Manager existant ou agent Windows ORION, à arbitrer | — | Dans les deux options, le poste reste l’origine des processus, installations et résultats ; Express autorise les demandes et en suit l’exécution par l’API des postes. L’architecture réelle simule ce circuit complet. |
+| Administration des postes Windows | Configuration Manager existant ou agent Windows M42 développé par ASTER, à arbitrer | — | Dans les deux options, le poste reste l’origine des processus, installations et résultats ; Express autorise les demandes et en suit l’exécution par l’API des postes. L’architecture réelle simule ce circuit complet. |
 | Recensement mobile | PWA hors ligne, relais public et connecteur sortant | Exposition de l’API ORION sur Internet | Le téléphone peut travailler sans réseau et ne crée aucune entrée vers les VM. Le relais conserve seulement les échanges chiffrés ; le connecteur les relève depuis le réseau d’ORION et PostgreSQL ORION reste l’autorité. |
 | Collecte des journaux | Logstash et fichiers centralisés | Journaux conservés uniquement sur chaque VM | La centralisation conserve un point de consultation commun et produit des fichiers lisibles directement sur la VM de stockage. Le mode non bloquant évite qu’une panne du collecteur arrête les services. |
 
@@ -51,11 +51,11 @@ L’architecture réelle se cale au maximum sur les produits autorisés pour le 
 
 ### 4.1. Vue d’ensemble
 
-Dans le déploiement du démonstrateur, HAProxy constitue l’entrée unique, Apache sert l’interface React, Express porte l’API et les règles métier, PostgreSQL conserve les données et les sessions, Keycloak et OpenLDAP remplacent MindefConnect, et Logstash centralise les journaux. Le simulateur des postes Windows et de leur agent d’administration utilise la même API que les futurs postes réels. Le recensement mobile passe par un relais public sur Hidora et un connecteur sortant hébergé avec l’application.
+Dans le déploiement du démonstrateur, HAProxy constitue l’entrée unique, Apache sert l’interface React, Express porte l’API et les règles métier, PostgreSQL conserve les données et les sessions, Keycloak et OpenLDAP remplacent MindefConnect, et Logstash centralise les journaux. Le simulateur des postes Windows et de M42 utilise la même API que les futurs postes réels. Le recensement mobile est porté par le module externe RIGEL (« Reconnaissance d’identifiants graphiques et extraction par lecture ») : sa PWA et son relais public s’exécutent sur Hidora, tandis que son connecteur sortant est hébergé avec l’application.
 
 ### 4.2. Services applicatifs et persistance
 
-Express ne conserve aucun état faisant autorité dans son processus. Les données métier, les sessions, les campagnes et constats de recensement et le journal de fusion résident dans PostgreSQL ORION. OpenLDAP conserve les identités du démonstrateur ; Keycloak réimporte son realm à la création du conteneur. Le relais RECON conserve dans PostgreSQL Hidora les instantanés et événements chiffrés ; le téléphone conserve dans IndexedDB l’appairage, l’instantané et les événements en attente. Ces deux copies servent au transport et au fonctionnement hors ligne : PostgreSQL ORION reste l’autorité. Les persistances et les ports du déploiement sont détaillés au § 4.5, sans répéter ici le tableau des VM.
+Express ne conserve aucun état faisant autorité dans son processus. Les données métier, les sessions, les campagnes et constats de recensement et le journal de fusion résident dans PostgreSQL ORION. OpenLDAP conserve les identités du démonstrateur ; Keycloak réimporte son realm à la création du conteneur. Le relais RIGEL conserve dans PostgreSQL Hidora les instantanés et événements chiffrés ; le téléphone conserve dans IndexedDB l’appairage, l’instantané et les événements en attente. Ces deux copies servent au transport et au fonctionnement hors ligne : PostgreSQL ORION reste l’autorité. Les persistances et les ports du déploiement sont détaillés au § 4.5, sans répéter ici le tableau des VM.
 
 ### 4.3. Authentification
 
@@ -100,7 +100,7 @@ Le point d’accès `/api/health` vérifie la base ORION et les métadonnées du
 ### 4.4. Flux des données et des postes
 
 - Le front appelle Express ; Express applique les droits puis écrit dans PostgreSQL ORION.
-- Le simulateur des postes et de leur agent publie les processus et applications installées sur `/api/agent/rapports`.
+- Le simulateur des postes et de M42 publie les processus et applications installées sur `/api/agent/rapports`.
 - Express renvoie dans cette réponse les interventions à exécuter.
 - Le simulateur exécute les arrêts, installations, désinstallations et réinstallations sur l’état simulé, puis publie leur résultat sur `/api/agent/resultats`.
 - Le téléphone charge la PWA et échange avec le relais Hidora en HTTPS. La campagne, le jeton et la clé sont portés par le fragment du QR code, qui n’est pas envoyé au relais.
@@ -117,7 +117,7 @@ Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée
 - **Des rôles isolés, repris par une VM de secours.** PostgreSQL, l’identité et Logstash ont chacun leur VM. Si l’une tombe, Swarm recrée son service sur orion-9, qui retrouve ses données sur le stockage. Le déploiement vide orion-9 le temps de placer les services : chacun démarre ainsi sur sa VM, et un service repris par orion-9 rejoint la sienne au déploiement suivant.
 - **Des managers à l’entrée.** Les trois managers Swarm, orion-1 à orion-3, dirigent le cluster. orion-1 porte en plus l’entrée, HAProxy ; orion-3 porte l’administration : le runner du déploiement continu. Deux managers sur trois suffisent pour que le cluster continue de fonctionner.
 - **Une adresse, sans DNS.** Les utilisateurs joignent ORION directement par l’adresse d’orion-1, `https://172.16.131.188`, sur le port HTTPS par défaut, sans configurer de DNS sur leur poste : ce point d’entrée unique sert l’interface, l’API et la connexion. Les VM utilisent le DNS du réseau de formation.
-- **Doublement là où il est simple.** Apache et Express, sans données, ont deux instances actives chacun, sur deux VM : la perte de l’une ne coupe pas le service. HAProxy, seule entrée, a une instance, relancée sur orion-1, dont l’adresse est celle des utilisateurs : si orion-1 tombe, ORION est inaccessible jusqu’à son retour. Les autres services ont une seule instance, relancée automatiquement s’il s’arrête ou au redémarrage de sa VM, et recréée sur une autre VM si la sienne tombe : le simulateur des postes et de leur agent sur l’autre VM de l’application, PostgreSQL, l’identité et Logstash sur la VM de secours, où ils retrouvent leurs données (§ 4.6). Aucune action manuelle n’est nécessaire.
+- **Doublement là où il est simple.** Apache et Express, sans données, ont deux instances actives chacun, sur deux VM : la perte de l’une ne coupe pas le service. HAProxy, seule entrée, a une instance, relancée sur orion-1, dont l’adresse est celle des utilisateurs : si orion-1 tombe, ORION est inaccessible jusqu’à son retour. Les autres services ont une seule instance, relancée automatiquement s’il s’arrête ou au redémarrage de sa VM, et recréée sur une autre VM si la sienne tombe : le simulateur des postes et de M42 sur l’autre VM de l’application, PostgreSQL, l’identité et Logstash sur la VM de secours, où ils retrouvent leurs données (§ 4.6). Aucune action manuelle n’est nécessaire.
 - **Un stockage pour toutes les données.** Les données de PostgreSQL et d’OpenLDAP et les logs centralisés sont sur orion-10, hors Swarm, sur deux systèmes de fichiers ext4 partagés en NFSv4 : l’un pour les données, l’autre pour les logs. Ce sont des volumes Docker du pilote `local`, de type `nfs` : la VM qui exécute le service monte son volume, et un service recréé sur une autre VM retrouve ainsi ses données. Le collecteur s’exécute sur orion-8 et les fichiers centralisés résident sur orion-10.
 - **Les VM fournies, telles quelles.** Les dix VM sont sous Debian 13, avec Docker déjà installé. Les services sont des conteneurs, gérés par une seule pile Docker Swarm, `orion` ; seuls chrony (orion-1), le runner GitHub Actions (orion-3) et le serveur NFS (orion-10) sont des services de l’hôte. orion-3 sert de VM d’administration : son runner déploie chaque version publiée par l’intégration continue ; aucun outil comme Ansible n’est ajouté. L’opérateur administre depuis son poste avec le client Docker, SSH et quelques scripts.
 - **Technologies du CCT.** L’architecture réelle se cale au maximum sur la cible : pour chaque fonction, elle utilise un produit de la colonne C1NP de l’annexe « pile logicielle » du CCT 2026-2027 (version 3.7). Elle fait quatre exceptions, qui simplifient le démonstrateur et sont exclues de l’architecture cible : le système des VM fournies pour la démonstration (Debian 13, avec Docker déjà installé), qui n’existera pas sur le C1NP, Docker Engine et Swarm, les substituts de MindefConnect (Keycloak et OpenLDAP) et le runner GitHub Actions du déploiement continu. Les images sont épinglées ; ORION construit les siennes à partir des images officielles `httpd:2.4` et `node:22`, tandis qu’OpenLDAP utilise l’image tierce `osixia/openldap`. OpenSSH, systemd et `systemd-timesyncd` sont traités comme des composants de Debian 13, de même que le serveur et le client NFS du noyau Linux (paquets `nfs-kernel-server` et `nfs-common`), dont le statut au CCT reste à vérifier (§ 5.3).
@@ -127,7 +127,7 @@ Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée
 | orion-1 | Manager et entrée | Manager Docker Swarm ; HAProxy ; chrony | HAProxy en conteneur, une instance, ports publiés sur l’hôte ; chrony sur l’hôte | Manager | `2377/TCP` ; HTTPS `443` ; `8444` pour l’administration ; NTP `123/UDP` | — |
 | orion-2 | Manager | Manager Docker Swarm | Démon Docker | Manager | `2377/TCP` | — |
 | orion-3 | Manager et administration | Manager Docker Swarm ; runner GitHub Actions | Démon Docker ; runner, service de l’hôte (systemd) | Manager | `2377/TCP` ; aucun pour le runner | — |
-| orion-4, orion-5 | Application | Apache HTTP Server et build React ; Express sur Node.js ; simulateur des postes et de leur agent d’administration ; connecteur RECON | Conteneurs : Apache et Express, une instance par VM ; simulateur et connecteur, une instance chacun | Workers | HTTP `8080` et `3001`, réseau overlay ; aucun port publié par le connecteur | — |
+| orion-4, orion-5 | Application | Apache HTTP Server et build React ; Express sur Node.js ; simulateur des postes et de M42 ; connecteur RIGEL | Conteneurs : Apache et Express, une instance par VM ; simulateur et connecteur, une instance chacun | Workers | HTTP `8080` et `3001`, réseau overlay ; aucun port publié par le connecteur | — |
 | orion-6 | PostgreSQL | PostgreSQL | Conteneur | Worker | TCP `5432`, réseau overlay | Volume NFS `pg-nfs`, sur orion-10 |
 | orion-7 | Identité (substituts) | Keycloak et OpenLDAP | Deux conteneurs | Worker | HTTP `8080` et LDAP `389`, réseau overlay | Volumes NFS `ldap-data-nfs` et `ldap-config-nfs`, sur orion-10 |
 | orion-8 | Collecte des logs | Logstash | Conteneur | Worker | TCP TLS `6514`, publié par le maillage de routage | Volume NFS `logs-nfs`, sur orion-10 |
@@ -145,8 +145,8 @@ Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée
 7. Les conteneurs envoient leurs logs au collecteur Logstash.
 8. L’opérateur administre les VM par SSH et pilote le cluster par un manager, depuis son poste.
 9. Le runner d’orion-3 reçoit de GitHub chaque version publiée par l’intégration continue et la déploie sur la pile par le manager orion-1.
-10. Le téléphone charge la PWA et synchronise ses blocs chiffrés avec le relais RECON sur Hidora, en HTTPS.
-11. Le connecteur RECON joint le relais en HTTPS par le proxy du réseau et Express en HTTP `3001` sur l’overlay chiffré ; aucun flux entrant n’est ouvert vers ORION.
+10. Le téléphone charge la PWA RIGEL et synchronise ses blocs chiffrés avec le relais RIGEL sur Hidora, en HTTPS.
+11. Le connecteur RIGEL joint le relais en HTTPS par le proxy du réseau et Express en HTTP `3001` sur l’overlay chiffré ; aucun flux entrant n’est ouvert vers ORION.
 
 #### Réseau, adresses et ports
 
@@ -171,9 +171,10 @@ Le réseau des VM est `172.16.128.0/20` ; son DNS, `172.16.143.251` (domaine `fo
 | --- | --- | --- |
 | `https://172.16.131.188` (port `443`) | ORION : interface, API et connexion (Keycloak, émetteur OIDC) | Utilisateurs et Express |
 | `https://172.16.131.188:8444/admin/` | Console d’administration de Keycloak | Réseau des VM, sans filtrage dédié |
+| `https://rigel.sh1.hidora.net` (port `443`) | Relais public RIGEL sur Hidora | Téléphones et connecteur RIGEL par le proxy du réseau |
 | IPv4 de chaque VM du tableau ci-dessus, port `22/TCP` | Administration par SSH des dix VM | Réseau d’administration seulement |
 
-L’émetteur OIDC est `https://172.16.131.188/realms/orion` et le retour OIDC `https://172.16.131.188/auth/callback`. Le collecteur reçoit les logs sur le port `6514/TCP` avec TLS : le maillage de routage de Swarm publie ce port sur chaque VM du cluster, y compris sur son adresse locale, et le transmet à Logstash, quelle que soit la VM qui l’exécute ; le pilote `syslog` de chaque VM joint donc `127.0.0.1:6514`. Le certificat de HAProxy porte l’adresse d’orion-1, celui du collecteur l’adresse `127.0.0.1` ; leur autorité doit être reconnue par Firefox, par Node.js et par le pilote `syslog`. L’horloge est jointe sur `172.16.131.188:123/UDP`. Les VM qui montent le stockage le joignent sur `172.16.131.197:2049/TCP` (NFSv4). SSH utilise chacune des dix IPv4 sur `22/TCP`, depuis le réseau d’administration. Le filtrage reste à qualifier.
+L’émetteur OIDC est `https://172.16.131.188/realms/orion` et le retour OIDC `https://172.16.131.188/auth/callback`. Sur Hidora, le relais RIGEL joint sa base PostgreSQL sur le port `5432/TCP`. Le collecteur reçoit les logs sur le port `6514/TCP` avec TLS : le maillage de routage de Swarm publie ce port sur chaque VM du cluster, y compris sur son adresse locale, et le transmet à Logstash, quelle que soit la VM qui l’exécute ; le pilote `syslog` de chaque VM joint donc `127.0.0.1:6514`. Le certificat de HAProxy porte l’adresse d’orion-1, celui du collecteur l’adresse `127.0.0.1` ; leur autorité doit être reconnue par Firefox, par Node.js et par le pilote `syslog`. L’horloge est jointe sur `172.16.131.188:123/UDP`. Les VM qui montent le stockage le joignent sur `172.16.131.197:2049/TCP` (NFSv4). SSH utilise chacune des dix IPv4 sur `22/TCP`, depuis le réseau d’administration. Le filtrage reste à qualifier.
 
 HAProxy termine le TLS. Il publie ses ports sur l’hôte d’orion-1 et joint les services par leur nom sur le réseau overlay de Swarm, chiffré (option `encrypted`) : `apache:8080`, `api:3001` et `keycloak:8080`. L’absence de HTTPS entre HAProxy et ces trois services est donc volontaire : le chiffrement est assuré une fois au niveau du réseau interne, sans distribuer ni renouveler un certificat dans chaque conteneur. Le navigateur utilise toujours HTTPS pour l’interface, l’API et Keycloak. Le port `443` transmet `/realms` et `/resources` à Keycloak et refuse les chemins de sa console, servie uniquement sur `8444`. Les PDF d’état des lieux passent par le port `443`, comme le reste de l’API.
 
@@ -191,17 +192,17 @@ Le filtrage autorise :
 - `2049/TCP` d’orion-6 à orion-9 vers orion-10 (NFSv4) ;
 - `123/UDP` des VM orion-2 à orion-10 vers orion-1, horloge de référence ;
 - `22/TCP` d’orion-3 vers orion-1 (déploiement par le runner), et `8080/TCP` d’orion-3 vers le proxy du réseau (`172.16.0.1`), par lequel le runner joint GitHub en HTTPS.
-- `8080/TCP` d’orion-4 et orion-5 vers le proxy du réseau (`172.16.0.1`), par lequel le connecteur RECON joint le relais Hidora en HTTPS ; aucune connexion n’est initiée du relais vers les VM.
+- `8080/TCP` d’orion-4 et orion-5 vers le proxy du réseau (`172.16.0.1`), par lequel le connecteur RIGEL joint le relais Hidora en HTTPS ; aucune connexion n’est initiée du relais vers les VM.
 
 #### Docker Swarm
 
-La pile principale `orion`, décrite dans un fichier versionné et déployée avec `docker stack deploy`, contient les conteneurs nécessaires au fonctionnement d’ORION. Le connecteur de recensement est isolé dans la pile complémentaire `orion-recon` : une instance sur orion-4 ou orion-5, sans port publié. Cette pile est déployée après la principale sans conditionner son succès ; elle est retirée si aucun relais n’est configuré. La composition du cluster (managers, workers, étiquettes de nœud) ne relève pas de ces fichiers : elle est réglée par les commandes `docker swarm` et `docker node` du script de préparation. Chaque service redémarre automatiquement (`restart_policy`) ; au démarrage d’une VM, Docker relance ses conteneurs. Les services sont placés d’après des étiquettes de nœud : `orion=entree` pour orion-1 (HAProxy), `orion=application` pour orion-4 et orion-5, et une étiquette par rôle isolé : `pg=true` (orion-6), `identite=true` (orion-7) et `logs=true` (orion-8). orion-9 porte ces trois dernières étiquettes : Swarm peut y recréer chacun de ces services.
+La pile principale `orion`, décrite dans un fichier versionné et déployée avec `docker stack deploy`, contient les conteneurs nécessaires au fonctionnement d’ORION. Le connecteur RIGEL est isolé dans la pile complémentaire `orion-rigel` : une instance sur orion-4 ou orion-5, sans port publié. Cette pile est déployée après la principale sans conditionner son succès ; elle est retirée si aucun relais n’est configuré. La composition du cluster (managers, workers, étiquettes de nœud) ne relève pas de ces fichiers : elle est réglée par les commandes `docker swarm` et `docker node` du script de préparation. Chaque service redémarre automatiquement (`restart_policy`) ; au démarrage d’une VM, Docker relance ses conteneurs. Les services sont placés d’après des étiquettes de nœud : `orion=entree` pour orion-1 (HAProxy), `orion=application` pour orion-4 et orion-5, et une étiquette par rôle isolé : `pg=true` (orion-6), `identite=true` (orion-7) et `logs=true` (orion-8). orion-9 porte ces trois dernières étiquettes : Swarm peut y recréer chacun de ces services.
 
 Apache et Express ont deux instances chacun, une par VM de leur groupe (`max_replicas_per_node: 1`) ; HAProxy en a une, sur orion-1 ; HAProxy répartit les requêtes entre les instances d’Apache et d’Express et écarte celle qui ne répond plus. Le simulateur a une instance, pour ne pas simuler deux fois les mêmes postes. PostgreSQL, Keycloak, OpenLDAP et Logstash ont une instance chacun : leurs volumes étant sur orion-10, Swarm les recrée sur orion-9 si leur VM tombe, et ils y retrouvent leurs données. Swarm ne sait pas préférer une VM à une autre : pour que chaque rôle isolé démarre sur sa VM et non sur orion-9, le script de déploiement vide orion-9 (`drain`) pendant le déploiement, si orion-6, orion-7 et orion-8 sont prêtes, puis la remet en service. Un service repris par orion-9 rejoint ainsi sa VM au déploiement suivant ; si deux VM isolées tombent en même temps, leurs services partagent orion-9. Une mise à jour arrête l’ancienne instance avant de démarrer la nouvelle (ordre `stop-first`, par défaut) : un volume n’est jamais utilisé par deux instances à la fois. Si une VM de l’application tombe, l’instance d’Apache ou d’Express qu’elle portait attend son retour ; l’autre instance assure le service. Si orion-1 tombe, HAProxy attend son retour. Au retour d’une VM, un redéploiement répartit de nouveau les services à une instance. HAProxy, le simulateur et Express se joignent par le nom des services : la VM qui les exécute importe peu.
 
 orion-1, orion-2 et orion-3 sont managers : ils dirigent le cluster ; orion-1 porte aussi l’entrée et orion-3 l’administration. Deux managers sur trois suffisent pour que le cluster continue de fonctionner. orion-4 à orion-9 sont workers. orion-10 n’appartient pas au cluster : elle ne fait que partager ses disques.
 
-Les images d’ORION (Apache avec le build React, Express, simulateur, connecteur RECON, relais RECON et Keycloak) sont construites et publiées sur Docker Hub par l’intégration continue, avec le commit pour étiquette. Le runner d’orion-3 déploie les images des VM ; le relais est publié indépendamment sur Hidora, sans conditionner le déploiement d’ORION. Chaque VM télécharge ses images, comme les images tierces, par le proxy du réseau. Chaque image est épinglée sur une version exacte. Les contrôles de santé d’Apache et d’Express vérifient que leur processus répond ; HAProxy écarte une instance applicative qui ne répond plus.
+Les images d’ORION (Apache avec le build React, Express, simulateur, connecteur RIGEL, relais RIGEL et Keycloak) sont construites et publiées sur Docker Hub par l’intégration continue, avec le commit pour étiquette. Le runner d’orion-3 déploie les images des VM ; le relais est publié indépendamment sur Hidora, sans conditionner le déploiement d’ORION. Chaque VM télécharge ses images, comme les images tierces, par le proxy du réseau. Chaque image est épinglée sur une version exacte. Le connecteur et le relais RIGEL sont donc mis à jour en sélectionnant une image immuable déjà publiée, sans réinstaller leurs composants sur l’hôte. Swarm revient automatiquement à l’image précédente si la mise à jour du connecteur échoue ; le relais revient à une étiquette antérieure par redéploiement sur Hidora. Les contrôles de santé d’Apache et d’Express vérifient que leur processus répond ; HAProxy écarte une instance applicative qui ne répond plus.
 
 Express ne garde aucun état qui fasse autorité : l’espace de travail et les sessions sont dans PostgreSQL. Chaque écriture verrouille la ligne de révision, relit l’état et fusionne les modifications concurrentes grâce au journal des dernières révisions, conservé en base. Les deux instances servent donc indifféremment n’importe quel utilisateur, et un redémarrage ne déconnecte personne.
 
@@ -232,15 +233,15 @@ Les secrets sont des secrets Docker Swarm : chiffrés et répliqués entre les m
 | Accès PostgreSQL | Express et PostgreSQL |
 | Secret du client OIDC | Express ; même valeur enregistrée dans le client Keycloak |
 | Secret de session | Express |
-| Secret RECON | Express et connecteur RECON |
-| Jeton du relais RECON | Connecteur RECON ; même valeur configurée sur le relais Hidora |
+| Secret RIGEL (`RIGEL_SECRET`) | Express et connecteur RIGEL |
+| Jeton du relais RIGEL | Connecteur RIGEL ; même valeur configurée sur le relais Hidora |
 | Jeton des postes | Express et simulateur des postes |
 | Compte de liaison LDAP et administration de Keycloak | Keycloak et OpenLDAP |
 | Clé privée et certificat TLS | HAProxy et Logstash |
 
 Tous les secrets de la pile, y compris les clés et certificats TLS de HAProxy et de Logstash, sont des secrets Swarm, créés une fois par le script de préparation avec des valeurs aléatoires ; aucun n’est écrit dans la configuration remise, dans une image ou dans une variable d’environnement de la pile. Hors de Swarm ne restent que les clés SSH de l’opérateur et du runner, l’enregistrement du runner auprès de GitHub, conservé sur orion-3, et l’autorité de certification : sa clé privée reste sur le poste de l’opérateur ; son certificat, public, est déposé sur chaque VM pour que le pilote `syslog` de Docker vérifie le collecteur. Le script ne réalise pas la rotation : les noms de secrets externes sont fixes et Swarm ne modifie pas leur contenu. Une procédure de rotation doit donc créer de nouveaux noms, mettre à jour la pile, redéployer, vérifier, puis retirer les anciens secrets. Le verrouillage automatique des managers (`autolock`) n’est pas activé, pour qu’un redémarrage ne demande aucune action ; protéger en contrepartie l’accès aux disques des managers.
 
-`RECON_SECRET` dérive les clés et jetons des campagnes : sa rotation révoque les appairages existants. `RELAIS_TOKEN` authentifie le connecteur auprès du relais ; sa rotation exige le retrait de la pile `orion-recon` et de l’ancien secret Swarm avant redéploiement. Le jeton `HIDORA_TOKEN`, utilisé uniquement par l’intégration continue pour publier le relais, ne doit être transmis à aucun conteneur.
+`RIGEL_SECRET` dérive les clés et jetons des campagnes : sa rotation révoque les appairages existants. `RELAIS_TOKEN` authentifie le connecteur auprès du relais ; sa rotation exige le retrait de la pile `orion-rigel` et de l’ancien secret Swarm avant redéploiement. Le jeton `HIDORA_TOKEN`, utilisé uniquement par l’intégration continue pour publier le relais, ne doit être transmis à aucun conteneur.
 
 #### Volumes
 
@@ -272,8 +273,8 @@ Aucune panne ne demande d’action manuelle : chaque service est relancé automa
 | orion-8 (logs) indisponible | Swarm recrée Logstash sur orion-9, qui monte le même volume. | Aucun ; centralisation des logs interrompue pendant la relance, logs consultables sur chaque VM (`docker logs`). |
 | orion-9 (secours) indisponible | Aucune en temps normal ; un service qu’elle avait repris est recréé sur sa VM d’origine si celle-ci est revenue. | Aucun, sauf pendant la relance d’un service qu’elle avait repris. |
 | orion-10 (stockage) indisponible | Aucune ; les accès de PostgreSQL, d’OpenLDAP et de Logstash attendent son retour (montage `hard`), puis reprennent. | Lectures, écritures, PDF d’état des lieux et nouvelles connexions bloqués jusqu’au retour ; sessions ORION ouvertes conservées ; logs consultables sur chaque VM (`docker logs`). |
-| Connecteur RECON indisponible | Swarm le relance après 30 secondes ; une mise à jour défaillante revient à la version précédente. | ORION reste disponible ; les téléphones continuent hors ligne et les événements déjà transmis attendent sur le relais. |
-| Relais, PostgreSQL Hidora ou proxy indisponible | Le connecteur réessaie toutes les 10 secondes. Le relais répond indisponible si sa base ne répond plus. | ORION reste disponible ; la synchronisation mobile est différée. |
+| Connecteur RIGEL indisponible | Swarm le relance après 30 secondes ; une mise à jour défaillante revient à la version précédente. | ORION reste disponible ; les téléphones continuent hors ligne et les événements déjà transmis attendent sur le relais. |
+| Relais RIGEL, PostgreSQL Hidora ou proxy indisponible | Le connecteur réessaie toutes les 10 secondes. Le relais répond indisponible si sa base ne répond plus. | ORION reste disponible ; la synchronisation mobile est différée. |
 
 Le relais purge toutes les dix minutes les campagnes closes ou expirées. Les événements qui n’ont pas été relevés avant cette purge sont abandonnés ; les constats déjà intégrés restent conservés dans PostgreSQL ORION.
 
@@ -297,13 +298,12 @@ Les fichiers suivants constituent la configuration de l’architecture réelle r
 | `images/apache-orion.conf` et `images/secrets.sh` | Configuration Apache et chargement des secrets Swarm dans les processus concernés |
 | `vm/vm.sh` | Adresses, réseau, DNS, VM de secours et accès SSH |
 | `vm/pile.yaml` | Services Swarm, placement, instances, réseaux, secrets, configurations et volumes NFS |
-| `vm/pile-recon.yaml` | Connecteur RECON, placement, reprise et accès à l’overlay de la pile principale |
+| `vm/pile-rigel.yaml` | Connecteur RIGEL, placement, reprise et accès à l’overlay de la pile principale |
 | `vm/haproxy.cfg` | Entrée TLS, routage de l’interface, de l’API et de Keycloak |
 | `vm/logstash.conf` | Réception syslog sur TLS et écriture des journaux par service et par jour |
 | `vm/installer.sh` | Préparation des VM, stockage NFS, cluster, certificats et secrets |
 | `vm/deployer.sh` | Déploiement d’une version publiée et contrôle de la version servie |
 | `vm/runner.sh` | Installation du runner GitHub Actions sur orion-3 |
-| `recon/publier-hidora.ps1` | Publication indépendante du relais RECON sur Hidora |
 | `ldap/orion-utilisateurs.ldif` | Données d’initialisation de l’annuaire du démonstrateur |
 
 Les valeurs secrètes, les clés privées, les certificats générés et les données créées à l’exécution ne sont pas joints. Les fichiers du montage local de développement, les fichiers JSON de configuration, le thème de connexion et les documents du projet sont exclus de cet ensemble.
@@ -355,7 +355,7 @@ Les versions du déploiement sont des références à qualifier sur les VM ; cha
 | chrony | paquet Debian 13 | R / S (NTPd/Chronyd) | Hôte d’orion-1 : horloge de référence des autres VM |
 | HAProxy | 3.2, image officielle | R / S | orion-1 |
 | Apache HTTP Server | 2.4, image officielle `httpd` | R / S (version 2.4) | Image d’ORION avec le build React ; orion-4 et orion-5 |
-| Node.js | 22.22.3, image officielle `node:22.22.3-alpine3.24` | R / S | Images d’Express, du simulateur, du connecteur et du relais RECON ; orion-4 et orion-5 pour les composants internes |
+| Node.js | 22.22.3, image officielle `node:22.22.3-alpine3.24` | R / S | Images d’Express, du simulateur, du connecteur et du relais RIGEL ; orion-4 et orion-5 pour les composants internes |
 | Express | 5.3.0 | R | Image d’Express |
 | PostgreSQL | 17.7, image officielle | R / S | orion-6 (secours orion-9) ; données sur orion-10 |
 | Logstash | 8.19.14, image officielle | R / S | orion-8 (secours orion-9) ; logs sur orion-10 |
@@ -373,7 +373,7 @@ Le ministère des Armées héberge ORION sur le C1NP. Le premier palier d’essa
 | VM | Services | vCPU | RAM | Stockage initial d’essai |
 | --- | --- | ---: | ---: | --- |
 | VM 1 . Entrée | HAProxy 3.2.16 et Apache HTTP Server 2.4.69. Apache sert les fichiers React 19.3.1 sur la boucle locale. | 2 | 8 Go | 50 Go système |
-| VM 2 . Application | Node.js 22.22.3, Express 5.3.0, connecteur de recensement et composant d’administration des postes Windows à préciser. | 8 | 32 Go | 50 Go système |
+| VM 2 . Application | Node.js 22.22.3, Express 5.3.0, connecteur RIGEL et composant d’administration des postes Windows à préciser. | 8 | 32 Go | 50 Go système |
 | VM 3 . Base et collecte | PostgreSQL 17.7 et Logstash 8.19.14. | 4 | 16 Go | 50 Go système, dont une file de collecte locale bornée, et 100 Go SSD pour PostgreSQL |
 | VM 4 . Stockage | Service de fichiers autorisé par l’offre C1NP, à qualifier. Aucun processus ORION, PostgreSQL ou Logstash. | 2 | 8 Go | 50 Go système et 100 Go pour les fichiers de logs |
 | **Total** | **4 VM** | **16** | **64 Go** | **400 Go** |
@@ -386,9 +386,9 @@ PostgreSQL utilise d’abord le SSD local de VM 3. Ses données, journaux de tra
 
 La perte de VM 4 suspend l’archivage des logs ; elle ne bloque PostgreSQL que si le stockage distant a été qualifié et retenu. La perte de VM 1 interrompt l’entrée HTTPS, celle de VM 2 l’API, et celle de VM 3 PostgreSQL et la collecte centralisée. Prévoir une sauvegarde de la base sur un stockage indépendant des quatre VM. La capacité de sauvegarde, les délais et pertes de données acceptables et les procédures de restauration restent à qualifier.
 
-MindefConnect authentifie les utilisateurs. ORION applique les droits selon le compte, le profil et l’école dans PostgreSQL. Le back génère les PDF à la demande, après contrôle des droits, et les renvoie via HAProxy. Aucun document généré n’est conservé. La VM 2 accueille le composant d’administration Windows côté ORION et le connecteur de recensement. Son rôle Windows et ses flux dépendent de l’option retenue (§ 6.5) : pilotage de l’agent ORION ou connecteur vers Configuration Manager. Un serveur de site Configuration Manager dédié conserve ses propres prérequis.
+MindefConnect authentifie les utilisateurs. ORION applique les droits selon le compte, le profil et l’école dans PostgreSQL. Le back génère les PDF à la demande, après contrôle des droits, et les renvoie via HAProxy. Aucun document généré n’est conservé. La VM 2 accueille le composant d’administration Windows côté ORION et le connecteur RIGEL. Son rôle Windows et ses flux dépendent de l’option retenue (§ 6.5) : pilotage de M42 ou connecteur vers Configuration Manager. Un serveur de site Configuration Manager dédié conserve ses propres prérequis.
 
-Le recensement mobile exige un point d’accès public sans exposer le réseau privé C1NP. La cible conserve donc le principe d’un relais public et d’un stockage durable autorisés, joints uniquement par un flux HTTPS sortant du connecteur. Hidora décrit l’architecture réelle, pas un choix pour la cible. Avant déploiement, qualifier l’hébergement public, le passage par le proxy C1NP, les certificats, la base, les sauvegardes, la rétention, la supervision, la disponibilité et la classification des données chiffrées.
+Le module externe RIGEL exige un point d’accès public sans exposer le réseau privé C1NP. La cible conserve donc le principe d’un relais public et d’un stockage durable autorisés, joints uniquement par un flux HTTPS sortant du connecteur. Le connecteur et le relais restent conditionnés sous forme d’images de conteneur versionnées ; leur environnement d’exécution autorisé sur le C1NP et chez l’hébergeur public reste à qualifier. Hidora décrit l’architecture réelle, pas un choix pour la cible. Avant déploiement, qualifier l’hébergement public, le passage par le proxy C1NP, les certificats, la base, les sauvegardes, la rétention, la supervision, la disponibilité et la classification des données chiffrées.
 
 ### 6.2. Flux et exploitation
 
@@ -405,15 +405,15 @@ Le recensement mobile exige un point d’accès public sans exposer le réseau p
 | 9. PostgreSQL (VM 3) → stockage (VM 4), si retenu | Protocole et port de l’offre C1NP, réseau privé | Accès au volume de base après qualification du stockage distant. |
 | 10A. Express → service d’administration de Configuration Manager | HTTPS et contrat d’API à obtenir | Option Configuration Manager : demandes autorisées, état et résultat des interventions. |
 | 11A. Clients Windows ↔ infrastructure Configuration Manager | Protocoles Microsoft à qualifier | Option Configuration Manager : inventaire, logiciels, images et opérations disponibles. |
-| 10B. Agent Windows → HAProxy puis Express | HTTPS, TCP 443 | Option agent ORION : rapport authentifié, résultats et récupération des interventions dans la réponse. |
-| 12. Téléphone → relais public de recensement | HTTPS, TCP 443 | Chargement de la PWA et synchronisation de blocs chiffrés ; aucune connexion au réseau privé C1NP. |
-| 13. Connecteur RECON (VM 2) → relais public | HTTPS, TCP 443, par le proxy C1NP | Publication des campagnes, relève et acquittement des événements ; flux sortant uniquement. |
-| 14. Connecteur RECON → Express (VM 2) | HTTPS ou canal local protégé, port à fixer | Intégration des événements dans PostgreSQL ORION, qui reste l’autorité. |
+| 10B. M42 → HAProxy puis Express | HTTPS, TCP 443 | Option M42 : rapport authentifié, résultats et récupération des interventions dans la réponse. |
+| 12. Téléphone → relais public RIGEL | HTTPS, TCP 443 | Chargement de la PWA RIGEL et synchronisation de blocs chiffrés ; aucune connexion au réseau privé C1NP. |
+| 13. Connecteur RIGEL (VM 2) → relais public RIGEL | HTTPS, TCP 443, par le proxy C1NP | Publication des campagnes, relève et acquittement des événements ; flux sortant uniquement. |
+| 14. Connecteur RIGEL → Express (VM 2) | HTTPS ou canal local protégé, port à fixer | Intégration des événements dans PostgreSQL ORION, qui reste l’autorité. |
 | Administration → VM 1 à 4 | SSH, TCP 22 | Depuis le réseau d’administration autorisé. |
 | VM 1 à 4 → services de plateforme | DNS TCP/UDP 53 et NTP UDP 123, à qualifier | Résolution des noms et synchronisation de l’heure. |
 | VM 3 → stockage de sauvegarde | Contrat et port à obtenir | Sauvegarde et restauration de PostgreSQL. |
 
-Les options A et B sont exclusives. Avec Configuration Manager, ses clients communiquent avec l’infrastructure Microsoft et le composant ORION échange avec son service d’administration. Avec l’agent ORION, le poste initie toujours la connexion HTTPS : son rapport récupère les interventions en attente et il renvoie ensuite leur résultat. L’identité du poste et le contrat définitif restent à qualifier avec la solution retenue.
+Les options A et B sont exclusives. Avec Configuration Manager, ses clients communiquent avec l’infrastructure Microsoft et le composant ORION échange avec son service d’administration. Avec M42, le poste initie toujours la connexion HTTPS : son rapport récupère les interventions en attente et il renvoie ensuite leur résultat. L’identité du poste et le contrat définitif restent à qualifier avec la solution retenue.
 
 Limiter les accès à PostgreSQL, au collecteur et aux interfaces d’exploitation aux seuls émetteurs autorisés. `/api/health` et `/api/infos` restent publics avec une réponse minimale ; le détail des instances, adresses, ports et services est réservé au super administrateur. `/api/health` vérifie notamment PostgreSQL et MindefConnect : une sonde d’instance du répartiteur doit rester distincte de ce diagnostic de dépendances. Obtenir les noms DNS, certificats, règles de filtrage et modalités de gestion des secrets auprès de l’exploitant.
 
@@ -459,9 +459,9 @@ Configuration Manager est inclus dans plusieurs abonnements Microsoft et les dro
 
 Réutiliser le service ministériel, s’il existe, permet de rester dans les quatre VM ORION. Une installation dédiée demande au minimum une VM Windows Server supplémentaire. Microsoft permet de placer la base SQL Server du site primaire sur le même serveur. Les points de distribution supplémentaires dépendent du réseau et de la taille des images. L’exploitant doit valider l’admission au CCT et les échanges nécessaires à la maintenance du produit, y compris la procédure de mise à jour hors ligne si elle est retenue. [Base de site](https://learn.microsoft.com/en-us/intune/configmgr/core/plan-design/hierarchy/plan-for-the-site-database) · [Maintenance hors ligne](https://learn.microsoft.com/en-us/intune/configmgr/core/servers/manage/use-the-service-connection-tool).
 
-#### Option B — Agent Windows développé par l’équipe ORION
+#### Option B — M42, agent Windows développé par l’équipe ASTER
 
-Créer un service Windows avec une technologie admise par le CCT, à sélectionner après vérification des versions de Windows et des contraintes de signature. Il envoie l’inventaire et les rapports de processus à l’API ORION. Le back autorise et suit les interventions. Le poste exécute les commandes métier prévues, telles que l’arrêt d’un processus ou l’installation d’un paquet approuvé, et renvoie le résultat associé à l’intervention. Prévoir une identité propre à chaque poste, la mise à jour signée de l’agent et le traitement des commandes déjà reçues après coupure. Le serveur de gestion reste le back ORION, sur les VM déjà dimensionnées.
+M42 serait un service Windows réalisé par ASTER avec une technologie admise par le CCT, à sélectionner après vérification des versions de Windows et des contraintes de signature. Il envoie l’inventaire et les rapports de processus à l’API ORION. Le back autorise et suit les interventions. Le poste exécute les commandes métier prévues, telles que l’arrêt d’un processus ou l’installation d’un paquet approuvé, et renvoie le résultat associé à l’intervention. Prévoir une identité propre à chaque poste, la mise à jour signée de M42 et le traitement des commandes déjà reçues après coupure. Le serveur de gestion reste le back ORION, sur les VM déjà dimensionnées.
 
 Pour une réinstallation complète, l’agent transmet la demande à un mécanisme de réimagerie autorisé, capable de fonctionner pendant l’effacement de Windows. Le retour de résultat doit être vérifié après réenrôlement. L’estimation suppose que le ministère fournit ce mécanisme, l’infrastructure de signature et un canal de déploiement de l’agent. Si la réimagerie est indisponible, le périmètre et l’effort d’une chaîne de réinstallation restent à estimer avant de comparer les deux offres à couverture égale.
 
@@ -483,14 +483,14 @@ Les jours-personnes mesurent la charge de l’équipe. Ils excluent les délais 
 | --- | --- | --- |
 | Dix VM Debian et pile Docker Swarm | Quatre VM C1NP pour le premier palier | Qualifier le système, les services de l’hôte et les modalités de déploiement du C1NP |
 | Keycloak et annuaire OpenLDAP locaux | MindefConnect | Obtenir le contrat, configurer les environnements et qualifier les attributs et parcours |
-| Simulateur des postes et de leur agent d’administration | Configuration Manager ou agent Windows ORION | Vérifier l’existant, qualifier la réimagerie et tester les interventions et la supervision (§ 6.5) |
+| Simulateur des postes et de M42 | Configuration Manager ou M42 | Vérifier l’existant, qualifier la réimagerie et tester les interventions et la supervision (§ 6.5) |
 | Apache derrière HAProxy | HAProxy en entrée, Apache pour les fichiers de l’interface | Qualifier leur déploiement sur le C1NP |
 | Express derrière HAProxy | Serveur back | Qualifier les contrôles de santé et le déploiement sur le C1NP |
 | `/api/health` et `/api/infos` | Réponse minimale publique, détail réservé au super administrateur | Conserver la séparation entre contrôle externe et diagnostic détaillé |
 | Logstash sur orion-8, fichiers sur orion-10 | Collecteur sur VM 3, fichiers de logs sur VM 4 | Qualifier la collecte, le partage, la rétention et l’accès |
 | Secrets Swarm à noms fixes | Gestion des secrets du C1NP | Choisir le coffre, l’injection, la rotation et la révocation |
 | Volumes NFS sur orion-10, sans sauvegarde | Stockage C1NP qualifié et sauvegardé | Choisir le service autorisé, puis définir sauvegardes, restaurations, RPO, RTO et essais réguliers |
-| Relais RECON et PostgreSQL sur Hidora ; connecteur sortant sur orion-4 ou orion-5 | Relais public et stockage durable autorisés ; connecteur sur VM 2 | Qualifier l’hébergement, le proxy, TLS, la base, les sauvegardes, la rétention, la supervision, la disponibilité et la classification des données |
+| Relais RIGEL et PostgreSQL sur Hidora ; connecteur sortant sur orion-4 ou orion-5 | Relais public RIGEL et stockage durable autorisés ; connecteur RIGEL sur VM 2 | Qualifier l’hébergement, le proxy, TLS, la base, les sauvegardes, la rétention, la supervision, la disponibilité et la classification des données |
 
 ## 8. Références techniques
 

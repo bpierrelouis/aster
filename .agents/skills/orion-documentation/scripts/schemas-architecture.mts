@@ -68,10 +68,11 @@ const vol = (x: number, y: number, w: number, name: string, lines: string[]) => 
   text(x + 34, y + 17, name, 'vol');
   lines.forEach((l, i) => text(x + 34, y + 32 + i * 15, l, 'caption'));
 };
-const ext = (x: number, y: number, w: number, h: number, ic: string, name: string, lines: string[]) => {
+const ext = (x: number, y: number, w: number, h: number, ic: string, name: string, lines: string[], tag = '') => {
   rect(x, y, w, h, C.ext, C.extStroke);
   icon(ic, x + 12, y + 12, 22, '#3d5a78');
   text(x + 44, y + 28, name, 'service');
+  if (tag) text(x + w - 10, y + 24, tag, 'tag', 'end');
   lines.forEach((l, i) => text(x + 44, y + 47 + i * 16, l, 'caption'));
 };
 
@@ -81,20 +82,30 @@ const enclosure = (x: number, y: number, w: number, h: number, ic: string, name:
   text(x + 46, y + 29, name, 'frame');
 };
 
+const rigelEnclosure = (x: number, y: number, w: number, h: number, site = '') => {
+  enclosure(x, y, w, h, 'scan-line', site ? `RIGEL · ${site}` : 'RIGEL');
+  if (w < 400) {
+    text(x + 16, y + 51, 'Reconnaissance d’identifiants graphiques', 'caption');
+    text(x + 16, y + 67, 'et extraction par lecture', 'caption');
+  } else {
+    text(x + (site ? 220 : 160), y + 28, 'Reconnaissance d’identifiants graphiques et extraction par lecture', 'caption');
+  }
+};
+
 const ips = ["172.16.131.188","172.16.131.133","172.16.131.193","172.16.131.208","172.16.131.142","172.16.131.131","172.16.131.137","172.16.131.146","172.16.131.190","172.16.131.197"];
 
 let W: number, H: number, title: string, desc: string;
 
 if (kind === 'cible-simple') {
-  W = 1780; H = 760;
+  W = 1780; H = 850;
   title = 'ORION — architecture cible';
-  desc = 'Vue simplifiée des quatre VM ORION, de MindefConnect, du relais public de recensement et des principaux échanges.';
+  desc = 'Vue simplifiée des quatre VM ORION, de MindefConnect, du module externe RIGEL et des principaux échanges.';
 
   heading(title, 'Vue simplifiée · 1 000 postes actifs');
-  enclosure(245, 102, 1185, 620, 'network', 'C1NP');
-  enclosure(268, 257, 1139, 440, 'server', 'VM ORION');
+  enclosure(245, 102, 1185, 720, 'network', 'C1NP');
+  enclosure(268, 257, 1139, 540, 'server', 'VM ORION');
   zone(280, 299, 215, 164, 'Entrée');
-  zone(576, 299, 215, 310, 'Application');
+  zone(576, 299, 215, 450, 'Application');
   zone(872, 299, 215, 164, 'Base et collecte');
   zone(1170, 299, 225, 164, 'Stockage');
 
@@ -103,12 +114,13 @@ if (kind === 'cible-simple') {
   card(465, 117, 'key-round', 'MindefConnect', 'Service d’identité', '', { w: 200, stroke: C.extStroke });
   card(290, 329, 'split', 'HAProxy et Apache', 'Interface React', 'VM 1 . Entrée', { w: 195 });
   card(586, 329, 'server', 'API Express', 'Administration des postes', 'VM 2 . Application', { w: 195 });
-  card(586, 475, 'refresh-cw', 'Connecteur RECON', 'Flux sortant', 'VM 2 . Application', { w: 195 });
+  card(586, 600, 'refresh-cw', 'Connecteur RIGEL', 'Conteneur versionné', 'VM 2 . Application', { w: 195 });
   card(882, 329, 'database', 'PostgreSQL et Logstash', 'Base et collecte des logs', 'VM 3 . Base et collecte', { w: 195 });
   card(1180, 329, 'hard-drive', 'Stockage C1NP', 'Fichiers de logs', 'VM 4 . Stockage', { w: 205 });
-  card(1510, 170, 'smartphone', 'Téléphone', 'PWA hors ligne', '', { w: 190, stroke: C.extStroke });
-  card(1510, 330, 'cloud', 'Relais public', 'Hébergement à qualifier', '', { w: 190, stroke: C.extStroke });
-  card(1510, 490, 'database', 'Stockage du relais', 'Service à qualifier', '', { w: 190, stroke: C.extStroke });
+  card(1510, 110, 'smartphone', 'Téléphone', 'PWA RIGEL hors ligne', '', { w: 190, stroke: C.extStroke });
+  rigelEnclosure(1480, 260, 270, 540);
+  card(1510, 345, 'cloud', 'Relais RIGEL', 'Conteneur versionné', 'Hébergement à qualifier', { w: 190, stroke: C.extStroke });
+  card(1510, 540, 'database', 'Stockage RIGEL', 'Service à qualifier', '', { w: 190, stroke: C.extStroke });
 
   arrow([[177, 385], [290, 385]]);
   label(231, 373, 'Interface', 'middle');
@@ -135,10 +147,9 @@ if (kind === 'cible-simple') {
   arrow([[735, 457], [735, 485], [923, 485], [923, 457]]);
   label(830, 475, 'Logs', 'middle');
 
-  arrow([[1605, 298], [1605, 328]]); label(1615, 317, 'HTTPS 443');
-  arrow([[1605, 458], [1605, 488]]); label(1615, 477, 'Stockage');
-  arrow([[781, 539], [1450, 539], [1450, 394], [1508, 394]]); label(1120, 528, 'HTTPS 443 sortant', 'middle');
-  arrow([[683, 475], [683, 459]]);
+  arrow([[1700, 174], [1765, 174], [1765, 409], [1702, 409]]); label(1732, 163, 'HTTPS 443', 'middle');
+  arrow([[1605, 473], [1605, 538]]); label(1615, 510, 'Stockage');
+  arrow([[781, 664], [1450, 664], [1450, 409], [1508, 409]]); label(1120, 653, 'HTTPS 443 sortant', 'middle');
 
 } else if (kind === 'cible') {
   W = 2250; H = 710;
@@ -167,16 +178,17 @@ if (kind === 'cible-simple') {
   svc(320, 318, 210, 70, 'split', 'HAProxy 3.2.16', ['HTTPS · TCP 443'], true);
   svc(320, 442, 210, 70, 'app-window', 'Apache 2.4.69', ['HTTP 8080 · boucle locale', 'Interface React 19.3.1'], true);
   svc(710, 318, 255, 70, 'server', 'Express 5.3.0', ['Node.js 22.22.3', 'API · TCP 3001'], true);
-  svc(710, 442, 255, 70, 'monitor', 'Intégration Windows', ['Option à retenir'], true, false);
-  svc(710, 548, 255, 70, 'refresh-cw', 'Connecteur RECON', ['Flux HTTPS sortant · sans port'], true);
+  svc(710, 442, 255, 70, 'monitor', 'Configuration Manager / M42', ['Option à retenir'], true, false);
+  svc(710, 525, 255, 70, 'refresh-cw', 'Connecteur RIGEL', ['Image RIGEL versionnée', 'HTTPS sortant · sans port']);
   svc(1160, 548, 255, 70, 'scroll-text', 'Logstash 8.19.14', ['Syslog sur TLS · TCP 6514'], true);
   svc(1160, 318, 255, 70, 'database', 'PostgreSQL 17.7', ['PostgreSQL sur TLS · TCP 5432'], true);
   vol(1177, 420, 220, '100 Go SSD', ['Données PostgreSQL locales']);
   svc(1590, 318, 250, 300, 'folder-sync', 'Fichiers', ['Service C1NP à qualifier'], true);
   vol(1605, 535, 220, '100 Go', ['Fichiers de logs']);
-  ext(1980, 135, 220, 75, 'smartphone', 'Téléphone', ['PWA hors ligne']);
-  ext(1980, 305, 220, 90, 'cloud', 'Relais public', ['HTTPS 443', 'hébergement à qualifier']);
-  ext(1980, 500, 220, 90, 'database', 'Stockage du relais', ['service durable à qualifier']);
+  ext(1980, 115, 220, 75, 'smartphone', 'Téléphone', ['PWA RIGEL hors ligne']);
+  rigelEnclosure(1940, 215, 300, 430);
+  ext(1980, 300, 220, 90, 'cloud', 'Relais RIGEL', ['image RIGEL versionnée', 'HTTPS 443 · hébergement à qualifier'], 'conteneur');
+  ext(1980, 500, 220, 90, 'database', 'Stockage RIGEL', ['service durable à qualifier']);
 
   arrow([[175, 340], [320, 340]]);
   label(245, 330, '1 · HTTPS 443', 'middle');
@@ -190,11 +202,8 @@ if (kind === 'cible-simple') {
   label(258, 140, '5 · HTTPS 443', 'middle');
   arrow([[965, 327], [1018, 327], [1018, 151], [685, 151]]);
   label(852, 140, '6 · HTTPS 443', 'middle');
-  add('<path d="M500 527V542" class="flow"/>');
-  arrow([[500, 558], [500, 596], [1160, 596]]);
-  label(800, 585, '7 · TLS 6514', 'middle');
-  arrow([[965, 380], [1040, 380], [1040, 562], [1160, 562]]);
-  label(1050, 551, '7 · TLS 6514', 'middle');
+  arrow([[985, 625], [1100, 625], [1100, 596], [1160, 596]]);
+  label(965, 618, '7 · Logs VM 1–2 · TLS 6514', 'end');
   arrow([[1415, 583], [1590, 583]]);
   label(1500, 572, '8 · Service de fichiers', 'middle');
   arrow([[837, 388], [837, 442]]);
@@ -204,10 +213,10 @@ if (kind === 'cible-simple') {
   arrow([[710, 475], [640, 475], [640, 570], [215, 570]]);
   label(420, 560, '10A · API Configuration Manager', 'middle');
   arrow([[195, 457], [260, 457], [260, 370], [320, 370]]);
-  label(272, 445, '10B · Agent · HTTPS 443');
-  arrow([[2090, 210], [2090, 303]]); label(2100, 266, '12 · HTTPS 443');
-  arrow([[2090, 395], [2090, 498]]); label(2100, 452, 'Stockage');
-  arrow([[965, 582], [1000, 582], [1000, 652], [1920, 652], [1920, 350], [1978, 350]]); label(1450, 643, '13 · HTTPS 443 sortant par proxy', 'middle');
+  label(272, 445, '10B · M42 · HTTPS 443');
+  arrow([[2200, 152], [2230, 152], [2230, 345], [2202, 345]]); label(2160, 104, '12 · HTTPS 443', 'middle');
+  arrow([[2090, 390], [2090, 498]]); label(2100, 450, 'Stockage');
+  arrow([[965, 560], [975, 560], [975, 652], [1930, 652], [1930, 365], [1978, 365]]); label(1450, 643, '13 · HTTPS 443 sortant par proxy', 'middle');
   arrow([[710, 582], [670, 582], [670, 370], [708, 370]]); label(678, 475, '14 · Canal protégé');
 } else if (kind === 'simple') {
   W = 1500; H = 1250;
@@ -231,7 +240,7 @@ if (kind === 'cible-simple') {
   zone(980, 372, 220, 188, 'Émulation');
   zone(1230, 372, 220, 188, 'Collecte des logs');
   zone(255, 600, 455, 178, 'Pilotage');
-  zone(735, 600, 220, 178, 'Recensement mobile');
+  zone(735, 600, 220, 178, 'Intégration RIGEL');
 
   card(275, 212, 'split', 'HAProxy', 'entrée', 'orion-1');
   card(515, 212, 'app-window', 'Apache', 'Interface React', 'orion-4 et orion-5');
@@ -240,16 +249,17 @@ if (kind === 'cible-simple') {
   card(760, 400, 'database', 'PostgreSQL', 'données', 'orion-6 · secours 9');
   card(1005, 212, 'key-round', 'Keycloak', 'connexion', 'orion-7 · secours 9');
   card(1255, 212, 'book-user', 'OpenLDAP', 'annuaire', 'orion-7 · secours 9');
-  card(1005, 400, 'monitor', 'Émulateur de postes', 'Postes Windows', 'orion-4 ou orion-5');
+  card(1005, 400, 'monitor', 'Simulateur M42', 'Postes Windows', 'orion-4 ou orion-5');
   card(275, 638, 'boxes', 'Swarm', 'managers', 'orion-1, 2 et 3');
   card(515, 638, 'rocket', 'Runner GitHub', 'déploiement', 'orion-3');
-  card(760, 638, 'refresh-cw', 'Connecteur RECON', 'Flux sortant', 'orion-4 ou orion-5');
+  card(760, 638, 'refresh-cw', 'Connecteur RIGEL', 'Conteneur versionné', 'orion-4 ou orion-5');
   card(1255, 400, 'scroll-text', 'Logstash', 'Collecte des logs', 'orion-8 · secours 9');
 
   // Adresses des VM
-  card(275, 970, 'smartphone', 'Téléphone', 'PWA hors ligne', '', { stroke: C.extStroke });
-  card(515, 970, 'cloud', 'Relais RECON', 'Hidora', '', { stroke: C.extStroke });
-  card(755, 970, 'database', 'PostgreSQL', 'Données chiffrées', 'Hidora', { stroke: C.extStroke });
+  card(275, 970, 'smartphone', 'Téléphone', 'PWA RIGEL hors ligne', '', { stroke: C.extStroke });
+  rigelEnclosure(485, 910, 700, 200, 'Hidora');
+  card(515, 970, 'cloud', 'Relais RIGEL', 'rigel.sh1.hidora.net', 'Conteneur versionné', { stroke: C.extStroke });
+  card(755, 970, 'database', 'PostgreSQL RIGEL', 'Données chiffrées', 'TCP 5432', { stroke: C.extStroke });
   rect(255, 1120, 1195, 100, C.zone, C.zoneStroke, { rx: 6 });
   ips.forEach((ip, i) => text(270 + (i % 4) * 295, 1148 + Math.floor(i / 4) * 27, `orion-${i + 1} · ${ip}`, 'caption'));
   // ① navigateur → entrée, par son adresse
@@ -277,7 +287,7 @@ if (kind === 'cible-simple') {
   arrow([[513, 702], [447, 702]]); step(480, 702, '9');
   arrow([[445, 1034], [513, 1034]]); step(479, 1034, '10');
   arrow([[685, 1034], [753, 1034]]);
-  arrow([[845, 766], [845, 940], [600, 940], [600, 968]]); step(720, 940, '11');
+  arrow([[845, 766], [845, 890], [970, 890], [970, 1114], [600, 1114], [600, 1100]]); step(920, 890, '11');
   arrow([[760, 702], [710, 702], [710, 530], [640, 530]]);
 } else {
   W = 1760; H = 1510;
@@ -300,9 +310,10 @@ if (kind === 'cible-simple') {
 
   ext(20, 280, 170, 170, 'users', 'Firefox', ['172.16.131.188']);
   ext(20, 1150, 170, 110, 'user-cog', 'Opérateur', ['son poste, sur le', 'réseau', 'd’administration']);
-  ext(1450, 190, 230, 80, 'smartphone', 'Téléphone', ['PWA hors ligne']);
-  ext(1450, 360, 230, 95, 'cloud', 'Relais RECON · Hidora', ['Node.js 22.22.3 · Express 5.3.0', 'HTTPS 443 · HTTP interne 3000']);
-  ext(1450, 530, 230, 80, 'database', 'PostgreSQL Hidora', ['données chiffrées · port à confirmer']);
+  ext(1450, 120, 230, 80, 'smartphone', 'Téléphone', ['PWA RIGEL hors ligne']);
+  rigelEnclosure(1415, 270, 300, 380, 'Hidora');
+  ext(1450, 350, 230, 95, 'cloud', 'Relais RIGEL', ['rigel.sh1.hidora.net', 'image rigel:<SHA Git>', 'HTTPS 443 · HTTP interne 3000'], 'conteneur');
+  ext(1450, 520, 230, 80, 'database', 'PostgreSQL RIGEL', ['données chiffrées', 'TCP 5432']);
   ext(1450, 700, 230, 75, 'network', 'Proxy du réseau', ['172.16.0.1:8080']);
 
   // Cluster Swarm
@@ -320,11 +331,11 @@ if (kind === 'cible-simple') {
   // Colonnes B et C : application (services joints par HAProxy), rôles isolés et secours
   groupe(650, 195, 710, 100, 'Manager et administration', [3], 'manager');
   svc(960, 226, 304, 60, 'rocket', 'Runner GitHub Actions', ['2.338.2 · systemd · sans port d’écoute'], true);
-  groupe(650, 305, 710, 265, 'Application', [4, 5], 'worker');
+  groupe(650, 305, 710, 275, 'Application', [4, 5], 'worker');
   svc(663, 375, 274, 86, 'app-window', 'Apache 2.4.69', ['image sur httpd:2.4.69 · HTTP 8080', 'build React 19.3.1', '2 instances · une par VM']);
   svc(663, 471, 274, 86, 'server', 'Express 5.3.0', ['Node.js 22.22.3 · HTTP 3001', '2 instances · une par VM']);
-  svc(1043, 435, 304, 72, 'monitor', 'Émulateur de postes', ['Postes Windows · Node.js 22.22.3', '1 instance · orion-4 ou orion-5']);
-  svc(1043, 515, 304, 45, 'refresh-cw', 'Connecteur RECON', ['1 instance · sans port publié']);
+  svc(1043, 420, 304, 72, 'monitor', 'Simulateur M42', ['Postes Windows · Node.js 22.22.3', '1 instance · orion-4 ou orion-5']);
+  svc(1043, 500, 304, 70, 'refresh-cw', 'Connecteur RIGEL', ['image orion-connecteur:<SHA Git>', '1 instance · sans port publié']);
   groupe(650, 590, 300, 325, 'Identité', [7], 'worker');
   svc(663, 650, 274, 72, 'key-round', 'Keycloak 26.7.4', ['image officielle · HTTP 8080', '1 instance · secours orion-9']);
   svc(663, 768, 274, 72, 'book-user', 'OpenLDAP 1.5.0', ['image osixia/openldap · LDAP 389', '1 instance · secours orion-9']);
@@ -370,10 +381,10 @@ if (kind === 'cible-simple') {
   // Runner → GitHub (par le proxy du réseau) et → orion-1 (déploiement de la pile)
   arrow([[1150, 226], [1150, 117]]); label(1158, 172, 'HTTPS 443');
   arrow([[960, 258], [582, 258]]); label(670, 281, 'SSH 22 · orion-1');
-  arrow([[1565, 270], [1565, 358]]); label(1575, 320, 'HTTPS 443');
-  arrow([[1565, 455], [1565, 528]]); label(1575, 495, 'PostgreSQL');
-  arrow([[1347, 538], [1395, 538], [1395, 737], [1448, 737]]); label(1403, 650, 'TCP 8080');
-  arrow([[1565, 700], [1565, 650], [1405, 650], [1405, 407], [1448, 407]]); label(1575, 675, 'HTTPS 443');
+  arrow([[1450, 160], [1395, 160], [1395, 397], [1448, 397]]); label(1420, 150, 'HTTPS 443', 'middle');
+  arrow([[1565, 445], [1565, 518]]); label(1575, 485, 'TCP 5432');
+  arrow([[1347, 535], [1395, 535], [1395, 737], [1448, 737]]); label(1403, 650, 'TCP 8080');
+  arrow([[1680, 737], [1735, 737], [1735, 397], [1682, 397]]); label(1725, 675, 'HTTPS 443', 'end');
   arrow([[1043, 550], [939, 550]]);
   add('</g>');
 }

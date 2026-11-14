@@ -10,6 +10,10 @@ Elle vise à remplacer la gestion du parc informatique sous Excel par un outil c
 - administrer et réinitialiser les postes ;
 - superviser leur utilisation et centraliser les remontées utilisateur.
 
+## Les noms du projet
+
+L’équipe de développement s’appelle **ASTER**, un nom issu du grec *astḗr*, « étoile ». Elle construit **ORION**, le projet qui rassemble le parc et ses opérations. **RIGEL**, l’une des étoiles majeures de la constellation d’Orion, désigne le module mobile de scan et de lecture. **M42**, numéro de la nébuleuse d’Orion dans le catalogue Messier, est réservé à l’agent de supervision et d’administration Windows que l’équipe ASTER pourrait développer si cette option est retenue ; il n’est pas encore réalisé.
+
 ## Développement
 
 Le dossier [application/](application/README.md) regroupe le front React/Vite (`frontend/`), le back Express (`backend/`) et l’infrastructure PostgreSQL/Keycloak (`infra/`). Le code applicatif est écrit en TypeScript strict ; les icônes de l’interface utilisent Lucide.

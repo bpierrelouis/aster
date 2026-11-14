@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.1 | 14/11/2026 | Production destinée à la remise | Déplacer dans docs/01-CONTEXTE/ | [11 versions](../../archive/README.md#00-glossaire) |
+| 3.0 | 14/11/2026 | Production destinée à la remise | Définir RIGEL et M42 | [12 versions](../../archive/README.md#00-glossaire) |
 <!-- version:fin -->
 
 Ce glossaire centralise les abréviations et les termes employés dans la documentation du projet. Les définitions décrivent leur sens dans ORION. Lorsqu'un sigle n'est pas développé dans les sources, cette absence est signalée afin de ne pas inventer sa signification.
@@ -24,6 +24,7 @@ Ce glossaire centralise les abréviations et les termes employés dans la docume
 | JSON        | JavaScript Object Notation                                               | Format prévu pour l'import de nouveaux matériels.                                                                                                                                 |
 | LDAP | Lightweight Directory Access Protocol | Protocole d’accès à un annuaire d’identités. |
 | MCD         | Modèle conceptuel de données                                             | Représentation des entités, de leurs propriétés et de leurs associations conservées par ORION, indépendante de l'implémentation technique. Les valeurs temporaires ou calculées par les traitements n'y figurent pas. |
+| M42 | Messier 42, la nébuleuse d’Orion | Nom réservé à l’agent Windows de supervision et d’administration que l’équipe ASTER développerait si cette option était retenue. M42 n’est pas encore réalisé. |
 | MindefConnect | Service d’authentification | Service auquel ORION confie l’authentification de ses utilisateurs. |
 | NP          | Non protégé                                                              | ORION cible un réseau interne NP disposant d'un accès à Internet.                                                                                                                 |
 | P0          | Priorité critique de cadrage                                             | Marque une question dont la réponse conditionne directement la faisabilité ou l'estimation.                                                                                       |
@@ -31,6 +32,7 @@ Ce glossaire centralise les abréviations et les termes employés dans la docume
 | PID         | Process Identifier                                                       | Identifiant numérique attribué par Windows à un processus pendant son exécution. Il est temporaire et réutilisable ; ORION ne le conserve pas. |
 | PFORM       | Pôle formation                                                           | Entité distincte de la DRHAT.                                                                                                                                                     |
 | RG          | Règle de gestion                                                         | Contrainte confirmée portant sur les données, les droits ou les traitements réalisés par ORION.                                                                                   |
+| RIGEL | Reconnaissance d’identifiants graphiques et extraction par lecture | Module externe de recensement mobile : PWA hors ligne, relais public, stockage de transport et connecteur sortant vers ORION. |
 | Scrum-XP    | Association de pratiques Scrum et Extreme Programming                    | Organisation Agile attendue dans les éléments d'évaluation du projet.                                                                                                             |
 | SSO | Authentification unique | La connexion à ORION est confiée à MindefConnect ; les modalités d’intégration sont précisées avec le fournisseur du service. |
 | V1 | Première version utilisable | Version initiale d’ORION couvrant la gestion des matériels et la supervision des processus utilisateur à l’échelle d’une école. |

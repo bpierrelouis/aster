@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.3 | 14/11/2026 | Production destinée à la remise | Déplacer dans docs/02-ANALYSE/01-MODELISATION-METIER/ | [4 versions](../../../archive/README.md#06-diagramme-contexte) |
+| 2.0 | 14/11/2026 | Production destinée à la remise | Nommer M42 comme agent candidat | [5 versions](../../../archive/README.md#06-diagramme-contexte) |
 <!-- version:fin -->
 
 ```mermaid
@@ -13,7 +13,7 @@ flowchart LR
     formateur(["Formateur"])
     subgraph suite["Suite ORION"]
         orion["Application ORION"]
-        agent["Agent ORION<br/>installé sur chaque machine cible"]
+        agent["M42<br/>agent candidat développé par ASTER"]
     end
 
     gestionnaire -->|"Création, modification<br/>et affectation des matériels"| orion
