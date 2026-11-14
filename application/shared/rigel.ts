@@ -3,7 +3,8 @@
    au relais et à l'application mobile.
    - Le téléphone ne joint jamais ORION : il échange avec le relais, sur
      Internet, des blocs chiffrés que seuls ORION et le téléphone lisent.
-   - La clé d'une campagne est transmise au téléphone par le QR d'appairage,
+   - La clé d'une opération (recensement ou installation, « campagne » dans le
+     protocole) est transmise au téléphone par le QR d'appairage,
      dans le fragment de l'adresse (#…), que le navigateur n'envoie jamais.
    - Chiffrement AES-GCM 256 (Web Crypto, navigateur et Node.js) ; données
      authentifiées : l'identifiant de la campagne.
@@ -45,7 +46,7 @@ export interface MaterielRigel {
 /** Constat intégré par ORION, renvoyé au téléphone */
 export interface ConstatRigel { id: Id; materielId: Id | null; salleId: Id | null; resultat: ConstatResultat; message?: string; at: Timestamp }
 
-/** Instantané d'une campagne : ce que le téléphone consulte hors ligne */
+/** Instantané d'une opération : ce que le téléphone consulte hors ligne */
 export interface InstantaneRigel {
   campagne: { id: Id; nom: string; ecole: string; mode: ModeRecensement; expireLe: Timestamp };
   /** Salles de la campagne, dans l'ordre d'affichage */
@@ -58,7 +59,7 @@ export interface InstantaneRigel {
 /** Résultat de l'intégration d'un événement par ORION */
 export interface ResultatRigel { id: string; statut: 'applique' | 'doublon' | 'refuse'; message?: string }
 
-/** Campagne publiée par ORION pour le connecteur */
+/** Opération publiée par ORION pour le connecteur */
 export interface CampagnePubliee { id: Id; expireLe: Timestamp; empreinte: string; version: string; instantane: Bloc }
 
 /** Accès d'un téléphone à une campagne, lu dans le fragment du QR d'appairage */
@@ -79,21 +80,21 @@ export const RESULTATS: Record<ConstatResultat, { label: string; icon: string; t
   refuse: { label: 'Refusé', icon: 'shieldX', tone: 'crit' },
 };
 
-/** Durée d'ouverture d'une campagne ou d'une installation */
+/** Durée d'ouverture d'un recensement ou d'une installation */
 export const DUREE_CAMPAGNE = 14 * 24 * 60 * 60 * 1000;
 
-/* ---------- Opérations : campagne de recensement ou installation d'une salle ---------- */
+/* ---------- Opérations : recensement ou installation d'une salle ---------- */
 
 /** Opération en cours : ni close, ni expirée */
 export const ouverte = (r: Pick<Recensement, 'close' | 'expireLe'>, now = Date.now()) => !r.close && r.expireLe > now;
-/** Installation d'une salle ; toute autre opération (dont une ancienne campagne « installation » sur plusieurs salles) est un recensement */
+/** Installation d'une salle ; toute autre opération (dont une ancienne opération « installation » sur plusieurs salles) est un recensement */
 export const estInstallation = (r: Pick<Recensement, 'mode' | 'salleIds'>) => r.mode === 'installation' && r.salleIds.length === 1;
 /** Matériel en cours de déplacement vers la salle ou depuis elle */
 export const aDeplacer = (m: Pick<Materiel, 'deplacement' | 'salleId'>, salleId: Id) => Boolean(m.deplacement) && (m.salleId === salleId || m.deplacement!.de === salleId);
 /** Installation en cours d'une salle */
 export const installationDe = <R extends Recensement>(operations: readonly R[], salleId: Id, now = Date.now()) =>
   operations.find((r) => estInstallation(r) && r.salleIds[0] === salleId && ouverte(r, now));
-/** Campagne de recensement en cours qui couvre une salle, la plus récente d'abord */
+/** Recensement en cours qui couvre une salle, la plus récente d'abord */
 export const recensementDe = <R extends Recensement>(operations: readonly R[], salle: { id: Id; ecoleId: Id }, now = Date.now()) =>
   operations.filter((r) => !estInstallation(r) && ouverte(r, now) && r.ecoleId === salle.ecoleId && (!r.salleIds.length || r.salleIds.includes(salle.id)))
     .sort((a, b) => b.at - a.at)[0];
@@ -289,7 +290,7 @@ const cles = new Map<string, Promise<CryptoKey>>();
 function cleAes(cle: string) {
   if (!cles.has(cle)) {
     const octets = depuisBase64url(cle);
-    if (octets.length !== 32) throw new Error('Clé de campagne invalide.');
+    if (octets.length !== 32) throw new Error('Clé d’opération invalide.');
     cles.set(cle, crypto.subtle.importKey('raw', octets, 'AES-GCM', false, ['encrypt', 'decrypt']));
   }
   return cles.get(cle)!;

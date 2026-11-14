@@ -1,8 +1,8 @@
 /* ==========================================================================
-   RIGEL · fenêtres : nouvelle campagne de recensement, appairage d'un
+   RIGEL · fenêtres : nouveau recensement, appairage d'un
    téléphone (QR code de l'adresse d'appairage, qui porte la clé de
    l'opération), étiquettes des salles à imprimer, installation d'une salle
-   (appairage, étiquettes de la salle et du stock, clôture), ajout au parc d'un
+   (appairage, étiquettes de la salle et du stock ; close d'elle-même), ajout au parc d'un
    ancien code inconnu.
    ========================================================================== */
 
@@ -23,13 +23,13 @@ import { dateFull, dateNum, plural } from '#shared/format.ts';
 import type { Id, Recensement, Salle, WorkspaceView } from '#shared/types.ts';
 import type { ATraiter } from '../../core/recensements.ts';
 
-/* ---------- Nouvelle campagne ---------- */
+/* ---------- Nouveau recensement ---------- */
 
-export function openCampagneForm() {
-  openSheet(<CampagneSheet />);
+export function openRecensementForm() {
+  openSheet(<RecensementSheet />);
 }
 
-function CampagneSheet() {
+function RecensementSheet() {
   const navigate = useNavigate();
   const [ecoleId] = useState(() => (currentEcole() !== 'all' ? currentEcole() as Id : store.state.ecoles[0].id));
   const salles = scope().salles.filter((s) => s.ecoleId === ecoleId);
@@ -47,7 +47,7 @@ function CampagneSheet() {
 
   async function save(form: FormData) {
     const nom = (form.get('nom') as string).trim();
-    if (!nom) throw Error('Donnez un nom à la campagne.');
+    if (!nom) throw Error('Donnez un nom au recensement.');
     if (!toute && !choix.size) throw Error('Choisissez au moins une salle.');
     const avant = new Set(store.state.recensements.map((r) => r.id));
     store.update('data', (s) => {
@@ -56,13 +56,13 @@ function CampagneSheet() {
     });
     await store.flush();
     const cree = store.state.recensements.find((r) => !avant.has(r.id) && r.nom === nom);
-    notify(`Recensement ${nom} ouvert`, { icon: 'clipboardCheck' });
+    notify(`Recensement ${nom} lancé`, { icon: 'clipboardCheck' });
     if (cree) navigate(`/materiels/recensement/${cree.id}`);
   }
 
   return <Sheet title="Nouveau recensement" size="m" lead={<Tile name="clipboardCheck" color="var(--c5)" size="m" />}
-    footer={<SheetFormActions form="campagne-form" icon="check" label="Ouvrir le recensement" />}>
-    <SheetForm id="campagne-form" onSave={save} noValidate>
+    footer={<SheetFormActions form="recensement-form" icon="check" label="Lancer le recensement" />}>
+    <SheetForm id="recensement-form" onSave={save} noValidate>
       <label className="field"><span className="field-label">Nom *</span>
         <input ref={nomRef} name="nom" required maxLength={120} defaultValue={`Recensement du ${dateNum(Date.now())}`} autoComplete="off" />
         <span className="field-hint">Le recensement reste ouvert 14 jours, ou jusqu’à sa clôture.</span></label>
@@ -107,7 +107,7 @@ function useAcces(charger: () => Promise<Acces>, cle: string) {
   return acces;
 }
 
-async function accesCampagne(id: Id): Promise<Acces> {
+async function accesRecensement(id: Id): Promise<Acces> {
   const response = await fetch(`/api/workspace/recensements/${encodeURIComponent(id)}/appairage`);
   const body = await response.json().catch(() => ({}));
   if (response.status === 401) location.replace('/');
@@ -143,7 +143,7 @@ export function openAppairage(r: Recensement) {
 }
 
 function AppairageSheet({ r }: { r: Recensement }) {
-  const acces = useAcces(() => accesCampagne(r.id), r.id);
+  const acces = useAcces(() => accesRecensement(r.id), r.id);
   return <Sheet title="Appairer un téléphone" size="m" lead={<Tile name="tablet" color="var(--c5)" size="m" />}
     footer={acces.url ? <CopierLien url={acces.url} /> : null}>
     <Appairage acces={acces} nom={`le recensement ${r.nom}`} />
@@ -186,21 +186,9 @@ export function openInstallation(salle: Salle) {
 
 function InstallationSheet({ salle }: { salle: Salle }) {
   const acces = useAcces(() => store.call<Acces>(`/salles/${encodeURIComponent(salle.id)}/installation`, {}), salle.id);
-  async function clore(close: () => void) {
-    if (!await confirmSheet({ title: 'Clore l’installation', message: `Les téléphones appairés à l’installation de ${salle.nom} ne pourront plus envoyer de constats. Les déplacements restants se confirment ici.`, confirm: 'Clore', iconName: 'check' })) return;
-    try {
-      store.update('data', (s) => { const r = s.recensements.find((x) => x.id === acces.id); if (r) r.close = traceProvisoire(); });
-      await store.flush();
-      notify('Installation close', { icon: 'check' });
-      close();
-    } catch (error) { notify((error as Error).message, { tone: 'danger' }); }
-  }
   return <Sheet title={`Installer ${salle.nom}`} size="l" lead={<Tile name="tablet" color="var(--c5)" size="m" />}
-    footer={(close) => <>
-      {acces.id && <button className="btn btn--ghost" type="button" onClick={() => clore(close)}><Icon name="check" size={18} />Clore l’installation</button>}
-      <span className="flex-1" />
-      {acces.url && <CopierLien url={acces.url} />}
-    </>}>
+    footer={acces.url ? <CopierLien url={acces.url} /> : null}>
+    <p className="rec-note">L’installation se termine d’elle-même quand plus aucun matériel n’est à déplacer vers cette salle ou depuis elle.</p>
     <Appairage acces={acces} nom={`l’installation de ${salle.nom}`} />
     <div className="rec-etiquettes">
       <Etiquette salle={salle} ecoleId={salle.ecoleId} />

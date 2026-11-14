@@ -1235,7 +1235,7 @@ test('recensement : ouverture, appairage par QR code, code inconnu ajouté au pa
     await page.getByLabel('Nom *').fill('Recensement de test');
     await page.getByRole('radio', { name: 'Salles choisies' }).click();
     await page.locator('.rec-batiment').first().locator('legend input').check();
-    await page.getByRole('button', { name: 'Ouvrir le recensement' }).click();
+    await page.getByRole('button', { name: 'Lancer le recensement' }).click();
     await expect(page).toHaveURL(/\/materiels\/recensement\/rec-/);
     const id = page.url().split('/').at(-1)!;
     await expect(page.locator('.group-lead')).toContainText('Recensement de test');
@@ -1275,7 +1275,7 @@ test('recensement : ouverture, appairage par QR code, code inconnu ajouté au pa
     const derniers = page.locator('.group-card', { hasText: 'Derniers constats' });
     await expect(derniers).toContainText(present.idOrion);
     await expect(derniers.locator('.rec-row', { hasText: 'Ajouté au parc' })).toContainText(ajoute[0].idOrion);
-    await page.screenshot({ path: testInfo.outputPath('recensement-campagne.png'), fullPage: true });
+    await page.screenshot({ path: testInfo.outputPath('recensement-bilan.png'), fullPage: true });
 
     await aTraiter.locator('.rec-row', { hasText: 'SN-ANCIEN-1' }).getByRole('button', { name: 'Ajouter au parc' }).click();
     await expect(page.getByLabel('Numéro de série')).toHaveValue('SN-ANCIEN-1');
@@ -1304,7 +1304,7 @@ test('recensement : ouverture, appairage par QR code, code inconnu ajouté au pa
     await page.locator('.sheet-foot').getByRole('button', { name: 'Clôturer' }).click();
     await expect(page.getByRole('button', { name: 'Appairer un téléphone' })).toHaveCount(0);
     await open(page, '/materiels/recensement');
-    await expect(page.locator('.rec-card', { hasText: 'Recensement de test' })).toContainText('Close le');
+    await expect(page.locator('.rec-card', { hasText: 'Recensement de test' })).toContainText('Clos le');
   }
 });
 
@@ -1378,12 +1378,12 @@ test('installation et recensement simultanés d’une salle : deux boutons, QR c
   await expect(page.getByRole('button', { name: 'Terminer le restockage' })).toHaveCount(0);
   await asAccount(request, manager.id);
   try {
-    // Campagne de recensement sur toute l'école, en même temps que l'installation de la salle
+    // Recensement de toute l'école, en même temps que l'installation de la salle
     await open(page, '/materiels/recensement');
     await page.getByRole('button', { name: 'Nouveau recensement' }).click();
     await expect(page.getByRole('radio', { name: 'Réaliser une installation' })).toHaveCount(0);
     await page.getByLabel('Nom *').fill('Recensement simultané');
-    await page.getByRole('button', { name: 'Ouvrir le recensement' }).click();
+    await page.getByRole('button', { name: 'Lancer le recensement' }).click();
     await expect(page).toHaveURL(/\/materiels\/recensement\/rec-/);
     const campagne = page.url().split('/').at(-1)!;
 
@@ -1408,15 +1408,17 @@ test('installation et recensement simultanés d’une salle : deux boutons, QR c
     const installations = (await state(request)).recensements.filter((r) => r.mode === 'installation' && r.salleIds[0] === salle.id && !r.close);
     expect(installations).toHaveLength(1);
     await open(page, '/materiels/recensement');
-    await expect(page.locator('.rec-card', { hasText: installations[0].nom })).toHaveCount(0); // pas présentée comme une campagne
+    await expect(page.locator('.rec-card', { hasText: installations[0].nom })).toHaveCount(0); // pas présentée comme un recensement
     await expect(page.locator('.rec-card', { hasText: 'Recensement simultané' })).toBeVisible();
 
     await open(page, `/salles/deplacements?salle=${salle.id}`);
     await page.getByRole('button', { name: `Installer ${salle.nom} avec un téléphone` }).click();
     await expect(fenetre.getByRole('img', { name: /QR code d’appairage/ })).toBeVisible();
     expect((await state(request)).recensements.filter((r) => r.mode === 'installation' && r.salleIds[0] === salle.id)).toHaveLength(1);
-    await fenetre.getByRole('button', { name: 'Clore l’installation' }).click();
-    await page.locator('.sheet-foot').getByRole('button', { name: 'Clore', exact: true }).click();
+    await expect(fenetre.getByRole('button', { name: 'Clore l’installation' })).toHaveCount(0); // close d'elle-même
+    await fenetre.getByRole('button', { name: 'Fermer' }).click();
+    // Dernier déplacement de la salle confirmé par le gestionnaire : l'installation se clôt, à son nom
+    await page.evaluate((sid) => window.orion.store.update('data', (s) => { for (const m of s.materiels) if (m.deplacement && (m.salleId === sid || m.deplacement.de === sid)) delete m.deplacement; }), salle.id);
     await expect.poll(async () => (await state(request)).recensements.find((r) => r.id === installations[0].id)?.close?.par).toBe(manager.nom);
     expect((await state(request)).recensements.find((r) => r.id === campagne)?.close).toBeUndefined(); // le recensement continue
 

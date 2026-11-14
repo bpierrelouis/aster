@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Recensement · bilan d'une campagne : avancement, constats à traiter
+   Recensement · bilan d'un recensement : avancement, constats à traiter
    (codes inconnus, écarts, refus), avancement par salle et derniers
    constats. Actions du gestionnaire : appairer un téléphone, étiquettes,
    clôture, traitement des constats ; les administrateurs suivent en lecture.
@@ -18,7 +18,7 @@ import { ago, dateMed, num, plural } from '#shared/format.ts';
 import { GroupCard, GroupGrid, PageHead, Progress } from '../../widgets/parts.tsx';
 import { openAjoutParc, openAppairage, openEtiquettes } from './recensement-sheets.tsx';
 import type { ATraiter, BilanSalle } from '../../core/recensements.ts';
-import type { Constat, Recensement } from '#shared/types.ts';
+import type { Constat, Materiel, Recensement } from '#shared/types.ts';
 
 const TONES = { ok: 'good', install: 'move', crit: 'bad', stock: 'stock', accent: 'pin' } as const;
 
@@ -50,6 +50,20 @@ async function resoudre(g: ATraiter, action: 'stock' | 'affectation' | 'constat'
   } catch (error) { notify((error as Error).message, { tone: 'danger' }); }
 }
 
+/**
+ * Ancien écart : remettre au stock ou ramener à l'affectation (déplacement lancé depuis le lieu constaté, à confirmer),
+ * ou réaffecter ici (immédiat). Une action qui reviendrait à une autre n'est pas proposée ; hors service, le stock seul (RG-87).
+ */
+function EcartActions({ g, m }: { g: ATraiter; m: Materiel }) {
+  const ici = g.constat.salleId;
+  const hs = m.hs ? { 'aria-disabled': 'true' as const, 'data-tip': 'Un matériel hors service ne peut aller qu’au stock' } : null;
+  return <>
+    {ici !== null && <button className="btn btn--ghost btn--s" type="button" onClick={() => resoudre(g, 'stock')}>Remettre au stock</button>}
+    {m.salleId !== null && <button className="btn btn--ghost btn--s" type="button" {...(hs ?? { onClick: () => resoudre(g, 'affectation') })}>Ramener dans {lieu(m.salleId)}</button>}
+    <button className="btn btn--primary btn--s" type="button" {...(hs && ici !== null ? hs : { onClick: () => resoudre(g, 'constat') })}>{ici === null ? 'Ranger au stock' : 'Réaffecter ici'}</button>
+  </>;
+}
+
 /** Constat à traiter : ce qui a été vu, où, combien de fois, et l'action qui le règle */
 function ATraiterRow({ g }: { g: ATraiter }) {
   const c = g.constat;
@@ -62,11 +76,7 @@ function ATraiterRow({ g }: { g: ATraiter }) {
     <span className="row-main"><Sujet c={c} /><span className="row-sub"><span className="row-meta">{lieu(c.salleId)}</span>{detail && <span className="row-meta">{detail}</span>}{g.constats.length > 1 && <span className="row-meta">Vu {g.constats.length} fois</span>}</span></span>
     {can('materiel.recensement') && <span className="rec-row-actions">
       {c.resultat === 'inconnu' && <button className="btn btn--ghost btn--s" onClick={() => openAjoutParc(g)}><Icon name="plus" size={16} />Ajouter au parc</button>}
-      {c.resultat === 'ecart' ? <>
-        <button className="btn btn--ghost btn--s" type="button" onClick={() => resoudre(g, 'stock')}>Remettre au stock</button>
-        <button className="btn btn--ghost btn--s" type="button" onClick={() => resoudre(g, 'affectation')}>Ramener à l’affectation</button>
-        <button className="btn btn--primary btn--s" type="button" onClick={() => resoudre(g, 'constat')}>Réaffecter ici</button>
-      </> : <button className="btn btn--ghost btn--s" type="button" onClick={() => marquerTraite(g)}><Icon name="check" size={16} />{c.resultat === 'inconnu' ? 'Écarter' : 'Traité'}</button>}
+      {c.resultat === 'ecart' && m ? <EcartActions g={g} m={m} /> : <button className="btn btn--ghost btn--s" type="button" onClick={() => marquerTraite(g)}><Icon name="check" size={16} />{c.resultat === 'inconnu' ? 'Écarter' : 'Traité'}</button>}
     </span>}
   </div></li>;
 }
@@ -98,7 +108,7 @@ async function cloturer(r: Recensement) {
   } catch (error) { notify((error as Error).message, { tone: 'danger' }); }
 }
 
-export function Campagne({ id }: { id: string }) {
+export function Bilan({ id }: { id: string }) {
   const r = store.state.recensements.find((x) => x.id === id);
   if (!r || estInstallation(r)) return <Navigate to="/materiels/recensement" replace />;
   const b = bilan(r);
@@ -111,7 +121,7 @@ export function Campagne({ id }: { id: string }) {
       {gerer && <button className="btn btn--ghost" onClick={() => openEtiquettes(r)}><Icon name="print" size={18} /><span>Étiquettes</span></button>}
       {gerer && enCours && <button className="btn btn--primary" onClick={() => openAppairage(r)}><Icon name="tablet" size={18} /><span>Appairer un téléphone</span></button>}
     </PageHead>
-    <p className="group-lead"><Link to="/materiels/recensement">Recensements</Link> · <strong>{r.nom}</strong> · {perimetre(r)} · ouverte par {r.par} le {dateMed(r.at)} · {echeance(r)}</p>
+    <p className="group-lead"><Link to="/materiels/recensement">Recensements</Link> · <strong>{r.nom}</strong> · {perimetre(r)} · lancé par {r.par} le {dateMed(r.at)} · {echeance(r)}</p>
     <div className="ops-metrics">
       <div className="ops-metric glass"><span>Matériels vus</span><strong>{num(b.vus)}<small> / {num(b.attendus)}</small></strong><Progress value={b.pct} label="Avancement du recensement" /></div>
       <div className="ops-metric glass"><span>Relocalisés</span><strong>{num(b.deplaces)}</strong><span>{plural(b.ajoutes, 'matériel ajouté', 'matériels ajoutés')} au parc</span></div>

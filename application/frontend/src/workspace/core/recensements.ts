@@ -1,10 +1,10 @@
 /* ==========================================================================
-   Recensement mobile (RIGEL) : campagnes de l'école affichée et leur bilan
+   Recensement mobile (RIGEL) : recensements de l'école affichée et leur bilan
    (l'installation d'une salle, autre opération RIGEL, se suit dans ses déplacements),
    d'après les constats intégrés par le serveur (backend/workspace/recensement.ts).
-   - Attendus : matériels affectés aux salles de la campagne ;
+   - Attendus : matériels affectés aux salles du recensement ;
    - Vus : matériels d'un constat de présence, de confirmation, de
-     relocalisation ou d'ajout au parc dans la campagne ;
+     relocalisation ou d'ajout au parc pendant le recensement ;
    - À traiter : anciens codes inconnus et écarts, refus, non encore traités.
    ========================================================================== */
 
@@ -36,18 +36,18 @@ function regrouper(constats: Constat[]): ATraiter[] {
   }
   return [...groupes.values()];
 }
-/** Échéance ou clôture d'une campagne */
-export const echeance = (r: Recensement) => (r.close ? `Close le ${dateMed(r.close.at)}` : ouverte(r) ? `Jusqu’au ${dateMed(r.expireLe)}` : `Expirée le ${dateMed(r.expireLe)}`);
-/** Périmètre d'une campagne */
+/** Échéance ou clôture d'un recensement */
+export const echeance = (r: Recensement) => (r.close ? `Clos le ${dateMed(r.close.at)}` : ouverte(r) ? `Jusqu’au ${dateMed(r.expireLe)}` : `Expiré le ${dateMed(r.expireLe)}`);
+/** Périmètre d'un recensement */
 export const perimetre = (r: Recensement) => (r.salleIds.length ? plural(r.salleIds.length, 'salle') : 'Toute l’école');
 
-/** Campagnes de l'école affichée : en cours d'abord, puis les plus récentes */
+/** Recensements de l'école affichée : en cours d'abord, puis les plus récentes */
 export const recensements = () => cached('recensements', () => {
   const e = currentEcole();
   return store.state.recensements.filter((r) => !estInstallation(r) && (!e || e === 'all' || r.ecoleId === e)).sort((a, b) => Number(ouverte(b)) - Number(ouverte(a)) || b.at - a.at);
 });
 
-/** Bilan d'une campagne : salles, constats (récents d'abord), avancement, à traiter */
+/** Bilan d'un recensement : salles, constats (récents d'abord), avancement, à traiter */
 export const bilan = (r: Recensement) => cached(`recensement:${r.id}`, () => {
   const { salles: toutes, materiels } = scope();
   const salles = toutes.filter((s) => s.ecoleId === r.ecoleId && (!r.salleIds.length || r.salleIds.includes(s.id)));

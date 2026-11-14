@@ -63,8 +63,8 @@ export function createRelais({ store, token, dist = DIST_RIGEL, production = fal
     try {
       const id = String(req.params.id);
       const c = CAMPAGNE.test(id) ? await store.campagne(id) : null;
-      if (!c || c.expireLe <= Date.now()) refus(404, 'Campagne inconnue ou close.');
-      if (!egalConstant(await empreinte(jetonDe(req)), c!.empreinte)) refus(401, 'Accès à la campagne refusé.');
+      if (!c || c.expireLe <= Date.now()) refus(404, 'Opération inconnue ou close.');
+      if (!egalConstant(await empreinte(jetonDe(req)), c!.empreinte)) refus(401, 'Accès à l’opération refusé.');
       res.locals.campagne = c;
       next();
     } catch (e) { next(e); }
@@ -86,14 +86,14 @@ export function createRelais({ store, token, dist = DIST_RIGEL, production = fal
   /* ---------- Connecteur d'ORION : RELAIS_TOKEN ---------- */
   const connecteur = express.Router();
   connecteur.use((req, _res, next) => { if (!egalConstant(jetonDe(req), token)) refus(401, 'Connecteur non authentifié.'); next(); });
-  const campagneId = (req: Request) => { const id = String(req.params.id); if (!CAMPAGNE.test(id)) refus(400, 'Campagne invalide.'); return id; };
+  const campagneId = (req: Request) => { const id = String(req.params.id); if (!CAMPAGNE.test(id)) refus(400, 'Opération invalide.'); return id; };
   connecteur.get('/campagnes', async (_req, res, next) => {
     try { res.json({ campagnes: await store.campagnes() }); } catch (e) { next(e); }
   });
   connecteur.put('/campagnes/:id', express.json({ limit: '8mb' }), async (req, res, next) => {
     try {
       const { empreinte: e, expireLe, version, instantane } = req.body ?? {};
-      if (typeof e !== 'string' || !/^[0-9a-f]{64}$/.test(e) || !Number.isFinite(expireLe) || typeof version !== 'string' || version.length > 128 || !estBloc(instantane)) refus(400, 'Campagne invalide.');
+      if (typeof e !== 'string' || !/^[0-9a-f]{64}$/.test(e) || !Number.isFinite(expireLe) || typeof version !== 'string' || version.length > 128 || !estBloc(instantane)) refus(400, 'Opération invalide.');
       await store.deposer({ id: campagneId(req), empreinte: e, expireLe, version, instantane: { iv: instantane.iv, data: instantane.data } });
       res.status(204).end();
     } catch (e) { next(e); }

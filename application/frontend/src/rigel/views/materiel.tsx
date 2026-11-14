@@ -56,8 +56,8 @@ function Actions({ vue, m, lieu, installation, constat }: { vue: Vue; m: Materie
   const ici = nomLieu(vue, lieu);
   if (m.salleId === lieu) {
     return <div className="pile">
-      <button className="bouton bouton--principal" type="button" onClick={() => void constat('vu', lieu, installation ? `Installation confirmée · ${m.idOrion}` : `Présence confirmée · ${m.idOrion}`)}>
-        {installation ? 'Confirmer l’installation' : 'Confirmer la présence'}
+      <button className="bouton bouton--principal" type="button" onClick={() => void constat('vu', lieu, installation && m.enCours ? `Installation confirmée · ${m.idOrion}` : `Présence confirmée · ${m.idOrion}`)}>
+        {installation && m.enCours ? 'Confirmer l’installation' : 'Confirmer la présence'}
       </button>
     </div>;
   }
