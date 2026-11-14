@@ -69,7 +69,7 @@ npm run infra:up
 npm run dev
 ```
 
-`npm run dev` lance le serveur Express, l’interface Vite et le simulateur des postes et de M42 (`npm run dev:postes`).
+`npm run dev` lance le serveur Express (`npm run dev:backend`, relancé à chaque modification), l’interface Vite (`npm run dev:frontend`) et le simulateur des postes et de M42 (`npm run dev:postes`) ; chacun peut aussi être lancé seul.
 
 | Service | Adresse | Usage |
 | --- | --- | --- |
@@ -164,6 +164,7 @@ Le serveur ne garde aucun état qui fasse autorité : plusieurs serveurs Express
 Les postes communiquent par l’API `/api/agent` du serveur, authentifiée par un jeton porteur ([backend/workspace/routes.ts](backend/workspace/routes.ts)) :
 
 - **Jeton propre à un poste** : `NOM:signature`, signature HMAC-SHA256 du nom réseau par le secret `AGENT_TOKEN`, que le poste ne connaît pas. Un administrateur l’obtient pour un poste de son périmètre par `GET /api/workspace/postes/:id/jeton`. Le poste n’envoie que ses propres rapports et résultats ; un jeton extrait d’un poste ne permet pas d’agir au nom d’un autre.
+- **Nom réseau** : enregistré en capitales par le serveur, comme le désignent les rapports et le jeton du poste ; l’unité centrale d’un poste est un matériel de type « Unité centrale » de l’école de sa salle (contrôlé par le serveur). Une application du catalogue installée sur un poste ou citée par une intervention ne peut pas être supprimée.
 - **Secret `AGENT_TOKEN`** : réservé à une passerelle de confiance qui rapporte pour plusieurs postes en un envoi (le simulateur du démonstrateur) ; seul à lister les postes.
 
 | Route | Rôle |
@@ -235,7 +236,7 @@ Un code « inconnu » qui correspond en fait à un identifiant ORION ou à un nu
 | `npm run dev` ou `npm run dev:ui` | ORION, avec l’API `/api/rigel` | http://localhost:5173 |
 | `npm run dev:rigel` | Relais (`dev:relais`, mémoire), application mobile (`dev:mobile`, Vite) et connecteur (`dev:connecteur`) | http://localhost:5175 |
 
-Avec `npm run dev:ui`, lancer le connecteur avec `ORION_API=http://127.0.0.1:5173`. La caméra fonctionne sur `localhost` dans un navigateur de bureau ; un téléphone exige le relais en HTTPS (Hidora). Le relais de développement n’utilise pas `.env` (son `PORT` serait celui d’ORION) : stockage en mémoire, jeton `rigel-relais-local`.
+Avec `npm run dev:ui`, lancer le connecteur avec `ORION_API=http://127.0.0.1:5173`. La caméra fonctionne sur `localhost` dans un navigateur de bureau ; un téléphone exige le relais en HTTPS (Hidora). Le relais de développement n’utilise pas `.env` (son `PORT` serait celui d’ORION) : stockage en mémoire, jeton `rigel-relais-local`. `npm run start:relais` lance le relais seul, sans rechargement, avec les variables ci-dessous (commande de l’image `relais`). Le relais refuse (429) les événements d’une campagne au-delà de 5 000 en attente d’ORION (`MAX_EN_ATTENTE`) : un téléphone appairé ou un jeton divulgué ne peut pas remplir sa base ; le téléphone garde ses constats et les renvoie quand le connecteur a relevé les précédents.
 
 | Variable | Service | Rôle | Valeur par défaut hors production |
 | --- | --- | --- | --- |
@@ -312,15 +313,17 @@ application/
 │   ├── rigel.ts                 # Recensement mobile : contrat, étiquettes, lecture des codes, chiffrement
 │   └── operations-data.ts       # Applications et règles de processus de départ
 ├── frontend/
-│   ├── index.html               # Point d'entrée unique
+│   ├── index.html               # Point d'entrée de l'interface ORION
 │   ├── vite.config.ts
+│   ├── vite.rigel.config.ts     # Build de l'application mobile RIGEL (frontend/dist-rigel)
+│   ├── rigel/                   # Entrée de l'application mobile : index.html, entree.ts, modèle du service worker, public/
 │   ├── tsconfig.json            # Types de l’interface (navigateur)
 │   ├── ui-development.ts        # Mode interface seule (greffon Vite)
 │   └── src/
 │       ├── main.tsx             # Montage React et routeur
 │       ├── app.tsx              # Session : connexion ou espace de travail
 │       ├── connexion/           # Pages publiques : connexion, chargement, marques, styles
-│       ├── rigel/               # Application mobile de recensement (PWA, build : frontend/dist-rigel)
+│       ├── rigel/               # Code de l'application mobile de recensement (PWA)
 │       └── workspace/           # Espace de travail, chargé après la connexion
 │           ├── workspace.tsx    # Routes des écrans
 │           ├── assets/          # Logos des applications (sources et licences : assets/apps/SOURCES.md)
@@ -338,6 +341,8 @@ application/
 │   ├── profiles.ts              # Profils ORION et utilisateur présenté au navigateur
 │   ├── services.ts              # Description et état des services (/api/infos, /api/health)
 │   ├── openapi.ts               # Spécification OpenAPI (Swagger UI sur /api/docs)
+│   ├── refus.ts                 # Refus prononcé avant la lecture du corps
+│   ├── securite.ts              # Comparaison des secrets en temps constant
 │   ├── workspace/
 │   │   ├── rules.ts             # Droits, visibilité, règles des écritures
 │   │   ├── fusion.ts            # Fusion des écritures concurrentes
@@ -366,7 +371,7 @@ application/
 │   ├── captures.ts              # Captures des maquettes (npm run captures)
 │   └── presentation.ts          # Contrôle de l’absence de mentions internes dans les pages publiques
 ├── tsconfig.json                # Types du serveur, de shared/, des tests et des configurations
-├── Dockerfile                   # Images web, api, postes et keycloak
+├── Dockerfile                   # Images web, api, postes, keycloak, relais et connecteur
 └── .env.example
 ```
 
@@ -477,9 +482,11 @@ Les images ne contiennent ni configuration ni secret : sur les VM, chaque servic
 
 Les VM `orion-1` à `orion-10` (adresses dans [infra/vm/vm.sh](infra/vm/vm.sh), où `VM[N]` est `orion-N`) ne sont joignables que depuis le réseau privé : le déploiement continu passe par un runner GitHub auto-hébergé sur orion-3 (manager Swarm sans service), qui joint le manager orion-1 par SSH. La pile Swarm s’appelle `orion`. Répartition : managers Swarm sur orion-1, orion-2 et orion-3, dont orion-1 porte l’entrée (HAProxy, une instance, étiquette de nœud `orion=entree`) et orion-3 le runner ; application sur orion-4 et orion-5 (Apache et Express, deux instances chacun, et l’émulateur, `orion=application`) ; rôles isolés, une VM chacun : PostgreSQL sur orion-6 (`pg=true`), identité (Keycloak et OpenLDAP) sur orion-7 (`identite=true`), Logstash sur orion-8 (`logs=true`) ; VM de secours orion-9, qui porte les trois étiquettes et reprend le rôle d’une de ces VM si elle tombe ; stockage hors Swarm sur orion-10, avec un disque ext4 pour les données (`/srv/orion/donnees`) et un pour les logs (`/srv/orion/logs`) — à défaut de disques ajoutés, deux fichiers image ext4 de 6 et 4 Go sur son disque système (`/srv/orion/disques`, cas actuel) —, exportés en NFSv4 vers les VM qui les montent (orion-6 à 9). Les volumes de la pile sont des volumes du pilote `local` de type `nfs` : `pg-nfs`, `ldap-data-nfs` et `ldap-config-nfs` sur le disque des données, `logs-nfs` (Logstash) sur celui des logs ; un service recréé sur une autre VM y retrouve ses données.
 
-**Adresse d’entrée.** L’application se joint directement par l’adresse d’orion-1, `https://172.16.131.188`, sur le port HTTPS par défaut, sans DNS : HAProxy y sert l’interface, l’API (`/api`, `/auth`) et la connexion Keycloak (`/realms`, `/resources`) ; la console de Keycloak, refusée sur `443`, est servie sur `:8444`. HAProxy a une instance, relancée sur orion-1 : si orion-1 tombe, ORION est inaccessible jusqu’à son retour. Le certificat de HAProxy porte l’adresse d’orion-1. Logstash publie `6514` par le maillage de routage de Swarm : le pilote `syslog` de chaque VM joint `127.0.0.1:6514`, sa propre adresse, quelle que soit la VM qui exécute Logstash ; le certificat du collecteur porte donc l’adresse `127.0.0.1`. Les VM utilisent le DNS du réseau de formation. Tous les secrets (mots de passe, jetons, clés et certificats TLS) sont des secrets Docker Swarm, créés par `installer.sh` et remis aux seuls services qui les utilisent ; seule l’autorité de certification, publique, est déposée sur chaque VM pour le pilote `syslog`. En dehors de la pile, seuls chrony (orion-1), le client NFS (orion-6 à 9), le runner (orion-3, `runner.sh`) et le serveur NFS (orion-10) sont installés, par `installer.sh`, qui donne aussi à chaque VM son nom d’hôte `orion-N`.
+**Adresse d’entrée.** L’application se joint directement par l’adresse d’orion-1, `https://172.16.131.188`, sur le port HTTPS par défaut, sans DNS : HAProxy y sert l’interface, l’API (`/api`, `/auth`) et la connexion Keycloak (`/realms`, `/resources`) ; la console de Keycloak, refusée sur `443`, est servie sur `:8444`. HAProxy a une instance, relancée sur orion-1 : si orion-1 tombe, ORION est inaccessible jusqu’à son retour. Le certificat de HAProxy porte l’adresse d’orion-1. Logstash publie `6514` par le maillage de routage de Swarm : le pilote `syslog` de chaque VM joint `127.0.0.1:6514`, sa propre adresse, quelle que soit la VM qui exécute Logstash ; le certificat du collecteur porte donc l’adresse `127.0.0.1`. Les VM utilisent le DNS du réseau de formation. Tous les secrets (mots de passe, jetons, clés et certificats TLS) sont des secrets Docker Swarm, remis aux seuls services qui les utilisent : `installer.sh` les crée, sauf `RIGEL_SECRET` et `RELAIS_TOKEN`, créés par `deployer.sh` au premier déploiement (voir [Recensement mobile](#sur-les-vm--une-fonctionnalité-qui-ne-bloque-jamais-orion)) ; seule l’autorité de certification, publique, est déposée sur chaque VM pour le pilote `syslog`. En dehors de la pile, seuls chrony (orion-1), le client NFS (orion-6 à 9) et le serveur NFS (orion-10) sont installés, par `installer.sh`, qui donne aussi à chaque VM son nom d’hôte `orion-N`, ainsi que le runner (orion-3), installé à part par `runner.sh`.
 
 **VM de secours.** `deployer.sh` vide orion-9 (`drain`) pendant chaque déploiement, si orion-6, orion-7 et orion-8 sont prêtes, puis la remet en service : PostgreSQL, l’identité et Logstash démarrent ainsi chacun sur sa VM, et un service repris par orion-9 rejoint sa VM au déploiement suivant. Entre deux déploiements, Swarm recrée sur orion-9 le service d’une VM qui tombe ; si deux de ces VM tombent, leurs services partagent orion-9.
+
+Configurations du déploiement, remises avec le dossier d’architecture :
 
 | Fichier | Rôle |
 | --- | --- |
@@ -491,6 +498,11 @@ Les VM `orion-1` à `orion-10` (adresses dans [infra/vm/vm.sh](infra/vm/vm.sh), 
 | [installer.sh](infra/vm/installer.sh) | Certificats, préparation des VM (nom d’hôte, DNS du réseau, horloge, autorité, client NFS), stockage d’orion-10, cluster Swarm (managers, workers, étiquettes), secrets ; reprend un cluster existant |
 | [deployer.sh](infra/vm/deployer.sh) | À chaque version : `docker stack deploy` de la pile `orion` sur orion-1, VM de secours vidée pendant le déploiement, pile `orion-rigel` si `RELAIS_URL` est fourni (sans attente), puis contrôle de la version servie par `https://172.16.131.188/api/infos` |
 | [runner.sh](infra/vm/runner.sh) | Runner GitHub Actions du déploiement continu sur orion-3 : service systemd, étiquette `orion`, clé SSH propre autorisée sur orion-1 |
+| [Dockerfile](Dockerfile) | Une cible par image (voir [Images et intégration continue](#images-et-intégration-continue)) |
+| [infra/images/](infra/images/) | Transmission des secrets Swarm aux services (`secrets.sh`) et configuration Apache de l’image `web` |
+| [infra/keycloak/](infra/keycloak/) | Realm (fédération LDAP, clients, flux de connexion) et thème de connexion de l’image `keycloak` |
+| [infra/ldap/](infra/ldap/) | Identités de départ de l’annuaire (LDIF), chargées si l’annuaire est vide |
+| [infra/rigel/](infra/rigel/) | Publication manuelle du relais RIGEL sur Hidora |
 
 Le realm Keycloak lit `APP_URL`, `OIDC_CLIENT_SECRET`, `LDAP_ADMIN_PASSWORD` et `PROVISIONING_CLIENT_SECRET` s’ils sont définis (`${VARIABLE:valeur locale}`) ; sans eux, il garde les valeurs locales de Compose.
 
@@ -502,4 +514,4 @@ Le realm Keycloak lit `APP_URL`, `OIDC_CLIENT_SECRET`, `LDAP_ADMIN_PASSWORD` et 
 
 Le pilote `syslog` de Docker se connecte au collecteur à la création de chaque conteneur : si Logstash ou l’entrée est indisponible, les conteneurs créés pendant ce temps échouent et Swarm les relance jusqu’à son retour ; les conteneurs déjà démarrés continuent.
 
-Ne pas utiliser `infra/compose.yaml` en production : il contient le flux sans mot de passe, les comptes locaux, l’émulateur de postes et des secrets publics. Les paramètres d’hébergement et les exigences complémentaires restent à définir dans le cadrage.
+Ne pas utiliser `infra/compose.yaml` en production : il contient le flux sans mot de passe, les comptes locaux, l’émulateur de postes et des secrets publics. Le flux sans mot de passe n’est pas propre à Compose : il est défini dans le realm ([orion-realm.json](infra/keycloak/orion-realm.json), `orion-username-only`), donc aussi intégré à l’image `keycloak` des VM ; une production doit s’en passer (identités de MindefConnect). Les paramètres d’hébergement et les exigences complémentaires restent à définir dans le cadrage.
