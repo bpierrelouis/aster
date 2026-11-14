@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.4 | 14/11/2026 | Ressource de préparation | Chemins de l'interface renommés (espace) | [9 versions](../archive/README.md#design-readme) |
+| 2.5 | 14/11/2026 | Ressource de préparation | Lien vers les ressources archivées du design | [10 versions](../archive/README.md#design-readme) |
 <!-- version:fin -->
 
 Ce dossier rassemble l’identité visuelle en vigueur d’ORION et les maquettes de l’application. Les deux suivent l’état actuel de l’application : couleurs, mesures et composants proviennent de `application/frontend/src/espace/styles/`, les ambiances de `application/shared/ambiance.ts`, la marque de `application/frontend/src/connexion/` et les icônes de `application/frontend/src/espace/core/icons.ts`.
@@ -32,4 +32,4 @@ Ce dossier rassemble l’identité visuelle en vigueur d’ORION et les maquette
 
 ## Archives
 
-Les directions et maquettes antérieures sont conservées dans les [archives](../archive/README.md) : direction florale ORION (`charte-graphique/index.html` 1.x et `charte-graphique-orion.html`), direction VIGIE non retenue, maquette de gestion des matériels, maquette « Inventory » et propositions A, B et C de tableau de bord. Les ressources qui ne servaient qu’à elles (logos VIGIE, animation de chargement florale) sont dans `archive/design-assets/`.
+Les directions et maquettes antérieures sont conservées dans les [archives](../archive/README.md) : direction florale ORION (`charte-graphique/index.html` 1.x et `charte-graphique-orion.html`), direction VIGIE non retenue, maquette de gestion des matériels, maquette « Inventory » et propositions A, B et C de tableau de bord. Les ressources qui ne servaient qu’à elles (logos VIGIE, animation de chargement florale) sont dans [`archive/design/ressources/`](../archive/design/ressources/), classées par date ; la [galerie des archives du design](../archive/design/index.html) les présente avec les versions remplacées.

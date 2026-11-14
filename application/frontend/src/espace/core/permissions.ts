@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Droits par profil, d'après docs/12-MATRICE-DROITS.md
+   Droits par profil, d'après docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md
    - Administrateur : tous les droits dans son école (RG-15), sauf la prise en
      charge et le traitement des remontées (décision de l'utilisateur du
      13 novembre), la confirmation d'une installation et le recensement RIGEL,
@@ -51,5 +51,9 @@ export function why(cap: Capability) {
   if (cap === 'remontee.create') return 'Création réservée aux formateurs et administrateurs';
   if (cap === 'remontee.treat') return 'Prise en charge et traitement réservés au gestionnaire';
   if (cap === 'installation.confirm') return 'Confirmation par le gestionnaire';
+  if (cap === 'materiel.recensement') return 'Recensement réservé au gestionnaire';
+  if (cap === 'supervision.view') return 'Supervision réservée aux formateurs et administrateurs';
+  if (cap === 'administration.view') return 'Administration réservée aux administrateurs';
+  if (cap === 'ecole.switch') return 'Changement d’école réservé au super administrateur';
   return 'Action réservée aux gestionnaires et administrateurs';
 }

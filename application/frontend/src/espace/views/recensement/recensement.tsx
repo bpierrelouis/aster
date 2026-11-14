@@ -5,14 +5,15 @@
    reviennent ici (confirmations, relocalisations, codes à traiter).
    /materiels/recensement : recensements ; /materiels/recensement/:id : bilan.
    RIGEL est réservé au gestionnaire (ticket #156) : les administrateurs
-   suivent recensements et bilans en lecture, sans action.
+   suivent recensements et bilans en lecture ; « Nouveau recensement » leur
+   est désactivé, avec son motif.
    ========================================================================== */
 
 import { Link, Navigate, useParams } from 'react-router';
 import { Icon } from '../../ui/icons.tsx';
 import { useStore } from '../../hooks/use-store.ts';
 import { useTitle } from '../../hooks/use-title.ts';
-import { can } from '../../core/permissions.ts';
+import { can, why } from '../../core/permissions.ts';
 import { bilan, echeance, ouverte, perimetre, recensements } from '../../core/recensements.ts';
 import { plural } from '#shared/format.ts';
 import { OpsEmpty, PageHead, Progress } from '../../widgets/parts.tsx';
@@ -45,7 +46,7 @@ export function Recensement() {
   const list = recensements();
   return <div className="group-view">
     <PageHead title="Recensement">
-      {can('materiel.recensement') && <button className="btn btn--primary" onClick={() => openRecensementForm()}><Icon name="plus" size={18} /><span>Nouveau recensement</span></button>}
+      <button className="btn btn--primary" {...(can('materiel.recensement') ? { onClick: () => openRecensementForm() } : { 'aria-disabled': 'true' as const, 'data-tip': why('materiel.recensement') })}><Icon name="plus" size={18} /><span>Nouveau recensement</span></button>
     </PageHead>
     {list.length
       ? <div className="ops-grid rec-grid">{list.map((r) => <RecensementCard key={r.id} r={r} />)}</div>

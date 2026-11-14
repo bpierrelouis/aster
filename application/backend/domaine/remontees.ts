@@ -14,7 +14,7 @@ import type { Contexte, LooseItem } from './commun.ts';
 const SAISIE_REMONTEE: readonly string[] = ['id', 'ecoleId', 'materielIds', 'probleme', 'description'];
 
 /** Création ou traitement d'une remontée */
-export function regleRemontee(x: LooseItem, old: LooseItem | undefined, { actor, now, materiels }: Contexte) {
+export function regleRemontee(x: LooseItem, old: LooseItem | undefined, { actor, now, materiels, state }: Contexte) {
   if (!old) {
     if (actor.role === 'gestionnaire') fail(403, 'Création de remontée non autorisée.');
     for (const k of Object.keys(x)) if (!SAISIE_REMONTEE.includes(k)) delete (x as Record<string, unknown>)[k]; // ni salle ni autre valeur hors saisie
@@ -40,5 +40,7 @@ export function regleRemontee(x: LooseItem, old: LooseItem | undefined, { actor,
     } else x.probleme = x.probleme.trim();
   }
   assert(typeof x.description === 'string' && x.description.trim() && x.description.length <= 12000, 'Description obligatoire.');
+  // Le formateur signale le matériel d'une salle, jamais celui du stock (décision de l'utilisateur du 14 novembre)
+  if (!old && actor.role === 'formateur' && Array.isArray(x.materielIds) && state.materiels.some((m) => m.ecoleId === x.ecoleId && !m.salleId && x.materielIds!.includes(m.id))) fail(400, 'Un formateur ne signale que le matériel d’une salle, pas celui du stock.');
   assert(Array.isArray(x.materielIds) && x.materielIds.length > 0 && x.materielIds.every((mid) => materiels.some((m) => m.id === mid && m.ecoleId === x.ecoleId)), 'Matériels invalides.');
 }

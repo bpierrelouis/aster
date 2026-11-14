@@ -8,7 +8,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 
 | Fichier | Destination | Version | Mise à jour |
 | --- | --- | --- | --- |
-| [design/README.md](../design/README.md) | Ressource de préparation | [2.4](#design-readme) | 14/11/2026 |
+| [design/README.md](../design/README.md) | Ressource de préparation | [2.5](#design-readme) | 14/11/2026 |
 | [design/charte-graphique/index.html](../design/charte-graphique/index.html) | Ressource de préparation | [2.2](#design-charte-graphique-index) | 14/11/2026 |
 | [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [2.0](#design-maquettes-index) | 13/11/2026 |
 | [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md) | Production destinée à la remise | [3.5](#00-glossaire) | 14/11/2026 |
@@ -27,20 +27,20 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md) | Production destinée à la remise | [6.3](#12-matrice-droits) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx) | Production destinée à la remise | [1.1](#13-fiche-descriptive-gestionnaire) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [4.3](#13-fiche-descriptive-gestionnaire) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx) | Production destinée à la remise | [1.1](#14-fiche-descriptive-formateur) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [3.0](#14-fiche-descriptive-formateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx) | Production destinée à la remise | [1.2](#14-fiche-descriptive-formateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [3.1](#14-fiche-descriptive-formateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx) | Production destinée à la remise | [1.1](#15-fiche-descriptive-administrateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [4.2](#15-fiche-descriptive-administrateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.docx](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.docx) | Production destinée à la remise | [1.1](#16-fiche-descriptive-super-administrateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [4.2](#16-fiche-descriptive-super-administrateur) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) | Production destinée à la remise | [1.2](#diagrammes-activite-cas-utilisation-brouillon-v2) | 14/11/2026 |
-| [docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [4.0](#17-diagrammes-etats) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) | Brouillon interne | [1.3](#diagrammes-activite-cas-utilisation-brouillon-v2) | 14/11/2026 |
+| [docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [4.1](#17-diagrammes-etats) | 14/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/README.md](../docs/02-ANALYSE/04-CONCEPTION/README.md) | Production destinée à la remise | [1.1](#readme) | 14/11/2026 |
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [3.1](#18-dossier-architecture-technique) | 14/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.1](#19-diagrammes-architecture) | 14/11/2026 |
-| [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.3](#20-backlog-et-suivi-projet) | 14/11/2026 |
+| [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.4](#20-backlog-et-suivi-projet) | 14/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.2](#20-backlog-et-suivi-projet) | 14/11/2026 |
-| [docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md) | Brouillon interne | [1.3](#20-suivi-backlog-brouillon-v1) | 14/11/2026 |
+| [docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md) | Brouillon interne | [1.4](#20-suivi-backlog-brouillon-v1) | 14/11/2026 |
 | [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.13](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
 
 ## Fichiers en vigueur
@@ -51,7 +51,8 @@ Fichier : [design/README.md](../design/README.md) · Ressource de préparation
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.4 | 14/11/2026 | Chemins de l'interface renommés (espace) | en vigueur | — |
+| 2.5 | 14/11/2026 | Lien vers les ressources archivées du design | en vigueur | — |
+| 2.4 | 14/11/2026 | Chemins de l'interface renommés (espace) | `6bb4670` | [archive](design/readme/README-v2.4-2026-11-14.md) |
 | 2.3 | 14/11/2026 | Documenter la commande de régénération des captures | `ad9efd5` | [archive](design/readme/README-v2.3-2026-11-14.md) |
 | 2.2 | 13/11/2026 | Icônes métier en Bleu Orion, captures compressées | `e0421f0` | [archive](design/readme/README-v2.2-2026-11-13.md) |
 | 2.1 | 13/11/2026 | Décrire les maquettes simplifiées et les logos à l’étoile | `bf823e8` | [archive](design/readme/README-v2.1-2026-11-13.md) |
@@ -289,7 +290,7 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.3 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
+| 6.3 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Formateur : remontées sur les matériels d’une salle seulement | en vigueur | — |
 | 6.2 | 14/11/2026 | Recensement, installation et anciens constats | `186f904` | — |
 | 6.1 | 14/11/2026 | RIGEL : accepter sur place ou ramener (RG-96) | `07a0096` | — |
 | 6.0 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | `6219944` | — |
@@ -339,7 +340,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
+| 1.2 | 14/11/2026 | Régénérée depuis la fiche | en vigueur | — |
+| 1.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | `80413fc` | — |
 | 1.0 | 14/11/2026 | Version Word générée depuis la fiche Markdown | `186f904` | — |
 
 ### 14-FICHE-DESCRIPTIVE-FORMATEUR
@@ -348,7 +350,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | en vigueur | — |
+| 3.1 | 14/11/2026 | Formateur : remontées sur les matériels d’une salle seulement | en vigueur | — |
+| 3.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | `5383a9f` | — |
 | 2.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | `69eaf4e` | — |
 | 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
 | 1.4 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
@@ -415,11 +418,12 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADM
 
 ### DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2
 
-Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) · Brouillon interne
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.2 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | en vigueur | — |
+| 1.3 | 14/11/2026 | PDF à la demande et type de problème obligatoire | en vigueur | — |
+| 1.2 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | `69eaf4e` | — |
 | 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md`) | — |
 | 1.0 | 06/11/2026 | Ajouter les parcours détaillés en brouillon | `d626315` (`docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md`) | — |
 
@@ -429,7 +433,8 @@ Fichier : [docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.0 | 14/11/2026 | Promouvoir en livrable de la phase Analyse ; intervention complétée (gardes, effets, fin) | en vigueur | — |
+| 4.1 | 14/11/2026 | Intervention : état « En cours » de la demande et des postes | en vigueur | — |
+| 4.0 | 14/11/2026 | Promouvoir en livrable de la phase Analyse ; intervention complétée (gardes, effets, fin) | `e99107c` | — |
 | 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/03-ANALYSE/ | `69eaf4e` (`docs/02-ANALYSE/03-ANALYSE/DIAGRAMMES-ETATS-BROUILLON-V1.md`) | — |
 | 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md`) | — |
 | 2.0 | 13/11/2026 | Aligner sur l’application : état « en cours », traitement direct possible, PDF à la demande, type obligatoire, interventions sur une seule salle | `28bc990` (`docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md`) | — |
@@ -481,7 +486,8 @@ Fichier : [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGA
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.3 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | en vigueur | — |
+| 1.4 | 14/11/2026 | Version Word régénérée (graphiques à jour) | en vigueur | — |
+| 1.3 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | `e99107c` | — |
 | 1.2 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ | `69eaf4e` (`docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
 | 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | `61abf4a` (`docs/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
 | 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `b2a5a17` (`docs/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
@@ -505,7 +511,8 @@ Fichier : [docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORG
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.3 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | en vigueur | — |
+| 1.4 | 14/11/2026 | Nom du projet GitHub : ORION development | en vigueur | — |
+| 1.3 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | `e99107c` | — |
 | 1.2 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ | `69eaf4e` (`docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |
 | 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le commit de la cible C1NP | `61abf4a` (`docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |
 | 1.0 | 13/11/2026 | Consolider le suivi des progressions | `83658a3` (`docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |

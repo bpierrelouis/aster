@@ -1,6 +1,7 @@
 /* ==========================================================================
    Remontées · création : une salle, un ou plusieurs matériels, une
    description (RG-11). Ouvert depuis l'écran Remontées ou une salle.
+   Le stock n'est proposé qu'aux profils qui y ont accès (pas au formateur).
    ========================================================================== */
 
 import { Fragment, useEffect, useRef, useState } from 'react';
@@ -98,7 +99,7 @@ function NewRemonteeSheet({ salleId: initialSalle, materielIds }: { salleId: Id 
         </button>
       ))}
     </div>}
-    <button className="btn btn--glass" data-salle="stock" onClick={() => chooseSalle('stock')}><Icon name="stockage" size={18} />Stock</button>
+    {can('materiel.move') && <button className="btn btn--glass" data-salle="stock" onClick={() => chooseSalle('stock')}><Icon name="stockage" size={18} />Stock</button>}
     <div className="pick-grid pick-grid--salles">
       {matchingRooms.map((x) => (
         <button key={x.id} className={`pick-room ${x.id === salleId ? 'is-on' : ''}`} data-salle={x.id} onClick={() => chooseSalle(x.id)}>

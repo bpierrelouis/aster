@@ -1218,9 +1218,10 @@ test('recensement : ouverture, appairage par QR code, code inconnu ajouté au pa
   // RIGEL réservé au gestionnaire (ticket #156)
   await asAccount(request, manager.id);
   try { await recenser(); } finally { await asAccount(request, admin.id); }
-  // L'administrateur suit la campagne en lecture seule : aucune action
+  // L'administrateur suit le recensement en lecture seule : action désactivée, avec son motif
   await open(page, '/materiels/recensement');
-  await expect(page.getByRole('button', { name: 'Nouveau recensement' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Nouveau recensement' })).toHaveAttribute('aria-disabled', 'true');
+  await expect(page.getByRole('button', { name: 'Nouveau recensement' })).toHaveAttribute('data-tip', 'Recensement réservé au gestionnaire');
   await page.locator('.rec-card', { hasText: 'Recensement de test' }).click();
   await expect(page.locator('.group-lead')).toContainText('Recensement de test');
   await expect(page.locator('#view').getByRole('button')).toHaveCount(0);
@@ -1361,6 +1362,29 @@ test('la recherche du formateur ignore le stock et mène à la salle du matérie
     await page.getByRole('searchbox', { name: 'Recherche' }).fill(enSalle.idOrion);
     await page.getByRole('option', { name: new RegExp(enSalle.idOrion) }).click();
     await expect(page).toHaveURL(new RegExp(`/salles/salle/${enSalle.salleId}\\?m=${enSalle.id}$`));
+  } finally {
+    await asAccount(request, admin.id);
+  }
+});
+
+// Le formateur signale le matériel d'une salle : le stock ne lui est pas proposé
+test('le formateur ne signale un problème que dans une salle, pas au stock', async ({ page, request }) => {
+  const view = await state(request);
+  const admin = view.comptes.find((c) => c.actif && c.role === 'admin')!;
+  const formateur = view.comptes.find((c) => c.actif && c.role === 'formateur' && c.ecoleId === admin.ecoleId)!;
+  const dialogue = async () => {
+    await page.getByRole('button', { name: 'Signaler un problème', exact: true }).last().click();
+    return page.getByRole('dialog', { name: 'Signaler un problème', exact: true });
+  };
+  await open(page, '/remontees/attente');
+  await expect((await dialogue()).locator('[data-salle="stock"]')).toBeVisible();
+  try {
+    await asAccount(request, formateur.id);
+    await open(page, '/remontees/attente');
+    const dialog = await dialogue();
+    await expect(dialog.locator('.pick-room').first()).toBeVisible();
+    await expect(dialog.locator('[data-salle="stock"]')).toHaveCount(0);
+    expect(await page.evaluate(() => window.orion.store.state.materiels.every((m) => m.salleId))).toBe(true);
   } finally {
     await asAccount(request, admin.id);
   }

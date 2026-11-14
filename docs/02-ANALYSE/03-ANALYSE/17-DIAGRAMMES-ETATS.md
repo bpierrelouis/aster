@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.0 | 14/11/2026 | Production destinée à la remise | Promouvoir en livrable de la phase Analyse ; intervention complétée (gardes, effets, fin) | [5 versions](../../../archive/README.md#17-diagrammes-etats) |
+| 4.1 | 14/11/2026 | Production destinée à la remise | Intervention : état « En cours » de la demande et des postes | [6 versions](../../../archive/README.md#17-diagrammes-etats) |
 <!-- version:fin -->
 
 ## Remontée
@@ -34,11 +34,20 @@ stateDiagram-v2
 
     state enregistree {
         direction LR
-        [*] --> en_attente : pour chaque poste cible
-        en_attente --> en_attente : poste éteint ou indisponible<br/>/ exécution à son retour
-        en_attente --> reussie : résultat du poste « réussie »<br/>/ installation : application ajoutée au poste<br/>désinstallation : application retirée<br/>réinitialisation : processus du poste arrêtés<br/>arrêt : processus arrêté, détection « arrêt réussi »
-        en_attente --> echec_poste : résultat du poste « échec »<br/>/ arrêt : détection « arrêt en échec »
+        [*] --> demande_en_attente
+        demande_en_attente --> demande_en_cours : [≥ 1 poste en cours, en réussite ou en échec]
+        demande_en_cours --> demande_en_attente : [aucun résultat ∧ tous les postes éteints ou indisponibles]
+        demande_en_attente : En attente
+        demande_en_cours : En cours
+        --
+        [*] --> en_attente : pour chaque poste cible<br/>[poste éteint ou indisponible]
+        [*] --> en_cours : pour chaque poste cible<br/>[poste allumé]
+        en_attente --> en_cours : poste allumé<br/>/ exécution à son prochain rapport
+        en_cours --> en_attente : poste éteint ou indisponible<br/>[aucun résultat]
+        en_cours --> reussie : résultat du poste « réussie »<br/>/ installation : application ajoutée au poste<br/>désinstallation : application retirée<br/>réinitialisation : processus du poste arrêtés<br/>arrêt : processus arrêté, détection « arrêt réussi »
+        en_cours --> echec_poste : résultat du poste « échec »<br/>/ arrêt : détection « arrêt en échec »
         en_attente : En attente
+        en_cours : En cours
         reussie : Réussie
         echec_poste : Échec
     }

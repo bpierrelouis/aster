@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.3 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée | [15 versions](../../../archive/README.md#12-matrice-droits) |
+| 6.3 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Formateur : remontées sur les matériels d’une salle seulement | [15 versions](../../../archive/README.md#12-matrice-droits) |
 <!-- version:fin -->
 
 Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
@@ -56,7 +56,7 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 
 | Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
 | --- | --- | --- | --- | --- | --- | --- |
-| Créer une remontée | Non | Oui | Oui | Oui | La remontée concerne un ou plusieurs matériels de l’école de la remontée ; le type de problème est obligatoire. | RG-15, RG-21 et RG-79, DCU 11 |
+| Créer une remontée | Non | Oui | Oui | Oui | La remontée concerne un ou plusieurs matériels de l’école de la remontée ; le type de problème est obligatoire. Le formateur ne signale que des matériels affectés à une salle (pas le stock). | RG-15, RG-21 et RG-79, DCU 11 |
 | Consulter les remontées et leur suivi | Oui | Oui | Oui | Oui | Le formateur consulte uniquement ses propres remontées ; le gestionnaire et l’administrateur consultent toutes les remontées de leur école. | RG-15, RG-64 et RG-80, DCU 11 |
 | Consulter un PDF d’état des lieux | Oui | Oui | Oui | Oui | Le formateur consulte uniquement le PDF d’une remontée qu’il a lui-même créée. Le PDF présente le statut et le suivi de la remontée. | RG-15, RG-23 et RG-89, DCU 11 |
 | Télécharger un PDF d’état des lieux | Oui | Oui | Oui | Oui | Le formateur télécharge uniquement le PDF d’une remontée qu’il a lui-même créée. | RG-23, DCU 11 |

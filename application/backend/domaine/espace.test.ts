@@ -339,6 +339,22 @@ test('remontée : une salle ou toute valeur hors saisie est ignorée', () => {
   assert(!('salleId' in created) && !('posteId' in created));
 });
 
+test('formateur : le matériel des salles seulement, pas le stock ; remontée sur le stock refusée', () => {
+  const state = etatDemonstration();
+  const teacher = as(state, TEACHER);
+  const input: Ecriture = scopedState(state, teacher);
+  assert(input.materiels.length && input.materiels.every((m) => m.salleId), 'stock invisible pour le formateur');
+  assert(scopedState(state, as(state, ADMIN)).materiels.some((m) => !m.salleId), 'stock visible pour l’administrateur');
+  const enStock = state.materiels.find((m) => m.ecoleId === 'e-num' && !m.salleId)!;
+  input.remontees.unshift({ id: 'tmp', ecoleId: 'e-num', materielIds: [enStock.id], probleme: 'display', description: 'Matériel du stock' } as LooseItem as Ecriture['remontees'][number]);
+  assert.throws(() => mergeState(state, input, teacher), { status: 400, message: /pas celui du stock/ });
+  // L'administrateur signale encore un matériel du stock
+  const admin = as(state, ADMIN);
+  const parAdmin: Ecriture = scopedState(state, admin);
+  parAdmin.remontees.unshift({ id: 'tmp', ecoleId: 'e-num', materielIds: [enStock.id], probleme: 'display', description: 'Stock par l’administrateur' } as LooseItem as Ecriture['remontees'][number]);
+  assert(mergeState(state, parAdmin, admin).remontees.some((r) => r.description === 'Stock par l’administrateur'));
+});
+
 test('bâtiments : un administrateur renomme un bâtiment ; salles, étages et règles suivent', () => {
   const state = etatDemonstration();
   state.regles.push({ id: 'rule-bat', nom: 'jeu.exe', classement: 'blacklist', portee: 'batiment', ecoleId: 'e-num', batiment: 'C' });

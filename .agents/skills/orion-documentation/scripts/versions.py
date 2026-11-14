@@ -353,6 +353,7 @@ def publier(chemin, majeure, message):
         registre[chemin] = {"destination": destination(chemin), "versions": [{"version": "1.0", "date": aujourdhui, "modification": message, "archive": None}]}
     else:
         fiche = registre[chemin]
+        fiche["destination"] = destination(chemin)  # recalculée à chaque publication, selon le classement du README
         avant = fiche["versions"][-2] if len(fiche["versions"]) > 1 else None
         # Déjà publié depuis le dernier commit (ou renommé sans commit depuis) : même version, modification complétée.
         if avant and (avant.get("commit") == dernier_commit(chemin) or dernier_commit(chemin) is None):

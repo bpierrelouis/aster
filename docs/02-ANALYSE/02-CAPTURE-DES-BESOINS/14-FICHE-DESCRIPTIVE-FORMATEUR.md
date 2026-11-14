@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.0 | 14/11/2026 | Production destinée à la remise | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | [8 versions](../../../archive/README.md#14-fiche-descriptive-formateur) |
+| 3.1 | 14/11/2026 | Production destinée à la remise | Formateur : remontées sur les matériels d’une salle seulement | [9 versions](../../../archive/README.md#14-fiche-descriptive-formateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -20,7 +20,7 @@
 | Tableau de bord | « Mon tableau de bord » personnalisable (ses remontées, salles de l’école, postes allumés par bâtiment) |
 | Salles | Vue éclatée des bâtiments, détail d’une salle et de ses matériels, sans modification ; recherche limitée aux salles et aux matériels affectés à une salle, menant à la salle |
 | Supervision | **Alertes** et **Salles** : choisir une salle, consulter l’état de ses postes et leurs processus utilisateur, demander l’arrêt d’un processus, consulter les détections de la salle |
-| Remontées | Créer une remontée sur des matériels d’une salle ou du stock ; suivre ses propres remontées ; consulter, télécharger et imprimer leur état des lieux |
+| Remontées | Créer une remontée sur des matériels d’une salle ; suivre ses propres remontées ; consulter, télécharger et imprimer leur état des lieux |
 | Notifications | Prise en charge et fin de traitement de ses remontées |
 | Exclusions | Inventaire et stock, modification du parc, RIGEL, traitement des remontées, listes de processus, statistiques, administration des postes et comptes ORION |
 
@@ -106,7 +106,7 @@ RG-38, RG-52 à RG-56 et RG-69.
 ### Scénario nominal
 
 1. ORION ouvre un parcours en trois étapes. Depuis une salle, la salle et les matériels sélectionnés sont repris.
-2. **Salle :** le formateur recherche une salle ou choisit un bâtiment, puis une salle, ou le **Stock**.
+2. **Salle :** le formateur recherche une salle ou choisit un bâtiment, puis une salle ; le stock ne lui est pas proposé.
 3. **Matériels :** ORION présente les matériels regroupés par type, avec leur état ; il en sélectionne un ou plusieurs, puis clique sur **Continuer**.
 4. **Problème :** il choisit le type de problème, obligatoire (« Ne s’allume pas », « Pas d’image », « Connexion », « Casse », « Fonctionnement anormal » ou « Autre », dont il précise alors le libellé), puis saisit la description, obligatoire.
 5. Il clique sur **Transmettre la remontée**. ORION attribue le numéro, enregistre le formateur comme auteur et la remontée « en attente », notifie le gestionnaire et confirme « REM-… transmise, état des lieux disponible ».
@@ -117,7 +117,7 @@ RG-38, RG-52 à RG-56 et RG-69.
 ### Variantes et limites
 
 - Une remontée concerne des matériels d’une seule école et n’a qu’un statut : « en attente », « en cours », « remplacé » ou « corrigé ». Une remontée terminée ne change plus de statut.
-- Un matériel du stock n’a pas de salle ; la localisation présentée est celle de chaque matériel.
+- Le formateur ne signale que des matériels affectés à une salle, jamais du stock ; la localisation présentée est celle de chaque matériel.
 - La remontée ne peut pas être transmise sans type de problème ni description ; elle n’est ensuite ni modifiée ni supprimée.
 - Le formateur ne traite pas la remontée et ne consulte ni les remontées ni les états des lieux d’autres auteurs.
 - L’état des lieux est produit à chaque demande, avec les informations du moment ; il n’est pas conservé. Aucun courriel n’est envoyé.
@@ -152,7 +152,7 @@ RG-11 à RG-14, RG-21, RG-23, RG-34 à RG-38, RG-63, RG-64, RG-66, RG-69, RG-79,
 
 ### Variantes et limites
 
-- Le formateur ne voit ni l’inventaire ni le stock dans la recherche ; il ne crée, ne modifie, n’affecte ni ne supprime aucun matériel ou salle.
+- Le formateur ne voit ni l’inventaire ni le stock ; il ne crée, ne modifie, n’affecte ni ne supprime aucun matériel ou salle.
 
 ### Résultats attendus
 
@@ -202,7 +202,7 @@ Les niveaux et les salles d’un bâtiment sont présentés avec leurs compteurs
 
 ![Signaler un problème, choix de la salle](../../../design/maquettes/captures/32-remontee-creation.png)
 
-Première étape : le formateur choisit la salle, ou le stock, où se trouvent les matériels concernés.
+Première étape : le formateur choisit la salle où se trouvent les matériels concernés.
 
 ### Signaler un problème : matériels
 
@@ -228,7 +228,7 @@ Les détections de processus non référencés ou interdits sont listées avec l
 - Vue éclatée et détail des salles en consultation, avec une action de signalement.
 - Choix d’une salle, état des postes et de leurs processus, action d’arrêt avec son état.
 - Liste des détections de la salle choisie.
-- Parcours de remontée en trois étapes (salle ou stock, matériels, problème).
+- Parcours de remontée en trois étapes (salle, matériels, problème).
 - Espace limité aux remontées du formateur, avec statut, suivi et accès au PDF.
 - Notifications dans ORION.
 

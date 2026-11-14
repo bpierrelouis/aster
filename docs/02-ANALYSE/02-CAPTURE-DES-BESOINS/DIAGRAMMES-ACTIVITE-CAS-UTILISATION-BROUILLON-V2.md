@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.2 | 14/11/2026 | Production destinée à la remise | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | [3 versions](../../../archive/README.md#diagrammes-activite-cas-utilisation-brouillon-v2) |
+| 1.3 | 14/11/2026 | Brouillon interne | PDF à la demande et type de problème obligatoire | [4 versions](../../../archive/README.md#diagrammes-activite-cas-utilisation-brouillon-v2) |
 <!-- version:fin -->
 
 ## 1. Importer de nouveaux matériels en JSON — scénario nominal, acteur habilité
@@ -81,13 +81,13 @@ flowchart TD
 ```mermaid
 flowchart TD
     debut(["Début"])
-    fin(["Fin — remontée créée et PDF associé"])
+    fin(["Fin — remontée créée"])
     finRefus(["Fin — création refusée"])
 
     subgraph ACTEUR["Formateur, administrateur ou super administrateur"]
         selection["Sélectionner un ou plusieurs matériels d’une même école"]
-        saisie["Décrire le problème et transmettre la remontée"]
-        correction["Compléter les matériels concernés ou la description"]
+        saisie["Choisir le type de problème, le décrire et transmettre la remontée"]
+        correction["Compléter les matériels concernés, le type de problème ou la description"]
     end
 
     subgraph ORION["ORION"]
@@ -95,11 +95,10 @@ flowchart TD
         controleAcces["Vérifier le droit de création et le périmètre des matériels"]
         acces{"Création autorisée pour ces matériels ?"}
         controleDonnees["Vérifier les informations obligatoires de la remontée"]
-        conformite{"Au moins un matériel et une description renseignés ?"}
+        conformite{"Au moins un matériel, un type de problème et une description renseignés ?"}
         erreurs["Signaler les informations manquantes"]
         refus["Refuser la création sans enregistrer de remontée"]
         enregistrer["Enregistrer la remontée, son auteur et les matériels concernés"]
-        pdf["Générer et associer le PDF d’état des lieux à partir du formulaire"]
         notification["Créer la notification ORION destinée au gestionnaire de l’école concernée"]
     end
 
@@ -108,7 +107,7 @@ flowchart TD
     acces -->|"[non]"| refus --> finRefus
     acces -->|"[oui]"| controleDonnees --> conformite
     conformite -->|"[non]"| erreurs --> correction --> saisie
-    conformite -->|"[oui]"| enregistrer --> pdf --> notification --> fin
+    conformite -->|"[oui]"| enregistrer --> notification --> fin
 ```
 
 ## 4. Modifier le profil d’un utilisateur — proposition, transitions à définir

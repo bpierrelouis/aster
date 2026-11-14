@@ -58,6 +58,8 @@ export function visibleTo(collection: CollectionName, item: LooseItem | undefine
   if (['postes', 'processus', 'detections', 'installations'].includes(collection)) return actor.role !== 'gestionnaire';
   if (['recensements', 'constats'].includes(collection)) return actor.role !== 'formateur';
   if (collection === 'remontees' && actor.role === 'formateur') return item.auteurId === actor.id;
+  // Le formateur ne voit que le matériel des salles, pas le stock (décision de l'utilisateur du 14 novembre)
+  if (collection === 'materiels' && actor.role === 'formateur') return Boolean(item.salleId);
   return true;
 }
 

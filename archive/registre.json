@@ -63,6 +63,13 @@
         "version": "2.4",
         "date": "2026-11-14",
         "modification": "Chemins de l'interface renommés (espace)",
+        "archive": "design/readme/README-v2.4-2026-11-14.md",
+        "commit": "6bb4670"
+      },
+      {
+        "version": "2.5",
+        "date": "2026-11-14",
+        "modification": "Lien vers les ressources archivées du design",
         "archive": null
       }
     ]
@@ -1229,7 +1236,7 @@
       {
         "version": "6.3",
         "date": "2026-11-14",
-        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Formateur : remontées sur les matériels d’une salle seulement",
         "archive": null
       }
     ]
@@ -1357,6 +1364,13 @@
         "version": "1.1",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
+        "archive": null,
+        "commit": "80413fc"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-14",
+        "modification": "Régénérée depuis la fiche",
         "archive": null
       }
     ]
@@ -1420,6 +1434,13 @@
         "version": "3.0",
         "date": "2026-11-14",
         "modification": "Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application",
+        "archive": null,
+        "commit": "5383a9f"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-14",
+        "modification": "Formateur : remontées sur les matériels d’une salle seulement",
         "archive": null
       }
     ]
@@ -1644,7 +1665,7 @@
     ]
   },
   "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md": {
-    "destination": "Production destinée à la remise",
+    "destination": "Brouillon interne",
     "versions": [
       {
         "version": "1.0",
@@ -1665,6 +1686,13 @@
         "version": "1.2",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-14",
+        "modification": "PDF à la demande et type de problème obligatoire",
         "archive": null
       }
     ]
@@ -1707,6 +1735,13 @@
         "version": "4.0",
         "date": "2026-11-14",
         "modification": "Promouvoir en livrable de la phase Analyse ; intervention complétée (gardes, effets, fin)",
+        "archive": null,
+        "commit": "e99107c"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-14",
+        "modification": "Intervention : état « En cours » de la demande et des postes",
         "archive": null
       }
     ]
@@ -1898,6 +1933,13 @@
         "version": "1.3",
         "date": "2026-11-14",
         "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
+        "archive": null,
+        "commit": "e99107c"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-14",
+        "modification": "Version Word régénérée (graphiques à jour)",
         "archive": null
       }
     ]
@@ -1982,6 +2024,13 @@
         "version": "1.3",
         "date": "2026-11-14",
         "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
+        "archive": null,
+        "commit": "e99107c"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-14",
+        "modification": "Nom du projet GitHub : ORION development",
         "archive": null
       }
     ]

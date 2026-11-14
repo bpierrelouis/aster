@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.3 | 14/11/2026 | Brouillon interne | Renuméroter après l’ajout des diagrammes d’états (17) | [4 versions](../../archive/README.md#20-suivi-backlog-brouillon-v1) |
+| 1.4 | 14/11/2026 | Brouillon interne | Nom du projet GitHub : ORION development | [5 versions](../../archive/README.md#20-suivi-backlog-brouillon-v1) |
 <!-- version:fin -->
 
 **Date de situation : 13 novembre 2026.** Période observée : du 20 octobre au 13 novembre 2026. Référence locale : `07629612ff5078cf041f7ef4100ba249c464d576`.
@@ -18,7 +18,7 @@ Le suivi repose sur l’historique des commits accessibles depuis `HEAD`, leurs 
 - [Consignes du projet](../01-CONTEXTE/01-CONSIGNES.md), notamment les exigences de présentation et de suivi du backlog.
 - [Cadrage](../01-CONTEXTE/02-CADRAGE.md), notamment les § 19 à 23 pour l’architecture, les limites et les questions encore ouvertes.
 - [Guide interne de l’application](../../application/README.md), référence pour les modalités de réalisation.
-- Projet GitHub demandé : **« aster development »**. Son URL exacte, ses cartes, leurs responsables et leurs statuts n’ont pas été consultés. Le connecteur disponible ne propose pas la lecture des Projects et l’accès public à la page des projets du dépôt n’a pas abouti. Aucun numéro de carte ni statut ci-dessous ne lui est attribué.
+- Projet GitHub demandé : **« ORION development »**. Son URL exacte, ses cartes, leurs responsables et leurs statuts n’ont pas été consultés. Le connecteur disponible ne propose pas la lecture des Projects et l’accès public à la page des projets du dépôt n’a pas abouti. Aucun numéro de carte ni statut ci-dessous ne lui est attribué.
 
 Les identifiants `SUIVI-01` à `SUIVI-12` sont propres à ce document. Ils ne remplacent pas les identifiants du tableau GitHub. Les priorités et les suites proposées constituent des orientations de pilotage, pas des décisions client.
 
@@ -126,7 +126,7 @@ Les hashes courts de ce tableau se recherchent dans le [dépôt](https://github.
 
 | Priorité proposée | Action | Motif et condition de clôture |
 | --- | --- | --- |
-| Haute | Rapprocher ce document de « aster development » | Relever URL, date de consultation, identifiants, statuts et responsables ; expliquer chaque écart avant de modifier un état. Aucun état GitHub ne peut encore être confirmé. |
+| Haute | Rapprocher ce document de « ORION development » | Relever URL, date de consultation, identifiants, statuts et responsables ; expliquer chaque écart avant de modifier un état. Aucun état GitHub ne peut encore être confirmé. |
 | Haute | Réaliser et consigner la recette | Des commits de réalisation existent, mais ce suivi n’a exécuté aucun test applicatif. Clôturer les lots sur des résultats observables, pas seulement sur un commit. |
 | Haute | Traiter les écarts client/application du cadrage § 23 | Notifications : fenêtre à la connexion demandée, liste dans l’en-tête réalisée. Import JSON : absence de vérification demandée, contrôles présents dans l’application. Conserver la décision client dans les livrables et obtenir une réponse sur l’écart. |
 | Haute | Confirmer l’environnement déployé | Les versions successives de l’architecture ne prouvent pas la configuration réellement en service. Relever les services et VM effectivement utilisés et les résultats des essais. |
@@ -135,7 +135,7 @@ Les hashes courts de ce tableau se recherchent dans le [dépôt](https://github.
 
 ## 6. Rapprochement prévu avec GitHub Projects
 
-Le nom **« aster development »** est fourni par l’utilisateur le 13 novembre 2026. Le contenu du tableau n’étant pas accessible dans cette session, la présente section constitue une procédure de rapprochement, et non une copie du Project.
+Le nom **« ORION development »** est fourni par l’utilisateur le 13 novembre 2026. Le contenu du tableau n’étant pas accessible dans cette session, la présente section constitue une procédure de rapprochement, et non une copie du Project.
 
 Pour chaque carte réellement consultée, compléter une ligne dans le format suivant :
 
