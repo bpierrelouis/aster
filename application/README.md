@@ -379,9 +379,12 @@ npm test               # Règles, API, identité ; intégration PostgreSQL si l'
 npm run build
 npm run test:ui        # Page de connexion
 npm run test:workspace # Écrans de l'espace de travail en mode interface seule (port 5174)
+npm run test:linux     # test:workspace sous Linux, comme la CI (Docker requis) ; npm run test:linux -- test:ui pour une autre suite
 ```
 
 Les tests d’intégration utilisent un schéma PostgreSQL temporaire, supprimé à la fin ; ils sont ignorés si l’infrastructure est absente. Les tests Playwright utilisent Google Chrome s’il est installé (comme sur les machines de la CI), sinon le Chromium de Playwright, à installer une fois avec `npx playwright install chromium` ([tests/navigateur.ts](tests/navigateur.ts)). `npm run test:ui` démarre l’interface sur le port 5173, ou réutilise celle qui y tourne déjà : il doit s’agir de `npm run dev:frontend`, pas du mode interface seule.
+
+Les tests de l’espace de travail imposent la police embarquée Marianne : la police système (Segoe UI sous Windows, San Francisco sous macOS, DejaVu Sans sur la CI Ubuntu) change la largeur des libellés et donc le repli des onglets. Avant de pousser une modification de mise en page, `npm run test:linux` rejoue la suite dans l’image Playwright munie des polices du runner GitHub ([tests/linux.Dockerfile](tests/linux.Dockerfile)), depuis Windows, macOS ou Linux.
 
 Captures des maquettes ([design/maquettes/captures/](../design/maquettes/captures/), 1440 × 900), avec l’interface seule lancée :
 

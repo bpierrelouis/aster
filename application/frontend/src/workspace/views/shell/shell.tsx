@@ -154,6 +154,11 @@ export function Shell() {
   }, []);
   useLayoutEffect(fitSub);
   useEffect(() => { addEventListener('resize', fitSub); return () => removeEventListener('resize', fitSub); }, [fitSub]);
+  // Une police chargée après le premier calcul (Marianne) change la largeur des libellés
+  useEffect(() => {
+    document.fonts.addEventListener('loadingdone', fitSub);
+    return () => document.fonts.removeEventListener('loadingdone', fitSub);
+  }, [fitSub]);
   // Les actions de l'écran partagent la barre haute : leur largeur peut aussi réduire les onglets
   useEffect(() => {
     if (!actionsSlot) return undefined;
