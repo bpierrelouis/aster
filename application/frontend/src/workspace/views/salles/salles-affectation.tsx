@@ -99,7 +99,7 @@ function EquipSheet({ salleId }: { salleId: Id }) {
 
   return <Sheet title={`Équiper ${salle.nom}`} size="m" lead={<Tile name="stack" color="var(--accent)" size="m" />}
     footer={<><span className="sheet-hint">{picks.length ? `${plural(picks.length, 'matériel')} du stock` : 'Aucun matériel choisi'}</span>
-      <SheetFormActions form="equip-form" icon="deplacement" label={`Affecter à ${salle.nom}`} /></>}>
+      <SheetFormActions form="equip-form" label={`Affecter à ${salle.nom}`} /></>}>
     <SheetForm id="equip-form" onSave={save}>
       <section className="equip-block" aria-labelledby="equip-postes">
         <header className="equip-head">
