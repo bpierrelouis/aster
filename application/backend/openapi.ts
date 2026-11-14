@@ -145,6 +145,16 @@ export const openapi = {
         },
       },
     },
+    '/api/workspace/postes/{id}/jeton': {
+      get: {
+        tags: ['Espace de travail'], summary: 'Jeton à installer sur un poste de son périmètre (administrateurs)', security: session,
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          200: json({ type: 'object', properties: { poste: { type: 'string', description: 'Nom réseau du poste, en capitales' }, jeton: { type: 'string', description: 'NOM:signature, à présenter en jeton porteur sur l’API des postes' } } }),
+          401: error, 403: error, 404: error,
+        },
+      },
+    },
     '/api/workspace/recensements/{id}/appairage': {
       get: {
         tags: ['Espace de travail'], summary: 'Adresse d’appairage d’un téléphone à une campagne de recensement', security: session,

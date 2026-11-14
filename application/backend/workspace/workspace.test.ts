@@ -285,6 +285,45 @@ test('sécurité : poste cloisonné à son école, nom réseau unique ; sujet et
   assert.equal(next.operations.at(-1)!.image, IMAGE_REFERENCE, 'image de référence imposée');
 });
 
+test('postes : nom réseau en capitales, unité centrale de l’école du poste', () => {
+  const state = initialState();
+  const admin = as(state, ADMIN);
+  const uc = (ecoleId: Id) => state.materiels.find((m) => m.type === 'uc' && m.ecoleId === ecoleId)!;
+  const ecrire = (extra: Partial<LooseItem>) => {
+    const view: Ecriture = scopedState(state, admin);
+    view.postes.push({ id: 'p-neuf', salleId: 's-e-num-a012', nomReseau: ' a012-pc77 ', materielId: null, allume: false, ...extra });
+    return mergeState(state, view, admin).postes.find((p) => p.id === 'p-neuf')!;
+  };
+  assert.equal(ecrire({}).nomReseau, 'A012-PC77', 'reconnu par ses rapports, qui le désignent en capitales');
+  assert.equal(ecrire({ materielId: uc('e-num').id }).materielId, uc('e-num').id);
+  assert.throws(() => ecrire({ materielId: uc('e-res').id }), { status: 400, message: /unité centrale/ }, 'unité centrale d’une autre école');
+  const ecran = state.materiels.find((m) => m.type !== 'uc' && m.ecoleId === 'e-num')!;
+  assert.throws(() => ecrire({ materielId: ecran.id }), { status: 400, message: /unité centrale/ }, 'matériel d’un autre type');
+  assert.throws(() => ecrire({ materielId: 'mat-inconnu' }), { status: 400 });
+});
+
+test('catalogue : une application installée ou citée par une intervention est conservée', () => {
+  const state = online(initialState());
+  const admin = as(state, ADMIN);
+  const citee = (id: Id) => state.installations.some((i) => i.applicationId === id) || state.operations.some((o) => o.applicationId === id);
+  const retirer = (id: Id) => { const view: Ecriture = scopedState(state, admin); view.applications = view.applications.filter((a) => a.id !== id); return mergeState(state, view, admin); };
+  const installee = state.installations[0].applicationId;
+  assert.throws(() => retirer(installee), { status: 400, message: /conservée/ });
+  const libre = state.applications.find((a) => !citee(a.id));
+  if (libre) assert(!retirer(libre.id).applications.some((a) => a.id === libre.id), 'application citée nulle part : supprimée');
+});
+
+test('remontée : une salle ou toute valeur hors saisie est ignorée', () => {
+  const state = initialState();
+  const teacher = as(state, TEACHER);
+  const input: Ecriture = scopedState(state, teacher);
+  const mat = input.materiels.find((m) => m.salleId)!;
+  const salleAilleurs = state.salles.find((s) => s.ecoleId === 'e-res')!.id;
+  input.remontees.unshift({ id: 'tmp', ecoleId: 'e-num', materielIds: [mat.id], probleme: 'display', description: 'Salle forcée', salleId: salleAilleurs, posteId: 'p-1' } as LooseItem as Ecriture['remontees'][number]);
+  const created = mergeState(state, input, teacher).remontees.find((r) => r.description === 'Salle forcée')!;
+  assert(!('salleId' in created) && !('posteId' in created));
+});
+
 test('bâtiments : un administrateur renomme un bâtiment ; salles, étages et règles suivent', () => {
   const state = initialState();
   state.regles.push({ id: 'rule-bat', nom: 'jeu.exe', classement: 'blacklist', portee: 'batiment', ecoleId: 'e-num', batiment: 'C' });

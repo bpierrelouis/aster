@@ -4,7 +4,8 @@
    ========================================================================== */
 
 import express from 'express';
-import { createHmac, timingSafeEqual } from 'node:crypto';
+import { createHmac } from 'node:crypto';
+import { egalConstant } from '../securite.ts';
 import { assert } from './rules.ts';
 import { journal, raison } from '../journal.ts';
 import { refuser } from '../refus.ts';
@@ -74,8 +75,6 @@ export function createWorkspaceRouter({ repository, actor, agentToken, rigel }: 
   return router;
 }
 
-const equal = (a: string, b: string) => { const x = Buffer.from(a), y = Buffer.from(b); return x.length === y.length && timingSafeEqual(x, y); };
-
 /** Jeton propre à un poste : NOM:signature, signature HMAC-SHA256 du nom réseau (en capitales) par le secret des postes */
 export const jetonPoste = (secret: string, nomReseau: string) => {
   const nom = nomReseau.trim().toUpperCase();
@@ -93,8 +92,8 @@ export function createAgentRouter({ repository, token }: { repository: Engine; t
     res.set('Cache-Control', 'no-store');
     const given = String(req.get('Authorization') ?? '').replace(/^Bearer /, '');
     const nom = given.slice(0, Math.max(0, given.lastIndexOf(':')));
-    if (equal(given, String(token))) res.locals.poste = null; // passerelle
-    else if (nom && equal(given, jetonPoste(token, nom))) res.locals.poste = nom;
+    if (egalConstant(given, String(token))) res.locals.poste = null; // passerelle
+    else if (nom && egalConstant(given, jetonPoste(token, nom))) res.locals.poste = nom;
     else return refuser(req, res, 401, { error: 'Poste non authentifié.' });
     next();
   });
@@ -135,7 +134,7 @@ export function createRigelRouter({ repository, secret }: { repository: Engine; 
   const router = express.Router();
   router.use((req, res, next) => {
     res.set('Cache-Control', 'no-store');
-    if (!equal(String(req.get('Authorization') ?? '').replace(/^Bearer /, ''), secret)) return refuser(req, res, 401, { error: 'Connecteur non authentifié.' });
+    if (!egalConstant(String(req.get('Authorization') ?? '').replace(/^Bearer /, ''), secret)) return refuser(req, res, 401, { error: 'Connecteur non authentifié.' });
     next();
   });
   router.use(express.json({ limit: '4mb' }));

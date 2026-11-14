@@ -18,7 +18,7 @@
 import { createHmac } from 'node:crypto';
 import { DEVICE_TYPES } from '#shared/catalog.ts';
 import { DUREE_CAMPAGNE, adresseAppairage, chiffrer, compact, dechiffrer, empreinte, parSerie } from '#shared/rigel.ts';
-import { assert, fail, same } from './rules.ts';
+import { assert, fail, same, seulsModifies } from './rules.ts';
 import { journal, raison } from '../journal.ts';
 import type { ActionConstat, Actor, Constat, Id, Materiel, Recensement, WorkspaceState } from '#shared/types.ts';
 import type { Bloc, CampagnePubliee, EvenementRigel, InstantaneRigel, ResultatRigel } from '#shared/rigel.ts';
@@ -49,8 +49,7 @@ export function regleRecensement(x: LooseItem, old: LooseItem | undefined, state
     delete x.close;
     return;
   }
-  const stable = (r: LooseItem) => Object.fromEntries(Object.entries(r).filter(([k]) => k !== 'close'));
-  assert(same(stable(old), stable(x)), 'Seule la clôture d’une campagne peut être modifiée.');
+  seulsModifies(old, x, ['close'], 'Seule la clôture d’une campagne peut être modifiée.');
   if (old.close) assert(same(old.close, x.close), 'Une campagne close ne peut pas être rouverte.');
   else if (x.close) x.close = { at: now, par: actor.nom, parId: actor.id };
 }
@@ -59,8 +58,7 @@ export function regleRecensement(x: LooseItem, old: LooseItem | undefined, state
 export function regleConstat(x: LooseItem, old: LooseItem | undefined, actor: Actor, now: number) {
   if (!old) fail(403, 'Les constats sont transmis par les téléphones.');
   reserve(actor);
-  const stable = (c: LooseItem) => Object.fromEntries(Object.entries(c).filter(([k]) => k !== 'traite'));
-  assert(same(stable(old), stable(x)), 'Seul le traitement d’un constat peut être modifié.');
+  seulsModifies(old, x, ['traite'], 'Seul le traitement d’un constat peut être modifié.');
   if (old.traite) assert(same(old.traite, x.traite), 'Ce constat est déjà traité.');
   else if (x.traite) {
     assert(['ajoute', 'ecarte'].includes(String(x.traite.action)) && old.resultat !== 'ecart', 'Choisissez une action adaptée au constat.');

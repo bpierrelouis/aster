@@ -53,6 +53,13 @@ export const fail: (status: number, message: string) => never = (status, message
 export const assert: (condition: unknown, message?: string) => asserts condition = (condition, message = 'Données invalides.') => { if (!condition) fail(400, message); };
 const isAdmin = (actor: Actor) => ['admin', 'superadmin'].includes(actor.role);
 export const id = (prefix: string) => `${prefix}-${randomUUID().slice(0, 8)}`;
+/** Contrôle qu'entre old et x seuls les champs cités ont changé */
+export const seulsModifies = (old: LooseItem, x: LooseItem, champs: readonly string[], message: string) => {
+  const reste = (r: LooseItem) => Object.fromEntries(Object.entries(r).filter(([k]) => !champs.includes(k)));
+  assert(same(reste(old), reste(x)), message);
+};
+/** Champs d'une remontée saisis par l'utilisateur ; les autres sont fixés par le serveur, toute autre propriété est ignorée */
+const SAISIE_REMONTEE: readonly string[] = ['id', 'ecoleId', 'materielIds', 'probleme', 'description'];
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Données de départ : référentiels, parc et interventions de la simulation ; aucune activité de poste avant le premier rapport. */
@@ -192,6 +199,9 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
     if (c === 'recensements' && deleted.length) fail(403, 'Une campagne se clôt ; elle n’est pas supprimée.');
     if (c === 'constats' && deleted.length) fail(403, 'Un constat est conservé.');
     if (c === 'regles' && actor.role !== 'superadmin' && deleted.some((x) => x.portee === 'global')) fail(403, 'Règle globale réservée au super administrateur.');
+    if (c === 'applications' && deleted.some((a) => state.installations.some((i) => i.applicationId === a.id) || state.operations.some((o) => o.applicationId === a.id))) {
+      fail(400, 'Une application installée sur un poste ou citée par une intervention est conservée.');
+    }
 
     for (const x of changes) {
       if (c === 'remontees' && !before.has(x.id)) x.id = numeroRemontee(++lastReportId);
@@ -201,6 +211,9 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
         delete x.ecoleId; // l'école d'un poste est celle de sa salle
         // État, session, dernier rapport, adresse IP et système : remontés par le poste lui-même (postes.ts) ; un nouveau poste est éteint
         if (!stored.has(x.id)) Object.assign(x, { allume: false, session: null, vuLe: null });
+        // Nom réseau en capitales : les rapports et les jetons des postes le désignent ainsi (jetonPoste)
+        assert(typeof x.nomReseau === 'string', 'Nom réseau obligatoire.');
+        x.nomReseau = x.nomReseau.trim().toUpperCase();
       }
       const old = before.get(x.id);
       if (!old && state[c].some((other) => other.id === x.id)) fail(409, 'Cet identifiant existe déjà.');
@@ -255,6 +268,7 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
       if (c === 'remontees') {
         if (!old) {
           if (actor.role === 'gestionnaire') fail(403, 'Création de remontée non autorisée.');
+          for (const k of Object.keys(x)) if (!SAISIE_REMONTEE.includes(k)) delete (x as Record<string, unknown>)[k]; // ni salle ni autre valeur hors saisie
           Object.assign(x, { auteur: actor.nom, auteurId: actor.id, createdAt: now, statut: 'attente', historique: [{ statut: 'attente', at: now, par: actor.nom, parId: actor.id }] });
         } else {
           // Cycle : en attente → en cours (prise en charge) → remplacé ou corrigé : terminée. Le gestionnaire seul
@@ -263,8 +277,7 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
           if (actor.role !== 'gestionnaire') fail(403, 'Prise en charge et traitement réservés au gestionnaire.');
           if (old.statut === 'attente' && ['remplace', 'corrige'].includes(x.statut!)) fail(400, 'Prenez d’abord la remontée en charge avant de la terminer.');
           assert(possibles.includes(x.statut!), 'Transition de statut indisponible.');
-          const stable = (r: LooseItem) => Object.fromEntries(Object.entries(r).filter(([k]) => !['statut', 'historique'].includes(k)));
-          assert(same(stable(old), stable(x)), 'Seul le traitement peut être modifié.');
+          seulsModifies(old, x, ['statut', 'historique'], 'Seul le traitement peut être modifié.');
           x.historique = [...old.historique!, { statut: x.statut as RemonteeStatut, at: now, par: actor.nom, parId: actor.id }];
         }
         // Type de problème obligatoire à la création : un type proposé, ou le libellé précisé pour « Autre »
@@ -310,6 +323,11 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
           x.installation = { de: old.deplacement.de, at: now, par: actor.nom, parId: actor.id };
         }
         else keepInstallation();
+      }
+      if (c === 'postes' && x.materielId != null) {
+        // Unité centrale du poste : un matériel de ce type, de l'école de la salle du poste
+        const uc = next.materiels.find((m) => m.id === x.materielId);
+        assert(uc && uc.type === 'uc' && uc.ecoleId === schoolOf(x, { ...next, salles }), 'L’unité centrale doit être un matériel de l’école du poste.');
       }
       if (['salles', 'etages'].includes(c) || (c === 'regles' && x.portee === 'batiment')) x.batiment = batimentCode(x.batiment); // code en capitales, comme à la saisie
       if (c === 'salles') assert(typeof x.nom === 'string' && x.nom.trim() && typeof x.batiment === 'string' && x.batiment.trim() && Number.isInteger(x.etage ?? 0) && (x.etage ?? 0) >= -5 && (x.etage ?? 0) <= 30);
