@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.2 | 14/11/2026 | Production destinée à la remise | Déplacer dans docs/04-ORGANISATION/ | [3 versions](../../archive/README.md#19-suivi-backlog-brouillon-v1) |
+| 1.3 | 14/11/2026 | Brouillon interne | Renuméroter après l’ajout des diagrammes d’états (17) | [4 versions](../../archive/README.md#20-suivi-backlog-brouillon-v1) |
 <!-- version:fin -->
 
 **Date de situation : 13 novembre 2026.** Période observée : du 20 octobre au 13 novembre 2026. Référence locale : `07629612ff5078cf041f7ef4100ba249c464d576`.
@@ -106,7 +106,7 @@ Les hashes courts de ce tableau se recherchent dans le [dépôt](https://github.
 
 **Progression estimée du lot « diagrammes d’états » :** 70 % au dépôt du 9 novembre. Une seule livraison étant visible, aucune courbe quotidienne ou progression ultérieure n’est présentée comme observée. Une préparation puis une formalisation sont plausibles, mais non datables à partir de Git.
 
-**Preuve :** [fcdc0b8](https://github.com/bpierrelouis/aster/commit/fcdc0b8), [brouillon des états](../02-ANALYSE/03-ANALYSE/DIAGRAMMES-ETATS-BROUILLON-V1.md).
+**Preuve :** [fcdc0b8](https://github.com/bpierrelouis/aster/commit/fcdc0b8), [brouillon des états](../02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md).
 
 **Prochaine étape proposée :** vérifier les transitions avec les règles actuelles et les retours des postes ; actualiser le brouillon si nécessaire.
 

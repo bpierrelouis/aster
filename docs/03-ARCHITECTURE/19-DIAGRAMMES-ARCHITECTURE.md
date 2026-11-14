@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 14/11/2026 | Production destinée à la remise | Intégrer RIGEL et M42 dans les vues d’architecture | [6 versions](../../archive/README.md#18-diagrammes-architecture) |
+| 2.1 | 14/11/2026 | Production destinée à la remise | Renuméroter après l’ajout des diagrammes d’états (17) | [7 versions](../../archive/README.md#19-diagrammes-architecture) |
 <!-- version:fin -->
 
 ## Vue simplifiée

@@ -3,10 +3,10 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.2 | 14/11/2026 | Pilotage interne | Renommer RIGEL et planifier M42 | [12 versions](../../archive/README.md#20-backlog-technique-et-feuille-de-route) |
+| 4.3 | 14/11/2026 | Pilotage interne | Renuméroter après l’ajout des diagrammes d’états (17) | [13 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
-Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](19-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
+Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
 
 Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correction crée ou modifie une règle de gestion et exige l’accord préalable de l’utilisateur ; **[PROT]** document protégé, modifié seulement sur demande ; **[DAT]** le dossier d’architecture fait foi et n’est modifié que par le collègue qui le tient.
 
@@ -36,7 +36,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ## 2. Pilotage du projet
 
-- [x] **Haute** — Traiter le backlog GitHub (14 novembre : projet « ORION development », 152 tickets sur deux sprints) : trier, mettre à jour et clore les éléments au regard de l’état actuel, puis reporter le résultat dans le [backlog](19-BACKLOG-ET-SUIVI-PROJET.md). Les noms GitHub gardent l’ancien nom (dépôt `bpierrelouis/aster`, projet « aster development ») ; les commits `09ac7b0` et `cecf0d7` et la référence `0762961…` du brouillon de suivi n’existent plus dans l’historique.
+- [x] **Haute** — Traiter le backlog GitHub (14 novembre : projet « ORION development », 152 tickets sur deux sprints) : trier, mettre à jour et clore les éléments au regard de l’état actuel, puis reporter le résultat dans le [backlog](20-BACKLOG-ET-SUIVI-PROJET.md). Les noms GitHub gardent l’ancien nom (dépôt `bpierrelouis/aster`, projet « aster development ») ; les commits `09ac7b0` et `cecf0d7` et la référence `0762961…` du brouillon de suivi n’existent plus dans l’historique.
 - [ ] Cadrage § 22 : dater le prochain rendez-vous ; consigner le sort des propositions préparées pour le 12 novembre (application de scan, devenue RIGEL, et livraisons) quand un retour existera.
 
 ## 3. Application
@@ -220,7 +220,7 @@ Le DAT validé fait foi ; ces écarts entre lui, la configuration réelle et ses
 - [ ] **Moyenne** — Vue complète : flux réels absents (Express → Keycloak pour le provisionnement, sondes de `/api/health` vers Apache, LDAP et Logstash, téléchargement des images par le proxy) ; le runner contourne la boîte du proxy ; flèche Connecteur → Express sans libellé « HTTP 3001 » ; « Swarm 2377/TCP » placé dans la boîte HAProxy.
 - [ ] **Moyenne** — Tracé : croisements et libellés sur des boîtes dans les quatre vues (Connecteur → Express, flèche 5 sur un titre de zone, libellés 7, 10A et 14 de la vue cible détaillée, flèche de 16 px dans la vue cible simplifiée, textes qui débordent).
 - [ ] **Basse** — Termes « émulateur » et « émulation » au lieu de « simulateur des postes et de leur agent d’administration » ; images d’Express, du simulateur et du connecteur non indiquées.
-- [ ] **Basse** — [Diagrammes d’architecture](../03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md) : titre « Architecture réelle du démonstrateur » alors qu’il contient la cible ; textes alternatifs « déploiement proposé ».
+- [ ] **Basse** — [Diagrammes d’architecture](../03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) : titre « Architecture réelle du démonstrateur » alors qu’il contient la cible ; textes alternatifs « déploiement proposé ».
 - [ ] **Basse** — Le générateur ne se relance plus : il utilise `lucide-react`, retiré de l’application le 13 novembre (inutilisé par l’interface) ; le réinstaller en dépendance de développement ou copier les icônes nécessaires.
 
 ## 7. Feuille de route : évolutions du projet

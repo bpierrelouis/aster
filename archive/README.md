@@ -30,14 +30,14 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [3.1](#15-fiche-descriptive-administrateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [3.1](#16-fiche-descriptive-super-administrateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) | Production destinée à la remise | [1.2](#diagrammes-activite-cas-utilisation-brouillon-v2) | 14/11/2026 |
-| [docs/02-ANALYSE/03-ANALYSE/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/02-ANALYSE/03-ANALYSE/DIAGRAMMES-ETATS-BROUILLON-V1.md) | Production destinée à la remise | [3.1](#diagrammes-etats-brouillon-v1) | 14/11/2026 |
+| [docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [4.0](#17-diagrammes-etats) | 14/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/README.md](../docs/02-ANALYSE/04-CONCEPTION/README.md) | Production destinée à la remise | [1.1](#readme) | 14/11/2026 |
-| [docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [3.0](#17-dossier-architecture-technique) | 14/11/2026 |
-| [docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.0](#18-diagrammes-architecture) | 14/11/2026 |
-| [docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.2](#19-backlog-et-suivi-projet) | 14/11/2026 |
-| [docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.0](#19-backlog-et-suivi-projet) | 14/11/2026 |
-| [docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md) | Production destinée à la remise | [1.2](#19-suivi-backlog-brouillon-v1) | 14/11/2026 |
-| [docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.2](#20-backlog-technique-et-feuille-de-route) | 14/11/2026 |
+| [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [3.1](#18-dossier-architecture-technique) | 14/11/2026 |
+| [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.1](#19-diagrammes-architecture) | 14/11/2026 |
+| [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.3](#20-backlog-et-suivi-projet) | 14/11/2026 |
+| [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.1](#20-backlog-et-suivi-projet) | 14/11/2026 |
+| [docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md) | Brouillon interne | [1.3](#20-suivi-backlog-brouillon-v1) | 14/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.3](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -351,13 +351,14 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILIS
 | 1.1 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md`) | — |
 | 1.0 | 06/11/2026 | Ajouter les parcours détaillés en brouillon | `d626315` (`docs/temporaire/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md`) | — |
 
-### DIAGRAMMES-ETATS-BROUILLON-V1
+### 17-DIAGRAMMES-ETATS
 
-Fichier : [docs/02-ANALYSE/03-ANALYSE/DIAGRAMMES-ETATS-BROUILLON-V1.md](../docs/02-ANALYSE/03-ANALYSE/DIAGRAMMES-ETATS-BROUILLON-V1.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/03-ANALYSE/ | en vigueur | — |
+| 4.0 | 14/11/2026 | Promouvoir en livrable de la phase Analyse ; intervention complétée (gardes, effets, fin) | en vigueur | — |
+| 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/03-ANALYSE/ | `69eaf4e` (`docs/02-ANALYSE/03-ANALYSE/DIAGRAMMES-ETATS-BROUILLON-V1.md`) | — |
 | 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md`) | — |
 | 2.0 | 13/11/2026 | Aligner sur l’application : état « en cours », traitement direct possible, PDF à la demande, type obligatoire, interventions sur une seule salle | `28bc990` (`docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md`) | — |
 | 1.0 | 09/11/2026 | Ajouter les diagrammes d'états de la remontée et des interventions | `83658a3` (`docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md`) | — |
@@ -371,14 +372,15 @@ Fichier : [docs/02-ANALYSE/04-CONCEPTION/README.md](../docs/02-ANALYSE/04-CONCEP
 | 1.1 | 14/11/2026 | Nommer la conception de l’agent M42 | en vigueur | — |
 | 1.0 | 14/11/2026 | Créer la partie Conception | `69eaf4e` | — |
 
-### 17-DOSSIER-ARCHITECTURE-TECHNIQUE
+### 18-DOSSIER-ARCHITECTURE-TECHNIQUE
 
-Fichier : [docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md) · Production destinée à la remise
+Fichier : [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.0 | 14/11/2026 | Nommer M42 et préciser les accès RIGEL réels | en vigueur | — |
-| 2.1 | 14/11/2026 | Déplacer dans docs/03-ARCHITECTURE/ | `69eaf4e` | — |
+| 3.1 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | en vigueur | — |
+| 3.0 | 14/11/2026 | Nommer M42 et préciser les accès RIGEL réels | `21c57cf` (`docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
+| 2.1 | 14/11/2026 | Déplacer dans docs/03-ARCHITECTURE/ | `69eaf4e` (`docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
 | 2.0 | 13/11/2026 | DAT de référence du collègue repris de main (recensement RECON, cible C1NP fiabilisée) ; fichier sans en-tête de version, à ne pas modifier | `0b83eb6` (`docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
 | 1.5 | 13/11/2026 | Aligner l’architecture réelle sur la configuration versionnée : création des identités, image Keycloak, flux d’Express, absence de filtrage, secrets et versions | `c563b5a` (`docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
 | 1.4 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
@@ -387,58 +389,63 @@ Fichier : [docs/03-ARCHITECTURE/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03
 | 1.1 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | `3396072` (`docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
 | 1.0 | 09/11/2026 | Ajouter le dossier d'architecture technique et ses diagrammes | `51bd591` (`docs/17-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
 
-### 18-DIAGRAMMES-ARCHITECTURE
+### 19-DIAGRAMMES-ARCHITECTURE
 
-Fichier : [docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md) · Production destinée à la remise
+Fichier : [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 14/11/2026 | Intégrer RIGEL et M42 dans les vues d’architecture | en vigueur | — |
-| 1.4 | 14/11/2026 | Déplacer dans docs/03-ARCHITECTURE/ | `69eaf4e` | — |
+| 2.1 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | en vigueur | — |
+| 2.0 | 14/11/2026 | Intégrer RIGEL et M42 dans les vues d’architecture | `21c57cf` (`docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md`) | — |
+| 1.4 | 14/11/2026 | Déplacer dans docs/03-ARCHITECTURE/ | `69eaf4e` (`docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md`) | — |
 | 1.3 | 13/11/2026 | Documenter la cible C1NP et unifier les vues | `83658a3` (`docs/18-DIAGRAMMES-ARCHITECTURE.md`) | — |
 | 1.2 | 12/11/2026 | Passage au nom ORION, mise à jour de l'interface utilisateur ; Renseigner les adresses des VM ; Renommer le projet en ORION dans tout le dépôt ; Décrire l'architecture orion sur dix VM | `3e437e0` (`docs/18-DIAGRAMMES-ARCHITECTURE.md`) | — |
 | 1.1 | 11/11/2026 | Décrire le déploiement du démonstrateur sur huit VM | `3396072` (`docs/18-DIAGRAMMES-ARCHITECTURE.md`) | — |
 | 1.0 | 09/11/2026 | Ajouter le dossier d'architecture technique et ses diagrammes | `51bd591` (`docs/18-DIAGRAMMES-ARCHITECTURE.md`) | — |
 
-### 19-BACKLOG-ET-SUIVI-PROJET
+### 20-BACKLOG-ET-SUIVI-PROJET
 
-Fichier : [docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx) · Production destinée à la remise
+Fichier : [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.2 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ | en vigueur | — |
+| 1.3 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | en vigueur | — |
+| 1.2 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ | `69eaf4e` (`docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
 | 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | `61abf4a` (`docs/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
 | 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `b2a5a17` (`docs/19-BACKLOG-ET-SUIVI-PROJET.docx`) | — |
 
-### 19-BACKLOG-ET-SUIVI-PROJET
+### 20-BACKLOG-ET-SUIVI-PROJET
 
-Fichier : [docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md) · Production destinée à la remise
+Fichier : [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.0 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ ; Rendu de l’application le 17 novembre, supports le 18, présentation le 19 ; graphiques régénérés | en vigueur | — |
+| 3.1 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | en vigueur | — |
+| 3.0 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ ; Rendu de l’application le 17 novembre, supports le 18, présentation le 19 ; graphiques régénérés | `69eaf4e` (`docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md`) | — |
 | 2.0 | 14/11/2026 | Deux sprints (19/10–08/11, 09/11–19/11), suivi dans le projet GitHub ORION et graphiques produits depuis GitHub | `ab5fb7d` (`docs/19-BACKLOG-ET-SUIVI-PROJET.md`) | — |
 | 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP | `61abf4a` (`docs/19-BACKLOG-ET-SUIVI-PROJET.md`) | — |
 | 1.0 | 13/11/2026 | Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word | `83658a3` (`docs/19-BACKLOG-ET-SUIVI-PROJET.md`) | — |
 
-### 19-SUIVI-BACKLOG-BROUILLON-V1
+### 20-SUIVI-BACKLOG-BROUILLON-V1
 
-Fichier : [docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md) · Production destinée à la remise
+Fichier : [docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md) · Brouillon interne
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.2 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ | en vigueur | — |
+| 1.3 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | en vigueur | — |
+| 1.2 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ | `69eaf4e` (`docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |
 | 1.1 | 13/11/2026 | Remplacer l’ancien nom par ORION et corriger le commit de la cible C1NP | `61abf4a` (`docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |
 | 1.0 | 13/11/2026 | Consolider le suivi des progressions | `83658a3` (`docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md`) | — |
 
-### 20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE
+### 21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE
 
-Fichier : [docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) · Pilotage interne
+Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) · Pilotage interne
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.2 | 14/11/2026 | Renommer RIGEL et planifier M42 | en vigueur | — |
-| 4.1 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ ; Échéances du rendu (17/11) et de la présentation (19/11) ; backlog GitHub et captures des fiches faits | `69eaf4e` | — |
+| 4.3 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | en vigueur | — |
+| 4.2 | 14/11/2026 | Renommer RIGEL et planifier M42 | `21c57cf` (`docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md`) | — |
+| 4.1 | 14/11/2026 | Déplacer dans docs/04-ORGANISATION/ ; Échéances du rendu (17/11) et de la présentation (19/11) ; backlog GitHub et captures des fiches faits | `69eaf4e` (`docs/04-ORGANISATION/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md`) | — |
 | 4.0 | 13/11/2026 | Officialiser le reste à faire en backlog technique et feuille de route ; option Linux reportée en évolution du projet | `f23bbce` (`docs/20-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md`) | — |
 | 3.2 | 13/11/2026 | Agent ORION simulé, paquets, images et système Windows ou Linux des salles | `47116b1` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |
 | 3.1 | 13/11/2026 | Retrait au lieu de suppression, proposition de RG-91 | `8d426fd` (`docs/temporaire/RESTE-A-FAIRE-BROUILLON-V1.md`) | — |

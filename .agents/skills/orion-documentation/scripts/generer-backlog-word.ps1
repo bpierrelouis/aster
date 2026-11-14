@@ -3,8 +3,8 @@ $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-$source = Join-Path $Racine 'docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.md'
-$destination = Join-Path $Racine 'docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx'
+$source = Join-Path $Racine 'docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md'
+$destination = Join-Path $Racine 'docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx'
 $assets = Join-Path $Racine 'docs/04-ORGANISATION/assets'
 [IO.Directory]::CreateDirectory($assets) | Out-Null
 $lines = [IO.File]::ReadAllLines($source)

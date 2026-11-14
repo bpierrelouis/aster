@@ -109,7 +109,7 @@ Le point d’accès `/api/health` vérifie la base ORION et les métadonnées du
 
 ### 4.5. Architecture réelle sur VM
 
-Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée](18-DIAGRAMMES-ARCHITECTURE.md#vue-simplifiée) présente les rôles et les échanges principaux ; la [vue complète](18-DIAGRAMMES-ARCHITECTURE.md#architecture-réelle-sur-vm) détaille chaque VM, ses services, conteneurs, ports, volumes et flux. Une flèche indique la destination d’un flux. Les versions et leur statut au CCT figurent au § 5.3.
+Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée](19-DIAGRAMMES-ARCHITECTURE.md#vue-simplifiée) présente les rôles et les échanges principaux ; la [vue complète](19-DIAGRAMMES-ARCHITECTURE.md#architecture-réelle-sur-vm) détaille chaque VM, ses services, conteneurs, ports, volumes et flux. Une flèche indique la destination d’un flux. Les versions et leur statut au CCT figurent au § 5.3.
 
 **Principes retenus.**
 
@@ -368,7 +368,7 @@ Les versions du déploiement sont des références à qualifier sur les VM ; cha
 
 ### 6.1. Gabarit initial d’essai pour 1 000 postes
 
-Le ministère des Armées héberge ORION sur le C1NP. Le premier palier d’essai comprend **quatre VM ORION** pour **1 000 postes Windows actifs**. La [vue simplifiée](18-DIAGRAMMES-ARCHITECTURE.md#vue-simplifiée-de-la-cible) montre les rôles et les principaux échanges. La [vue détaillée](18-DIAGRAMMES-ARCHITECTURE.md#vue-détaillée-de-la-cible) indique les versions et les ports. MindefConnect est hébergé sur le C1NP, en dehors des quatre VM dédiées à ORION. Le puits de logs est exploité par ORION, faute d’offre disponible sur le réseau visé. Les produits applicatifs sont admis dans la colonne C1NP de la pile logicielle du CCT ; le système des VM, le service de fichiers, les certificats et les modalités d’exploitation restent à confirmer avec l’offre d’hébergement. L’intégration MindefConnect utilise OIDC, selon le contrat à obtenir auprès de son exploitant.
+Le ministère des Armées héberge ORION sur le C1NP. Le premier palier d’essai comprend **quatre VM ORION** pour **1 000 postes Windows actifs**. La [vue simplifiée](19-DIAGRAMMES-ARCHITECTURE.md#vue-simplifiée-de-la-cible) montre les rôles et les principaux échanges. La [vue détaillée](19-DIAGRAMMES-ARCHITECTURE.md#vue-détaillée-de-la-cible) indique les versions et les ports. MindefConnect est hébergé sur le C1NP, en dehors des quatre VM dédiées à ORION. Le puits de logs est exploité par ORION, faute d’offre disponible sur le réseau visé. Les produits applicatifs sont admis dans la colonne C1NP de la pile logicielle du CCT ; le système des VM, le service de fichiers, les certificats et les modalités d’exploitation restent à confirmer avec l’offre d’hébergement. L’intégration MindefConnect utilise OIDC, selon le contrat à obtenir auprès de son exploitant.
 
 | VM | Services | vCPU | RAM | Stockage initial d’essai |
 | --- | --- | ---: | ---: | --- |

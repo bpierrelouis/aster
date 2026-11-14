@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.0 | 14/11/2026 | Production destinée à la remise | Déplacer dans docs/04-ORGANISATION/ ; Rendu de l’application le 17 novembre, supports le 18, présentation le 19 ; graphiques régénérés | [4 versions](../../archive/README.md#19-backlog-et-suivi-projet) |
+| 3.1 | 14/11/2026 | Production destinée à la remise | Renuméroter après l’ajout des diagrammes d’états (17) | [5 versions](../../archive/README.md#20-backlog-et-suivi-projet) |
 <!-- version:fin -->
 
 **Période : du 20 octobre au 19 novembre 2026.**
