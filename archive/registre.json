@@ -654,6 +654,13 @@
         "version": "2.0",
         "date": "2026-11-14",
         "modification": "Nommer M42 comme agent candidat",
+        "archive": null,
+        "commit": "21c57cf"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-14",
+        "modification": "Mise à jour d’après l’état actuel : super administrateur, MindefConnect, RIGEL, solution d’administration des postes, PDF à la demande, traitement par le gestionnaire",
         "archive": null
       }
     ]
@@ -702,6 +709,13 @@
         "version": "1.5",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/01-MODELISATION-METIER/",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-14",
+        "modification": "Mise à jour d’après l’état actuel : super administrateur, MindefConnect, RIGEL, solution d’administration des postes, PDF à la demande, traitement par le gestionnaire",
         "archive": null
       }
     ]
