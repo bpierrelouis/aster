@@ -8,7 +8,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 
 | Fichier | Destination | Version | Mise à jour |
 | --- | --- | --- | --- |
-| [design/README.md](../design/README.md) | Ressource de préparation | [2.2](#design-readme) | 13/11/2026 |
+| [design/README.md](../design/README.md) | Ressource de préparation | [2.3](#design-readme) | 14/11/2026 |
 | [design/charte-graphique/index.html](../design/charte-graphique/index.html) | Ressource de préparation | [2.1](#design-charte-graphique-index) | 13/11/2026 |
 | [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [2.0](#design-maquettes-index) | 13/11/2026 |
 | [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md) | Production destinée à la remise | [3.0](#00-glossaire) | 14/11/2026 |
@@ -47,7 +47,8 @@ Fichier : [design/README.md](../design/README.md) · Ressource de préparation
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.2 | 13/11/2026 | Icônes métier en Bleu Orion, captures compressées | en vigueur | — |
+| 2.3 | 14/11/2026 | Documenter la commande de régénération des captures | en vigueur | — |
+| 2.2 | 13/11/2026 | Icônes métier en Bleu Orion, captures compressées | `e0421f0` | [archive](design/readme/README-v2.2-2026-11-13.md) |
 | 2.1 | 13/11/2026 | Décrire les maquettes simplifiées et les logos à l’étoile | `bf823e8` | [archive](design/readme/README-v2.1-2026-11-13.md) |
 | 2.0 | 13/11/2026 | Présenter l'identité ORION conforme à l'application et archiver les anciennes directions | `e594af2` | [archive](design/readme/README-v2.0-2026-11-13.md) |
 | 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` | [archive](design/readme/README-v1.3-2026-11-12.md) |

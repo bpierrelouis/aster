@@ -360,6 +360,7 @@ application/
 │   ├── ldap/                    # Identités de départ de l’annuaire (LDIF)
 │   └── images/                  # Lecture des secrets et configuration Apache des images
 ├── tests/                       # Tests d’interface et de bout en bout ; fixtures/ : fichiers d’import
+│   ├── captures.ts              # Captures des maquettes (npm run captures)
 │   └── presentation.ts          # Contrôle de l’absence de mentions internes dans les pages publiques
 ├── tsconfig.json                # Types du serveur, de shared/, des tests et des configurations
 ├── Dockerfile                   # Images web, api, postes et keycloak
@@ -381,6 +382,15 @@ npm run test:workspace # Écrans de l'espace de travail en mode interface seule 
 ```
 
 Les tests d’intégration utilisent un schéma PostgreSQL temporaire, supprimé à la fin ; ils sont ignorés si l’infrastructure est absente. Les tests Playwright utilisent Google Chrome s’il est installé (comme sur les machines de la CI), sinon le Chromium de Playwright, à installer une fois avec `npx playwright install chromium` ([tests/navigateur.ts](tests/navigateur.ts)). `npm run test:ui` démarre l’interface sur le port 5173, ou réutilise celle qui y tourne déjà : il doit s’agir de `npm run dev:frontend`, pas du mode interface seule.
+
+Captures des maquettes ([design/maquettes/captures/](../design/maquettes/captures/), 1440 × 900), avec l’interface seule lancée :
+
+```sh
+npm run dev:ui -- --port 5175   # dans un autre terminal
+npm run captures                # ORION_URL=http://127.0.0.1:5175 par défaut
+```
+
+[tests/captures.ts](tests/captures.ts) reproduit chaque écran de [la page des maquettes](../design/maquettes/index.html) avec son profil (changement de compte par `/api/dev/compte`) et son ambiance (préférences du compte), attend la fin des animations d’entrée, puis compresse les images avec `pngquant` (à installer). Le compte courant et les préférences des comptes utilisés sont rétablis à la fin. La page de connexion est obtenue en répondant 401 à `/api/me`. Les données affichées sont celles du fichier du mode interface seule : elles évoluent avec l’activité des postes émulés.
 
 Avec l’infrastructure et `npm run dev` démarrés :
 

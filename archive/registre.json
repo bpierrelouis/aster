@@ -49,6 +49,13 @@
         "version": "2.2",
         "date": "2026-11-13",
         "modification": "Icônes métier en Bleu Orion, captures compressées",
+        "archive": "design/readme/README-v2.2-2026-11-13.md",
+        "commit": "e0421f0"
+      },
+      {
+        "version": "2.3",
+        "date": "2026-11-14",
+        "modification": "Documenter la commande de régénération des captures",
         "archive": null
       }
     ]
