@@ -1076,6 +1076,13 @@
         "version": "4.1",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "4.2",
+        "date": "2026-11-14",
+        "modification": "Recherche du formateur limitée aux matériels de salle, menant à la salle (#118)",
         "archive": null
       }
     ]

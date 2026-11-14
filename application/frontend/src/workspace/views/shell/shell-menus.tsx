@@ -126,8 +126,10 @@ function searchResults(q: string) {
   for (const x of scope().salles) {
     if (`${x.nom} ${batimentLabel(x.batiment)}`.toLowerCase().includes(q)) out.push({ icon: 'salles', color: 'var(--c3)', title: x.nom, sub: batimentLabel(x.batiment), href: `/salles/salle/${x.id}` });
   }
+  // Un matériel mène à sa salle ; le stock n'est proposé qu'aux profils qui y ont accès (pas au formateur)
   if (can('materiel.view')) for (const m of scope().materiels) {
     if (out.length > 40) break;
+    if (!m.salleId && !can('materiel.move')) continue;
     if (`${m.modele} ${m.marque ?? ''} ${m.idOrion} ${m.serie ?? ''}`.toLowerCase().includes(q)) {
       const dt = deviceType(m.type);
       const salle = m.salleId ? ix.salle.get(m.salleId) : null;

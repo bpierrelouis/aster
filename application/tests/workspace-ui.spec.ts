@@ -1199,3 +1199,27 @@ test('recensement : campagne, appairage par QR code, constats des téléphones �
   await page.waitForTimeout(800);
   await page.screenshot({ path: testInfo.outputPath('recensement-liste-mobile.png'), fullPage: true, animations: 'disabled' });
 });
+
+// #118 : le formateur ne trouve pas le stock par la recherche ; un matériel trouvé ouvre sa salle
+test('la recherche du formateur ignore le stock et mène à la salle du matériel', async ({ page, request }) => {
+  const view = await state(request);
+  const admin = view.comptes.find((c) => c.actif && c.role === 'admin')!;
+  const formateur = view.comptes.find((c) => c.actif && c.role === 'formateur' && c.ecoleId === admin.ecoleId)!;
+  const enStock = view.materiels.find((m) => !m.salleId && m.ecoleId === formateur.ecoleId)!;
+  const enSalle = view.materiels.find((m) => m.salleId && m.ecoleId === formateur.ecoleId)!;
+  const chercher = async (texte: string) => {
+    await page.getByRole('button', { name: 'Rechercher', exact: true }).click();
+    await page.getByRole('searchbox', { name: 'Recherche' }).fill(texte);
+  };
+  try {
+    await asAccount(request, formateur.id);
+    await open(page, '/accueil');
+    await chercher(enStock.idOrion);
+    await expect(page.getByText(`Aucun résultat pour « ${enStock.idOrion} »`)).toBeVisible();
+    await page.getByRole('searchbox', { name: 'Recherche' }).fill(enSalle.idOrion);
+    await page.getByRole('option', { name: new RegExp(enSalle.idOrion) }).click();
+    await expect(page).toHaveURL(new RegExp(`/salles/salle/${enSalle.salleId}\\?m=${enSalle.id}$`));
+  } finally {
+    await asAccount(request, admin.id);
+  }
+});

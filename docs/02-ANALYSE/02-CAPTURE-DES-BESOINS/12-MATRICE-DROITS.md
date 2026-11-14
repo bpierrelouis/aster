@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.1 | 14/11/2026 | Production destinée à la remise | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | [9 versions](../../../archive/README.md#12-matrice-droits) |
+| 4.2 | 14/11/2026 | Production destinée à la remise | Recherche du formateur limitée aux matériels de salle, menant à la salle (#118) | [10 versions](../../../archive/README.md#12-matrice-droits) |
 <!-- version:fin -->
 
 Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
@@ -39,7 +39,7 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 
 | Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
 | --- | --- | --- | --- | --- | --- | --- |
-| Consulter les matériels d’une salle | Oui | Oui | Oui | Oui | Depuis la salle ; consultation seule pour le formateur. | RG-17, RG-69 et RG-78 |
+| Consulter les matériels d’une salle | Oui | Oui | Oui | Oui | Depuis la salle ; consultation seule pour le formateur, dont la recherche ne propose que les matériels affectés à une salle et mène à cette salle (pas le stock). | RG-17, RG-69 et RG-78 |
 | Rechercher et consulter un matériel | Oui | Non | Oui | Oui | Recherche dans tout le parc de l’école, inventaire compris. | RG-17, RG-69 et RG-78, DCU 08 |
 | Créer et modifier un matériel | Oui | Non | Oui | Oui | Le gestionnaire intervient sur l’ensemble du parc de son école, sans restriction à un bâtiment. | RG-15 à RG-17, RG-69 et RG-78, DCU 08 |
 | Affecter ou déplacer un ou plusieurs matériels | Oui | Non | Oui | Oui | L’opération prend effet immédiatement et peut concerner plusieurs matériels. Les matériels d’une même opération appartiennent à une même école. Un matériel hors service ne peut être déplacé que vers le stock. | RG-15, RG-16, RG-18, RG-26, RG-27, RG-72, RG-78 et RG-87, DCU 08 |
