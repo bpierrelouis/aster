@@ -56,6 +56,13 @@
         "version": "2.3",
         "date": "2026-11-14",
         "modification": "Documenter la commande de régénération des captures",
+        "archive": "design/readme/README-v2.3-2026-11-14.md",
+        "commit": "ad9efd5"
+      },
+      {
+        "version": "2.4",
+        "date": "2026-11-14",
+        "modification": "Chemins de l'interface renommés (espace)",
         "archive": null
       }
     ]
@@ -129,6 +136,13 @@
         "version": "2.1",
         "date": "2026-11-13",
         "modification": "Centrer ORION sur sa signature, logos à l’étoile",
+        "archive": "design/chartes/charte-graphique-v2.1-2026-11-13.html",
+        "commit": "bf823e8"
+      },
+      {
+        "version": "2.2",
+        "date": "2026-11-14",
+        "modification": "Chemins de l'interface renommés (espace)",
         "archive": null
       }
     ]
