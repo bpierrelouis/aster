@@ -1941,6 +1941,13 @@
         "version": "3.1",
         "date": "2026-11-14",
         "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
+        "archive": null,
+        "commit": "e99107c"
+      },
+      {
+        "version": "3.2",
+        "date": "2026-11-14",
+        "modification": "Actualiser les graphiques depuis le projet GitHub",
         "archive": null
       }
     ]
@@ -2143,6 +2150,13 @@
       },
       {
         "version": "4.12",
+        "date": "2026-11-14",
+        "modification": "Consigner la mise à jour des statuts GitHub",
+        "archive": null,
+        "commit": "baabbf7"
+      },
+      {
+        "version": "4.13",
         "date": "2026-11-14",
         "modification": "Jetons « Accès de présentation » rétablis à la place du tableau des comptes",
         "archive": null
