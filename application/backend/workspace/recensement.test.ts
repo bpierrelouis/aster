@@ -5,7 +5,7 @@ import type { AddressInfo } from 'node:net';
 import { initialState, actorOf, scopedState, mergeState } from './rules.ts';
 import { createWorkspaceRepository } from './engine.ts';
 import { createRigelRouter, createWorkspaceRouter } from './routes.ts';
-import { appliquerEvenements, cleCampagne, instantane, jetonCampagne } from './recensement.ts';
+import { appliquerEvenements, cleCampagne, instantane, jetonCampagne, traiterConstat } from './recensement.ts';
 import { chiffrer, choisirCode, dechiffrer, empreinte, etiquette, lireAppairage, lireEtiquette, rapprocherSerie, resoudre, serieLue } from '#shared/rigel.ts';
 import type { EvenementRigel, InstantaneRigel } from '#shared/rigel.ts';
 import type { Id, Recensement, WorkspaceState } from '#shared/types.ts';
@@ -15,10 +15,10 @@ const ADMIN = 'cpt-num-admin', MANAGER = 'cpt-num-gestionnaire', TEACHER = 'cpt-
 const as = (state: WorkspaceState, accountId: Id) => actorOf(state, accountId)!;
 
 /** Campagne ouverte par le gestionnaire de l'École du numérique (toutes les salles si salleIds est vide) */
-function ouvrir(state: WorkspaceState, salleIds: Id[] = []) {
+function ouvrir(state: WorkspaceState, salleIds: Id[] = [], mode: 'installation' | 'recensement' = 'recensement') {
   const actor = as(state, MANAGER);
   const input: Ecriture = scopedState(state, actor);
-  input.recensements.push({ id: 'navigateur', ecoleId: 'e-num', nom: ' Rentrée ', salleIds, at: 0, par: 'falsifié', parId: null, expireLe: 0 });
+  input.recensements.push({ id: 'navigateur', ecoleId: 'e-num', nom: ' Rentrée ', mode, salleIds, at: 0, par: 'falsifié', parId: null, expireLe: 0 });
   const next = mergeState(state, input, actor);
   return { next, campagne: next.recensements.at(-1)! };
 }
@@ -141,7 +141,7 @@ test('campagne : ouverte par un gestionnaire, valeurs fixées par le serveur, cl
 test('constats : une campagne qui n’a pas été ouverte par un gestionnaire n’est pas appliquée', () => {
   const s = initialState();
   const admin = s.comptes.find((c) => c.id === ADMIN)!;
-  s.recensements.push({ id: 'rec-admin', ecoleId: 'e-num', nom: 'Ancienne', salleIds: [], at: Date.now(), par: admin.nom, parId: admin.id, expireLe: Date.now() + 86400e3 });
+  s.recensements.push({ id: 'rec-admin', ecoleId: 'e-num', nom: 'Ancienne', mode: 'recensement', salleIds: [], at: Date.now(), par: admin.nom, parId: admin.id, expireLe: Date.now() + 86400e3 });
   const enCours = s.materiels.find((m) => m.ecoleId === 'e-num' && m.deplacement && m.salleId)!;
   const [r] = appliquerEvenements(s, 'rec-admin', [evt({ type: 'vu', materielId: enCours.id, salleId: enCours.salleId })]);
   assert.deepEqual(r, { id: r.id, statut: 'refuse', message: 'Campagne non ouverte par un gestionnaire.' });
@@ -149,7 +149,7 @@ test('constats : une campagne qui n’a pas été ouverte par un gestionnaire n�
 });
 
 test('constats : confirmation, présence, écart (version antérieure), relocalisation, stock, hors service, code inconnu, doublon', () => {
-  const { next: s, campagne } = ouvrir(initialState());
+  const { next: s, campagne } = ouvrir(initialState(), [], 'installation');
   const enCours = s.materiels.find((m) => m.ecoleId === 'e-num' && m.deplacement && m.salleId)!;
   const installe = s.materiels.find((m) => m.ecoleId === 'e-num' && !m.deplacement && m.salleId && !m.hs && m.id !== enCours.id)!;
   const autreSalle = s.salles.find((x) => x.ecoleId === 'e-num' && x.id !== installe.salleId)!;
@@ -216,7 +216,7 @@ test('constats : confirmation, présence, écart (version antérieure), relocali
 });
 
 test('constats : présence refusée, retour lancé vers l’affectation, confirmé par le gestionnaire (RG-96)', () => {
-  const { next: s, campagne } = ouvrir(initialState());
+  const { next: s, campagne } = ouvrir(initialState(), [], 'installation');
   const m = (id: Id) => s.materiels.find((x) => x.id === id)!;
   const installe = s.materiels.find((x) => x.ecoleId === 'e-num' && x.salleId && !x.deplacement && !x.hs)!;
   const affectation = installe.salleId;
@@ -270,13 +270,48 @@ test('constat inconnu : traité dans ORION avec la création du matériel, seul 
   const manager = as(s, MANAGER);
   const input: Ecriture = scopedState(s, manager);
   input.materiels.push({ id: 'nouveau', ecoleId: 'e-num', idOrion: '', salleId: salle.id, type: 'autre', modele: 'Câble', marque: null, serie: null, dateReception: Date.now(), garantieFin: null, hs: false });
-  input.constats[0].traite = { at: 0, par: 'falsifié', parId: null };
+  input.constats[0].traite = { at: 0, par: 'falsifié', parId: null, action: 'ajoute' };
   const next = mergeState(s, input, manager);
   assert.equal(next.constats[0].traite?.par, 'G. Bernard');
   assert(next.materiels.some((m) => m.id === 'nouveau' && m.idOrion.startsWith('MAT-')));
   const modifie: Ecriture = scopedState(next, manager);
   modifie.constats[0].resultat = 'present';
   assert.throws(() => mergeState(next, modifie, manager), /traitement/);
+});
+
+test('recensement : une présence ne confirme pas une installation ; un ancien écart reste traitable', () => {
+  const { next: s, campagne } = ouvrir(initialState(), [], 'recensement');
+  const enCours = s.materiels.find((x) => x.ecoleId === 'e-num' && x.deplacement && x.salleId)!;
+  assert.equal(appliquerEvenements(s, campagne.id, [evt({ type: 'vu', materielId: enCours.id, salleId: enCours.salleId })])[0].statut, 'applique');
+  assert(enCours.deplacement, 'une présence de recensement ne confirme pas le déplacement prévu');
+  assert.equal(s.constats.at(-1)!.resultat, 'present');
+
+  const m = s.materiels.find((x) => x.ecoleId === 'e-num' && x.salleId && !x.hs && !x.deplacement)!;
+  const affectation = m.salleId!;
+  const autre = s.salles.find((x) => x.ecoleId === 'e-num' && x.id !== affectation)!;
+  const avant = structuredClone(m);
+  const e = evt({ type: 'vu', materielId: m.id, salleId: autre.id });
+  assert.equal(appliquerEvenements(s, campagne.id, [e])[0].statut, 'applique');
+  assert.deepEqual(s.materiels.find((x) => x.id === m.id), avant, 'un constat historique ne déplace pas le matériel');
+  const c = s.constats.at(-1)!;
+  assert.equal(c.resultat, 'ecart');
+  assert.equal(c.type, 'vu');
+
+  const gestionnaire = as(s, MANAGER);
+  traiterConstat(s, c.id, 'constat', gestionnaire, Date.now());
+  assert.equal(m.salleId, autre.id);
+  assert.equal(c.traite?.action, 'constat');
+  assert.equal(c.traite?.parId, MANAGER);
+  assert.throws(() => traiterConstat(s, c.id, 'stock', gestionnaire), /déjà traité/);
+});
+
+test('recensement : un scan antérieur à la dernière information est refusé avant toute confirmation', () => {
+  const { next: s, campagne } = ouvrir(initialState(), [], 'recensement');
+  const m = s.materiels.find((x) => x.ecoleId === 'e-num' && x.salleId && !x.hs)!;
+  m.deplacement = { de: null, at: Date.now(), par: 'G. Bernard', parId: MANAGER };
+  const ancien = evt({ type: 'vu', materielId: m.id, salleId: m.salleId, observeLe: m.deplacement.at - 1000 });
+  assert.equal(appliquerEvenements(s, campagne.id, [ancien])[0].statut, 'refuse');
+  assert(m.deplacement, 'le déplacement reste à confirmer');
 });
 
 test('API : appairage par un gestionnaire, connecteur authentifié, blocs chiffrés de bout en bout', async () => {
@@ -291,7 +326,7 @@ test('API : appairage par un gestionnaire, connecteur authentifié, blocs chiffr
   const url = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
   try {
     const state = await repository.read((await repository.actor(MANAGER))!);
-    state.recensements.push({ id: 'n', ecoleId: 'e-num', nom: 'Inventaire', salleIds: [], at: 0, par: '', parId: null, expireLe: 0 });
+    state.recensements.push({ id: 'n', ecoleId: 'e-num', nom: 'Inventaire', mode: 'recensement', salleIds: [], at: 0, par: '', parId: null, expireLe: 0 });
     const { recensements: [campagne] } = await repository.update(state, state.revision, (await repository.actor(MANAGER))!);
 
     const { url: lien } = await (await fetch(`${url}/api/workspace/recensements/${campagne.id}/appairage`)).json();

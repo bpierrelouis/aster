@@ -197,19 +197,19 @@ Téléphone (PWA) ──HTTPS──► Relais (Hidora) ◄──HTTPS sortant, p
 
 **Appairage.** « Appairer un téléphone » affiche le QR code d’une adresse de l’application mobile dont le fragment porte la campagne, le jeton du téléphone et la clé (`https://relais/#c=…&j=…&k=…`) ; le navigateur n’envoie jamais le fragment au relais. Clé et jeton sont dérivés de `RIGEL_SECRET` par HMAC : rien n’est stocké, et changer ce secret révoque tous les téléphones. Le relais ne connaît que l’empreinte SHA-256 du jeton. Aucune connexion MindefConnect sur le téléphone.
 
-**Constats.** Chaque action du téléphone est un événement (identifiant généré sur le téléphone, rejoué sans doublon) intégré par le serveur au nom de l’ouvreur de la campagne. Ouvrir une salle ou le stock, c’est déclarer s’y trouver physiquement (RG-96, décision de l’utilisateur du 14 novembre) : un matériel affecté ailleurs (autre salle ou stock) n’offre que deux choix, l’accepter ici ou le ramener à son affectation ; « Signaler sans déplacer » n’existe plus. Un matériel n’est jamais rangé au stock depuis une salle : le lieu constaté est toujours le lieu ouvert.
+**Campagnes et constats.** Le gestionnaire choisit dans ORION une campagne d’**installation** ou de **recensement**, puis appaire le téléphone. Dans son lieu d’affectation, une installation confirme un déplacement prévu tandis qu’un recensement enregistre seulement la présence. Chaque action du téléphone est un événement (identifiant généré sur le téléphone, rejoué sans doublon) intégré par le serveur au nom de l’ouvreur de la campagne. Ouvrir une salle ou le stock, c’est déclarer s’y trouver physiquement (RG-96, décision de l’utilisateur du 14 novembre) : un matériel affecté ailleurs (autre salle ou stock) n’offre que deux choix, l’accepter ici ou le ramener à son affectation ; « Signaler sans déplacer » n’existe plus. Un matériel n’est jamais rangé au stock depuis une salle : le lieu constaté est toujours le lieu ouvert.
 
 | Constat (événement) | Bouton du téléphone | Effet dans ORION |
 | --- | --- | --- |
-| Vu dans son lieu, déplacement en cours (`vu`) | « Confirmer l’installation » | Déplacement confirmé (point vert), « Installation confirmée » |
+| Vu dans son lieu, déplacement en cours (`vu`) | « Confirmer l’installation » ou « Confirmer la présence » | Installation : déplacement confirmé (point vert) ; recensement : présence seule |
 | Vu dans son lieu (`vu`) | « Confirmer la présence » | « Présent » |
 | Accepté ici (`releve`) | « Accepter dans *salle* », au stock « Ranger au stock » | Affectation au lieu ouvert, déplacement confirmé : « Relocalisé » ou « Rangé au stock » ; refusé pour un matériel hors service hors du stock (RG-87) |
 | Refusé ici (`retour`) | « Ramener dans *salle d’affectation* » ou « Ramener au stock » | « Retour lancé » : affectation inchangée, déplacement ouvert depuis le lieu ouvert (`deplacement.de`, qui remplace l’origine d’un déplacement déjà en cours), installation retirée ; point orange jusqu’à la confirmation par le gestionnaire une fois le matériel rapporté (Salles › Déplacements, ou scan dans son lieu) |
 | Code inconnu (`inconnu`) | « Signaler le matériel » | À traiter ; « Ajouter au parc » ouvre la fiche matériel préremplie (saisie du téléphone) et marque le constat traité, « Écarter » le marque traité |
 
-Un constat « Vu dans une autre salle » (`ecart`), produit par les versions antérieures (`vu` hors de l’affectation), reste affiché et à traiter (« Traité »), sans modification du matériel.
+Un constat « Vu dans une autre salle » (`ecart`), produit par les versions antérieures (`vu` hors de l’affectation), reste affiché et à traiter. Le gestionnaire choisit dans ORION « Remettre au stock », « Ramener à l’affectation » ou « Réaffecter ici » ; l’action, sa date et son auteur sont conservés et le constat ne peut plus être retraité.
 
-Un code « inconnu » qui correspond en fait à un identifiant ORION ou à un numéro de série de l’école (instantané du téléphone ancien) est traité comme un matériel vu. Un constat est conservé ; seul son traitement est modifiable.
+Un code « inconnu » qui correspond en fait à un identifiant ORION ou à un numéro de série de l’école (instantané du téléphone ancien) est traité comme un matériel vu.
 
 **Conflits.** ORION fait foi : chaque constat est réévalué à son arrivée sur l’état courant, pas sur l’instantané du téléphone.
 - Doublons (renvoi après coupure) : ignorés par le relais puis par ORION (identifiant de l’événement).

@@ -14,7 +14,7 @@ import { journal, raison } from '../journal.ts';
 import { DISCONNECT_AFTER, applyReports, applyResults, markDisconnected, pendingCommands } from './postes.ts';
 import { reportPdf } from './pdf.ts';
 import { analyseImport, importMateriels } from './import.ts';
-import { appairage, appliquerEvenements, campagnesPubliees, dechiffrerEvenements } from './recensement.ts';
+import { appairage, appliquerEvenements, campagnesPubliees, dechiffrerEvenements, traiterConstat } from './recensement.ts';
 import type { Bloc } from '#shared/rigel.ts';
 import type { Actor, Id, Item, WorkspaceState } from '#shared/types.ts';
 import type { WorkspaceInput } from './rules.ts';
@@ -121,6 +121,12 @@ export function createEngine({ store }: { store: Store }) {
         const evenements = await dechiffrerEvenements(secret, campagne, blocs);
         return system((s) => appliquerEvenements(s, campagne, evenements));
       },
+      traiter: (actor: Actor, constat: Id, action: import('#shared/types.ts').ActionConstat) => write((state) => {
+        const next = structuredClone(state);
+        traiterConstat(next, constat, action, actor);
+        next.revision = state.revision + 1;
+        return { next, result: { state: scopedState(next, actor) } };
+      }, actor),
     },
     agent: {
       postes: async () => {

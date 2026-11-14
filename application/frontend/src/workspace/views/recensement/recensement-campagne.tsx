@@ -39,8 +39,15 @@ const lieu = (salleId: string | null) => (salleId ? index().salle.get(salleId)?.
 
 function marquerTraite(g: ATraiter) {
   const ids = new Set(g.constats.map((c) => c.id));
-  store.update('data', (s) => { for (const c of s.constats) if (ids.has(c.id)) c.traite = traceProvisoire(); });
+  store.update('data', (s) => { for (const c of s.constats) if (ids.has(c.id)) c.traite = { ...traceProvisoire(), action: 'ecarte' }; });
   notify(g.constats.length > 1 ? plural(g.constats.length, 'constat traité', 'constats traités') : 'Constat traité', { icon: 'check' });
+}
+
+async function resoudre(g: ATraiter, action: 'stock' | 'affectation' | 'constat') {
+  try {
+    for (const c of g.constats) await store.call(`/constats/${encodeURIComponent(c.id)}/traitement`, { action });
+    notify(g.constats.length > 1 ? plural(g.constats.length, 'écart traité', 'écarts traités') : 'Écart traité', { icon: 'check' });
+  } catch (error) { notify((error as Error).message, { tone: 'danger' }); }
 }
 
 /** Constat à traiter : ce qui a été vu, où, combien de fois, et l'action qui le règle */
@@ -55,7 +62,11 @@ function ATraiterRow({ g }: { g: ATraiter }) {
     <span className="row-main"><Sujet c={c} /><span className="row-sub"><span className="row-meta">{lieu(c.salleId)}</span>{detail && <span className="row-meta">{detail}</span>}{g.constats.length > 1 && <span className="row-meta">Vu {g.constats.length} fois</span>}</span></span>
     {can('materiel.recensement') && <span className="rec-row-actions">
       {c.resultat === 'inconnu' && <button className="btn btn--ghost btn--s" onClick={() => openAjoutParc(g)}><Icon name="plus" size={16} />Ajouter au parc</button>}
-      <button className="btn btn--ghost btn--s" onClick={() => marquerTraite(g)}><Icon name="check" size={16} />{c.resultat === 'inconnu' ? 'Écarter' : 'Traité'}</button>
+      {c.resultat === 'ecart' ? <>
+        <button className="btn btn--ghost btn--s" type="button" onClick={() => resoudre(g, 'stock')}>Remettre au stock</button>
+        <button className="btn btn--ghost btn--s" type="button" onClick={() => resoudre(g, 'affectation')}>Ramener à l’affectation</button>
+        <button className="btn btn--primary btn--s" type="button" onClick={() => resoudre(g, 'constat')}>Réaffecter ici</button>
+      </> : <button className="btn btn--ghost btn--s" type="button" onClick={() => marquerTraite(g)}><Icon name="check" size={16} />{c.resultat === 'inconnu' ? 'Écarter' : 'Traité'}</button>}
     </span>}
   </div></li>;
 }
@@ -100,10 +111,10 @@ export function Campagne({ id }: { id: string }) {
       {gerer && <button className="btn btn--ghost" onClick={() => openEtiquettes(r)}><Icon name="print" size={18} /><span>Étiquettes</span></button>}
       {gerer && enCours && <button className="btn btn--primary" onClick={() => openAppairage(r)}><Icon name="tablet" size={18} /><span>Appairer un téléphone</span></button>}
     </PageHead>
-    <p className="group-lead"><Link to="/materiels/recensement">Campagnes</Link> · <strong>{r.nom}</strong> · {perimetre(r)} · ouverte par {r.par} le {dateMed(r.at)} · {echeance(r)}</p>
+    <p className="group-lead"><Link to="/materiels/recensement">Campagnes</Link> · <strong>{r.nom}</strong> · {r.mode === 'installation' ? 'Installation' : 'Recensement'} · {perimetre(r)} · ouverte par {r.par} le {dateMed(r.at)} · {echeance(r)}</p>
     <div className="ops-metrics">
       <div className="ops-metric glass"><span>Matériels vus</span><strong>{num(b.vus)}<small> / {num(b.attendus)}</small></strong><Progress value={b.pct} label="Avancement de la campagne" /></div>
-      <div className="ops-metric glass"><span>Installations confirmées</span><strong>{num(b.confirmes)}</strong><span>{plural(b.deplaces, 'matériel relocalisé', 'matériels relocalisés')} ou rangé{b.deplaces > 1 ? 's' : ''}</span></div>
+      {r.mode === 'installation' && <div className="ops-metric glass"><span>Installations confirmées</span><strong>{num(b.confirmes)}</strong><span>{plural(b.deplaces, 'matériel relocalisé', 'matériels relocalisés')} ou rangé{b.deplaces > 1 ? 's' : ''}</span></div>}
       <div className={`ops-metric glass${b.aTraiter.length ? ' rec-metric--alert' : ''}`}><span>À traiter</span><strong>{num(b.aTraiter.length)}</strong><span>Codes inconnus, écarts et refus</span></div>
     </div>
     <GroupGrid items={['traiter', 'salles', 'constats'] as const} weight={(k) => (k === 'salles' ? 3 + Math.min(14, salles.length) : 3 + Math.min(10, k === 'traiter' ? b.aTraiter.length : b.constats.length))} render={(k) => {

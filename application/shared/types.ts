@@ -25,6 +25,8 @@ export type Portee = 'global' | 'ecole' | 'batiment' | 'salle';
 export type ConstatType = 'vu' | 'releve' | 'retour' | 'inconnu';
 /** ecart : constats d'avant RG-96 (décision du 14 novembre), conservés et traitables */
 export type ConstatResultat = 'confirme' | 'present' | 'ecart' | 'deplace' | 'range' | 'retour' | 'inconnu' | 'refuse';
+export type ModeRecensement = 'installation' | 'recensement';
+export type ActionConstat = 'stock' | 'affectation' | 'constat' | 'ajoute' | 'ecarte';
 
 /** Auteur et date d'une action enregistrée par le serveur */
 export interface Trace {
@@ -202,6 +204,7 @@ export interface Recensement extends Trace {
   id: Id;
   ecoleId: Id;
   nom: string;
+  mode: ModeRecensement;
   salleIds: Id[];
   expireLe: Timestamp;
   /** Clôture */
@@ -227,7 +230,7 @@ export interface Constat {
   /** Code inconnu : informations saisies sur le téléphone */
   saisie?: { type: DeviceTypeId; modele: string; marque: string | null; serie: string | null; garantieFin?: Timestamp };
   /** Code inconnu ou écart traité dans ORION */
-  traite?: Trace;
+  traite?: Trace & { action: ActionConstat };
 }
 
 /** Collections de l'espace de travail, dans l'ordre de `collections` (backend/workspace/rules.ts) */

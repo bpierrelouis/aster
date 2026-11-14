@@ -23,7 +23,7 @@ export function prng(seed: number) {
 }
 
 /** Version du jeu de données : un état enregistré plus ancien est régénéré. */
-export const SEED_VERSION = 17;
+export const SEED_VERSION = 18;
 
 /**
  * Comptes ORION de départ : profil et école de rattachement de chaque personne.

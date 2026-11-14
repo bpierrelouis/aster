@@ -18,7 +18,7 @@ import { Loader } from '../../widgets/parts.tsx';
 import { openMaterielForm } from '../inventaire/inventaire-materiel.tsx';
 import { etiquette, parSerie } from '#shared/rigel.ts';
 import { dateFull, dateNum, plural } from '#shared/format.ts';
-import type { Id, Recensement, WorkspaceView } from '#shared/types.ts';
+import type { Id, ModeRecensement, Recensement, WorkspaceView } from '#shared/types.ts';
 import type { ATraiter } from '../../core/recensements.ts';
 
 /* ---------- Nouvelle campagne ---------- */
@@ -33,6 +33,7 @@ function CampagneSheet() {
   const salles = scope().salles.filter((s) => s.ecoleId === ecoleId);
   const batiments = [...new Set(salles.map((s) => s.batiment))].sort();
   const [toute, setToute] = useState(true);
+  const [mode, setMode] = useState<ModeRecensement>('recensement');
   const [choix, setChoix] = useState(() => new Set<Id>());
   const nomRef = useRef<HTMLInputElement>(null);
   useEffect(() => { const t = setTimeout(() => nomRef.current?.focus(), 60); return () => clearTimeout(t); }, []);
@@ -50,7 +51,7 @@ function CampagneSheet() {
     const avant = new Set(store.state.recensements.map((r) => r.id));
     store.update('data', (s) => {
       // Identifiant, auteur, dates et échéance attribués par le serveur
-      s.recensements.push({ id: uid('rec'), ecoleId, nom, salleIds: toute ? [] : [...choix], at: Date.now(), par: '', parId: null, expireLe: 0 });
+      s.recensements.push({ id: uid('rec'), ecoleId, nom, mode, salleIds: toute ? [] : [...choix], at: Date.now(), par: '', parId: null, expireLe: 0 });
     });
     await store.flush();
     const cree = store.state.recensements.find((r) => !avant.has(r.id) && r.nom === nom);
@@ -64,6 +65,11 @@ function CampagneSheet() {
       <label className="field"><span className="field-label">Nom *</span>
         <input ref={nomRef} name="nom" required maxLength={120} defaultValue={`Recensement du ${dateNum(Date.now())}`} autoComplete="off" />
         <span className="field-hint">La campagne reste ouverte 14 jours, ou jusqu’à sa clôture.</span></label>
+      <fieldset className="field">
+        <legend className="field-label">Objectif</legend>
+        <label><input type="radio" name="mode" value="recensement" checked={mode === 'recensement'} onChange={() => setMode('recensement')} /> Vérifier les affectations</label>
+        <label><input type="radio" name="mode" value="installation" checked={mode === 'installation'} onChange={() => setMode('installation')} /> Réaliser une installation</label>
+      </fieldset>
       <div className="field"><span className="field-label">Salles à recenser</span>
         <div className="seg seg--wide" role="radiogroup" aria-label="Salles à recenser">
           <button type="button" role="radio" aria-checked={toute} className={`seg-btn${toute ? ' is-on' : ''}`} onClick={() => setToute(true)}>Toute l’école</button>
@@ -162,7 +168,7 @@ function EtiquettesSheet({ r }: { r: Recensement }) {
 export async function openAjoutParc(g: ATraiter) {
   const c = g.constat;
   const ids = new Set(g.constats.map((k) => k.id));
-  const traiter = (s: WorkspaceView) => { for (const k of s.constats) if (ids.has(k.id)) k.traite = traceProvisoire(); };
+  const traiter = (s: WorkspaceView) => { for (const k of s.constats) if (ids.has(k.id)) k.traite = { ...traceProvisoire(), action: 'ajoute' }; };
   const serie = c.saisie?.serie ?? (c.code || null);
   const existant = serie ? parSerie(store.state.materiels.filter((m) => m.ecoleId === c.ecoleId), serie) : undefined;
   if (existant) {

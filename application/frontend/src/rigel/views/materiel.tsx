@@ -15,13 +15,14 @@ import type { Id } from '#shared/types.ts';
 type Constat = 'vu' | 'releve' | 'retour';
 
 export function Materiel() {
-  const { vue } = useRigel();
+  const { etat, vue } = useRigel();
   const navigate = useNavigate();
   const lieu = lieuDe(useSearchParams()[0].get('lieu'));
   const code: string | undefined = useLocation().state?.code;
   const m = vue.materiel.get(useParams().id ?? '');
   if (!m) return <Navigate to="/" replace />;
   const logistique = logistiqueDe(m);
+  const installation = etat.instantane?.campagne.mode === 'installation';
 
   /** Constat enregistré : retour au scanner de l'inventaire, le code lu restant ignoré tant qu'il est devant l'objectif */
   async function constat(type: Constat, salleId: Id | null, message: string, ton: 'ok' | 'accent' | 'install' = 'ok') {
@@ -47,16 +48,16 @@ export function Materiel() {
         </dd></div>
       </dl>
     </section>
-    {lieu === undefined ? <ChoixLieu vue={vue} m={m} /> : <Actions vue={vue} m={m} lieu={lieu} constat={constat} />}
+    {lieu === undefined ? <ChoixLieu vue={vue} m={m} /> : <Actions vue={vue} m={m} lieu={lieu} installation={installation} constat={constat} />}
   </Ecran>;
 }
 
-function Actions({ vue, m, lieu, constat }: { vue: Vue; m: MaterielVu; lieu: Id | null; constat: (type: Constat, salleId: Id | null, message: string, ton?: 'ok' | 'accent' | 'install') => Promise<void> }) {
+function Actions({ vue, m, lieu, installation, constat }: { vue: Vue; m: MaterielVu; lieu: Id | null; installation: boolean; constat: (type: Constat, salleId: Id | null, message: string, ton?: 'ok' | 'accent' | 'install') => Promise<void> }) {
   const ici = nomLieu(vue, lieu);
   if (m.salleId === lieu) {
     return <div className="pile">
-      <button className="bouton bouton--principal" type="button" onClick={() => void constat('vu', lieu, m.enCours ? `Installation confirmée · ${m.idOrion}` : `Présence confirmée · ${m.idOrion}`)}>
-        {m.enCours ? 'Confirmer l’installation' : 'Confirmer la présence'}
+      <button className="bouton bouton--principal" type="button" onClick={() => void constat('vu', lieu, installation && m.enCours ? `Installation confirmée · ${m.idOrion}` : `Présence confirmée · ${m.idOrion}`)}>
+        {installation && m.enCours ? 'Confirmer l’installation' : 'Confirmer la présence'}
       </button>
     </div>;
   }

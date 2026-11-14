@@ -6,8 +6,9 @@
    - Constats : produits par les téléphones, transmis chiffrés par le relais
      et le connecteur, intégrés ici (valeurs d'autorité fixées par le serveur).
    - Ouvrir un lieu sur le téléphone, c'est déclarer s'y trouver (RG-96) : un
-     matériel scanné dans sa salle confirme son déplacement en cours ; affecté
-     ailleurs, il est accepté ici (affecté au lieu, déplacement confirmé) ou
+     matériel scanné dans sa salle confirme son déplacement en mode installation
+     ou enregistre sa présence en mode recensement ; affecté ailleurs, il est
+     accepté ici (affecté au lieu, déplacement confirmé) ou
      refusé (retour lancé vers son affectation, à confirmer par le
      gestionnaire) ; un code inconnu reste à traiter dans ORION.
    - Clé et jeton d'une campagne sont dérivés du secret RIGEL_SECRET :
@@ -19,7 +20,7 @@ import { DEVICE_TYPES } from '#shared/catalog.ts';
 import { DUREE_CAMPAGNE, adresseAppairage, chiffrer, compact, dechiffrer, empreinte, parSerie } from '#shared/rigel.ts';
 import { assert, fail, same } from './rules.ts';
 import { journal, raison } from '../journal.ts';
-import type { Actor, Constat, Id, Materiel, Recensement, WorkspaceState } from '#shared/types.ts';
+import type { ActionConstat, Actor, Constat, Id, Materiel, Recensement, WorkspaceState } from '#shared/types.ts';
 import type { Bloc, CampagnePubliee, EvenementRigel, InstantaneRigel, ResultatRigel } from '#shared/rigel.ts';
 import type { LooseItem } from './rules.ts';
 
@@ -41,6 +42,7 @@ export function regleRecensement(x: LooseItem, old: LooseItem | undefined, state
   if (!old) {
     assert(typeof x.nom === 'string' && x.nom.trim() && x.nom.length <= 120, 'Nom de la campagne obligatoire.');
     x.nom = x.nom.trim();
+    assert(['installation', 'recensement'].includes(String(x.mode)), 'Type de campagne invalide.');
     assert(Array.isArray(x.salleIds) && x.salleIds.length <= 2000 && new Set(x.salleIds).size === x.salleIds.length, 'Salles invalides.');
     assert(x.salleIds.every((sid) => state.salles.some((s) => s.id === sid && s.ecoleId === x.ecoleId)), 'Salle inconnue ou hors école.');
     Object.assign(x, { at: now, par: actor.nom, parId: actor.id, expireLe: now + DUREE_CAMPAGNE });
@@ -60,7 +62,38 @@ export function regleConstat(x: LooseItem, old: LooseItem | undefined, actor: Ac
   const stable = (c: LooseItem) => Object.fromEntries(Object.entries(c).filter(([k]) => k !== 'traite'));
   assert(same(stable(old), stable(x)), 'Seul le traitement d’un constat peut être modifié.');
   if (old.traite) assert(same(old.traite, x.traite), 'Ce constat est déjà traité.');
-  else if (x.traite) x.traite = { at: now, par: actor.nom, parId: actor.id };
+  else if (x.traite) {
+    assert(['ajoute', 'ecarte'].includes(String(x.traite.action)) && old.resultat !== 'ecart', 'Choisissez une action adaptée au constat.');
+    x.traite = { at: now, par: actor.nom, parId: actor.id, action: x.traite.action };
+  }
+}
+
+/** Résout un écart dans ORION et enregistre définitivement l'action choisie. */
+export function traiterConstat(s: WorkspaceState, id: Id, action: ActionConstat, actor: Actor, now = Date.now()) {
+  reserve(actor);
+  const c = s.constats.find((x) => x.id === id && x.ecoleId === actor.ecoleId);
+  if (!c) fail(404, 'Constat introuvable.');
+  if (c.traite) fail(400, 'Ce constat est déjà traité.');
+  if (c.resultat !== 'ecart' || !c.materielId) fail(400, 'Ce constat ne correspond pas à un écart de localisation.');
+  if (!['stock', 'affectation', 'constat'].includes(action)) fail(400, 'Action de traitement invalide.');
+  const m = s.materiels.find((x) => x.id === c.materielId && x.ecoleId === c.ecoleId);
+  if (!m) fail(404, 'Matériel introuvable.');
+  const trace = { at: now, par: actor.nom, parId: actor.id };
+  const affectation = m.salleId ?? null;
+  if (action === 'stock') {
+    m.salleId = null;
+    delete m.deplacement;
+    m.installation = { de: c.salleId, ...trace };
+  } else if (action === 'affectation') {
+    delete m.deplacement;
+    m.installation = { de: c.salleId, ...trace };
+  } else {
+    if (m.hs && c.salleId) fail(400, 'Un matériel hors service ne peut aller qu’au stock.');
+    m.salleId = c.salleId;
+    delete m.deplacement;
+    m.installation = { de: affectation, ...trace };
+  }
+  c.traite = { ...trace, action };
 }
 
 /* ---------- Clé, jeton et appairage ---------- */
@@ -88,7 +121,7 @@ const versRigel = (m: Materiel) => ({ id: m.id, idOrion: m.idOrion, type: m.type
 /** Données consultées par le téléphone : salles de la campagne, matériels de l'école, constats déjà intégrés */
 export function instantane(state: WorkspaceState, r: Recensement): InstantaneRigel {
   return {
-    campagne: { id: r.id, nom: r.nom, ecole: state.ecoles.find((e) => e.id === r.ecoleId)?.nom ?? '', expireLe: r.expireLe },
+    campagne: { id: r.id, nom: r.nom, ecole: state.ecoles.find((e) => e.id === r.ecoleId)?.nom ?? '', mode: r.mode, expireLe: r.expireLe },
     salles: sallesDe(state, r).map((s) => ({ id: s.id, nom: s.nom, batiment: s.batiment, etage: s.etage ?? null }))
       .sort((a, b) => a.batiment.localeCompare(b.batiment, 'fr', { numeric: true }) || a.nom.localeCompare(b.nom, 'fr', { numeric: true })),
     materiels: state.materiels.filter((m) => m.ecoleId === r.ecoleId).map(versRigel),
@@ -174,8 +207,9 @@ function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRi
   const serieSaisie = typeof e.saisie?.serie === 'string' ? e.saisie.serie : '';
   const connu = e.type === 'inconnu' && code ? ecole.find((m) => compact(m.idOrion) === compact(code)) ?? parSerie(ecole, code) ?? parSerie(ecole, serieSaisie) : undefined;
   const m = connu ?? ecole.find((x) => x.id === e.materielId);
+  const type = connu ? 'vu' : e.type;
   const constat: Constat = {
-    id: cid, recensementId: r.id, ecoleId: r.ecoleId, type: connu ? 'vu' : e.type, code, salleId, materielId: m?.id ?? null,
+    id: cid, recensementId: r.id, ecoleId: r.ecoleId, type, code, salleId, materielId: m?.id ?? null,
     observeLe: Number.isFinite(e.observeLe) ? Math.min(e.observeLe, now) : now, at: now, resultat: 'inconnu',
   };
   if (e.type === 'inconnu' && !connu) {
@@ -188,17 +222,18 @@ function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRi
       };
     }
   } else if (!m) return { id, statut: 'refuse', message: 'Matériel inconnu ou hors école.' };
+  else if (constat.observeLe < derniereInformation(s, m)) Object.assign(constat, { resultat: 'refuse', message: 'Constat dépassé : ce matériel a été vu ou déplacé depuis.' });
   else if ((m.salleId ?? null) === salleId) {
-    if (m.deplacement) { m.installation = { de: m.deplacement.de, at: now, ...par }; delete m.deplacement; constat.resultat = 'confirme'; }
+    if (r.mode === 'installation' && m.deplacement) { m.installation = { de: m.deplacement.de, at: now, ...par }; delete m.deplacement; constat.resultat = 'confirme'; }
     else constat.resultat = 'present';
   } else if (e.type === 'vu' || connu) constat.resultat = 'ecart'; // téléphone d'une version antérieure (« Signaler sans déplacer »)
-  else if (constat.observeLe < derniereInformation(s, m)) Object.assign(constat, { resultat: 'refuse', message: 'Constat dépassé : ce matériel a été vu ou déplacé depuis.' });
   else if (e.type === 'retour') {
     // Présence refusée : le matériel est ici et doit être ramené à son affectation, inchangée ; le gestionnaire confirmera son installation
     m.deplacement = { de: salleId, at: now, ...par };
     delete m.installation;
     constat.resultat = 'retour';
-  } else if (m.hs && salleId) Object.assign(constat, { resultat: 'refuse', message: 'Un matériel hors service ne peut aller qu’au stock.' });
+  }
+  else if (m.hs && salleId) Object.assign(constat, { resultat: 'refuse', message: 'Un matériel hors service ne peut aller qu’au stock.' });
   else {
     // Relocalisation constatée sur place : affectation et déplacement physique confirmés ensemble
     const de = m.deplacement ? m.deplacement.de : m.salleId ?? null;

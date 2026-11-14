@@ -15,7 +15,7 @@ export function Accueil() {
     <header className="accueil-entete"><Marque /></header>
     <main className="contenu">
       <section className="carte campagne" aria-label="Campagne">
-        <p className="surtitre">{campagne?.ecole ?? 'Campagne de recensement'}</p>
+        <p className="surtitre">{campagne ? `${campagne.mode === 'installation' ? 'Installation' : 'Recensement'} · ${campagne.ecole}` : 'Campagne RIGEL'}</p>
         <h1>{campagne?.nom ?? 'Chargement de la campagne…'}</h1>
         {campagne && <p className="discret">Jusqu’au {dateShort(campagne.expireLe)}</p>}
         <Link className="synchro" to="/synchronisation" aria-label={`Synchronisation : ${synchro.texte}`}>

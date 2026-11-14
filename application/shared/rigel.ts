@@ -9,7 +9,7 @@
      authentifiées : l'identifiant de la campagne.
    ========================================================================== */
 
-import type { ConstatResultat, ConstatType, DeviceTypeId, Id, Timestamp } from './types.ts';
+import type { ConstatResultat, ConstatType, DeviceTypeId, Id, ModeRecensement, Timestamp } from './types.ts';
 
 /* ---------- Échanges ---------- */
 
@@ -47,7 +47,7 @@ export interface ConstatRigel { id: Id; materielId: Id | null; salleId: Id | nul
 
 /** Instantané d'une campagne : ce que le téléphone consulte hors ligne */
 export interface InstantaneRigel {
-  campagne: { id: Id; nom: string; ecole: string; expireLe: Timestamp };
+  campagne: { id: Id; nom: string; ecole: string; mode: ModeRecensement; expireLe: Timestamp };
   /** Salles de la campagne, dans l'ordre d'affichage */
   salles: SalleRigel[];
   /** Matériels de l'école */

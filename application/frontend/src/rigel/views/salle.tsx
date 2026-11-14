@@ -6,7 +6,7 @@ import { lieuDe, nomLieu, parametreDe } from '../core/vue.ts';
 import { Avancement, Ecran } from '../ui/parts.tsx';
 
 export function Salle() {
-  const { vue } = useRigel();
+  const { etat, vue } = useRigel();
   const lieu = lieuDe(useParams().id);
   if (lieu === undefined || (lieu !== null && !vue.salle.has(lieu))) return <Navigate to="/explorer" replace />;
   const salle = lieu === null ? null : vue.salle.get(lieu)!;
@@ -19,7 +19,7 @@ export function Salle() {
     </section>
     <nav className="actions" aria-label="Inventaire">
       <Link className="action action--principale" to={`/scanner?lieu=${encodeURIComponent(p)}`}>
-        <Icon name="recherche" size={30} /><span><strong>Faire l’inventaire</strong><small>Scanner les matériels présents</small></span>
+        <Icon name="recherche" size={30} /><span><strong>{etat.instantane?.campagne.mode === 'installation' ? 'Réaliser l’installation' : 'Faire le recensement'}</strong><small>Scanner les matériels présents</small></span>
       </Link>
       <Link className="action" to={`/salles/${encodeURIComponent(p)}/inventaire`}>
         <Icon name="list" size={30} /><span><strong>Voir l’inventaire</strong><small>Matériels déclarés</small></span>

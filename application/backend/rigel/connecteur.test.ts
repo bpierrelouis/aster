@@ -28,7 +28,7 @@ test('connecteur : publication, constat d’un téléphone intégré par ORION, 
     // Campagne ouverte dans ORION par le gestionnaire
     const gestionnaire = (await repository.actor('cpt-num-gestionnaire'))!;
     const vue = await repository.read(gestionnaire);
-    vue.recensements.push({ id: 'n', ecoleId: 'e-num', nom: 'Rentrée', salleIds: [], at: 0, par: '', parId: null, expireLe: 0 });
+    vue.recensements.push({ id: 'n', ecoleId: 'e-num', nom: 'Rentrée', mode: 'installation', salleIds: [], at: 0, par: '', parId: null, expireLe: 0 });
     const campagne = (await repository.update(vue, vue.revision, gestionnaire)).recensements[0];
     const connecteur = createConnecteur({ orion: orion.url, secret: SECRET, relais: relais.url, token: TOKEN });
     assert.equal(await connecteur.cycle(), 0);

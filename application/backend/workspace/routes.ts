@@ -61,6 +61,9 @@ export function createWorkspaceRouter({ repository, actor, agentToken, rigel }: 
   router.get('/recensements/:id/appairage', async (req, res, next) => {
     try { res.json(await repository.rigel.appairage(res.locals.actor, req.params.id, rigel)); } catch (e) { next(e); }
   });
+  router.post('/constats/:id/traitement', async (req, res, next) => {
+    try { res.json(await repository.rigel.traiter(res.locals.actor, req.params.id, req.body?.action)); } catch (e) { next(e); }
+  });
   router.get('/reports/:id/pdf', async (req, res, next) => {
     try {
       const pdf = await repository.pdf(req.params.id, res.locals.actor);
