@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.9 | 14/11/2026 | Pilotage interne | Comptes fictifs, tableau des comptes et changement de compte à la connexion ; réinitialisation des données préparée | [19 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.10 | 14/11/2026 | Pilotage interne | Organisation du code et migrations réalisées ; amorçage de production et écarts du DAT ajoutés | [20 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -91,7 +91,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Organisation du code : démonstrateur et espace de travail
 
-Reportée après l’intégration de RIGEL (décision de l’utilisateur du 13 novembre). `workspace` (`backend/workspace/`, `frontend/src/workspace/`) désigne l’espace de travail, c’est-à-dire toute l’application après connexion, et non la production. `backend/demonstrateur/` regroupe l’outillage propre à la démonstration : simulateur des postes, création des identités dans le Keycloak local. Production et recette se distinguent par la configuration (`NODE_ENV`, `IDENTITY_PROVISIONING`, `SEED_RESET`). Trois couplages font entrer la démonstration dans le code de production :
+Réalisée le 14 novembre, après l’intégration de RIGEL (décision de l’utilisateur du 13 novembre). `workspace` (`backend/workspace/`, `frontend/src/workspace/`) désigne l’espace de travail, c’est-à-dire toute l’application après connexion, et non la production. `backend/demonstrateur/` regroupe l’outillage propre à la démonstration : simulateur des postes, création des identités dans le Keycloak local. Production et recette se distinguent par la configuration (`NODE_ENV`, `IDENTITY_PROVISIONING`, `SEED_RESET`). Trois couplages font entrer la démonstration dans le code de production :
 
 - `backend/workspace/rules.ts` (`initialState`) importe le jeu de départ `shared/seed.ts` : les données de démonstration sont embarquées dans le serveur ;
 - `backend/index.ts` importe toujours `demonstrateur/identity-provisioning.ts`, même lorsqu’il est désactivé ;
@@ -122,12 +122,13 @@ application/
 
 Plan, une étape par commit, chacune vérifiée par `npm test`, `npm run build`, `npm run test:ui`, `npm run test:workspace` et, avec l’infrastructure, `npm run test:e2e` :
 
-- [ ] 1. Déplacer `backend/demonstrateur/` vers `outils/` sans changer le code ; mettre à jour imports, scripts npm, cible `postes` du `Dockerfile` et guide de l’application.
-- [ ] 2. Sortir le jeu de départ : `initialState` ne crée que les référentiels ; `outils/donnees-demonstration` charge les données par une commande (`npm run donnees:demo`) appelée par le mode interface seule et par le déploiement du démonstrateur. `SEED_VERSION` et `SEED_RESET` deviennent des options de cette commande.
-- [ ] 3. Charger la création des identités seulement quand `IDENTITY_PROVISIONING=true` (import dynamique), pour qu’elle soit absente du serveur de production.
-- [ ] 4. Remplacer la création du schéma au démarrage par des migrations versionnées (`backend/persistance/migrations/`), pour faire évoluer une base de production sans réinitialisation.
-- [ ] 5. Découper `rules.ts` par domaine dans `backend/domaine/` et renommer `workspace` en `espace` (back et front), en dernier : changement le plus large, purement structurel.
-- [ ] 6. Mettre à jour `AGENTS.md` (chemins cités) et le guide de l’application ; signaler au collègue du DAT les chemins de l’inventaire des configurations remises.
+- [x] 1. Déplacer `backend/demonstrateur/` vers `outils/` sans changer le code ; mettre à jour imports, scripts npm, cible `postes` du `Dockerfile` et guide de l’application.
+- [x] 2. Sortir le jeu de départ : `initialState` ne crée que les référentiels ; `outils/donnees-demonstration` charge les données par une commande (`npm run donnees:demo`) appelée par le mode interface seule et par le déploiement du démonstrateur. `SEED_VERSION` et `SEED_RESET` deviennent des options de cette commande. Réalisé : `SEED_VERSION` dans `outils/donnees-demonstration/jeu.ts`, option `--reinitialiser` ; sur les VM, le service `api` lance la commande avant le serveur (`pile.yaml`).
+- [x] 3. Charger la création des identités seulement quand `IDENTITY_PROVISIONING=true` (import dynamique), pour qu’elle soit absente du serveur de production.
+- [x] 4. Remplacer la création du schéma au démarrage par des migrations versionnées (`backend/persistance/migrations/`), pour faire évoluer une base de production sans réinitialisation. La migration `0001` reprend le schéma existant et s’applique aussi aux bases déjà créées.
+- [x] 5. Découper `rules.ts` par domaine dans `backend/domaine/` et renommer `workspace` en `espace` (back et front), en dernier : changement le plus large, purement structurel. Écarts au plan : `backend/rigel/` et `frontend/src/rigel/` gardent leur nom (au lieu de `recon/`) ; l’adresse `/api/workspace`, les types `Workspace…` et le script `test:workspace` sont conservés (contrat d’API et noms de code inchangés).
+- [x] 6. Mettre à jour `AGENTS.md` (chemins cités) et le guide de l’application ; signaler au collègue du DAT les chemins de l’inventaire des configurations remises (chemins inchangés ; contenus de `Dockerfile` et `pile.yaml` modifiés : § 6).
+- [ ] **Haute** — Espace de production neuf : sans données de démonstration, il ne contient ni école ni compte, donc personne ne peut se connecter. Prévoir la création du premier super administrateur (commande d’amorçage ou variable dédiée) avant toute mise en production.
 
 ## 4. Sécurité
 
@@ -215,7 +216,8 @@ Le DAT validé fait foi ; ces écarts entre lui, la configuration réelle et ses
 ### DAT et configuration réelle
 
 - [ ] **Moyenne** — Secrets : « tous créés par le script de préparation », alors que `RIGEL_SECRET` et `RELAIS_TOKEN` sont créés par `deployer.sh` (le second peut venir du secret de la CI).
-- [ ] **Moyenne** — Données : « recréées au premier démarrage », alors que `SEED_RESET=true` efface les données à chaque déploiement qui change `SEED_VERSION`.
+- [ ] **Moyenne** — Données : « recréées au premier démarrage », alors que le service `api` des VM lance `outils/donnees-demonstration/charger.ts --reinitialiser` avant le serveur : les données sont remplacées à chaque déploiement qui change `SEED_VERSION` (`SEED_RESET` n’existe plus).
+- [ ] **Moyenne** — Migrations (`DAT:437`, « la procédure de migration reste à définir ») : le schéma évolue désormais par migrations versionnées appliquées au démarrage sous verrou consultatif (table `orion_migration`), sans réinitialisation ; le serveur n’embarque plus de données de démonstration. Configurations remises modifiées : `Dockerfile` (dossier `outils/` dans les images Node.js, simulateur lancé depuis `outils/simulateur-postes/agents.ts`) et `vm/pile.yaml` (commande du service `api`).
 - [ ] **Moyenne** — SSH : comptes nominatifs et vérification des clés d’hôte prescrits ; la configuration utilise le compte partagé `user`, `StrictHostKeyChecking=accept-new` et `sudo` par mot de passe ; recommandation non appliquée ou configuration à changer.
 - [ ] **Moyenne** — Filtrage : manquent `8080/TCP` vers le proxy depuis toutes les VM (images, paquets) et `443` d’orion-4 et orion-5 vers orion-1 (Express joint Keycloak par HAProxy).
 - [ ] **Moyenne** — Données de démonstration dans les livrables : compte `keycloak-admin` et commande de lecture de son mot de passe (§ 4.5) ; `ldap/orion-utilisateurs.ldif` remis avec les comptes `@orion.demo` (§ 4.8) ; flux de connexion sans mot de passe intégré à l’image Keycloak des VM, qui rend optimiste « authentifie l’utilisateur à partir de l’annuaire » (`17:64`) ; voir aussi § 1, comptes réels pour la présentation.

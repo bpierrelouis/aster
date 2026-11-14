@@ -1998,6 +1998,13 @@
         "version": "4.9",
         "date": "2026-11-14",
         "modification": "Comptes fictifs, tableau des comptes et changement de compte à la connexion ; réinitialisation des données préparée",
+        "archive": null,
+        "commit": "b5ee002"
+      },
+      {
+        "version": "4.10",
+        "date": "2026-11-14",
+        "modification": "Organisation du code et migrations réalisées ; amorçage de production et écarts du DAT ajoutés",
         "archive": null
       }
     ]

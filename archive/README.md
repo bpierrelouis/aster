@@ -41,7 +41,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx) | Production destinée à la remise | [1.3](#20-backlog-et-suivi-projet) | 14/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.1](#20-backlog-et-suivi-projet) | 14/11/2026 |
 | [docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md](../docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md) | Brouillon interne | [1.3](#20-suivi-backlog-brouillon-v1) | 14/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.9](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.10](#21-backlog-technique-et-feuille-de-route) | 14/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -497,7 +497,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.9 | 14/11/2026 | Comptes fictifs, tableau des comptes et changement de compte à la connexion ; réinitialisation des données préparée | en vigueur | — |
+| 4.10 | 14/11/2026 | Organisation du code et migrations réalisées ; amorçage de production et écarts du DAT ajoutés | en vigueur | — |
+| 4.9 | 14/11/2026 | Comptes fictifs, tableau des comptes et changement de compte à la connexion ; réinitialisation des données préparée | `b5ee002` | — |
 | 4.8 | 14/11/2026 | Corrections de l’audit du 13 novembre réalisées | `d092d37` | — |
 | 4.7 | 14/11/2026 | RIGEL : accepter sur place ou ramener (RG-96) | `07a0096` | — |
 | 4.6 | 14/11/2026 | Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | `6219944` | — |
