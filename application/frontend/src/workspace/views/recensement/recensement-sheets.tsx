@@ -16,7 +16,7 @@ import { Sheet, confirmSheet, openSheet, notify, printSheet } from '../../ui/ove
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
 import { Loader } from '../../widgets/parts.tsx';
 import { openMaterielForm } from '../inventaire/inventaire-materiel.tsx';
-import { etiquette, parSerie } from '#shared/recon.ts';
+import { etiquette, parSerie } from '#shared/rigel.ts';
 import { dateFull, dateNum, plural } from '#shared/format.ts';
 import type { Id, Recensement, WorkspaceView } from '#shared/types.ts';
 import type { ATraiter } from '../../core/recensements.ts';

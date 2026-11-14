@@ -1,8 +1,8 @@
 # Pile Docker Swarm « orion » du démonstrateur (dossier d'architecture, § 4.5) : managers orion-1 à orion-3 ; entrée (HAProxy) sur orion-1 ;
 # application orion-4 et orion-5, PostgreSQL orion-6, identité orion-7,
 # Logstash orion-8, VM de secours orion-9 ; données et logs sur le stockage NFS d'orion-10, hors Swarm.
-# Déployée par deployer.sh, qui fournit ORION_IMAGES, ORION_TAG, l'adresse du relais RECON (ORION_RELAIS, vide s'il n'est pas publié)
-# et les empreintes des configurations. Le connecteur RECON est dans une pile à part (pile-recon.yaml) : il ne bloque jamais celle-ci.
+# Déployée par deployer.sh, qui fournit ORION_IMAGES, ORION_TAG, l'adresse du relais RIGEL (ORION_RELAIS, vide s'il n'est pas publié)
+# et les empreintes des configurations. Le connecteur RIGEL est dans une pile à part (pile-rigel.yaml) : il ne bloque jamais celle-ci.
 
 # Chaque VM joint Logstash sur sa propre adresse locale, par le maillage de routage de Swarm
 x-logs: &logs
@@ -69,7 +69,7 @@ services:
       WEB_URL: http://apache:8080
       LDAP_URL: ldap://ldap:389
       SYSLOG_URL: tcp://logstash:6514
-      RECON_URL: ${ORION_RELAIS}
+      RIGEL_URL: ${ORION_RELAIS}
     secrets:
       - source: orion_database_url
         target: DATABASE_URL
@@ -77,7 +77,7 @@ services:
       - SESSION_SECRET
       - AGENT_TOKEN
       - PROVISIONING_CLIENT_SECRET
-      - RECON_SECRET
+      - RIGEL_SECRET
       - source: ca
         target: /etc/ssl/orion/ca.pem
     networks: [orion]
@@ -222,7 +222,7 @@ secrets:
   SESSION_SECRET: { external: true }
   AGENT_TOKEN: { external: true }
   PROVISIONING_CLIENT_SECRET: { external: true }
-  RECON_SECRET: { external: true }
+  RIGEL_SECRET: { external: true }
   keycloak_admin: { external: true }
   orion_postgres_password: { external: true }
   ldap_admin: { external: true }

@@ -25,7 +25,7 @@ RELAIS_URL=${RELAIS_URL:-}
 if [ -n "$RELAIS_URL" ] && [[ $RELAIS_URL != *://* ]]; then RELAIS_URL="https://$RELAIS_URL"; fi
 RELAIS_URL=${RELAIS_URL%/}
 VARIABLES="$VARIABLES ORION_RELAIS=$(printf '%q' "${RELAIS_URL:-}")"
-docker_vm secret inspect RECON_SECRET >/dev/null 2>&1 || printf '%s' "$(openssl rand -hex 32)" | docker_vm secret create RECON_SECRET - >/dev/null
+docker_vm secret inspect RIGEL_SECRET >/dev/null 2>&1 || printf '%s' "$(openssl rand -hex 32)" | docker_vm secret create RIGEL_SECRET - >/dev/null
 
 # La VM de secours est vidée pendant le déploiement, pour que PostgreSQL, l'identité et Logstash démarrent sur leur VM ;
 # elle ne l'est que si ces VM sont prêtes, sinon le service repris par le secours y reste.
@@ -42,19 +42,19 @@ tar -C .. -cf - vm/pile.yaml vm/haproxy.cfg vm/logstash.conf ldap/orion-utilisat
   | ssh_vm 1 'rm -rf ~/orion-pile && mkdir ~/orion-pile && tar -xf - -C ~/orion-pile && find ~/orion-pile -type f -exec sed -i "s/\r$//" {} +'
 ssh_vm 1 "cd ~/orion-pile/vm && $VARIABLES timeout 900 docker stack deploy --detach=false --prune -c pile.yaml orion"
 
-# Connecteur RECON, pile à part, au mieux : jamais d'attente ni d'échec du déploiement d'ORION à cause de lui (design for failure).
+# Connecteur RIGEL, pile à part, au mieux : jamais d'attente ni d'échec du déploiement d'ORION à cause de lui (design for failure).
 # Sans RELAIS_URL, la pile est retirée. Jeton du relais : variable RELAIS_TOKEN au premier déploiement, sinon aléatoire, à lire
 # dans le conteneur et à reporter sur le relais (application/README.md).
-recon() {
-  if [ -z "${RELAIS_URL:-}" ]; then docker_vm stack rm orion-recon >/dev/null 2>&1 || true; return 0; fi
+rigel() {
+  if [ -z "${RELAIS_URL:-}" ]; then docker_vm stack rm orion-rigel >/dev/null 2>&1 || true; return 0; fi
   local proxy jeton
   proxy=$(ssh_vm 1 "grep -iE '^https_proxy=' /etc/environment | head -n1 | cut -d= -f2- | tr -d '\"'" || true)
   jeton=${RELAIS_TOKEN:-$(openssl rand -hex 32)}
   docker_vm secret inspect RELAIS_TOKEN >/dev/null 2>&1 || printf '%s' "$jeton" | docker_vm secret create RELAIS_TOKEN - >/dev/null
-  tr -d '\r' < pile-recon.yaml | ssh_vm 1 'mkdir -p ~/orion-pile/vm && cat > ~/orion-pile/vm/pile-recon.yaml'
-  ssh_vm 1 "cd ~/orion-pile/vm && $VARIABLES ORION_PROXY=$(printf '%q' "$proxy") docker stack deploy --detach=true -c pile-recon.yaml orion-recon" >/dev/null
+  tr -d '\r' < pile-rigel.yaml | ssh_vm 1 'mkdir -p ~/orion-pile/vm && cat > ~/orion-pile/vm/pile-rigel.yaml'
+  ssh_vm 1 "cd ~/orion-pile/vm && $VARIABLES ORION_PROXY=$(printf '%q' "$proxy") docker stack deploy --detach=true -c pile-rigel.yaml orion-rigel" >/dev/null
 }
-recon || echo "Connecteur RECON non déployé : ORION n'est pas concerné ; voir docker service ps orion-recon_connecteur" >&2
+rigel || echo "Connecteur RIGEL non déployé : ORION n'est pas concerné ; voir docker service ps orion-rigel_connecteur" >&2
 
 # Vérification, depuis orion-1 : la version servie par l'entrée est celle déployée
 for _ in $(seq 60); do

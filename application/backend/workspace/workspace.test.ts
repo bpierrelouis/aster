@@ -597,7 +597,7 @@ test('routeurs : session obligatoire, ETag, jeton de passerelle et jeton propre 
   const repository = await createWorkspaceRepository();
   let accountId: Id | null = null;
   const app = express()
-    .use('/api/workspace', createWorkspaceRouter({ repository, actor: async () => (accountId ? repository.actor(accountId) : null), agentToken: 'jeton-de-test', recon: { secret: 'secret-recon-de-test', url: 'https://recon.test' } }))
+    .use('/api/workspace', createWorkspaceRouter({ repository, actor: async () => (accountId ? repository.actor(accountId) : null), agentToken: 'jeton-de-test', rigel: { secret: 'secret-rigel-de-test', url: 'https://rigel.test' } }))
     .use('/api/agent', createAgentRouter({ repository, token: 'jeton-de-test' }));
   const server = app.listen(0, '127.0.0.1');
   await new Promise<void>((resolve) => server.once('listening', resolve));

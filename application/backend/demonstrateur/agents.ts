@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Émulateur de postes Windows (démonstrateur)
+   Simulateur de postes Windows et de M42 (démonstrateur)
    Chaque poste émulé est éteint, allumé sans session ou connecté (session
    d'un stagiaire au nom fictif, qui lance des programmes), remonte son état
    par l'API d'agent, reçoit les interventions demandées (arrêt de

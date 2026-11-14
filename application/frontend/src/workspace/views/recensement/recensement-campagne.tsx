@@ -10,7 +10,7 @@ import { store } from '../../core/store.ts';
 import { index, materielPath, traceProvisoire } from '../../core/selectors.ts';
 import { bilan, echeance, ouverte, perimetre } from '../../core/recensements.ts';
 import { confirmSheet, notify } from '../../ui/overlays.tsx';
-import { RESULTATS } from '#shared/recon.ts';
+import { RESULTATS } from '#shared/rigel.ts';
 import { deviceType } from '#shared/catalog.ts';
 import { ago, dateMed, num, plural } from '#shared/format.ts';
 import { GroupCard, GroupGrid, PageHead, Progress } from '../../widgets/parts.tsx';

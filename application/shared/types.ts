@@ -20,7 +20,7 @@ export type InterventionType = Exclude<OperationType, 'arret'>;
 export type OperationStatut = 'enregistree' | 'terminee' | 'echec';
 export type ResultatPoste = 'en_attente' | 'reussie' | 'echec';
 export type Portee = 'global' | 'ecole' | 'batiment' | 'salle';
-/** Constat du recensement mobile (RECON) : présence (vu), relocalisation (releve), code inconnu */
+/** Constat du recensement mobile (RIGEL) : présence (vu), relocalisation (releve), code inconnu */
 export type ConstatType = 'vu' | 'releve' | 'inconnu';
 export type ConstatResultat = 'confirme' | 'present' | 'ecart' | 'deplace' | 'range' | 'inconnu' | 'refuse';
 
@@ -193,7 +193,7 @@ export interface Installation {
   applicationId: Id;
 }
 
-/** Campagne de recensement mobile (RECON), ouverte par par ; salleIds vide : toutes les salles de l'école */
+/** Campagne de recensement mobile (RIGEL), ouverte par par ; salleIds vide : toutes les salles de l'école */
 export interface Recensement extends Trace {
   id: Id;
   ecoleId: Id;

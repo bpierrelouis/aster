@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Recensement mobile (RECON) : campagnes de l'école affichée et leur bilan,
+   Recensement mobile (RIGEL) : campagnes de l'école affichée et leur bilan,
    d'après les constats intégrés par le serveur (backend/workspace/recensement.ts).
    - Attendus : matériels affectés aux salles de la campagne ;
    - Vus : matériels d'un constat de présence, de confirmation ou de
@@ -10,7 +10,7 @@
 import { cached, scope } from './selectors.ts';
 import { store, currentEcole } from './store.ts';
 import { dateMed, plural } from '#shared/format.ts';
-import { compact } from '#shared/recon.ts';
+import { compact } from '#shared/rigel.ts';
 import type { Constat, Id, Materiel, Recensement, Salle } from '#shared/types.ts';
 
 /** Avancement d'une salle : matériels attendus et ceux déjà vus */

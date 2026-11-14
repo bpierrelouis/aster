@@ -22,12 +22,12 @@
     "test:e2e": "playwright test tests/auth.e2e.spec.ts",
     "test:workspace": "playwright test -c playwright.workspace.config.ts",
     "dev:ui": "vite --config frontend/vite.config.ts --mode ui --host 127.0.0.1",
-    "dev:recon": "concurrently -k -n relais,mobile,connecteur \"npm run dev:relais\" \"npm run dev:mobile\" \"npm run dev:connecteur\"",
-    "dev:relais": "node --watch backend/recon/relais-start.ts",
-    "dev:mobile": "vite --config frontend/vite.recon.config.ts --host 127.0.0.1",
-    "dev:connecteur": "node --env-file-if-exists=.env backend/recon/connecteur.ts",
-    "build:recon": "vite build --config frontend/vite.recon.config.ts",
-    "start:relais": "node backend/recon/relais-start.ts",
+    "dev:rigel": "concurrently -k -n relais,mobile,connecteur \"npm run dev:relais\" \"npm run dev:mobile\" \"npm run dev:connecteur\"",
+    "dev:relais": "node --watch backend/rigel/relais-start.ts",
+    "dev:mobile": "vite --config frontend/vite.rigel.config.ts --host 127.0.0.1",
+    "dev:connecteur": "node --env-file-if-exists=.env backend/rigel/connecteur.ts",
+    "build:rigel": "vite build --config frontend/vite.rigel.config.ts",
+    "start:relais": "node backend/rigel/relais-start.ts",
     "typecheck": "tsc -p tsconfig.json && tsc -p frontend/tsconfig.json"
   },
   "dependencies": {

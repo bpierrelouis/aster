@@ -7,7 +7,7 @@ const error = { description: 'Erreur', content: { 'application/json': { schema: 
 const json = (schema: object, description = 'Succès') => ({ description, content: { 'application/json': { schema } } });
 const session = [{ session: [] }];
 const poste = [{ jetonPoste: [] }];
-const connecteur = [{ jetonRecon: [] }];
+const connecteur = [{ jetonRigel: [] }];
 const bloc = { type: 'object', required: ['iv', 'data'], properties: { iv: { type: 'string' }, data: { type: 'string' } }, description: 'Bloc chiffré AES-GCM (base64url)' };
 
 export const openapi = {
@@ -23,7 +23,7 @@ export const openapi = {
     { name: 'Connexion', description: 'Connexion par le fournisseur d’identité (OIDC) et session' },
     { name: 'Espace de travail', description: 'Données métier visibles par l’utilisateur connecté' },
     { name: 'Postes', description: 'Rapports d’activité et résultats d’intervention des postes' },
-    { name: 'Recensement', description: 'Connecteur du relais de l’application mobile RECON : campagnes publiées et constats des téléphones, chiffrés' },
+    { name: 'Recensement', description: 'Connecteur du relais de l’application mobile RIGEL : campagnes publiées et constats des téléphones, chiffrés' },
   ],
   paths: {
     '/api/health': {
@@ -196,7 +196,7 @@ export const openapi = {
         responses: { 200: json({ type: 'object', properties: { ok: { type: 'boolean' } } }), 400: error, 401: error },
       },
     },
-    '/api/recon/campagnes': {
+    '/api/rigel/campagnes': {
       get: {
         tags: ['Recensement'], summary: 'Campagnes ouvertes et leur instantané chiffré', security: connecteur,
         responses: { 200: json({ type: 'object', properties: { campagnes: { type: 'array', items: { type: 'object', properties: {
@@ -204,7 +204,7 @@ export const openapi = {
         } } } } }), 401: error },
       },
     },
-    '/api/recon/campagnes/{id}/evenements': {
+    '/api/rigel/campagnes/{id}/evenements': {
       post: {
         tags: ['Recensement'], summary: 'Transmettre les constats chiffrés des téléphones', security: connecteur,
         parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
@@ -222,7 +222,7 @@ export const openapi = {
     securitySchemes: {
       session: { type: 'apiKey', in: 'cookie', name: 'orion.sid', description: 'Session ouverte par /auth/login' },
       jetonPoste: { type: 'http', scheme: 'bearer', description: 'Jeton des postes' },
-      jetonRecon: { type: 'http', scheme: 'bearer', description: 'Secret du connecteur RECON (RECON_SECRET)' },
+      jetonRigel: { type: 'http', scheme: 'bearer', description: 'Secret du connecteur RIGEL (RIGEL_SECRET)' },
     },
     schemas: {
       Erreur: { type: 'object', properties: { error: { type: 'string' } } },

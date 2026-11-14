@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 import { readConfig } from './config.ts';
 import { journal, raison } from './journal.ts';
 import { identityFromClaims, userFromAccount } from './profiles.ts';
-import { createWorkspaceRouter, createAgentRouter, createReconRouter } from './workspace/routes.ts';
+import { createWorkspaceRouter, createAgentRouter, createRigelRouter } from './workspace/routes.ts';
 import { createKeycloakProvisioning } from './demonstrateur/identity-provisioning.ts';
 import { createPostgresWorkspaceRepository } from './workspace/postgres.ts';
 import { createServices } from './services.ts';
@@ -57,7 +57,7 @@ app.use(helmet({
 }));
 app.use(['/api', '/auth'], (_req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
 // Journal d'accès de l'API : une ligne par requête ; les sondes et rapports périodiques n'y figurent qu'en cas d'échec
-const periodiques = new Set(['/api/health', '/api/infos', '/api/agent/rapports', '/api/recon/campagnes', '/api/workspace']);
+const periodiques = new Set(['/api/health', '/api/infos', '/api/agent/rapports', '/api/rigel/campagnes', '/api/workspace']);
 app.use(['/api', '/auth'], (req, res, next) => {
   const debut = performance.now();
   res.on('finish', () => {
@@ -198,12 +198,12 @@ app.use('/api/workspace', (req, res, next) => {
   repository: workspaceRepository,
   actor: sessionActor,
   agentToken: config.agentToken,
-  recon: config.recon,
+  rigel: config.rigel,
 }));
 // Postes : rapports d'activité et résultats d'intervention
 app.use('/api/agent', createAgentRouter({ repository: workspaceRepository, token: config.agentToken }));
-// Recensement mobile : connecteur du relais RECON
-app.use('/api/recon', createReconRouter({ repository: workspaceRepository, secret: config.recon.secret }));
+// Recensement mobile : connecteur du relais RIGEL
+app.use('/api/rigel', createRigelRouter({ repository: workspaceRepository, secret: config.rigel.secret }));
 
 app.use(['/api', '/auth'], (_req, res) => res.status(404).json({ error: 'Adresse inconnue.' }));
 if (config.production) {

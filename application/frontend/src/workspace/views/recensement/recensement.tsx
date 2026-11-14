@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Matériels › Recensement : campagnes de recensement mobile (RECON).
+   Matériels › Recensement : campagnes de recensement mobile (RIGEL).
    Une campagne couvre l'école ou des salles ; les agents y appairent leur
    téléphone par un QR code, scannent salles et matériels ; les constats
    reviennent ici (confirmations, relocalisations, codes à traiter).

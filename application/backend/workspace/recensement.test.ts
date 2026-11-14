@@ -4,10 +4,10 @@ import express from 'express';
 import type { AddressInfo } from 'node:net';
 import { initialState, actorOf, scopedState, mergeState } from './rules.ts';
 import { createWorkspaceRepository } from './engine.ts';
-import { createReconRouter, createWorkspaceRouter } from './routes.ts';
+import { createRigelRouter, createWorkspaceRouter } from './routes.ts';
 import { appliquerEvenements, cleCampagne, instantane, jetonCampagne } from './recensement.ts';
-import { chiffrer, choisirCode, dechiffrer, empreinte, etiquette, lireAppairage, lireEtiquette, rapprocherSerie, resoudre, serieLue } from '#shared/recon.ts';
-import type { EvenementRecon, InstantaneRecon } from '#shared/recon.ts';
+import { chiffrer, choisirCode, dechiffrer, empreinte, etiquette, lireAppairage, lireEtiquette, rapprocherSerie, resoudre, serieLue } from '#shared/rigel.ts';
+import type { EvenementRigel, InstantaneRigel } from '#shared/rigel.ts';
 import type { Id, Recensement, WorkspaceState } from '#shared/types.ts';
 import type { Ecriture, HttpError } from './rules.ts';
 
@@ -23,7 +23,7 @@ function ouvrir(state: WorkspaceState, salleIds: Id[] = []) {
   return { next, campagne: next.recensements.at(-1)! };
 }
 
-const evt = (e: Partial<EvenementRecon> & Pick<EvenementRecon, 'type'>): EvenementRecon => ({ id: crypto.randomUUID(), code: '', salleId: null, materielId: null, observeLe: Date.now(), ...e });
+const evt = (e: Partial<EvenementRigel> & Pick<EvenementRigel, 'type'>): EvenementRigel => ({ id: crypto.randomUUID(), code: '', salleId: null, materielId: null, observeLe: Date.now(), ...e });
 
 test('étiquettes et lecture : codes ORION, identifiant, numéro de série, étiquettes constructeur, appairage', () => {
   const state = initialState();
@@ -43,8 +43,8 @@ test('étiquettes et lecture : codes ORION, identifiant, numéro de série, éti
   assert.equal(lireEtiquette(`010950110153000317261231\u001d21SN-42`)?.serie ?? null, 'SN-42');
   assert.equal(lireEtiquette(`01095011015300031726123110LOT7\u001d21ABC`)?.serie ?? null, 'ABC');
   assert.deepEqual(resoudre('INCONNU-777', inst), { type: 'inconnu', code: 'INCONNU-777' });
-  assert.deepEqual(resoudre('https://recon.test/#c=rec-1&j=J&k=K', inst), { type: 'appairage', appairage: { campagne: 'rec-1', jeton: 'J', cle: 'K' } });
-  assert.equal(lireAppairage('https://recon.test/#c=rec-1&j=J'), null);
+  assert.deepEqual(resoudre('https://rigel.test/#c=rec-1&j=J&k=K', inst), { type: 'appairage', appairage: { campagne: 'rec-1', jeton: 'J', cle: 'K' } });
+  assert.equal(lireAppairage('https://rigel.test/#c=rec-1&j=J'), null);
   // Reconnaissance de caractères : confusions courantes ramenées au même caractère
   const lu = m.serie!.replace(/0/g, 'O').replace(/1/g, 'I');
   assert.deepEqual(rapprocherSerie(`Modèle X\nS/N ${lu}`, inst.materiels).map((x) => x.id), [m.id]);
@@ -211,11 +211,11 @@ test('constat inconnu : traité dans ORION avec la création du matériel, seul 
 
 test('API : appairage par un gestionnaire, connecteur authentifié, blocs chiffrés de bout en bout', async () => {
   const repository = await createWorkspaceRepository();
-  const secret = 'secret-recon-de-test';
+  const secret = 'secret-rigel-de-test';
   let accountId: Id = MANAGER;
   const app = express()
-    .use('/api/workspace', createWorkspaceRouter({ repository, actor: async () => repository.actor(accountId), agentToken: 'jeton', recon: { secret, url: 'https://recon.test/' } }))
-    .use('/api/recon', createReconRouter({ repository, secret }));
+    .use('/api/workspace', createWorkspaceRouter({ repository, actor: async () => repository.actor(accountId), agentToken: 'jeton', rigel: { secret, url: 'https://rigel.test/' } }))
+    .use('/api/rigel', createRigelRouter({ repository, secret }));
   const server = app.listen(0, '127.0.0.1');
   await new Promise<void>((resolve) => server.once('listening', resolve));
   const url = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
@@ -226,27 +226,27 @@ test('API : appairage par un gestionnaire, connecteur authentifié, blocs chiffr
 
     const { url: lien } = await (await fetch(`${url}/api/workspace/recensements/${campagne.id}/appairage`)).json();
     const acces = lireAppairage(lien)!;
-    assert(lien.startsWith('https://recon.test/#c='));
+    assert(lien.startsWith('https://rigel.test/#c='));
     assert.equal(acces.cle, cleCampagne(secret, campagne.id));
     accountId = TEACHER;
     assert.equal((await fetch(`${url}/api/workspace/recensements/${campagne.id}/appairage`)).status, 403);
 
-    assert.equal((await fetch(`${url}/api/recon/campagnes`)).status, 401);
+    assert.equal((await fetch(`${url}/api/rigel/campagnes`)).status, 401);
     const auth = { Authorization: `Bearer ${secret}`, 'Content-Type': 'application/json' };
-    const { campagnes } = await (await fetch(`${url}/api/recon/campagnes`, { headers: auth })).json();
+    const { campagnes } = await (await fetch(`${url}/api/rigel/campagnes`, { headers: auth })).json();
     assert.equal(campagnes.length, 1);
     assert.equal(campagnes[0].empreinte, await empreinte(acces.jeton), 'le relais ne connaît que l’empreinte du jeton');
-    const inst = await dechiffrer<InstantaneRecon>(acces.cle, campagne.id, campagnes[0].instantane);
+    const inst = await dechiffrer<InstantaneRigel>(acces.cle, campagne.id, campagnes[0].instantane);
     assert.equal(inst.campagne.ecole, 'École du numérique');
     assert(inst.materiels.length > 0 && inst.salles.length > 0);
 
     const m = inst.materiels.find((x) => x.salleId && !x.enCours)!;
     const e = evt({ type: 'vu', materielId: m.id, salleId: m.salleId });
     const evenements = [{ id: e.id, bloc: await chiffrer(acces.cle, campagne.id, e) }, { id: 'illisible-0001', bloc: { iv: 'AAAA', data: 'AAAA' } }];
-    const { resultats } = await (await fetch(`${url}/api/recon/campagnes/${campagne.id}/evenements`, { method: 'POST', headers: auth, body: JSON.stringify({ evenements }) })).json();
+    const { resultats } = await (await fetch(`${url}/api/rigel/campagnes/${campagne.id}/evenements`, { method: 'POST', headers: auth, body: JSON.stringify({ evenements }) })).json();
     assert.deepEqual(resultats.map((r: { statut: string }) => r.statut), ['applique', 'refuse']);
-    const apres = (await (await fetch(`${url}/api/recon/campagnes`, { headers: auth })).json()).campagnes[0];
+    const apres = (await (await fetch(`${url}/api/rigel/campagnes`, { headers: auth })).json()).campagnes[0];
     assert.notEqual(apres.version, campagnes[0].version, 'nouvelle version de l’instantané');
-    assert.equal((await dechiffrer<InstantaneRecon>(acces.cle, campagne.id, apres.instantane)).constats[0].resultat, 'present');
+    assert.equal((await dechiffrer<InstantaneRigel>(acces.cle, campagne.id, apres.instantane)).constats[0].resultat, 'present');
   } finally { server.close(); }
 });

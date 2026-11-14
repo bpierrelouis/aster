@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Espace de travail · recensement mobile (RECON)
+   Espace de travail · recensement mobile (RIGEL)
    - Campagne : ouverte dans ORION par un gestionnaire ou un administrateur,
      sur toute l'école ou sur des salles ; close à la demande ou à expiration.
    - Constats : produits par les téléphones, transmis chiffrés par le relais
@@ -7,17 +7,17 @@
    - Un matériel scanné dans sa salle confirme son déplacement en cours ; une
      relocalisation affecte la salle constatée, déplacement confirmé ; un code
      inconnu reste à traiter dans ORION.
-   - Clé et jeton d'une campagne sont dérivés du secret RECON_SECRET :
+   - Clé et jeton d'une campagne sont dérivés du secret RIGEL_SECRET :
      aucun secret n'est conservé dans les données.
    ========================================================================== */
 
 import { createHmac } from 'node:crypto';
 import { DEVICE_TYPES } from '#shared/catalog.ts';
-import { DUREE_CAMPAGNE, adresseAppairage, chiffrer, compact, dechiffrer, empreinte, parSerie } from '#shared/recon.ts';
+import { DUREE_CAMPAGNE, adresseAppairage, chiffrer, compact, dechiffrer, empreinte, parSerie } from '#shared/rigel.ts';
 import { assert, fail, same } from './rules.ts';
 import { journal, raison } from '../journal.ts';
 import type { Actor, Constat, Id, Materiel, Recensement, WorkspaceState } from '#shared/types.ts';
-import type { Bloc, CampagnePubliee, EvenementRecon, InstantaneRecon, ResultatRecon } from '#shared/recon.ts';
+import type { Bloc, CampagnePubliee, EvenementRigel, InstantaneRigel, ResultatRigel } from '#shared/rigel.ts';
 import type { LooseItem } from './rules.ts';
 
 /** Campagne en cours : ni close, ni expirée */
@@ -77,15 +77,15 @@ export function appairage(state: WorkspaceState, actor: Actor, id: Id, { secret,
 
 /* ---------- Instantané publié ---------- */
 
-const versRecon = (m: Materiel) => ({ id: m.id, idOrion: m.idOrion, type: m.type, modele: m.modele, marque: m.marque, serie: m.serie, salleId: m.salleId, hs: m.hs, enCours: !!m.deplacement });
+const versRigel = (m: Materiel) => ({ id: m.id, idOrion: m.idOrion, type: m.type, modele: m.modele, marque: m.marque, serie: m.serie, salleId: m.salleId, hs: m.hs, enCours: !!m.deplacement });
 
 /** Données consultées par le téléphone : salles de la campagne, matériels de l'école, constats déjà intégrés */
-export function instantane(state: WorkspaceState, r: Recensement): InstantaneRecon {
+export function instantane(state: WorkspaceState, r: Recensement): InstantaneRigel {
   return {
     campagne: { id: r.id, nom: r.nom, ecole: state.ecoles.find((e) => e.id === r.ecoleId)?.nom ?? '', expireLe: r.expireLe },
     salles: sallesDe(state, r).map((s) => ({ id: s.id, nom: s.nom, batiment: s.batiment, etage: s.etage ?? null }))
       .sort((a, b) => a.batiment.localeCompare(b.batiment, 'fr', { numeric: true }) || a.nom.localeCompare(b.nom, 'fr', { numeric: true })),
-    materiels: state.materiels.filter((m) => m.ecoleId === r.ecoleId).map(versRecon),
+    materiels: state.materiels.filter((m) => m.ecoleId === r.ecoleId).map(versRigel),
     constats: state.constats.filter((c) => c.recensementId === r.id).map((c) => ({ id: c.id, materielId: c.materielId, salleId: c.salleId, resultat: c.resultat, ...(c.message && { message: c.message }), at: c.at })),
   };
 }
@@ -107,7 +107,7 @@ export async function campagnesPubliees(state: WorkspaceState, secret: string, n
 export async function dechiffrerEvenements(secret: string, campagne: Id, blocs: { id: string; bloc: Bloc }[]) {
   return Promise.all(blocs.map(async ({ id, bloc }) => {
     try {
-      const e = await dechiffrer<EvenementRecon>(cleCampagne(secret, campagne), campagne, bloc);
+      const e = await dechiffrer<EvenementRigel>(cleCampagne(secret, campagne), campagne, bloc);
       return e && e.id === id ? e : { id, illisible: true as const };
     } catch { return { id, illisible: true as const }; }
   }));
@@ -135,19 +135,19 @@ function derniereInformation(s: WorkspaceState, m: Materiel) {
  * Intègre les événements d'une campagne dans l'état (modifié en place) et renvoie le résultat de chacun.
  * Un événement déjà intégré est un doublon ; auteur et date sont ceux de la campagne et du serveur.
  */
-export function appliquerEvenements(s: WorkspaceState, campagne: Id, evenements: (EvenementRecon | { id: string; illisible: true })[], now = Date.now()): ResultatRecon[] {
+export function appliquerEvenements(s: WorkspaceState, campagne: Id, evenements: (EvenementRigel | { id: string; illisible: true })[], now = Date.now()): ResultatRigel[] {
   const r = s.recensements.find((x) => x.id === campagne);
-  const par = { par: r?.par ?? 'RECON', parId: r?.parId ?? null };
+  const par = { par: r?.par ?? 'RIGEL', parId: r?.parId ?? null };
   return evenements.map((e) => {
     // Un événement inattendu est refusé seul : il ne bloque ni les autres, ni la campagne, ni ORION
     try { return appliquer(s, r, e, par, now); } catch (error) {
-      journal.warn('recon_constat_refuse', { campagne, evenement: String(e?.id ?? ''), erreur: raison(error) });
+      journal.warn('rigel_constat_refuse', { campagne, evenement: String(e?.id ?? ''), erreur: raison(error) });
       return { id: String(e?.id ?? ''), statut: 'refuse', message: 'Constat illisible par le serveur.' };
     }
   });
 }
 
-function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRecon | { id: string; illisible: true }, par: { par: string; parId: Id | null }, now: number): ResultatRecon {
+function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRigel | { id: string; illisible: true }, par: { par: string; parId: Id | null }, now: number): ResultatRigel {
   const id = String(e?.id ?? '');
   if (!ID.test(id)) return { id, statut: 'refuse', message: 'Identifiant invalide.' };
   const cid = `cst-${id}`;

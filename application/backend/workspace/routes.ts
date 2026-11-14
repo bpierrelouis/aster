@@ -13,10 +13,10 @@ import type { HttpError } from './rules.ts';
 import type { Engine } from './engine.ts';
 
 /** Recensement mobile : secret des campagnes et adresse publique de l'application mobile (relais), null si non configurée */
-export interface ReconConfig { secret: string; url: string | null }
+export interface RigelConfig { secret: string; url: string | null }
 
 /** actor : fonction (req) => utilisateur agissant, ou null sans session valide ; agentToken : secret des postes. */
-export function createWorkspaceRouter({ repository, actor, agentToken, recon }: { repository: Engine; actor: (req: Request) => Promise<Actor | null>; agentToken: string; recon: ReconConfig }) {
+export function createWorkspaceRouter({ repository, actor, agentToken, rigel }: { repository: Engine; actor: (req: Request) => Promise<Actor | null>; agentToken: string; rigel: RigelConfig }) {
   const router = express.Router();
   router.use(async (req, res, next) => {
     res.set('Cache-Control', 'no-store');
@@ -58,7 +58,7 @@ export function createWorkspaceRouter({ repository, actor, agentToken, recon }: 
   });
   // Adresse d'appairage d'un téléphone à une campagne de recensement (QR affiché par ORION)
   router.get('/recensements/:id/appairage', async (req, res, next) => {
-    try { res.json(await repository.recon.appairage(res.locals.actor, req.params.id, recon)); } catch (e) { next(e); }
+    try { res.json(await repository.rigel.appairage(res.locals.actor, req.params.id, rigel)); } catch (e) { next(e); }
   });
   router.get('/reports/:id/pdf', async (req, res, next) => {
     try {
@@ -124,10 +124,10 @@ export function createAgentRouter({ repository, token }: { repository: Engine; t
 }
 
 /**
- * API du connecteur RECON, par jeton porteur (secret des campagnes) : le connecteur, sur le réseau d'ORION, publie
+ * API du connecteur RIGEL, par jeton porteur (secret des campagnes) : le connecteur, sur le réseau d'ORION, publie
  * les campagnes ouvertes sur le relais et transmet les constats des téléphones. Les blocs restent chiffrés jusqu'ici.
  */
-export function createReconRouter({ repository, secret }: { repository: Engine; secret: string }) {
+export function createRigelRouter({ repository, secret }: { repository: Engine; secret: string }) {
   const router = express.Router();
   router.use((req, res, next) => {
     res.set('Cache-Control', 'no-store');
@@ -136,16 +136,16 @@ export function createReconRouter({ repository, secret }: { repository: Engine; 
   });
   router.use(express.json({ limit: '4mb' }));
   router.get('/campagnes', async (_req, res, next) => {
-    try { res.json({ campagnes: await repository.recon.campagnes(secret) }); } catch (e) { next(e); }
+    try { res.json({ campagnes: await repository.rigel.campagnes(secret) }); } catch (e) { next(e); }
   });
   router.post('/campagnes/:id/evenements', async (req, res, next) => {
     try {
       const evenements = req.body?.evenements;
       assert(Array.isArray(evenements) && evenements.length <= 1000 && evenements.every((x) => x && typeof x.id === 'string' && x.bloc), 'Événements invalides.');
-      const resultats = await repository.recon.evenements(secret, req.params.id, evenements);
+      const resultats = await repository.rigel.evenements(secret, req.params.id, evenements);
       const statuts: Record<string, number> = {};
       for (const r of resultats) statuts[r.statut] = (statuts[r.statut] ?? 0) + 1;
-      journal.info('recon_constats', { campagne: req.params.id, ...statuts });
+      journal.info('rigel_constats', { campagne: req.params.id, ...statuts });
       res.json({ resultats });
     } catch (e) { next(e); }
   });

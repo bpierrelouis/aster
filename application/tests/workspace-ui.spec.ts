@@ -1124,7 +1124,7 @@ test('le menu du compte reste ancré pendant les changements d’apparence', asy
 });
 
 test('recensement : campagne, appairage par QR code, constats des téléphones à traiter puis ajout au parc', async ({ page, request }, testInfo) => {
-  const { chiffrer, lireAppairage } = await import('#shared/recon.ts');
+  const { chiffrer, lireAppairage } = await import('#shared/rigel.ts');
   await open(page, '/materiels/recensement');
   await page.getByRole('button', { name: 'Nouvelle campagne' }).click();
   await page.getByLabel('Nom *').fill('Recensement de test');
@@ -1157,7 +1157,7 @@ test('recensement : campagne, appairage par QR code, constats des téléphones �
     { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-DEJA-CREE', salleId: salle.id, materielId: null, observeLe: Date.now(), saisie: { type: 'autre', modele: 'Câble', marque: null, serie: 'SN-DEJA-CREE' } },
   ];
   const blocs = await Promise.all(evenements.map(async (e) => ({ id: e.id, bloc: await chiffrer(acces.cle, id, e) })));
-  const reponse = await request.post(`/api/recon/campagnes/${id}/evenements`, { headers: { Authorization: 'Bearer orion-recon-local' }, data: { evenements: blocs } });
+  const reponse = await request.post(`/api/rigel/campagnes/${id}/evenements`, { headers: { Authorization: 'Bearer orion-rigel-local' }, data: { evenements: blocs } });
   expect((await reponse.json()).resultats.map((r: { statut: string }) => r.statut)).toEqual(['applique', 'applique', 'applique', 'applique']);
 
   await page.reload();

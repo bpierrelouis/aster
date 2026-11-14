@@ -32,12 +32,12 @@ test('les identifiants locaux sont utilisables uniquement hors production', () =
   assert.throws(() => readConfig({ ...production, SESSION_SECRET: 'short' }));
   assert.throws(() => readConfig({ ...production, AGENT_TOKEN: 'orion-agent-local' }));
   // Recensement mobile, fonctionnalité complémentaire : mal configuré, il est désactivé sans empêcher le démarrage
-  assert.equal(readConfig(production).recon.url, null);
-  assert.equal(readConfig({ ...production, RECON_URL: 'https://relais.example.test/', RECON_SECRET: 'c'.repeat(40) }).recon.url, 'https://relais.example.test');
-  for (const mauvais of [{ RECON_URL: 'http://relais.example.test', RECON_SECRET: 'c'.repeat(40) }, { RECON_URL: 'https://relais.example.test' }, { RECON_URL: 'pas une adresse', RECON_SECRET: 'c'.repeat(40) }]) {
+  assert.equal(readConfig(production).rigel.url, null);
+  assert.equal(readConfig({ ...production, RIGEL_URL: 'https://relais.example.test/', RIGEL_SECRET: 'c'.repeat(40) }).rigel.url, 'https://relais.example.test');
+  for (const mauvais of [{ RIGEL_URL: 'http://relais.example.test', RIGEL_SECRET: 'c'.repeat(40) }, { RIGEL_URL: 'https://relais.example.test' }, { RIGEL_URL: 'pas une adresse', RIGEL_SECRET: 'c'.repeat(40) }]) {
     const config = readConfig({ ...production, ...mauvais });
-    assert.equal(config.recon.url, null);
-    assert.notEqual(config.recon.secret, mauvais.RECON_SECRET, 'connecteur refusé');
+    assert.equal(config.rigel.url, null);
+    assert.notEqual(config.rigel.secret, mauvais.RIGEL_SECRET, 'connecteur refusé');
   }
   // Écoute et création des identités du démonstrateur
   assert.equal(readConfig({}).host, '127.0.0.1');
