@@ -187,7 +187,7 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../do
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
+| 6.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; RG-21 : le formateur ne signale que des matériels d’une salle | en vigueur | — |
 | 6.0 | 14/11/2026 | RG-92 à RG-96 simplifiées : installation distincte du recensement, téléphone lié, code inconnu ajouté, matériel mal placé | `186f904` | — |
 | 5.0 | 14/11/2026 | RG-96 : lieu ouvert dans RIGEL ; matériel trouvé ailleurs accepté sur place ou ramené ; RG-93 et RG-95 ajustées | `07a0096` | — |
 | 4.0 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | `6219944` | — |

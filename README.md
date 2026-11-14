@@ -16,7 +16,7 @@ L’équipe de développement s’appelle **ASTER**, un nom issu du grec *astḗ
 
 ## Développement
 
-Le dossier [application/](application/README.md) regroupe le front React/Vite (`frontend/`), le back Express (`backend/`) et l’infrastructure PostgreSQL/Keycloak (`infra/`). Le code applicatif est écrit en TypeScript strict ; les icônes de l’interface utilisent Lucide.
+Le dossier [application/](application/README.md) regroupe le front React/Vite (`frontend/`), le back Express (`backend/`) et l’infrastructure PostgreSQL/Keycloak (`infra/`). Le code applicatif est écrit en TypeScript strict.
 
 Avec Node.js 22.22 ou supérieur et Docker Desktop démarré :
 

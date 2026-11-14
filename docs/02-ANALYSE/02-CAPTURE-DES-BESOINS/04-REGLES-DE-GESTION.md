@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.1 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée | [15 versions](../../../archive/README.md#04-regles-de-gestion) |
+| 6.1 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée ; RG-21 : le formateur ne signale que des matériels d’une salle | [15 versions](../../../archive/README.md#04-regles-de-gestion) |
 <!-- version:fin -->
 
 Ce document formalise uniquement les règles confirmées qui imposent une contrainte sur les données, les droits des utilisateurs ou les traitements réalisés par ORION. Il s'appuie sur les [consignes du projet](../../01-CONTEXTE/01-CONSIGNES.md), les [entretiens des 22 et 23 octobre et du 4 novembre](../../01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md), le fonctionnement de l'application ORION et le [cadrage consolidé](../../01-CONTEXTE/02-CADRAGE.md).
@@ -35,7 +35,7 @@ Les limites du périmètre, les questions ouvertes et les réponses historiques 
 - **RG-18 — Stocks et affectations.** Le gestionnaire peut gérer les stocks, affecter les matériels et les déplacer.
 - **RG-19 — Supervision par le formateur.** Le formateur peut accéder à une salle, consulter les processus utilisateur qui y sont remontés et arrêter ces processus.
 - **RG-20 — Protection des processus système.** Le formateur ne peut ni consulter ni arrêter les processus du système d'exploitation.
-- **RG-21 — Création d'une remontée.** Le formateur, l'administrateur et le super administrateur peuvent créer une remontée concernant un ou plusieurs matériels. Le type de problème est obligatoire (décision de l’utilisateur du 13 novembre 2026 et application).
+- **RG-21 — Création d'une remontée.** Le formateur, l'administrateur et le super administrateur peuvent créer une remontée concernant un ou plusieurs matériels ; le formateur ne signale que des matériels affectés à une salle. Le type de problème est obligatoire (décisions de l’utilisateur des 13 et 15 novembre 2026 et application).
 - **RG-22 — Réinitialisation.** L’administrateur déclenche depuis ORION la réinitialisation d’un ou de plusieurs postes de son école, notamment de l’ensemble des postes d’une salle (application, 9 novembre).
 - **RG-23 — Consultation des états des lieux.** Le gestionnaire et l'administrateur peuvent consulter et télécharger tous les PDF d'état des lieux. Le formateur peut consulter et télécharger uniquement le PDF d’une remontée qu’il a lui-même créée (décision de l’utilisateur du 3 novembre).
 - **RG-24 — Accès aux tableaux de bord.** Le gestionnaire et l'administrateur peuvent consulter les tableaux de bord spécialisés du parc et des remontées.
