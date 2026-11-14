@@ -1,6 +1,7 @@
 /* Captures des maquettes (design/maquettes/captures/) : 1440 × 900, une par écran, profil et ambiance.
    Utilise le mode interface seule déjà lancé (npm run dev:ui), changement de compte par /api/dev/compte ;
-   rétablit à la fin le compte courant et les préférences des comptes utilisés. Compression par pngquant.
+   refait quelques fois une opération refusée momentanément ; rétablit à la fin, même après un échec, le compte
+   courant et les préférences des comptes utilisés. Compression par pngquant.
    ORION_URL=http://127.0.0.1:5175 npm run captures */
 import { chromium } from '@playwright/test';
 import { execFileSync } from 'node:child_process';
@@ -21,15 +22,33 @@ const page = await context.newPage();
 const request = context.request;
 const headers = { origin: BASE };
 
+const TRANSIENT = [409, 500, 502, 503, 504];
+/** Refus momentané du serveur (écriture concurrente des postes, redémarrage du serveur de développement) : quelques essais espacés */
+async function retry<T>(what: string, attempt: () => Promise<T>, tries = 5): Promise<T> {
+  for (let n = 1; ; n++) {
+    try { return await attempt(); } catch (error) {
+      const status = (error as { status?: number }).status;
+      if (n >= tries || (status !== undefined && !TRANSIENT.includes(status))) throw error;
+      console.warn(`${what} : nouvel essai (${n}/${tries - 1}) après « ${(error as Error).message} »`);
+      await new Promise((resolve) => setTimeout(resolve, 500 * n));
+    }
+  }
+}
+const failure = (message: string, status: number) => Object.assign(new Error(message), { status });
+
 async function workspace(): Promise<WorkspaceView> {
-  const response = await request.get(`${BASE}/api/workspace`);
-  if (!response.ok()) throw new Error(`Espace de travail indisponible sur ${BASE} (npm run dev:ui).`);
-  return response.json();
+  return retry('Lecture de l’espace', async () => {
+    const response = await request.get(`${BASE}/api/workspace`);
+    if (!response.ok()) throw failure(`Espace de travail indisponible sur ${BASE} (npm run dev:ui).`, response.status());
+    return response.json();
+  });
 }
 
 async function switchTo(id: string) {
-  const response = await request.post(`${BASE}/api/dev/compte`, { data: { id }, headers });
-  if (!response.ok()) throw new Error(`Changement de compte impossible (${id}) : mode interface seule requis.`);
+  await retry(`Changement de compte (${id})`, async () => {
+    const response = await request.post(`${BASE}/api/dev/compte`, { data: { id }, headers });
+    if (!response.ok()) throw failure(`Changement de compte impossible (${id}) : mode interface seule requis.`, response.status());
+  });
 }
 
 /** Écran chargé, polices prêtes, animations d'entrée terminées */
@@ -55,16 +74,25 @@ async function shot(name: string) {
   console.log(`${name}.png`);
 }
 
-/** Préférences d'affichage du compte courant, par la même voie que l'interface */
-async function setPrefs(prefs: Partial<WorkspaceView['prefs']>) {
-  await page.evaluate(async (p) => { window.orion.store.update('prefs', (s) => { Object.assign(s.prefs, p); }); await window.orion.store.flush(); }, prefs);
+/** Enregistrement par la même voie que l'interface (apply, exécuté dans la page), une fois celui en cours terminé ;
+   un refus momentané recharge l'état du serveur, puis recommence */
+async function save<A>(what: string, apply: (arg: A) => unknown, arg: A) {
+  await retry(what, async () => {
+    await page.evaluate(() => window.orion.store.flush().catch(() => {}));
+    await page.evaluate(apply as (arg: unknown) => unknown, arg);
+    const error = await page.evaluate(() => window.orion.store.flush().then(() => null, (e: Error & { status?: number }) => ({ message: e.message, status: e.status ?? 500 })));
+    if (!error) return;
+    await page.reload();
+    await page.locator('#view h1').waitFor({ state: 'attached' });
+    throw failure(error.message, error.status);
+  });
 }
 
-let current: Profile | null = null;
-async function as(profile: Profile) {
-  if (current !== profile) await switchTo(ACCOUNTS[profile]);
-  current = profile;
-}
+/** Préférences d'affichage du compte courant */
+const setPrefs = (prefs: Partial<WorkspaceView['prefs']>) => save('Préférences', (p) => window.orion.store.update('prefs', (s) => { Object.assign(s.prefs, p); }), prefs);
+
+// Le serveur de développement peut avoir été relancé (compte initial) : le compte est toujours redemandé
+const as = (profile: Profile) => switchTo(ACCOUNTS[profile]);
 
 const original = (await (await request.get(`${BASE}/api/dev/comptes`)).json()).courant as string;
 const saved = new Map<Profile, Saved>();
@@ -164,22 +192,24 @@ try {
   await page.getByRole('dialog', { name: 'École affichée' }).or(page.locator('.popover--list')).first().waitFor();
   await shot('05-accueil-super-administrateur');
 } finally {
-  // Préférences et compte d'origine
-  await page.unrouteAll();
+  // Préférences et compte d'origine, rétablis même si une étape a échoué
+  const errors: unknown[] = [];
+  const attempt = async (step: () => Promise<unknown>) => { try { await step(); } catch (error) { errors.push(error); } };
+  await attempt(() => page.unrouteAll());
   for (const [profile, before] of saved) {
-    await as(profile);
-    await page.goto(BASE + '/accueil');
-    await page.locator('#view h1').waitFor({ state: 'attached' });
-    await page.evaluate(async (b) => {
-      const { store } = window.orion;
+    await attempt(async () => {
+      await as(profile);
+      await page.goto(BASE + '/accueil');
+      await page.locator('#view h1').waitFor({ state: 'attached' });
       const same = (x: unknown, y: unknown) => JSON.stringify(x) === JSON.stringify(y);
-      if (!same(store.state.prefs, b.prefs)) store.update('prefs', (s) => { s.prefs = b.prefs; });
-      if (!same(store.state.layouts, b.layouts) || store.state.ecoleId !== b.ecoleId) store.update('layout', (s) => { s.layouts = b.layouts; s.ecoleId = b.ecoleId; });
-      await store.flush();
-    }, before);
+      const now = await page.evaluate(() => { const { prefs, layouts, ecoleId } = window.orion.store.state; return { prefs, layouts, ecoleId }; });
+      if (!same(now.prefs, before.prefs)) await save(`Préférences de ${profile}`, (b) => window.orion.store.update('prefs', (s) => { s.prefs = b.prefs; }), before);
+      if (!same(now.layouts, before.layouts) || now.ecoleId !== before.ecoleId) await save(`Dispositions de ${profile}`, (b) => window.orion.store.update('layout', (s) => { s.layouts = b.layouts; s.ecoleId = b.ecoleId; }), before);
+    });
   }
-  await switchTo(original);
+  await attempt(() => switchTo(original));
   await browser.close();
+  if (errors.length) { console.error('Rétablissement incomplet :', ...errors); process.exitCode = 1; }
 }
 
 execFileSync('sh', ['-c', 'pngquant --quality=70-90 --skip-if-larger --strip --force --ext .png -- *.png || [ $? -eq 98 -o $? -eq 99 ]'], { cwd: DIR, stdio: 'inherit' });

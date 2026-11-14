@@ -27,7 +27,12 @@ export function uiDevelopment(): Plugin {
       if (!account) throw new Error(`Aucun compte actif pour le profil ${role}.`);
       await repository.connexion(account.id); // ouverture de session simulée : dernière connexion fixée par le serveur
       const actor = () => repository.actor(account!.id);
-      if (process.env.ORION_UI_AGENTS !== '0') createAgentEmulator({ transport: directTransport(repository) }).start();
+      if (process.env.ORION_UI_AGENTS !== '0') {
+        const emulator = createAgentEmulator({ transport: directTransport(repository) }).start();
+        // Vite relance le serveur quand une dépendance de sa configuration change (backend/, shared/) : l'ancien émulateur
+        // s'arrête, sans quoi deux dépôts écriraient le même fichier d'état et les écritures échoueraient
+        server.httpServer?.once('close', () => emulator.stop());
+      }
 
       const app = express();
       app.disable('x-powered-by');

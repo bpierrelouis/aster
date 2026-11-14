@@ -82,20 +82,22 @@ export const store = {
     lastError = null;
     emit(topic);
     pending++;
+    // pending compte l'écriture jusqu'à sa réponse : une synchronisation lue pendant l'envoi ne la remplace pas
     queue = queue.then(async () => {
-      pending--;
-      if (batch !== generation) return;
       try {
+        if (batch !== generation) return;
         const data = (await request({ method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ baseRevision: committed.revision, state: snapshot }) })) as WorkspaceView;
         committed = data;
         state!.revision = data.revision;
-        // Valeurs attribuées par le serveur (identifiants ORION, numéros de remontée) : reprises si aucune écriture n'attend
-        if (!pending && serverFields(data) !== serverFields(state!)) adopt(data, 'data');
+        // Valeurs attribuées par le serveur (identifiants ORION, numéros de remontée) : reprises si aucune autre écriture n'attend
+        if (pending === 1 && serverFields(data) !== serverFields(state!)) adopt(data, 'data');
       } catch (error) {
         generation++;
         lastError = error;
         adopt(committed, 'all');
         window.dispatchEvent(new CustomEvent('orion:save-error', { detail: (error as Error).message }));
+      } finally {
+        pending--;
       }
     });
     return queue;

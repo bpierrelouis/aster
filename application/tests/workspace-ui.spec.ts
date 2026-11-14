@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { role as roleOf } from '#shared/catalog.ts';
+import { displayPrefs } from '#shared/ambiance.ts';
 import { dateNum, dateTime } from '#shared/format.ts';
 import type { APIRequestContext, Locator, Page } from '@playwright/test';
 import type { Compte, Materiel, WorkspaceView } from '#shared/types.ts';
@@ -31,6 +32,13 @@ async function state(request: APIRequestContext): Promise<WorkspaceView> {
 async function asAccount(request: APIRequestContext, id: string) {
   expect((await request.post('/api/dev/compte', { data: { id }, headers: { origin: 'http://127.0.0.1:5174' } })).ok()).toBeTruthy();
 }
+
+// L'apparence est enregistrée par compte sur le serveur, partagé par tous les tests : chacun part de l'apparence par défaut
+test.beforeEach(async ({ request }) => {
+  const { revision, role } = await state(request);
+  const response = await request.put('/api/workspace', { data: { baseRevision: revision, state: { role, prefs: displayPrefs() } }, headers: { origin: 'http://127.0.0.1:5174' } });
+  expect(response.ok()).toBeTruthy();
+});
 
 async function pick(page: Page, control: Locator, name: string | RegExp) {
   if (await control.getAttribute('aria-expanded') !== 'true') await control.click();
@@ -257,6 +265,8 @@ test('un matériel créé est conservé après rechargement', async ({ page, req
   await open(page, '/materiels/inventaire');
   await page.getByRole('button', { name: 'Ajouter un matériel', exact: true }).first().click();
   const dialog = page.getByRole('dialog', { name: 'Ajouter un matériel', exact: true });
+  // Le champ Modèle reçoit le focus à l'ouverture : attendu avant de remplir les autres champs
+  await expect(dialog.getByLabel('Modèle *', { exact: true })).toBeFocused();
   await dialog.getByLabel('Modèle *', { exact: true }).fill(model);
   await dialog.getByLabel('Marque', { exact: true }).fill('Équipement de contrôle');
   await dialog.getByRole('button', { name: 'Enregistrer', exact: true }).click();
@@ -363,6 +373,7 @@ test('la légende des salles reste visible pendant le défilement ; le panneau g
 });
 
 test('deux ambiances ; Orion et Minarm suivent la machine, ou la tonalité forcée par le soleil ou la lune', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light' });
   await open(page, '/accueil');
   await page.getByRole('button', { name: 'Compte' }).click();
   const group = page.getByRole('radiogroup', { name: 'Ambiance' });
@@ -397,6 +408,37 @@ test('deux ambiances ; Orion et Minarm suivent la machine, ou la tonalité forc�
   await page.getByRole('button', { name: 'Passer en sombre' }).click();
   await page.emulateMedia({ colorScheme: 'light' });
   await expect(html).toHaveAttribute('data-tone', 'light');
+  await page.evaluate(() => window.orion.store.flush());
+});
+
+test('une synchronisation lue pendant un enregistrement ne rétablit pas l’apparence précédente', async ({ page, request }) => {
+  await open(page, '/accueil');
+  // Choix suivis dans l'état du magasin, avant toute transition de l'affichage
+  await page.evaluate(() => {
+    const seen: string[] = [];
+    Object.assign(window, { ambiances: seen });
+    window.orion.store.subscribe(() => seen.push(window.orion.store.state.prefs.ambiance));
+  });
+  // L'enregistrement est retenu le temps qu'une autre écriture avance la révision et qu'une synchronisation soit demandée
+  let release!: () => void;
+  const held = new Promise<void>((resolve) => { release = resolve; });
+  await page.route('**/api/workspace', async (route) => { if (route.request().method() === 'PUT') await held; await route.continue(); });
+  await page.getByRole('button', { name: 'Compte' }).click();
+  await page.getByRole('radiogroup', { name: 'Ambiance' }).getByRole('radio', { name: 'Minarm' }).click();
+  await asAccount(request, (await state(request)).moi.id); // connexion : révision avancée par le serveur
+  await page.evaluate(async () => {
+    const reads: Promise<unknown>[] = [];
+    const fetch = window.fetch;
+    window.fetch = (...args) => { const answer = fetch(...args); if (!args[1]?.method) reads.push(answer.then((r) => r.clone().json())); return answer; };
+    document.dispatchEvent(new Event('visibilitychange'));
+    window.fetch = fetch;
+    await Promise.all(reads);
+    await new Promise((resolve) => setTimeout(resolve));
+  });
+  release();
+  await page.evaluate(() => window.orion.store.flush());
+  await expect(page.locator('html')).toHaveAttribute('data-ambiance', 'minarm');
+  expect(new Set(await page.evaluate(() => (window as unknown as { ambiances: string[] }).ambiances))).toEqual(new Set(['minarm']));
 });
 
 test('les tableaux de bord présentent des diagrammes ; indicateurs et diagrammes sans icône', async ({ page, request }, testInfo) => {
