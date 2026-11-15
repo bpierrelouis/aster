@@ -154,8 +154,8 @@ def audit(root):
         if identifier not in rg_definitions:
             report("erreur", "RG_ABSENTE", path, number, f"Aucune définition de {identifier} trouvée.")
 
-    # Documents numérotés de toutes les parties de docs/ ; brouillons et README de partie exclus
-    docs = sorted(p for p in (root / "docs").rglob("*.md") if "BROUILLON" not in p.name and p.name != "README.md")
+    # Documents numérotés de toutes les parties de docs/ ; brouillons, README de partie et annexes des assets/ exclus
+    docs = sorted(p for p in (root / "docs").rglob("*.md") if "BROUILLON" not in p.name and p.name != "README.md" and "assets" not in p.parts)
     numbers = defaultdict(list)
     readme = root / "README.md"
     for path in docs:
