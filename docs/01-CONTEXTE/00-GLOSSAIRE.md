@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.1 | 15/11/2026 | Production destinée à la remise | Acteur de supervision aligné sur RG-55 | [20 versions](../../archive/README.md#00-glossaire) |
+| 5.2 | 15/11/2026 | Production destinée à la remise | Identifiant Id_compte_Windows | [21 versions](../../archive/README.md#00-glossaire) |
 <!-- version:fin -->
 
 Ce glossaire centralise les abréviations et les termes employés dans la documentation du projet. Les définitions décrivent leur sens dans ORION. Lorsqu'un sigle n'est pas développé dans les sources, cette absence est signalée afin de ne pas inventer sa signification.
@@ -47,7 +47,7 @@ Ce glossaire centralise les abréviations et les termes employés dans la docume
 | Aptitude                                    | Garantie d'un matériel. Sa gestion est facultative.                                                                                                                                                                                                                                                                                |
 | Bâtiment                                    | Bâtiment d'une école, identifié par son nom dans cette école. Il comprend des étages et permet de repérer les salles et de définir la portée d'une règle de processus. |
 | Blacklist                                 | Liste des processus interdits. Une détection provoque l'arrêt automatique du processus, une alerte et la conservation d'un historique.                                                                                                                                                                                             |
-| Compte Windows | Entité `COMPTE_WINDOWS` représentant un compte Windows, distinct d'un utilisateur ORION et d'une connexion particulière. Elle possède l'identifiant interne `Id_compte` et le champ `nom_utilisateur`, correspondant au nom du compte Windows. Un même nom utilisé sur plusieurs postes représente la même entité. |
+| Compte Windows | Entité `COMPTE_WINDOWS` représentant un compte Windows, distinct d'un utilisateur ORION et d'une connexion particulière. Elle possède l'identifiant interne `Id_compte_Windows` et le champ `nom_utilisateur`, correspondant au nom du compte Windows. Un même nom utilisé sur plusieurs postes représente la même entité. |
 | Constat | Résultat daté d’un scan RIGEL : présence ou installation confirmée, relocalisation, déplacement lancé, matériel ajouté au parc (RG-95). |
 | Déplacement | Changement de lieu d’un matériel, d’une salle ou du stock vers une salle ou le stock : demandé dans ORION (auteur et date de demande), il reste en cours jusqu’à la confirmation de l’arrivée par le gestionnaire (auteur et date de confirmation) (RG-92). |
 | Détection                                   | Enregistrement conservé par ORION lorsqu'un poste remonte un processus non référencé ou blacklisté : poste, compte Windows, processus, date de détection et classement. L'arrêt automatique d'un processus blacklisté est lié à sa détection. |

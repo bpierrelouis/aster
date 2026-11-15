@@ -425,6 +425,13 @@
         "version": "5.1",
         "date": "2026-11-15",
         "modification": "Acteur de supervision aligné sur RG-55",
+        "archive": null,
+        "commit": "0f1761c"
+      },
+      {
+        "version": "5.2",
+        "date": "2026-11-15",
+        "modification": "Identifiant Id_compte_Windows",
         "archive": null
       }
     ]
@@ -622,6 +629,13 @@
         "version": "6.1",
         "date": "2026-11-15",
         "modification": "Réponses de l’application sur l’alerte de processus blacklisté, la portée bâtiment et les listes",
+        "archive": null,
+        "commit": "0f1761c"
+      },
+      {
+        "version": "6.2",
+        "date": "2026-11-15",
+        "modification": "Décisions du 13 novembre reportées : identifiants, adresse MAC, dates du compte",
         "archive": null
       }
     ]
@@ -935,6 +949,13 @@
         "version": "9.0",
         "date": "2026-11-15",
         "modification": "RG-22 et RG-81 sur une seule salle ; étage obligatoire (RG-61)",
+        "archive": null,
+        "commit": "0f1761c"
+      },
+      {
+        "version": "10.0",
+        "date": "2026-11-15",
+        "modification": "RG-44 cite l’adresse IP du poste ; RG-43 renomme Id_compte_Windows",
         "archive": null
       }
     ]
@@ -2774,6 +2795,13 @@
         "version": "5.8",
         "date": "2026-11-15",
         "modification": "Contradictions entre livrables traitées ; étage obligatoire côté serveur inscrit",
+        "archive": null,
+        "commit": "0f1761c"
+      },
+      {
+        "version": "5.9",
+        "date": "2026-11-15",
+        "modification": "Décisions du 13 novembre reportées",
         "archive": null
       }
     ]

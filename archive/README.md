@@ -11,13 +11,13 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [design/README.md](../design/README.md) | Ressource de préparation | [2.5](#design-readme) | 14/11/2026 |
 | [design/charte-graphique/index.html](../design/charte-graphique/index.html) | Ressource de préparation | [2.2](#design-charte-graphique-index) | 14/11/2026 |
 | [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [3.0](#design-maquettes-index) | 15/11/2026 |
-| [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md) | Production destinée à la remise | [5.1](#00-glossaire) | 15/11/2026 |
+| [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md) | Production destinée à la remise | [5.2](#00-glossaire) | 15/11/2026 |
 | [docs/01-CONTEXTE/01-CONSIGNES.md](../docs/01-CONTEXTE/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.4](#01-consignes) | 14/11/2026 |
-| [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [6.1](#02-cadrage) | 15/11/2026 |
+| [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [6.2](#02-cadrage) | 15/11/2026 |
 | [docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.1](#03-compte-rendu-entretiens) | 14/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [4.0](#06-diagramme-contexte) | 15/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [2.2](#07-diagrammes-activite) | 15/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [9.0](#04-regles-de-gestion) | 15/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [10.0](#04-regles-de-gestion) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio) | Production destinée à la remise | [3.0](#05-mcd-merise) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) | Production destinée à la remise | [4.0](#05-mcd-merise) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md) | Production destinée à la remise | [1.5](#08-dcu-gestion-parc) | 14/11/2026 |
@@ -41,7 +41,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [4.0](#18-dossier-architecture-technique) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.5](#20-backlog-et-suivi-projet) | 15/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.8](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.9](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
 | [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [1.2](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
 
 ## Fichiers en vigueur
@@ -92,7 +92,8 @@ Fichier : [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.1 | 15/11/2026 | Acteur de supervision aligné sur RG-55 | en vigueur | — |
+| 5.2 | 15/11/2026 | Identifiant Id_compte_Windows | en vigueur | — |
+| 5.1 | 15/11/2026 | Acteur de supervision aligné sur RG-55 | `0f1761c` | — |
 | 5.0 | 15/11/2026 | RIGEL défini selon l’architecture cible | `04c54ca` | — |
 | 4.0 | 15/11/2026 | Déplacement, opération et paquet ; recensement et installation, types d’opération | `26885dc` | — |
 | 3.5 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Termes whitelist et blacklist | `70bd202` | — |
@@ -131,7 +132,8 @@ Fichier : [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) ·
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.1 | 15/11/2026 | Réponses de l’application sur l’alerte de processus blacklisté, la portée bâtiment et les listes | en vigueur | — |
+| 6.2 | 15/11/2026 | Décisions du 13 novembre reportées : identifiants, adresse MAC, dates du compte | en vigueur | — |
+| 6.1 | 15/11/2026 | Réponses de l’application sur l’alerte de processus blacklisté, la portée bâtiment et les listes | `0f1761c` | — |
 | 6.0 | 15/11/2026 | RIGEL reporté aux §§ 19 et 23 ; simulateur et éléments en place | `04c54ca` | — |
 | 5.3 | 15/11/2026 | Création du premier compte d’un espace neuf, d’après l’application | `24f0e4e` | — |
 | 5.2 | 15/11/2026 | Consigne l’autorisation du stockage NFSv4 pour la cible ; Consigne le stockage NFSv4 et RIGEL sans relais dans la cible | `e6b9ffd` | — |
@@ -203,7 +205,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../do
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 9.0 | 15/11/2026 | RG-22 et RG-81 sur une seule salle ; étage obligatoire (RG-61) | en vigueur | — |
+| 10.0 | 15/11/2026 | RG-44 cite l’adresse IP du poste ; RG-43 renomme Id_compte_Windows | en vigueur | — |
+| 9.0 | 15/11/2026 | RG-22 et RG-81 sur une seule salle ; étage obligatoire (RG-61) | `0f1761c` | — |
 | 8.0 | 15/11/2026 | RG-77 réduite à la vue et à la réinitialisation des postes ; RG-97 à RG-100 | `70bd202` | — |
 | 7.0 | 14/11/2026 | RG-36 et RG-37 alignées sur l’application, RG-39 étendue au super administrateur | `2ce55f7` | — |
 | 6.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; RG-21 : le formateur ne signale que des matériels d’une salle | `bf1cfba` | — |
@@ -554,7 +557,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.8 | 15/11/2026 | Contradictions entre livrables traitées ; étage obligatoire côté serveur inscrit | en vigueur | — |
+| 5.9 | 15/11/2026 | Décisions du 13 novembre reportées | en vigueur | — |
+| 5.8 | 15/11/2026 | Contradictions entre livrables traitées ; étage obligatoire côté serveur inscrit | `0f1761c` | — |
 | 5.7 | 15/11/2026 | RIGEL dans le cadrage et la cible traité ; écart avec le code inscrit ; RIGEL dans le cadrage et la cible traité ; écart avec le code inscrit | `04c54ca` | — |
 | 5.6 | 15/11/2026 | Consigne les tests d'intrusion du 15 novembre et leurs corrections | `fe48601` | — |
 | 5.5 | 15/11/2026 | Consigne la CI réussie et les vérifications après déploiement | `6a462c0` | — |

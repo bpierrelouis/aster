@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.8 | 15/11/2026 | Pilotage interne | Contradictions entre livrables traitées ; étage obligatoire côté serveur inscrit | [43 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.9 | 15/11/2026 | Pilotage interne | Décisions du 13 novembre reportées | [44 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -188,12 +188,12 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Décisions du 13 novembre non reportées
 
-- [ ] Renommage `Id_compte` → `Id_compte_Windows` (MCD) : glossaire (`00:47`), RG-43 (renommage, sans nouvel accord), cadrage (`02:168` ; `02:76` cite encore `UTILISATEUR` et `REGLE_PROCESSUS`).
-- [ ] Cadrage `02:168` : l’adresse MAC est encore attribuée au poste ; elle est passée au matériel.
-- [ ] Adresse IP du poste : absente de RG-44 **[RG]** et du DCU 10.
-- [ ] Dates de dernière connexion et de désactivation du compte : absentes du cadrage § 18 (fiche 15 à jour le 14 novembre).
+- [x] Renommage `Id_compte` → `Id_compte_Windows` : glossaire, RG-43 et cadrage (§§ 4 et 10, noms des entités du MCD) (#141).
+- [x] Cadrage § 10 : adresse MAC reportée au matériel (#141).
+- [x] Adresse IP du poste : RG-44 (accord de l’utilisateur du 15 novembre) et DCU 10 (#141).
+- [x] Dates de dernière connexion et de désactivation du compte : reportées au cadrage § 18 (#141).
 - [x] Termes « whitelist » et « blacklist » retenus partout (glossaire, interface, fiches, diagrammes) : décision de l’utilisateur du 15 novembre.
-- [ ] Fiche 15 (`:94`) : « à replaquer » au lieu de « à réinitialiser ».
+- [x] Fiche 15 : « à replaquer » remplacé (vérifié le 15 novembre).
 
 ### Informations non répercutées
 
