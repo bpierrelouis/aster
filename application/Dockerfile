@@ -48,12 +48,13 @@ COPY outils ./outils
 COPY frontend ./frontend
 RUN npm run build && npm run build:rigel
 
-# Apache : fichiers de l'interface
+# Apache : fichiers de l'interface, servis sans root (port 8080, compte www-data)
 FROM httpd:2.4.69-alpine3.24 AS web
 COPY infra/images/apache-orion.conf /usr/local/apache2/conf/orion.conf
 RUN sed -i 's/^Listen 80$/Listen 8080/' /usr/local/apache2/conf/httpd.conf \
   && echo 'Include conf/orion.conf' >> /usr/local/apache2/conf/httpd.conf
 COPY --from=build /app/frontend/dist /usr/local/apache2/htdocs/
+USER www-data
 EXPOSE 8080
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["wget", "-q", "--spider", "http://127.0.0.1:8080/"]
 
@@ -66,9 +67,10 @@ HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=3 \
   CMD ["node", "-e", "fetch('http://127.0.0.1:3000/api/health').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
 CMD ["node", "backend/rigel/relais-start.ts"]
 
-# Keycloak des VM : realm (réimporté à chaque création du conteneur) et thème de connexion
+# Keycloak des VM : realms (réimportés à chaque création du conteneur) et thème de connexion ; le realm master importé
+# protège l'administrateur d'amorçage contre la force brute
 FROM quay.io/keycloak/keycloak:26.7.4 AS keycloak
-COPY infra/keycloak/orion-realm.json /opt/keycloak/data/import/orion-realm.json
+COPY infra/keycloak/orion-realm.json infra/keycloak/master-realm.json /opt/keycloak/data/import/
 COPY infra/keycloak/themes/orion-mindef /opt/keycloak/themes/orion-mindef
 COPY --chmod=755 infra/images/secrets.sh /usr/local/bin/orion-secrets
 ENV KC_HEALTH_ENABLED=true KC_HTTP_ENABLED=true KC_PROXY_HEADERS=xforwarded

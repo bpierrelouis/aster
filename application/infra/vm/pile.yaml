@@ -1,10 +1,11 @@
 # Pile Docker Swarm « orion » du démonstrateur (dossier d'architecture, § 4.5) : managers orion-1 à orion-3 ; entrée (HAProxy) sur orion-1 ;
 # application orion-4 et orion-5, PostgreSQL orion-6, identité orion-7,
 # Logstash orion-8, VM de secours orion-9 ; données et logs sur le stockage NFS d'orion-10, hors Swarm.
-# Déployée par deployer.sh, qui fournit ORION_IMAGES, ORION_TAG, l'adresse du relais RIGEL (ORION_RELAIS, vide s'il n'est pas publié)
+# Déployée par deploiement.sh (sur orion-1, appelé par deployer.sh), qui fournit ORION_IMAGES, ORION_TAG, l'adresse du relais RIGEL (ORION_RELAIS, vide s'il n'est pas publié)
 # et les empreintes des configurations. Le connecteur RIGEL est dans une pile à part (pile-rigel.yaml) : il ne bloque jamais celle-ci.
 
-# Chaque VM joint Logstash sur sa propre adresse locale, par le maillage de routage de Swarm
+# Chaque VM joint Logstash sur sa propre adresse locale, par le maillage de routage de Swarm, avec son certificat client
+# (installer.sh), exigé par Logstash
 x-logs: &logs
   logging:
     driver: syslog
@@ -12,8 +13,14 @@ x-logs: &logs
       syslog-address: tcp+tls://127.0.0.1:6514
       syslog-format: rfc5424
       syslog-tls-ca-cert: /etc/docker/orion-ca.pem
+      syslog-tls-cert: /etc/docker/orion-syslog.crt
+      syslog-tls-key: /etc/docker/orion-syslog.key
       tag: '{{.Name}}'
       mode: non-blocking
+
+# Aucune capacité Linux : services exécutés sans root, ports non privilégiés (ldap, qui démarre en root, en est exclu)
+x-sans-capacite: &sans-capacite
+  cap_drop: [ALL]
 
 x-relance: &relance
   restart_policy:
@@ -28,8 +35,9 @@ x-nfs: &nfs
 services:
   # Une instance, relancée sur orion-1 (seule VM étiquetée orion=entree), dont l'adresse est celle des utilisateurs
   haproxy:
-    <<: *logs
+    <<: [*logs, *sans-capacite]
     image: haproxy:3.2.16-alpine
+    read_only: true
     ports:
       - { target: 443, published: 443, mode: host }
       - { target: 8444, published: 8444, mode: host }
@@ -45,8 +53,12 @@ services:
       placement: { constraints: [node.labels.orion == entree] }
 
   apache:
-    <<: *logs
+    <<: [*logs, *sans-capacite]
     image: ${ORION_IMAGES}/orion-web:${ORION_TAG}
+    # Système de fichiers en lecture seule ; seul le fichier PID est écrit, dans /tmp
+    read_only: true
+    volumes:
+      - { type: tmpfs, target: /tmp }
     networks: [orion]
     deploy:
       <<: *relance
@@ -56,7 +68,7 @@ services:
         max_replicas_per_node: 1
 
   api:
-    <<: *logs
+    <<: [*logs, *sans-capacite]
     image: ${ORION_IMAGES}/orion-api:${ORION_TAG}
     # Démonstrateur : jeu de démonstration chargé avant le serveur, remplacé quand sa version change
     command: [sh, -c, 'node outils/donnees-demonstration/charger.ts --reinitialiser && exec node backend/start-production.ts']
@@ -72,7 +84,8 @@ services:
       SYSLOG_URL: tcp://logstash:6514
       RIGEL_URL: ${ORION_RELAIS}
     secrets:
-      - source: orion_database_url
+      # Rôle applicatif orion_app, sans superutilisateur (postgres-roles.sh)
+      - source: orion_app_database_url
         target: DATABASE_URL
       - OIDC_CLIENT_SECRET
       - SESSION_SECRET
@@ -91,7 +104,7 @@ services:
         max_replicas_per_node: 1
 
   postes:
-    <<: *logs
+    <<: [*logs, *sans-capacite]
     image: ${ORION_IMAGES}/orion-postes:${ORION_TAG}
     environment:
       ORION_API: http://api:3001
@@ -102,17 +115,24 @@ services:
       placement: { constraints: [node.labels.orion == application] }
 
   postgres:
-    <<: *logs
+    <<: [*logs, *sans-capacite]
     image: postgres:17.7-alpine
+    # Compte postgres de l'image (70) : le stockage NFS refuse root (root_squash), le dossier lui appartient (installer.sh)
+    user: '70:70'
     environment:
       POSTGRES_DB: orion
-      POSTGRES_USER: orion
+      POSTGRES_USER: orion # superutilisateur, réservé à l'administration
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres
     secrets:
       - source: orion_postgres_password
         target: postgres
+      - orion_app_password
+    # Rôle applicatif créé avec une base neuve ; une base existante est mise à jour par deploiement.sh
+    configs:
+      - source: postgres_roles
+        target: /docker-entrypoint-initdb.d/orion-roles.sh
     volumes:
-      - pg-nfs:/var/lib/postgresql/data
+      - { type: volume, source: pg-nfs, target: /var/lib/postgresql/data, volume: { nocopy: true } }
     networks: [orion]
     healthcheck:
       test: [CMD-SHELL, pg_isready -U orion -d orion]
@@ -147,7 +167,7 @@ services:
       placement: { constraints: [node.labels.identite == true] }
 
   keycloak:
-    <<: *logs
+    <<: [*logs, *sans-capacite]
     image: ${ORION_IMAGES}/orion-keycloak:${ORION_TAG}
     environment:
       APP_URL: https://${ORION_ENTREE}
@@ -168,6 +188,7 @@ services:
       placement: { constraints: [node.labels.identite == true] }
 
   logstash:
+    <<: *sans-capacite
     image: docker.elastic.co/logstash/logstash:8.19.14
     environment:
       LS_JAVA_OPTS: -Xms512m -Xmx512m
@@ -180,11 +201,14 @@ services:
         target: collecteur.key
       - source: tls_collecteur_cert
         target: collecteur.crt
+      # Autorité des certificats clients des VM
+      - source: ca
+        target: ca.pem
     # Maillage de routage : le pilote syslog de chaque VM joint 127.0.0.1:6514, quelle que soit la VM de Logstash
     ports:
       - { target: 6514, published: 6514, mode: ingress }
     volumes:
-      - logs-nfs:/var/log/orion
+      - { type: volume, source: logs-nfs, target: /var/log/orion, volume: { nocopy: true } }
     networks: [orion]
     deploy:
       <<: *relance
@@ -217,9 +241,14 @@ configs:
   ldap_utilisateurs:
     name: orion-ldap-${EMPREINTE_LDAP}
     file: ../ldap/orion-utilisateurs.ldif
+  postgres_roles:
+    name: orion-postgres-roles-${EMPREINTE_ROLES}
+    file: ./postgres-roles.sh
 
 secrets:
-  orion_database_url: { external: true }
+  # Créés au premier déploiement par deploiement.sh
+  orion_app_password: { external: true }
+  orion_app_database_url: { external: true }
   OIDC_CLIENT_SECRET: { external: true }
   SESSION_SECRET: { external: true }
   AGENT_TOKEN: { external: true }

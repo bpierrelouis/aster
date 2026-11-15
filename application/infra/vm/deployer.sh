@@ -1,72 +1,23 @@
 #!/usr/bin/env bash
 # Déploiement de la pile « orion » sur les VM, depuis le poste de l'opérateur ou le runner du déploiement continu.
 # Usage : ./deployer.sh <compte Docker Hub> <étiquette des images>   (étiquette = SHA du commit publié par la CI)
-# Prérequis : installer.sh exécuté (cluster, stockage, secrets, certificats).
+# Prérequis : installer.sh exécuté (cluster, stockage, secrets, certificats, commande orion-deploiement d'orion-1).
+# Envoie les fichiers de la pile à orion-1, où orion-deploiement (deploiement.sh) les déploie et contrôle la version servie.
+# Recensement mobile (fonctionnalité complémentaire) : RELAIS_URL, adresse HTTPS du relais (vide : connecteur non déployé) ;
+# RELAIS_TOKEN, jeton du relais, lu au premier déploiement seulement.
 set -euo pipefail
 cd "$(dirname "$0")"
 . ./vm.sh
 
 [ $# -eq 2 ] || { echo "Usage : $0 <compte Docker Hub> <étiquette>" >&2; exit 2; }
-ORION_IMAGES=$1 ORION_TAG=$2
-[[ $ORION_IMAGES =~ ^[A-Za-z0-9._/-]+$ ]] || { echo "Compte Docker Hub invalide : $ORION_IMAGES" >&2; exit 2; }
-[[ $ORION_TAG =~ ^[0-9a-fA-F]{7,64}$ ]] || { echo "Étiquette attendue : SHA Git de 7 à 64 caractères hexadécimaux" >&2; exit 2; }
-# Les configurations Swarm sont immuables : leur nom porte l'empreinte du contenu
-empreinte() {
-  if command -v sha256sum >/dev/null; then tr -d '\r' < "$1" | sha256sum | cut -c1-12
-  else tr -d '\r' < "$1" | shasum -a 256 | cut -c1-12
-  fi
-}
-VARIABLES="ORION_IMAGES=$ORION_IMAGES ORION_TAG=$ORION_TAG ORION_ENTREE=$ENTREE ORION_STOCKAGE=${VM[10]} EMPREINTE_HAPROXY=$(empreinte haproxy.cfg) \
-EMPREINTE_LOGSTASH=$(empreinte logstash.conf) EMPREINTE_LDAP=$(empreinte ../ldap/orion-utilisateurs.ldif)"
-# Recensement mobile (fonctionnalité complémentaire) : adresse HTTPS du relais (RELAIS_URL ; vide : non déployé) et secret des
-# campagnes, partagé par l'API et le connecteur, créé au premier déploiement
 # Adresse du relais : https:// ajouté à un simple nom de domaine, sans / final
 RELAIS_URL=${RELAIS_URL:-}
 if [ -n "$RELAIS_URL" ] && [[ $RELAIS_URL != *://* ]]; then RELAIS_URL="https://$RELAIS_URL"; fi
 RELAIS_URL=${RELAIS_URL%/}
-VARIABLES="$VARIABLES ORION_RELAIS=$(printf '%q' "${RELAIS_URL:-}")"
-docker_vm secret inspect RIGEL_SECRET >/dev/null 2>&1 || printf '%s' "$(openssl rand -hex 32)" | docker_vm secret create RIGEL_SECRET - >/dev/null
-# Secret dont l'API dérive le mot de passe de chaque compte du démonstrateur, créé au premier déploiement ; tableau des
-# mots de passe affiché par une commande dans le conteneur de l'API (application/README.md). Jamais versionné.
-docker_vm secret inspect PROVISIONING_PASSWORD_SECRET >/dev/null 2>&1 \
-  || printf '%s' "$(openssl rand -hex 32)" | docker_vm secret create PROVISIONING_PASSWORD_SECRET - >/dev/null
+# Jeton du relais : une seule ligne, sinon il corromprait l'archive qui le suit sur l'entrée standard ; RIGEL est facultatif
+RELAIS_TOKEN=${RELAIS_TOKEN:-}
+if [[ ! $RELAIS_TOKEN =~ ^[A-Za-z0-9._~+/=-]*$ ]]; then echo "Jeton du relais invalide : ignoré" >&2; RELAIS_TOKEN=""; fi
 
-# La VM de secours est vidée pendant le déploiement, pour que PostgreSQL, l'identité et Logstash démarrent sur leur VM ;
-# elle ne l'est que si ces VM sont prêtes, sinon le service repris par le secours y reste.
-etat_noeud() { docker_vm node inspect -f '{{.Status.State}}' "orion-$1"; }
-VIDE=""
-if [ "$(etat_noeud 6)$(etat_noeud 7)$(etat_noeud 8)" = readyreadyready ]; then
-  docker_vm node update --availability drain "orion-$SECOURS" >/dev/null && VIDE=1
-fi
-# Remise en service de la VM de secours, même si le déploiement échoue
-trap 'if [ -n "$VIDE" ]; then docker_vm node update --availability active "orion-$SECOURS" >/dev/null; fi' EXIT
-
-# Fichiers de la pile copiés sur le manager orion-1, puis déploiement ; attend la convergence des services
-tar -C .. -cf - vm/pile.yaml vm/haproxy.cfg vm/logstash.conf ldap/orion-utilisateurs.ldif \
-  | ssh_vm 1 'rm -rf ~/orion-pile && mkdir ~/orion-pile && tar -xf - -C ~/orion-pile && find ~/orion-pile -type f -exec sed -i "s/\r$//" {} +'
-ssh_vm 1 "cd ~/orion-pile/vm && $VARIABLES timeout 900 docker stack deploy --detach=false --prune -c pile.yaml orion"
-
-# Connecteur RIGEL, pile à part, au mieux : jamais d'attente ni d'échec du déploiement d'ORION à cause de lui (design for failure).
-# Sans RELAIS_URL, la pile est retirée. Jeton du relais : variable RELAIS_TOKEN au premier déploiement, sinon aléatoire, à lire
-# dans le conteneur et à reporter sur le relais (application/README.md).
-rigel() {
-  if [ -z "${RELAIS_URL:-}" ]; then docker_vm stack rm orion-rigel >/dev/null 2>&1 || true; return 0; fi
-  local proxy jeton
-  proxy=$(ssh_vm 1 "grep -iE '^https_proxy=' /etc/environment | head -n1 | cut -d= -f2- | tr -d '\"'" || true)
-  jeton=${RELAIS_TOKEN:-$(openssl rand -hex 32)}
-  docker_vm secret inspect RELAIS_TOKEN >/dev/null 2>&1 || printf '%s' "$jeton" | docker_vm secret create RELAIS_TOKEN - >/dev/null
-  tr -d '\r' < pile-rigel.yaml | ssh_vm 1 'mkdir -p ~/orion-pile/vm && cat > ~/orion-pile/vm/pile-rigel.yaml'
-  ssh_vm 1 "cd ~/orion-pile/vm && $VARIABLES ORION_PROXY=$(printf '%q' "$proxy") docker stack deploy --detach=true -c pile-rigel.yaml orion-rigel" >/dev/null
-}
-rigel || echo "Connecteur RIGEL non déployé : ORION n'est pas concerné ; voir docker service ps orion-rigel_connecteur" >&2
-
-# Vérification, depuis orion-1 : la version servie par l'entrée est celle déployée
-for _ in $(seq 60); do
-  if ssh_vm 1 "curl -sf --noproxy '*' --cacert /etc/docker/orion-ca.pem https://$ENTREE/api/infos" | grep -q "$ORION_TAG"; then
-    echo "ORION $ORION_TAG déployé : https://$ENTREE"; exit 0
-  fi
-  sleep 5
-done
-echo "La version $ORION_TAG ne répond pas sur https://$ENTREE" >&2
-docker_vm service ls >&2
-exit 1
+# Arguments contrôlés par orion-deploiement ; jeton du relais, puis fichiers de la pile, par l'entrée standard
+{ printf '%s\n' "$RELAIS_TOKEN"; tar -C .. -cf - vm/pile.yaml vm/pile-rigel.yaml vm/haproxy.cfg vm/logstash.conf vm/postgres-roles.sh \
+  ldap/orion-utilisateurs.ldif; } | ssh_vm 1 /usr/local/bin/orion-deploiement "$(printf '%q %q %q' "$1" "$2" "${RELAIS_URL:--}")"

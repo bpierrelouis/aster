@@ -1,5 +1,5 @@
 # Pile Docker Swarm « orion-rigel » : connecteur du recensement mobile (application/README.md, Recensement mobile).
-# Fonctionnalité complémentaire, séparée de la pile « orion » : déployée par deployer.sh sans attendre son résultat, seulement si
+# Fonctionnalité complémentaire, séparée de la pile « orion » : déployée par deploiement.sh sans attendre son résultat, seulement si
 # l'adresse du relais est connue ; son échec ou son retrait (docker stack rm orion-rigel) ne touche pas ORION.
 # Placée avec le back (orion-4, orion-5), une instance ; requêtes sortantes vers le relais par le proxy du réseau, aucun port publié.
 
@@ -13,12 +13,15 @@ services:
       NO_PROXY: orion_api,localhost,127.0.0.1
     secrets: [RIGEL_SECRET, RELAIS_TOKEN]
     networks: [orion]
+    cap_drop: [ALL]
     logging:
       driver: syslog
       options:
         syslog-address: tcp+tls://127.0.0.1:6514
         syslog-format: rfc5424
         syslog-tls-ca-cert: /etc/docker/orion-ca.pem
+        syslog-tls-cert: /etc/docker/orion-syslog.crt
+        syslog-tls-key: /etc/docker/orion-syslog.key
         tag: '{{.Name}}'
         mode: non-blocking
     deploy:
