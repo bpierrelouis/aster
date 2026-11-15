@@ -13,7 +13,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [3.0](#design-maquettes-index) | 15/11/2026 |
 | [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md) | Production destinée à la remise | [3.5](#00-glossaire) | 14/11/2026 |
 | [docs/01-CONTEXTE/01-CONSIGNES.md](../docs/01-CONTEXTE/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.4](#01-consignes) | 14/11/2026 |
-| [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [5.1](#02-cadrage) | 14/11/2026 |
+| [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [5.2](#02-cadrage) | 15/11/2026 |
 | [docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.1](#03-compte-rendu-entretiens) | 14/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [3.0](#06-diagramme-contexte) | 14/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [2.0](#07-diagrammes-activite) | 14/11/2026 |
@@ -38,10 +38,10 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md](../docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md) | Production destinée à la remise | [1.0](#27-diagramme-classes-conception) | 15/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md](../docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md) | Production destinée à la remise | [1.0](#28-diagrammes-sequence-detailles) | 15/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [1.0](#29-modele-physique-donnees) | 15/11/2026 |
-| [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [3.6](#18-dossier-architecture-technique) | 15/11/2026 |
-| [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.2](#19-diagrammes-architecture) | 14/11/2026 |
+| [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [4.0](#18-dossier-architecture-technique) | 15/11/2026 |
+| [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.4](#20-backlog-et-suivi-projet) | 14/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.22](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.23](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -127,7 +127,8 @@ Fichier : [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) ·
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.1 | 14/11/2026 | Notifications et tableau de bord du parc selon RG-36 et RG-37 | en vigueur | — |
+| 5.2 | 15/11/2026 | Consigne l’autorisation du stockage NFSv4 pour la cible ; Consigne le stockage NFSv4 et RIGEL sans relais dans la cible | en vigueur | — |
+| 5.1 | 14/11/2026 | Notifications et tableau de bord du parc selon RG-36 et RG-37 | `2ce55f7` | — |
 | 5.0 | 14/11/2026 | Nommer M42 comme option d’agent ASTER | `e99107c` | — |
 | 4.1 | 14/11/2026 | Déplacer dans docs/01-CONTEXTE/ | `69eaf4e` | — |
 | 4.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/02-CADRAGE.md`) | — |
@@ -471,7 +472,8 @@ Fichier : [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.6 | 15/11/2026 | Retire les identités de démonstration de l’annuaire remis et signale l’accès de présentation | en vigueur | — |
+| 4.0 | 15/11/2026 | Retient NFSv4.2 pour le stockage de l’architecture cible ; Retient NFSv4.2 pour le stockage cible et sert RIGEL par l’entrée et le back d’ORION | en vigueur | — |
+| 3.6 | 15/11/2026 | Retire les identités de démonstration de l’annuaire remis et signale l’accès de présentation | `c0ace77` | — |
 | 3.5 | 15/11/2026 | Décrit la création du premier super administrateur d’une base neuve | `8866971` | — |
 | 3.4 | 14/11/2026 | Préciser que Logstash garde ses propres logs sur sa VM | `28ed8d4` | — |
 | 3.3 | 14/11/2026 | Donner les versions épinglées de HAProxy et Apache | `8337387` | — |
@@ -493,7 +495,8 @@ Fichier : [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHIT
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.2 | 14/11/2026 | Redessiner les quatre vues sans croisement et compléter les flux réels | en vigueur | — |
+| 2.3 | 15/11/2026 | Trace tous les flux réels de la vue complète du démonstrateur ; Trace tous les flux réels de la vue complète et nomme le stockage NFS de la cible ; Trace tous les flux de la vue complète ; cible avec stockage NFS et RIGEL servi par l’entrée d’ORION | en vigueur | — |
+| 2.2 | 14/11/2026 | Redessiner les quatre vues sans croisement et compléter les flux réels | `e1c2f59` | — |
 | 2.1 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | `e99107c` | — |
 | 2.0 | 14/11/2026 | Intégrer RIGEL et M42 dans les vues d’architecture | `21c57cf` (`docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md`) | — |
 | 1.4 | 14/11/2026 | Déplacer dans docs/03-ARCHITECTURE/ | `69eaf4e` (`docs/03-ARCHITECTURE/18-DIAGRAMMES-ARCHITECTURE.md`) | — |
@@ -523,7 +526,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.22 | 15/11/2026 | Clôt le retrait des données de démonstration des livrables | en vigueur | — |
+| 4.23 | 15/11/2026 | Clôt le tracé des flux de la vue complète ; Clôt le tracé des flux de la vue complète et inscrit l’alignement de RIGEL dans la cible | en vigueur | — |
+| 4.22 | 15/11/2026 | Clôt le retrait des données de démonstration des livrables | `c0ace77` | — |
 | 4.21 | 15/11/2026 | Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT | `8866971` | — |
 | 4.20 | 15/11/2026 | Cocher les mots de passe des comptes ; Cocher les mots de passe des comptes | `8ad0b2a` | — |
 | 4.19 | 14/11/2026 | Admettre les chemins sur les VM dans le DAT | `d1239fb` | — |

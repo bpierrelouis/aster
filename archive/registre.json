@@ -573,6 +573,13 @@
         "version": "5.1",
         "date": "2026-11-14",
         "modification": "Notifications et tableau de bord du parc selon RG-36 et RG-37",
+        "archive": null,
+        "commit": "2ce55f7"
+      },
+      {
+        "version": "5.2",
+        "date": "2026-11-15",
+        "modification": "Consigne l’autorisation du stockage NFSv4 pour la cible ; Consigne le stockage NFSv4 et RIGEL sans relais dans la cible",
         "archive": null
       }
     ]
@@ -2038,6 +2045,13 @@
         "version": "3.6",
         "date": "2026-11-15",
         "modification": "Retire les identités de démonstration de l’annuaire remis et signale l’accès de présentation",
+        "archive": null,
+        "commit": "c0ace77"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-15",
+        "modification": "Retient NFSv4.2 pour le stockage de l’architecture cible ; Retient NFSv4.2 pour le stockage cible et sert RIGEL par l’entrée et le back d’ORION",
         "archive": null
       }
     ],
@@ -2103,6 +2117,13 @@
         "version": "2.2",
         "date": "2026-11-14",
         "modification": "Redessiner les quatre vues sans croisement et compléter les flux réels",
+        "archive": null,
+        "commit": "e1c2f59"
+      },
+      {
+        "version": "2.3",
+        "date": "2026-11-15",
+        "modification": "Trace tous les flux réels de la vue complète du démonstrateur ; Trace tous les flux réels de la vue complète et nomme le stockage NFS de la cible ; Trace tous les flux de la vue complète ; cible avec stockage NFS et RIGEL servi par l’entrée d’ORION",
         "archive": null
       }
     ]
@@ -2487,6 +2508,13 @@
         "version": "4.22",
         "date": "2026-11-15",
         "modification": "Clôt le retrait des données de démonstration des livrables",
+        "archive": null,
+        "commit": "c0ace77"
+      },
+      {
+        "version": "4.23",
+        "date": "2026-11-15",
+        "modification": "Clôt le tracé des flux de la vue complète ; Clôt le tracé des flux de la vue complète et inscrit l’alignement de RIGEL dans la cible",
         "archive": null
       }
     ]

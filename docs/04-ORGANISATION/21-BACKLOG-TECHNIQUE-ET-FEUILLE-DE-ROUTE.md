@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.22 | 15/11/2026 | Pilotage interne | Clôt le retrait des données de démonstration des livrables | [32 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.23 | 15/11/2026 | Pilotage interne | Clôt le tracé des flux de la vue complète ; Clôt le tracé des flux de la vue complète et inscrit l’alignement de RIGEL dans la cible | [33 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -158,6 +158,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Contradictions à corriger
 
+- [ ] RIGEL dans la cible (orientation du 15 novembre : second Apache derrière le même HAProxy et le même back, nom public, ni relais ni connecteur ; DAT et schémas cible à jour) : le glossaire, les diagrammes 06 et 07 **[PROT]**, 26, 27, 28 et le modèle physique 29 décrivent encore le relais et le connecteur ; décider s’ils présentent la cible ou l’application actuelle, puis les aligner.
 - [ ] Notification de processus interdit attribuée au formateur : matrice (`12:73`), glossaire (`00:84`) et cadrage (`02:208`) ; le code, la fiche 14, le DCU 10 et RG-55 ne lui en envoient pas.
 - [ ] RG-81 et RG-22 : « postes d’une seule école » alors que le serveur impose une seule salle **[RG]**.
 - [ ] Matrice (`12:46`, import JSON) : « seuls la lisibilité et les données obligatoires sont contrôlés » contredit RG-29 et l’application ; renvoyer à RG-29.
@@ -225,7 +226,7 @@ Le DAT, tenu par l’utilisateur, fait foi ; ces écarts entre lui, la configura
 ### Schémas d’architecture (générateur)
 
 - [x] Les quatre vues sont redessinées le 14 novembre : rapports des postes par HAProxy (vue cible simplifiée) ; flux ajoutés (Express → Keycloak, Apache, OpenLDAP et Logstash, runner et connecteur par le proxy, proxy → GitHub) ; « Swarm · TCP 2377 » dans le groupe des managers ; images d’Express, du simulateur et du connecteur ; aucun croisement ni libellé sur une boîte ; « simulateur » au lieu d’« émulateur » ; titre et textes alternatifs du [document des diagrammes](../03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md). Le générateur se relance (`lucide-react` est resté une dépendance de l’application).
-- [ ] **Basse** — Vue complète : les flux d’hôte (horloge exceptée), syslog vers Logstash et téléchargement des images par le proxy, sont indiqués en texte dans « Sur chaque VM » plutôt que par des flèches, faute de tracé sans croisement.
+- [x] **Basse** — Vue complète (15 novembre) : tous les flux réels sont tracés sans croisement : bandeau « Sur chaque VM » relié aux managers (Swarm 2377, 7946), à chrony (NTP), à Logstash (syslog TLS 6514), au proxy (images, paquets) et au DNS du réseau ; registres et dépôts (Docker Hub, docker.elastic.co, Debian) joints par le proxy, GitHub et Hidora ; publication de la CI vers Docker Hub et Hidora ; console Keycloak (8444) depuis le navigateur ; overlay (4789, ESP) dans le titre du cluster.
 
 ## 7. Feuille de route : évolutions du projet
 
