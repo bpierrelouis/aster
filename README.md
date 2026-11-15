@@ -45,7 +45,7 @@ Les productions remises aux cadres évaluateurs décrivent l’application cible
 | Sources de travail internes | Cadrage `docs/01-CONTEXTE/02-*` et entretiens `docs/01-CONTEXTE/03-*` | Réponses en vigueur et historique des échanges ; ne pas les joindre automatiquement à une remise |
 | Source fournie par l’encadrement | Consignes `docs/01-CONTEXTE/01-*` | Sujet et critères d’évaluation, distincts des productions de l’équipe |
 | Réalisation et exploitation internes | Le reste d’`application/`, son README, le README général et `AGENTS.md` | Implémentation, démarrage, comptes de test et limites du démonstrateur ; seules les configurations décrites dans le guide applicatif accompagnent la remise du DAT |
-| Pilotage interne | Backlog technique et feuille de route `docs/04-ORGANISATION/21-*` | Travail technique restant et évolutions envisagées ; cite des éléments du démonstrateur, jamais remis comme livrable |
+| Pilotage interne | Backlog technique et feuille de route `docs/04-ORGANISATION/21-*`, points des daily scrums `docs/04-ORGANISATION/30-*` | Travail technique restant et évolutions envisagées ; cite des éléments du démonstrateur, jamais remis comme livrable |
 | Brouillons et ressources de préparation | Fichiers `*-BROUILLON-Vn` rangés dans leur partie de `docs/`, `design/` et sources éditables des modèles | Travaux et ressources à sélectionner avant inclusion dans un livrable |
 | Archives | `archive/` | Compte rendu des évolutions des documents suivis, avec le commit de chaque version remplacée, et copies des anciennes versions du design ; historique à conserver tel quel, jamais remis comme livrable |
 | Supports datés | `presentations/` | Conserver le contexte historique ; sélectionner et adapter le support destiné à chaque nouvelle remise |
@@ -86,6 +86,7 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 - [Diagrammes d’architecture](docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) : vue simplifiée et vue complète du démonstrateur sur dix VM, puis vues simplifiée et détaillée de la cible sur quatre VM C1NP.
 - [Backlog et suivi du projet](docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) : backlog, organisation Agile et suivi des progressions.
 - [Backlog technique et feuille de route](docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) : travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre) et évolutions envisagées ; document de pilotage interne, non remis.
+- [Points du daily scrum du 16 novembre](docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) : sujets à boucler avant le rendu et la présentation, points à trancher ; document de pilotage interne, non remis.
 - [Design](design/README.md) : charte graphique, ressources visuelles et maquettes d’interface.
 - [Présentations](presentations/README.md) : supports datés et instructions pour les consulter.
 

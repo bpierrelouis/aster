@@ -2561,6 +2561,17 @@
       }
     ]
   },
+  "docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-15",
+        "modification": "Points du daily scrum du 16 novembre",
+        "archive": null
+      }
+    ]
+  },
   "docs/05-MCD-MERISE-MOCODO.url": {
     "destination": "Production destinée à la remise",
     "versions": [
