@@ -2830,6 +2830,13 @@
         "version": "5.10",
         "date": "2026-11-15",
         "modification": "Informations non répercutées traitées ; limite des détections inscrite",
+        "archive": null,
+        "commit": "60a0e11"
+      },
+      {
+        "version": "5.11",
+        "date": "2026-11-15",
+        "modification": "Étage obligatoire et détections corrigés dans le code ; documentation du 15 novembre consignée",
         "archive": null
       }
     ]

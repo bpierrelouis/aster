@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.10 | 15/11/2026 | Pilotage interne | Informations non répercutées traitées ; limite des détections inscrite | [45 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.11 | 15/11/2026 | Pilotage interne | Étage obligatoire et détections corrigés dans le code ; documentation du 15 novembre consignée | [46 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -48,8 +48,8 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Corrections relevées par l’audit du 13 novembre
 
-- [ ] **Moyenne** — Détections : `backend/domaine/postes.ts` ne garde que les 2 000 plus récentes, toutes écoles confondues, alors que RG-56 les conserve trente jours (décision de l’utilisateur du 15 novembre) ; retirer cette limite.
-- [ ] **Moyenne** — Étage d’une salle obligatoire côté serveur (RG-61, accord de l’utilisateur du 15 novembre) : `backend/domaine/parc.ts` accepte une salle sans étage (`x.etage ?? 0`) ; seule l’interface l’exige.
+- [x] **Moyenne** — Détections : conservées trente jours sans la limite des 2 000 plus récentes (RG-56) ([52c3add](https://github.com/bpierrelouis/aster/commit/52c3add)).
+- [x] **Moyenne** — Étage d’une salle obligatoire côté serveur (RG-61) ([52c3add](https://github.com/bpierrelouis/aster/commit/52c3add)).
 - [x] **Moyenne** — Remontée : le serveur ne garde à la création que les champs saisis (école, matériels, type de problème, description) ; une salle ou toute autre valeur envoyée est ignorée (`rules.ts`, 14 novembre).
 - [x] **Moyenne** — Recherche globale du formateur limitée aux matériels de salle (`009cfd5`).
 - [x] **Moyenne** — Test « une synchronisation lue pendant un enregistrement… » instable : une synchronisation périodique, normale avant le choix de Minarm (le simulateur des postes fait avancer la révision), était comptée ; le test ne vérifie plus que les états qui suivent le choix. L’apparence est rétablie avant chaque test (`beforeEach`, `2ac9f50`).
@@ -279,6 +279,7 @@ Le DAT, tenu par l’utilisateur, fait foi ; ces écarts entre lui, la configura
 
 ## 9. Fait récemment
 
+- [x] Documentation alignée (15 novembre, #140, #141, #142, #161) : RIGEL présenté selon l’architecture cible ; contradictions entre livrables corrigées (RG-22, RG-81, RG-61 avec l’accord de l’utilisateur) ; décisions du 13 novembre reportées (RG-43, RG-44) ; journal applicatif et glossaire complétés. Code aligné sur RG-56 et RG-61.
 - [x] Dossier d’architecture (15 novembre) : identités fictives retirées de l’annuaire remis ([c0ace77](https://github.com/bpierrelouis/aster/commit/c0ace77)) ; tous les flux réels tracés dans la vue complète, stockage NFSv4.2 et RIGEL servi par l’entrée d’ORION dans la cible ([e6b9ffd](https://github.com/bpierrelouis/aster/commit/e6b9ffd)). Tickets #71, #150 et #151 clos.
 - [x] Règles de gestion mises à jour avec l’accord de l’utilisateur (13 novembre) : RG-13, RG-15, RG-21, RG-39, RG-40, RG-64, RG-66 et RG-72 réécrites, RG-87 à RG-91 ajoutées ; glossaire, matrice, fiches, DCU 11, cadrage et diagramme d’états alignés ; application conforme (traitement par le seul gestionnaire, prise en charge obligatoire, suppression depuis le stock).
 - [x] [MCD](../02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) refait avec draw.io : étapes de la remontée, poste constitué de son unité centrale, adresse IP du poste, adresse MAC du matériel, dates du compte, `COMPTE_ORION` et `DÉMÉNAGER`.
