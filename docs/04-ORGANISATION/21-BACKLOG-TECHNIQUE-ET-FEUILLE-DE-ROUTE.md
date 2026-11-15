@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.0 | 15/11/2026 | Pilotage interne | M42, catalogue et postes Linux en V2 ; DCU et termes traités | [33 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.1 | 15/11/2026 | Pilotage interne | MCD refait le 15 novembre ; renommage de la base et du code (#162) | [34 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -61,6 +61,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Évolutions
 
+- [ ] **Haute** — Noms de la base et du code alignés sur la documentation, après la réunion d’équipe ([#162](https://github.com/bpierrelouis/aster/issues/162)) : tables ORION sans préfixe `orion_` (migration `0002`), relais RIGEL `operation` et `evenement`, « campagne » remplacée par « opération » dans le code ; modèle physique (29), séquences détaillées (28) et `application/README.md` à jour.
 - [ ] **Moyenne** — Observatoire anonymisé des parcours utilisateurs : mesurer, sans identifier les personnes, le taux de réussite, la durée, les abandons et les erreurs des tâches principales (créer et traiter une remontée, déplacer ou importer du matériel, demander une intervention, recenser une salle), puis adapter la navigation à partir de ces données réelles. À cadrer avant réalisation : liste des tâches et de leurs étapes, anonymisation et durée de conservation, information des utilisateurs, stockage dans ORION, restitution (tableau de bord du super administrateur), et place dans l’architecture cible à soumettre au collègue du DAT.
 - [ ] **Moyenne** — Retirer au lieu de supprimer (bonne pratique de gestion de parc, proposée le 13 novembre) :
   - matériel, poste, application du catalogue et règle : un retrait (état « retiré » avec date, auteur et motif : réformé, perdu, transféré, erreur de saisie) remplace la suppression ; l’élément reste en base, sort des listes courantes, garde son historique et peut être réactivé ;
@@ -179,7 +180,8 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Modèle de données
 
-- [ ] [MCD](../02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio) : relier `REMONTÉE` à `ÉCOLE` (le code l’impose, RG-79 en dépend) ; représenter l’installation physique (déplacement et installation, avec auteur et date) si elle est retenue ; ajouter les entités RIGEL.
+- [x] [MCD](../02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) (15 novembre) : `DÉPLACEMENT` (origine, destination, auteurs et dates de demande et de confirmation), `OPÉRATION` (anciennement `RECENSEMENT`), de type recensement ou installation, listes de valeurs fixes en attributs (profil, statut, type de problème, type de matériel), `SYSTÈME_EXPLOITATION` et `PAQUET` pour le catalogue de la V2, contraintes d’exclusion sur la portée d’une règle et sur le propriétaire d’un paquet ; `REMONTÉE` déjà reliée à `ÉCOLE` (`RELEVER`) et entités RIGEL présentes.
+- [ ] Justifier dans RG-79 ou RG-21 le lien direct remontée → école (`RELEVER`), conservé si un matériel change d’école **[RG]**.
 
 ### DCU à compléter
 
@@ -229,7 +231,7 @@ Le DAT, tenu par l’utilisateur, fait foi ; ces écarts entre lui, la configura
   - **Paquets d’installation** : chaque application du catalogue porte un paquet fictif (nom du fichier, version, commande d’installation silencieuse, empreinte SHA-256, éditeur signataire). Écran d’ajout, de modification et de retrait des applications (aujourd’hui absent : catalogue limité aux données de départ).
   - **Simulateur fidèle à l’agent** : vérification de l’empreinte avant installation, étapes d’intervention (téléchargement, installation, redémarrage, réenrôlement de l’agent après réinitialisation) avec durées réalistes, causes d’échec explicites (empreinte invalide, espace disque insuffisant).
   - **Conception de M42** : fiche interne (cycle de vie, enrôlement et identité du poste, protocole avec ORION, commandes, états, sécurité, mise à jour signée), cohérente avec l’option B du DAT (§ 6.5) ; proposition à soumettre au collègue du DAT.
-  - **Conséquences documentaires** : glossaire (image, paquet, M42), règles de gestion **[RG]** (image choisie à la réinitialisation, paquet requis pour installer, agent installé avec le système), MCD (`IMAGE`, `PAQUET`), DCU 09, matrice, fiche 15, diagramme d’états des interventions.
+  - **Conséquences documentaires** : glossaire (image, paquet, M42), règles de gestion **[RG]** (image choisie à la réinitialisation, paquet requis pour installer, agent installé avec le système), MCD (`SYSTÈME_EXPLOITATION` et `PAQUET` déjà modélisés le 15 novembre), DCU 09, matrice, fiche 15, diagramme d’états des interventions.
   - **Code** : types partagés, `rules.ts` (contrôles d’image et de paquet), schéma PostgreSQL, données de départ (`SEED_VERSION`), simulateur, écrans Administration › Applications et Postes, Supervision ; tests et guide de l’application.
 - [ ] **V2** — Gestion du catalogue des applications (ajout, modification, retrait des applications et de leurs paquets) ; en V1, le catalogue est un référentiel commun (RG-77).
 - [ ] **V2** — **Postes Linux** (idée de l’utilisateur du 13 novembre) :
@@ -238,7 +240,7 @@ Le DAT, tenu par l’utilisateur, fait foi ; ces écarts entre lui, la configura
   - un paquet par système pris en charge ; une application ne s’installe que sur une salle dont le système a un paquet ;
   - la vue des postes affiche le système en petit (liste, fiche du poste, cartes de Supervision › Salles) ;
   - écart à signaler avant ouverture : le sujet, le client et le DAT ne parlent que de postes Windows (cadrage § 23, DAT) ;
-  - conséquences : glossaire, règles de gestion **[RG]** (système commun à la salle, image du même système, paquet requis), MCD (`SYSTÈME` ou attribut de `SALLE`), DCU 09, matrice, code et données de départ.
+  - conséquences : glossaire, règles de gestion **[RG]** (système commun à la salle, image du même système, paquet requis), MCD (association entre `SALLE` et `SYSTÈME_EXPLOITATION`), DCU 09, matrice, code et données de départ.
 
 ## 8. Historique conservé tel quel
 

@@ -452,7 +452,7 @@ Le serveur, le simulateur des postes, le connecteur et le relais RIGEL écrivent
 | `requete` | Chaque requête `/api` et `/auth` : méthode, chemin (sans paramètres), statut, durée, compte de la session, IP du client ; niveau selon le statut (`WARN` 4xx, `ERROR` 5xx). Les sondes et envois périodiques (`/api/health`, `/api/infos`, relecture de `/api/workspace`, rapports des postes, opérations relevées par le connecteur) n’apparaissent qu’en échec |
 | `connexion`, `connexion_refusee`, `connexion_echec`, `deconnexion`, `session_fermee` | Identité : compte, profil et école à la connexion ; motif d’un refus (compte inconnu ou inactif, avec le `sub` OIDC) ; session expirée ou compte désactivé |
 | `enregistrement` | Écriture d’un utilisateur (modification ou import) : compte, profil, révision produite et identifiants modifiés par collection (20 au plus, puis `+N`) ; les écritures des postes et du système ne sont pas journalisées |
-| `intervention_resultat` | Résultat renvoyé par un poste : opération, poste, statut |
+| `intervention_resultat` | Résultat renvoyé par un poste : intervention, poste, statut |
 | `rigel_constats`, `rigel_constat_refuse` | Constats reçus du connecteur par statut ; constat refusé et motif |
 | `refus`, `erreur`, `serveur` | Règle métier ou droit refusé (statut 4xx hors 401, motif) ; erreur inattendue (code et message, sans trace) |
 | `demarrage`, `arret`, `postgresql`, `provisionnement`… | Cycle de vie et dépendances |

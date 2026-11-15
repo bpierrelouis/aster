@@ -2557,6 +2557,13 @@
         "version": "5.0",
         "date": "2026-11-15",
         "modification": "M42, catalogue et postes Linux en V2 ; DCU et termes traités",
+        "archive": null,
+        "commit": "70bd202"
+      },
+      {
+        "version": "5.1",
+        "date": "2026-11-15",
+        "modification": "MCD refait le 15 novembre ; renommage de la base et du code (#162)",
         "archive": null
       }
     ]
