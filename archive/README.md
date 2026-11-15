@@ -38,10 +38,10 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md](../docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md) | Production destinée à la remise | [2.1](#27-diagramme-classes-conception) | 15/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md](../docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md) | Production destinée à la remise | [2.1](#28-diagrammes-sequence-detailles) | 15/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [3.0](#29-modele-physique-donnees) | 15/11/2026 |
-| [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [5.0](#18-dossier-architecture-technique) | 15/11/2026 |
+| [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [5.1](#18-dossier-architecture-technique) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.5](#20-backlog-et-suivi-projet) | 15/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.17](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.18](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
 | [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [1.4](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
 
 ## Fichiers en vigueur
@@ -512,7 +512,8 @@ Fichier : [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.0 | 15/11/2026 | Durcissement du 15 novembre : entrée, Keycloak, collecteur, NFS, PostgreSQL, conteneurs, déploiement | en vigueur | — |
+| 5.1 | 15/11/2026 | Jeton du relais fourni par l’intégration continue à chaque déploiement | en vigueur | — |
+| 5.0 | 15/11/2026 | Durcissement du 15 novembre : entrée, Keycloak, collecteur, NFS, PostgreSQL, conteneurs, déploiement | `75615df` | — |
 | 4.0 | 15/11/2026 | Retient NFSv4.2 pour le stockage de l’architecture cible ; Retient NFSv4.2 pour le stockage cible et sert RIGEL par l’entrée et le back d’ORION | `e6b9ffd` | — |
 | 3.6 | 15/11/2026 | Retire les identités de démonstration de l’annuaire remis et signale l’accès de présentation | `c0ace77` | — |
 | 3.5 | 15/11/2026 | Décrit la création du premier super administrateur d’une base neuve | `8866971` | — |
@@ -568,7 +569,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.17 | 15/11/2026 | Recette sur les VM consignée ; jeton du relais à fiabiliser | en vigueur | — |
+| 5.18 | 15/11/2026 | Jeton du relais fiabilisé ; RIGEL vérifié sur iOS | en vigueur | — |
+| 5.17 | 15/11/2026 | Recette sur les VM consignée ; jeton du relais à fiabiliser | `97191e8` | — |
 | 5.16 | 15/11/2026 | Durcissement reporté au DAT | `75615df` | — |
 | 5.15 | 15/11/2026 | Tests des points d’état faits ; version publique conservée | `3017d43` | — |
 | 5.14 | 15/11/2026 | Noms de la base et du code alignés (#162) | `0867182` | — |

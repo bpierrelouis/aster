@@ -2332,6 +2332,13 @@
         "version": "5.0",
         "date": "2026-11-15",
         "modification": "Durcissement du 15 novembre : entrée, Keycloak, collecteur, NFS, PostgreSQL, conteneurs, déploiement",
+        "archive": null,
+        "commit": "75615df"
+      },
+      {
+        "version": "5.1",
+        "date": "2026-11-15",
+        "modification": "Jeton du relais fourni par l’intégration continue à chaque déploiement",
         "archive": null
       }
     ],
@@ -2935,6 +2942,13 @@
         "version": "5.17",
         "date": "2026-11-15",
         "modification": "Recette sur les VM consignée ; jeton du relais à fiabiliser",
+        "archive": null,
+        "commit": "97191e8"
+      },
+      {
+        "version": "5.18",
+        "date": "2026-11-15",
+        "modification": "Jeton du relais fiabilisé ; RIGEL vérifié sur iOS",
         "archive": null
       }
     ]
