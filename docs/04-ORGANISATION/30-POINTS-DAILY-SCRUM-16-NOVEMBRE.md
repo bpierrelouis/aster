@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.2 | 15/11/2026 | Pilotage interne | Présentation de RIGEL selon la cible tranchée | [3 versions](../../archive/README.md#30-points-daily-scrum-16-novembre) |
+| 1.3 | 15/11/2026 | Pilotage interne | Lien d’une remontée à son école tranché | [4 versions](../../archive/README.md#30-points-daily-scrum-16-novembre) |
 <!-- version:fin -->
 
 Situation au dimanche 15 novembre. Rendu de l’application le mardi 17, supports prêts le mercredi 18, présentation le jeudi 19 (horaire non fixé). Les numéros renvoient aux tickets du projet GitHub.
@@ -45,7 +45,7 @@ Après la présentation : retirer les jetons « Accès de présentation » (#113
 2. **Cible ou application dans les diagrammes (#161)** : le glossaire et les diagrammes 06, 07 et 26 à 29 présentent-ils RIGEL selon l’architecture cible (second Apache, sans relais) ou selon l’application actuelle (relais et connecteur) ? **Tranché par l’utilisateur le 15 novembre :** selon la cible ; livrables alignés.
 3. **Retrait des matériels (#91)** : remplacer la suppression par un retrait daté et motivé (rédaction de RG-91 à valider), en V1 ou en V2 ?
 4. **Tickets secondaires du sprint 2** : jeton d’un poste dans l’administration (#127), transfert d’un matériel hors service à l’import (#129), tests du détail de `/api/health` et `/api/infos` (#130). Les garder pour le rendu ou les reporter ?
-5. **Lien direct d’une remontée à son école** (`RELEVER` du MCD) : justifier ce lien dans une règle de gestion, puisqu’il est conservé si un matériel change d’école (accord requis sur la rédaction).
+5. **Lien direct d’une remontée à son école** (`RELEVER` du MCD) : justifier ce lien dans une règle de gestion, puisqu’il est conservé si un matériel change d’école (accord requis sur la rédaction). **Tranché par l’utilisateur le 15 novembre :** lien conservé, justifié dans RG-79.
 6. **Règles du catalogue de la V2** : paquet requis pour installer, système d’exploitation restauré par une réinitialisation. Les rédiger maintenant ou à l’ouverture de la V2 ?
 7. **Rendez-vous client et présentation** : date du prochain rendez-vous, points du cadrage § 23 présentés au client et horaire de la présentation du 19.
 

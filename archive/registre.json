@@ -977,6 +977,13 @@
         "version": "10.0",
         "date": "2026-11-15",
         "modification": "RG-44 cite l’adresse IP du poste ; RG-43 renomme Id_compte_Windows",
+        "archive": null,
+        "commit": "1237188"
+      },
+      {
+        "version": "11.0",
+        "date": "2026-11-15",
+        "modification": "RG-79 : la remontée reste rattachée à l’école de sa création",
         "archive": null
       }
     ]
@@ -2851,6 +2858,13 @@
         "version": "5.12",
         "date": "2026-11-15",
         "modification": "Questions du cadrage déjà résolues reportées",
+        "archive": null,
+        "commit": "4268db6"
+      },
+      {
+        "version": "5.13",
+        "date": "2026-11-15",
+        "modification": "Lien remontée → école justifié ; préférences couvertes par le DCU 22",
         "archive": null
       }
     ]
@@ -2876,6 +2890,13 @@
         "version": "1.2",
         "date": "2026-11-15",
         "modification": "Présentation de RIGEL selon la cible tranchée",
+        "archive": null,
+        "commit": "04c54ca"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-15",
+        "modification": "Lien d’une remontée à son école tranché",
         "archive": null
       }
     ]

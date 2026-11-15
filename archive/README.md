@@ -17,7 +17,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.1](#03-compte-rendu-entretiens) | 14/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [4.0](#06-diagramme-contexte) | 15/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [2.2](#07-diagrammes-activite) | 15/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [10.0](#04-regles-de-gestion) | 15/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [11.0](#04-regles-de-gestion) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio) | Production destinée à la remise | [3.0](#05-mcd-merise) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) | Production destinée à la remise | [4.0](#05-mcd-merise) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md) | Production destinée à la remise | [1.5](#08-dcu-gestion-parc) | 14/11/2026 |
@@ -41,8 +41,8 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [4.0](#18-dossier-architecture-technique) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.5](#20-backlog-et-suivi-projet) | 15/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.12](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
-| [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [1.2](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.13](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [1.3](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -208,7 +208,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../do
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 10.0 | 15/11/2026 | RG-44 cite l’adresse IP du poste ; RG-43 renomme Id_compte_Windows | en vigueur | — |
+| 11.0 | 15/11/2026 | RG-79 : la remontée reste rattachée à l’école de sa création | en vigueur | — |
+| 10.0 | 15/11/2026 | RG-44 cite l’adresse IP du poste ; RG-43 renomme Id_compte_Windows | `1237188` | — |
 | 9.0 | 15/11/2026 | RG-22 et RG-81 sur une seule salle ; étage obligatoire (RG-61) | `0f1761c` | — |
 | 8.0 | 15/11/2026 | RG-77 réduite à la vue et à la réinitialisation des postes ; RG-97 à RG-100 | `70bd202` | — |
 | 7.0 | 14/11/2026 | RG-36 et RG-37 alignées sur l’application, RG-39 étendue au super administrateur | `2ce55f7` | — |
@@ -561,7 +562,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.12 | 15/11/2026 | Questions du cadrage déjà résolues reportées | en vigueur | — |
+| 5.13 | 15/11/2026 | Lien remontée → école justifié ; préférences couvertes par le DCU 22 | en vigueur | — |
+| 5.12 | 15/11/2026 | Questions du cadrage déjà résolues reportées | `4268db6` | — |
 | 5.11 | 15/11/2026 | Étage obligatoire et détections corrigés dans le code ; documentation du 15 novembre consignée | `e3b635b` | — |
 | 5.10 | 15/11/2026 | Informations non répercutées traitées ; limite des détections inscrite | `60a0e11` | — |
 | 5.9 | 15/11/2026 | Décisions du 13 novembre reportées | `1237188` | — |
@@ -615,7 +617,8 @@ Fichier : [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.2 | 15/11/2026 | Présentation de RIGEL selon la cible tranchée | en vigueur | — |
+| 1.3 | 15/11/2026 | Lien d’une remontée à son école tranché | en vigueur | — |
+| 1.2 | 15/11/2026 | Présentation de RIGEL selon la cible tranchée | `04c54ca` | — |
 | 1.1 | 15/11/2026 | Classement en pilotage interne | `1640070` | — |
 | 1.0 | 15/11/2026 | Points du daily scrum du 16 novembre | `36a3477` | — |
 

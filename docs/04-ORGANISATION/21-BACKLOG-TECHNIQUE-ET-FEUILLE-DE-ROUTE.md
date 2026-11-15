@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.12 | 15/11/2026 | Pilotage interne | Questions du cadrage déjà résolues reportées | [47 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.13 | 15/11/2026 | Pilotage interne | Lien remontée → école justifié ; préférences couvertes par le DCU 22 | [48 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -207,7 +207,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 ### Modèle de données
 
 - [x] [MCD](../02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) (15 novembre) : `DÉPLACEMENT` (origine, destination, auteurs et dates de demande et de confirmation), `OPÉRATION` (anciennement `RECENSEMENT`), de type recensement ou installation, listes de valeurs fixes en attributs (profil, statut, type de problème, type de matériel), `SYSTÈME_EXPLOITATION` et `PAQUET` pour le catalogue de la V2, contraintes d’exclusion sur la portée d’une règle et sur le propriétaire d’un paquet ; `REMONTÉE` déjà reliée à `ÉCOLE` (`RELEVER`) et entités RIGEL présentes.
-- [ ] Justifier dans RG-79 ou RG-21 le lien direct remontée → école (`RELEVER`), conservé si un matériel change d’école **[RG]**.
+- [x] Lien direct remontée → école (`RELEVER`) justifié dans RG-79 : la remontée reste rattachée à l’école de sa création (accord de l’utilisateur du 15 novembre).
 
 ### DCU à compléter
 
@@ -215,7 +215,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 - [x] [DCU 09 — Administration des postes](../02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md) : « Consulter la vue des postes » et réinitialisation (RG-77) ; le catalogue des applications, les postes Linux et l’agent M42 relèvent de la V2 (décision du 15 novembre) ; suivre les interventions lancées et en être notifié à leur fin (RG-39).
 - [x] [DCU 10 — Supervision des postes](../02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md) : notification du lancement d’une application interdite à l’administrateur ; adresse IP du poste dans la liste des processus.
 - [x] Nouveau DCU « Administrer ORION » (ou extension du DCU 09) : comptes ORION (création, modification, désactivation, réactivation ; RG-70) et écoles (création, renommage ; RG-76), réservés aux administrateurs et au super administrateur.
-- [ ] Préférences personnelles (ambiance d’affichage, tableaux de bord ajoutés par l’utilisateur) : décider si elles relèvent d’un DCU ou restent un détail d’interface.
+- [x] Préférences personnelles (ambiance d’affichage, tableaux de bord) : couvertes par le DCU 22 « Administrer ORION » (vérifié le 15 novembre).
 
 ### Cadrage : questions déjà résolues encore ouvertes
 
