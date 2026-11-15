@@ -7,14 +7,14 @@ import { store, me, currentEcole } from './store.ts';
 import { DEVICE_TYPES, PROBLEMS, REMONTEE_STATUTS, problem, statut, phaseOf } from '#shared/catalog.ts';
 import { DAY } from '#shared/format.ts';
 import { can } from './permissions.ts';
-import type { DeviceTypeId, Id, Materiel, Mouvement, Remontee, RemonteePhase, RemonteeStatut, Salle, Timestamp, Trace } from '#shared/types.ts';
+import type { DeviceTypeId, Id, Materiel, Deplacement, Remontee, RemonteePhase, RemonteeStatut, Salle, Timestamp, Trace } from '#shared/types.ts';
 
 /** Effectif de matériels : total, hors service, en état */
 export interface Effectif { total: number; hs: number; ok: number }
 /** Chiffres d'une salle : matériels (par type), postes allumés, matériels en remontée en attente */
 export interface SalleStats extends Effectif { types: Partial<Record<DeviceTypeId, number>>; postes: number; allumes: number; attente: number }
 /** Matériel dont le déplacement physique n'est pas encore confirmé */
-export type MaterielADeplacer = Materiel & { deplacement: Mouvement };
+export type MaterielADeplacer = Materiel & { deplacement: Deplacement };
 /** Remontées d'une semaine : créées, traitées, en attente en fin de semaine et solde (créées − traitées) */
 export interface SemaineRemontees { from: Timestamp; creees: number; traitees: number; attente: number; solde: number }
 /** Localisations d'une remontée : ses matériels, leurs salles et le premier matériel (absent s'ils ont été retirés) */

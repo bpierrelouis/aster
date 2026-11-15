@@ -17,7 +17,7 @@ import { uid } from '../../core/dom.ts';
 import { can } from '../../core/permissions.ts';
 import { matcher } from '../../core/search.ts';
 import { CLASSEMENTS } from '#shared/catalog.ts';
-import { processClass, logiciel } from '#shared/operations-data.ts';
+import { processClass, logiciel } from '#shared/referentiels.ts';
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { AppIcon } from '../../ui/app-icon.tsx';
 import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.tsx';
@@ -25,7 +25,7 @@ import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
 import { OpsEmpty, OpsTable, PageHead, PosteEtat, SearchField } from '../../widgets/parts.tsx';
 import { dateTime, clock, num, plural } from '#shared/format.ts';
 import { useTitle } from '../../hooks/use-title.ts';
-import type { Classement, Id, Operation, Portee, Processus, Regle, WorkspaceView } from '#shared/types.ts';
+import type { Classement, Id, Intervention, Portee, Processus, Regle, WorkspaceView } from '#shared/types.ts';
 
 const time = () => clock(Date.now());
 
@@ -93,12 +93,12 @@ export function Supervision() {
 }
 
 // Arrêt demandé et pas encore exécuté par le poste
-const stopRequested = (state: WorkspaceView, processId: Id) => (state.operations || []).some((o) => o.type === 'arret' && o.processusId === processId && o.statut === 'enregistree');
+const stopRequested = (state: WorkspaceView, processId: Id) => (state.interventions || []).some((o) => o.type === 'arret' && o.processusId === processId && o.statut === 'enregistree');
 
 async function requestStop(proc: Processus) {
   try {
     // Demande partielle : le serveur complète l'opération (école, date, auteur, statut, résultats)
-    await store.update('data', (s) => { s.operations.push({ id: uid('op'), type: 'arret', cibles: [proc.posteId], processusId: proc.id } as Operation); });
+    await store.update('data', (s) => { s.interventions.push({ id: uid('op'), type: 'arret', cibles: [proc.posteId], processusId: proc.id } as Intervention); });
     await store.flush();
     notify('Arrêt demandé au poste', { icon: 'check', tone: 'info' });
   } catch (error) { notify((error as Error).message, { tone: 'danger' }); }

@@ -1,4 +1,4 @@
-/* Inventaire d'une salle (ou du stock) : matériels déclarés et leur état pendant la campagne,
+/* Inventaire d'une salle (ou du stock) : matériels déclarés et leur état pendant l’opération,
    puis matériels vus ici mais affectés ailleurs */
 import { Link, Navigate, useParams } from 'react-router';
 import { useState } from 'react';

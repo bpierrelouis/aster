@@ -155,7 +155,7 @@ export const openapi = {
         },
       },
     },
-    '/api/workspace/recensements/{id}/appairage': {
+    '/api/workspace/operations/{id}/appairage': {
       get: {
         tags: ['Espace de travail'], summary: 'Adresse d’appairage d’un téléphone à un recensement', security: session,
         parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
@@ -200,22 +200,22 @@ export const openapi = {
         requestBody: { required: true, content: { 'application/json': { schema: {
           type: 'object', required: ['resultats'],
           properties: { resultats: { type: 'array', maxItems: 5000, items: {
-            type: 'object', required: ['operation', 'poste', 'statut'],
-            properties: { operation: { type: 'string' }, poste: { type: 'string' }, statut: { type: 'string', enum: ['reussie', 'echec'] } },
+            type: 'object', required: ['intervention', 'poste', 'statut'],
+            properties: { intervention: { type: 'string' }, poste: { type: 'string' }, statut: { type: 'string', enum: ['reussie', 'echec'] } },
           } } },
         } } } },
         responses: { 200: json({ type: 'object', properties: { ok: { type: 'boolean' } } }), 400: error, 401: error },
       },
     },
-    '/api/rigel/campagnes': {
+    '/api/rigel/operations': {
       get: {
         tags: ['Recensement'], summary: 'Opérations en cours (recensements et installations) et leur instantané chiffré', security: connecteur,
-        responses: { 200: json({ type: 'object', properties: { campagnes: { type: 'array', items: { type: 'object', properties: {
+        responses: { 200: json({ type: 'object', properties: { operations: { type: 'array', items: { type: 'object', properties: {
           id: { type: 'string' }, expireLe: { type: 'integer' }, empreinte: { type: 'string', description: 'SHA-256 du jeton des téléphones' }, version: { type: 'string' }, instantane: bloc,
         } } } } }), 401: error },
       },
     },
-    '/api/rigel/campagnes/{id}/evenements': {
+    '/api/rigel/operations/{id}/evenements': {
       post: {
         tags: ['Recensement'], summary: 'Transmettre les constats chiffrés des téléphones', security: connecteur,
         parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
@@ -285,7 +285,7 @@ export const openapi = {
       Commande: {
         type: 'object',
         properties: {
-          operation: { type: 'string' }, poste: { type: 'string' },
+          intervention: { type: 'string' }, poste: { type: 'string' },
           type: { type: 'string', enum: ['arret', 'installation', 'desinstallation', 'reinstallation'] },
           applicationId: { type: ['string', 'null'] }, image: { type: ['string', 'null'] },
           processus: { type: ['object', 'null'], properties: { nom: { type: 'string' }, compte: { type: 'string' } } },

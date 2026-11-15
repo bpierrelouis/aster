@@ -1,5 +1,5 @@
 /* Stockage local du téléphone (IndexedDB) : une table clé → valeur. Le téléphone y garde l'appairage,
-   l'instantané déchiffré de la campagne, la file des constats et leur historique, pour travailler hors ligne. */
+   l'instantané déchiffré de l’opération, la file des constats et leur historique, pour travailler hors ligne. */
 
 const BASE = 'orion-recensement';
 const TABLE = 'valeurs';

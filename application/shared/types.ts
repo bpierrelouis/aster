@@ -14,10 +14,10 @@ export type RemonteeStatut = 'attente' | 'encours' | 'remplace' | 'corrige';
 export type RemonteePhase = 'attente' | 'encours' | 'terminee';
 export type ProblemId = 'power' | 'display' | 'network' | 'broken' | 'malfunction' | 'other';
 export type Classement = 'blacklist' | 'nonref' | 'whitelist';
-export type OperationType = 'installation' | 'desinstallation' | 'reinstallation' | 'arret';
+export type TypeIntervention = 'installation' | 'desinstallation' | 'reinstallation' | 'arret';
 /** Intervention demandée sur les postes (l'arrêt d'un processus relève de la supervision) */
-export type InterventionType = Exclude<OperationType, 'arret'>;
-export type OperationStatut = 'enregistree' | 'terminee' | 'echec';
+export type InterventionType = Exclude<TypeIntervention, 'arret'>;
+export type StatutIntervention = 'enregistree' | 'terminee' | 'echec';
 export type ResultatPoste = 'en_attente' | 'reussie' | 'echec';
 export type Portee = 'global' | 'ecole' | 'batiment' | 'salle';
 /** Constat du recensement mobile (RIGEL) : présence (vu), présence acceptée dans le lieu ouvert (releve), retour vers
@@ -26,8 +26,8 @@ export type ConstatType = 'vu' | 'releve' | 'retour' | 'stock' | 'inconnu';
 /** ecart : constats d'avant RG-96 (décision du 14 novembre), conservés et traitables ; ajoute : code inconnu ajouté au parc
  * par le serveur ; inconnu : code inconnu antérieur, à traiter dans ORION */
 export type ConstatResultat = 'confirme' | 'present' | 'ecart' | 'deplace' | 'range' | 'retour' | 'stock' | 'ajoute' | 'inconnu' | 'refuse';
-/** Opération RIGEL : campagne de recensement, ou installation d'une salle (lancée depuis ses déplacements, jamais présentée comme une campagne) */
-export type ModeRecensement = 'installation' | 'recensement';
+/** Type d'une opération RIGEL : recensement, ou installation d'une salle (lancée depuis ses déplacements) */
+export type TypeOperation = 'installation' | 'recensement';
 export type ActionConstat = 'stock' | 'affectation' | 'constat' | 'ajoute' | 'ecarte';
 
 /** Auteur et date d'une action enregistrée par le serveur */
@@ -38,7 +38,7 @@ export interface Trace {
 }
 
 /** Déplacement physique d'un matériel ; de : salle d'origine, null pour le stock */
-export interface Mouvement extends Trace {
+export interface Deplacement extends Trace {
   de: Id | null;
 }
 
@@ -79,9 +79,9 @@ export interface Materiel {
   /** Date de mise hors service, fixée par le serveur ; absente pour un matériel en service */
   dateHs?: Timestamp;
   /** Affectation enregistrée, déplacement physique non encore confirmé */
-  deplacement?: Mouvement;
+  deplacement?: Deplacement;
   /** Dernier déplacement physique confirmé */
-  installation?: Mouvement;
+  installation?: Deplacement;
 }
 
 export interface Poste {
@@ -163,9 +163,9 @@ export interface Regle {
   salleId?: Id;
 }
 
-export interface Operation {
+export interface Intervention {
   id: Id;
-  type: OperationType;
+  type: TypeIntervention;
   /** Postes visés */
   cibles: Id[];
   salleId?: Id;
@@ -173,7 +173,7 @@ export interface Operation {
   at: Timestamp;
   par: string;
   parId: Id | null;
-  statut: OperationStatut;
+  statut: StatutIntervention;
   resultats: Record<Id, ResultatPoste>;
   applicationId?: Id;
   image?: string;
@@ -204,14 +204,14 @@ export interface Installation {
 }
 
 /**
- * Opération RIGEL ouverte par par. Recensement : campagne, salleIds vide pour toute l'école. Installation : une seule salle
+ * Opération RIGEL ouverte par par. Recensement : salleIds vide pour toute l'école. Installation : une seule salle
  * (salleIds), avec le stock ; close par le serveur quand plus aucun déplacement ne la concerne (décision du 14 novembre).
  */
-export interface Recensement extends Trace {
+export interface Operation extends Trace {
   id: Id;
   ecoleId: Id;
   nom: string;
-  mode: ModeRecensement;
+  mode: TypeOperation;
   salleIds: Id[];
   expireLe: Timestamp;
   /** Clôture */
@@ -221,7 +221,7 @@ export interface Recensement extends Trace {
 /** Constat transmis par un téléphone et intégré par le serveur ; id : identifiant de l'événement du téléphone */
 export interface Constat {
   id: Id;
-  recensementId: Id;
+  operationId: Id;
   ecoleId: Id;
   type: ConstatType;
   /** Valeur lue ou saisie */
@@ -252,10 +252,10 @@ export interface Collections {
   applications: Application[];
   comptes: Compte[];
   regles: Regle[];
-  operations: Operation[];
+  interventions: Intervention[];
   processus: Processus[];
   installations: Installation[];
-  recensements: Recensement[];
+  operations: Operation[];
   constats: Constat[];
 }
 export type CollectionName = keyof Collections;

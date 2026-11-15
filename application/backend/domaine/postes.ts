@@ -6,10 +6,10 @@
      fixés par le serveur, puis exécutées par les postes.
    ========================================================================== */
 
-import { IMAGE_REFERENCE, processClass } from '#shared/operations-data.ts';
+import { IMAGE_REFERENCE, processClass } from '#shared/referentiels.ts';
 import { DAY, HOUR } from '#shared/format.ts';
 import { assert, fail, id, isAdmin, schoolOf } from './commun.ts';
-import type { Id, OperationType, Processus, ResultatPoste, WorkspaceState } from '#shared/types.ts';
+import type { Id, TypeIntervention, Processus, ResultatPoste, WorkspaceState } from '#shared/types.ts';
 import type { Contexte, LooseItem } from './commun.ts';
 
 export const DISCONNECT_AFTER = 30_000; // poste sans rapport depuis ce délai : poste déconnecté
@@ -29,12 +29,12 @@ export interface Rapport {
   applications?: Id[];
 }
 /** Résultat d'exécution d'une intervention, renvoyé par un poste ; contrôlé ici */
-export interface Resultat { operation: Id; poste: string; statut: ResultatPoste }
+export interface Resultat { intervention: Id; poste: string; statut: ResultatPoste }
 /** Commande en attente pour un poste */
 export interface Commande {
-  operation: Id;
+  intervention: Id;
   poste: string;
-  type: OperationType;
+  type: TypeIntervention;
   applicationId: Id | null;
   image: string | null;
   processus: Pick<Processus, 'nom' | 'compte'> | null;
@@ -75,7 +75,7 @@ export function applyReports(s: WorkspaceState, rapports: Rapport[], now = Date.
       const detection = { id: id('det'), at: now, posteId: p.id, salleId: p.salleId, ecoleId, processus: nom, compte, classement, arret: null };
       s.detections.push(detection);
       // Processus interdit : arrêt automatique demandé au poste
-      if (classement === 'blacklist') s.operations.push({ id: id('op'), type: 'arret', auto: true, cibles: [p.id], processusId: proc.id, detectionId: detection.id, ecoleId: ecoleId!, at: now, par: 'ORION', parId: null, statut: 'enregistree', resultats: { [p.id]: 'en_attente' } });
+      if (classement === 'blacklist') s.interventions.push({ id: id('op'), type: 'arret', auto: true, cibles: [p.id], processusId: proc.id, detectionId: detection.id, ecoleId: ecoleId!, at: now, par: 'ORION', parId: null, statut: 'enregistree', resultats: { [p.id]: 'en_attente' } });
     }
     if (Array.isArray(r.applications)) {
       const apps = new Set(r.applications.filter((a) => s.applications.some((x) => x.id === a)));
@@ -103,12 +103,12 @@ export function pendingCommands(s: WorkspaceState, posteNames: string[]) {
   const names = new Set(posteNames);
   const postes = new Map(s.postes.filter((p) => names.has(p.nomReseau)).map((p) => [p.id, p]));
   const out: Commande[] = [];
-  for (const op of s.operations) {
+  for (const op of s.interventions) {
     if (op.statut !== 'enregistree') continue;
     for (const [pid, etat] of Object.entries(op.resultats ?? {})) {
       if (etat !== 'en_attente' || !postes.has(pid)) continue;
       const proc = op.processusId && s.processus.find((x) => x.id === op.processusId);
-      out.push({ operation: op.id, poste: postes.get(pid)!.nomReseau, type: op.type, applicationId: op.applicationId ?? null, image: op.image ?? null, processus: proc ? { nom: proc.nom, compte: proc.compte } : null });
+      out.push({ intervention: op.id, poste: postes.get(pid)!.nomReseau, type: op.type, applicationId: op.applicationId ?? null, image: op.image ?? null, processus: proc ? { nom: proc.nom, compte: proc.compte } : null });
     }
   }
   return out;
@@ -118,7 +118,7 @@ export function pendingCommands(s: WorkspaceState, posteNames: string[]) {
 export function applyResults(s: WorkspaceState, resultats: Resultat[], now = Date.now()) {
   const byName = new Map(s.postes.map((p) => [p.nomReseau, p]));
   for (const r of resultats) {
-    const op = s.operations.find((o) => o.id === r?.operation);
+    const op = s.interventions.find((o) => o.id === r?.intervention);
     const p = byName.get(r?.poste);
     if (!op || !p || op.resultats?.[p.id] !== 'en_attente' || !['reussie', 'echec'].includes(r.statut)) continue;
     op.resultats[p.id] = r.statut;
@@ -141,7 +141,7 @@ export function applyResults(s: WorkspaceState, resultats: Resultat[], now = Dat
 
 /* ---------- Écritures des utilisateurs ---------- */
 
-const OPERATION_TYPES: readonly string[] = ['installation', 'desinstallation', 'reinstallation', 'arret'] satisfies OperationType[];
+const TYPES_INTERVENTION: readonly string[] = ['installation', 'desinstallation', 'reinstallation', 'arret'] satisfies TypeIntervention[];
 
 /** Poste déclaré ou modifié : unité centrale, un matériel de ce type, de l'école de la salle du poste */
 export function reglePoste(x: LooseItem, { next, salles }: Contexte) {
@@ -153,7 +153,7 @@ export function reglePoste(x: LooseItem, { next, salles }: Contexte) {
 /** Demande d'intervention : le suivi est ensuite tenu par les postes */
 export function regleIntervention(x: LooseItem, old: LooseItem | undefined, { next, actor, now }: Contexte) {
   if (old) fail(403, 'Le suivi d’une intervention est mis à jour par les postes.');
-  assert(OPERATION_TYPES.includes(x.type!), 'Intervention inconnue.');
+  assert(TYPES_INTERVENTION.includes(x.type!), 'Intervention inconnue.');
   if (!isAdmin(actor)) assert(actor.role === 'formateur' && x.type === 'arret', 'Action réservée aux administrateurs.');
   // Cible : une salle entière, dont le serveur fixe les postes, ou des postes d'une même salle
   if (x.salleId && x.type !== 'arret') {
@@ -170,7 +170,7 @@ export function regleIntervention(x: LooseItem, old: LooseItem | undefined, { ne
   if (x.type === 'arret') {
     const proc = next.processus.find((p) => p.id === x.processusId);
     assert(x.cibles.length === 1 && proc && !proc.stoppedAt && proc.posteId === x.cibles[0], 'Seul un processus en cours peut être arrêté.');
-    assert(!next.operations.some((o) => o.type === 'arret' && o.processusId === proc.id && o.statut === 'enregistree'), 'Un arrêt est déjà demandé pour ce processus.');
+    assert(!next.interventions.some((o) => o.type === 'arret' && o.processusId === proc.id && o.statut === 'enregistree'), 'Un arrêt est déjà demandé pour ce processus.');
   }
   if (['installation', 'desinstallation'].includes(x.type!)) assert(next.applications.some((a) => a.id === x.applicationId), 'Application inconnue.');
   if (x.type === 'reinstallation') x.image = IMAGE_REFERENCE; else delete x.image; // image fixée par le serveur

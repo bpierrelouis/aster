@@ -4,7 +4,7 @@ import pg from 'pg';
 import { readConfig } from '../backend/config.ts';
 import { motDePasse } from '../outils/identites-keycloak/mot-de-passe.ts';
 import type { Page } from '@playwright/test';
-import type { Materiel, Operation, Processus, Remontee } from '#shared/types.ts';
+import type { Materiel, Intervention, Processus, Remontee } from '#shared/types.ts';
 
 // Contrôles directs de la persistance : PostgreSQL de l'infrastructure locale
 const config = readConfig();
@@ -125,7 +125,7 @@ test('administrateur : un matériel créé est enregistré par le serveur réel'
   await page.reload();
   await expect(page.locator('#view h1')).toBeAttached();
   await expect.poll(() => page.evaluate((name) => window.orion.store.state.materiels.some((m) => m.modele === name), model)).toBe(true);
-  const [row] = await sql('SELECT id_orion, ecole_id, salle_id, hors_service FROM orion_materiel WHERE modele = $1', [model]);
+  const [row] = await sql('SELECT id_orion, ecole_id, salle_id, hors_service FROM materiel WHERE modele = $1', [model]);
   expect(row).toMatchObject({ ecole_id: 'e-num', salle_id: null, hors_service: false });
   expect(row.id_orion).toMatch(/^MAT-\d{4}$/);
   await logout(page);
@@ -155,9 +155,9 @@ test('formateur : une remontée transmise produit son PDF ; le gestionnaire la t
   expect(pdf.ok()).toBeTruthy();
   expect(pdf.headers()['content-type']).toBe('application/pdf');
   expect((await pdf.body()).subarray(0, 5).toString()).toBe('%PDF-');
-  const [stored] = await sql('SELECT statut, auteur, auteur_id, probleme FROM orion_remontee WHERE id = $1', [report.id]);
+  const [stored] = await sql('SELECT statut, auteur, auteur_id, probleme FROM remontee WHERE id = $1', [report.id]);
   expect(stored).toMatchObject({ statut: 'attente', auteur: 'Thomas Lefebvre', auteur_id: 'cpt-num-formateur', probleme: problemType });
-  expect((await sql('SELECT materiel_id FROM orion_remontee_materiel WHERE remontee_id = $1 ORDER BY rang', [report.id])).map((r) => r.materiel_id)).toEqual(report.materielIds);
+  expect((await sql('SELECT materiel_id FROM remontee_materiel WHERE remontee_id = $1 ORDER BY rang', [report.id])).map((r) => r.materiel_id)).toEqual(report.materielIds);
   await logout(page);
   expect((await page.request.get(`/api/workspace/reports/${report.id}/pdf`)).status()).toBe(401);
 
@@ -197,7 +197,7 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
     await dialog.getByRole('button', { name: 'Enregistrer', exact: true }).click();
     await expect(dialog).toHaveCount(0);
   }
-  await expect.poll(async () => (await sql('SELECT actif FROM orion_compte WHERE email = $1', [email]))[0]?.actif ?? false).toBe(true);
+  await expect.poll(async () => (await sql('SELECT actif FROM compte WHERE email = $1', [email]))[0]?.actif ?? false).toBe(true);
   // L'identité est créée dans le fournisseur local, puis le nouvel utilisateur se connecte réellement
   await expect.poll(async () => ((await keycloak(`/users?email=${encodeURIComponent(email)}&exact=true`)) as unknown[]).length ?? 0, { timeout: 10_000 }).toBe(1);
   const other = await browser.newContext();
@@ -205,7 +205,7 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
   await login(newcomer, email);
   const mine = await (await newcomer.request.get('/api/workspace')).json();
   expect(mine.moi).toMatchObject({ nom: 'P. Nouveau', role: 'formateur', ecoleId: 'e-num' });
-  const connecte = (await sql('SELECT sujet, derniere_connexion, date_desactivation FROM orion_compte WHERE email = $1', [email]))[0];
+  const connecte = (await sql('SELECT sujet, derniere_connexion, date_desactivation FROM compte WHERE email = $1', [email]))[0];
   expect(connecte.sujet).toBeTruthy();
   expect(Date.now() - new Date(connecte.derniere_connexion).getTime()).toBeLessThan(5 * 60_000); // dernière connexion fixée par le serveur
   expect(connecte.date_desactivation).toBeNull(); // effacée à la réactivation
@@ -215,7 +215,7 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
   await page.locator('tr', { hasText: email }).getByRole('button', { name: 'Désactiver' }).click();
   await page.getByRole('dialog').getByRole('button', { name: 'Désactiver', exact: true }).click();
   await expect.poll(async () => (await newcomer.request.get('/api/me')).status()).toBe(401);
-  expect((await sql('SELECT date_desactivation FROM orion_compte WHERE email = $1', [email]))[0].date_desactivation).toBeTruthy();
+  expect((await sql('SELECT date_desactivation FROM compte WHERE email = $1', [email]))[0].date_desactivation).toBeTruthy();
   await expect(page.locator('tr', { hasText: email })).toContainText(/Désactivé\s*le \d{2}\/\d{2}\/\d{4}/);
   await newcomer.goto('/');
   await newcomer.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
@@ -253,8 +253,8 @@ test('formateur : un arrêt de processus est exécuté par le poste', async ({ p
   await stop.click();
   await expect(page.getByText('Arrêt demandé').first()).toBeVisible();
   // Le poste reçoit la commande, l'exécute et renvoie le résultat
-  await expect.poll(async () => (await (await page.request.get('/api/workspace')).json()).operations.find((o: Operation) => o.processusId === processId)?.statut, { timeout: 20_000 }).toMatch(/^(terminee|echec)$/);
-  const [op] = (await sql("SELECT data FROM orion_donnee WHERE collection = 'operations' AND data->>'processusId' = $1", [processId])).map((r) => r.data);
+  await expect.poll(async () => (await (await page.request.get('/api/workspace')).json()).interventions.find((o: Intervention) => o.processusId === processId)?.statut, { timeout: 20_000 }).toMatch(/^(terminee|echec)$/);
+  const [op] = (await sql("SELECT data FROM donnee WHERE collection = 'interventions' AND data->>'processusId' = $1", [processId])).map((r) => r.data);
   expect(op).toMatchObject({ type: 'arret', par: 'Thomas Lefebvre', parId: 'cpt-num-formateur' });
   if (op.statut === 'terminee') expect((await (await page.request.get('/api/workspace')).json()).processus.find((p: Processus) => p.id === processId)?.stoppedAt ?? Date.now()).toBeTruthy();
   await logout(page);

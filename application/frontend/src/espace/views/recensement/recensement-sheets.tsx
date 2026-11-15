@@ -20,7 +20,7 @@ import { Loader } from '../../widgets/parts.tsx';
 import { openMaterielForm } from '../inventaire/inventaire-materiel.tsx';
 import { etiquette, parSerie } from '#shared/rigel.ts';
 import { dateFull, dateNum, plural } from '#shared/format.ts';
-import type { Id, Recensement, Salle, WorkspaceView } from '#shared/types.ts';
+import type { Id, Operation, Salle, WorkspaceView } from '#shared/types.ts';
 import type { ATraiter } from '../../core/recensements.ts';
 
 /* ---------- Nouveau recensement ---------- */
@@ -49,13 +49,13 @@ function RecensementSheet() {
     const nom = (form.get('nom') as string).trim();
     if (!nom) throw Error('Donnez un nom au recensement.');
     if (!toute && !choix.size) throw Error('Choisissez au moins une salle.');
-    const avant = new Set(store.state.recensements.map((r) => r.id));
+    const avant = new Set(store.state.operations.map((r) => r.id));
     store.update('data', (s) => {
       // Identifiant, auteur, dates et échéance attribués par le serveur
-      s.recensements.push({ id: uid('rec'), ecoleId, nom, mode: 'recensement', salleIds: toute ? [] : [...choix], at: Date.now(), par: '', parId: null, expireLe: 0 });
+      s.operations.push({ id: uid('rec'), ecoleId, nom, mode: 'recensement', salleIds: toute ? [] : [...choix], at: Date.now(), par: '', parId: null, expireLe: 0 });
     });
     await store.flush();
-    const cree = store.state.recensements.find((r) => !avant.has(r.id) && r.nom === nom);
+    const cree = store.state.operations.find((r) => !avant.has(r.id) && r.nom === nom);
     notify(`Recensement ${nom} lancé`, { icon: 'clipboardCheck' });
     if (cree) navigate(`/materiels/recensement/${cree.id}`);
   }
@@ -108,7 +108,7 @@ function useAcces(charger: () => Promise<Acces>, cle: string) {
 }
 
 async function accesRecensement(id: Id): Promise<Acces> {
-  const response = await fetch(`/api/workspace/recensements/${encodeURIComponent(id)}/appairage`);
+  const response = await fetch(`/api/workspace/operations/${encodeURIComponent(id)}/appairage`);
   const body = await response.json().catch(() => ({}));
   if (response.status === 401) location.replace('/');
   if (!response.ok) throw Error(body.error || 'Appairage momentanément indisponible.');
@@ -138,11 +138,11 @@ function Appairage({ acces, nom }: { acces: Acces; nom: string }) {
   </div>;
 }
 
-export function openAppairage(r: Recensement) {
+export function openAppairage(r: Operation) {
   openSheet(<AppairageSheet r={r} />);
 }
 
-function AppairageSheet({ r }: { r: Recensement }) {
+function AppairageSheet({ r }: { r: Operation }) {
   const acces = useAcces(() => accesRecensement(r.id), r.id);
   return <Sheet title="Appairer un téléphone" size="m" lead={<Tile name="tablet" color="var(--c5)" size="m" />}
     footer={acces.url ? <CopierLien url={acces.url} /> : null}>
@@ -161,11 +161,11 @@ function Etiquette({ salle, ecoleId }: { salle?: Salle; ecoleId: Id }) {
   </figure>;
 }
 
-export function openEtiquettes(r: Recensement) {
+export function openEtiquettes(r: Operation) {
   openSheet(<EtiquettesSheet r={r} />);
 }
 
-function EtiquettesSheet({ r }: { r: Recensement }) {
+function EtiquettesSheet({ r }: { r: Operation }) {
   const { salles } = bilan(r);
   return <Sheet title="Étiquettes des salles" size="l" lead={<Tile name="print" color="var(--c8)" size="m" />}
     footer={<button className="btn btn--primary" type="button" onClick={printSheet}><Icon name="print" size={18} />Imprimer</button>}>

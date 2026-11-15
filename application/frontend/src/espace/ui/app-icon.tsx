@@ -1,11 +1,11 @@
 /* ==========================================================================
    Icône d'une application ou d'un processus (firefox.exe, Code.exe…) :
    logo de l'éditeur (assets/apps, sources dans SOURCES.md) d'après le
-   référentiel des logiciels connus (shared/operations-data.ts), sinon
+   référentiel des logiciels connus (shared/referentiels.ts), sinon
    cercle barré, comme une application sans icône sur Apple.
    ========================================================================== */
 
-import { logiciel } from '#shared/operations-data.ts';
+import { logiciel } from '#shared/referentiels.ts';
 
 const LOGOS = import.meta.glob<string>('../assets/apps/*.svg', { eager: true, query: '?url', import: 'default' });
 const logo = (file: string | undefined) => LOGOS[`../assets/apps/${file}.svg`];

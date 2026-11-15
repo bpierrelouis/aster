@@ -154,7 +154,7 @@ function InstallationBlock({ x, inst }: { x: Salle; inst: SalleEnInstallation })
 
 /** Opérations en cours dans la salle, indépendantes l'une de l'autre : installation (ses déplacements) et recensement */
 function OperationsEnCours({ x, installation }: { x: Salle; installation: boolean }) {
-  const recensement = can('recensement.view') ? recensementDe(store.state.recensements, x) : undefined;
+  const recensement = can('recensement.view') ? recensementDe(store.state.operations, x) : undefined;
   const vers = installation && can('materiel.move');
   if (!vers && !recensement) return null;
   return <div className="salle-operations">

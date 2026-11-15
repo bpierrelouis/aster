@@ -16,12 +16,12 @@ import { titreIntervention, objetIntervention, cibleIntervention } from '../../c
 import { uid } from '../../core/dom.ts';
 import { intervention, etatPoste } from '#shared/catalog.ts';
 import { plural } from '#shared/format.ts';
-import { IMAGE_REFERENCE } from '#shared/operations-data.ts';
+import { IMAGE_REFERENCE } from '#shared/referentiels.ts';
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { AppIcon } from '../../ui/app-icon.tsx';
 import { Sheet, openSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
-import type { Application, Id, InterventionType, Operation, Trace } from '#shared/types.ts';
+import type { Application, Id, InterventionType, Intervention, Trace } from '#shared/types.ts';
 
 /** Cible d'une demande : salle entière ou postes choisis */
 type Mode = 'salle' | 'postes';
@@ -43,10 +43,10 @@ export function openInterventionForm(type: InterventionType, { applicationId, sa
  * Enregistre la demande (salle entière, ou postes d'une salle). Le serveur fixe les postes d'une salle, l'école, l'auteur,
  * la date et le suivi ; les valeurs provisoires ci-dessous ne servent qu'à afficher la demande sans attendre sa réponse.
  */
-async function recordOperation(type: InterventionType, salleId: Id, target: { salleId?: Id; postes?: Id[] }, extra: { applicationId: Id } | { image: string }) {
+async function recordIntervention(type: InterventionType, salleId: Id, target: { salleId?: Id; postes?: Id[] }, extra: { applicationId: Id } | { image: string }) {
   const cibles = target.salleId ? scope().postes.filter((p) => p.salleId === target.salleId).map((p) => p.id) : target.postes!;
-  const provisoire: Pick<Operation, 'ecoleId' | 'statut' | 'resultats' | keyof Trace> = { ecoleId: index().salle.get(salleId)!.ecoleId, statut: 'enregistree', resultats: {}, ...traceProvisoire() };
-  await store.update('data', (s) => { s.operations.push({ id: uid('op'), type, cibles, ...(target.salleId && { salleId: target.salleId }), ...extra, ...provisoire }); });
+  const provisoire: Pick<Intervention, 'ecoleId' | 'statut' | 'resultats' | keyof Trace> = { ecoleId: index().salle.get(salleId)!.ecoleId, statut: 'enregistree', resultats: {}, ...traceProvisoire() };
+  await store.update('data', (s) => { s.interventions.push({ id: uid('op'), type, cibles, ...(target.salleId && { salleId: target.salleId }), ...extra, ...provisoire }); });
   await store.flush();
   notify(`${titreIntervention({ type, ...extra })} demandée pour ${cibleIntervention(target)}`, { icon: intervention(type)!.icon, tone: 'info' });
 }
@@ -69,7 +69,7 @@ function InterventionForm({ type, app, salleId, posteId }: { type: InterventionT
   async function save() {
     if (!salle) throw Error('Choisissez la salle.');
     if (!vises.length) throw Error('Choisissez au moins un poste.');
-    await recordOperation(type, salle, mode === 'salle' ? { salleId: salle } : { postes: vises.map((p) => p.id) }, app ? { applicationId: app.id } : { image: IMAGE_REFERENCE });
+    await recordIntervention(type, salle, mode === 'salle' ? { salleId: salle } : { postes: vises.map((p) => p.id) }, app ? { applicationId: app.id } : { image: IMAGE_REFERENCE });
   }
 
   return <SheetForm id="intervention-form" onSave={save}>

@@ -375,14 +375,14 @@ test('recensement : ouverture, appairage par QR code, code inconnu ajouté au pa
     await expect(page.getByRole('img', { name: /QR code d’appairage/ })).toBeVisible();
     await page.waitForTimeout(600); // fin de l'ouverture de la fenêtre, pour la capture
     await page.screenshot({ path: testInfo.outputPath('recensement-appairage.png') });
-    const appairage = await (await request.get(`/api/workspace/recensements/${id}/appairage`)).json();
+    const appairage = await (await request.get(`/api/workspace/operations/${id}/appairage`)).json();
     const acces = lireAppairage(appairage.url)!;
     await page.getByRole('button', { name: 'Fermer' }).click();
 
     // Constats d'un téléphone, transmis par le connecteur : présence d'un matériel, code inconnu confirmé et renseigné
     const data = await state(request);
-    const campagne = data.recensements.find((r) => r.id === id)!;
-    const salle = data.salles.find((s) => s.id === campagne.salleIds[0])!;
+    const operation = data.operations.find((r) => r.id === id)!;
+    const salle = data.salles.find((s) => s.id === operation.salleIds[0])!;
     const present = data.materiels.find((m) => m.salleId === salle.id && !m.deplacement)!;
     const evenements = [
       { id: crypto.randomUUID(), type: 'vu', code: present.idOrion, salleId: salle.id, materielId: present.id, observeLe: Date.now() },
@@ -395,7 +395,7 @@ test('recensement : ouverture, appairage par QR code, code inconnu ajouté au pa
       { id: crypto.randomUUID(), type: 'inconnu', code: 'SN-DEJA-CREE', salleId: salle.id, materielId: null, observeLe: Date.now() },
     ];
     const blocs = await Promise.all(evenements.map(async (e) => ({ id: e.id, bloc: await chiffrer(acces.cle, id, e) })));
-    const reponse = await request.post(`/api/rigel/campagnes/${id}/evenements`, { headers: { Authorization: 'Bearer orion-rigel-local' }, data: { evenements: blocs } });
+    const reponse = await request.post(`/api/rigel/operations/${id}/evenements`, { headers: { Authorization: 'Bearer orion-rigel-local' }, data: { evenements: blocs } });
     expect((await reponse.json()).resultats.map((r: { statut: string }) => r.statut)).toEqual(['applique', 'applique', 'applique', 'applique', 'applique']);
     const ajoute = (await state(request)).materiels.filter((m) => m.serie === 'SN-RECENSE-1');
     expect(ajoute.map((m) => [m.salleId, m.modele, Boolean(m.deplacement), /^MAT-\d{4}$/.test(m.idOrion)])).toEqual([[salle.id, 'Écran recensé', false, true]]);
@@ -419,7 +419,7 @@ test('recensement : ouverture, appairage par QR code, code inconnu ajouté au pa
     }).toEqual([[salle.id], true]);
 
     // Numéro de série déjà au parc : pas de doublon, le constat est seulement traité
-    await page.evaluate((ecoleId) => window.orion.store.update('data', (s) => { s.materiels.push({ id: 'm-deja-cree', ecoleId, idOrion: '', salleId: null, type: 'autre', modele: 'Câble', marque: null, serie: 'SN-DEJA-CREE', dateReception: Date.now(), garantieFin: null, hs: false }); }), campagne.ecoleId);
+    await page.evaluate((ecoleId) => window.orion.store.update('data', (s) => { s.materiels.push({ id: 'm-deja-cree', ecoleId, idOrion: '', salleId: null, type: 'autre', modele: 'Câble', marque: null, serie: 'SN-DEJA-CREE', dateReception: Date.now(), garantieFin: null, hs: false }); }), operation.ecoleId);
     await aTraiter.getByRole('button', { name: 'Ajouter au parc' }).click();
     await expect(page.getByRole('dialog')).toContainText('Matériel déjà au parc');
     await page.getByRole('button', { name: 'Marquer traité' }).click();
@@ -484,14 +484,14 @@ test('installation et recensement simultanés d’une salle : deux boutons, QR c
     await page.getByLabel('Nom *').fill('Recensement simultané');
     await page.getByRole('button', { name: 'Lancer le recensement' }).click();
     await expect(page).toHaveURL(/\/materiels\/recensement\/rec-/);
-    const campagne = page.url().split('/').at(-1)!;
+    const operation = page.url().split('/').at(-1)!;
 
     await open(page, `/salles/salle/${salle.id}`);
     await expect(page.getByRole('link', { name: 'Recensement en cours' })).toBeVisible();
     await page.waitForTimeout(400);
     await page.screenshot({ path: testInfo.outputPath('salle-operations.png'), animations: 'disabled' });
     await page.getByRole('link', { name: 'Recensement en cours' }).click();
-    await expect(page).toHaveURL(new RegExp(`/materiels/recensement/${campagne}$`));
+    await expect(page).toHaveURL(new RegExp(`/materiels/recensement/${operation}$`));
     await open(page, `/salles/salle/${salle.id}`);
     await page.getByRole('link', { name: 'Installation en cours' }).click();
     await expect(page).toHaveURL(new RegExp(`/salles/deplacements\\?salle=${salle.id}$`));
@@ -504,7 +504,7 @@ test('installation et recensement simultanés d’une salle : deux boutons, QR c
     await expect(fenetre.getByRole('img', { name: 'QR code du stock' })).toBeVisible();
     await page.waitForTimeout(600);
     await page.screenshot({ path: testInfo.outputPath('installation-qr.png'), animations: 'disabled' });
-    const installations = (await state(request)).recensements.filter((r) => r.mode === 'installation' && r.salleIds[0] === salle.id && !r.close);
+    const installations = (await state(request)).operations.filter((r) => r.mode === 'installation' && r.salleIds[0] === salle.id && !r.close);
     expect(installations).toHaveLength(1);
     await open(page, '/materiels/recensement');
     await expect(page.locator('.rec-card', { hasText: installations[0].nom })).toHaveCount(0); // pas présentée comme un recensement
@@ -513,13 +513,13 @@ test('installation et recensement simultanés d’une salle : deux boutons, QR c
     await open(page, `/salles/deplacements?salle=${salle.id}`);
     await page.getByRole('button', { name: `Installer ${salle.nom} avec un téléphone` }).click();
     await expect(fenetre.getByRole('img', { name: /QR code d’appairage/ })).toBeVisible();
-    expect((await state(request)).recensements.filter((r) => r.mode === 'installation' && r.salleIds[0] === salle.id)).toHaveLength(1);
+    expect((await state(request)).operations.filter((r) => r.mode === 'installation' && r.salleIds[0] === salle.id)).toHaveLength(1);
     await expect(fenetre.getByRole('button', { name: 'Clore l’installation' })).toHaveCount(0); // close d'elle-même
     await fenetre.getByRole('button', { name: 'Fermer' }).click();
     // Dernier déplacement de la salle confirmé par le gestionnaire : l'installation se clôt, à son nom
     await page.evaluate((sid) => window.orion.store.update('data', (s) => { for (const m of s.materiels) if (m.deplacement && (m.salleId === sid || m.deplacement.de === sid)) delete m.deplacement; }), salle.id);
-    await expect.poll(async () => (await state(request)).recensements.find((r) => r.id === installations[0].id)?.close?.par).toBe(manager.nom);
-    expect((await state(request)).recensements.find((r) => r.id === campagne)?.close).toBeUndefined(); // le recensement continue
+    await expect.poll(async () => (await state(request)).operations.find((r) => r.id === installations[0].id)?.close?.par).toBe(manager.nom);
+    expect((await state(request)).operations.find((r) => r.id === operation)?.close).toBeUndefined(); // le recensement continue
 
     // Retour au stock : une seule carte, origine de chaque matériel, confirmation groupée en une écriture
     await open(page, '/salles/deplacements');
@@ -538,7 +538,7 @@ test('installation et recensement simultanés d’une salle : deux boutons, QR c
     await expect.poll(async () => (await state(request)).materiels.filter((m) => m.ecoleId === manager.ecoleId && m.deplacement && !m.salleId).length).toBe(0);
     expect(ecritures).toBe(1);
 
-    await page.evaluate((id) => window.orion.store.update('data', (s) => { s.recensements.find((r) => r.id === id)!.close = { at: Date.now(), par: '', parId: null }; }), campagne);
-    await expect.poll(async () => Boolean((await state(request)).recensements.find((r) => r.id === campagne)?.close)).toBe(true);
+    await page.evaluate((id) => window.orion.store.update('data', (s) => { s.operations.find((r) => r.id === id)!.close = { at: Date.now(), par: '', parId: null }; }), operation);
+    await expect.poll(async () => Boolean((await state(request)).operations.find((r) => r.id === operation)?.close)).toBe(true);
   } finally { await asAccount(request, admin.id); }
 });

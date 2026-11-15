@@ -1,5 +1,5 @@
 /* ==========================================================================
-   État du téléphone : appairage, instantané de la campagne, file des
+   État du téléphone : appairage, instantané de l’opération, file des
    constats et historique, conservés en IndexedDB (base.ts).
    - Chaque action est enregistrée localement d'abord : le travail n'est
      jamais bloqué par le réseau.
@@ -26,7 +26,7 @@ export type Ton = 'ok' | 'install' | 'crit' | 'accent' | 'stock';
 export interface Etat {
   pret: boolean;
   appairage: Appairage | null;
-  /** Appairage lu pendant qu'une autre campagne est en cours : à confirmer */
+  /** Appairage lu pendant qu'une autre opération est en cours : à confirmer */
   proposition: Appairage | null;
   instantane: InstantaneRigel | null;
   version: string | null;
@@ -54,12 +54,20 @@ export const rigel = {
 
 const enregistrerFile = () => ecrire('file', etat.file);
 
+/** Données enregistrées par une version antérieure au 15 novembre, où l'opération s'appelait « campagne » */
+function repriseAvant15Novembre(a: Appairage | undefined, inst: InstantaneRigel | undefined) {
+  const ancien = (x: object) => (x as { campagne?: never }).campagne;
+  if (a && !a.operation) a.operation = ancien(a) ?? a.operation;
+  if (inst && !inst.operation) inst.operation = ancien(inst) ?? inst.operation;
+}
+
 /** Chargement : données locales, appairage éventuellement lu dans l'adresse, puis synchronisation régulière */
 export async function demarrer() {
   const [appairage, inst, file, historique] = await Promise.all([
     lire<Appairage>('appairage'), lire<{ version: string; instantane: InstantaneRigel }>('instantane'),
     lire<ConstatLocal[]>('file'), lire<ConstatIntegre[]>('historique'),
   ]);
+  repriseAvant15Novembre(appairage, inst?.instantane);
   changer({ pret: true, appairage: appairage ?? null, instantane: inst?.instantane ?? null, version: inst?.version ?? null, file: file ?? [], historique: historique ?? [] });
   await lireAdresse();
   addEventListener('hashchange', () => void lireAdresse()); // lien d'appairage ouvert dans l'application déjà chargée
@@ -77,16 +85,16 @@ async function lireAdresse() {
   await proposer(lu);
 }
 
-/** Appairage lu (QR ou adresse) : appliqué directement, ou proposé si une autre campagne est en cours */
+/** Appairage lu (QR ou adresse) : appliqué directement, ou proposé si une autre opération est en cours */
 export async function proposer(a: Appairage) {
-  if (!etat.appairage || etat.appairage.campagne === a.campagne) return appairer(a);
+  if (!etat.appairage || etat.appairage.operation === a.operation) return appairer(a);
   changer({ proposition: a });
 }
 export const ecarterProposition = () => changer({ proposition: null });
 
-/** Associe le téléphone à une campagne : les données d'une campagne précédente sont effacées */
+/** Associe le téléphone à une opération : les données d'une opération précédente sont effacées */
 export async function appairer(a: Appairage) {
-  const meme = etat.appairage?.campagne === a.campagne;
+  const meme = etat.appairage?.operation === a.operation;
   if (!meme) await vider();
   await ecrire('appairage', a);
   changer({
@@ -134,7 +142,7 @@ async function executer() {
       await enregistrerFile();
     }
     const { version, instantane } = await telecharger(a);
-    if (etat.appairage?.campagne !== a.campagne) return; // dissocié pendant la synchronisation
+    if (etat.appairage?.operation !== a.operation) return; // dissocié pendant la synchronisation
     if (version !== etat.version) await ecrire('instantane', { version, instantane });
     integrer(instantane);
     changer({ instantane, version, reseau: { enCours: false, synchroLe: Date.now(), erreur: null, refuse: false } });

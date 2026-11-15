@@ -46,7 +46,7 @@ export function readConfig(env = environnement()) {
     databaseUrl: env.DATABASE_URL || 'postgres://orion:orion-local@localhost:5432/orion',
     sessionSecret: env.SESSION_SECRET || randomBytes(48).toString('base64url'),
     agentToken: env.AGENT_TOKEN || 'orion-agent-local',
-    // Secret des campagnes : authentifie le connecteur et dérive la clé et le jeton de chaque campagne ; absent en production : connecteur refusé
+    // Secret des opérations : authentifie le connecteur et dérive la clé et le jeton de chaque opération ; absent en production : connecteur refusé
     rigel: { secret: (rigelValide && env.RIGEL_SECRET) || (production ? randomBytes(48).toString('base64url') : 'orion-rigel-local'), url: rigelValide ? rigelUrl : null },
     // Démonstrateur : compte de service du Keycloak local, limité à la gestion des utilisateurs du realm
     identityProvisioning,

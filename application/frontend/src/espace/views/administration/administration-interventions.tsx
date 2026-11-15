@@ -22,18 +22,18 @@ import { LieuChip, PageHead, PosteEtat, Progress, SearchField } from '../../widg
 import type { TileSize } from '../../ui/icons.tsx';
 import type { SuiviIntervention } from '../../core/interventions.ts';
 import type { EtatIntervention } from '#shared/catalog.ts';
-import type { Id, Operation, OperationType } from '#shared/types.ts';
+import type { Id, Intervention, TypeIntervention } from '#shared/types.ts';
 
 const BASE = '/administration/interventions';
 const CIBLE_LIBELLE = { salle: 'Salle entière', postes: 'Postes', poste: 'Poste' };
 
-function EtatPill({ type, etat }: { type: OperationType; etat: EtatIntervention }) {
+function EtatPill({ type, etat }: { type: TypeIntervention; etat: EtatIntervention }) {
   const e = ETATS_INTERVENTION[etat];
   return <span className={`pill pill--${e.tone}`}><Icon name={e.icon} size={14} />{etatIntervention(type, etat)}</span>;
 }
 
 /** Application installée ou désinstallée ; Windows pour une réinstallation */
-function Lead({ o, size = 40, tile = 'm' }: { o: Operation; size?: number; tile?: TileSize }) {
+function Lead({ o, size = 40, tile = 'm' }: { o: Intervention; size?: number; tile?: TileSize }) {
   const app = o.applicationId && store.state.applications.find((a) => a.id === o.applicationId);
   return app ? <AppIcon name={app.nom} size={size} /> : <Tile name={intervention(o.type)!.icon} color="var(--accent)" size={tile} />;
 }

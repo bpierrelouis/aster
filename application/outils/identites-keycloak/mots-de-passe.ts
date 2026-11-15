@@ -13,7 +13,7 @@ const config = readConfig();
 const client = new pg.Client({ connectionString: config.databaseUrl });
 await client.connect();
 try {
-  const { rows } = await client.query<{ email: string; nom: string; role: string }>('SELECT email, nom, role FROM orion_compte WHERE actif ORDER BY role, email');
+  const { rows } = await client.query<{ email: string; nom: string; role: string }>('SELECT email, nom, role FROM compte WHERE actif ORDER BY role, email');
   console.table(rows.map((c) => ({ adresse: c.email, nom: c.nom, profil: c.role, 'mot de passe': motDePasse(config.provisioning.passwordSecret, c.email) })));
 } finally {
   await client.end();

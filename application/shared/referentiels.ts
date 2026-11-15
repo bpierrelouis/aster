@@ -78,7 +78,7 @@ const BY_KEY = new Map(LOGICIELS.flatMap((l) => [l.nom, ...l.exe].map((n) => [ke
 export const logiciel = (name: unknown) => BY_KEY.get(keyOf(name));
 
 /** Référentiels des opérations : applications déployables et règles globales de départ (l'activité des postes part de zéro) */
-export function initializeOperations<S extends object>(state: S & { applications?: Application[]; regles?: Regle[] }): S & { applications: Application[]; regles: Regle[] } {
+export function initializeReferentiels<S extends object>(state: S & { applications?: Application[]; regles?: Regle[] }): S & { applications: Application[]; regles: Regle[] } {
   state.applications ??= [
     { id: 'app-firefox', nom: 'Firefox', version: '128 ESR', editeur: 'Mozilla' },
     { id: 'app-vscode', nom: 'Visual Studio Code', version: '1.95', editeur: 'Microsoft' },

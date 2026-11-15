@@ -35,7 +35,7 @@ export interface Contexte {
   numeros: { materiel: number; remontee: number };
 }
 
-export const collections: CollectionName[] = ['ecoles', 'salles', 'etages', 'materiels', 'postes', 'remontees', 'detections', 'applications', 'comptes', 'regles', 'operations', 'processus', 'installations', 'recensements', 'constats'];
+export const collections: CollectionName[] = ['ecoles', 'salles', 'etages', 'materiels', 'postes', 'remontees', 'detections', 'applications', 'comptes', 'regles', 'interventions', 'processus', 'installations', 'operations', 'constats'];
 
 // Comparaison indépendante de l'ordre des propriétés : un élément relu en base ne garde pas l'ordre
 // dans lequel le navigateur l'a envoyé, et plusieurs serveurs peuvent servir le même espace.

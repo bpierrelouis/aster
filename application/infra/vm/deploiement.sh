@@ -33,7 +33,7 @@ cd "$PILE/vm"
 
 aleatoire() { od -An -tx1 -N32 /dev/urandom | tr -d ' \n'; }
 secret() { docker secret inspect "$1" >/dev/null 2>&1 || printf '%s' "$2" | docker secret create "$1" - >/dev/null; }
-# Secrets créés au premier déploiement, jamais versionnés : campagnes RIGEL (API et connecteur), mots de passe des comptes du
+# Secrets créés au premier déploiement, jamais versionnés : opérations RIGEL (API et connecteur), mots de passe des comptes du
 # démonstrateur (dérivés par l'API, application/README.md), rôle applicatif de PostgreSQL et son adresse de connexion
 secret RIGEL_SECRET "$(aleatoire)"
 secret PROVISIONING_PASSWORD_SECRET "$(aleatoire)"

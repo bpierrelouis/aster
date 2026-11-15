@@ -15,14 +15,14 @@
 import { defaultLayouts } from '#shared/layouts.ts';
 import { displayPrefs } from '#shared/ambiance.ts';
 import { DAY } from '#shared/format.ts';
-import { initializeOperations } from '#shared/operations-data.ts';
+import { initializeReferentiels } from '#shared/referentiels.ts';
 import { materielCite, numeroRemontee, rangDuNumero } from '#shared/catalog.ts';
 import { assert, collections, fail, id, isAdmin, same, schoolOf } from './commun.ts';
 import { regleCompte } from './comptes.ts';
 import { regleLieu, regleMateriel } from './parc.ts';
 import { regleRemontee } from './remontees.ts';
 import { eteindreHorsService, regleIntervention, reglePoste } from './postes.ts';
-import { regleConstat, regleRecensement } from './recensement.ts';
+import { regleConstat, regleOperation } from './recensement.ts';
 import type { Actor, CollectionName, Collections, Id, Item, PreferencesCompte, WorkspaceState, WorkspaceView } from '#shared/types.ts';
 import type { Contexte, LooseItem, Lists, WorkspaceInput } from './commun.ts';
 
@@ -40,7 +40,7 @@ const SERVER_HELD: Partial<Record<CollectionName, Exclude<keyof LooseItem, 'id'>
  */
 export function initialState(now = Date.now()): WorkspaceState {
   const vide = Object.fromEntries(collections.map((c) => [c, []])) as unknown as Pick<WorkspaceState, CollectionName>;
-  const { applications, regles } = initializeOperations({});
+  const { applications, regles } = initializeReferentiels({});
   return { ...vide, applications, regles, version: 0, revision: 0, seededAt: now, preferences: {} };
 }
 
@@ -54,9 +54,9 @@ export function visibleTo(collection: CollectionName, item: LooseItem | undefine
   if (collection === 'ecoles') return item.id === actor.ecoleId;
   if (schoolOf(item, state) !== actor.ecoleId) return false;
   if (['comptes', 'regles'].includes(collection)) return isAdmin(actor);
-  if (collection === 'operations') return isAdmin(actor) || (actor.role === 'formateur' && item.type === 'arret');
+  if (collection === 'interventions') return isAdmin(actor) || (actor.role === 'formateur' && item.type === 'arret');
   if (['postes', 'processus', 'detections', 'installations'].includes(collection)) return actor.role !== 'gestionnaire';
-  if (['recensements', 'constats'].includes(collection)) return actor.role !== 'formateur';
+  if (['operations', 'constats'].includes(collection)) return actor.role !== 'formateur';
   if (collection === 'remontees' && actor.role === 'formateur') return item.auteurId === actor.id;
   // Le formateur ne voit que le matériel des salles, pas le stock (décision de l'utilisateur du 14 novembre)
   if (collection === 'materiels' && actor.role === 'formateur') return Boolean(item.salleId);
@@ -140,19 +140,19 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
     if (c === 'materiels' && deleted.some((m) => m.salleId)) fail(400, 'Seul un matériel du stock peut être supprimé : renvoyez-le d’abord au stock.');
     if (c === 'postes' && !isAdmin(actor)) fail(403, 'Action réservée aux administrateurs.');
     if (c === 'comptes' && deleted.length) fail(403, 'Un compte se désactive ; il n’est pas supprimé.');
-    if (c === 'operations' && deleted.length) fail(403, 'Une demande d’intervention ne peut pas être supprimée.');
+    if (c === 'interventions' && deleted.length) fail(403, 'Une demande d’intervention ne peut pas être supprimée.');
     if (c === 'remontees' && deleted.length) fail(403, 'La suppression de remontées est indisponible.');
-    if (c === 'recensements' && deleted.length) fail(403, 'Un recensement ou une installation se clôt ; il n’est pas supprimé.');
+    if (c === 'operations' && deleted.length) fail(403, 'Un recensement ou une installation se clôt ; il n’est pas supprimé.');
     if (c === 'constats' && deleted.length) fail(403, 'Un constat est conservé.');
     if (c === 'regles' && actor.role !== 'superadmin' && deleted.some((x) => x.portee === 'global')) fail(403, 'Règle globale réservée au super administrateur.');
-    if (c === 'applications' && deleted.some((a) => state.installations.some((i) => i.applicationId === a.id) || state.operations.some((o) => o.applicationId === a.id))) {
+    if (c === 'applications' && deleted.some((a) => state.installations.some((i) => i.applicationId === a.id) || state.interventions.some((o) => o.applicationId === a.id))) {
       fail(400, 'Une application installée sur un poste ou citée par une intervention est conservée.');
     }
 
     for (const x of changes) {
       if (c === 'remontees' && !before.has(x.id)) x.id = numeroRemontee(++numeros.remontee);
-      if (c === 'operations' && !before.has(x.id)) x.id = id('op');
-      if (c === 'recensements' && !before.has(x.id)) x.id = id('rec');
+      if (c === 'interventions' && !before.has(x.id)) x.id = id('op');
+      if (c === 'operations' && !before.has(x.id)) x.id = id('rec');
       if (c === 'postes') {
         delete x.ecoleId; // l'école d'un poste est celle de sa salle
         // État, session, dernier rapport, adresse IP et système : remontés par le poste lui-même (postes.ts) ; un nouveau poste est éteint
@@ -169,9 +169,9 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
       if (c === 'regles' && (x.portee === 'global' || old?.portee === 'global') && actor.role !== 'superadmin') fail(403, 'Règle globale réservée au super administrateur.');
 
       if (c === 'comptes') regleCompte(x, old, ctx);
-      if (c === 'operations') regleIntervention(x, old, ctx);
+      if (c === 'interventions') regleIntervention(x, old, ctx);
       if (c === 'remontees') regleRemontee(x, old, ctx);
-      if (c === 'recensements') regleRecensement(x, old, next, actor, now);
+      if (c === 'operations') regleOperation(x, old, next, actor, now);
       if (c === 'constats') regleConstat(x, old, actor, now);
       if (c === 'materiels') regleMateriel(x, old, ctx);
       if (c === 'postes') reglePoste(x, ctx);

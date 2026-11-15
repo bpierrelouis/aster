@@ -17,21 +17,21 @@ const open = () => createPostgresWorkspaceRepository({ pool, schema });
 
 test('PostgreSQL : migrations appliquées une fois ; jeu de démonstration chargé sans effacer d’autres données', { skip: !database && 'PostgreSQL indisponible' }, async () => {
   const neuf = await open();
-  const migrations = async () => (await pool.query(`SELECT version FROM ${schema}.orion_migration ORDER BY version`)).rows.map((r) => r.version);
+  const migrations = async () => (await pool.query(`SELECT version FROM ${schema}.migration ORDER BY version`)).rows.map((r) => r.version);
   assert.deepEqual(await migrations(), MIGRATIONS.map((m) => m.version));
   const vide = await neuf.snapshot();
   assert.ok(!vide.ecoles.length && !vide.comptes.length && vide.applications.length && vide.regles.length, 'espace neuf : référentiels seuls');
   assert.equal(await chargerDemonstration(neuf), true);
   assert.equal(await chargerDemonstration(await open()), false, 'même version : rien ne change');
   assert.deepEqual(await migrations(), MIGRATIONS.map((m) => m.version), 'migrations non rejouées');
-  await pool.query(`UPDATE ${schema}.orion_espace SET version_donnees = 0`);
+  await pool.query(`UPDATE ${schema}.espace SET version_donnees = 0`);
   await assert.rejects(chargerDemonstration(await open()), /chargement refusé/);
   assert.equal(await chargerDemonstration(await open(), { reinitialiser: true }), true, 'démonstrateur : remplacement demandé');
   // Contraintes figées par les migrations : un statut ou un profil ajouté au catalogue exige une migration
   const contrainte = async (nom: string) => (await pool.query(`SELECT pg_get_constraintdef(c.oid) AS d FROM pg_constraint c JOIN pg_namespace n ON n.oid = c.connamespace
     WHERE n.nspname = $1 AND c.conname = $2`, [schema, nom])).rows[0].d as string;
-  for (const s of REMONTEE_STATUTS) assert.ok((await contrainte('orion_remontee_statut_check')).includes(`'${s.id}'`), `statut ${s.id}`);
-  for (const r of ROLES) assert.ok((await contrainte('orion_compte_role_check')).includes(`'${r.id}'`), `profil ${r.id}`);
+  for (const s of REMONTEE_STATUTS) assert.ok((await contrainte('remontee_statut_check')).includes(`'${s.id}'`), `statut ${s.id}`);
+  for (const r of ROLES) assert.ok((await contrainte('compte_role_check')).includes(`'${r.id}'`), `profil ${r.id}`);
 });
 
 test.after(async () => {
@@ -43,7 +43,7 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   const repo = await open();
   const admin = (await repo.actor('cpt-num-admin'))!;
   const teacher = (await repo.actor('cpt-num-formateur'))!;
-  const counts = (await pool.query(`SELECT (SELECT count(*) FROM ${schema}.orion_materiel)::int AS materiels, (SELECT count(*) FROM ${schema}.orion_compte)::int AS comptes`)).rows[0];
+  const counts = (await pool.query(`SELECT (SELECT count(*) FROM ${schema}.materiel)::int AS materiels, (SELECT count(*) FROM ${schema}.compte)::int AS comptes`)).rows[0];
   assert.equal(counts.materiels, (await repo.snapshot()).materiels.length);
   assert.equal(counts.comptes, (await repo.snapshot()).comptes.length);
 
@@ -66,7 +66,7 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   const poste = (await repo.snapshot()).postes.find((p) => p.salleId === 's-e-num-a012')!;
   const { commandes } = await repo.agent.rapports([{ poste: poste.nomReseau, processus: [{ nom: 'firefox.exe', compte: 'stagiaire.01' }, { nom: 'steam.exe', compte: 'stagiaire.01' }], applications: ['app-firefox'] }]);
   assert.equal(commandes[0].type, 'arret');
-  await repo.agent.resultats([{ operation: commandes[0].operation, poste: poste.nomReseau, statut: 'reussie' }]);
+  await repo.agent.resultats([{ intervention: commandes[0].intervention, poste: poste.nomReseau, statut: 'reussie' }]);
 
   // Formateur : remontée transmise sur une révision antérieure (fusion)
   const mine: Ecriture = await repo.read(teacher);
@@ -103,9 +103,9 @@ test('PostgreSQL : comptes, préférences, écritures, postes et états des lieu
   assert(state.processus.find((p) => p.nom === 'steam.exe')!.stoppedAt);
   assert.equal((await reopened.pdf(report.id, teacher)).subarray(0, 5).toString(), '%PDF-');
   await assert.rejects(reopened.pdf(state.remontees.find((r) => r.ecoleId === 'e-res')!.id, admin), { status: 404 });
-  const row = (await pool.query(`SELECT date_reception FROM ${schema}.orion_materiel WHERE id = 'm-test'`)).rows[0];
+  const row = (await pool.query(`SELECT date_reception FROM ${schema}.materiel WHERE id = 'm-test'`)).rows[0];
   assert.equal(row.date_reception.toISOString(), '2026-10-01T00:00:00.000Z');
-  const account = (await pool.query(`SELECT email, role, ecole_id, sujet, derniere_connexion IS NOT NULL AS connecte FROM ${schema}.orion_compte WHERE id = 'cpt-test'`)).rows[0];
+  const account = (await pool.query(`SELECT email, role, ecole_id, sujet, derniere_connexion IS NOT NULL AS connecte FROM ${schema}.compte WHERE id = 'cpt-test'`)).rows[0];
   assert.deepEqual(account, { email: 'p.nouveau@orion.demo', role: 'formateur', ecole_id: 'e-num', sujet: 'kc-nouveau', connecte: true });
 });
 

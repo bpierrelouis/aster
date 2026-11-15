@@ -9,7 +9,7 @@ import { num, plural } from '#shared/format.ts';
 import { useRigel, useTitre } from '../hooks/use-rigel.ts';
 import type { Etat, Ton } from '../core/etat.ts';
 import type { MaterielRigel } from '#shared/rigel.ts';
-import type { Mouvement } from '#shared/types.ts';
+import type { Deplacement } from '#shared/types.ts';
 
 /** Marque : étoile ORION et nom de l'application */
 export function Marque() {
@@ -43,7 +43,7 @@ export function TypeMateriel({ type }: { type: string }) {
   return <span className="type" style={{ '--c': t.color } as CSSProperties} title={t.label}><Icon name={t.icon} size={22} /></span>;
 }
 
-const EN_COURS: Mouvement = { de: null, at: 0, par: '', parId: null };
+const EN_COURS: Deplacement = { de: null, at: 0, par: '', parId: null };
 /** État logistique (stock, installé, en cours d'installation, à rapatrier) d'un matériel */
 export const logistiqueDe = (m: Pick<MaterielRigel, 'salleId' | 'enCours'>) => logistique({ salleId: m.salleId, deplacement: m.enCours ? EN_COURS : undefined });
 

@@ -58,7 +58,7 @@ app.use(helmet({
 }));
 app.use(['/api', '/auth'], (_req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
 // Journal d'accès de l'API : une ligne par requête ; les sondes et rapports périodiques n'y figurent qu'en cas d'échec
-const periodiques = new Set(['/api/health', '/api/infos', '/api/agent/rapports', '/api/rigel/campagnes', '/api/workspace']);
+const periodiques = new Set(['/api/health', '/api/infos', '/api/agent/rapports', '/api/rigel/operations', '/api/workspace']);
 app.use(['/api', '/auth'], (req, res, next) => {
   const debut = performance.now();
   res.on('finish', () => {

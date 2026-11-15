@@ -6,7 +6,7 @@ import type { Appairage, Bloc, EvenementRigel, InstantaneRigel } from '#shared/r
 export class AccesRefuse extends Error {}
 
 async function appel<T>(a: Appairage, chemin: string, init: RequestInit = {}): Promise<T> {
-  const reponse = await fetch(`/api/campagnes/${encodeURIComponent(a.campagne)}${chemin}`, {
+  const reponse = await fetch(`/api/operations/${encodeURIComponent(a.operation)}${chemin}`, {
     ...init, cache: 'no-store',
     headers: { Authorization: `Bearer ${a.jeton}`, 'Content-Type': 'application/json' },
   });
@@ -17,7 +17,7 @@ async function appel<T>(a: Appairage, chemin: string, init: RequestInit = {}): P
 
 /** Dépose des constats chiffrés ; renvoie les identifiants reçus par le relais */
 export async function deposer(a: Appairage, evenements: EvenementRigel[]) {
-  const corps = { evenements: await Promise.all(evenements.map(async (e) => ({ id: e.id, bloc: await chiffrer(a.cle, a.campagne, e) }))) };
+  const corps = { evenements: await Promise.all(evenements.map(async (e) => ({ id: e.id, bloc: await chiffrer(a.cle, a.operation, e) }))) };
   const { recus } = await appel<{ recus: string[] }>(a, '/evenements', { method: 'POST', body: JSON.stringify(corps) });
   return new Set(recus);
 }
@@ -25,5 +25,5 @@ export async function deposer(a: Appairage, evenements: EvenementRigel[]) {
 /** Instantané de l’opération, déchiffré */
 export async function telecharger(a: Appairage) {
   const { version, instantane } = await appel<{ version: string; instantane: Bloc }>(a, '/instantane');
-  return { version, instantane: await dechiffrer<InstantaneRigel>(a.cle, a.campagne, instantane) };
+  return { version, instantane: await dechiffrer<InstantaneRigel>(a.cle, a.operation, instantane) };
 }

@@ -16,8 +16,8 @@ import { adressesIp, createAgentEmulator } from '../../outils/simulateur-postes/
 import { chargerDemonstration, etatDemonstration } from '../../outils/donnees-demonstration/charger.ts';
 import { renameBuilding } from '#shared/buildings.ts';
 import { materielCite, remonteeOuverte } from '#shared/catalog.ts';
-import { processClass, logiciel, IMAGE_REFERENCE } from '#shared/operations-data.ts';
-import type { Compte, EtapeRemontee, Id, Item, Materiel, Mouvement, RemonteeStatut, WorkspaceState, WorkspaceView } from '#shared/types.ts';
+import { processClass, logiciel, IMAGE_REFERENCE } from '#shared/referentiels.ts';
+import type { Compte, EtapeRemontee, Id, Item, Materiel, Deplacement, RemonteeStatut, WorkspaceState, WorkspaceView } from '#shared/types.ts';
 import type { JournalEntry } from '../persistance/engine.ts';
 import type { Ecriture, HttpError, LooseItem } from './commun.ts';
 
@@ -144,7 +144,7 @@ test('installation : une affectation reste en cours jusqu’à la confirmation, 
   assert.throws(() => move(TEACHER, (v) => { delete mat(v).deplacement; }), { status: 403 });
   // Confirmation réservée au gestionnaire : les administrateurs initient et suivent (décision de l'utilisateur du 14 novembre)
   for (const accountId of [ADMIN, SUPER]) assert.throws(() => move(accountId, (v) => { delete mat(v).deplacement; }), { status: 403, message: 'Confirmation de l’installation réservée au gestionnaire.' });
-  state = move(MANAGER, (v) => { delete mat(v).deplacement; mat(v).installation = { de: a.id, at: 0, par: 'X' } as Mouvement; }); // confirmé ; valeur incomplète volontaire
+  state = move(MANAGER, (v) => { delete mat(v).deplacement; mat(v).installation = { de: a.id, at: 0, par: 'X' } as Deplacement; }); // confirmé ; valeur incomplète volontaire
   assert.equal(mat(state).deplacement, undefined);
   assert.deepEqual(mat(state).installation, { de: null, at: 1_800_000_000_000, par: 'Sophie Garnier', parId: MANAGER }); // valeur du serveur
   state = move(MANAGER, (v) => { mat(v).hs = true; delete mat(v).installation; }); // autre modification : installation conservée
@@ -294,10 +294,10 @@ test('sécurité : poste cloisonné à son école, nom réseau unique ; sujet et
   assert.throws(() => mergeState(state, intrus, admin), { status: 403 }, 'salle d’une autre école, école déclarée trompeuse');
   const forge: Ecriture = scopedState(state, admin);
   forge.comptes.find((c) => c.id === TEACHER)!.sujet = 'kc-autre';
-  forge.operations.push({ id: 'op-x', type: 'reinstallation', salleId: 's-e-num-a012', image: 'smb://hote-inconnu/image.wim' });
+  forge.interventions.push({ id: 'op-x', type: 'reinstallation', salleId: 's-e-num-a012', image: 'smb://hote-inconnu/image.wim' });
   const next = mergeState(state, forge, admin);
   assert.equal(next.comptes.find((c) => c.id === TEACHER)!.sujet, undefined, 'lien d’identité non fixé par le navigateur');
-  assert.equal(next.operations.at(-1)!.image, IMAGE_REFERENCE, 'image de référence imposée');
+  assert.equal(next.interventions.at(-1)!.image, IMAGE_REFERENCE, 'image de référence imposée');
 });
 
 test('postes : nom réseau en capitales, unité centrale de l’école du poste', () => {
@@ -320,7 +320,7 @@ test('postes : nom réseau en capitales, unité centrale de l’école du poste'
 test('catalogue : une application installée ou citée par une intervention est conservée', () => {
   const state = online(etatDemonstration());
   const admin = as(state, ADMIN);
-  const citee = (id: Id) => state.installations.some((i) => i.applicationId === id) || state.operations.some((o) => o.applicationId === id);
+  const citee = (id: Id) => state.installations.some((i) => i.applicationId === id) || state.interventions.some((o) => o.applicationId === id);
   const retirer = (id: Id) => { const view: Ecriture = scopedState(state, admin); view.applications = view.applications.filter((a) => a.id !== id); return mergeState(state, view, admin); };
   const installee = state.installations[0].applicationId;
   assert.throws(() => retirer(installee), { status: 400, message: /conservée/ });
@@ -461,24 +461,24 @@ test('supervision : le formateur demande un arrêt ; seuls les postes modifient 
   const proc = state.processus[0];
   const direct = scopedState(state, teacher); direct.processus.find((p) => p.id === proc.id)!.stoppedAt = Date.now();
   assert.throws(() => mergeState(state, direct, teacher), { status: 403 });
-  const install: Ecriture = scopedState(state, teacher); install.operations.push({ id: 'x', type: 'installation', cibles: [proc.posteId], applicationId: 'app-putty' });
+  const install: Ecriture = scopedState(state, teacher); install.interventions.push({ id: 'x', type: 'installation', cibles: [proc.posteId], applicationId: 'app-putty' });
   assert.throws(() => mergeState(state, install, teacher), { status: 400 });
-  const request: Ecriture = scopedState(state, teacher); request.operations.push({ id: 'x', type: 'arret', cibles: [proc.posteId], processusId: proc.id, statut: 'terminee' });
+  const request: Ecriture = scopedState(state, teacher); request.interventions.push({ id: 'x', type: 'arret', cibles: [proc.posteId], processusId: proc.id, statut: 'terminee' });
   const next = mergeState(state, request, teacher);
-  const op = next.operations.find((o) => o.processusId === proc.id)!;
+  const op = next.interventions.find((o) => o.processusId === proc.id)!;
   assert.deepEqual([op.statut, op.par, op.resultats[proc.posteId]], ['enregistree', 'Thomas Lefebvre', 'en_attente']);
-  const again: Ecriture = scopedState(next, teacher); again.operations.push({ id: 'y', type: 'arret', cibles: [proc.posteId], processusId: proc.id });
+  const again: Ecriture = scopedState(next, teacher); again.interventions.push({ id: 'y', type: 'arret', cibles: [proc.posteId], processusId: proc.id });
   assert.throws(() => mergeState(next, again, teacher), { status: 400 });
   assert.equal(next.processus.find((p) => p.id === proc.id)!.stoppedAt, null, 'le processus reste actif jusqu’au résultat du poste');
 });
 
 test('interventions : une salle entière, dont le serveur fixe les postes, ou des postes d’une même salle', () => {
   const state = etatDemonstration();
-  assert.deepEqual(state.operations.map((o) => [o.type, o.statut]), [['desinstallation', 'enregistree'], ['reinstallation', 'enregistree'], ['installation', 'enregistree'], ['installation', 'enregistree']], 'simulation : quatre interventions enregistrées');
+  assert.deepEqual(state.interventions.map((o) => [o.type, o.statut]), [['desinstallation', 'enregistree'], ['reinstallation', 'enregistree'], ['installation', 'enregistree'], ['installation', 'enregistree']], 'simulation : quatre interventions enregistrées');
   const admin = as(state, ADMIN);
   const salle = 's-e-num-a012';
   const postes = state.postes.filter((p) => p.salleId === salle).map((p) => p.id);
-  const ask = (op: Partial<LooseItem>) => { const view: Ecriture = scopedState(state, admin); view.operations.push({ id: 'tmp', ...op }); return mergeState(state, view, admin).operations.at(-1)!; };
+  const ask = (op: Partial<LooseItem>) => { const view: Ecriture = scopedState(state, admin); view.interventions.push({ id: 'tmp', ...op }); return mergeState(state, view, admin).interventions.at(-1)!; };
   const room = ask({ type: 'installation', applicationId: 'app-putty', salleId: salle, cibles: [postes[0]] });
   assert.deepEqual([room.salleId, room.cibles, room.statut], [salle, postes, 'enregistree']);
   assert.deepEqual(Object.values(room.resultats), postes.map(() => 'en_attente'));
@@ -629,12 +629,12 @@ test('postes : rapports, détection, arrêt automatique, résultats et déconnex
   assert(poste.allume);
   assert.equal(state.processus.filter((p) => p.posteId === poste.id).length, 3);
   assert.deepEqual(state.detections.map((d) => [d.processus, d.classement]).sort(), [['steam.exe', 'blacklist'], ['vlc.exe', 'nonref']]);
-  const auto = state.operations.find((o) => o.auto)!;
+  const auto = state.interventions.find((o) => o.auto)!;
   assert.equal(auto.type, 'arret');
   assert.deepEqual(state.installations.filter((i) => i.posteId === poste.id).map((i) => i.applicationId), ['app-firefox']);
   const commands = pendingCommands(state, [poste.nomReseau]);
   assert.deepEqual(commands.map((c) => [c.type, c.processus!.nom]), [['arret', 'steam.exe']]);
-  applyResults(state, [{ operation: auto.id, poste: poste.nomReseau, statut: 'reussie' }], now + 1000);
+  applyResults(state, [{ intervention: auto.id, poste: poste.nomReseau, statut: 'reussie' }], now + 1000);
   assert.equal(auto.statut, 'terminee');
   assert.equal(state.processus.find((p) => p.nom === 'steam.exe')!.stoppedAt, now + 1000);
   assert.equal(state.detections.find((d) => d.processus === 'steam.exe')!.arret, 'réussi');
@@ -776,7 +776,7 @@ test('routeurs : session obligatoire, ETag, jeton de passerelle et jeton propre 
     assert.equal((await fetch(`${url}/api/agent/postes`, { headers: sien })).status, 403, 'liste réservée à la passerelle');
     assert.equal((await fetch(`${url}/api/agent/rapports`, { method: 'POST', headers: sien, body: JSON.stringify({ rapports: [{ poste: moi.nomReseau }] }) })).status, 200);
     assert.equal((await fetch(`${url}/api/agent/rapports`, { method: 'POST', headers: sien, body: JSON.stringify({ rapports: [{ poste: autre.nomReseau }] }) })).status, 403, 'pas de rapport pour un autre poste');
-    assert.equal((await fetch(`${url}/api/agent/resultats`, { method: 'POST', headers: sien, body: JSON.stringify({ resultats: [{ operation: 'op', poste: autre.nomReseau, statut: 'reussie' }] }) })).status, 403);
+    assert.equal((await fetch(`${url}/api/agent/resultats`, { method: 'POST', headers: sien, body: JSON.stringify({ resultats: [{ intervention: 'op', poste: autre.nomReseau, statut: 'reussie' }] }) })).status, 403);
     assert.equal((await fetch(`${url}/api/agent/rapports`, { method: 'POST', headers: { ...sien, Authorization: `Bearer ${autre.nomReseau}:${jeton.split(':')[1]}` }, body: '{}' })).status, 401, 'signature d’un autre poste');
     accountId = 'inconnu';
     assert.equal((await fetch(`${url}/api/workspace`)).status, 401);

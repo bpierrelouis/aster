@@ -114,7 +114,7 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
     else if (cmd.type === 'installation') { ok = rnd() > 0.05; if (ok) p.apps.add(cmd.applicationId!); }
     else if (cmd.type === 'desinstallation') p.apps.delete(cmd.applicationId!);
     else if (cmd.type === 'reinstallation') { p.apps = new Set(IMAGE); p.session = null; p.processes.clear(); } // redémarrage : session fermée
-    return { operation: cmd.operation, poste: cmd.poste, statut: ok ? 'reussie' : 'echec' };
+    return { intervention: cmd.intervention, poste: cmd.poste, statut: ok ? 'reussie' : 'echec' };
   }
 
   async function tick() {

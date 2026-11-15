@@ -18,7 +18,7 @@ import { ago, dateMed, num, plural } from '#shared/format.ts';
 import { GroupCard, GroupGrid, PageHead, Progress } from '../../widgets/parts.tsx';
 import { openAjoutParc, openAppairage, openEtiquettes } from './recensement-sheets.tsx';
 import type { ATraiter, BilanSalle } from '../../core/recensements.ts';
-import type { Constat, Materiel, Recensement } from '#shared/types.ts';
+import type { Constat, Materiel, Operation } from '#shared/types.ts';
 
 const TONES = { ok: 'good', install: 'move', crit: 'bad', stock: 'stock', accent: 'pin' } as const;
 
@@ -99,17 +99,17 @@ function ConstatRow({ c }: { c: Constat }) {
   </div></li>;
 }
 
-async function cloturer(r: Recensement) {
+async function cloturer(r: Operation) {
   if (!await confirmSheet({ title: 'Clôturer le recensement', message: `Les téléphones appairés à « ${r.nom} » ne pourront plus envoyer de constats. Un recensement clos ne peut pas être rouvert.`, confirm: 'Clôturer', iconName: 'check' })) return;
   try {
-    store.update('data', (s) => { s.recensements.find((x) => x.id === r.id)!.close = traceProvisoire(); });
+    store.update('data', (s) => { s.operations.find((x) => x.id === r.id)!.close = traceProvisoire(); });
     await store.flush();
     notify('Recensement clos', { icon: 'clipboardCheck' });
   } catch (error) { notify((error as Error).message, { tone: 'danger' }); }
 }
 
 export function Bilan({ id }: { id: string }) {
-  const r = store.state.recensements.find((x) => x.id === id);
+  const r = store.state.operations.find((x) => x.id === id);
   if (!r || estInstallation(r)) return <Navigate to="/materiels/recensement" replace />;
   const b = bilan(r);
   const enCours = ouverte(r);

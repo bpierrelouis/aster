@@ -15,7 +15,7 @@ import type { Actor } from '#shared/types.ts';
 import type { HttpError } from '../domaine/commun.ts';
 import type { Engine } from '../persistance/engine.ts';
 
-/** Recensement mobile : secret des campagnes et adresse publique de l'application mobile (relais), null si non configurée */
+/** Recensement mobile : secret des opérations et adresse publique de l'application mobile (relais), null si non configurée */
 export interface RigelConfig { secret: string; url: string | null }
 
 /** actor : fonction (req) => utilisateur agissant, ou null sans session valide ; agentToken : secret des postes. */
@@ -60,7 +60,7 @@ export function createWorkspaceRouter({ repository, actor, agentToken, rigel }: 
     } catch (e) { next(e); }
   });
   // Adresse d'appairage d'un téléphone à un recensement (QR affiché par ORION)
-  router.get('/recensements/:id/appairage', async (req, res, next) => {
+  router.get('/operations/:id/appairage', async (req, res, next) => {
     try { res.json(await repository.rigel.appairage(res.locals.actor, req.params.id, rigel)); } catch (e) { next(e); }
   });
   // Installation d'une salle avec RIGEL (gestionnaire) : lancée ou reprise, adresse d'appairage du téléphone
@@ -123,7 +123,7 @@ export function createAgentRouter({ repository, token }: { repository: Engine; t
       assert(Array.isArray(resultats) && resultats.length <= 5000, 'Résultats invalides.');
       if (!own(res, resultats)) return res.status(403).json({ error: 'Un poste ne rapporte que pour lui-même.' });
       await repository.agent.resultats(resultats);
-      for (const r of resultats) journal.info('intervention_resultat', { operation: r.operation, poste: r.poste, statut: r.statut });
+      for (const r of resultats) journal.info('intervention_resultat', { intervention: r.intervention, poste: r.poste, statut: r.statut });
       res.json({ ok: true });
     } catch (e) { next(e); }
   });
@@ -132,8 +132,8 @@ export function createAgentRouter({ repository, token }: { repository: Engine; t
 }
 
 /**
- * API du connecteur RIGEL, par jeton porteur (secret des campagnes) : le connecteur, sur le réseau d'ORION, publie
- * les campagnes ouvertes sur le relais et transmet les constats des téléphones. Les blocs restent chiffrés jusqu'ici.
+ * API du connecteur RIGEL, par jeton porteur (secret des opérations) : le connecteur, sur le réseau d'ORION, publie
+ * les opérations ouvertes sur le relais et transmet les constats des téléphones. Les blocs restent chiffrés jusqu'ici.
  */
 export function createRigelRouter({ repository, secret }: { repository: Engine; secret: string }) {
   const router = express.Router();
@@ -143,17 +143,17 @@ export function createRigelRouter({ repository, secret }: { repository: Engine; 
     next();
   });
   router.use(express.json({ limit: '4mb' }));
-  router.get('/campagnes', async (_req, res, next) => {
-    try { res.json({ campagnes: await repository.rigel.campagnes(secret) }); } catch (e) { next(e); }
+  router.get('/operations', async (_req, res, next) => {
+    try { res.json({ operations: await repository.rigel.operations(secret) }); } catch (e) { next(e); }
   });
-  router.post('/campagnes/:id/evenements', async (req, res, next) => {
+  router.post('/operations/:id/evenements', async (req, res, next) => {
     try {
       const evenements = req.body?.evenements;
       assert(Array.isArray(evenements) && evenements.length <= 1000 && evenements.every((x) => x && typeof x.id === 'string' && blocEvenementValide(x.bloc)), 'Événements invalides.');
       const resultats = await repository.rigel.evenements(secret, req.params.id, evenements);
       const statuts: Record<string, number> = {};
       for (const r of resultats) statuts[r.statut] = (statuts[r.statut] ?? 0) + 1;
-      journal.info('rigel_constats', { campagne: req.params.id, ...statuts });
+      journal.info('rigel_constats', { operation: req.params.id, ...statuts });
       res.json({ resultats });
     } catch (e) { next(e); }
   });

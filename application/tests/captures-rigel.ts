@@ -86,7 +86,7 @@ try {
   const salle = (nom: string) => data.salles.find((s) => s.nom === nom)!.id;
 
   // Recensement du bâtiment A, lancé par le gestionnaire s'il n'est pas déjà ouvert
-  const ouvert = () => data.recensements.find((r) => r.nom === NOM && !r.close && r.expireLe > Date.now());
+  const ouvert = () => data.operations.find((r) => r.nom === NOM && !r.close && r.expireLe > Date.now());
   if (!ouvert()) {
     await orion.goto(`${ORION}/materiels/recensement`);
     await orion.getByRole('button', { name: 'Nouveau recensement' }).click();
@@ -99,7 +99,7 @@ try {
     data = await api<WorkspaceView>('/api/workspace');
   }
   const recensement = ouvert()!;
-  const { url } = await api<{ url: string }>(`/api/workspace/recensements/${encodeURIComponent(recensement.id)}/appairage`);
+  const { url } = await api<{ url: string }>(`/api/workspace/operations/${encodeURIComponent(recensement.id)}/appairage`);
 
   // Téléphone neuf : appairage, puis appairé au recensement (instantané publié par le connecteur)
   await mobile.goto(`${RIGEL}/`);

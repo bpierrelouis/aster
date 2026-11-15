@@ -3,7 +3,7 @@
    - Une migration par fichier migrations/NNNN-description.sql, jamais
      modifiée une fois publiée : toute évolution du schéma en ajoute une.
    - Chaque migration s'exécute dans sa propre transaction, dans le schéma
-     de l'espace (search_path), puis est inscrite dans orion_migration.
+     de l'espace (search_path), puis est inscrite dans la table migration.
    - Appelée au démarrage sous le verrou d'initialisation (postgres.ts) :
      un seul serveur applique les migrations, la base n'est jamais
      réinitialisée.
@@ -21,16 +21,22 @@ export const MIGRATIONS = readdirSync(DOSSIER).filter((f) => /^\d{4}-[a-z0-9-]+\
 
 /** Applique les migrations manquantes au schéma s ; renvoie les versions appliquées. */
 export async function migrer(db: PoolClient, s: string) {
+  // Suivi des migrations : orion_migration avant le 15 novembre, renommée sans perdre l'historique
   await db.query(`CREATE SCHEMA IF NOT EXISTS ${s};
-    CREATE TABLE IF NOT EXISTS ${s}.orion_migration (version integer PRIMARY KEY, nom text NOT NULL, appliquee_le timestamptz NOT NULL DEFAULT now())`);
-  const faites = new Set((await db.query<{ version: number }>(`SELECT version FROM ${s}.orion_migration`)).rows.map((r) => r.version));
+    DO $$ BEGIN
+      IF to_regclass('${s}.orion_migration') IS NOT NULL AND to_regclass('${s}.migration') IS NULL THEN
+        ALTER TABLE ${s}.orion_migration RENAME TO migration;
+      END IF;
+    END $$;
+    CREATE TABLE IF NOT EXISTS ${s}.migration (version integer PRIMARY KEY, nom text NOT NULL, appliquee_le timestamptz NOT NULL DEFAULT now())`);
+  const faites = new Set((await db.query<{ version: number }>(`SELECT version FROM ${s}.migration`)).rows.map((r) => r.version));
   const appliquees: number[] = [];
   for (const m of MIGRATIONS.filter((x) => !faites.has(x.version))) {
     await db.query('BEGIN');
     try {
       await db.query(`SET LOCAL search_path TO ${s}`);
       await db.query(m.sql);
-      await db.query(`INSERT INTO ${s}.orion_migration (version, nom) VALUES ($1, $2)`, [m.version, m.nom]);
+      await db.query(`INSERT INTO ${s}.migration (version, nom) VALUES ($1, $2)`, [m.version, m.nom]);
       await db.query('COMMIT');
     } catch (error) {
       await db.query('ROLLBACK').catch(() => {});

@@ -9,8 +9,8 @@
 
 import { DAY, HOUR } from '#shared/format.ts';
 import { numeroMateriel, numeroRemontee } from '#shared/catalog.ts';
-import { IMAGE_REFERENCE } from '#shared/operations-data.ts';
-import type { Compte, DeviceTypeId, Detection, EtapeRemontee, Id, InterventionType, Materiel, Operation, Poste, ProblemId, Remontee, RemonteeStatut, Salle, WorkspaceState } from '#shared/types.ts';
+import { IMAGE_REFERENCE } from '#shared/referentiels.ts';
+import type { Compte, DeviceTypeId, Detection, EtapeRemontee, Id, InterventionType, Materiel, Intervention, Poste, ProblemId, Remontee, RemonteeStatut, Salle, WorkspaceState } from '#shared/types.ts';
 
 /** Générateur pseudo-aléatoire reproductible (mulberry32) */
 export function prng(seed: number) {
@@ -24,7 +24,7 @@ export function prng(seed: number) {
 }
 
 /** Version du jeu de démonstration : à incrémenter quand sa forme change ; une base chargée d'une autre version est rechargée (charger.ts, --reinitialiser). */
-export const SEED_VERSION = 21;
+export const SEED_VERSION = 22;
 
 /**
  * Comptes ORION de départ : profil et école de rattachement de chaque personne.
@@ -271,7 +271,7 @@ export function seed(now = Date.now()) {
     remontees,
     comptes,
     detections: [] as Detection[], // alimentées par les rapports des postes
-    operations: interventionsDeDepart(postes, salles, comptes, now),
+    interventions: interventionsDeDepart(postes, salles, comptes, now),
     seededAt: now,
   };
 }
@@ -306,7 +306,7 @@ const SIMULATION: {
 
 function interventionsDeDepart(postes: Poste[], salles: Salle[], comptes: Compte[], now: number) {
   const admin = comptes.find((c) => c.id === 'cpt-num-admin')!;
-  return SIMULATION.interventions.map(({ salle, poste, heures, ...x }, i): Operation => {
+  return SIMULATION.interventions.map(({ salle, poste, heures, ...x }, i): Intervention => {
     const s = salle ? salles.find((y) => y.ecoleId === admin.ecoleId && y.nom === salle) : undefined;
     const cibles = s ? postes.filter((p) => p.salleId === s.id).map((p) => p.id) : [postes.find((p) => p.nomReseau === poste)!.id];
     return {

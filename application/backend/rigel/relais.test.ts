@@ -28,19 +28,19 @@ async function scenario(store: RelaisStore) {
   const telephone = { Authorization: `Bearer ${JETON}`, 'Content-Type': 'application/json' };
   try {
     assert.deepEqual(await (await fetch(`${url}/api/health`)).json(), { status: 'ok' });
-    assert.equal((await fetch(`${url}/api/connecteur/campagnes`)).status, 401);
-    assert.equal((await fetch(`${url}/api/connecteur/campagnes`, { headers: { Authorization: 'Bearer faux' } })).status, 401);
+    assert.equal((await fetch(`${url}/api/connecteur/operations`)).status, 401);
+    assert.equal((await fetch(`${url}/api/connecteur/operations`, { headers: { Authorization: 'Bearer faux' } })).status, 401);
     const depot = { empreinte: await empreinte(JETON), expireLe: Date.now() + 60_000, version: 'v1', instantane: bloc };
-    assert.equal((await fetch(`${url}/api/connecteur/campagnes/rec-1`, { method: 'PUT', headers: connecteur, body: JSON.stringify(depot) })).status, 204);
-    assert.equal((await fetch(`${url}/api/connecteur/campagnes/rec-1`, { method: 'PUT', headers: connecteur, body: JSON.stringify({ ...depot, empreinte: 'x' }) })).status, 400);
-    assert.deepEqual((await (await fetch(`${url}/api/connecteur/campagnes`, { headers: connecteur })).json()).campagnes, [{ id: 'rec-1', version: 'v1', expireLe: depot.expireLe }]);
+    assert.equal((await fetch(`${url}/api/connecteur/operations/rec-1`, { method: 'PUT', headers: connecteur, body: JSON.stringify(depot) })).status, 204);
+    assert.equal((await fetch(`${url}/api/connecteur/operations/rec-1`, { method: 'PUT', headers: connecteur, body: JSON.stringify({ ...depot, empreinte: 'x' }) })).status, 400);
+    assert.deepEqual((await (await fetch(`${url}/api/connecteur/operations`, { headers: connecteur })).json()).operations, [{ id: 'rec-1', version: 'v1', expireLe: depot.expireLe }]);
 
-    // Téléphone : jeton de sa campagne seulement
-    assert.equal((await fetch(`${url}/api/campagnes/rec-1/instantane`)).status, 401);
-    assert.equal((await fetch(`${url}/api/campagnes/rec-1/instantane`, { headers: { Authorization: `Bearer ${TOKEN}` } })).status, 401, 'le secret du connecteur n’ouvre pas une campagne');
-    assert.equal((await fetch(`${url}/api/campagnes/rec-2/instantane`, { headers: telephone })).status, 401, 'opération inconnue : même refus qu’un jeton faux');
-    assert.deepEqual(await (await fetch(`${url}/api/campagnes/rec-1/instantane`, { headers: telephone })).json(), { version: 'v1', instantane: bloc });
-    const envoi = (evenements: unknown) => fetch(`${url}/api/campagnes/rec-1/evenements`, { method: 'POST', headers: telephone, body: JSON.stringify({ evenements }) });
+    // Téléphone : jeton de son opération seulement
+    assert.equal((await fetch(`${url}/api/operations/rec-1/instantane`)).status, 401);
+    assert.equal((await fetch(`${url}/api/operations/rec-1/instantane`, { headers: { Authorization: `Bearer ${TOKEN}` } })).status, 401, 'le secret du connecteur n’ouvre pas une opération');
+    assert.equal((await fetch(`${url}/api/operations/rec-2/instantane`, { headers: telephone })).status, 401, 'opération inconnue : même refus qu’un jeton faux');
+    assert.deepEqual(await (await fetch(`${url}/api/operations/rec-1/instantane`, { headers: telephone })).json(), { version: 'v1', instantane: bloc });
+    const envoi = (evenements: unknown) => fetch(`${url}/api/operations/rec-1/evenements`, { method: 'POST', headers: telephone, body: JSON.stringify({ evenements }) });
     assert.equal((await envoi([{ id: 'court', bloc }])).status, 400);
     assert.equal((await envoi([{ id: 'evenement-gros', bloc: { iv: bloc.iv, data: 'x'.repeat(BLOC_EVENEMENT_MAX + 1) } }])).status, 400, 'bloc d’événement trop gros');
     assert.equal((await envoi([{ id: 'evenement-unicode', bloc: { iv: bloc.iv, data: '€'.repeat(100) } }])).status, 400, 'bloc hors base64url (plusieurs octets par caractère)');
@@ -50,24 +50,24 @@ async function scenario(store: RelaisStore) {
     assert.equal(await store.enAttente('rec-1'), 2);
 
     // Connecteur : relève, idempotence, acquittement ; une nouvelle version conserve les événements
-    await fetch(`${url}/api/connecteur/campagnes/rec-1`, { method: 'PUT', headers: connecteur, body: JSON.stringify({ ...depot, version: 'v2' }) });
-    const { evenements } = await (await fetch(`${url}/api/connecteur/campagnes/rec-1/evenements`, { headers: connecteur })).json();
+    await fetch(`${url}/api/connecteur/operations/rec-1`, { method: 'PUT', headers: connecteur, body: JSON.stringify({ ...depot, version: 'v2' }) });
+    const { evenements } = await (await fetch(`${url}/api/connecteur/operations/rec-1/evenements`, { headers: connecteur })).json();
     assert.deepEqual(evenements.map((e: { id: string }) => e.id), ['evenement-1', 'evenement-2']);
-    assert.equal((await fetch(`${url}/api/connecteur/campagnes/rec-1/acquittement`, { method: 'POST', headers: connecteur, body: JSON.stringify({ jusqua: evenements[0].rang }) })).status, 204);
-    assert.deepEqual((await (await fetch(`${url}/api/connecteur/campagnes/rec-1/evenements`, { headers: connecteur })).json()).evenements.map((e: { id: string }) => e.id), ['evenement-2']);
+    assert.equal((await fetch(`${url}/api/connecteur/operations/rec-1/acquittement`, { method: 'POST', headers: connecteur, body: JSON.stringify({ jusqua: evenements[0].rang }) })).status, 204);
+    assert.deepEqual((await (await fetch(`${url}/api/connecteur/operations/rec-1/evenements`, { headers: connecteur })).json()).evenements.map((e: { id: string }) => e.id), ['evenement-2']);
 
     // Suppression et expiration
-    assert.equal((await fetch(`${url}/api/connecteur/campagnes/rec-1`, { method: 'DELETE', headers: connecteur })).status, 204);
-    assert.equal((await fetch(`${url}/api/campagnes/rec-1/instantane`, { headers: telephone })).status, 401);
+    assert.equal((await fetch(`${url}/api/connecteur/operations/rec-1`, { method: 'DELETE', headers: connecteur })).status, 204);
+    assert.equal((await fetch(`${url}/api/operations/rec-1/instantane`, { headers: telephone })).status, 401);
     assert.deepEqual((await store.evenements('rec-1', 10)), []);
-    await fetch(`${url}/api/connecteur/campagnes/rec-3`, { method: 'PUT', headers: connecteur, body: JSON.stringify({ ...depot, expireLe: Date.now() - 1 }) });
-    assert.equal((await fetch(`${url}/api/campagnes/rec-3/instantane`, { headers: telephone })).status, 401, 'campagne expirée');
+    await fetch(`${url}/api/connecteur/operations/rec-3`, { method: 'PUT', headers: connecteur, body: JSON.stringify({ ...depot, expireLe: Date.now() - 1 }) });
+    assert.equal((await fetch(`${url}/api/operations/rec-3/instantane`, { headers: telephone })).status, 401, 'opération expirée');
     await store.purger();
-    assert.deepEqual(await store.campagnes(), []);
+    assert.deepEqual(await store.operations(), []);
   } finally { server.close(); }
 }
 
-test('relais : authentification, campagnes, événements idempotents, acquittement, suppression, purge (mémoire)', () => scenario(createMemoryStore()));
+test('relais : authentification, operations, événements idempotents, acquittement, suppression, purge (mémoire)', () => scenario(createMemoryStore()));
 
 test('relais : application mobile, adresses de l’interface et en-têtes de sécurité', async () => {
   const dist = await mkdtemp(join(tmpdir(), 'rigel-dist-'));

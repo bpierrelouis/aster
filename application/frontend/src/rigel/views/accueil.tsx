@@ -9,15 +9,15 @@ export function Accueil() {
   const { etat } = useRigel();
   useTitre(etat.appairage ? 'Accueil' : 'Appairage');
   if (!etat.appairage) return <Appairage />;
-  const campagne = etat.instantane?.campagne;
+  const operation = etat.instantane?.operation;
   const synchro = etatSynchro(etat);
   return <div className="ecran ecran--accueil">
     <header className="accueil-entete"><Marque /></header>
     <main className="contenu">
-      <section className="carte campagne" aria-label={campagne?.mode === 'installation' ? 'Installation' : 'Recensement'}>
-        <p className="surtitre">{campagne ? `${campagne.mode === 'installation' ? 'Installation' : 'Recensement'} · ${campagne.ecole}` : 'RIGEL'}</p>
-        <h1>{campagne?.nom ?? 'Chargement…'}</h1>
-        {campagne && <p className="discret">Jusqu’au {dateShort(campagne.expireLe)}</p>}
+      <section className="carte operation" aria-label={operation?.mode === 'installation' ? 'Installation' : 'Recensement'}>
+        <p className="surtitre">{operation ? `${operation.mode === 'installation' ? 'Installation' : 'Recensement'} · ${operation.ecole}` : 'RIGEL'}</p>
+        <h1>{operation?.nom ?? 'Chargement…'}</h1>
+        {operation && <p className="discret">Jusqu’au {dateShort(operation.expireLe)}</p>}
         <Link className="synchro" to="/synchronisation" aria-label={`Synchronisation : ${synchro.texte}`}>
           <Pastille ton={synchro.ton} icone={synchro.icone}>{synchro.texte}</Pastille>
           <Icon name="chevR" size={18} />
@@ -40,7 +40,7 @@ export function Accueil() {
   </div>;
 }
 
-/** Téléphone sans campagne : appairage par le QR affiché dans ORION */
+/** Téléphone sans operation : appairage par le QR affiché dans ORION */
 function Appairage() {
   return <div className="ecran ecran--appairage">
     <main className="contenu appairage">

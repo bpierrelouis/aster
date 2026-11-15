@@ -2,7 +2,7 @@
    RIGEL · connecteur, sur le réseau d'ORION : seul lien entre ORION et le
    relais, par des requêtes sortantes uniquement (aucun port entrant).
    À chaque cycle :
-   1. lit les campagnes ouvertes d'ORION (/api/rigel/campagnes, instantanés
+   1. lit les opérations ouvertes d'ORION (/api/rigel/operations, instantanés
       déjà chiffrés par ORION) ;
    2. publie sur le relais celles dont la version a changé, supprime celles
       qu'ORION ne publie plus (closes ou expirées) ;
@@ -18,14 +18,14 @@
    ========================================================================== */
 
 import { fileURLToPath } from 'node:url';
-import type { Bloc, CampagnePubliee, ResultatRigel } from '#shared/rigel.ts';
+import type { Bloc, OperationPubliee, ResultatRigel } from '#shared/rigel.ts';
 import { journal, raison } from '../journal.ts';
 import { environnement } from '../secrets.ts';
 
 type Fetch = typeof fetch;
 
 export function createConnecteur({ orion, secret, relais, token, fetch: http = fetch }: { orion: string; secret: string; relais: string; token: string; fetch?: Fetch }) {
-  const publiees = new Map<string, string>(); // campagne → version déposée sur le relais
+  const publiees = new Map<string, string>(); // operation → version déposée sur le relais
 
   async function appel<T>(base: string, jeton: string, chemin: string, init: { method?: string; body?: unknown } = {}): Promise<T> {
     const response = await http(`${base.replace(/\/+$/, '')}${chemin}`, {
@@ -45,22 +45,22 @@ export function createConnecteur({ orion, secret, relais, token, fetch: http = f
 
   /** Un cycle complet ; renvoie le nombre d'événements intégrés par ORION */
   async function cycle() {
-    const { campagnes } = await versOrion<{ campagnes: CampagnePubliee[] }>('/campagnes');
-    const { campagnes: surRelais } = await versRelais<{ campagnes: { id: string; version: string }[] }>('/campagnes');
-    const ouvertes = new Set(campagnes.map((c) => c.id));
+    const { operations } = await versOrion<{ operations: OperationPubliee[] }>('/operations');
+    const { operations: surRelais } = await versRelais<{ operations: { id: string; version: string }[] }>('/operations');
+    const ouvertes = new Set(operations.map((c) => c.id));
     for (const c of surRelais) publiees.set(c.id, c.version);
     for (const c of surRelais.filter((x) => !ouvertes.has(x.id))) {
-      await versRelais(`/campagnes/${encodeURIComponent(c.id)}`, { method: 'DELETE' });
+      await versRelais(`/operations/${encodeURIComponent(c.id)}`, { method: 'DELETE' });
       publiees.delete(c.id);
     }
-    for (const c of campagnes.filter((x) => publiees.get(x.id) !== x.version)) {
-      await versRelais(`/campagnes/${encodeURIComponent(c.id)}`, { method: 'PUT', body: { empreinte: c.empreinte, expireLe: c.expireLe, version: c.version, instantane: c.instantane } });
+    for (const c of operations.filter((x) => publiees.get(x.id) !== x.version)) {
+      await versRelais(`/operations/${encodeURIComponent(c.id)}`, { method: 'PUT', body: { empreinte: c.empreinte, expireLe: c.expireLe, version: c.version, instantane: c.instantane } });
       publiees.set(c.id, c.version);
     }
     let integres = 0;
     // Chaque opération à part : une opération en erreur n'empêche pas d'intégrer les constats des autres
-    for (const c of campagnes) {
-      const chemin = `/campagnes/${encodeURIComponent(c.id)}`;
+    for (const c of operations) {
+      const chemin = `/operations/${encodeURIComponent(c.id)}`;
       try {
         // 200 événements de BLOC_EVENEMENT_MAX au plus : l'envoi reste sous la taille de requête admise par ORION
         const { evenements } = await versRelais<{ evenements: { rang: number; id: string; bloc: Bloc }[] }>(`${chemin}/evenements?limite=200`);
@@ -69,7 +69,7 @@ export function createConnecteur({ orion, secret, relais, token, fetch: http = f
         for (const r of resultats.filter((x) => x.statut === 'refuse')) journal.warn('rigel_constat_refuse', { evenement: r.id, motif: r.message });
         await versRelais(`${chemin}/acquittement`, { method: 'POST', body: { jusqua: Math.max(...evenements.map((e) => e.rang)) } });
         integres += evenements.length;
-      } catch (error) { journal.error('connecteur', { campagne: c.id, erreur: raison(error) }); }
+      } catch (error) { journal.error('connecteur', { operation: c.id, erreur: raison(error) }); }
     }
     return integres;
   }

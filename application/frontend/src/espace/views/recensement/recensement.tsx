@@ -19,7 +19,7 @@ import { plural } from '#shared/format.ts';
 import { OpsEmpty, PageHead, Progress } from '../../widgets/parts.tsx';
 import { openRecensementForm } from './recensement-sheets.tsx';
 import { Bilan } from './recensement-bilan.tsx';
-import type { Recensement as Operation } from '#shared/types.ts';
+import type { Operation } from '#shared/types.ts';
 
 function RecensementCard({ r }: { r: Operation }) {
   const b = bilan(r);

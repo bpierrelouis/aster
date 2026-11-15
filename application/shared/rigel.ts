@@ -3,14 +3,13 @@
    au relais et à l'application mobile.
    - Le téléphone ne joint jamais ORION : il échange avec le relais, sur
      Internet, des blocs chiffrés que seuls ORION et le téléphone lisent.
-   - La clé d'une opération (recensement ou installation, « campagne » dans le
-     protocole) est transmise au téléphone par le QR d'appairage,
+   - La clé d'une opération (recensement ou installation) est transmise au téléphone par le QR d'appairage,
      dans le fragment de l'adresse (#…), que le navigateur n'envoie jamais.
    - Chiffrement AES-GCM 256 (Web Crypto, navigateur et Node.js) ; données
-     authentifiées : l'identifiant de la campagne.
+     authentifiées : l'identifiant de l’opération.
    ========================================================================== */
 
-import type { ConstatResultat, ConstatType, DeviceTypeId, Id, Materiel, ModeRecensement, Recensement, Timestamp } from './types.ts';
+import type { ConstatResultat, ConstatType, DeviceTypeId, Id, Materiel, TypeOperation, Operation, Timestamp } from './types.ts';
 
 /* ---------- Échanges ---------- */
 
@@ -48,8 +47,8 @@ export interface ConstatRigel { id: Id; materielId: Id | null; salleId: Id | nul
 
 /** Instantané d'une opération : ce que le téléphone consulte hors ligne */
 export interface InstantaneRigel {
-  campagne: { id: Id; nom: string; ecole: string; mode: ModeRecensement; expireLe: Timestamp };
-  /** Salles de la campagne, dans l'ordre d'affichage */
+  operation: { id: Id; nom: string; ecole: string; mode: TypeOperation; expireLe: Timestamp };
+  /** Salles de l’opération, dans l'ordre d'affichage */
   salles: SalleRigel[];
   /** Matériels de l'école */
   materiels: MaterielRigel[];
@@ -60,10 +59,10 @@ export interface InstantaneRigel {
 export interface ResultatRigel { id: string; statut: 'applique' | 'doublon' | 'refuse'; message?: string }
 
 /** Opération publiée par ORION pour le connecteur */
-export interface CampagnePubliee { id: Id; expireLe: Timestamp; empreinte: string; version: string; instantane: Bloc }
+export interface OperationPubliee { id: Id; expireLe: Timestamp; empreinte: string; version: string; instantane: Bloc }
 
-/** Accès d'un téléphone à une campagne, lu dans le fragment du QR d'appairage */
-export interface Appairage { campagne: Id; jeton: string; cle: string }
+/** Accès d'un téléphone à une opération, lu dans le fragment du QR d'appairage */
+export interface Appairage { operation: Id; jeton: string; cle: string }
 
 /* ---------- Libellés ---------- */
 
@@ -81,21 +80,21 @@ export const RESULTATS: Record<ConstatResultat, { label: string; icon: string; t
 };
 
 /** Durée d'ouverture d'un recensement ou d'une installation */
-export const DUREE_CAMPAGNE = 14 * 24 * 60 * 60 * 1000;
+export const DUREE_OPERATION = 14 * 24 * 60 * 60 * 1000;
 
 /* ---------- Opérations : recensement ou installation d'une salle ---------- */
 
 /** Opération en cours : ni close, ni expirée */
-export const ouverte = (r: Pick<Recensement, 'close' | 'expireLe'>, now = Date.now()) => !r.close && r.expireLe > now;
+export const ouverte = (r: Pick<Operation, 'close' | 'expireLe'>, now = Date.now()) => !r.close && r.expireLe > now;
 /** Installation d'une salle ; toute autre opération (dont une ancienne opération « installation » sur plusieurs salles) est un recensement */
-export const estInstallation = (r: Pick<Recensement, 'mode' | 'salleIds'>) => r.mode === 'installation' && r.salleIds.length === 1;
+export const estInstallation = (r: Pick<Operation, 'mode' | 'salleIds'>) => r.mode === 'installation' && r.salleIds.length === 1;
 /** Matériel en cours de déplacement vers la salle ou depuis elle */
 export const aDeplacer = (m: Pick<Materiel, 'deplacement' | 'salleId'>, salleId: Id) => Boolean(m.deplacement) && (m.salleId === salleId || m.deplacement!.de === salleId);
 /** Installation en cours d'une salle */
-export const installationDe = <R extends Recensement>(operations: readonly R[], salleId: Id, now = Date.now()) =>
+export const installationDe = <R extends Operation>(operations: readonly R[], salleId: Id, now = Date.now()) =>
   operations.find((r) => estInstallation(r) && r.salleIds[0] === salleId && ouverte(r, now));
 /** Recensement en cours qui couvre une salle, la plus récente d'abord */
-export const recensementDe = <R extends Recensement>(operations: readonly R[], salle: { id: Id; ecoleId: Id }, now = Date.now()) =>
+export const recensementDe = <R extends Operation>(operations: readonly R[], salle: { id: Id; ecoleId: Id }, now = Date.now()) =>
   operations.filter((r) => !estInstallation(r) && ouverte(r, now) && r.ecoleId === salle.ecoleId && (!r.salleIds.length || r.salleIds.includes(salle.id)))
     .sort((a, b) => b.at - a.at)[0];
 
@@ -108,15 +107,15 @@ export const etiquette = {
   materiel: (idOrion: string) => `ORION:MAT:${idOrion}`,
 };
 
-/** Adresse d'appairage : application mobile, campagne, jeton et clé dans le fragment */
-export const adresseAppairage = (base: string, a: Appairage) => `${base.replace(/\/+$/, '')}/#${new URLSearchParams({ c: a.campagne, j: a.jeton, k: a.cle })}`;
+/** Adresse d'appairage : application mobile, operation, jeton et clé dans le fragment */
+export const adresseAppairage = (base: string, a: Appairage) => `${base.replace(/\/+$/, '')}/#${new URLSearchParams({ c: a.operation, j: a.jeton, k: a.cle })}`;
 
 /** Appairage lu dans une adresse (ou son seul fragment) ; null si incomplet */
 export function lireAppairage(valeur: string): Appairage | null {
   const fragment = valeur.slice(valeur.indexOf('#') + 1);
   const p = new URLSearchParams(fragment);
-  const [campagne, jeton, cle] = [p.get('c'), p.get('j'), p.get('k')];
-  return campagne && jeton && cle && /^[\w-]{1,80}$/.test(campagne) ? { campagne, jeton, cle } : null;
+  const [operation, jeton, cle] = [p.get('c'), p.get('j'), p.get('k')];
+  return operation && jeton && cle && /^[\w-]{1,80}$/.test(operation) ? { operation, jeton, cle } : null;
 }
 
 /* ---------- Résolution d'un code lu ---------- */
@@ -306,17 +305,17 @@ export const blocEvenementValide = (b: unknown): b is Bloc => {
   return typeof iv === 'string' && typeof data === 'string' && iv.length < 64 && data.length <= BLOC_EVENEMENT_MAX && BASE64URL.test(iv) && BASE64URL.test(data);
 };
 
-/** Chiffre une valeur JSON ; campagne : identifiant authentifié avec le bloc */
-export async function chiffrer(cle: string, campagne: string, valeur: unknown): Promise<Bloc> {
+/** Chiffre une valeur JSON ; operation : identifiant authentifié avec le bloc */
+export async function chiffrer(cle: string, operation: string, valeur: unknown): Promise<Bloc> {
   const iv = crypto.getRandomValues(new Uint8Array(12));
-  const data = await crypto.subtle.encrypt({ name: 'AES-GCM', iv, additionalData: texte.encode(campagne) }, await cleAes(cle), texte.encode(JSON.stringify(valeur)));
+  const data = await crypto.subtle.encrypt({ name: 'AES-GCM', iv, additionalData: texte.encode(operation) }, await cleAes(cle), texte.encode(JSON.stringify(valeur)));
   return { iv: versBase64url(iv), data: versBase64url(new Uint8Array(data)) };
 }
 
-/** Déchiffre un bloc de la campagne ; une erreur si la clé, la campagne ou le contenu ne correspondent pas */
-export async function dechiffrer<T>(cle: string, campagne: string, bloc: Bloc): Promise<T> {
+/** Déchiffre un bloc de l’opération ; une erreur si la clé, l’opération ou le contenu ne correspondent pas */
+export async function dechiffrer<T>(cle: string, operation: string, bloc: Bloc): Promise<T> {
   if (!bloc || typeof bloc.iv !== 'string' || typeof bloc.data !== 'string') throw new Error('Bloc invalide.');
-  const clair = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: depuisBase64url(bloc.iv), additionalData: texte.encode(campagne) }, await cleAes(cle), depuisBase64url(bloc.data));
+  const clair = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: depuisBase64url(bloc.iv), additionalData: texte.encode(operation) }, await cleAes(cle), depuisBase64url(bloc.data));
   return JSON.parse(lecture.decode(clair)) as T;
 }
 

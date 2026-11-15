@@ -1,7 +1,7 @@
 /* ==========================================================================
    Domaine · recensement mobile (RIGEL)
-   - Opérations RIGEL (collection recensements, nommée « campagne » dans le
-     protocole du relais) : recensement ou installation d'une salle, lancés
+   - Opérations RIGEL (collection operations) : recensement ou installation
+     d'une salle, lancés
      par un gestionnaire ; RIGEL lui est réservé (ticket #156) : les
      administrateurs suivent en lecture.
    - Constats : produits par les téléphones, transmis chiffrés par le relais
@@ -27,17 +27,17 @@
 
 import { createHmac } from 'node:crypto';
 import { DEVICE_TYPES, numeroMateriel, rangDuNumero } from '#shared/catalog.ts';
-import { DUREE_CAMPAGNE, aDeplacer, adresseAppairage, chiffrer, compact, dechiffrer, empreinte, estInstallation, installationDe, ouverte, parSerie } from '#shared/rigel.ts';
+import { DUREE_OPERATION, aDeplacer, adresseAppairage, chiffrer, compact, dechiffrer, empreinte, estInstallation, installationDe, ouverte, parSerie } from '#shared/rigel.ts';
 import { assert, fail, id as identifiant, same, seulsModifies } from './commun.ts';
 import { journal, raison } from '../journal.ts';
-import type { ActionConstat, Actor, Constat, Id, Materiel, Recensement, WorkspaceState } from '#shared/types.ts';
-import type { Bloc, CampagnePubliee, EvenementRigel, InstantaneRigel, ResultatRigel } from '#shared/rigel.ts';
+import type { ActionConstat, Actor, Constat, Id, Materiel, Operation, WorkspaceState } from '#shared/types.ts';
+import type { Bloc, OperationPubliee, EvenementRigel, InstantaneRigel, ResultatRigel } from '#shared/rigel.ts';
 import type { LooseItem } from './commun.ts';
 
 export { ouverte };
 
 /** Salles d'une opération : celles qu'elle désigne, sinon toutes les salles de l'école */
-export const sallesDe = (state: Pick<WorkspaceState, 'salles'>, r: Pick<Recensement, 'ecoleId' | 'salleIds'>) =>
+export const sallesDe = (state: Pick<WorkspaceState, 'salles'>, r: Pick<Operation, 'ecoleId' | 'salleIds'>) =>
   state.salles.filter((s) => s.ecoleId === r.ecoleId && (!r.salleIds.length || r.salleIds.includes(s.id)));
 
 /* ---------- Écritures des utilisateurs (appelées par mergeState) ---------- */
@@ -46,7 +46,7 @@ export const sallesDe = (state: Pick<WorkspaceState, 'salles'>, r: Pick<Recensem
 const reserve = (actor: Actor) => { if (actor.role !== 'gestionnaire') fail(403, 'Recensement réservé au gestionnaire.'); };
 
 /** Lancement ou clôture d'un recensement ; x : élément proposé, old : élément enregistré */
-export function regleRecensement(x: LooseItem, old: LooseItem | undefined, state: WorkspaceState, actor: Actor, now: number) {
+export function regleOperation(x: LooseItem, old: LooseItem | undefined, state: WorkspaceState, actor: Actor, now: number) {
   reserve(actor);
   if (!old) {
     assert(typeof x.nom === 'string' && x.nom.trim() && x.nom.length <= 120, 'Nom du recensement obligatoire.');
@@ -56,7 +56,7 @@ export function regleRecensement(x: LooseItem, old: LooseItem | undefined, state
     x.mode = 'recensement';
     assert(Array.isArray(x.salleIds) && x.salleIds.length <= 2000 && new Set(x.salleIds).size === x.salleIds.length, 'Salles invalides.');
     assert(x.salleIds.every((sid) => state.salles.some((s) => s.id === sid && s.ecoleId === x.ecoleId)), 'Salle inconnue ou hors école.');
-    Object.assign(x, { at: now, par: actor.nom, parId: actor.id, expireLe: now + DUREE_CAMPAGNE });
+    Object.assign(x, { at: now, par: actor.nom, parId: actor.id, expireLe: now + DUREE_OPERATION });
     delete x.close;
     return;
   }
@@ -64,7 +64,7 @@ export function regleRecensement(x: LooseItem, old: LooseItem | undefined, state
   if (old.close) assert(same(old.close, x.close), 'Un recensement clos ne peut pas être rouvert.');
   // Une installation se clôt d'elle-même, quand plus aucun déplacement ne concerne sa salle (cloreInstallations)
   else if (x.close) {
-    assert(!estInstallation(old as Recensement), 'Une installation se clôt d’elle-même.');
+    assert(!estInstallation(old as Operation), 'Une installation se clôt d’elle-même.');
     x.close = { at: now, par: actor.nom, parId: actor.id };
   }
 }
@@ -117,11 +117,11 @@ export function lancerInstallation(s: WorkspaceState, actor: Actor, salleId: Id,
   reserve(actor);
   const salle = s.salles.find((x) => x.id === salleId && x.ecoleId === actor.ecoleId);
   if (!salle) fail(404, 'Salle introuvable.');
-  const existante = installationDe(s.recensements, salleId, now);
+  const existante = installationDe(s.operations, salleId, now);
   if (existante) return existante;
   if (!s.materiels.some((m) => aDeplacer(m, salleId))) fail(400, 'Aucun déplacement en cours pour cette salle.');
-  const r: Recensement = { id: identifiant('ins'), ecoleId: salle.ecoleId, nom: `Installation de ${salle.nom}`, mode: 'installation', salleIds: [salleId], at: now, par: actor.nom, parId: actor.id, expireLe: now + DUREE_CAMPAGNE };
-  s.recensements.push(r);
+  const r: Operation = { id: identifiant('ins'), ecoleId: salle.ecoleId, nom: `Installation de ${salle.nom}`, mode: 'installation', salleIds: [salleId], at: now, par: actor.nom, parId: actor.id, expireLe: now + DUREE_OPERATION };
+  s.operations.push(r);
   return r;
 }
 
@@ -130,7 +130,7 @@ export function lancerInstallation(s: WorkspaceState, actor: Actor, salleId: Id,
  * au nom du gestionnaire dont la confirmation (dans ORION ou par un scan) a terminé l'installation, sinon de son lanceur.
  */
 export function cloreInstallations(s: WorkspaceState, now = Date.now()) {
-  for (const r of s.recensements) {
+  for (const r of s.operations) {
     const salleId = r.salleIds[0];
     if (!estInstallation(r) || !ouverte(r, now) || s.materiels.some((m) => aDeplacer(m, salleId))) continue;
     const derniere = s.materiels.flatMap((m) => (m.installation && m.installation.at >= r.at && (m.salleId === salleId || m.installation.de === salleId) ? [m.installation] : []))
@@ -143,18 +143,18 @@ export function cloreInstallations(s: WorkspaceState, now = Date.now()) {
 
 const derive = (secret: string, usage: string, id: Id) => createHmac('sha256', secret).update(`${usage}:${id}`).digest('base64url');
 /** Clé AES-256 de l'opération (base64url) */
-export const cleCampagne = (secret: string, id: Id) => derive(secret, 'cle', id);
+export const cleOperation = (secret: string, id: Id) => derive(secret, 'cle', id);
 /** Jeton du téléphone auprès du relais ; le relais n'en connaît que l'empreinte */
-export const jetonCampagne = (secret: string, id: Id) => derive(secret, 'jeton', id);
+export const jetonOperation = (secret: string, id: Id) => derive(secret, 'jeton', id);
 
 /** Adresse d'appairage d'une opération en cours du périmètre du compte */
 export function appairage(state: WorkspaceState, actor: Actor, id: Id, { secret, url }: { secret: string; url: string | null }) {
   reserve(actor);
-  const r = state.recensements.find((x) => x.id === id && x.ecoleId === actor.ecoleId);
+  const r = state.operations.find((x) => x.id === id && x.ecoleId === actor.ecoleId);
   if (!r) fail(404, 'Opération introuvable.');
   if (!ouverte(r)) fail(400, 'Cette opération est close.');
   if (!url) fail(503, 'L’application mobile n’est pas configurée.');
-  return { url: adresseAppairage(url, { campagne: r.id, jeton: jetonCampagne(secret, r.id), cle: cleCampagne(secret, r.id) }), expireLe: r.expireLe };
+  return { url: adresseAppairage(url, { operation: r.id, jeton: jetonOperation(secret, r.id), cle: cleOperation(secret, r.id) }), expireLe: r.expireLe };
 }
 
 /* ---------- Instantané publié ---------- */
@@ -162,34 +162,34 @@ export function appairage(state: WorkspaceState, actor: Actor, id: Id, { secret,
 const versRigel = (m: Materiel) => ({ id: m.id, idOrion: m.idOrion, type: m.type, modele: m.modele, marque: m.marque, serie: m.serie, salleId: m.salleId, hs: m.hs, enCours: !!m.deplacement });
 
 /** Données consultées par le téléphone : salles de l'opération, matériels de l'école, constats déjà intégrés */
-export function instantane(state: WorkspaceState, r: Recensement): InstantaneRigel {
+export function instantane(state: WorkspaceState, r: Operation): InstantaneRigel {
   return {
-    campagne: { id: r.id, nom: r.nom, ecole: state.ecoles.find((e) => e.id === r.ecoleId)?.nom ?? '', mode: r.mode, expireLe: r.expireLe },
+    operation: { id: r.id, nom: r.nom, ecole: state.ecoles.find((e) => e.id === r.ecoleId)?.nom ?? '', mode: r.mode, expireLe: r.expireLe },
     salles: sallesDe(state, r).map((s) => ({ id: s.id, nom: s.nom, batiment: s.batiment, etage: s.etage ?? null }))
       .sort((a, b) => a.batiment.localeCompare(b.batiment, 'fr', { numeric: true }) || a.nom.localeCompare(b.nom, 'fr', { numeric: true })),
     materiels: state.materiels.filter((m) => m.ecoleId === r.ecoleId).map(versRigel),
-    constats: state.constats.filter((c) => c.recensementId === r.id).map((c) => ({ id: c.id, materielId: c.materielId, salleId: c.salleId, resultat: c.resultat, ...(c.message && { message: c.message }), at: c.at })),
+    constats: state.constats.filter((c) => c.operationId === r.id).map((c) => ({ id: c.id, materielId: c.materielId, salleId: c.salleId, resultat: c.resultat, ...(c.message && { message: c.message }), at: c.at })),
   };
 }
 
 /** Opérations en cours, chacune avec son instantané chiffré, sa version et l'empreinte du jeton des téléphones */
-export async function campagnesPubliees(state: WorkspaceState, secret: string, now = Date.now()): Promise<CampagnePubliee[]> {
-  return Promise.all(state.recensements.filter((r) => ouverte(r, now)).map(async (r) => {
+export async function operationsPubliees(state: WorkspaceState, secret: string, now = Date.now()): Promise<OperationPubliee[]> {
+  return Promise.all(state.operations.filter((r) => ouverte(r, now)).map(async (r) => {
     const contenu = instantane(state, r);
     return {
       id: r.id, expireLe: r.expireLe,
-      empreinte: await empreinte(jetonCampagne(secret, r.id)),
+      empreinte: await empreinte(jetonOperation(secret, r.id)),
       version: await empreinte(JSON.stringify(contenu)),
-      instantane: await chiffrer(cleCampagne(secret, r.id), r.id, contenu),
+      instantane: await chiffrer(cleOperation(secret, r.id), r.id, contenu),
     };
   }));
 }
 
 /** Événements chiffrés reçus du relais, déchiffrés ; un bloc illisible est refusé */
-export async function dechiffrerEvenements(secret: string, campagne: Id, blocs: { id: string; bloc: Bloc }[]) {
+export async function dechiffrerEvenements(secret: string, operation: Id, blocs: { id: string; bloc: Bloc }[]) {
   return Promise.all(blocs.map(async ({ id, bloc }) => {
     try {
-      const e = await dechiffrer<EvenementRigel>(cleCampagne(secret, campagne), campagne, bloc);
+      const e = await dechiffrer<EvenementRigel>(cleOperation(secret, operation), operation, bloc);
       return e && e.id === id ? e : { id, illisible: true as const };
     } catch { return { id, illisible: true as const }; }
   }));
@@ -220,19 +220,19 @@ function derniereInformation(s: WorkspaceState, m: Materiel) {
  * Intègre les événements d'une opération dans l'état (modifié en place) et renvoie le résultat de chacun.
  * Un événement déjà intégré est un doublon ; auteur et date sont ceux de l'opération et du serveur.
  */
-export function appliquerEvenements(s: WorkspaceState, campagne: Id, evenements: (EvenementRigel | { id: string; illisible: true })[], now = Date.now()): ResultatRigel[] {
-  const r = s.recensements.find((x) => x.id === campagne);
+export function appliquerEvenements(s: WorkspaceState, operation: Id, evenements: (EvenementRigel | { id: string; illisible: true })[], now = Date.now()): ResultatRigel[] {
+  const r = s.operations.find((x) => x.id === operation);
   const par = { par: r?.par ?? 'RIGEL', parId: r?.parId ?? null };
   return evenements.map((e) => {
-    // Un événement inattendu est refusé seul : il ne bloque ni les autres, ni la campagne, ni ORION
+    // Un événement inattendu est refusé seul : il ne bloque ni les autres, ni l’opération, ni ORION
     try { return appliquer(s, r, e, par, now); } catch (error) {
-      journal.warn('rigel_constat_refuse', { campagne, evenement: String(e?.id ?? ''), erreur: raison(error) });
+      journal.warn('rigel_constat_refuse', { operation, evenement: String(e?.id ?? ''), erreur: raison(error) });
       return { id: String(e?.id ?? ''), statut: 'refuse', message: 'Constat illisible par le serveur.' };
     }
   });
 }
 
-function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRigel | { id: string; illisible: true }, par: { par: string; parId: Id | null }, now: number): ResultatRigel {
+function appliquer(s: WorkspaceState, r: Operation | undefined, e: EvenementRigel | { id: string; illisible: true }, par: { par: string; parId: Id | null }, now: number): ResultatRigel {
   const id = String(e?.id ?? '');
   if (!ID.test(id)) return { id, statut: 'refuse', message: 'Identifiant invalide.' };
   const cid = `cst-${id}`;
@@ -253,7 +253,7 @@ function appliquer(s: WorkspaceState, r: Recensement | undefined, e: EvenementRi
   // Code « inconnu » d'un matériel du parc (instantané ancien) : rattaché à ce matériel, accepté dans le lieu ouvert
   const type = connu ? 'releve' : e.type;
   const constat: Constat = {
-    id: cid, recensementId: r.id, ecoleId: r.ecoleId, type, code, salleId, materielId: m?.id ?? null,
+    id: cid, operationId: r.id, ecoleId: r.ecoleId, type, code, salleId, materielId: m?.id ?? null,
     observeLe: Number.isFinite(e.observeLe) ? Math.min(e.observeLe, now) : now, at: now, resultat: 'inconnu',
   };
   if (e.type === 'inconnu' && !connu) {

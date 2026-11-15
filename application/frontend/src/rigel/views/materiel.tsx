@@ -22,7 +22,7 @@ export function Materiel() {
   const m = vue.materiel.get(useParams().id ?? '');
   if (!m) return <Navigate to="/" replace />;
   const logistique = logistiqueDe(m);
-  const installation = etat.instantane?.campagne.mode === 'installation';
+  const installation = etat.instantane?.operation.mode === 'installation';
 
   /** Constat enregistré : retour au scanner de l'inventaire, le code lu restant ignoré tant qu'il est devant l'objectif */
   async function constat(type: Constat, salleId: Id | null, message: string, ton: 'ok' | 'accent' | 'install' = 'ok') {

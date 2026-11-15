@@ -15,7 +15,7 @@ import { journal, raison } from '../journal.ts';
 import { DISCONNECT_AFTER, applyReports, applyResults, markDisconnected, pendingCommands } from '../domaine/postes.ts';
 import { reportPdf } from '../documents/pdf.ts';
 import { analyseImport, importMateriels } from '../domaine/import.ts';
-import { appairage, appliquerEvenements, campagnesPubliees, cloreInstallations, dechiffrerEvenements, lancerInstallation, traiterConstat } from '../domaine/recensement.ts';
+import { appairage, appliquerEvenements, operationsPubliees, cloreInstallations, dechiffrerEvenements, lancerInstallation, traiterConstat } from '../domaine/recensement.ts';
 import { installationDe } from '#shared/rigel.ts';
 import type { Bloc } from '#shared/rigel.ts';
 import type { ActionConstat, Actor, Id, Item, WorkspaceState } from '#shared/types.ts';
@@ -126,18 +126,18 @@ export function createEngine({ store }: { store: Store }) {
       if (!report) fail(404, 'État des lieux introuvable.');
       return reportPdf(report, state);
     },
-    /** Recensement mobile (recensement.ts) : appairage d'un téléphone, campagnes publiées et constats reçus par le connecteur */
+    /** Recensement mobile (recensement.ts) : appairage d'un téléphone, opérations publiées et constats reçus par le connecteur */
     rigel: {
       appairage: async (actor: Actor, id: Id, config: { secret: string; url: string | null }) => appairage(await store.read(), actor, id, config),
-      campagnes: async (secret: string) => campagnesPubliees(await store.read(), secret),
-      async evenements(secret: string, campagne: Id, blocs: { id: string; bloc: Bloc }[]) {
-        const evenements = await dechiffrerEvenements(secret, campagne, blocs);
-        return system((s) => appliquerEvenements(s, campagne, evenements));
+      operations: async (secret: string) => operationsPubliees(await store.read(), secret),
+      async evenements(secret: string, operation: Id, blocs: { id: string; bloc: Bloc }[]) {
+        const evenements = await dechiffrerEvenements(secret, operation, blocs);
+        return system((s) => appliquerEvenements(s, operation, evenements));
       },
       /** Installation d'une salle : reprise si elle est en cours, sinon lancée ; adresse d'appairage du téléphone */
       async installation(actor: Actor, salleId: Id, config: { secret: string; url: string | null }) {
         const courant = await store.read();
-        const existante = installationDe(courant.recensements, salleId);
+        const existante = installationDe(courant.operations, salleId);
         if (existante) return { id: existante.id, ...appairage(courant, actor, existante.id, config) };
         return write((state) => {
           const next = structuredClone(state);

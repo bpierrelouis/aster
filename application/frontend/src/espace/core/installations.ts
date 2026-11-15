@@ -13,7 +13,7 @@
 import { cached, scope, index } from './selectors.ts';
 import { SALLE_STATUTS, TERMINEES_RECENTES } from '#shared/catalog.ts';
 import { num } from '#shared/format.ts';
-import type { Id, Materiel, Mouvement, Salle, Timestamp } from '#shared/types.ts';
+import type { Id, Materiel, Deplacement, Salle, Timestamp } from '#shared/types.ts';
 
 /** Matériels encore à déplacer (enCours) et déjà déplacés (faits) */
 interface Deplacements { enCours: Materiel[]; faits: Materiel[] }
@@ -28,7 +28,7 @@ export type Trajet = Route & Avancement;
 export type SalleEnInstallation = EnInstallation & Avancement;
 /** Salle dont l'installation est terminée depuis moins d'un mois ; fin : dernier déplacement confirmé */
 export type SalleInstallee = SalleDeplacements & Avancement & { fin: Timestamp; debut?: undefined };
-type Installe = Materiel & { installation: Mouvement };
+type Installe = Materiel & { installation: Deplacement };
 
 const key = (de: Id | null | undefined, vers: Id | null | undefined) => `${de ?? ''}>${vers ?? ''}`;
 const progress = <T extends Deplacements>(x: T) => {

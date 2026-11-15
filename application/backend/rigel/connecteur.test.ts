@@ -30,36 +30,36 @@ test('connecteur : publication, constat d’un téléphone intégré par ORION, 
     const gestionnaire = (await repository.actor('cpt-num-gestionnaire'))!;
     const prevu = (await repository.snapshot()).materiels.find((x) => x.ecoleId === 'e-num' && x.deplacement && x.salleId)!;
     const lancee = await repository.rigel.installation(gestionnaire, prevu.salleId!, { secret: SECRET, url: 'https://rigel.test' });
-    const campagne = { id: lancee.id };
+    const operation = { id: lancee.id };
     const connecteur = createConnecteur({ orion: orion.url, secret: SECRET, relais: relais.url, token: TOKEN });
     assert.equal(await connecteur.cycle(), 0);
-    assert.equal((await store.campagnes()).length, 1);
+    assert.equal((await store.operations()).length, 1);
 
     // Téléphone appairé : lit l'instantané sur le relais, constate un matériel en cours d'installation dans sa salle
     const acces = lireAppairage(lancee.url)!;
     const telephone = { Authorization: `Bearer ${acces.jeton}`, 'Content-Type': 'application/json' };
-    const { instantane } = await (await fetch(`${relais.url}/api/campagnes/${campagne.id}/instantane`, { headers: telephone })).json();
-    const inst = await dechiffrer<InstantaneRigel>(acces.cle, campagne.id, instantane);
+    const { instantane } = await (await fetch(`${relais.url}/api/operations/${operation.id}/instantane`, { headers: telephone })).json();
+    const inst = await dechiffrer<InstantaneRigel>(acces.cle, operation.id, instantane);
     const m = inst.materiels.find((x) => x.id === prevu.id)!;
     const e: EvenementRigel = { id: crypto.randomUUID(), type: 'vu', code: m.idOrion, salleId: m.salleId, materielId: m.id, observeLe: Date.now() };
-    const envoi = await fetch(`${relais.url}/api/campagnes/${campagne.id}/evenements`, { method: 'POST', headers: telephone, body: JSON.stringify({ evenements: [{ id: e.id, bloc: await chiffrer(acces.cle, campagne.id, e) }] }) });
+    const envoi = await fetch(`${relais.url}/api/operations/${operation.id}/evenements`, { method: 'POST', headers: telephone, body: JSON.stringify({ evenements: [{ id: e.id, bloc: await chiffrer(acces.cle, operation.id, e) }] }) });
     assert.equal(envoi.status, 200);
 
     assert.equal(await connecteur.cycle(), 1);
     const apres = (await repository.snapshot()).materiels.find((x) => x.id === m.id)!;
     assert.equal(apres.deplacement, undefined, 'déplacement confirmé dans ORION');
-    assert.deepEqual(await store.evenements(campagne.id, 10), [], 'événement acquitté sur le relais');
+    assert.deepEqual(await store.evenements(operation.id, 10), [], 'événement acquitté sur le relais');
     assert.equal(await connecteur.cycle(), 0);
-    const { instantane: nouveau } = await (await fetch(`${relais.url}/api/campagnes/${campagne.id}/instantane`, { headers: telephone })).json();
-    assert.equal((await dechiffrer<InstantaneRigel>(acces.cle, campagne.id, nouveau)).constats[0].resultat, 'confirme', 'nouvel instantané publié');
+    const { instantane: nouveau } = await (await fetch(`${relais.url}/api/operations/${operation.id}/instantane`, { headers: telephone })).json();
+    assert.equal((await dechiffrer<InstantaneRigel>(acces.cle, operation.id, nouveau)).constats[0].resultat, 'confirme', 'nouvel instantané publié');
 
     // Derniers déplacements de la salle confirmés dans ORION : l'installation se clôt et disparaît du relais
     const vue2 = await repository.read(gestionnaire);
     for (const x of vue2.materiels) if (x.deplacement && (x.salleId === prevu.salleId || x.deplacement.de === prevu.salleId)) delete x.deplacement;
     await repository.update(vue2, vue2.revision, gestionnaire);
-    assert.equal((await repository.snapshot()).recensements.find((r) => r.id === campagne.id)!.close?.parId, gestionnaire.id);
+    assert.equal((await repository.snapshot()).operations.find((r) => r.id === operation.id)!.close?.parId, gestionnaire.id);
     await connecteur.cycle();
-    assert.deepEqual(await store.campagnes(), []);
+    assert.deepEqual(await store.operations(), []);
   } finally { orion.server.close(); relais.server.close(); }
 });
 
@@ -80,8 +80,8 @@ test('connecteur : une opération en erreur n’empêche pas d’intégrer les c
   const http = (async (url: string, init?: RequestInit) => {
     const { pathname } = new URL(url);
     const json = (status: number, body: unknown) => new Response(status === 204 ? null : JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
-    if (pathname === '/api/rigel/campagnes') return json(200, { campagnes: ['rec-a', 'rec-b'].map((id) => ({ id, version: 'v1', expireLe: Date.now() + 60_000, empreinte: '0'.repeat(64), instantane: bloc })) });
-    if (pathname === '/api/connecteur/campagnes') return json(200, { campagnes: ['rec-a', 'rec-b'].map((id) => ({ id, version: 'v1' })) });
+    if (pathname === '/api/rigel/operations') return json(200, { operations: ['rec-a', 'rec-b'].map((id) => ({ id, version: 'v1', expireLe: Date.now() + 60_000, empreinte: '0'.repeat(64), instantane: bloc })) });
+    if (pathname === '/api/connecteur/operations') return json(200, { operations: ['rec-a', 'rec-b'].map((id) => ({ id, version: 'v1' })) });
     const [, , , , id, action] = pathname.split('/');
     if (pathname.startsWith('/api/connecteur/') && action === 'evenements') return json(200, { evenements: [{ rang: 1, id: `evenement-${id}`, bloc }] });
     if (pathname.startsWith('/api/rigel/') && action === 'evenements') return id === 'rec-a' ? json(413, { error: 'Trop gros' }) : json(200, { resultats: [{ id: `evenement-${id}`, statut: 'applique' }] });
