@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.3 | 15/11/2026 | Pilotage interne | Consigne l’audit de sécurité du 15 novembre et ses corrections ; Consigne l’audit de sécurité du 15 novembre et ses corrections | [38 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.4 | 15/11/2026 | Pilotage interne | Consigne le déploiement des corrections de sécurité et l'épinglage des images | [39 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -124,7 +124,8 @@ Plan, une étape par commit, chacune vérifiée par `npm test`, `npm run build`,
 Audit du 15 novembre : revue du code (droits de chaque route et de chaque règle serveur, valeurs d’autorité, RIGEL, import, PDF, persistance), `npm audit` (aucune vulnérabilité), revue de la configuration des VM, de Keycloak et de la CI. Aucun contournement des droits ni du cloisonnement des écoles ; sessions OIDC (PKCE, nonce, régénération), contrôle d’origine, cryptographie RIGEL, requêtes SQL paramétrées, PDF et journaux sans défaut.
 
 - [ ] **Haute** — Tests d’intrusion sur l’application déployée (OWASP ASVS, outil de type OWASP ZAP) : contournement des droits par profil et par école, falsification des valeurs d’autorité, jetons des postes et de RIGEL, relais public, en-têtes, TLS, sessions, limites de débit. Les VM n’étaient pas joignables lors de l’audit.
-- [ ] **Haute** — Déployer les corrections sur les VM : publier le commit (CI), puis `installer.sh` (arrête PostgreSQL, l’annuaire et Logstash avant le changement des exports NFS et redéploie la pile) et `runner.sh` ; vérifier ce qui n’a pas pu l’être localement : exports NFS en `root_squash` et données PostgreSQL rendues à l’uid 70, tâche `orion-roles` et connexion de l’API en `orion_app`, certificats clients du collecteur, clé restreinte du runner (un job complet), OpenLDAP sur ses exports, seuils de débit en usage réel ; supprimer ensuite le secret `orion_database_url`.
+- [x] **Haute** — Déployer les corrections sur les VM (15 novembre) : exports NFS en `root_squash`, données PostgreSQL à l’uid 70, API connectée en `orion_app`, certificats clients du collecteur, OpenLDAP sur ses exports, en-têtes, filtrage de HAProxy et TLS vérifiés ; secret `orion_database_url` supprimé. Le premier déploiement a été bloqué par le pilote de logs, Logstash étant arrêté puis redémarré : `deploiement.sh` relance désormais Logstash avant PostgreSQL et reprend une mise à jour suspendue.
+- [ ] **Moyenne** — Vérifier un job complet du runner avec sa clé restreinte (après `installer.sh`, qui installe le dernier `deploiement.sh`) et les seuils de débit en usage réel.
 
 | Sujet | Constat | Correction | Portée |
 | --- | --- | --- | --- |
@@ -142,6 +143,7 @@ Audit du 15 novembre : revue du code (droits de chaque route et de chaque règle
 | PDF | Découpe des longs mots en temps cubique : un formateur pouvait figer une instance d’Express environ 20 s par demande | Découpe en un passage | Démonstrateur et cible |
 | RIGEL | Un téléphone appairé pouvait bloquer l’intégration de toutes les opérations (blocs trop gros) ; existence d’une opération révélée par le relais | Blocs d’événement en base64url limités à 16 Ko, opérations traitées séparément par le connecteur, même refus 401 ; une adresse ou un jeton du relais invalide désactive RIGEL sans bloquer le déploiement d’ORION | Démonstrateur |
 | Configuration de production | Mot de passe PostgreSQL de développement non refusé | Refusé au démarrage | Cible |
+| Images | Images de base épinglées par étiquette, réécrivable sur Docker Hub | Épinglage par empreinte (`@sha256:`) dans le `Dockerfile`, la pile et Compose ; images ORION étiquetées par le SHA du commit et figées par Swarm au déploiement | Démonstrateur et cible |
 
 Restent ouverts :
 
@@ -150,7 +152,6 @@ Restent ouverts :
 | OpenLDAP | Image `osixia/openldap:1.5.0` non maintenue, sans TLS ; Keycloak lié en `cn=admin` ; export NFS en `no_root_squash` | Image maintenue, LDAP sur TLS, compte de liaison limité à `ou=people` | Démonstrateur |
 | Administrateur de Keycloak | `keycloak-admin` d’amorçage permanent, console sur `8444` | Administrateur nominatif avec OTP, puis suppression de `keycloak-admin` | Démonstrateur |
 | Secrets | `secrets.sh` exporte chaque secret en variable d’environnement | Lecture des fichiers `/run/secrets` par l’application | Démonstrateur et cible |
-| Images | Épinglées par étiquette, réécrivable sur Docker Hub | Épinglage par empreinte (`@sha256:`) | Démonstrateur et cible |
 | Keycloak derrière HAProxy | `KC_PROXY_TRUSTED_ADDRESSES` non posé : plage de l’overlay non fixée | Fixer la plage de l’overlay `orion`, puis la déclarer | Démonstrateur |
 | QR d’appairage RIGEL | Accès porteur valable pendant toute l’opération (14 jours au plus), révocable seulement en la clôturant | Plafond des ajouts de matériels par opération ; régénération du QR | Démonstrateur et cible |
 | Identité des postes | Jeton propre à chaque poste | Certificat client si le mécanisme d’administration des postes le permet | Cible |

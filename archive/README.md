@@ -41,7 +41,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [4.0](#18-dossier-architecture-technique) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.5](#20-backlog-et-suivi-projet) | 15/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.3](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.4](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
 | [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [1.1](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
 
 ## Fichiers en vigueur
@@ -542,7 +542,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.3 | 15/11/2026 | Consigne l’audit de sécurité du 15 novembre et ses corrections ; Consigne l’audit de sécurité du 15 novembre et ses corrections | en vigueur | — |
+| 5.4 | 15/11/2026 | Consigne le déploiement des corrections de sécurité et l'épinglage des images | en vigueur | — |
+| 5.3 | 15/11/2026 | Consigne l’audit de sécurité du 15 novembre et ses corrections ; Consigne l’audit de sécurité du 15 novembre et ses corrections | `998171d` | — |
 | 5.2 | 15/11/2026 | MCD refait le 15 novembre ; renommage de la base et du code (#162) | `1a774ec` | — |
 | 5.1 | 15/11/2026 | MCD refait le 15 novembre ; renommage de la base et du code (#162) | `d9bfc0c` | — |
 | 5.0 | 15/11/2026 | M42, catalogue et postes Linux en V2 ; DCU et termes traités | `70bd202` | — |

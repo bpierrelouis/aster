@@ -2655,6 +2655,13 @@
         "version": "5.3",
         "date": "2026-11-15",
         "modification": "Consigne l’audit de sécurité du 15 novembre et ses corrections ; Consigne l’audit de sécurité du 15 novembre et ses corrections",
+        "archive": null,
+        "commit": "998171d"
+      },
+      {
+        "version": "5.4",
+        "date": "2026-11-15",
+        "modification": "Consigne le déploiement des corrections de sécurité et l'épinglage des images",
         "archive": null
       }
     ]
