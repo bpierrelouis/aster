@@ -2,13 +2,16 @@
 #
 # Parcours : chaque étape ne démarre que si la précédente a entièrement réussi.
 #   1. Vérifications            documentation, types, tests unitaires, construction : rapide, échoue tôt
-#   2. Tests de l'interface     Playwright, interface seule (connexion, espace de travail)  ┐ en parallèle
-#      Tests de bout en bout    Playwright avec l'infrastructure Compose                    ┘
+#   2. Tests de l'interface     Playwright, interface seule : connexion et un job par groupe ┐ en parallèle
+#                               de l'espace de travail (affichage, parc, suivi)              │
+#      Tests de bout en bout    Playwright avec l'infrastructure Compose                     ┘
 #   3. Images                   les six images construites et publiées sur Docker Hub, une tâche par image,
 #                               étiquetées par le commit (relais RIGEL compris)
 #   4. Déploiement des VM       pile orion sur les VM du démonstrateur                      ┐ en parallèle,
 #      Déploiement Hidora       relais RIGEL                                                ┘ indépendants
 # Une image qui ne se construit pas échoue à l'étape 3 ; un échec à l'étape 4 vient donc de la plateforme.
+# Un push qui ne modifie que la documentation (docs/, design/, archive/, .agents/, Markdown à la racine) s'arrête
+# après l'étape 1 : rien à tester ni à déployer.
 #
 # Configuration du dépôt GitHub (Settings → Secrets and variables → Actions) :
 #   images              variable DOCKERHUB_USERNAME, secret DOCKERHUB_TOKEN (jeton Docker Hub en lecture et écriture) ;
@@ -45,8 +48,24 @@ jobs:
     name: 1 · Vérifications
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    outputs:
+      code: ${{ steps.perimetre.outputs.code }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Lancement manuel ou premier push d'une branche : tout est testé
+      - name: Périmètre du push
+        id: perimetre
+        working-directory: .
+        env:
+          AVANT: ${{ github.event.before }}
+        run: |
+          code=true
+          if [ "$GITHUB_EVENT_NAME" = push ] && [ -n "$AVANT" ] && [ "$AVANT" != 0000000000000000000000000000000000000000 ] \
+            && git fetch -q --depth=1 origin "$AVANT"; then
+            git diff --name-only "$AVANT" HEAD | grep -qvE '^(docs|design|archive|\.agents)/|^[^/]+\.md$' || code=false
+          fi
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          echo "Code modifié : $code"
       - uses: ./.github/actions/dependances
       - name: Vérificateur documentaire
         working-directory: .
@@ -62,30 +81,38 @@ jobs:
         run: npm run build
 
   # ── 2. Tests ────────────────────────────────────────────────────────────────────────────────────────
+  # Un job par groupe, chacun avec son serveur et ses données neuves : tous menés jusqu'au bout
   tests-interface:
-    name: 2 · Tests de l'interface
+    name: 2 · Interface ${{ matrix.groupe }}
     needs: verifications
+    if: needs.verifications.outputs.code == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { groupe: connexion, commande: 'npm run test:ui' }
+          - { groupe: affichage, commande: 'npm run test:workspace -- tests/espace-affichage.spec.ts' }
+          - { groupe: parc, commande: 'npm run test:workspace -- tests/espace-parc.spec.ts' }
+          - { groupe: suivi, commande: 'npm run test:workspace -- tests/espace-suivi.spec.ts' }
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: ./.github/actions/dependances
-      - name: Page de connexion
-        run: npm run test:ui
-      - name: Espace de travail
-        if: ${{ !cancelled() }}
-        run: npm run test:workspace
+      - name: Tests
+        run: ${{ matrix.commande }}
       # Traces Playwright des tests en échec, téléchargeables depuis la page de l'exécution
       - if: failure()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: tests-interface
+          name: tests-interface-${{ matrix.groupe }}
           path: application/test-results/
           retention-days: 7
 
   tests-e2e:
     name: 2 · Tests de bout en bout
     needs: verifications
+    if: needs.verifications.outputs.code == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:

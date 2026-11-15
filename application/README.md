@@ -404,7 +404,7 @@ npm run typecheck      # Types du serveur, du code partagé, des tests et de l'i
 npm test               # Règles, API, identité ; intégration PostgreSQL si l'infrastructure est démarrée
 npm run build
 npm run test:ui        # Page de connexion
-npm run test:workspace # Écrans de l'espace de travail en mode interface seule (port 5174)
+npm run test:workspace # Écrans de l'espace de travail en mode interface seule (port 5174) ; -- tests/espace-parc.spec.ts pour un groupe
 npm run test:linux     # test:workspace sous Linux, comme la CI (Docker requis) ; npm run test:linux -- test:ui pour une autre suite
 ```
 
@@ -500,10 +500,10 @@ Le [Dockerfile](Dockerfile) produit une image par cible :
 
 Un secret Docker Swarm `/run/secrets/NOM` tient lieu de la variable `NOM` : le secret porte donc le nom de la variable (`SESSION_SECRET`, `DATABASE_URL`…). Les images Node (`api`, `postes`, `connecteur`) le lisent dans leur configuration ([backend/secrets.ts](backend/secrets.ts)), sans en faire une variable d’environnement du processus ; Keycloak, qui ne lit que ses variables, les reçoit de [infra/images/secrets.sh](infra/images/secrets.sh) au démarrage. Le contrôle de santé de `api` vérifie seulement que le serveur répond, pas que PostgreSQL et Keycloak sont joignables : une panne d’un service voisin ne fait pas relancer les instances d’Express.
 
-Le workflow GitHub Actions [ci-cd.yml](../.github/workflows/ci-cd.yml) s’exécute à chaque push sur `main` ; un nouveau push annule l’exécution en cours. Ses quatre étapes s’enchaînent, chacune seulement si la précédente a réussi :
+Le workflow GitHub Actions [ci-cd.yml](../.github/workflows/ci-cd.yml) s’exécute à chaque push sur `main` ; un nouveau push annule l’exécution en cours. Ses quatre étapes s’enchaînent, chacune seulement si la précédente a réussi ; un push qui ne modifie que la documentation (`docs/`, `design/`, `archive/`, `.agents/`, Markdown à la racine) s’arrête après les vérifications :
 
 1. **Vérifications** : vérificateur documentaire, `npm run typecheck`, `npm test` et `npm run build`, tous exécutés même si l’un échoue, pour obtenir toutes les erreurs en un passage.
-2. **Tests**, en parallèle : tests de l’interface (`npm run test:ui` et `npm run test:workspace`) et tests de bout en bout (`npm run test:e2e` avec l’infrastructure Compose, serveur et postes lancés sans `.env`, sur les valeurs par défaut). En cas d’échec, les traces Playwright et les journaux du serveur sont téléchargeables depuis la page de l’exécution (7 jours).
+2. **Tests**, en parallèle : tests de l’interface, un job pour la page de connexion (`npm run test:ui`) et un par groupe de l’espace de travail ([espace-affichage](tests/espace-affichage.spec.ts), [espace-parc](tests/espace-parc.spec.ts) et [espace-suivi](tests/espace-suivi.spec.ts), chacun avec son serveur et des données neuves), et tests de bout en bout (`npm run test:e2e` avec l’infrastructure Compose, serveur et postes lancés sans `.env`, sur les valeurs par défaut). En cas d’échec, les traces Playwright et les journaux du serveur sont téléchargeables depuis la page de l’exécution (7 jours).
 3. **Images** : les six images, une tâche par image, publiées en public sur Docker Hub avec le SHA du commit pour étiquette : `<compte>/orion-web`, `<compte>/orion-api`, `<compte>/orion-postes`, `<compte>/orion-keycloak`, `<compte>/orion-connecteur` et le relais RIGEL (`HIDORA_IMAGE`, par défaut `<compte>/rigel`). Une image en échec n’interrompt pas les autres.
 4. **Déploiements**, en parallèle et indépendants : les VM (voir ci-dessous), sur le runner auto-hébergé `[self-hosted, orion]` (orion-3), seulement si la variable `DEPLOIEMENT_VM` vaut `true` ; le relais RIGEL sur Hidora (voir [Recensement mobile](#transformer-le-projet-recon-publié-sur-hidora)), seulement si la variable `HIDORA_ENV` est définie. Les images étant construites à l’étape 3, un échec à cette étape vient de la plateforme.
 

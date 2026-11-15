@@ -5,7 +5,7 @@ import { channel } from './tests/navigateur.ts';
 
 export default defineConfig({
   testDir: './tests',
-  testMatch: 'workspace-ui.spec.ts',
+  testMatch: 'espace-*.spec.ts',
   workers: 1,
   timeout: 30_000,
   use: { baseURL: 'http://127.0.0.1:5174', headless: true, channel, trace: 'retain-on-failure' },
