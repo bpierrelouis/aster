@@ -64,6 +64,8 @@ if docker service inspect orion_postgres >/dev/null 2>&1; then
   # compte postgres (70) et sans copie dans le volume, seuls acceptés par le stockage (root_squash) ; la pile lui applique
   # ensuite sa définition
   if [ "$(docker service inspect -f '{{.Spec.Mode.Replicated.Replicas}}' orion_postgres)" = 0 ]; then
+    # Pilote de logs syslog de PostgreSQL : Logstash, arrêté avec lui, doit tourner avant
+    docker service scale --detach=false orion_logstash=1 >/dev/null
     timeout 300 docker service update --quiet --detach=false --user 70:70 --replicas 1 --mount-rm /var/lib/postgresql/data \
       --mount-add type=volume,source=orion_pg-nfs,target=/var/lib/postgresql/data,volume-nocopy=true orion_postgres >/dev/null
   fi
@@ -88,7 +90,10 @@ EMPREINTE_HAPROXY=$(empreinte haproxy.cfg) EMPREINTE_LOGSTASH=$(empreinte logsta
 EMPREINTE_LDAP=$(empreinte ../ldap/orion-utilisateurs.ldif) EMPREINTE_ROLES=$(empreinte postgres-roles.sh)
 export ORION_IMAGES ORION_TAG ORION_ENTREE=$ENTREE ORION_STOCKAGE=${VM[10]} ORION_RELAIS=$RELAIS_URL \
   EMPREINTE_HAPROXY EMPREINTE_LOGSTASH EMPREINTE_LDAP EMPREINTE_ROLES
-timeout 900 docker stack deploy --detach=false --prune -c pile.yaml orion
+# Un service mis à jour pendant le redémarrage de Logstash (changement de sa configuration) ne peut ouvrir son pilote de logs :
+# sa mise à jour est suspendue ; un second passage la reprend, Logstash étant alors en service
+timeout 900 docker stack deploy --detach=false --prune -c pile.yaml orion \
+  || timeout 900 docker stack deploy --detach=false --prune -c pile.yaml orion
 
 # Connecteur RIGEL, pile à part, au mieux : jamais d'attente ni d'échec du déploiement d'ORION à cause de lui (design for failure).
 # Sans relais, la pile est retirée. Jeton du relais : celui transmis au premier déploiement, sinon aléatoire, à lire dans le
