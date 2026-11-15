@@ -1,0 +1,31 @@
+
+> build
+> vite build --config frontend/vite.config.ts
+
+vite v8.3.6 building client environment for production...
+transforming...
+✓ 221 modules transformed.
+rendering chunks...
+computing gzip size...
+frontend/dist/index.html                                       0.92 kB │ gzip:   0.54 kB
+frontend/dist/assets/eclipse-Bfr9Dpjb.svg                      4.50 kB │ gzip:   1.71 kB
+frontend/dist/assets/vscode-BC_h-9TH.svg                       4.55 kB │ gzip:   1.83 kB
+frontend/dist/assets/visualstudio-CQYcHv2-.svg                 4.76 kB │ gzip:   1.78 kB
+frontend/dist/assets/edge-C_ChI9Zv.svg                         4.79 kB │ gzip:   1.36 kB
+frontend/dist/assets/teams-pK8wxghQ.svg                        5.58 kB │ gzip:   1.75 kB
+frontend/dist/assets/pycharm-2od9CqqW.svg                      5.69 kB │ gzip:   1.63 kB
+frontend/dist/assets/notepadplusplus-C0OJpCWM.svg              7.27 kB │ gzip:   3.47 kB
+frontend/dist/assets/postman-kLkCriEQ.svg                     12.60 kB │ gzip:   4.39 kB
+frontend/dist/assets/firefox-B8KKAnnA.svg                     15.85 kB │ gzip:   3.70 kB
+frontend/dist/assets/Marianne-Regular-DfVWaL5x.woff2          58.03 kB
+frontend/dist/assets/Marianne-Medium-6WdgLEI2.woff2           58.06 kB
+frontend/dist/assets/Marianne-Bold-k5vwt-o4.woff2             58.16 kB
+frontend/dist/assets/Marianne-Regular_Italic-Cipx0c2-.woff2   59.72 kB
+frontend/dist/assets/Marianne-Medium_Italic-CkF1qCHk.woff2    59.77 kB
+frontend/dist/assets/Marianne-Bold_Italic-DOSHTmgk.woff2      60.26 kB
+frontend/dist/assets/index-CtVPxqjW.css                        4.95 kB │ gzip:   1.91 kB
+frontend/dist/assets/espace-q1LHjJwO.css                     133.81 kB │ gzip:  26.53 kB
+frontend/dist/assets/index-Dy9Yo8Jc.js                       264.54 kB │ gzip:  84.70 kB
+frontend/dist/assets/espace-BuEsSAcV.js                      371.46 kB │ gzip: 107.20 kB
+
+✓ built in 111ms

@@ -1,0 +1,127 @@
+
+> test
+> node --test "backend/**/*.test.ts" "outils/**/*.test.ts"
+
+WARN rigel_desactive motif="RIGEL_URL en HTTPS et RIGEL_SECRET de 32 caractères minimum attendus"
+WARN rigel_desactive motif="RIGEL_URL en HTTPS et RIGEL_SECRET de 32 caractères minimum attendus"
+WARN rigel_desactive motif="RIGEL_URL en HTTPS et RIGEL_SECRET de 32 caractères minimum attendus"
+✔ le fournisseur transmet une identité ; le profil ne vient pas des claims (1.880458ms)
+✔ l’utilisateur présenté vient du compte ORION (0.22825ms)
+✔ les identifiants locaux sont utilisables uniquement hors production (2.673667ms)
+✔ texte du PDF : coupe et réduction exactes, en temps linéaire même pour un très long mot (16.486458ms)
+✔ identité : rapprochement par sujet puis adresse, compte désactivé sans accès (24.970042ms)
+✔ visibilité : école, auteur des remontées, comptes et données de supervision (19.322ms)
+✔ remontée : auteur, date, numéro et historique imposés par le serveur (57.090542ms)
+✔ remontée : prise en charge puis traitement, qui la termine (175.24025ms)
+INFO enregistrement compte=cpt-num-admin profil=admin revision=5 comptes=cpt-num-formateur
+✔ données de départ : stock récent ; le lot d’import de démonstration ajoute un matériel déjà présent et un d’une autre école (7.833458ms)
+✔ installation : une affectation reste en cours jusqu’à la confirmation, qui devient l’installation (128.856917ms)
+✔ matériel : date de mise hors service fixée par le serveur, retirée au retour en service (51.076416ms)
+✔ import : seuls les nouveaux matériels et les transferts validés sont traités (17.416375ms)
+✔ import : un matériel hors service d’une autre école ne rejoint que le stock (15.1305ms)
+✔ données de départ : chaque remontée terminée a été prise en charge, puis terminée, par le gestionnaire (4.359916ms)
+✔ parc : adresse MAC normalisée par le serveur, refusée si invalide ; données de départ sans doublon (33.634125ms)
+✔ parc : gestionnaire sans suppression ni autre école ; identifiant ORION attribué (33.539541ms)
+✔ parc : un matériel cité par une remontée est conservé (RG-73) (12.334458ms)
+✔ parc : seul un matériel du stock est supprimé (23.112625ms)
+✔ sécurité : poste cloisonné à son école, nom réseau unique ; sujet et image fixés par le serveur (35.302875ms)
+✔ postes : nom réseau en capitales, unité centrale de l’école du poste (54.232209ms)
+✔ catalogue : une application installée ou citée par une intervention est conservée (25.732417ms)
+✔ remontée : une salle ou toute valeur hors saisie est ignorée (13.095208ms)
+✔ formateur : le matériel des salles seulement, pas le stock ; remontée sur le stock refusée (26.707084ms)
+✔ salles : nom, bâtiment et étage obligatoires (RG-61) (23.22275ms)
+✔ détections : conservées trente jours, sans limite de nombre (RG-56) (4.693709ms)
+✔ bâtiments : un administrateur renomme un bâtiment ; salles, étages et règles suivent (24.194042ms)
+✔ préférences : ambiance, tonalité et verre reconnus, valeur inconnue remplacée par le défaut (50.100875ms)
+✔ comptes : création dans son école, adresse unique, pas d’auto-désactivation, sujet conservé (73.970292ms)
+✔ comptes : le super administrateur crée un super administrateur et change l’école d’un administrateur (44.081125ms)
+✔ supervision : le formateur demande un arrêt ; seuls les postes modifient les processus (38.575542ms)
+✔ interventions : une salle entière, dont le serveur fixe les postes, ou des postes d’une même salle (54.677334ms)
+✔ postes : un poste dont l’unité centrale est hors service reste éteint ; allumé, il peut avoir une session (26.420042ms)
+✔ postes : adresse IP remontée par le poste, validée et jamais saisie par le navigateur (14.038708ms)
+✔ postes : système d’exploitation remonté par le poste, jamais saisi par le navigateur (14.01625ms)
+✔ postes : état, session et dernier rapport remontés par le poste, jamais écrits par le navigateur (24.091792ms)
+✔ comptes : dernière connexion et date de désactivation fixées par le serveur (64.174ms)
+✔ émulateur : une adresse IP stable par poste, un réseau par salle (0.08775ms)
+✔ émulateur : chaque poste allumé remonte Windows 11 (0.401791ms)
+✔ postes : rapports, détection, arrêt automatique, résultats et déconnexion (3.524792ms)
+✔ comparaison : l’ordre des propriétés d’un élément relu en base est sans effet (12.537ms)
+✔ supervision : règles de départ, applications déployables et logiciels connus (3.183916ms)
+✔ écritures concurrentes : fusion élément par élément, conflit seulement sur le même élément (34.587167ms)
+INFO enregistrement compte=cpt-num-admin profil=admin revision=1 materiels=m-1
+INFO enregistrement compte=cpt-num-admin profil=admin revision=4 materiels=m-3
+✔ moteur : persistance fichier, révision, rapprochement d’identité et PDF dans le périmètre (116.250084ms)
+✔ routeurs : session obligatoire, ETag, jeton de passerelle et jeton propre à chaque poste (84.68075ms)
+✔ espace neuf : référentiels seuls ; le jeu de démonstration est chargé par son outil (14.186292ms)
+✔ espace neuf : le premier super administrateur est créé une seule fois, jamais dans un espace qui a des comptes (4.205709ms)
+✔ étiquettes et lecture : codes ORION, identifiant, numéro de série, étiquettes constructeur, appairage (41.958917ms)
+✔ étiquettes réelles : Data Matrix DIRISI, codes-barres Lenovo, Acer et Philips (0.365458ms)
+WARN rigel_constat_refuse operation=rec-fb197cc8 evenement=6dd84b03-506a-4412-be28-cd058ebfd06c erreur=piège
+INFO enregistrement compte=cpt-num-gestionnaire profil=gestionnaire revision=1 operations=rec-255b2a35
+✔ chiffrement : clé et operation authentifiées (12.601416ms)
+✔ recensement : lancé par un gestionnaire, valeurs fixées par le serveur, clôture seule modifiable (153.406125ms)
+✔ constats : une opération qui n’a pas été lancée par un gestionnaire n’est pas appliquée (6.4325ms)
+✔ constats : présence, écart (version antérieure), relocalisation, stock, hors service, code inconnu ajouté au parc, doublon (35.545667ms)
+✔ constats : présence refusée, retour lancé vers l’affectation, confirmé par le gestionnaire (RG-96) (36.644791ms)
+✔ ancien code inconnu : traité dans ORION avec la création du matériel, seul le traitement est modifiable (34.211333ms)
+✔ recensement : une présence ne confirme pas une installation ; un ancien écart réaffecté sur place (14.565084ms)
+✔ ancien écart : remettre au stock ou ramener à l’affectation lance un déplacement à confirmer (RG-87) (13.918083ms)
+✔ mise au stock depuis une salle : affecté au stock, déplacement à confirmer ; refusée au stock (14.311208ms)
+✔ installation d’une salle : lancée par le gestionnaire, salle et stock, confirmation, ajout au parc, close d’elle-même ; indépendante d’un recensement simultané (32.3495ms)
+✔ recensement : un scan antérieur à la dernière information est refusé avant toute confirmation (15.108583ms)
+WARN refus api="Espace de travail" chemin=/api/workspace/operations/rec-255b2a35/appairage compte=cpt-num-formateur statut=403 motif="Recensement réservé au gestionnaire."
+WARN refus api="Espace de travail" chemin=/api/workspace/operations/rec-255b2a35/appairage compte=cpt-num-admin statut=403 motif="Recensement réservé au gestionnaire."
+INFO rigel_constats operation=rec-255b2a35 applique=1 refuse=1
+WARN refus api="Espace de travail" chemin=/api/workspace/salles/s-e-num-c202/installation compte=cpt-num-formateur statut=403 motif="Recensement réservé au gestionnaire."
+WARN refus api="Espace de travail" chemin=/api/workspace/salles/s-e-num-c202/installation compte=cpt-num-admin statut=403 motif="Recensement réservé au gestionnaire."
+INFO enregistrement compte=cpt-num-gestionnaire profil=gestionnaire revision=3 operations=ins-e5df6238
+✔ API : appairage par un gestionnaire, connecteur authentifié, blocs chiffrés de bout en bout (121.951208ms)
+INFO enregistrement compte=cpt-num-formateur profil=formateur revision=1 remontees=REM-0175
+✔ problème libre : libellé conservé, catégorie Autre et contenu du PDF (89.734958ms)
+✔ problème libre : le serveur refuse les libellés vides, trop longs ou non textuels (40.072375ms)
+✔ type de problème : obligatoire pour créer une remontée (46.314542ms)
+✔ problème libre : casse française, accents composés, apostrophes et traits d’union (0.327833ms)
+✔ problème libre : une API directe ne peut enregistrer les caractères interdits (79.418708ms)
+✔ problème libre : traiter une ancienne remontée conserve son libellé historique (22.042917ms)
+✔ problème libre : les chiffres sont autorisés après une initiale en lettre (16.220125ms)
+INFO migration schema=orion_test_70015 version=1 nom=schema-initial
+INFO migration schema=orion_test_70015 version=2 nom=noms-documentation
+✔ PostgreSQL : migrations appliquées une fois ; jeu de démonstration chargé sans effacer d’autres données (435.971917ms)
+INFO enregistrement compte=cpt-num-admin profil=admin revision=3 salles=s-e-num-b004 materiels=m-213,m-321,m-322,m-319,m-320,m-318,m-test comptes=cpt-test
+INFO enregistrement compte=cpt-num-formateur profil=formateur revision=8 remontees=REM-0175
+INFO enregistrement compte=cpt-num-admin profil=admin revision=9 materiels=m-215
+✔ PostgreSQL : comptes, préférences, écritures, postes et états des lieux persistent (255.651125ms)
+INFO enregistrement compte=cpt-num-admin profil=admin revision=10 materiels=m-213
+INFO enregistrement compte=cpt-num-admin profil=admin revision=11 materiels=m-215
+✔ PostgreSQL : deux serveurs partagent la même base et fusionnent leurs écritures (168.838583ms)
+INFO enregistrement compte=cpt-num-gestionnaire profil=gestionnaire revision=1 operations=ins-aa2bea43
+INFO rigel_constats operation=ins-aa2bea43 applique=1
+INFO enregistrement compte=cpt-num-gestionnaire profil=gestionnaire revision=3 materiels=m-875 operations=ins-aa2bea43
+✔ connecteur : publication, constat d’un téléphone intégré par ORION, acquittement, installation close retirée (218.80075ms)
+ERROR connecteur operation=rec-a erreur="POST /api/rigel/operations/rec-a/evenements : 413 Trop gros"
+✔ connecteur : une erreur du relais interrompt le cycle sans rien acquitter (17.432583ms)
+✔ connecteur : une opération en erreur n’empêche pas d’intégrer les constats des autres (0.756125ms)
+✔ relais : authentification, operations, événements idempotents, acquittement, suppression, purge (mémoire) (103.9365ms)
+✔ relais : application mobile, adresses de l’interface et en-têtes de sécurité (18.945916ms)
+✔ relais : même scénario sur PostgreSQL (141.092417ms)
+✔ les secrets Swarm complètent l’environnement sans le modifier (4.461458ms)
+✔ sans dossier de secrets, l’environnement est inchangé (0.10325ms)
+✔ état : adresse, IP, port et état de chaque service (24.716458ms)
+✔ état : service requis indisponible, ou service facultatif indisponible (24.026792ms)
+✔ description : système et services, sans identifiants (1.546375ms)
+✔ détail réservé au super administrateur : état global, description et version publics (C1NP) (12.901792ms)
+✔ INITIAL_SUPERADMIN_EMAIL : adresse normalisée, adresse invalide refusée (0.402875ms)
+✔ production : mot de passe PostgreSQL de développement refusé (0.098125ms)
+✔ identifiant : prénom.nom en minuscules, sans accents (2.242208ms)
+✔ identifiant : prénoms et noms composés ou longs raccourcis (1.037834ms)
+✔ identifiant : repli sur la partie locale de l’adresse si le nom est inutilisable (0.4385ms)
+✔ identifiant : homonymes départagés par un chiffre à partir du deuxième (0.916333ms)
+✔ mot de passe dérivé : stable, propre à chaque compte et à chaque secret (0.919458ms)
+ℹ tests 89
+ℹ suites 0
+ℹ pass 89
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1880.010958

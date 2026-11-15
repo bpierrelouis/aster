@@ -1,0 +1,11 @@
+{
+  "managerActif": false,
+  "operationsPubliees": 1,
+  "resultat": [
+    {
+      "id": "audit-evenement-123",
+      "statut": "applique"
+    }
+  ],
+  "materielSalleApres": null
+}

@@ -1,0 +1,5 @@
+Lecture ps -axo pid,ppid,command filtrée sur outils/simulateur-postes/agents.ts :
+14546 14531 node .../concurrently -k -n serveur,interface,postes npm run dev:backend npm run dev:frontend npm run dev:postes
+14616 14549 node --env-file-if-exists=.env outils/simulateur-postes/agents.ts
+71493 71472 node --env-file-if-exists=.env outils/simulateur-postes/agents.ts
+Le processus14616 appartient au npm run dev préexistant de l'utilisateur ;71493 a été lancé par l'audit. Deux émulateurs annoncent des listes différentes pour les mêmes postes, provoquant des démarrages/arrêts alternés et accélérant l'accumulation conservée une heure.

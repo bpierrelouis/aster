@@ -1,0 +1,22 @@
+// Exécuter depuis application/ : node <chemin-vers-ce-fichier>
+import {createRequire} from 'node:module';
+import {pathToFileURL} from 'node:url';
+import {resolve} from 'node:path';
+const require=createRequire(resolve('package.json'));
+import assert from 'node:assert/strict';
+const {createWorkspaceRepository}=await import(pathToFileURL(resolve('backend/persistance/engine.ts')).href);
+const {etatDemonstration}=await import(pathToFileURL(resolve('outils/donnees-demonstration/charger.ts')).href);
+const repo=await createWorkspaceRepository({initialState:etatDemonstration()});
+const actor=await repo.actor('cpt-num-admin');
+const s=await repo.read(actor);
+s.regles.push({id:'audit-invalid-rule',ecoleId:actor.ecoleId,portee:'ecole',classement:'blacklist'});
+await repo.update(s,s.revision,actor);
+console.log('ACCEPTED : règle sans nom enregistrée par administrateur');
+const state=await repo.snapshot();
+const p=state.postes.find(p=>p.salleId&&state.materiels.find(m=>m.id===p.materielId&&!m.hs));
+await assert.rejects(repo.agent.rapports([{poste:p.nomReseau,processus:[{nom:'audit.exe',compte:'audit'}]}]),/toLowerCase/);
+console.log('CONFIRMED : rapport agent rejeté TypeError reading toLowerCase sur règle persistée');
+const r2=await createWorkspaceRepository({initialState:etatDemonstration()});
+const a2=await r2.actor('cpt-num-admin');const s2=await r2.read(a2);
+s2.regles.push({id:'audit-invalid-scope',ecoleId:a2.ecoleId,portee:'inventee',nom:'test.exe',classement:'invente'});
+await r2.update(s2,s2.revision,a2);console.log('ACCEPTED : portée et classement hors catalogue enregistrés');

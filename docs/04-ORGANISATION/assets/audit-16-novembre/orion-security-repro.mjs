@@ -1,0 +1,20 @@
+// Exécuter depuis application/ ; aucun fichier du dépôt n'est modifié.
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {createRequire} from 'node:module';
+const appRoot=process.cwd();
+const require=createRequire(resolve(appRoot,'package.json'));
+const { etatDemonstration } = await import(pathToFileURL(resolve(appRoot,'outils/donnees-demonstration/charger.ts')));
+const { scopedState, mergeState } = await import(pathToFileURL(resolve(appRoot,'backend/domaine/espace.ts')));
+const { actorOf } = await import(pathToFileURL(resolve(appRoot,'backend/domaine/comptes.ts')));
+const { appliquerEvenements, operationsPubliees } = await import(pathToFileURL(resolve(appRoot,'backend/domaine/recensement.ts')));
+const initial = etatDemonstration();
+const manager = actorOf(initial, 'cpt-num-gestionnaire');
+const input = scopedState(initial, manager);
+input.operations.push({id:'propose',nom:'Audit révocation',ecoleId:'e-num',salleIds:[],mode:'recensement'});
+const state = mergeState(initial,input,manager);
+const op = state.operations.at(-1);
+state.comptes.find(c => c.id === manager.id).actif = false;
+const materiel=state.materiels.find(m=>m.ecoleId==='e-num' && m.salleId);
+const resultat = appliquerEvenements(state,op.id,[{id:'audit-evenement-123',type:'releve',code:materiel.idOrion,materielId:materiel.id,salleId:null,observeLe:Date.now()}]);
+console.log(JSON.stringify({managerActif:state.comptes.find(c=>c.id===manager.id).actif,operationsPubliees:(await operationsPubliees(state,'secret-audit')).length,resultat,materielSalleApres:materiel.salleId},null,2));

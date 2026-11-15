@@ -1,0 +1,112 @@
+{
+  "new": {
+    "CODE-01": {
+      "number": 163,
+      "id": 6408423307,
+      "url": "https://github.com/bpierrelouis/aster/issues/163",
+      "parent_done": true,
+      "project_item": "PVTI_lAHOAoh1OM4Bn7ItzhI8_lA",
+      "ready": true
+    },
+    "CODE-02": {
+      "number": 164,
+      "id": 6408424605,
+      "url": "https://github.com/bpierrelouis/aster/issues/164",
+      "parent_done": true,
+      "project_item": "PVTI_lAHOAoh1OM4Bn7ItzhI8_q8",
+      "ready": true
+    },
+    "SEC-01": {
+      "number": 165,
+      "id": 6408434807,
+      "url": "https://github.com/bpierrelouis/aster/issues/165",
+      "parent_done": true,
+      "project_item": "PVTI_lAHOAoh1OM4Bn7ItzhI9ARs",
+      "ready": true
+    },
+    "DOC-06": {
+      "number": 166,
+      "id": 6408436300,
+      "url": "https://github.com/bpierrelouis/aster/issues/166",
+      "parent_done": true,
+      "project_item": "PVTI_lAHOAoh1OM4Bn7ItzhI9AY0",
+      "ready": true
+    },
+    "CODE-04": {
+      "number": 167,
+      "id": 6408437589,
+      "url": "https://github.com/bpierrelouis/aster/issues/167",
+      "parent_done": true,
+      "project_item": "PVTI_lAHOAoh1OM4Bn7ItzhI9AdA",
+      "ready": true
+    }
+  },
+  "verdicts": {
+    "24": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/24#issuecomment-6899997175",
+      "status": "In progress"
+    },
+    "60": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/60#issuecomment-6899997525",
+      "status": "In progress"
+    },
+    "61": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/61#issuecomment-6899997917",
+      "closed": true,
+      "status": "Done"
+    },
+    "105": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/105#issuecomment-6899998407",
+      "status": "In progress"
+    },
+    "106": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/106#issuecomment-6899998862",
+      "status": "In progress"
+    },
+    "107": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/107#issuecomment-6899999239",
+      "status": "In progress"
+    },
+    "109": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/109#issuecomment-6899999609",
+      "status": "In progress"
+    },
+    "116": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/116#issuecomment-6899999980",
+      "status": "In progress"
+    },
+    "130": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/130#issuecomment-6900000336",
+      "closed": true,
+      "status": "Done"
+    },
+    "140": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/140#issuecomment-6900000943",
+      "closed": true,
+      "status": "Done"
+    },
+    "141": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/141#issuecomment-6900001623",
+      "closed": true,
+      "status": "Done"
+    },
+    "142": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/142#issuecomment-6900002167",
+      "closed": true,
+      "status": "Done"
+    },
+    "143": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/143#issuecomment-6900002765",
+      "status": "In progress"
+    },
+    "161": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/161#issuecomment-6900003076",
+      "closed": true,
+      "status": "Done"
+    },
+    "162": {
+      "comment": "https://github.com/bpierrelouis/aster/issues/162#issuecomment-6900004037",
+      "status": "In progress"
+    }
+  }
+}

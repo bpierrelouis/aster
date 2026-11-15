@@ -41,8 +41,9 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [5.1](#18-dossier-architecture-technique) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [4.0](#20-backlog-et-suivi-projet) | 15/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.18](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
-| [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [1.4](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [6.0](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [2.0](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
+| [docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md](../docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md) | Pilotage interne | [1.0](#31-audit-avant-rendu-16-novembre) | 15/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -570,7 +571,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.18 | 15/11/2026 | Jeton du relais fiabilisé ; RIGEL vérifié sur iOS | en vigueur | — |
+| 6.0 | 15/11/2026 | Suit les anomalies confirmées et les réserves de recette ; Ajoute le défaut mineur de versionnement corrigé | en vigueur | — |
+| 5.18 | 15/11/2026 | Jeton du relais fiabilisé ; RIGEL vérifié sur iOS | `3fbaa9a` | — |
 | 5.17 | 15/11/2026 | Recette sur les VM consignée ; jeton du relais à fiabiliser | `97191e8` | — |
 | 5.16 | 15/11/2026 | Durcissement reporté au DAT | `75615df` | — |
 | 5.15 | 15/11/2026 | Tests des points d’état faits ; version publique conservée | `3017d43` | — |
@@ -630,11 +632,20 @@ Fichier : [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.4 | 15/11/2026 | Points 1, 3, 4 et 6 tranchés | en vigueur | — |
+| 2.0 | 15/11/2026 | Actualise chaque point avec les résultats de l’audit ; Actualise le total après les contrôles finaux | en vigueur | — |
+| 1.4 | 15/11/2026 | Points 1, 3, 4 et 6 tranchés | `0867182` | — |
 | 1.3 | 15/11/2026 | Lien d’une remontée à son école tranché | `8be49e9` | — |
 | 1.2 | 15/11/2026 | Présentation de RIGEL selon la cible tranchée | `04c54ca` | — |
 | 1.1 | 15/11/2026 | Classement en pilotage interne | `1640070` | — |
 | 1.0 | 15/11/2026 | Points du daily scrum du 16 novembre | `36a3477` | — |
+
+### 31-AUDIT-AVANT-RENDU-16-NOVEMBRE
+
+Fichier : [docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md](../docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md) · Pilotage interne
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.0 | 15/11/2026 | Consigne les preuves, écarts et verdicts avant rendu ; Complète les contrôles finaux et la correction du versionnement ; Harmonise la présentation des écarts | en vigueur | — |
 
 ## Fichiers retirés
 

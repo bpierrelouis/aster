@@ -1,0 +1,100 @@
+
+> test:workspace
+> playwright test -c playwright.workspace.config.ts
+
+[WebServer] (node:70310) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 50 tests using 1 worker
+
+(node:70315) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/espace-affichage.spec.ts:20:1 › tous les écrans se chargent sans erreur JavaScript (12.5s)
+  ✓   2 tests/espace-affichage.spec.ts:31:1 › les onglets trop larges perdent d’abord leur icône, puis seulement leur libellé, avec une infobulle (769ms)
+  ✓   3 tests/espace-affichage.spec.ts:55:1 › les sous-onglets des remontées de l’administrateur gardent leur libellé (708ms)
+  ✓   4 tests/espace-affichage.spec.ts:66:1 › les titres d’écran ne sont pas affichés (3.6s)
+  ✓   5 tests/espace-affichage.spec.ts:74:1 › un tableau de bord personnalisé se crée, se renomme et se supprime depuis l’accueil (4.8s)
+  ✓   6 tests/espace-affichage.spec.ts:103:1 › chaque action n’a qu’un point d’entrée par écran (3.2s)
+  ✓   7 tests/espace-affichage.spec.ts:119:1 › la navigation donne une adresse à chaque écran et suit l’historique (2.1s)
+  ✓   8 tests/espace-affichage.spec.ts:139:1 › les écrans principaux restent contenus sur mobile (3.2s)
+  ✓   9 tests/espace-affichage.spec.ts:149:1 › les actions de l’écran restent visibles pendant le défilement (873ms)
+  ✓  10 tests/espace-affichage.spec.ts:163:1 › sans barre ni rebond de défilement, la fenêtre s’aligne sur le bas du menu et un fondu signale la suite (817ms)
+  ✓  11 tests/espace-affichage.spec.ts:180:1 › la légende des salles reste visible pendant le défilement ; le panneau garde sa forme (1.9s)
+  ✓  12 tests/espace-affichage.spec.ts:195:1 › deux ambiances ; Orion et Minarm suivent la machine, ou la tonalité forcée par le soleil ou la lune (2.4s)
+  ✓  13 tests/espace-affichage.spec.ts:235:1 › une synchronisation lue pendant un enregistrement ne rétablit pas l’apparence précédente (916ms)
+[WebServer] 8:16:06 PM [vite] (client) [Unhandled error] Error: ResizeObserver loop completed with undelivered notifications.
+[WebServer]  > ../../../../../../../@vite/client:370:50
+[WebServer]
+  ✓  14 tests/espace-affichage.spec.ts:270:1 › les tableaux de bord présentent des diagrammes ; indicateurs et diagrammes sans icône (3.1s)
+  ✓  15 tests/espace-affichage.spec.ts:312:1 › Échap ferme la fenêtre munie d’une croix ouverte en dernier (2.3s)
+  ✓  16 tests/espace-affichage.spec.ts:329:1 › le menu principal n’a pas de bulle ; les règles de processus portent le logo de leur application (755ms)
+  ✘  17 tests/espace-affichage.spec.ts:339:1 › en mode interface seule, le menu du compte change d’utilisateur (3.5s)
+(node:70596) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  18 tests/espace-affichage.spec.ts:370:1 › la palette Orion conserve la couleur du compte et Minarm garde les couleurs du DSFR (6.5s)
+  ✓  19 tests/espace-affichage.spec.ts:490:1 › les listes longues intègrent leur recherche sans perdre la sélection ni la valeur du formulaire (3.3s)
+  ✓  20 tests/espace-affichage.spec.ts:545:1 › les listes courtes partagent le menu de choix et se parcourent au clavier (3.4s)
+  ✓  21 tests/espace-affichage.spec.ts:581:1 › les menus de la barre haute se ferment par Échap, clic extérieur ou leur bouton (969ms)
+  ✓  22 tests/espace-affichage.spec.ts:607:1 › le menu du compte reste ancré pendant les changements d’apparence (5.4s)
+  ✓  23 tests/espace-parc.spec.ts:6:1 › un étage choisi est mis en évidence parmi tous les étages, salles ordonnées par nom et de hauteur fixe (2.1s)
+  ✓  24 tests/espace-parc.spec.ts:33:1 › les noms de toutes les salles sont visibles dans la vue d’ensemble (773ms)
+  ✓  25 tests/espace-parc.spec.ts:48:1 › le stock n’affiche que le stock (927ms)
+  ✓  26 tests/espace-parc.spec.ts:63:1 › cliquer une ligne de l’inventaire la sélectionne (1.9s)
+  ✓  27 tests/espace-parc.spec.ts:78:1 › quitter une salle de la vue éclatée retire son état survolé (919ms)
+  ✓  28 tests/espace-parc.spec.ts:94:1 › les mises à jour reçues ne rejouent pas les animations de la scène (4.4s)
+  ✓  29 tests/espace-parc.spec.ts:109:1 › un matériel créé est conservé après rechargement (2.7s)
+  ✓  30 tests/espace-parc.spec.ts:127:1 › un bâtiment se renomme depuis l’administration, avec ses salles (4.1s)
+  ✓  31 tests/espace-parc.spec.ts:149:1 › un bâtiment se renomme depuis sa vue, qui suit le nouveau nom (2.5s)
+  ✓  32 tests/espace-parc.spec.ts:165:1 › une salle s’équipe de postes et de matériels secondaires pris dans le stock (2.2s)
+  ✓  33 tests/espace-parc.spec.ts:197:1 › installation : un point orange passe au vert, la salle est équipée une fois tout installé (4.9s)
+  ✓  34 tests/espace-parc.spec.ts:244:1 › seul un matériel du stock, cité par aucune remontée, peut être supprimé (3.7s)
+  ✓  35 tests/espace-parc.spec.ts:268:1 › l’import JSON n’ajoute que les nouveaux matériels et, une fois validés, les transferts d’une autre école (5.7s)
+  ✓  36 tests/espace-parc.spec.ts:312:1 › le gestionnaire suit l’installation des salles dans un second backlog ; les déplacements vont d’un lieu à un autre (2.3s)
+  ✓  37 tests/espace-parc.spec.ts:334:1 › la fiche d’un matériel hors service dans la vue Salles indique depuis quand (777ms)
+  ✘  38 tests/espace-parc.spec.ts:343:1 › recensement : ouverture, appairage par QR code, code inconnu ajouté au parc par le serveur, anciens constats à traiter (10.6s)
+(node:70946) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  39 tests/espace-parc.spec.ts:443:1 › la recherche du formateur ignore le stock et mène à la salle du matériel (1.8s)
+  ✓  40 tests/espace-parc.spec.ts:468:1 › installation et recensement simultanés d’une salle : deux boutons, QR codes de l’installation, restockage groupé (8.5s)
+  ✓  41 tests/espace-suivi.spec.ts:5:1 › une remontée créée produit un PDF téléchargeable (2.4s)
+  ✓  42 tests/espace-suivi.spec.ts:49:1 › les postes de l’administration sont paginés, sans les demandes d’intervention (1.7s)
+  ✓  43 tests/espace-suivi.spec.ts:62:1 › une application s’installe sur une salle entière, des postes se réinitialisent ; un seul suivi, une ligne par demande (7.4s)
+  ✓  44 tests/espace-suivi.spec.ts:118:1 › supervision : Alertes par défaut ; la recherche ignore casse et espaces, reconnaît l’application et filtre les processus (2.3s)
+  ✓  45 tests/espace-suivi.spec.ts:149:1 › le gestionnaire suit son travail dans le backlog : en attente, en cours, terminées ; il déclare et remet le matériel (1.5s)
+  ✓  46 tests/espace-suivi.spec.ts:192:1 › les administrateurs suivent les remontées sans les prendre en charge ni les traiter (1.2s)
+  ✓  47 tests/espace-suivi.spec.ts:203:1 › les notifications sont regroupées par nature ; l’espace Notifications les détaille toutes (1.6s)
+  ✓  48 tests/espace-suivi.spec.ts:229:1 › supervision : la carte d’un poste montre son système et, sous l’état, l’utilisateur tronqué dans le cadre (795ms)
+  ✓  49 tests/espace-suivi.spec.ts:243:1 › comptes : l’administrateur rattache un compte à son école ; le super administrateur choisit l’école et peut créer un super administrateur (2.5s)
+  ✓  50 tests/espace-suivi.spec.ts:266:1 › le formateur ne signale un problème que dans une salle, pas au stock (1.3s)
+
+
+  1) tests/espace-affichage.spec.ts:339:1 › en mode interface seule, le menu du compte change d’utilisateur
+
+    Error: apiRequestContext.dispose: ENOENT: no such file or directory, open '/Users/alex/Projets/Aster/aster/application/test-results/.playwright-artifacts-0/traces/192d2db912026830958b-8dd8b5c022c3482096b2-recording50.trace'
+
+    Error: apiRequestContext._wrapApiCall: ENOENT: no such file or directory, copyfile '/Users/alex/Projets/Aster/aster/application/test-results/.playwright-artifacts-0/traces/192d2db912026830958b-8dd8b5c022c3482096b2-recording49.network' -> '/Users/alex/Projets/Aster/aster/application/test-results/.playwright-artifacts-0/traces/192d2db912026830958b-8dd8b5c022c3482096b2-recording49-pwnetcopy-1.network'
+
+    Error: browserContext._wrapApiCall: ENOENT: no such file or directory, open '/Users/alex/Projets/Aster/aster/application/test-results/.playwright-artifacts-0/traces/192d2db912026830958b-8dd8b5c022c3482096b2-recording48.trace'
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/espace-affichage-en-mode-i-b5fe5-compte-change-d’utilisateur/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/espace-affichage-en-mode-i-b5fe5-compte-change-d’utilisateur/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/espace-parc.spec.ts:343:1 › recensement : ouverture, appairage par QR code, code inconnu ajouté au parc par le serveur, anciens constats à traiter
+
+    Error: apiRequestContext.dispose: ENOENT: no such file or directory, open '/Users/alex/Projets/Aster/aster/application/test-results/.playwright-artifacts-1/traces/d287df0e4c332e8c3d75-cc9c2a149d629e576ccd-recording62.trace'
+
+    Error: apiRequestContext._wrapApiCall: ENOENT: no such file or directory, copyfile '/Users/alex/Projets/Aster/aster/application/test-results/.playwright-artifacts-1/traces/d287df0e4c332e8c3d75-cc9c2a149d629e576ccd-recording61.network' -> '/Users/alex/Projets/Aster/aster/application/test-results/.playwright-artifacts-1/traces/d287df0e4c332e8c3d75-cc9c2a149d629e576ccd-recording61-pwnetcopy-1.network'
+
+    Error: browserContext._wrapApiCall: ENOENT: no such file or directory, open '/Users/alex/Projets/Aster/aster/application/test-results/.playwright-artifacts-1/traces/d287df0e4c332e8c3d75-cc9c2a149d629e576ccd-recording60.trace'
+
+    Error: ENOENT: no such file or directory, open '/Users/alex/Projets/Aster/aster/application/test-results/.playwright-artifacts-1/66a87e0a67f4fe7d9553f4e394c7ed54.zip'
+
+  2 failed
+    tests/espace-affichage.spec.ts:339:1 › en mode interface seule, le menu du compte change d’utilisateur
+    tests/espace-parc.spec.ts:343:1 › recensement : ouverture, appairage par QR code, code inconnu ajouté au parc par le serveur, anciens constats à traiter
+  48 passed (2.6m)

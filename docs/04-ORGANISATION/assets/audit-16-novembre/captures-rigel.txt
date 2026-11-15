@@ -1,0 +1,20 @@
+
+> captures:rigel
+> node tests/captures-rigel.ts
+
+node:internal/modules/run_main:111
+    triggerUncaughtException(
+    ^
+
+locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('heading', { name: 'Associer ce téléphone' }) to be visible[22m
+
+    at /Users/alex/Projets/Aster/aster/application/tests/captures-rigel.ts:106:72 {
+  log: [
+    "  - waiting for getByRole('heading', { name: 'Associer ce téléphone' }) to be visible"
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v26.13.0

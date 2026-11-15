@@ -1,0 +1,6 @@
+Lecture seule PostgreSQL pendant audit (15 novembre2026, révision code3fbaa9a), première mesure :
+processus42143 ; installations2123 ; detections439 ; postes388 ; interventions111 ; regles45 ; applications15 ; espace.revision11611.
+Seconde mesure :
+processus50035 ; installations2123 ; detections460 ; postes388 ; interventions111 ; regles45 ; applications15 ; espace.revision11675.
+Détail processus : e-res4990 (36 en cours), e-num45045 (304 en cours).
+ATTENTION : seconde mesure sous deux simulateurs concurrents (voir processus-simulateurs.log), stress introduit pendant audit, non représentatif d'une charge nominale prouvée.

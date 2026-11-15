@@ -87,6 +87,7 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 - [Backlog et suivi du projet](docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) : backlog, organisation Agile et suivi des progressions.
 - [Backlog technique et feuille de route](docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) : travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre) et évolutions envisagées ; document de pilotage interne, non remis.
 - [Points du daily scrum du 16 novembre](docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) : sujets à boucler avant le rendu et la présentation, points à trancher ; document de pilotage interne, non remis.
+- [Audit avant rendu du 16 novembre](docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md) : résultats vérifiés, preuves, écarts, verdicts des tickets et décisions attendues ; document de pilotage interne, non remis.
 - [Design](design/README.md) : charte graphique, ressources visuelles et maquettes d’interface.
 - [Présentations](presentations/README.md) : supports datés et instructions pour les consulter.
 

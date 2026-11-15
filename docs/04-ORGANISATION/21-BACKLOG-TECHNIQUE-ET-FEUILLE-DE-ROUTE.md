@@ -3,12 +3,14 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.18 | 15/11/2026 | Pilotage interne | Jeton du relais fiabilisé ; RIGEL vérifié sur iOS | [53 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 6.0 | 15/11/2026 | Pilotage interne | Suit les anomalies confirmées et les réserves de recette ; Ajoute le défaut mineur de versionnement corrigé | [54 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
 
 Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correction crée ou modifie une règle de gestion et exige l’accord préalable de l’utilisateur ; **[PROT]** document protégé, modifié seulement sur demande ; **[DAT]** le dossier d’architecture fait foi et n’est modifié que par le collègue qui le tient.
+
+Audit du 15 novembre : [rapport avant rendu](31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md), 1 blocage de recette observé, 6 écarts majeurs et 12 mineurs (dont deux corrigés). Six tickets validés ; neuf remis en cours ; anomalies #163 à #167 en Ready. Le gel reste déconseillé avant traitement et reprise des vérifications.
 
 ## 1. Échéances
 
@@ -19,7 +21,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 ### Avant le prochain déploiement sur les VM
 
 - [x] Réinitialisation des données de démonstration : le service `api` des VM recharge le jeu de départ à chaque changement de `SEED_VERSION` (21 au 14 novembre, comptes fictifs compris).
-- [x] Vérifier après déploiement : recette automatisée sur les VM le 15 novembre (version `75615df`, `npm run test:recette`, 15 parcours réussis) : version servie et état public limité, connexion par mot de passe de chaque profil et par les trois jetons, super administrateur, postes simulés, cloisonnement et droits, matériel affecté puis installé, arrêt et installation exécutés par les postes, remontée jusqu’à sa correction avec PDF, recensement RIGEL de bout en bout (téléphone émulé). Anomalie trouvée et corrigée : connecteur RIGEL refusé par le relais (401), le secret GitHub `RELAIS_TOKEN` ayant été changé le 14 novembre après la création du secret Swarm ; secret GitHub réaligné et relais redéployé. Caméra et installation de l’application mobile vérifiées par l’utilisateur sur iOS le 15 novembre. Création d’un compte : couverte par `npm run test:e2e` en local, non rejouée sur les VM. Les anciennes identités `@orion.demo` restent dans l’annuaire LDAP des VM : sans compte ORION, elles sont refusées.
+- [ ] Vérifier après déploiement (#116, refusé à l’audit) : création d’un compte et reprise des données existantes encore à contrôler ; VM injoignables depuis cet environnement le 15 novembre au soir. Preuve historique conservée : recette automatisée sur les VM le 15 novembre (version `75615df`, `npm run test:recette`, 15 parcours réussis) : version servie et état public limité, connexion par mot de passe de chaque profil et par les trois jetons, super administrateur, postes simulés, cloisonnement et droits, matériel affecté puis installé, arrêt et installation exécutés par les postes, remontée jusqu’à sa correction avec PDF, recensement RIGEL de bout en bout (téléphone émulé). Anomalie trouvée et corrigée : connecteur RIGEL refusé par le relais (401), le secret GitHub `RELAIS_TOKEN` ayant été changé le 14 novembre après la création du secret Swarm ; secret GitHub réaligné et relais redéployé. Caméra et installation de l’application mobile vérifiées par l’utilisateur sur iOS le 15 novembre. Création d’un compte : couverte par `npm run test:e2e` en local, non rejouée sur les VM. Les anciennes identités `@orion.demo` restent dans l’annuaire LDAP des VM : sans compte ORION, elles sont refusées.
 
 ### Avant le rendu de l’application (mardi 17 novembre)
 
@@ -62,9 +64,16 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 - [x] **Basse** — Guide de l’application : six images, arborescence RIGEL, scripts `dev:backend` et `start:relais`, secrets RIGEL créés par `deployer.sh`, runner installé par `runner.sh`, flux sans mot de passe aussi dans l’image Keycloak des VM, configurations remises avec le DAT (`Dockerfile`, `images/`, `keycloak/`, `ldap/`, `rigel/`).
 - [x] **Basse** — Configuration Keycloak : mapper `orion-roles` retiré du realm (les rôles Keycloak ne sont pas lus).
 
+### Écarts confirmés par l’audit avant rendu du 16 novembre
+
+- [ ] **Bloquant dans l’état de recette observé** — #167 : plus de 20 000 processus visibles bloquent toutes les écritures, même les préférences ; reproduction isolée 20 000/20 001. Le volume local a été accéléré par deux simulateurs pendant l’audit ; celui ajouté a été arrêté, celui de l’utilisateur conservé. Corriger le contrôle serveur, puis rejouer la recette sans purger l’historique pour masquer le défaut.
+- [ ] **Haute** — #163 : valider nom, classement, portée et rattachements des règles whitelist/blacklist ; une règle sans nom peut faire échouer les rapports des postes.
+- [ ] **Haute** — #164 : conserver des identifiants sans troncature à 32 bits ; collision et écrasement PostgreSQL reproduits.
+- [ ] **Basse** — #162 : résidus « campagne » dans commentaires/sélecteur CSS ; préserver les anciens noms nécessaires aux migrations et à IndexedDB.
+
 ### Évolutions
 
-- [x] **Haute** — Noms de la base et du code alignés sur la documentation ([#162](https://github.com/bpierrelouis/aster/issues/162), décision de l’utilisateur du 15 novembre : avant le gel, vocabulaire complet) : migration `0002` (tables, index et contraintes sans préfixe `orion_`, collections `operations` → `interventions` et `recensements` → `operations`, `operationId` des constats, journal de fusion repris), table de suivi `migration`, tables du relais `operation` et `evenement` (reprise des anciennes) ; code : `Intervention`, `Operation` (RIGEL), `Deplacement`, « campagne » → « opération », routes `/operations`, champ `intervention` des résultats des postes ; appairages enregistrés sur les téléphones repris ; `SEED_VERSION` 22. Reste : vérifier la reprise des données sur les VM au prochain déploiement.
+- [ ] **Haute** — Noms de la base et du code alignés sur la documentation ([#162](https://github.com/bpierrelouis/aster/issues/162), décision de l’utilisateur du 15 novembre : avant le gel, vocabulaire complet) : migration `0002` (tables, index et contraintes sans préfixe `orion_`, collections `operations` → `interventions` et `recensements` → `operations`, `operationId` des constats, journal de fusion repris), table de suivi `migration`, tables du relais `operation` et `evenement` (reprise des anciennes) ; code : `Intervention`, `Operation` (RIGEL), `Deplacement`, « campagne » → « opération », routes `/operations`, champ `intervention` des résultats des postes ; appairages enregistrés sur les téléphones repris ; `SEED_VERSION` 22. Audit : migration neuve/reprise 0001 et relais validés localement sans perte ; restent reprise des données VM, recette connectée et résidus de vocabulaire (#162 refusé).
 - [ ] **Moyenne** — Observatoire anonymisé des parcours utilisateurs : mesurer, sans identifier les personnes, le taux de réussite, la durée, les abandons et les erreurs des tâches principales (créer et traiter une remontée, déplacer ou importer du matériel, demander une intervention, recenser une salle), puis adapter la navigation à partir de ces données réelles. À cadrer avant réalisation : liste des tâches et de leurs étapes, anonymisation et durée de conservation, information des utilisateurs, stockage dans ORION, restitution (tableau de bord du super administrateur), et place dans l’architecture cible à soumettre au collègue du DAT.
 - [ ] **Moyenne** — Retirer au lieu de supprimer (bonne pratique de gestion de parc, proposée le 13 novembre) :
   - matériel, poste, application du catalogue et règle : un retrait (état « retiré » avec date, auteur et motif : réformé, perdu, transféré, erreur de saisie) remplace la suppression ; l’élément reste en base, sort des listes courantes, garde son historique et peut être réactivé ;
@@ -152,6 +161,13 @@ Audit du 15 novembre : revue du code (droits de chaque route et de chaque règle
 | Limitation des connexions | Contournable par `/realms/orion/login-actions/` sur 8444 et par l’octroi par mot de passe du client public `admin-cli` (devinette des mots de passe, verrouillage des comptes) | Port 8444 limité au realm `master`, demandes de jeton de la console comptées, `admin-cli` du realm `orion` désactivé | Démonstrateur et cible |
 | TLS et méthodes | Suites TLS 1.2 sans confidentialité persistante ou en CBC-SHA1 ; `TRACE` actif sur Apache | Suites ECDHE en AES-GCM ou ChaCha20 ; `TRACE` refusé par HAProxy et Apache | Démonstrateur et cible |
 
+Audit du 15 novembre, #109 refusé :
+
+- [ ] **Haute** — #165 : une opération RIGEL reste publiée et applicable après désactivation du gestionnaire ; révoquer les droits effectifs.
+- [ ] **Basse** — Quota relais non atomique en concurrence (#120 existant, suivi #109) ; dépassement déterministe du seuil, pas de remplissage illimité prouvé.
+- [ ] **Basse** — JSON invalide : extrait de corps journalisé et renvoyé ; remplacer par une erreur générique (#109).
+- [ ] **Basse** — Mot de passe du thème Keycloak conservé dans sessionStorage au-delà d’une minute si le parcours est abandonné (#109).
+
 Restent ouverts :
 
 | Sujet | Constat | Proposition | Portée |
@@ -176,7 +192,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 - [x] RIGEL dans le cadrage : § 23 (application de scan réalisée par RIGEL, RG-92 à RG-96) et § 19 (décision du 15 novembre, fonctionnement hors connexion) mis à jour le 15 novembre ; livrables relus (#158).
 - [x] Captures des fiches 13, 15 et 16 : les anciennes maquettes IHM sont supprimées ; les fiches reprennent les captures de l’application (`design/maquettes/captures/`, 14 novembre).
-- [x] Cadrage § 23 (vérifié le 15 novembre : § 23, RG-36, RG-37, matrice et fiche 13 suivent l’application) : il disait que la documentation suit le client (`02:391`, `:405`, `:406`), contrairement à la règle en vigueur (la documentation suit l’état actuel, l’écart est inscrit au § 23). En découlent RG-36 (filtre par salle du tableau de bord du parc) et RG-37 (fenêtre contextuelle des notifications) **[RG]**, la matrice (`12:48`) et la fiche 13 (`:141`), qui décrivent ce que l’application n’a pas.
+- [ ] Cadrage § 23 (#60 refusé à l’audit) : sa phrase introductive affirme encore que les productions cible suivent la décision du client (`02:391`, `:405`, `:406`), contrairement à la règle en vigueur (la documentation suit l’état actuel, l’écart est inscrit au § 23). RG-36, RG-37, matrice et fiche 13 ont été alignées ; seule la contradiction introductive reste à corriger, sans nouvelle modification des règles.
 
 ### Contradictions à corriger
 
@@ -207,6 +223,14 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 - [x] Cadrage § 19 : décision RIGEL du 15 novembre reportée ; runner et point d’entrée présentés en « Application » ; « simulateur » au lieu de « émulateur ».
 - [x] Glossaire : Intervention, Compte ORION, Étape de remontée, Type de problème, C1NP et CCT ajoutés ; API décrite d’après l’API des postes ; entrée LDAP conservée (décision de l’utilisateur du 15 novembre) (#142).
 
+### Écarts documentaires de l’audit
+
+- [x] **Basse** — Script de versions : un nouveau document peut être republié avant son premier commit sans échec ni changement de version (DOC-11, `fd6fa8b`) ; branche nouveau et branche existant vérifiées.
+
+- [ ] **Haute** — #166 : représenter la salle historique d’une détection dans le MCD/classes métier ; RG-56 et le code la conservent, contrairement à une jointure par la salle actuelle du poste.
+- [ ] **Basse** — #63 : retirer l’appairage obligatoire de toute installation (DCU 08), préciser conditions/points des extensions DCU 08/10/22 et totalité du propriétaire de PAQUET (XT).
+- [ ] **Basse [RG]** — Préciser RG-15 et l’entrée Administrateur du glossaire : exceptions supplémentaires pour les installations et RIGEL, déjà appliquées par RG-92 à RG-96. Rédaction proposée et sources au rapport31§6 ; accord de l’utilisateur requis, aucune règle modifiée.
+
 ### Modèle de données
 
 - [x] [MCD](../02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) (15 novembre) : `DÉPLACEMENT` (origine, destination, auteurs et dates de demande et de confirmation), `OPÉRATION` (anciennement `RECENSEMENT`), de type recensement ou installation, listes de valeurs fixes en attributs (profil, statut, type de problème, type de matériel), `SYSTÈME_EXPLOITATION` et `PAQUET` pour le catalogue de la V2, contraintes d’exclusion sur la portée d’une règle et sur le propriétaire d’un paquet ; `REMONTÉE` déjà reliée à `ÉCOLE` (`RELEVER`) et entités RIGEL présentes.
@@ -222,7 +246,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Cadrage : questions déjà résolues encore ouvertes
 
-- [x] Reporté en « Application : … », sans fermer la question côté client (15 novembre, #143) : identifiants, détection et référentiel des applications (RG-77), réinitialisation partielle, suivi par poste et échec (RG-22, RG-81), conservation de 30 jours (RG-56), remontée anonyme refusée (RG-85), formateur sans complément (RG-13), tableau de bord personnalisable (RG-84), nom ORION ; rendez-vous du 12 novembre passé, suivant à fixer.
+- [ ] Reporté en « Application : … », sans fermer la question côté client (#143 refusé à l’audit : réponses connues manquantes pour lien poste/unité centrale et filtre salle du tableau de bord) : identifiants, détection et référentiel des applications (RG-77), réinitialisation partielle, suivi par poste et échec (RG-22, RG-81), conservation de 30 jours (RG-56), remontée anonyme refusée (RG-85), formateur sans complément (RG-13), tableau de bord personnalisable (RG-84), nom ORION ; rendez-vous du 12 novembre passé, suivant à fixer.
 
 ### Brouillons
 
@@ -231,6 +255,11 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 ## 6. Dossier d’architecture : écarts à traiter [DAT]
 
 Le DAT, tenu par l’utilisateur, fait foi ; ces écarts entre lui, la configuration réelle et ses schémas sont à lui soumettre. Le 14 novembre, l’utilisateur a fait corriger directement le DAT et les schémas pour les points cochés ci-dessous.
+
+### Propositions de l’audit à soumettre au détenteur
+
+- [ ] **Haute [DAT]** — #70 : distinguer la contrainte de réseau réelle (relais/connecteur) de la cible qui les supprime ; DAT:31 contre :404, rédaction au rapport31§6.
+- [ ] **Basse [DAT]** — #70 : corriger l’affirmation de stockage hors ligne chiffré ; le mobile conserve instantané et constats dans IndexedDB, chiffrés à l’envoi au relais. DAT:106 et code mobile, rédaction au rapport31§6.
 
 ### DAT et configuration réelle
 

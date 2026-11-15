@@ -1,0 +1,144 @@
+
+> test:e2e
+> playwright test tests/auth.e2e.spec.ts
+
+
+Running 19 tests using 1 worker
+
+(node:72551) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/auth.e2e.spec.ts:51:3 › Super administrateur : connexion vide, espace de travail, session persistante et déconnexion (4.1s)
+  ✓   2 tests/auth.e2e.spec.ts:51:3 › Administrateur : connexion vide, espace de travail, session persistante et déconnexion (2.6s)
+  ✓   3 tests/auth.e2e.spec.ts:51:3 › Gestionnaire : connexion vide, espace de travail, session persistante et déconnexion (2.9s)
+  ✓   4 tests/auth.e2e.spec.ts:51:3 › Formateur : connexion vide, espace de travail, session persistante et déconnexion (3.0s)
+  ✘   5 tests/auth.e2e.spec.ts:115:1 › administrateur : un matériel créé est enregistré par le serveur réel (8.6s)
+(node:72642) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 tests/auth.e2e.spec.ts:134:1 › formateur : une remontée transmise produit son PDF ; le gestionnaire la traite (8.7s)
+(node:72674) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 tests/auth.e2e.spec.ts:181:1 › administrateur : un compte créé permet de se connecter ; désactivé, il coupe la session (9.0s)
+(node:72734) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 tests/auth.e2e.spec.ts:231:1 › une identité du fournisseur sans compte ORION est refusée (917ms)
+  ✘   9 tests/auth.e2e.spec.ts:247:1 › formateur : un arrêt de processus est exécuté par le poste (8.5s)
+(node:72781) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 tests/auth.e2e.spec.ts:263:1 › accès de présentation : un jeton connecte directement avec son compte (1.9s)
+  ✓  11 tests/auth.e2e.spec.ts:282:1 › changement de compte : retour arrière vers la page de connexion puis autre compte (3.3s)
+  ✓  12 tests/auth.e2e.spec.ts:294:1 › changement de compte : adresse saisie sur une page déjà utilisée, reprise préremplie (3.7s)
+  ✓  13 tests/auth.e2e.spec.ts:312:1 › changement de compte : deux onglets ouverts sur la page de connexion (3.1s)
+  ✓  14 tests/auth.e2e.spec.ts:327:1 › sans session, l’espace de travail renvoie à la connexion (167ms)
+  ✓  15 tests/auth.e2e.spec.ts:333:1 › une écriture d’une autre origine est refusée (1.9s)
+  ✓  16 tests/auth.e2e.spec.ts:342:1 › un mot de passe erroné est refusé, puis ressaisi sur la page du mot de passe (2.0s)
+  ✓  17 tests/auth.e2e.spec.ts:357:1 › un compte inconnu ne crée aucune session ORION (263ms)
+  ✓  18 tests/auth.e2e.spec.ts:365:1 › un state incorrect pendant une tentative réelle ne crée pas de session (24ms)
+  ✓  19 tests/auth.e2e.spec.ts:376:1 › un callback sans demande préalable et une déconnexion externe sont refusés (6ms)
+
+
+  1) tests/auth.e2e.spec.ts:115:1 › administrateur : un matériel créé est enregistré par le serveur réel
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('dialog', { name: 'Ajouter un matériel', exact: true })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('dialog', { name: 'Ajouter un matériel', exact: true }) with timeout 5000ms
+      - waiting for getByRole('dialog', { name: 'Ajouter un matériel', exact: true })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      121 |   await dialog.getByLabel('Modèle *', { exact: true }).fill(model);
+      122 |   await dialog.getByRole('button', { name: 'Enregistrer', exact: true }).click();
+    > 123 |   await expect(dialog).toHaveCount(0);
+          |                        ^
+      124 |   await expect.poll(async () => (await (await page.request.get('/api/workspace')).json()).materiels.find((m: Materiel) => m.modele === model)?.idOrion ?? null).toMatch(/^MAT-\d{4}$/);
+      125 |   await page.reload();
+      126 |   await expect(page.locator('#view h1')).toBeAttached();
+        at /Users/alex/Projets/Aster/aster/application/tests/auth.e2e.spec.ts:123:24
+
+    Error Context: test-results/auth.e2e-administrateur-un-750b4-egistré-par-le-serveur-réel/error-context.md
+
+  2) tests/auth.e2e.spec.ts:134:1 › formateur : une remontée transmise produit son PDF ; le gestionnaire la traite
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('dialog', { name: 'Signaler un problème', exact: true })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('dialog', { name: 'Signaler un problème', exact: true }) with timeout 5000ms
+      - waiting for getByRole('dialog', { name: 'Signaler un problème', exact: true })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      146 |   await dialog.getByLabel('Précisez le type de problème *').fill(problemType);
+      147 |   await dialog.getByRole('button', { name: 'Transmettre la remontée', exact: true }).click();
+    > 148 |   await expect(dialog).toHaveCount(0);
+          |                        ^
+      149 |   let report!: Remontee;
+      150 |   await expect.poll(async () => { report = (await (await page.request.get('/api/workspace')).json()).remontees.find((r: Remontee) => r.description === description); return Boolean(report); }).toBe(true);
+      151 |   expect(report.probleme).toBe(problemType);
+        at /Users/alex/Projets/Aster/aster/application/tests/auth.e2e.spec.ts:148:24
+
+    Error Context: test-results/auth.e2e-formateur-une-rem-2a24b-F-le-gestionnaire-la-traite/error-context.md
+
+  3) tests/auth.e2e.spec.ts:181:1 › administrateur : un compte créé permet de se connecter ; désactivé, il coupe la session
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      198 |     await expect(dialog).toHaveCount(0);
+      199 |   }
+    > 200 |   await expect.poll(async () => (await sql('SELECT actif FROM compte WHERE email = $1', [email]))[0]?.actif ?? false).toBe(true);
+          |                                                                                                                       ^
+      201 |   // L'identité est créée dans le fournisseur local, puis le nouvel utilisateur se connecte réellement
+      202 |   await expect.poll(async () => ((await keycloak(`/users?email=${encodeURIComponent(email)}&exact=true`)) as unknown[]).length ?? 0, { timeout: 10_000 }).toBe(1);
+      203 |   const other = await browser.newContext();
+        at /Users/alex/Projets/Aster/aster/application/tests/auth.e2e.spec.ts:200:119
+
+    Error Context: test-results/auth.e2e-administrateur-un-03402-sactivé-il-coupe-la-session/error-context.md
+
+  4) tests/auth.e2e.spec.ts:247:1 › formateur : un arrêt de processus est exécuté par le poste ─────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Arrêt demandé').first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('Arrêt demandé').first() with timeout 5000ms
+      - waiting for getByText('Arrêt demandé').first()
+
+
+      252 |   const processId = await stop.getAttribute('data-stop');
+      253 |   await stop.click();
+    > 254 |   await expect(page.getByText('Arrêt demandé').first()).toBeVisible();
+          |                                                         ^
+      255 |   // Le poste reçoit la commande, l'exécute et renvoie le résultat
+      256 |   await expect.poll(async () => (await (await page.request.get('/api/workspace')).json()).interventions.find((o: Intervention) => o.processusId === processId)?.statut, { timeout: 20_000 }).toMatch(/^(terminee|echec)$/);
+      257 |   const [op] = (await sql("SELECT data FROM donnee WHERE collection = 'interventions' AND data->>'processusId' = $1", [processId])).map((r) => r.data);
+        at /Users/alex/Projets/Aster/aster/application/tests/auth.e2e.spec.ts:254:57
+
+    Error Context: test-results/auth.e2e-formateur-un-arrê-30043-us-est-exécuté-par-le-poste/error-context.md
+
+  4 failed
+    tests/auth.e2e.spec.ts:115:1 › administrateur : un matériel créé est enregistré par le serveur réel
+    tests/auth.e2e.spec.ts:134:1 › formateur : une remontée transmise produit son PDF ; le gestionnaire la traite
+    tests/auth.e2e.spec.ts:181:1 › administrateur : un compte créé permet de se connecter ; désactivé, il coupe la session
+    tests/auth.e2e.spec.ts:247:1 › formateur : un arrêt de processus est exécuté par le poste ──────
+  15 passed (1.1m)

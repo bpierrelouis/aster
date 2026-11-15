@@ -1,0 +1,56 @@
+
+> test:e2e
+> playwright test tests/auth.e2e.spec.ts
+
+
+Running 19 tests using 1 worker
+
+(node:70572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/auth.e2e.spec.ts:51:3 › Super administrateur : connexion vide, espace de travail, session persistante et déconnexion (3.9s)
+  ✓   2 tests/auth.e2e.spec.ts:51:3 › Administrateur : connexion vide, espace de travail, session persistante et déconnexion (2.3s)
+  ✓   3 tests/auth.e2e.spec.ts:51:3 › Gestionnaire : connexion vide, espace de travail, session persistante et déconnexion (2.2s)
+  ✓   4 tests/auth.e2e.spec.ts:51:3 › Formateur : connexion vide, espace de travail, session persistante et déconnexion (2.6s)
+  ✓   5 tests/auth.e2e.spec.ts:115:1 › administrateur : un matériel créé est enregistré par le serveur réel (5.2s)
+  ✓   6 tests/auth.e2e.spec.ts:134:1 › formateur : une remontée transmise produit son PDF ; le gestionnaire la traite (6.5s)
+  ✓   7 tests/auth.e2e.spec.ts:181:1 › administrateur : un compte créé permet de se connecter ; désactivé, il coupe la session (7.6s)
+  ✓   8 tests/auth.e2e.spec.ts:231:1 › une identité du fournisseur sans compte ORION est refusée (462ms)
+  ✘   9 tests/auth.e2e.spec.ts:247:1 › formateur : un arrêt de processus est exécuté par le poste (22.5s)
+(node:70839) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 tests/auth.e2e.spec.ts:263:1 › accès de présentation : un jeton connecte directement avec son compte (1.4s)
+  ✓  11 tests/auth.e2e.spec.ts:282:1 › changement de compte : retour arrière vers la page de connexion puis autre compte (2.4s)
+  ✓  12 tests/auth.e2e.spec.ts:294:1 › changement de compte : adresse saisie sur une page déjà utilisée, reprise préremplie (2.5s)
+  ✓  13 tests/auth.e2e.spec.ts:312:1 › changement de compte : deux onglets ouverts sur la page de connexion (2.5s)
+  ✓  14 tests/auth.e2e.spec.ts:327:1 › sans session, l’espace de travail renvoie à la connexion (160ms)
+  ✓  15 tests/auth.e2e.spec.ts:333:1 › une écriture d’une autre origine est refusée (1.7s)
+  ✓  16 tests/auth.e2e.spec.ts:342:1 › un mot de passe erroné est refusé, puis ressaisi sur la page du mot de passe (1.4s)
+  ✓  17 tests/auth.e2e.spec.ts:357:1 › un compte inconnu ne crée aucune session ORION (268ms)
+  ✓  18 tests/auth.e2e.spec.ts:365:1 › un state incorrect pendant une tentative réelle ne crée pas de session (27ms)
+  ✓  19 tests/auth.e2e.spec.ts:376:1 › un callback sans demande préalable et une déconnexion externe sont refusés (8ms)
+
+
+  1) tests/auth.e2e.spec.ts:247:1 › formateur : un arrêt de processus est exécuté par le poste ─────
+
+    Error: expect(received).toMatch(expected)
+
+    Expected pattern: /^(terminee|echec)$/
+    Received string:  "enregistree"
+
+    Call Log:
+    - Timeout 20000ms exceeded while waiting on the predicate
+
+      254 |   await expect(page.getByText('Arrêt demandé').first()).toBeVisible();
+      255 |   // Le poste reçoit la commande, l'exécute et renvoie le résultat
+    > 256 |   await expect.poll(async () => (await (await page.request.get('/api/workspace')).json()).interventions.find((o: Intervention) => o.processusId === processId)?.statut, { timeout: 20_000 }).toMatch(/^(terminee|echec)$/);
+          |                                                                                                                                                                                              ^
+      257 |   const [op] = (await sql("SELECT data FROM donnee WHERE collection = 'interventions' AND data->>'processusId' = $1", [processId])).map((r) => r.data);
+      258 |   expect(op).toMatchObject({ type: 'arret', par: 'Thomas Lefebvre', parId: 'cpt-num-formateur' });
+      259 |   if (op.statut === 'terminee') expect((await (await page.request.get('/api/workspace')).json()).processus.find((p: Processus) => p.id === processId)?.stoppedAt ?? Date.now()).toBeTruthy();
+        at /Users/alex/Projets/Aster/aster/application/tests/auth.e2e.spec.ts:256:190
+
+    Error Context: test-results/auth.e2e-formateur-un-arrê-30043-us-est-exécuté-par-le-poste/error-context.md
+
+  1 failed
+    tests/auth.e2e.spec.ts:247:1 › formateur : un arrêt de processus est exécuté par le poste ──────
+  18 passed (1.1m)
