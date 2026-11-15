@@ -664,6 +664,13 @@
         "version": "6.5",
         "date": "2026-11-15",
         "modification": "Version publique de /api/infos, attendue sur le C1NP",
+        "archive": null,
+        "commit": "3017d43"
+      },
+      {
+        "version": "6.6",
+        "date": "2026-11-15",
+        "modification": "Limitation de débit en place",
         "archive": null
       }
     ]
@@ -2318,6 +2325,13 @@
         "version": "4.0",
         "date": "2026-11-15",
         "modification": "Retient NFSv4.2 pour le stockage de l’architecture cible ; Retient NFSv4.2 pour le stockage cible et sert RIGEL par l’entrée et le back d’ORION",
+        "archive": null,
+        "commit": "e6b9ffd"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-15",
+        "modification": "Durcissement du 15 novembre : entrée, Keycloak, collecteur, NFS, PostgreSQL, conteneurs, déploiement",
         "archive": null
       }
     ],
@@ -2907,6 +2921,13 @@
         "version": "5.15",
         "date": "2026-11-15",
         "modification": "Tests des points d’état faits ; version publique conservée",
+        "archive": null,
+        "commit": "3017d43"
+      },
+      {
+        "version": "5.16",
+        "date": "2026-11-15",
+        "modification": "Durcissement reporté au DAT",
         "archive": null
       }
     ]

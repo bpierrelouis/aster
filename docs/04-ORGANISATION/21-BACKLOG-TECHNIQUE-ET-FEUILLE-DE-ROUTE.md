@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.15 | 15/11/2026 | Pilotage interne | Tests des points d’état faits ; version publique conservée | [50 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.16 | 15/11/2026 | Pilotage interne | Durcissement reporté au DAT | [51 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -245,7 +245,7 @@ Le DAT, tenu par l’utilisateur, fait foi ; ces écarts entre lui, la configura
 - [x] **Basse** — Logstash n’envoie pas ses propres logs au collecteur, ce qui est voulu : le DAT le précise (« chaque conteneur, sauf Logstash… »).
 - [x] **Basse** — Chemins `/srv/orion/…`, `/var/lib/…`, `/run/secrets/…` cités hors de l’inventaire des configurations : admis, car ils décrivent le déploiement sur les VM et dans les conteneurs (utilisateur, 14 novembre ; règle précisée dans `AGENTS.md`).
 
-- [ ] **Moyenne** — Durcissement du 15 novembre (§ 4), absent du DAT : HAProxy (liste d’autorisation vers Keycloak, chemins à `..` refusés, limitation de débit, HSTS, TLS 1.2 minimum, en-têtes de relais retirés) ; stockage (un export NFS par dossier de service, `root_squash` sauf OpenLDAP, PostgreSQL en uid 70) ; PostgreSQL (rôle `orion_app`, tâche ponctuelle `orion-roles` au déploiement) ; Logstash (TLS mutuel sur `6514`, certificats clients des VM) ; autorité de certification (`nameConstraints`, clé chiffrée) ; déploiement (logique exécutée sur orion-1 par `orion-deploiement`, seule commande permise à la clé du runner ; nouveaux fichiers `deploiement.sh` et `postgres-roles.sh` dans les configurations remises) ; services (Apache en `www-data` sur système de fichiers en lecture seule, `cap_drop: ALL`) ; Keycloak (realm `master` importé, console de compte fermée, adresse modifiable par l’administrateur seul).
+- [x] **Moyenne** — Durcissement du 15 novembre reporté au DAT (§ 4.5 et § 4.8) : protections de l’entrée et limitation de débit, Keycloak, TLS mutuel du collecteur, autorité restreinte, exports NFS par service en `root_squash`, rôle `orion_app`, conteneurs sans capacité, commande `orion-deploiement` et nouveaux fichiers remis (modification autorisée par l’utilisateur le 15 novembre, qui en vérifie le contenu).
 
 ### Schémas d’architecture (générateur)
 

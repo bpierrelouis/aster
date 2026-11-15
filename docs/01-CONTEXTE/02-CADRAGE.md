@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.5 | 15/11/2026 | Source de travail interne | Version publique de /api/infos, attendue sur le C1NP | [25 versions](../../archive/README.md#02-cadrage) |
+| 6.6 | 15/11/2026 | Source de travail interne | Limitation de débit en place | [26 versions](../../archive/README.md#02-cadrage) |
 <!-- version:fin -->
 
 **Document de travail interne, non destiné à la remise aux cadres évaluateurs.** Il conserve les réponses et leurs périmètres pour préparer les productions. Les documents remis décrivent la cible en production ; les modalités de réalisation et les comptes du démonstrateur sont réservés au [guide interne de développement](../../application/README.md). Cette distinction a été fixée par l’utilisateur le 6 novembre.
@@ -348,7 +348,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] Comment chaque poste s’authentifie-t-il auprès d’ORION ? — **Décision de l’utilisateur du 13 novembre :** un jeton propre à chaque poste. **Application :** jeton signé à partir du nom réseau du poste, obtenu par un administrateur de son école ; un poste n’envoie que ses propres rapports et résultats. Un certificat client reste envisageable pour la cible selon le mécanisme d’administration des postes retenu.
 - [x] Faut-il réserver la console Keycloak et la réception des journaux au réseau d’administration du démonstrateur ? — **Décision de l’utilisateur du 13 novembre :** pas de filtrage réseau ; la console Keycloak (port 8444) et Logstash (port 6514) restent joignables depuis le réseau des VM.
 - [ ] Faut-il durcir les comptes techniques du démonstrateur ? — **Orientation de l’utilisateur du 13 novembre :** retenir la meilleure solution. **Application :** les identités sont créées par un compte de service du realm `orion`, limité à la gestion des utilisateurs, et non plus par le compte d’administration de Keycloak. **Restent proposés**, à vérifier lors d’un redéploiement des VM : un rôle PostgreSQL applicatif sans privilège de superutilisateur et `root_squash` sur le partage NFS (PostgreSQL attribue ses fichiers au démarrage).
-- [x] Les points d’état et de description de l’API doivent-ils rester publics ? — **Orientation de l’utilisateur du 13 novembre :** retenir la meilleure solution. **Application :** sans session de super administrateur, `/api/health` ne renvoie que l’état global et `/api/infos` la description de l’application ; la documentation de l’API exige une connexion. Aucune limitation de débit n’est posée. **Décision de l’utilisateur du 15 novembre :** la version de l’application reste publiée sans connexion par `/api/infos` : c’est un attendu des applications déployées sur le C1NP.
+- [x] Les points d’état et de description de l’API doivent-ils rester publics ? — **Orientation de l’utilisateur du 13 novembre :** retenir la meilleure solution. **Application :** sans session de super administrateur, `/api/health` ne renvoie que l’état global et `/api/infos` la description de l’application ; la documentation de l’API exige une connexion. **Application, depuis le 15 novembre :** HAProxy limite le débit (réponse 429). **Décision de l’utilisateur du 15 novembre :** la version de l’application reste publiée sans connexion par `/api/infos` : c’est un attendu des applications déployées sur le C1NP.
 
 ## 20. Volumétrie, performance et disponibilité
 

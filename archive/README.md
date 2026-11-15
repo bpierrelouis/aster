@@ -13,7 +13,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [3.0](#design-maquettes-index) | 15/11/2026 |
 | [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md) | Production destinée à la remise | [5.3](#00-glossaire) | 15/11/2026 |
 | [docs/01-CONTEXTE/01-CONSIGNES.md](../docs/01-CONTEXTE/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.4](#01-consignes) | 14/11/2026 |
-| [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [6.5](#02-cadrage) | 15/11/2026 |
+| [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [6.6](#02-cadrage) | 15/11/2026 |
 | [docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.1](#03-compte-rendu-entretiens) | 14/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [4.0](#06-diagramme-contexte) | 15/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [2.2](#07-diagrammes-activite) | 15/11/2026 |
@@ -38,10 +38,10 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md](../docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md) | Production destinée à la remise | [2.1](#27-diagramme-classes-conception) | 15/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md](../docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md) | Production destinée à la remise | [2.1](#28-diagrammes-sequence-detailles) | 15/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [3.0](#29-modele-physique-donnees) | 15/11/2026 |
-| [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [4.0](#18-dossier-architecture-technique) | 15/11/2026 |
+| [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [5.0](#18-dossier-architecture-technique) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.5](#20-backlog-et-suivi-projet) | 15/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.15](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.16](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
 | [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [1.4](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
 
 ## Fichiers en vigueur
@@ -133,7 +133,8 @@ Fichier : [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) ·
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.5 | 15/11/2026 | Version publique de /api/infos, attendue sur le C1NP | en vigueur | — |
+| 6.6 | 15/11/2026 | Limitation de débit en place | en vigueur | — |
+| 6.5 | 15/11/2026 | Version publique de /api/infos, attendue sur le C1NP | `3017d43` | — |
 | 6.4 | 15/11/2026 | Réponses de l’application reportées aux questions déjà résolues ; prochain rendez-vous à fixer | `4268db6` | — |
 | 6.3 | 15/11/2026 | Journal applicatif reporté aux §§ 18 et 21 | `60a0e11` | — |
 | 6.2 | 15/11/2026 | Décisions du 13 novembre reportées : identifiants, adresse MAC, dates du compte | `1237188` | — |
@@ -511,7 +512,8 @@ Fichier : [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.0 | 15/11/2026 | Retient NFSv4.2 pour le stockage de l’architecture cible ; Retient NFSv4.2 pour le stockage cible et sert RIGEL par l’entrée et le back d’ORION | en vigueur | — |
+| 5.0 | 15/11/2026 | Durcissement du 15 novembre : entrée, Keycloak, collecteur, NFS, PostgreSQL, conteneurs, déploiement | en vigueur | — |
+| 4.0 | 15/11/2026 | Retient NFSv4.2 pour le stockage de l’architecture cible ; Retient NFSv4.2 pour le stockage cible et sert RIGEL par l’entrée et le back d’ORION | `e6b9ffd` | — |
 | 3.6 | 15/11/2026 | Retire les identités de démonstration de l’annuaire remis et signale l’accès de présentation | `c0ace77` | — |
 | 3.5 | 15/11/2026 | Décrit la création du premier super administrateur d’une base neuve | `8866971` | — |
 | 3.4 | 14/11/2026 | Préciser que Logstash garde ses propres logs sur sa VM | `28ed8d4` | — |
@@ -566,7 +568,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.15 | 15/11/2026 | Tests des points d’état faits ; version publique conservée | en vigueur | — |
+| 5.16 | 15/11/2026 | Durcissement reporté au DAT | en vigueur | — |
+| 5.15 | 15/11/2026 | Tests des points d’état faits ; version publique conservée | `3017d43` | — |
 | 5.14 | 15/11/2026 | Noms de la base et du code alignés (#162) | `0867182` | — |
 | 5.13 | 15/11/2026 | Lien remontée → école justifié ; préférences couvertes par le DCU 22 | `8be49e9` | — |
 | 5.12 | 15/11/2026 | Questions du cadrage déjà résolues reportées | `4268db6` | — |
