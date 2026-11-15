@@ -40,8 +40,8 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [1.0](#29-modele-physique-donnees) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [4.0](#18-dossier-architecture-technique) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
-| [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.4](#20-backlog-et-suivi-projet) | 14/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.23](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.5](#20-backlog-et-suivi-projet) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.24](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -511,7 +511,8 @@ Fichier : [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANI
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.4 | 14/11/2026 | Plus de version Word : le Markdown fait foi | en vigueur | — |
+| 3.5 | 15/11/2026 | Référence le tracé des flux et la cible NFS et RIGEL | en vigueur | — |
+| 3.4 | 14/11/2026 | Plus de version Word : le Markdown fait foi | `5da7ebd` | — |
 | 3.3 | 14/11/2026 | Reprendre les références de commits du brouillon de suivi | `6a9d33c` | — |
 | 3.2 | 14/11/2026 | Actualiser les graphiques depuis le projet GitHub | `b5f9cf9` | — |
 | 3.1 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | `e99107c` | — |
@@ -526,7 +527,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.23 | 15/11/2026 | Clôt le tracé des flux de la vue complète ; Clôt le tracé des flux de la vue complète et inscrit l’alignement de RIGEL dans la cible | en vigueur | — |
+| 4.24 | 15/11/2026 | Consigne la clôture des écarts du dossier d’architecture | en vigueur | — |
+| 4.23 | 15/11/2026 | Clôt le tracé des flux de la vue complète ; Clôt le tracé des flux de la vue complète et inscrit l’alignement de RIGEL dans la cible | `e6b9ffd` | — |
 | 4.22 | 15/11/2026 | Clôt le retrait des données de démonstration des livrables | `c0ace77` | — |
 | 4.21 | 15/11/2026 | Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT | `8866971` | — |
 | 4.20 | 15/11/2026 | Cocher les mots de passe des comptes ; Cocher les mots de passe des comptes | `8ad0b2a` | — |

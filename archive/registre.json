@@ -2232,6 +2232,13 @@
         "version": "3.4",
         "date": "2026-11-14",
         "modification": "Plus de version Word : le Markdown fait foi",
+        "archive": null,
+        "commit": "5da7ebd"
+      },
+      {
+        "version": "3.5",
+        "date": "2026-11-15",
+        "modification": "Référence le tracé des flux et la cible NFS et RIGEL",
         "archive": null
       }
     ]
@@ -2515,6 +2522,13 @@
         "version": "4.23",
         "date": "2026-11-15",
         "modification": "Clôt le tracé des flux de la vue complète ; Clôt le tracé des flux de la vue complète et inscrit l’alignement de RIGEL dans la cible",
+        "archive": null,
+        "commit": "e6b9ffd"
+      },
+      {
+        "version": "4.24",
+        "date": "2026-11-15",
+        "modification": "Consigne la clôture des écarts du dossier d’architecture",
         "archive": null
       }
     ]
