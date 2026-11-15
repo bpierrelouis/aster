@@ -12,7 +12,7 @@ import { journal, raison } from './journal.ts';
 import { identityFromClaims, userFromAccount } from './api/profiles.ts';
 import { createWorkspaceRouter, createAgentRouter, createRigelRouter } from './api/routes.ts';
 import { createPostgresWorkspaceRepository } from './persistance/postgres.ts';
-import { createServices } from './services.ts';
+import { createServices, healthPublic, infosPublic } from './services.ts';
 import { openapi } from './api/openapi.ts';
 import { DISCONNECT_AFTER } from './domaine/postes.ts';
 import { same } from './domaine/commun.ts';
@@ -94,11 +94,10 @@ const services = createServices({ config, pool, snapshot: workspaceRepository.sn
 const superadmin = async (req: Request) => (await sessionActor(req))?.role === 'superadmin';
 app.get('/api/health', async (req, res) => {
   const health = await services.health();
-  res.status(health.status === 'unavailable' ? 503 : 200).json(await superadmin(req) ? health : { status: health.status, checkedAt: health.checkedAt });
+  res.status(health.status === 'unavailable' ? 503 : 200).json(healthPublic(health, await superadmin(req)));
 });
 app.get('/api/infos', async (req, res) => {
-  const infos = services.infos();
-  res.json(await superadmin(req) ? infos : { application: infos.application });
+  res.json(infosPublic(services.infos(), await superadmin(req)));
 });
 const connected = async (req: Request, res: Response, next: NextFunction) => ((await sessionActor(req)) ? next() : res.status(401).json({ error: 'Connexion nécessaire.' }));
 app.get('/api/openapi.json', connected, (_req, res) => res.json(openapi));

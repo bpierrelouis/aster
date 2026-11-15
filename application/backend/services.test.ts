@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { readConfig } from './config.ts';
-import { createServices } from './services.ts';
+import { createServices, healthPublic, infosPublic } from './services.ts';
 
 type Health = Awaited<ReturnType<ReturnType<typeof createServices>['health']>>;
 
@@ -69,6 +69,19 @@ test('description : système et services, sans identifiants', async () => {
     assert.ok(infos.services.every((s) => s.name && s.role));
     assert.deepEqual(infos.services.find((s) => s.id === 'base'), { id: 'base', name: 'Base de données', role: infos.services.find((s) => s.id === 'base')!.role, host: 'localhost', port: 5432, required: true });
     assert.ok(!JSON.stringify(infos).includes('orion-local'));
+  } finally { close(); }
+});
+
+test('détail réservé au super administrateur : état global, description et version publics (C1NP)', async () => {
+  const { services, close } = await setup({ env: { ORION_VERSION: 'abc123' } });
+  try {
+    const health = await services.health(), infos = services.infos();
+    assert.deepEqual(healthPublic(health, false), { status: health.status, checkedAt: health.checkedAt });
+    assert.deepEqual(healthPublic(health, true), health);
+    assert.deepEqual(infosPublic(infos, false), { application: infos.application });
+    assert.equal(infosPublic(infos, false).application.version, 'abc123', 'version publique, attendue sur le C1NP');
+    assert.deepEqual(infosPublic(infos, true), infos);
+    for (const vue of [healthPublic(health, false), infosPublic(infos, false)]) assert.ok(!/localhost|127\.0\.0\.1|5432|"port"|"ip"/.test(JSON.stringify(vue)), 'ni adresse ni port');
   } finally { close(); }
 });
 

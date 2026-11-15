@@ -131,6 +131,12 @@ export function createServices({ config, env = process.env, pool, snapshot, conn
   };
 }
 
+/** Ce que voit un appelant sans session de super administrateur : état global, description et version de
+ *  l'application (version publique, attendue pour les applications du C1NP), ni service, ni adresse, ni port. */
+export const healthPublic = <H extends { status: string; checkedAt: string }>(h: H, superadmin: boolean): Pick<H, 'status' | 'checkedAt'> =>
+  (superadmin ? h : { status: h.status, checkedAt: h.checkedAt });
+export const infosPublic = <I extends { application: unknown }>(i: I, superadmin: boolean): Pick<I, 'application'> => (superadmin ? i : { application: i.application });
+
 /** Postes : actifs si au moins un rapport a été reçu dans le délai de connexion. */
 async function postesHealth({ id, name }: { id: string; name: string }, snapshot: Snapshot, connectedAfter: number): Promise<ServiceHealth> {
   try {

@@ -297,7 +297,7 @@ Le recensement est un complément : sa panne ou son absence ne doit gêner ni le
 | Route | Rôle |
 | --- | --- |
 | `GET /api/health` | État global (`status`, `checkedAt`) ; pour le super administrateur connecté seulement, détail de chaque service : adresse `hôte:port`, IP résolues, port, état (`up`, `down` ou `not-configured`), temps de réponse ou erreur ; pour les postes, nombre de postes allumés (`connected` : rapport reçu depuis moins de 30 secondes). État global `ok`, `degraded` (service facultatif indisponible) ou `unavailable` : réponse 503 seulement si la base de données ou le fournisseur d’identité est indisponible |
-| `GET /api/infos` | Description de l’application (version, mode, démarrage) ; pour le super administrateur connecté seulement, détail de l’instance qui répond (nom d’hôte, IP, Node.js) et du rôle de chaque service |
+| `GET /api/infos` | Description de l’application (version, mode, démarrage), publique : la version publiée est attendue pour les applications du C1NP ; pour le super administrateur connecté seulement, détail de l’instance qui répond (nom d’hôte, IP, Node.js) et du rôle de chaque service |
 | `GET /api/docs/` | Documentation interactive (Swagger UI), après connexion ; spécification sur `/api/openapi.json` |
 | `GET /api/openapi.json` | Spécification OpenAPI 3.1 de toutes les routes ([backend/api/openapi.ts](backend/api/openapi.ts)), après connexion |
 
