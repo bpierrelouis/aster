@@ -2,7 +2,7 @@
 # relais : application mobile RIGEL et relais chiffré, hébergés hors du réseau d'ORION (Hidora) ;
 # connecteur : sur le réseau d'ORION, seul lien sortant entre ORION et le relais.
 
-FROM node:22.22.3-alpine3.24 AS node
+FROM node:22.22.3-alpine3.24@sha256:e58326d0d441090181ac150dc2078d3e2cf6a0d42e809aebba3ef5880935ffdd AS node
 # Version publiée par /api/infos : commit de l'image
 ARG ORION_VERSION
 WORKDIR /app
@@ -37,7 +37,7 @@ ENV NODE_USE_ENV_PROXY=1
 CMD ["node", "backend/rigel/connecteur.ts"]
 
 # Build React
-FROM node:22.22.3-alpine3.24 AS build
+FROM node:22.22.3-alpine3.24@sha256:e58326d0d441090181ac150dc2078d3e2cf6a0d42e809aebba3ef5880935ffdd AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -49,7 +49,7 @@ COPY frontend ./frontend
 RUN npm run build && npm run build:rigel
 
 # Apache : fichiers de l'interface, servis sans root (port 8080, compte www-data)
-FROM httpd:2.4.69-alpine3.24 AS web
+FROM httpd:2.4.69-alpine3.24@sha256:698a0f59374eeb59c2c3ae6385c5f346edd2c70c2b63f7b552fb3d64dbc3cf66 AS web
 COPY infra/images/apache-orion.conf /usr/local/apache2/conf/orion.conf
 RUN sed -i 's/^Listen 80$/Listen 8080/' /usr/local/apache2/conf/httpd.conf \
   && echo 'Include conf/orion.conf' >> /usr/local/apache2/conf/httpd.conf
@@ -69,7 +69,7 @@ CMD ["node", "backend/rigel/relais-start.ts"]
 
 # Keycloak des VM : realms (réimportés à chaque création du conteneur) et thème de connexion ; le realm master importé
 # protège l'administrateur d'amorçage contre la force brute
-FROM quay.io/keycloak/keycloak:26.7.4 AS keycloak
+FROM quay.io/keycloak/keycloak:26.7.4@sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c AS keycloak
 COPY infra/keycloak/orion-realm.json infra/keycloak/master-realm.json /opt/keycloak/data/import/
 COPY infra/keycloak/themes/orion-mindef /opt/keycloak/themes/orion-mindef
 COPY --chmod=755 infra/images/secrets.sh /usr/local/bin/orion-secrets

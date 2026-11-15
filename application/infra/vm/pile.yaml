@@ -36,7 +36,7 @@ services:
   # Une instance, relancée sur orion-1 (seule VM étiquetée orion=entree), dont l'adresse est celle des utilisateurs
   haproxy:
     <<: [*logs, *sans-capacite]
-    image: haproxy:3.2.16-alpine
+    image: haproxy:3.2.16-alpine@sha256:fbfce01a9280b2e87acbbd8a61724a3a82bcd0b2d5c302f0c396c3ed91f88dd3
     read_only: true
     ports:
       - { target: 443, published: 443, mode: host }
@@ -116,7 +116,7 @@ services:
 
   postgres:
     <<: [*logs, *sans-capacite]
-    image: postgres:17.7-alpine
+    image: postgres:17.7-alpine@sha256:bb377b7239d2774ac8cc76f481596ce96c5a6b5e9d141f6d0a0ee371a6e7c0f2
     # Compte postgres de l'image (70) : le stockage NFS refuse root (root_squash), le dossier lui appartient (installer.sh)
     user: '70:70'
     environment:
@@ -146,7 +146,7 @@ services:
 
   ldap:
     <<: *logs
-    image: osixia/openldap:1.5.0
+    image: osixia/openldap:1.5.0@sha256:18742e9c449c9c1afe129d3f2f3ee15fb34cc43e5f940a20f3399728f41d7c28
     command: [--copy-service]
     environment:
       LDAP_ORGANISATION: ORION
@@ -189,7 +189,7 @@ services:
 
   logstash:
     <<: *sans-capacite
-    image: docker.elastic.co/logstash/logstash:8.19.14
+    image: docker.elastic.co/logstash/logstash:8.19.14@sha256:bf887b80e3a1d183a30f4c1ac73f86433151be078ebdf62e87e78df13d689bd8
     environment:
       LS_JAVA_OPTS: -Xms512m -Xmx512m
       XPACK_MONITORING_ENABLED: 'false'

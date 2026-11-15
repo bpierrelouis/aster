@@ -2,7 +2,7 @@ name: orion
 
 services:
   postgres:
-    image: postgres:17.7-alpine
+    image: postgres:17.7-alpine@sha256:bb377b7239d2774ac8cc76f481596ce96c5a6b5e9d141f6d0a0ee371a6e7c0f2
     environment:
       POSTGRES_DB: orion
       POSTGRES_USER: orion
@@ -20,7 +20,7 @@ services:
 
   # Annuaire local des identités ; Keycloak le fédère (aucun profil ni école n'y est stocké)
   ldap:
-    image: osixia/openldap:1.5.0
+    image: osixia/openldap:1.5.0@sha256:18742e9c449c9c1afe129d3f2f3ee15fb34cc43e5f940a20f3399728f41d7c28
     command: ["--copy-service"]
     environment:
       LDAP_ORGANISATION: ORION
@@ -39,7 +39,7 @@ services:
       retries: 30
 
   keycloak:
-    image: quay.io/keycloak/keycloak:26.7.4
+    image: quay.io/keycloak/keycloak:26.7.4@sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c
     command: ["start-dev", "--import-realm"]
     environment:
       KC_HOSTNAME: http://localhost:8081
