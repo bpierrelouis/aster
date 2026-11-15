@@ -386,6 +386,7 @@ application/
 │   └── images/                  # Lecture des secrets et configuration Apache des images
 ├── tests/                       # Tests d’interface et de bout en bout ; fixtures/ : fichiers d’import
 │   ├── captures.ts              # Captures des maquettes (npm run captures)
+│   ├── captures-rigel.ts        # Captures de RIGEL et du bilan d’un recensement (npm run captures:rigel)
 │   └── presentation.ts          # Contrôle de l’absence de mentions internes dans les pages publiques
 ├── tsconfig.json                # Types du serveur, de shared/, d'outils/, des tests et des configurations
 ├── Dockerfile                   # Images web, api, postes, keycloak, relais et connecteur
@@ -419,6 +420,18 @@ npm run captures                # ORION_URL=http://127.0.0.1:5175 par défaut
 ```
 
 [tests/captures.ts](tests/captures.ts) reproduit chaque écran de [la page des maquettes](../design/maquettes/index.html) avec son profil (changement de compte par `/api/dev/compte`) et son ambiance (préférences du compte), attend la fin des animations d’entrée, puis compresse les images avec `pngquant` (à installer). Le compte courant et les préférences des comptes utilisés sont rétablis à la fin. La page de connexion est obtenue en répondant 401 à `/api/me`. Les données affichées sont celles du fichier du mode interface seule : elles évoluent avec l’activité des postes émulés.
+
+Captures de l’application mobile RIGEL (`80-rigel-…`, 390 × 844) et du bilan d’un recensement (`24-materiels-recensement`), avec l’interface seule, le relais, l’application mobile et le connecteur lancés :
+
+```sh
+npm run dev:ui -- --port 5175                                   # ORION, interface seule
+npm run dev:relais                                              # relais en mémoire (3002)
+npm run dev:mobile -- --port 5177                               # application mobile
+ORION_API=http://127.0.0.1:5175 npm run dev:connecteur          # connecteur
+npm run captures:rigel        # ORION_URL=http://127.0.0.1:5175, RIGEL_URL=http://127.0.0.1:5177 par défaut
+```
+
+[tests/captures-rigel.ts](tests/captures-rigel.ts) lance (ou reprend) avec le gestionnaire le recensement « Recensement du bâtiment A », appaire un téléphone neuf par le lien d’appairage, y confirme quelques présences dans A101 (la dernière hors connexion, pour montrer un constat en attente), puis capture chaque écran. La caméra du téléphone est une image fixe sans code lisible (`--use-file-for-fake-video-capture`), pour la capture seulement. Le compte courant est rétabli à la fin ; le recensement et ses constats restent dans le fichier du mode interface seule.
 
 Avec l’infrastructure et `npm run dev` démarrés :
 

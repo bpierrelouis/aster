@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.5 | 14/11/2026 | Ressource de préparation | Lien vers les ressources archivées du design | [10 versions](../archive/README.md#design-readme) |
+| 2.5 | 14/11/2026 | Ressource de préparation | Lien vers les ressources archivées du design ; 48 écrans, dont RIGEL | [10 versions](../archive/README.md#design-readme) |
 <!-- version:fin -->
 
 Ce dossier rassemble l’identité visuelle en vigueur d’ORION et les maquettes de l’application. Les deux suivent l’état actuel de l’application : couleurs, mesures et composants proviennent de `application/frontend/src/espace/styles/`, les ambiances de `application/shared/ambiance.ts`, la marque de `application/frontend/src/connexion/` et les icônes de `application/frontend/src/espace/core/icons.ts`.
@@ -11,7 +11,7 @@ Ce dossier rassemble l’identité visuelle en vigueur d’ORION et les maquette
 ## Identité en vigueur
 
 - [Charte graphique ORION 2.0](charte-graphique/index.html) : marque (étoile à quatre branches et logotype), palette (couleurs de charte, états métier, types de matériel, accents personnels), typographie (polices système, Marianne), iconographie, matériau verre, rayons, espacements, ombres et mouvements, composants communs, ambiances Orion et Minarm, chargement et mise en situation.
-- [Maquettes de l’application](maquettes/index.html) : les 37 écrans par module (connexion, tableaux de bord par profil, salles, matériels, remontées, supervision, administration, notifications, ambiances), avec le rôle de chaque écran et le profil concerné. Chaque écran est présenté en maquette simplifiée, à gauche, à côté de sa capture, à droite (l’une sous l’autre sur écran étroit). Captures dans `maquettes/captures/`, maquettes simplifiées dans `maquettes/simplifiees/`, sous le même nom.
+- [Maquettes de l’application](maquettes/index.html) : les 48 écrans par module (connexion, tableaux de bord par profil, salles, matériels, remontées, supervision, administration, application mobile RIGEL, notifications, ambiances), avec le rôle de chaque écran et le profil concerné. Chaque écran est présenté en maquette simplifiée, à gauche, à côté de sa capture, à droite (l’une sous l’autre sur écran étroit). Captures dans `maquettes/captures/`, maquettes simplifiées dans `maquettes/simplifiees/`, sous le même nom.
 - Captures reproductibles : `npm run captures` dans `application/`, l’interface seule (`npm run dev:ui -- --port 5175`) étant lancée ; voir le [guide de l’application](../application/README.md#vérifications).
 
 ## Maquettes simplifiées

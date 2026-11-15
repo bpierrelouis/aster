@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>RIGEL — Scanner</title>
+  <g id="RIGEL — Scanner">
+<rect x="0" y="0" width="390" height="844" rx="0" fill="#F4F4F5" id="Fond"/>
+<rect x="0" y="0" width="390" height="844" rx="0" fill="#3F3F46"/>
+<g id="Image de la caméra">
+<rect x="60" y="210" width="270" height="420" rx="20" fill="#52525B"/>
+<rect x="130" y="380" width="150" height="76" rx="6" fill="#F4F4F5"/>
+<rect x="150" y="400" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="174" y="400" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="190" y="400" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="158" y="408" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="174" y="408" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="198" y="408" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="158" y="416" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="182" y="416" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="198" y="416" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="166" y="424" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="182" y="424" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="150" y="432" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="166" y="432" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="190" y="432" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="150" y="440" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="174" y="440" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="190" y="440" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="158" y="448" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="174" y="448" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="198" y="448" width="8" height="8" rx="0" fill="#52525B"/>
+<rect x="214" y="396" width="54" height="6" rx="3.0" fill="#E4E4E7"/>
+<rect x="214" y="412" width="44" height="6" rx="3.0" fill="#E4E4E7"/>
+<rect x="214" y="428" width="34" height="6" rx="3.0" fill="#E4E4E7"/>
+</g>
+<g id="Fermer">
+<rect x="16" y="12" width="116" height="44" rx="22" fill="#27272A"/>
+<text x="74" y="40" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">✕  Fermer</text>
+</g>
+<g id="Lieu">
+<rect x="306" y="12" width="68" height="44" rx="22" fill="#27272A"/>
+<text x="340" y="40" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">A101</text>
+</g>
+<g id="Numéro de série">
+<rect x="102" y="780" width="186" height="44" rx="22" fill="#27272A"/>
+<text x="195" y="808" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">Numéro de série</text>
+</g>
+</g>
+</svg>

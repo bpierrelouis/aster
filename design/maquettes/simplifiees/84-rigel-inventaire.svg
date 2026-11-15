@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>RIGEL — Inventaire d’un lieu</title>
+  <g id="RIGEL — Inventaire d’un lieu">
+<rect x="0" y="0" width="390" height="844" rx="0" fill="#F4F4F5" id="Fond"/>
+<g id="En-tête">
+<g id="Retour">
+<circle cx="38" cy="40" r="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<polyline points="41,33 34,40 41,47" fill="none" stroke="#52525B" stroke-width="1.8" stroke-linejoin="round"/>
+</g>
+<text x="76" y="48" font-family="Inter, Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#27272A">Inventaire · A101</text>
+</g>
+<g id="Recherche">
+<rect x="16" y="76" width="358" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<circle cx="40" cy="98" r="7" fill="none" stroke="#71717A" stroke-width="1.5"/>
+<text x="58" y="105" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#A1A1AA">Modèle, identifiant, série…</text>
+</g>
+<text x="16" y="158" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">n matériels vus sur n déclarés</text>
+<g id="Matériel 1">
+<rect x="16" y="180" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="30" y="192" width="38" height="38" rx="10" fill="#E4E4E7"/>
+<rect x="80" y="196" width="150" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="80" y="218" width="110" height="10" rx="5.0" fill="#E4E4E7"/>
+<g id="Pastille Vu">
+<rect x="294" y="198" width="60" height="26" rx="13" fill="#D4D4D8"/>
+<text x="324.0" y="216" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Vu</text>
+</g>
+</g>
+<g id="Matériel 2">
+<rect x="16" y="252" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="30" y="264" width="38" height="38" rx="10" fill="#E4E4E7"/>
+<rect x="80" y="268" width="150" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="80" y="290" width="110" height="10" rx="5.0" fill="#E4E4E7"/>
+<g id="Pastille Vu">
+<rect x="294" y="270" width="60" height="26" rx="13" fill="#D4D4D8"/>
+<text x="324.0" y="288" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Vu</text>
+</g>
+</g>
+<g id="Matériel 3">
+<rect x="16" y="324" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="30" y="336" width="38" height="38" rx="10" fill="#E4E4E7"/>
+<rect x="80" y="340" width="150" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="80" y="362" width="110" height="10" rx="5.0" fill="#E4E4E7"/>
+<g id="Pastille Non vu">
+<rect x="282" y="342" width="72" height="26" rx="13" fill="#E4E4E7"/>
+<text x="318.0" y="360" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Non vu</text>
+</g>
+</g>
+<g id="Matériel 4">
+<rect x="16" y="396" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="30" y="408" width="38" height="38" rx="10" fill="#E4E4E7"/>
+<rect x="80" y="412" width="150" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="80" y="434" width="110" height="10" rx="5.0" fill="#E4E4E7"/>
+<g id="Pastille Vu">
+<rect x="294" y="414" width="60" height="26" rx="13" fill="#D4D4D8"/>
+<text x="324.0" y="432" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Vu</text>
+</g>
+</g>
+<g id="Matériel 5">
+<rect x="16" y="468" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="30" y="480" width="38" height="38" rx="10" fill="#E4E4E7"/>
+<rect x="80" y="484" width="150" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="80" y="506" width="110" height="10" rx="5.0" fill="#E4E4E7"/>
+<g id="Pastille Vu">
+<rect x="294" y="486" width="60" height="26" rx="13" fill="#D4D4D8"/>
+<text x="324.0" y="504" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Vu</text>
+</g>
+</g>
+<g id="Matériel 6">
+<rect x="16" y="540" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="30" y="552" width="38" height="38" rx="10" fill="#E4E4E7"/>
+<rect x="80" y="556" width="150" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="80" y="578" width="110" height="10" rx="5.0" fill="#E4E4E7"/>
+<g id="Pastille Non vu">
+<rect x="282" y="558" width="72" height="26" rx="13" fill="#E4E4E7"/>
+<text x="318.0" y="576" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Non vu</text>
+</g>
+</g>
+<g id="Matériel 7">
+<rect x="16" y="612" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="30" y="624" width="38" height="38" rx="10" fill="#E4E4E7"/>
+<rect x="80" y="628" width="150" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="80" y="650" width="110" height="10" rx="5.0" fill="#E4E4E7"/>
+<g id="Pastille Vu">
+<rect x="294" y="630" width="60" height="26" rx="13" fill="#D4D4D8"/>
+<text x="324.0" y="648" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Vu</text>
+</g>
+</g>
+<g id="Matériel 8">
+<rect x="16" y="684" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="30" y="696" width="38" height="38" rx="10" fill="#E4E4E7"/>
+<rect x="80" y="700" width="150" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="80" y="722" width="110" height="10" rx="5.0" fill="#E4E4E7"/>
+<g id="Pastille Non vu">
+<rect x="282" y="702" width="72" height="26" rx="13" fill="#E4E4E7"/>
+<text x="318.0" y="720" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Non vu</text>
+</g>
+</g>
+<g id="Matériel 9">
+<rect x="16" y="756" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="30" y="768" width="38" height="38" rx="10" fill="#E4E4E7"/>
+<rect x="80" y="772" width="150" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="80" y="794" width="110" height="10" rx="5.0" fill="#E4E4E7"/>
+<g id="Pastille Non vu">
+<rect x="282" y="774" width="72" height="26" rx="13" fill="#E4E4E7"/>
+<text x="318.0" y="792" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Non vu</text>
+</g>
+</g>
+</g>
+</svg>

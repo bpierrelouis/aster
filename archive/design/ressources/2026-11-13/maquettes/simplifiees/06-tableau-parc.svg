@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <title>Tableau « Parc »</title>
+  <g id="Tableau « Parc »">
+    <rect id="Fond" x="0" y="0" width="1440" height="900" fill="#F4F4F5"/>
+    <g id="Menu latéral">
+      <rect x="20" y="20" width="120" height="860" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <path id="Marque ORION" transform="translate(64 47) scale(0.8)" fill="#52525B" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/>
+      <g id="Navigation Accueil">
+        <rect x="70" y="130" width="20" height="20" rx="5" fill="none" stroke="#52525B"/>
+        <text x="80" y="171" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#27272A" text-anchor="middle">Accueil</text>
+      </g>
+      <g id="Navigation Salles">
+        <rect x="70" y="198" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="239" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Salles</text>
+      </g>
+      <g id="Navigation Matériels">
+        <rect x="70" y="266" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="307" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Matériels</text>
+      </g>
+      <g id="Navigation Remontées">
+        <rect x="70" y="334" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="375" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Remontées</text>
+        <circle cx="92" cy="335" r="7" fill="#52525B"/>
+      </g>
+      <g id="Navigation Supervision">
+        <rect x="70" y="402" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="443" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Supervision</text>
+      </g>
+      <g id="Navigation Administration">
+        <rect x="70" y="470" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="511" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Administration</text>
+      </g>
+    </g>
+    <g id="Onglets">
+      <rect x="164" y="20" width="482.4" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="183" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="205" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">Mon tableau de bord</text>
+      <rect x="384.3" y="25" width="84.8" height="38" rx="19" fill="#E4E4E7"/>
+      <rect x="398.3" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="420.3" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27272A">Parc</text>
+      <rect x="483.1" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="505.1" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">Remontées</text>
+      <text x="619.4" y="50" font-family="Inter, Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#71717A" text-anchor="middle">+</text>
+    </g>
+    <g id="Barre d’outils">
+      <rect x="1060" y="20" width="340" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="1064" y="24" width="196" height="40" rx="20" fill="#E4E4E7"/>
+      <rect x="1076" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="1098" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A">École</text>
+      <polyline points="1236,41 1242,47 1248,41" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="1286" cy="43" r="7" fill="none" stroke="#52525B" stroke-width="1.5"/>
+      <line x1="1291" y1="48" x2="1296" y2="53" stroke="#52525B" stroke-width="1.5"/>
+      <rect x="1321" y="35" width="16" height="17" rx="6" fill="none" stroke="#52525B"/>
+      <circle cx="1373" cy="44" r="18" fill="#D4D4D8"/>
+    </g>
+    <g id="Bouton Personnaliser">
+      <rect x="876.9" y="22" width="165.1" height="44" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="890.9" y="37" width="14" height="14" rx="3" fill="none" stroke="#27272A"/>
+      <text x="969.45" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Personnaliser</text>
+    </g>
+    <g id="Contenu">
+      <g id="Indicateur Matériels">
+        <rect x="164" y="92" width="295" height="166" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <text x="182" y="127" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#71717A">Matériels</text>
+        <rect x="182" y="178" width="90" height="32" rx="6" fill="#A1A1AA"/>
+        <rect x="182" y="224" width="120" height="9" rx="4.5" fill="#E4E4E7"/>
+      </g>
+      <g id="Indicateur Affectés en salle">
+        <rect x="478" y="92" width="295" height="166" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <text x="496" y="127" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#71717A">Affectés en salle</text>
+        <rect x="496" y="202" width="90" height="32" rx="6" fill="#A1A1AA"/>
+      </g>
+      <g id="Indicateur En stock">
+        <rect x="791" y="92" width="295" height="166" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <text x="809" y="127" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#71717A">En stock</text>
+        <rect x="809" y="202" width="90" height="32" rx="6" fill="#A1A1AA"/>
+      </g>
+      <g id="Indicateur Hors service">
+        <rect x="1105" y="92" width="295" height="166" rx="20" fill="#F4F4F5" stroke="#D4D4D8"/>
+        <text x="1123" y="127" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#71717A">Hors service</text>
+        <rect x="1123" y="178" width="90" height="32" rx="6" fill="#A1A1AA"/>
+        <rect x="1123" y="224" width="120" height="9" rx="4.5" fill="#E4E4E7"/>
+      </g>
+      <g id="Carte Part hors service par bâtiment">
+        <rect x="164" y="277" width="609" height="373" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <text x="184" y="314" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">Part hors service par bâtiment</text>
+      </g>
+      <g id="Barres par bâtiment">
+        <rect x="184" y="385" width="80" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="344" y="381" width="320" height="18" rx="9" fill="#E4E4E7"/>
+        <rect x="344" y="381" width="140" height="18" rx="9" fill="#A1A1AA"/>
+        <line x1="544" y1="375" x2="544" y2="405" stroke="#52525B" stroke-width="2"/>
+        <rect x="699" y="381" width="54" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="184" y="439" width="80" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="344" y="435" width="320" height="18" rx="9" fill="#E4E4E7"/>
+        <rect x="344" y="435" width="177" height="18" rx="9" fill="#A1A1AA"/>
+        <line x1="544" y1="429" x2="544" y2="459" stroke="#52525B" stroke-width="2"/>
+        <rect x="699" y="435" width="54" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="184" y="493" width="80" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="344" y="489" width="320" height="18" rx="9" fill="#E4E4E7"/>
+        <rect x="344" y="489" width="214" height="18" rx="9" fill="#A1A1AA"/>
+        <line x1="544" y1="483" x2="544" y2="513" stroke="#52525B" stroke-width="2"/>
+        <rect x="699" y="489" width="54" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="184" y="547" width="80" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="344" y="543" width="320" height="18" rx="9" fill="#E4E4E7"/>
+        <rect x="344" y="543" width="251" height="18" rx="9" fill="#A1A1AA"/>
+        <line x1="544" y1="537" x2="544" y2="567" stroke="#52525B" stroke-width="2"/>
+        <rect x="699" y="543" width="54" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="184" y="601" width="80" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="344" y="597" width="320" height="18" rx="9" fill="#E4E4E7"/>
+        <rect x="344" y="597" width="168" height="18" rx="9" fill="#A1A1AA"/>
+        <line x1="544" y1="591" x2="544" y2="621" stroke="#52525B" stroke-width="2"/>
+        <rect x="699" y="597" width="54" height="12" rx="6" fill="#D4D4D8"/>
+      </g>
+      <g id="Carte Répartition du matériel">
+        <rect x="791" y="277" width="609" height="373" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <text x="811" y="314" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">Répartition du matériel</text>
+      </g>
+      <g id="Barres par type">
+        <text x="1380" y="314" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#52525B" text-anchor="end">Voir les salles</text>
+        <rect x="811" y="340" width="26" height="26" rx="6.5" fill="none" stroke="#A1A1AA"/>
+        <rect x="851" y="347" width="100" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="983" y="347" width="343" height="12" rx="3" fill="#A1A1AA"/>
+        <rect x="1350" y="347" width="30" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="811" y="378" width="26" height="26" rx="6.5" fill="none" stroke="#A1A1AA"/>
+        <rect x="851" y="385" width="100" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="983" y="385" width="301" height="12" rx="3" fill="#A1A1AA"/>
+        <rect x="1350" y="385" width="30" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="811" y="416" width="26" height="26" rx="6.5" fill="none" stroke="#A1A1AA"/>
+        <rect x="851" y="423" width="100" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="983" y="423" width="259" height="12" rx="3" fill="#A1A1AA"/>
+        <rect x="1350" y="423" width="30" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="811" y="454" width="26" height="26" rx="6.5" fill="none" stroke="#A1A1AA"/>
+        <rect x="851" y="461" width="100" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="983" y="461" width="217" height="12" rx="3" fill="#A1A1AA"/>
+        <rect x="1350" y="461" width="30" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="811" y="492" width="26" height="26" rx="6.5" fill="none" stroke="#A1A1AA"/>
+        <rect x="851" y="499" width="100" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="983" y="499" width="175" height="12" rx="3" fill="#A1A1AA"/>
+        <rect x="1350" y="499" width="30" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="811" y="530" width="26" height="26" rx="6.5" fill="none" stroke="#A1A1AA"/>
+        <rect x="851" y="537" width="100" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="983" y="537" width="133" height="12" rx="3" fill="#A1A1AA"/>
+        <rect x="1350" y="537" width="30" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="811" y="568" width="26" height="26" rx="6.5" fill="none" stroke="#A1A1AA"/>
+        <rect x="851" y="575" width="100" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="983" y="575" width="14" height="12" rx="3" fill="#A1A1AA"/>
+        <rect x="1350" y="575" width="30" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="811" y="606" width="26" height="26" rx="6.5" fill="none" stroke="#A1A1AA"/>
+        <rect x="851" y="613" width="100" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="983" y="613" width="14" height="12" rx="3" fill="#A1A1AA"/>
+        <rect x="1350" y="613" width="30" height="12" rx="6" fill="#D4D4D8"/>
+      </g>
+      <g id="Carte Hors service par type et par bâtiment">
+        <rect x="164" y="669" width="609" height="260" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <text x="184" y="706" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">Hors service par type et par bâtiment</text>
+      </g>
+      <g id="Carte de chaleur">
+        <text x="340" y="742" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#71717A" text-anchor="middle">A</text>
+        <text x="416" y="742" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#71717A" text-anchor="middle">B</text>
+        <text x="492" y="742" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#71717A" text-anchor="middle">C</text>
+        <text x="568" y="742" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#71717A" text-anchor="middle">D</text>
+        <text x="644" y="742" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#71717A" text-anchor="middle">Stock</text>
+        <text x="720" y="742" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#71717A" text-anchor="middle">Total</text>
+        <rect x="184" y="762" width="100" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="303" y="754" width="72" height="31" rx="4" fill="#E4E4E7"/>
+        <rect x="379" y="754" width="72" height="31" rx="4" fill="#A1A1AA"/>
+        <rect x="455" y="754" width="72" height="31" rx="4" fill="#D4D4D8"/>
+        <rect x="531" y="754" width="72" height="31" rx="4" fill="#E4E4E7"/>
+        <rect x="607" y="754" width="72" height="31" rx="4" fill="#A1A1AA"/>
+        <rect x="705" y="764" width="22" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="184" y="797" width="100" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="303" y="789" width="72" height="31" rx="4" fill="#D4D4D8"/>
+        <rect x="379" y="789" width="72" height="31" rx="4" fill="#E4E4E7"/>
+        <rect x="455" y="789" width="72" height="31" rx="4" fill="#A1A1AA"/>
+        <rect x="531" y="789" width="72" height="31" rx="4" fill="#D4D4D8"/>
+        <rect x="607" y="789" width="72" height="31" rx="4" fill="#E4E4E7"/>
+        <rect x="705" y="799" width="22" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="184" y="832" width="100" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="303" y="824" width="72" height="31" rx="4" fill="#A1A1AA"/>
+        <rect x="379" y="824" width="72" height="31" rx="4" fill="#D4D4D8"/>
+        <rect x="455" y="824" width="72" height="31" rx="4" fill="#E4E4E7"/>
+        <rect x="531" y="824" width="72" height="31" rx="4" fill="#A1A1AA"/>
+        <rect x="607" y="824" width="72" height="31" rx="4" fill="#D4D4D8"/>
+        <rect x="705" y="834" width="22" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="184" y="867" width="100" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="303" y="859" width="72" height="31" rx="4" fill="#E4E4E7"/>
+        <rect x="379" y="859" width="72" height="31" rx="4" fill="#A1A1AA"/>
+        <rect x="455" y="859" width="72" height="31" rx="4" fill="#D4D4D8"/>
+        <rect x="531" y="859" width="72" height="31" rx="4" fill="#E4E4E7"/>
+        <rect x="607" y="859" width="72" height="31" rx="4" fill="#A1A1AA"/>
+        <rect x="705" y="869" width="22" height="12" rx="6" fill="#D4D4D8"/>
+      </g>
+      <g id="Carte Salles à surveiller">
+        <rect x="791" y="669" width="609" height="260" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <text x="811" y="706" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">Salles à surveiller</text>
+      </g>
+      <g id="Liste des salles">
+        <text x="1261" y="703" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Hors service</text>
+        <text x="1347" y="703" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">En attente</text>
+        <rect x="811" y="745" width="50" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="811" y="765" width="80" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1236" y="753" width="50" height="6" rx="3" fill="#E4E4E7"/>
+        <rect x="1321" y="753" width="50" height="6" rx="3" fill="#E4E4E7"/>
+        <rect x="811" y="793" width="50" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="811" y="813" width="80" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1236" y="801" width="50" height="6" rx="3" fill="#E4E4E7"/>
+        <rect x="1321" y="801" width="50" height="6" rx="3" fill="#E4E4E7"/>
+        <rect x="811" y="841" width="50" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="811" y="861" width="80" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1236" y="849" width="50" height="6" rx="3" fill="#E4E4E7"/>
+        <rect x="1321" y="849" width="50" height="6" rx="3" fill="#E4E4E7"/>
+      </g>
+    </g>
+  </g>
+</svg>

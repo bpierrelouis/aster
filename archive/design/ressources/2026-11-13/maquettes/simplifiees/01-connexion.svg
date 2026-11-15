@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <title>Connexion</title>
+  <g id="Connexion">
+    <rect id="Fond" x="0" y="0" width="1440" height="900" fill="#F4F4F5"/>
+    <g id="Carte de connexion">
+      <rect x="490" y="236" width="460" height="398" rx="40" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <path id="Étoile ORION" transform="translate(704 286) scale(0.7)" fill="#52525B" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/>
+      <text x="720" y="370" font-family="Inter, Arial, Helvetica, sans-serif" font-size="42" font-weight="400" fill="#27272A" text-anchor="middle">O R I O N</text>
+      <text x="720" y="408" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#71717A" text-anchor="middle">GESTION · ADMINISTRATION · SUPERVISION</text>
+      <rect x="560" y="438" width="320" height="12" rx="6" fill="#E4E4E7"/>
+      <rect x="590" y="462" width="260" height="12" rx="6" fill="#E4E4E7"/>
+      <g id="Bouton MindefConnect">
+        <rect x="560" y="517" width="320" height="82" rx="5" fill="#52525B"/>
+        <circle cx="634" cy="558" r="20" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+        <text x="754" y="552" font-family="Inter, Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#FFFFFF" text-anchor="middle">S’identifier avec</text>
+        <text x="754" y="577" font-family="Inter, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#FFFFFF" text-anchor="middle">MinDefConnect</text>
+      </g>
+    </g>
+    <text x="720" y="678" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A" text-anchor="middle">Besoin d’un accès ? Contactez l’administrateur de votre école.</text>
+  </g>
+</svg>

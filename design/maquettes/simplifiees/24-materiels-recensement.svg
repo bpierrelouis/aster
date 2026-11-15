@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <title>Bilan d’un recensement</title>
+  <g id="Bilan d’un recensement">
+<rect x="0" y="0" width="1440" height="900" rx="0" fill="#F4F4F5"/>
+<g id="Menu latéral">
+<rect x="20" y="20" width="120" height="860" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+<path transform="translate(64 47) scale(0.8)" fill="#52525B" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/>
+<g id="Navigation Accueil">
+<rect x="70" y="130" width="20" height="20" rx="5.0" fill="none" stroke="#A1A1AA" stroke-width="1.5"/>
+<text x="80" y="171" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Accueil</text>
+</g>
+<g id="Navigation Salles">
+<rect x="70" y="198" width="20" height="20" rx="5.0" fill="none" stroke="#A1A1AA" stroke-width="1.5"/>
+<text x="80" y="239" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Salles</text>
+</g>
+<g id="Navigation Matériels">
+<rect x="70" y="266" width="20" height="20" rx="5.0" fill="none" stroke="#52525B" stroke-width="1.5"/>
+<text x="80" y="307" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#27272A" text-anchor="middle">Matériels</text>
+</g>
+<g id="Navigation Remontées">
+<rect x="70" y="334" width="20" height="20" rx="5.0" fill="none" stroke="#A1A1AA" stroke-width="1.5"/>
+<text x="80" y="375" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Remontées</text>
+</g>
+</g>
+<g id="Onglets">
+<rect x="164" y="20" width="112" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="178" y="37" width="14" height="14" rx="3.5" fill="none" stroke="#A1A1AA" stroke-width="1.5"/>
+<rect x="212" y="37" width="14" height="14" rx="3.5" fill="none" stroke="#A1A1AA" stroke-width="1.5"/>
+<rect x="240" y="25" width="34" height="38" rx="19" fill="#E4E4E7"/>
+<rect x="250" y="37" width="14" height="14" rx="3.5" fill="none" stroke="#52525B" stroke-width="1.5"/>
+</g>
+<g id="Actions">
+<rect x="532" y="24" width="124" height="40" rx="20" fill="#E4E4E7"/>
+<text x="594" y="50" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A" text-anchor="middle">Clôturer</text>
+<rect x="664" y="24" width="140" height="40" rx="20" fill="#E4E4E7"/>
+<text x="734" y="50" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A" text-anchor="middle">Étiquettes</text>
+<rect x="812" y="24" width="230" height="40" rx="20" fill="#52525B"/>
+<text x="927" y="50" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">Appairer un téléphone</text>
+</g>
+<g id="Barre d’outils">
+<rect x="1060" y="20" width="340" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="1064" y="24" width="196" height="40" rx="20" fill="#E4E4E7"/>
+<text x="1098" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A">École</text>
+</g>
+<circle cx="1373" cy="44" r="18" fill="#D4D4D8"/>
+<g id="Fil d’Ariane">
+<text x="164" y="110" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#71717A">Recensements · Recensement du bâtiment A · 8 salles · lancé par … · Jusqu’au …</text>
+</g>
+<g id="Indicateurs">
+<g id="Matériels vus">
+<rect x="164" y="132" width="400" height="176" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="189" y="175" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">Matériels vus</text>
+<text x="189" y="232" font-family="Inter, Arial, Helvetica, sans-serif" font-size="38" font-weight="600" fill="#27272A">5 / 299</text>
+<rect x="189" y="262" width="280" height="10" rx="5.0" fill="#E4E4E7"/>
+</g>
+<g id="Relocalisés">
+<rect x="582" y="132" width="400" height="176" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="607" y="175" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">Relocalisés</text>
+<text x="607" y="232" font-family="Inter, Arial, Helvetica, sans-serif" font-size="38" font-weight="600" fill="#27272A">0</text>
+<rect x="607" y="262" width="280" height="10" rx="5.0" fill="#E4E4E7"/>
+</g>
+<g id="À traiter">
+<rect x="1000" y="132" width="400" height="176" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="1025" y="175" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">À traiter</text>
+<text x="1025" y="232" font-family="Inter, Arial, Helvetica, sans-serif" font-size="38" font-weight="600" fill="#27272A">0</text>
+<rect x="1025" y="262" width="280" height="10" rx="5.0" fill="#E4E4E7"/>
+</g>
+</g>
+<g id="À traiter">
+<rect x="164" y="334" width="609" height="138" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="182" y="364" width="22" height="22" rx="5.5" fill="none" stroke="#52525B" stroke-width="1.5"/>
+<text x="222" y="372" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#27272A">À traiter</text>
+<text x="222" y="396" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">Rien à traiter</text>
+<rect x="182" y="426" width="310" height="10" rx="5.0" fill="#E4E4E7"/>
+</g>
+<g id="Derniers constats">
+<rect x="164" y="490" width="609" height="390" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="182" y="522" width="22" height="22" rx="5.5" fill="none" stroke="#52525B" stroke-width="1.5"/>
+<text x="222" y="530" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#27272A">Derniers constats</text>
+<text x="222" y="554" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">5 constats</text>
+<g id="Constat 1">
+<g id="Pastille Présent">
+<rect x="182" y="590" width="86" height="26" rx="13" fill="#D4D4D8"/>
+<text x="225.0" y="608" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Présent</text>
+</g>
+<rect x="280" y="584" width="280" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="280" y="608" width="60" height="10" rx="5.0" fill="#E4E4E7"/>
+<text x="755" y="606" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A" text-anchor="end">1 min</text>
+</g>
+<g id="Constat 2">
+<g id="Pastille Présent">
+<rect x="182" y="654" width="86" height="26" rx="13" fill="#D4D4D8"/>
+<text x="225.0" y="672" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Présent</text>
+</g>
+<rect x="280" y="648" width="280" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="280" y="672" width="60" height="10" rx="5.0" fill="#E4E4E7"/>
+<text x="755" y="670" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A" text-anchor="end">1 min</text>
+</g>
+<g id="Constat 3">
+<g id="Pastille Présent">
+<rect x="182" y="718" width="86" height="26" rx="13" fill="#D4D4D8"/>
+<text x="225.0" y="736" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Présent</text>
+</g>
+<rect x="280" y="712" width="280" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="280" y="736" width="60" height="10" rx="5.0" fill="#E4E4E7"/>
+<text x="755" y="734" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A" text-anchor="end">1 min</text>
+</g>
+<g id="Constat 4">
+<g id="Pastille Présent">
+<rect x="182" y="782" width="86" height="26" rx="13" fill="#D4D4D8"/>
+<text x="225.0" y="800" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Présent</text>
+</g>
+<rect x="280" y="776" width="280" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="280" y="800" width="60" height="10" rx="5.0" fill="#E4E4E7"/>
+<text x="755" y="798" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A" text-anchor="end">1 min</text>
+</g>
+</g>
+<g id="Avancement par salle">
+<rect x="790" y="334" width="610" height="546" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="808" y="364" width="22" height="22" rx="5.5" fill="none" stroke="#52525B" stroke-width="1.5"/>
+<text x="848" y="372" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#27272A">Avancement par salle</text>
+<text x="848" y="396" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">8 salles</text>
+<g id="Salle A012">
+<rect x="808" y="424" width="24" height="24" rx="6" fill="#D4D4D8"/>
+<text x="846" y="438" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">A012</text>
+<rect x="846" y="452" width="90" height="10" rx="5.0" fill="#E4E4E7"/>
+<rect x="1242" y="438" width="86" height="8" rx="4.0" fill="#E4E4E7"/>
+<text x="1382" y="447" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#52525B" text-anchor="end">0 %</text>
+</g>
+<g id="Salle A014">
+<rect x="808" y="488" width="24" height="24" rx="6" fill="#D4D4D8"/>
+<text x="846" y="502" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">A014</text>
+<rect x="846" y="516" width="90" height="10" rx="5.0" fill="#E4E4E7"/>
+<rect x="1242" y="502" width="86" height="8" rx="4.0" fill="#E4E4E7"/>
+<text x="1382" y="511" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#52525B" text-anchor="end">0 %</text>
+</g>
+<g id="Salle A018">
+<rect x="808" y="552" width="24" height="24" rx="6" fill="#D4D4D8"/>
+<text x="846" y="566" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">A018</text>
+<rect x="846" y="580" width="90" height="10" rx="5.0" fill="#E4E4E7"/>
+<rect x="1242" y="566" width="86" height="8" rx="4.0" fill="#E4E4E7"/>
+<text x="1382" y="575" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#52525B" text-anchor="end">0 %</text>
+</g>
+<g id="Salle A105">
+<rect x="808" y="616" width="24" height="24" rx="6" fill="#D4D4D8"/>
+<text x="846" y="630" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">A105</text>
+<rect x="846" y="644" width="90" height="10" rx="5.0" fill="#E4E4E7"/>
+<rect x="1242" y="630" width="86" height="8" rx="4.0" fill="#E4E4E7"/>
+<text x="1382" y="639" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#52525B" text-anchor="end">0 %</text>
+</g>
+<g id="Salle A112">
+<rect x="808" y="680" width="24" height="24" rx="6" fill="#D4D4D8"/>
+<text x="846" y="694" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">A112</text>
+<rect x="846" y="708" width="90" height="10" rx="5.0" fill="#E4E4E7"/>
+<rect x="1242" y="694" width="86" height="8" rx="4.0" fill="#E4E4E7"/>
+<text x="1382" y="703" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#52525B" text-anchor="end">0 %</text>
+</g>
+<g id="Salle A118">
+<rect x="808" y="744" width="24" height="24" rx="6" fill="#D4D4D8"/>
+<text x="846" y="758" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">A118</text>
+<rect x="846" y="772" width="90" height="10" rx="5.0" fill="#E4E4E7"/>
+<rect x="1242" y="758" width="86" height="8" rx="4.0" fill="#E4E4E7"/>
+<text x="1382" y="767" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#52525B" text-anchor="end">0 %</text>
+</g>
+<g id="Salle A203">
+<rect x="808" y="808" width="24" height="24" rx="6" fill="#D4D4D8"/>
+<text x="846" y="822" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">A203</text>
+<rect x="846" y="836" width="90" height="10" rx="5.0" fill="#E4E4E7"/>
+<rect x="1242" y="822" width="86" height="8" rx="4.0" fill="#E4E4E7"/>
+<text x="1382" y="831" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#52525B" text-anchor="end">0 %</text>
+</g>
+</g>
+</g>
+</svg>

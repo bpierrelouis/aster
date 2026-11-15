@@ -1,0 +1,301 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <title>Orion sombre : salles</title>
+  <g id="Orion sombre : salles">
+    <rect id="Fond" x="0" y="0" width="1440" height="900" fill="#18181B"/>
+    <g id="Menu latéral">
+      <rect x="20" y="20" width="120" height="860" rx="20" fill="#27272A" stroke="#3F3F46"/>
+      <path id="Marque ORION" transform="translate(64 47) scale(0.8)" fill="#D4D4D8" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/>
+      <g id="Navigation Accueil">
+        <rect x="70" y="130" width="20" height="20" rx="5" fill="none" stroke="#71717A"/>
+        <text x="80" y="171" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#A1A1AA" text-anchor="middle">Accueil</text>
+      </g>
+      <g id="Navigation Salles">
+        <rect x="70" y="198" width="20" height="20" rx="5" fill="none" stroke="#D4D4D8"/>
+        <text x="80" y="239" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#F4F4F5" text-anchor="middle">Salles</text>
+      </g>
+      <g id="Navigation Matériels">
+        <rect x="70" y="266" width="20" height="20" rx="5" fill="none" stroke="#71717A"/>
+        <text x="80" y="307" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#A1A1AA" text-anchor="middle">Matériels</text>
+      </g>
+      <g id="Navigation Remontées">
+        <rect x="70" y="334" width="20" height="20" rx="5" fill="none" stroke="#71717A"/>
+        <text x="80" y="375" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#A1A1AA" text-anchor="middle">Remontées</text>
+        <circle cx="92" cy="335" r="7" fill="#D4D4D8"/>
+      </g>
+      <g id="Navigation Supervision">
+        <rect x="70" y="402" width="20" height="20" rx="5" fill="none" stroke="#71717A"/>
+        <text x="80" y="443" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#A1A1AA" text-anchor="middle">Supervision</text>
+      </g>
+      <g id="Navigation Administration">
+        <rect x="70" y="470" width="20" height="20" rx="5" fill="none" stroke="#71717A"/>
+        <text x="80" y="511" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#A1A1AA" text-anchor="middle">Administration</text>
+      </g>
+    </g>
+    <g id="Onglets">
+      <rect x="164" y="20" width="699.3" height="48" rx="24" fill="#27272A" stroke="#3F3F46"/>
+      <rect x="169" y="25" width="206.6" height="38" rx="19" fill="#3F3F46"/>
+      <rect x="183" y="37" width="14" height="14" rx="3" fill="none" stroke="#D4D4D8"/>
+      <text x="205" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#F4F4F5">Tous les bâtiments</text>
+      <rect x="389.6" y="37" width="14" height="14" rx="3" fill="none" stroke="#71717A"/>
+      <text x="411.6" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#A1A1AA">A</text>
+      <rect x="448.3" y="37" width="14" height="14" rx="3" fill="none" stroke="#71717A"/>
+      <text x="470.3" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#A1A1AA">B</text>
+      <rect x="507" y="37" width="14" height="14" rx="3" fill="none" stroke="#71717A"/>
+      <text x="529" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#A1A1AA">C</text>
+      <rect x="565.7" y="37" width="14" height="14" rx="3" fill="none" stroke="#71717A"/>
+      <text x="587.7" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#A1A1AA">D</text>
+      <rect x="624.4" y="37" width="14" height="14" rx="3" fill="none" stroke="#71717A"/>
+      <text x="646.4" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#A1A1AA">Stock</text>
+      <rect x="717.9" y="37" width="14" height="14" rx="3" fill="none" stroke="#71717A"/>
+      <text x="739.9" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#A1A1AA">Déplacements</text>
+    </g>
+    <g id="Barre d’outils">
+      <rect x="1060" y="20" width="340" height="48" rx="24" fill="#27272A" stroke="#3F3F46"/>
+      <rect x="1064" y="24" width="196" height="40" rx="20" fill="#3F3F46"/>
+      <rect x="1076" y="37" width="14" height="14" rx="3" fill="none" stroke="#D4D4D8"/>
+      <text x="1098" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#F4F4F5">École</text>
+      <polyline points="1236,41 1242,47 1248,41" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="1286" cy="43" r="7" fill="none" stroke="#D4D4D8" stroke-width="1.5"/>
+      <line x1="1291" y1="48" x2="1296" y2="53" stroke="#D4D4D8" stroke-width="1.5"/>
+      <rect x="1321" y="35" width="16" height="17" rx="6" fill="none" stroke="#D4D4D8"/>
+      <circle cx="1373" cy="44" r="18" fill="#52525B"/>
+    </g>
+    <g id="Bouton Nouvelle salle">
+      <rect x="868.2" y="22" width="173.8" height="44" rx="22" fill="#27272A" stroke="#3F3F46"/>
+      <rect x="882.2" y="37" width="14" height="14" rx="3" fill="none" stroke="#F4F4F5"/>
+      <text x="965.1" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#F4F4F5" text-anchor="middle">Nouvelle salle</text>
+    </g>
+    <g id="Légende">
+      <rect x="558" y="92" width="437" height="38" rx="19" fill="#27272A" stroke="#3F3F46"/>
+      <rect x="574" y="106" width="12" height="10" rx="2" fill="#3F3F46"/>
+      <text x="594" y="116" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#A1A1AA">Salle</text>
+      <rect x="642" y="106" width="12" height="10" rx="2" fill="#71717A"/>
+      <text x="662" y="116" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#A1A1AA">Matériel hors service</text>
+      <rect x="819" y="106" width="12" height="10" rx="2" fill="#52525B"/>
+      <text x="839" y="116" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#A1A1AA">Remontée en attente</text>
+    </g>
+    <g id="Bâtiments">
+      <g id="Carte bâtiment">
+        <rect x="164" y="143" width="408" height="648" rx="24" fill="#27272A" stroke="#3F3F46"/>
+        <rect x="180" y="163" width="30" height="30" rx="8" fill="#D4D4D8"/>
+        <text x="222" y="175" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#F4F4F5">Bâtiment</text>
+        <rect x="222" y="183" width="120" height="9" rx="4.5" fill="#3F3F46"/>
+        <rect x="222" y="205" width="56" height="24" rx="12" fill="#3F3F46"/>
+        <rect x="284" y="205" width="56" height="24" rx="12" fill="#3F3F46"/>
+        <rect x="346" y="205" width="56" height="24" rx="12" fill="#3F3F46"/>
+        <polyline points="544,187 550,193 544,199" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+        <line x1="164" y1="239" x2="572" y2="239" stroke="#3F3F46" stroke-width="1"/>
+        <g id="Niveau Niveau">
+          <polygon points="389,611.333 539,686.333 389,761.333 239,686.333" fill="#27272A" stroke="#3F3F46" stroke-width="1.5" stroke-linejoin="round"/>
+          <polygon points="329,671.333 369,691.333 329,711.333 289,691.333" fill="#52525B"/>
+          <polygon points="329,661.333 369,681.333 329,701.333 289,681.333" fill="#71717A" stroke="#3F3F46" stroke-width="1" stroke-linejoin="round"/>
+          <rect x="303" y="647.333" width="52" height="20" rx="6" fill="#27272A" stroke="#3F3F46"/>
+          <rect x="313" y="653.333" width="32" height="8" rx="4" fill="#52525B"/>
+          <polygon points="429,646.333 469,666.333 429,686.333 389,666.333" fill="#52525B"/>
+          <polygon points="429,636.333 469,656.333 429,676.333 389,656.333" fill="#3F3F46" stroke="#3F3F46" stroke-width="1" stroke-linejoin="round"/>
+          <rect x="403" y="622.333" width="52" height="20" rx="6" fill="#27272A" stroke="#3F3F46"/>
+          <rect x="413" y="628.333" width="32" height="8" rx="4" fill="#52525B"/>
+          <rect x="190" y="670.333" width="36" height="30" rx="8" fill="#D4D4D8"/>
+        </g>
+        <g id="Niveau Niveau">
+          <polygon points="389,438 539,513 389,588 239,513" fill="#27272A" stroke="#3F3F46" stroke-width="1.5" stroke-linejoin="round"/>
+          <polygon points="329,498 369,518 329,538 289,518" fill="#52525B"/>
+          <polygon points="329,488 369,508 329,528 289,508" fill="#3F3F46" stroke="#3F3F46" stroke-width="1" stroke-linejoin="round"/>
+          <rect x="303" y="474" width="52" height="20" rx="6" fill="#27272A" stroke="#3F3F46"/>
+          <rect x="313" y="480" width="32" height="8" rx="4" fill="#52525B"/>
+          <polygon points="429,473 469,493 429,513 389,493" fill="#52525B"/>
+          <polygon points="429,463 469,483 429,503 389,483" fill="#71717A" stroke="#3F3F46" stroke-width="1" stroke-linejoin="round"/>
+          <rect x="403" y="449" width="52" height="20" rx="6" fill="#27272A" stroke="#3F3F46"/>
+          <rect x="413" y="455" width="32" height="8" rx="4" fill="#52525B"/>
+          <rect x="190" y="497" width="36" height="30" rx="8" fill="#D4D4D8"/>
+        </g>
+        <g id="Niveau Niveau">
+          <polygon points="389,264.667 539,339.667 389,414.667 239,339.667" fill="#27272A" stroke="#3F3F46" stroke-width="1.5" stroke-linejoin="round"/>
+          <polygon points="329,324.667 369,344.667 329,364.667 289,344.667" fill="#52525B"/>
+          <polygon points="329,314.667 369,334.667 329,354.667 289,334.667" fill="#71717A" stroke="#3F3F46" stroke-width="1" stroke-linejoin="round"/>
+          <rect x="303" y="300.667" width="52" height="20" rx="6" fill="#27272A" stroke="#3F3F46"/>
+          <rect x="313" y="306.667" width="32" height="8" rx="4" fill="#52525B"/>
+          <polygon points="429,299.667 469,319.667 429,339.667 389,319.667" fill="#52525B"/>
+          <polygon points="429,289.667 469,309.667 429,329.667 389,309.667" fill="#3F3F46" stroke="#3F3F46" stroke-width="1" stroke-linejoin="round"/>
+          <rect x="403" y="275.667" width="52" height="20" rx="6" fill="#27272A" stroke="#3F3F46"/>
+          <rect x="413" y="281.667" width="32" height="8" rx="4" fill="#52525B"/>
+          <rect x="190" y="323.667" width="36" height="30" rx="8" fill="#D4D4D8"/>
+        </g>
+      </g>
+      <g id="Carte bâtiment">
+        <rect x="588" y="143" width="408" height="648" rx="24" fill="#27272A" stroke="#3F3F46"/>
+        <rect x="604" y="163" width="30" height="30" rx="8" fill="#D4D4D8"/>
+        <text x="646" y="175" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#F4F4F5">Bâtiment</text>
+        <rect x="646" y="183" width="120" height="9" rx="4.5" fill="#3F3F46"/>
+        <rect x="646" y="205" width="56" height="24" rx="12" fill="#3F3F46"/>
+        <rect x="708" y="205" width="56" height="24" rx="12" fill="#3F3F46"/>
+        <rect x="770" y="205" width="56" height="24" rx="12" fill="#3F3F46"/>
+        <polyline points="968,187 974,193 968,199" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+        <line x1="588" y1="239" x2="996" y2="239" stroke="#3F3F46" stroke-width="1"/>
+        <g id="Niveau Niveau">
+          <polygon points="813,676 903,721 813,766 723,721" fill="#27272A" stroke="#3F3F46" stroke-width="1.5" stroke-linejoin="round"/>
+          <polygon points="813,713.5 848,731 813,748.5 778,731" fill="#52525B"/>
+          <polygon points="813,703.5 848,721 813,738.5 778,721" fill="#3F3F46" stroke="#3F3F46" stroke-width="1" stroke-linejoin="round"/>
+          <rect x="787" y="689.5" width="52" height="20" rx="6" fill="#27272A" stroke="#3F3F46"/>
+          <rect x="797" y="695.5" width="32" height="8" rx="4" fill="#52525B"/>
+          <rect x="704" y="705" width="36" height="30" rx="8" fill="#D4D4D8"/>
+        </g>
+        <g id="Niveau Niveau">
+          <polygon points="813,572 903,617 813,662 723,617" fill="#27272A" stroke="#3F3F46" stroke-width="1.5" stroke-linejoin="round"/>
+          <polygon points="813,609.5 848,627 813,644.5 778,627" fill="#52525B"/>
+          <polygon points="813,599.5 848,617 813,634.5 778,617" fill="#71717A" stroke="#3F3F46" stroke-width="1" stroke-linejoin="round"/>
+          <rect x="787" y="585.5" width="52" height="20" rx="6" fill="#27272A" stroke="#3F3F46"/>
+          <rect x="797" y="591.5" width="32" height="8" rx="4" fill="#52525B"/>
+          <rect x="704" y="601" width="36" height="30" rx="8" fill="#D4D4D8"/>
+        </g>
+        <g id="Niveau Niveau">
+          <polygon points="813,468 903,513 813,558 723,513" fill="#27272A" stroke="#3F3F46" stroke-width="1.5" stroke-linejoin="round"/>
+          <polygon points="813,505.5 848,523 813,540.5 778,523" fill="#52525B"/>
+          <polygon points="813,495.5 848,513 813,530.5 778,513" fill="#3F3F46" stroke="#3F3F46" stroke-width="1" stroke-linejoin="round"/>
+          <rect x="787" y="481.5" width="52" height="20" rx="6" fill="#27272A" stroke="#3F3F46"/>
+          <rect x="797" y="487.5" width="32" height="8" rx="4" fill="#52525B"/>
+          <rect x="704" y="497" width="36" height="30" rx="8" fill="#D4D4D8"/>
+        </g>
+        <g id="Niveau Niveau">
+          <polygon points="813,364 903,409 813,454 723,409" fill="#27272A" stroke="#3F3F46" stroke-width="1.5" stroke-linejoin="round"/>
+          <polygon points="813,401.5 848,419 813,436.5 778,419" fill="#52525B"/>
+          <polygon points="813,391.5 848,409 813,426.5 778,409" fill="#71717A" stroke="#3F3F46" stroke-width="1" stroke-linejoin="round"/>
+          <rect x="787" y="377.5" width="52" height="20" rx="6" fill="#27272A" stroke="#3F3F46"/>
+          <rect x="797" y="383.5" width="32" height="8" rx="4" fill="#52525B"/>
+          <rect x="704" y="393" width="36" height="30" rx="8" fill="#D4D4D8"/>
+        </g>
+        <g id="Niveau Niveau">
+          <polygon points="813,260 903,305 813,350 723,305" fill="#27272A" stroke="#3F3F46" stroke-width="1.5" stroke-linejoin="round"/>
+          <polygon points="813,297.5 848,315 813,332.5 778,315" fill="#52525B"/>
+          <polygon points="813,287.5 848,305 813,322.5 778,305" fill="#71717A" stroke="#3F3F46" stroke-width="1" stroke-linejoin="round"/>
+          <rect x="787" y="273.5" width="52" height="20" rx="6" fill="#27272A" stroke="#3F3F46"/>
+          <rect x="797" y="279.5" width="32" height="8" rx="4" fill="#52525B"/>
+          <rect x="704" y="289" width="36" height="30" rx="8" fill="#D4D4D8"/>
+        </g>
+      </g>
+      <g id="Carte bâtiment">
+        <rect x="164" y="808" width="408" height="120" rx="24" fill="#27272A" stroke="#3F3F46"/>
+        <rect x="180" y="828" width="30" height="30" rx="8" fill="#D4D4D8"/>
+        <text x="222" y="840" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#F4F4F5">Bâtiment</text>
+        <rect x="222" y="848" width="120" height="9" rx="4.5" fill="#3F3F46"/>
+        <rect x="222" y="870" width="56" height="24" rx="12" fill="#3F3F46"/>
+        <rect x="284" y="870" width="56" height="24" rx="12" fill="#3F3F46"/>
+        <rect x="346" y="870" width="56" height="24" rx="12" fill="#3F3F46"/>
+        <polyline points="544,852 550,858 544,864" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+      </g>
+      <g id="Carte bâtiment">
+        <rect x="588" y="808" width="408" height="120" rx="24" fill="#27272A" stroke="#3F3F46"/>
+        <rect x="604" y="828" width="30" height="30" rx="8" fill="#D4D4D8"/>
+        <text x="646" y="840" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#F4F4F5">Bâtiment</text>
+        <rect x="646" y="848" width="120" height="9" rx="4.5" fill="#3F3F46"/>
+        <rect x="646" y="870" width="56" height="24" rx="12" fill="#3F3F46"/>
+        <rect x="708" y="870" width="56" height="24" rx="12" fill="#3F3F46"/>
+        <rect x="770" y="870" width="56" height="24" rx="12" fill="#3F3F46"/>
+        <polyline points="968,852 974,858 968,864" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g id="Panneau École">
+      <rect x="1020" y="92" width="380" height="788" rx="28" fill="#27272A" stroke="#3F3F46"/>
+      <g id="En-tête du panneau">
+        <rect x="1042" y="114" width="52" height="52" rx="13" fill="none" stroke="#71717A"/>
+        <text x="1108" y="136" font-family="Inter, Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#F4F4F5">École</text>
+        <rect x="1108" y="148" width="140" height="10" rx="5" fill="#3F3F46"/>
+        <rect x="1042" y="182" width="106" height="68" rx="14" fill="#3F3F46"/>
+        <rect x="1056" y="196" width="14" height="14" rx="3" fill="none" stroke="#D4D4D8"/>
+        <rect x="1056" y="218" width="50" height="20" rx="6" fill="#71717A"/>
+        <rect x="1157" y="182" width="106" height="68" rx="14" fill="#3F3F46"/>
+        <rect x="1171" y="196" width="14" height="14" rx="3" fill="none" stroke="#D4D4D8"/>
+        <rect x="1171" y="218" width="50" height="20" rx="6" fill="#71717A"/>
+        <rect x="1272" y="182" width="106" height="68" rx="14" fill="#52525B"/>
+        <rect x="1286" y="196" width="14" height="14" rx="3" fill="none" stroke="#D4D4D8"/>
+        <rect x="1286" y="218" width="50" height="20" rx="6" fill="#71717A"/>
+      </g>
+      <g id="Liste des salles">
+        <rect x="1042" y="294" width="24" height="24" rx="6" fill="#D4D4D8"/>
+        <rect x="1076" y="300" width="42" height="12" rx="6" fill="#52525B"/>
+        <rect x="1150" y="293" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1182" y="293" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1214" y="293" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1322" y="300" width="28" height="12" rx="6" fill="#52525B"/>
+        <polyline points="1366,300 1372,306 1366,312" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+        <rect x="1042" y="342" width="24" height="24" rx="6" fill="#D4D4D8"/>
+        <rect x="1076" y="348" width="42" height="12" rx="6" fill="#52525B"/>
+        <rect x="1150" y="341" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1182" y="341" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1214" y="341" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1322" y="348" width="28" height="12" rx="6" fill="#52525B"/>
+        <polyline points="1366,348 1372,354 1366,360" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+        <rect x="1042" y="390" width="24" height="24" rx="6" fill="#D4D4D8"/>
+        <rect x="1076" y="396" width="42" height="12" rx="6" fill="#52525B"/>
+        <rect x="1150" y="389" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1182" y="389" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1214" y="389" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1322" y="396" width="28" height="12" rx="6" fill="#52525B"/>
+        <polyline points="1366,396 1372,402 1366,408" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+        <rect x="1042" y="438" width="24" height="24" rx="6" fill="#D4D4D8"/>
+        <rect x="1076" y="444" width="42" height="12" rx="6" fill="#52525B"/>
+        <rect x="1150" y="437" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1182" y="437" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1214" y="437" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1322" y="444" width="28" height="12" rx="6" fill="#52525B"/>
+        <polyline points="1366,444 1372,450 1366,456" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+        <rect x="1042" y="486" width="24" height="24" rx="6" fill="#D4D4D8"/>
+        <rect x="1076" y="492" width="42" height="12" rx="6" fill="#52525B"/>
+        <rect x="1150" y="485" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1182" y="485" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1214" y="485" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1322" y="492" width="28" height="12" rx="6" fill="#52525B"/>
+        <polyline points="1366,492 1372,498 1366,504" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+        <rect x="1042" y="534" width="24" height="24" rx="6" fill="#D4D4D8"/>
+        <rect x="1076" y="540" width="42" height="12" rx="6" fill="#52525B"/>
+        <rect x="1150" y="533" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1182" y="533" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1214" y="533" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1322" y="540" width="28" height="12" rx="6" fill="#52525B"/>
+        <polyline points="1366,540 1372,546 1366,552" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+        <rect x="1042" y="582" width="24" height="24" rx="6" fill="#D4D4D8"/>
+        <rect x="1076" y="588" width="42" height="12" rx="6" fill="#52525B"/>
+        <rect x="1150" y="581" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1182" y="581" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1214" y="581" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1322" y="588" width="28" height="12" rx="6" fill="#52525B"/>
+        <polyline points="1366,588 1372,594 1366,600" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+        <rect x="1042" y="630" width="24" height="24" rx="6" fill="#D4D4D8"/>
+        <rect x="1076" y="636" width="42" height="12" rx="6" fill="#52525B"/>
+        <rect x="1150" y="629" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1182" y="629" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1214" y="629" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1322" y="636" width="28" height="12" rx="6" fill="#52525B"/>
+        <polyline points="1366,636 1372,642 1366,648" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+        <rect x="1042" y="678" width="24" height="24" rx="6" fill="#D4D4D8"/>
+        <rect x="1076" y="684" width="42" height="12" rx="6" fill="#52525B"/>
+        <rect x="1150" y="677" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1182" y="677" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1214" y="677" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1322" y="684" width="28" height="12" rx="6" fill="#52525B"/>
+        <polyline points="1366,684 1372,690 1366,696" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+        <rect x="1042" y="726" width="24" height="24" rx="6" fill="#D4D4D8"/>
+        <rect x="1076" y="732" width="42" height="12" rx="6" fill="#52525B"/>
+        <rect x="1150" y="725" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1182" y="725" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1214" y="725" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1322" y="732" width="28" height="12" rx="6" fill="#52525B"/>
+        <polyline points="1366,732 1372,738 1366,744" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+        <rect x="1042" y="774" width="24" height="24" rx="6" fill="#D4D4D8"/>
+        <rect x="1076" y="780" width="42" height="12" rx="6" fill="#52525B"/>
+        <rect x="1150" y="773" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1182" y="773" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1214" y="773" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1322" y="780" width="28" height="12" rx="6" fill="#52525B"/>
+        <polyline points="1366,780 1372,786 1366,792" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+        <rect x="1042" y="822" width="24" height="24" rx="6" fill="#D4D4D8"/>
+        <rect x="1076" y="828" width="42" height="12" rx="6" fill="#52525B"/>
+        <rect x="1150" y="821" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1182" y="821" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1214" y="821" width="26" height="26" rx="6" fill="#3F3F46"/>
+        <rect x="1322" y="828" width="28" height="12" rx="6" fill="#52525B"/>
+        <polyline points="1366,828 1372,834 1366,840" fill="none" stroke="#A1A1AA" stroke-width="1.5" stroke-linejoin="round"/>
+      </g>
+    </g>
+  </g>
+</svg>

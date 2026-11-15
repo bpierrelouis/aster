@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>RIGEL — Salle</title>
+  <g id="RIGEL — Salle">
+<rect x="0" y="0" width="390" height="844" rx="0" fill="#F4F4F5" id="Fond"/>
+<g id="En-tête">
+<g id="Retour">
+<circle cx="38" cy="40" r="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<polyline points="41,33 34,40 41,47" fill="none" stroke="#52525B" stroke-width="1.8" stroke-linejoin="round"/>
+</g>
+<text x="76" y="48" font-family="Inter, Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#27272A">A101</text>
+</g>
+<g id="Lieu">
+<rect x="16" y="76" width="358" height="92" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="36" y="110" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#71717A">BÂTIMENT A · ÉTAGE 1</text>
+<g id="Avancement">
+<rect x="36" y="134" width="258" height="8" rx="4.0" fill="#E4E4E7"/>
+<rect x="36" y="134" width="12.9" height="8" rx="4" fill="#71717A"/>
+<text x="306" y="143" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="#71717A">5/104</text>
+</g>
+</g>
+<g id="Faire le recensement">
+<rect x="16" y="186" width="358" height="92" rx="30" fill="#52525B"/>
+<rect x="40" y="219" width="24" height="24" rx="6.0" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+<text x="86" y="226" font-family="Inter, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#FFFFFF">Faire le recensement</text>
+<text x="86" y="252" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#FFFFFF">Scanner les matériels présents</text>
+</g>
+<g id="Voir l’inventaire">
+<rect x="16" y="290" width="358" height="92" rx="30" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="40" y="323" width="24" height="24" rx="6.0" fill="none" stroke="#52525B" stroke-width="1.5"/>
+<text x="86" y="330" font-family="Inter, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#27272A">Voir l’inventaire</text>
+<text x="86" y="356" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">Matériels déclarés</text>
+</g>
+</g>
+</svg>

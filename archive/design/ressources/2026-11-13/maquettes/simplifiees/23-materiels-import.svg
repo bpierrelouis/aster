@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <title>Import JSON</title>
+  <g id="Import JSON">
+    <rect id="Fond" x="0" y="0" width="1440" height="900" fill="#F4F4F5"/>
+    <g id="Menu latéral">
+      <rect x="20" y="20" width="120" height="860" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <path id="Marque ORION" transform="translate(64 47) scale(0.8)" fill="#52525B" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/>
+      <g id="Navigation Accueil">
+        <rect x="70" y="130" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="171" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Accueil</text>
+      </g>
+      <g id="Navigation Salles">
+        <rect x="70" y="198" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="239" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Salles</text>
+      </g>
+      <g id="Navigation Matériels">
+        <rect x="70" y="266" width="20" height="20" rx="5" fill="none" stroke="#52525B"/>
+        <text x="80" y="307" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#27272A" text-anchor="middle">Matériels</text>
+      </g>
+      <g id="Navigation Remontées">
+        <rect x="70" y="334" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="375" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Remontées</text>
+        <circle cx="92" cy="335" r="7" fill="#52525B"/>
+      </g>
+      <g id="Navigation Supervision">
+        <rect x="70" y="402" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="443" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Supervision</text>
+      </g>
+      <g id="Navigation Administration">
+        <rect x="70" y="470" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="511" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Administration</text>
+      </g>
+    </g>
+    <g id="Onglets">
+      <rect x="164" y="20" width="292.7" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="183" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="205" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">Inventaire</text>
+      <rect x="306" y="25" width="145.7" height="38" rx="19" fill="#E4E4E7"/>
+      <rect x="320" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="342" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27272A">Import JSON</text>
+    </g>
+    <g id="Barre d’outils">
+      <rect x="1060" y="20" width="340" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="1064" y="24" width="196" height="40" rx="20" fill="#E4E4E7"/>
+      <rect x="1076" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="1098" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A">École</text>
+      <polyline points="1236,41 1242,47 1248,41" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="1286" cy="43" r="7" fill="none" stroke="#52525B" stroke-width="1.5"/>
+      <line x1="1291" y1="48" x2="1296" y2="53" stroke="#52525B" stroke-width="1.5"/>
+      <rect x="1321" y="35" width="16" height="17" rx="6" fill="none" stroke="#52525B"/>
+      <circle cx="1373" cy="44" r="18" fill="#D4D4D8"/>
+    </g>
+    <g id="Bouton Ajouter un matériel">
+      <rect x="824.7" y="22" width="217.3" height="44" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="838.7" y="37" width="14" height="14" rx="3" fill="none" stroke="#27272A"/>
+      <text x="943.35" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A" text-anchor="middle">Ajouter un matériel</text>
+    </g>
+    <g id="Import">
+      <rect x="164" y="92" width="1236" height="476" rx="28" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="196" y="124" width="52" height="52" rx="13" fill="none" stroke="#A1A1AA"/>
+      <text x="196" y="228" font-family="Inter, Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#27272A">Votre inventaire, en une fois.</text>
+      <rect x="196" y="258" width="450" height="10" rx="5" fill="#E4E4E7"/>
+      <rect x="196" y="285" width="420" height="10" rx="5" fill="#E4E4E7"/>
+      <rect x="196" y="312" width="430" height="10" rx="5" fill="#E4E4E7"/>
+      <rect x="196" y="339" width="400" height="10" rx="5" fill="#E4E4E7"/>
+      <g id="Champ École">
+        <text x="684" y="144" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#71717A">École</text>
+        <rect x="684" y="154" width="684" height="44" rx="12" fill="#F4F4F5" stroke="#D4D4D8"/>
+        <text x="700" y="181" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">École</text>
+        <polyline points="1342,173 1348,179 1354,173" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      </g>
+      <rect x="684" y="214" width="684" height="145" rx="14" fill="none" stroke="#A1A1AA" stroke-dasharray="6 4"/>
+      <g id="Champ Fichier JSON">
+        <text x="705" y="255" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#71717A">Fichier JSON</text>
+        <rect x="705" y="265" width="642" height="46" rx="12" fill="#F4F4F5" stroke="#D4D4D8"/>
+        <text x="721" y="293" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">Choisir un fichier</text>
+      </g>
+      <text x="705" y="334" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#71717A">2 000 matériels maximum, 2 Mo maximum.</text>
+      <text x="684" y="394" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">▸  Ou coller le JSON</text>
+      <g id="Bouton Importer les matériels">
+        <rect x="684" y="416" width="684" height="42" rx="21" fill="none" stroke="#D4D4D8"/>
+        <rect x="918.3" y="430" width="14" height="14" rx="3" fill="none" stroke="#71717A"/>
+        <text x="1036" y="442" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#71717A" text-anchor="middle">Importer les matériels</text>
+      </g>
+      <line x1="196" y1="490" x2="1368" y2="490" stroke="#D4D4D8" stroke-width="1"/>
+      <text x="196" y="531" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#27272A">▸  Format attendu et exemple</text>
+    </g>
+  </g>
+</svg>

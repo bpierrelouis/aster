@@ -24,6 +24,7 @@
     "test:workspace": "playwright test -c playwright.workspace.config.ts",
     "test:linux": "node tests/linux.ts",
     "captures": "node tests/captures.ts",
+    "captures:rigel": "node tests/captures-rigel.ts",
     "dev:ui": "vite --config frontend/vite.config.ts --mode ui --host 127.0.0.1",
     "dev:rigel": "concurrently -k -n relais,mobile,connecteur \"npm run dev:relais\" \"npm run dev:mobile\" \"npm run dev:connecteur\"",
     "dev:relais": "node --watch backend/rigel/relais-start.ts",

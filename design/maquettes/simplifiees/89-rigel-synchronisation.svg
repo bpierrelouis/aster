@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>RIGEL — Synchronisation</title>
+  <g id="RIGEL — Synchronisation">
+<rect x="0" y="0" width="390" height="844" rx="0" fill="#F4F4F5" id="Fond"/>
+<g id="En-tête">
+<g id="Retour">
+<circle cx="38" cy="40" r="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<polyline points="41,33 34,40 41,47" fill="none" stroke="#52525B" stroke-width="1.8" stroke-linejoin="round"/>
+</g>
+<text x="76" y="48" font-family="Inter, Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#27272A">Synchronisation</text>
+</g>
+<g id="État">
+<rect x="16" y="76" width="358" height="156" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<g id="Pastille Hors ligne · 1 constat en attente">
+<rect x="36" y="96" width="250" height="26" rx="13" fill="#E4E4E7"/>
+<text x="161.0" y="114" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Hors ligne · 1 constat en attente</text>
+</g>
+<text x="36" y="146" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">Dernière synchronisation à …</text>
+<g id="Bouton Synchroniser">
+<rect x="36" y="162" width="318" height="50" rx="25.0" fill="#52525B"/>
+<text x="195.0" y="193.0" font-family="Inter, Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#FFFFFF" text-anchor="middle">Synchroniser</text>
+</g>
+</g>
+<text x="20" y="268" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#71717A">À INTÉGRER PAR ORION · 1 CONSTAT</text>
+<g id="Constat en attente">
+<rect x="16" y="282" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="32" y="309" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">MAT-…</text>
+<text x="32" y="330" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#71717A">A101 · hh:mm</text>
+<g id="Pastille En attente">
+<rect x="262" y="300" width="96" height="26" rx="13" fill="#E4E4E7"/>
+<text x="310.0" y="318" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">En attente</text>
+</g>
+</g>
+<text x="20" y="386" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#71717A">INTÉGRÉS</text>
+<g id="Constat intégré 1">
+<rect x="16" y="402" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="32" y="429" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">MAT-…</text>
+<text x="32" y="450" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#71717A">A101 · hh:mm</text>
+<g id="Pastille Présent">
+<rect x="270" y="420" width="88" height="26" rx="13" fill="#D4D4D8"/>
+<text x="314.0" y="438" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Présent</text>
+</g>
+</g>
+<g id="Constat intégré 2">
+<rect x="16" y="474" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="32" y="501" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">MAT-…</text>
+<text x="32" y="522" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#71717A">A101 · hh:mm</text>
+<g id="Pastille Présent">
+<rect x="270" y="492" width="88" height="26" rx="13" fill="#D4D4D8"/>
+<text x="314.0" y="510" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Présent</text>
+</g>
+</g>
+<g id="Constat intégré 3">
+<rect x="16" y="546" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="32" y="573" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">MAT-…</text>
+<text x="32" y="594" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#71717A">A101 · hh:mm</text>
+<g id="Pastille Présent">
+<rect x="270" y="564" width="88" height="26" rx="13" fill="#D4D4D8"/>
+<text x="314.0" y="582" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Présent</text>
+</g>
+</g>
+<g id="Constat intégré 4">
+<rect x="16" y="618" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="32" y="645" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">MAT-…</text>
+<text x="32" y="666" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#71717A">A101 · hh:mm</text>
+<g id="Pastille Présent">
+<rect x="270" y="636" width="88" height="26" rx="13" fill="#D4D4D8"/>
+<text x="314.0" y="654" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Présent</text>
+</g>
+</g>
+<g id="Constat intégré 5">
+<rect x="16" y="690" width="358" height="62" rx="18" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="32" y="717" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">MAT-…</text>
+<text x="32" y="738" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#71717A">A101 · hh:mm</text>
+<g id="Pastille Présent">
+<rect x="270" y="708" width="88" height="26" rx="13" fill="#D4D4D8"/>
+<text x="314.0" y="726" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Présent</text>
+</g>
+</g>
+<text x="195" y="800" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#52525B" text-anchor="middle">Dissocier ce téléphone</text>
+</g>
+</svg>

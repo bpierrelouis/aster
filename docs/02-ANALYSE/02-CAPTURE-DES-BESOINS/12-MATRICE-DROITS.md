@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.4 | 14/11/2026 | Production destinée à la remise | Formateur : remontées sur les matériels d’une salle seulement | [16 versions](../../../archive/README.md#12-matrice-droits) |
+| 6.5 | 14/11/2026 | Production destinée à la remise | Notifications et tableau de bord du parc selon RG-36 et RG-37 | [17 versions](../../../archive/README.md#12-matrice-droits) |
 <!-- version:fin -->
 
 Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
@@ -45,7 +45,7 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 | Affecter ou déplacer un ou plusieurs matériels | Oui | Non | Oui | Oui | L’opération prend effet immédiatement et peut concerner plusieurs matériels. Les matériels d’une même opération appartiennent à une même école. Un matériel hors service ne peut être déplacé que vers le stock. | RG-15, RG-16, RG-18, RG-26, RG-27, RG-72, RG-78 et RG-87, DCU 08 |
 | Importer de nouveaux matériels en JSON | Oui | Non | Oui | Oui | Les données sont appliquées immédiatement, sans validation métier préalable ; seuls la lisibilité du fichier et les données obligatoires sont contrôlés. Un matériel d’une autre école peut changer d’école si l’importeur valide son transfert. | RG-15, RG-28, RG-29 et RG-72 |
 | Supprimer un matériel | Non | Non | Oui | Oui | L’interdiction du gestionnaire est explicite. Seul un matériel dans le stock peut être supprimé ; un matériel concerné par une remontée ne peut pas l’être. | RG-15, RG-17, RG-73, RG-78 et RG-91, DCU 08 |
-| Consulter le tableau de bord du parc | Oui | Non | Oui | Oui | La vue présente notamment l’état des stocks et peut être filtrée par salle. | RG-15, RG-24 et RG-36, DCU 08 |
+| Consulter le tableau de bord du parc | Oui | Non | Oui | Oui | La vue présente l’état du parc et des stocks, la part hors service par bâtiment et les salles à surveiller. | RG-15, RG-24 et RG-36, DCU 08 |
 | Prévoir l’installation d’une salle (déplacements prévus dans ORION) | Oui | Non | Oui | Oui | Les matériels affectés passent « en cours de déplacement ». | RG-92 |
 | Confirmer l’installation d’un matériel (point de déplacement, « Terminer le restockage » ou RIGEL) | Oui | Non | Non | Non | Depuis Salles › Déplacements ou sur place avec RIGEL (« Installer avec un téléphone ») ; l’installation d’une salle se termine d’elle-même quand plus aucun matériel n’est à déplacer vers elle ou depuis elle. | RG-92 et RG-94 |
 | Suivre les installations, les déplacements et les recensements | Oui | Non | Oui | Oui | Lecture seule pour l’administrateur et le super administrateur ; le formateur n’a accès ni aux déplacements, ni à RIGEL, ni au recensement. | RG-92 et RG-93 |

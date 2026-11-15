@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.1 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée ; RG-21 : le formateur ne signale que des matériels d’une salle | [15 versions](../../../archive/README.md#04-regles-de-gestion) |
+| 7.0 | 14/11/2026 | Production destinée à la remise | RG-36 et RG-37 alignées sur l’application, RG-39 étendue au super administrateur | [16 versions](../../../archive/README.md#04-regles-de-gestion) |
 <!-- version:fin -->
 
 Ce document formalise uniquement les règles confirmées qui imposent une contrainte sur les données, les droits des utilisateurs ou les traitements réalisés par ORION. Il s'appuie sur les [consignes du projet](../../01-CONTEXTE/01-CONSIGNES.md), les [entretiens des 22 et 23 octobre et du 4 novembre](../../01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md), le fonctionnement de l'application ORION et le [cadrage consolidé](../../01-CONTEXTE/02-CADRAGE.md).
@@ -53,10 +53,10 @@ Les limites du périmètre, les questions ouvertes et les réponses historiques 
 - **RG-33 — Arrêt d'un processus.** L'arrêt demandé depuis l'application web par un utilisateur autorisé porte uniquement sur un processus utilisateur présenté par ORION et est exécuté à distance sur le poste concerné. Seul un processus en cours peut être arrêté, et un seul arrêt peut être en attente pour un même processus. Le poste renvoie le résultat de l'arrêt, réussi ou en échec, qui est affiché dans ORION (application, 9 novembre).
 - **RG-34 — Détermination de la localisation de la remontée.** ORION présente la localisation de chaque matériel concerné lorsqu'elle est renseignée.
 - **RG-35 — Génération de l'état des lieux.** Le document d'état des lieux d'une remontée est généré au format PDF par le serveur ORION, à chaque demande d'un utilisateur autorisé à le consulter (RG-23). Il n'est pas conservé (client, 12 novembre).
-- **RG-36 — Tableaux de bord spécialisés.** ORION propose plusieurs tableaux de bord spécialisés, dont un tableau de bord du parc et un tableau de bord des remontées. Le tableau de bord du parc présente l'état des stocks et permet un filtrage par salle (client, 22 octobre).
-- **RG-37 — Affichage des notifications.** Une notification est affichée dans ORION sous la forme d'une fenêtre contextuelle lors de la connexion de son destinataire (client, 23 octobre).
+- **RG-36 — Tableaux de bord spécialisés.** ORION propose plusieurs tableaux de bord spécialisés, dont un tableau de bord du parc et un tableau de bord des remontées. Le tableau de bord du parc présente l'état du parc et des stocks, la part de matériels hors service par bâtiment et les salles à surveiller (client, 22 octobre ; adapté par la décision de l’utilisateur du 15 novembre 2026 et l’application, écart inscrit au cadrage § 23).
+- **RG-37 — Affichage des notifications.** Les notifications d'un utilisateur sont signalées par un compteur dans la barre supérieure d'ORION, résumées dans un menu et détaillées dans une page Notifications ; aucun courriel n'est envoyé (client, 23 octobre ; adapté par la décision de l’utilisateur du 15 novembre 2026 et l’application, écart inscrit au cadrage § 23).
 - **RG-38 — Canal de notification.** ORION n'envoie pas les notifications par courriel.
-- **RG-39 — Notifications de l'administrateur.** L'administrateur reçoit dans ORION trois types de notifications : l'évolution des remontées qu'il a créées, la fin des installations ou réinitialisations qu'il a lancées et le lancement d'une application interdite (blacklist). Il n'est pas notifié des remontées créées par d'autres utilisateurs (décision de l’utilisateur du 13 novembre 2026 et application).
+- **RG-39 — Notifications de l'administrateur.** L'administrateur et le super administrateur reçoivent dans ORION trois types de notifications : l'évolution des remontées qu'il a créées, la fin des installations ou réinitialisations qu'il a lancées et le lancement d'une application interdite (blacklist). Ils ne sont pas notifiés des remontées créées par d'autres utilisateurs (décisions de l’utilisateur des 13 et 15 novembre 2026 et application).
 
 ## 4. Règles spécifiques à la supervision des processus
 

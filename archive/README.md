@@ -10,21 +10,21 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | --- | --- | --- | --- |
 | [design/README.md](../design/README.md) | Ressource de préparation | [2.5](#design-readme) | 14/11/2026 |
 | [design/charte-graphique/index.html](../design/charte-graphique/index.html) | Ressource de préparation | [2.2](#design-charte-graphique-index) | 14/11/2026 |
-| [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [2.0](#design-maquettes-index) | 13/11/2026 |
+| [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [3.0](#design-maquettes-index) | 15/11/2026 |
 | [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md) | Production destinée à la remise | [3.5](#00-glossaire) | 14/11/2026 |
 | [docs/01-CONTEXTE/01-CONSIGNES.md](../docs/01-CONTEXTE/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.4](#01-consignes) | 14/11/2026 |
-| [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [5.0](#02-cadrage) | 14/11/2026 |
+| [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [5.1](#02-cadrage) | 14/11/2026 |
 | [docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.1](#03-compte-rendu-entretiens) | 14/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [3.0](#06-diagramme-contexte) | 14/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [2.0](#07-diagrammes-activite) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [6.1](#04-regles-de-gestion) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [7.0](#04-regles-de-gestion) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio) | Production destinée à la remise | [2.0](#05-mcd-merise) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) | Production destinée à la remise | [3.0](#05-mcd-merise) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md) | Production destinée à la remise | [1.5](#08-dcu-gestion-parc) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md) | Production destinée à la remise | [1.6](#09-dcu-administration-postes) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md) | Production destinée à la remise | [1.5](#10-dcu-supervision-postes) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md) | Production destinée à la remise | [3.1](#11-dcu-remontees-utilisateur) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md) | Production destinée à la remise | [6.4](#12-matrice-droits) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md) | Production destinée à la remise | [6.5](#12-matrice-droits) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [4.3](#13-fiche-descriptive-gestionnaire) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [3.1](#14-fiche-descriptive-formateur) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [4.2](#15-fiche-descriptive-administrateur) | 14/11/2026 |
@@ -45,7 +45,7 @@ Fichier : [design/README.md](../design/README.md) · Ressource de préparation
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.5 | 14/11/2026 | Lien vers les ressources archivées du design | en vigueur | — |
+| 2.5 | 14/11/2026 | Lien vers les ressources archivées du design ; 48 écrans, dont RIGEL | en vigueur | — |
 | 2.4 | 14/11/2026 | Chemins de l'interface renommés (espace) | `fa8e2ad` | [archive](design/readme/README-v2.4-2026-11-14.md) |
 | 2.3 | 14/11/2026 | Documenter la commande de régénération des captures | `ad9efd5` | [archive](design/readme/README-v2.3-2026-11-14.md) |
 | 2.2 | 13/11/2026 | Icônes métier en Bleu Orion, captures compressées | `e0421f0` | [archive](design/readme/README-v2.2-2026-11-13.md) |
@@ -75,7 +75,8 @@ Fichier : [design/maquettes/index.html](../design/maquettes/index.html) · Resso
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 13/11/2026 | Ajouter les maquettes simplifiées à côté des captures | en vigueur | — |
+| 3.0 | 15/11/2026 | Section RIGEL (application mobile) et bilan d’un recensement | en vigueur | — |
+| 2.0 | 13/11/2026 | Ajouter les maquettes simplifiées à côté des captures | `bf823e8` | [archive](design/maquettes/maquettes-v2.0-2026-11-13.html) |
 | 1.0 | 13/11/2026 | Présenter les écrans de l'application par module et par profil | `e594af2` | [archive](design/maquettes/maquettes-v1.0-2026-11-13.html) |
 
 ### 00-GLOSSAIRE
@@ -120,7 +121,8 @@ Fichier : [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) ·
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.0 | 14/11/2026 | Nommer M42 comme option d’agent ASTER | en vigueur | — |
+| 5.1 | 14/11/2026 | Notifications et tableau de bord du parc selon RG-36 et RG-37 | en vigueur | — |
+| 5.0 | 14/11/2026 | Nommer M42 comme option d’agent ASTER | `e99107c` | — |
 | 4.1 | 14/11/2026 | Déplacer dans docs/01-CONTEXTE/ | `69eaf4e` | — |
 | 4.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/02-CADRAGE.md`) | — |
 | 3.0 | 13/11/2026 | Faire de l’état actuel la référence ; entrée unique et absence de filtrage (13 novembre) ; retours du 12 novembre cités | `3caca82` (`docs/02-CADRAGE.md`) | — |
@@ -184,7 +186,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../do
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; RG-21 : le formateur ne signale que des matériels d’une salle | en vigueur | — |
+| 7.0 | 14/11/2026 | RG-36 et RG-37 alignées sur l’application, RG-39 étendue au super administrateur | en vigueur | — |
+| 6.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; RG-21 : le formateur ne signale que des matériels d’une salle | `bf1cfba` | — |
 | 6.0 | 14/11/2026 | RG-92 à RG-96 simplifiées : installation distincte du recensement, téléphone lié, code inconnu ajouté, matériel mal placé | `186f904` | — |
 | 5.0 | 14/11/2026 | RG-96 : lieu ouvert dans RIGEL ; matériel trouvé ailleurs accepté sur place ou ramené ; RG-93 et RG-95 ajustées | `07a0096` | — |
 | 4.0 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | `6219944` | — |
@@ -286,7 +289,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.4 | 14/11/2026 | Formateur : remontées sur les matériels d’une salle seulement | en vigueur | — |
+| 6.5 | 14/11/2026 | Notifications et tableau de bord du parc selon RG-36 et RG-37 | en vigueur | — |
+| 6.4 | 14/11/2026 | Formateur : remontées sur les matériels d’une salle seulement | `2f50ac0` | — |
 | 6.3 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | `fa8e2ad` | — |
 | 6.2 | 14/11/2026 | Recensement, installation et anciens constats | `186f904` | — |
 | 6.1 | 14/11/2026 | RIGEL : accepter sur place ou ramener (RG-96) | `07a0096` | — |
@@ -309,7 +313,7 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNA
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.3 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
+| 4.3 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Toutes les actions du gestionnaire : import JSON, RIGEL détaillé, activité ; écrans RIGEL | en vigueur | — |
 | 4.2 | 14/11/2026 | RIGEL : accepter sur place ou ramener (RG-96) | `186f904` | — |
 | 4.1 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | `6219944` | — |
 | 4.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | `5383a9f` | — |
@@ -328,7 +332,7 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.1 | 14/11/2026 | Formateur : remontées sur les matériels d’une salle seulement | en vigueur | — |
+| 3.1 | 14/11/2026 | Formateur : remontées sur les matériels d’une salle seulement ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | en vigueur | — |
 | 3.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | `fa8e2ad` | — |
 | 2.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | `69eaf4e` | — |
 | 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
@@ -344,7 +348,7 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTR
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.2 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
+| 4.2 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | en vigueur | — |
 | 4.1 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école | `186f904` | — |
 | 4.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | `5383a9f` | — |
 | 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | `69eaf4e` | — |
@@ -363,7 +367,7 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADM
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.2 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
+| 4.2 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | en vigueur | — |
 | 4.1 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école | `186f904` | — |
 | 4.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | `5383a9f` | — |
 | 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | `69eaf4e` | — |

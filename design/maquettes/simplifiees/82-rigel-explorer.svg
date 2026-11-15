@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>RIGEL — Explorer</title>
+  <g id="RIGEL — Explorer">
+<rect x="0" y="0" width="390" height="844" rx="0" fill="#F4F4F5" id="Fond"/>
+<g id="En-tête">
+<g id="Retour">
+<circle cx="38" cy="40" r="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<polyline points="41,33 34,40 41,47" fill="none" stroke="#52525B" stroke-width="1.8" stroke-linejoin="round"/>
+</g>
+<text x="76" y="48" font-family="Inter, Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#27272A">Explorer</text>
+</g>
+<g id="Stock">
+<rect x="16" y="76" width="174" height="96" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="32" y="92" width="18" height="18" rx="4.5" fill="none" stroke="#52525B" stroke-width="1.5"/>
+<text x="58" y="106" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">Stock</text>
+<g id="Avancement">
+<rect x="32" y="142" width="84" height="8" rx="4.0" fill="#E4E4E7"/>
+<rect x="32" y="142" width="8" height="8" rx="4" fill="#71717A"/>
+<text x="128" y="151" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="#71717A">0/…</text>
+</g>
+</g>
+<text x="20" y="210" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#71717A">BÂTIMENT A</text>
+<g id="Salle A012">
+<rect x="16" y="226" width="174" height="96" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="32" y="256" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">A012</text>
+<g id="Avancement">
+<rect x="32" y="294" width="96" height="8" rx="4.0" fill="#E4E4E7"/>
+<rect x="32" y="294" width="8" height="8" rx="4" fill="#71717A"/>
+<text x="140" y="303" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="#71717A">0/…</text>
+</g>
+</g>
+<g id="Salle A014">
+<rect x="200" y="226" width="174" height="96" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="216" y="256" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">A014</text>
+<g id="Avancement">
+<rect x="216" y="294" width="96" height="8" rx="4.0" fill="#E4E4E7"/>
+<rect x="216" y="294" width="8" height="8" rx="4" fill="#71717A"/>
+<text x="324" y="303" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="#71717A">0/…</text>
+</g>
+</g>
+<g id="Salle A018">
+<rect x="16" y="332" width="174" height="96" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="32" y="362" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">A018</text>
+<g id="Avancement">
+<rect x="32" y="400" width="96" height="8" rx="4.0" fill="#E4E4E7"/>
+<rect x="32" y="400" width="8" height="8" rx="4" fill="#71717A"/>
+<text x="140" y="409" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="#71717A">0/…</text>
+</g>
+</g>
+<g id="Salle A101">
+<rect x="200" y="332" width="174" height="96" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="216" y="362" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">A101</text>
+<g id="Avancement">
+<rect x="216" y="400" width="96" height="8" rx="4.0" fill="#E4E4E7"/>
+<rect x="216" y="400" width="8" height="8" rx="4" fill="#71717A"/>
+<text x="324" y="409" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="#71717A">0/…</text>
+</g>
+</g>
+<g id="Salle A105">
+<rect x="16" y="438" width="174" height="96" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="32" y="468" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">A105</text>
+<g id="Avancement">
+<rect x="32" y="506" width="96" height="8" rx="4.0" fill="#E4E4E7"/>
+<rect x="32" y="506" width="8" height="8" rx="4" fill="#71717A"/>
+<text x="140" y="515" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="#71717A">0/…</text>
+</g>
+</g>
+<g id="Salle A112">
+<rect x="200" y="438" width="174" height="96" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="216" y="468" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">A112</text>
+<g id="Avancement">
+<rect x="216" y="506" width="96" height="8" rx="4.0" fill="#E4E4E7"/>
+<rect x="216" y="506" width="8" height="8" rx="4" fill="#71717A"/>
+<text x="324" y="515" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="#71717A">0/…</text>
+</g>
+</g>
+<g id="Salle A118">
+<rect x="16" y="544" width="174" height="96" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="32" y="574" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">A118</text>
+<g id="Avancement">
+<rect x="32" y="612" width="96" height="8" rx="4.0" fill="#E4E4E7"/>
+<rect x="32" y="612" width="8" height="8" rx="4" fill="#71717A"/>
+<text x="140" y="621" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="#71717A">0/…</text>
+</g>
+</g>
+<g id="Salle A203">
+<rect x="200" y="544" width="174" height="96" rx="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="216" y="574" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#27272A">A203</text>
+<g id="Avancement">
+<rect x="216" y="612" width="96" height="8" rx="4.0" fill="#E4E4E7"/>
+<rect x="216" y="612" width="8" height="8" rx="4" fill="#71717A"/>
+<text x="324" y="621" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="#71717A">0/…</text>
+</g>
+</g>
+</g>
+</svg>

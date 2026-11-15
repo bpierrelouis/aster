@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.1 | 14/11/2026 | Production destinée à la remise | Formateur : remontées sur les matériels d’une salle seulement | [9 versions](../../../archive/README.md#14-fiche-descriptive-formateur) |
+| 3.1 | 14/11/2026 | Production destinée à la remise | Formateur : remontées sur les matériels d’une salle seulement ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | [9 versions](../../../archive/README.md#14-fiche-descriptive-formateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -16,8 +16,8 @@
 
 | Domaine | Capacités |
 | --- | --- |
-| Accès | Connexion par MindefConnect, avec un compte ORION actif de son école |
-| Tableau de bord | « Mon tableau de bord » personnalisable (ses remontées, salles de l’école, postes allumés par bâtiment) |
+| Accès | Connexion par MindefConnect, avec un compte ORION actif de son école ; recherche globale, préférences d’affichage et déconnexion |
+| Tableaux de bord | « Mon tableau de bord » personnalisable (ses remontées, salles de l’école, postes allumés par bâtiment) et tableaux ajoutés, renommés ou supprimés par le compte |
 | Salles | Vue éclatée des bâtiments, détail d’une salle et de ses matériels, sans modification ; recherche limitée aux salles et aux matériels affectés à une salle, menant à la salle |
 | Supervision | **Alertes** et **Salles** : choisir une salle, consulter l’état de ses postes et leurs processus utilisateur, demander l’arrêt d’un processus, consulter les détections de la salle |
 | Remontées | Créer une remontée sur des matériels d’une salle ; suivre ses propres remontées ; consulter, télécharger et imprimer leur état des lieux |
@@ -144,11 +144,11 @@ RG-11 à RG-14, RG-21, RG-23, RG-34 à RG-38, RG-63, RG-64, RG-66, RG-69, RG-79,
 
 ### Scénario nominal
 
-1. **Accueil** présente son tableau de bord : ses remontées et leur statut, les salles de l’école, les postes allumés par bâtiment. **Personnaliser** lui permet de déplacer, redimensionner, retirer ou ajouter des cartes.
+1. **Accueil** présente son tableau de bord : ses remontées et leur statut, les salles de l’école, les postes allumés par bâtiment. **Personnaliser** lui permet de déplacer, redimensionner, retirer ou ajouter des cartes depuis un catalogue, puis **Terminé** enregistre la disposition ; le **+** du sous-menu de l’accueil crée un autre tableau, qu’il peut ensuite renommer ou supprimer.
 2. **Salles** présente la vue éclatée des bâtiments ; une balise signale une salle avec du matériel hors service ou une remontée en attente.
 3. Il ouvre un bâtiment, puis une salle : ORION affiche ses matériels par type et ses postes allumés, avec un accès à la supervision de la salle et à **Signaler un problème**.
 4. La recherche de la barre supérieure lui propose les salles, les matériels affectés à une salle et ses remontées ; un matériel mène à sa salle.
-5. À la connexion, ses notifications s’affichent dans une fenêtre contextuelle ; la cloche de la barre supérieure en indique le nombre.
+5. La cloche de la barre supérieure indique le nombre de ses notifications et en ouvre le résumé ; la page **Notifications** les détaille. Le menu du compte rappelle son nom, son profil et son école ; il règle l’ambiance (Orion ou Minarm), le mode clair ou sombre, la couleur d’accent de l’ambiance Orion et le verre (liquide ou opaque), conservés pour ses connexions suivantes, et propose **Se déconnecter**.
 
 ### Variantes et limites
 

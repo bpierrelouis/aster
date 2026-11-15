@@ -69,7 +69,7 @@
       {
         "version": "2.5",
         "date": "2026-11-14",
-        "modification": "Lien vers les ressources archivées du design",
+        "modification": "Lien vers les ressources archivées du design ; 48 écrans, dont RIGEL",
         "archive": null
       }
     ]
@@ -195,6 +195,13 @@
         "version": "2.0",
         "date": "2026-11-13",
         "modification": "Ajouter les maquettes simplifiées à côté des captures",
+        "archive": "design/maquettes/maquettes-v2.0-2026-11-13.html",
+        "commit": "bf823e8"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-15",
+        "modification": "Section RIGEL (application mobile) et bilan d’un recensement",
         "archive": null
       }
     ]
@@ -559,6 +566,13 @@
         "version": "5.0",
         "date": "2026-11-14",
         "modification": "Nommer M42 comme option d’agent ASTER",
+        "archive": null,
+        "commit": "e99107c"
+      },
+      {
+        "version": "5.1",
+        "date": "2026-11-14",
+        "modification": "Notifications et tableau de bord du parc selon RG-36 et RG-37",
         "archive": null
       }
     ]
@@ -830,6 +844,13 @@
         "version": "6.1",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; RG-21 : le formateur ne signale que des matériels d’une salle",
+        "archive": null,
+        "commit": "bf1cfba"
+      },
+      {
+        "version": "7.0",
+        "date": "2026-11-14",
+        "modification": "RG-36 et RG-37 alignées sur l’application, RG-39 étendue au super administrateur",
         "archive": null
       }
     ]
@@ -1258,6 +1279,13 @@
         "version": "6.4",
         "date": "2026-11-14",
         "modification": "Formateur : remontées sur les matériels d’une salle seulement",
+        "archive": null,
+        "commit": "2f50ac0"
+      },
+      {
+        "version": "6.5",
+        "date": "2026-11-14",
+        "modification": "Notifications et tableau de bord du parc selon RG-36 et RG-37",
         "archive": null
       }
     ]
@@ -1368,7 +1396,7 @@
       {
         "version": "4.3",
         "date": "2026-11-14",
-        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Toutes les actions du gestionnaire : import JSON, RIGEL détaillé, activité ; écrans RIGEL",
         "archive": null
       }
     ]
@@ -1465,7 +1493,7 @@
       {
         "version": "3.1",
         "date": "2026-11-14",
-        "modification": "Formateur : remontées sur les matériels d’une salle seulement",
+        "modification": "Formateur : remontées sur les matériels d’une salle seulement ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans",
         "archive": null
       }
     ]
@@ -1577,7 +1605,7 @@
       {
         "version": "4.2",
         "date": "2026-11-14",
-        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans",
         "archive": null
       }
     ]
@@ -1688,7 +1716,7 @@
       {
         "version": "4.2",
         "date": "2026-11-14",
-        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans",
         "archive": null
       }
     ]

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.2 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée | [12 versions](../../../archive/README.md#16-fiche-descriptive-super-administrateur) |
+| 4.2 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | [12 versions](../../../archive/README.md#16-fiche-descriptive-super-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -24,7 +24,7 @@ Afin d’éviter de dupliquer les scénarios, les parcours détaillés sont déc
 
 | Domaine | Capacités globales |
 | --- | --- |
-| Accès | Connexion par MindefConnect, avec un compte ORION actif de profil super administrateur |
+| Accès | Connexion par MindefConnect, avec un compte ORION actif de profil super administrateur ; recherche globale, préférences d’affichage et déconnexion, comme l’administrateur |
 | Écoles | Choisir l’école affichée ou toutes les écoles ; créer et renommer une école |
 | Parc matériel | Toutes les actions sur les matériels de toutes les écoles, y compris la suppression et l’import JSON |
 | Salles et bâtiments | Gestion des salles et renommage des bâtiments de toutes les écoles ; déplacements d’une installation initiés et suivis en lecture seule |
@@ -46,7 +46,7 @@ Dans **Administration › Comptes**, la rubrique **Écoles** présente une carte
 
 ### Parc matériel
 
-Les opérations de [UC-ADMIN-01](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-01--administrer-le-parc-matériel) portent sur les matériels de toutes les écoles. Une affectation groupée porte sur des matériels d’une même école (« Sélectionnez des matériels de la même école. ») ; un import JSON est rattaché à l’école choisie dans le formulaire d’import.
+Les opérations de [UC-ADMIN-01](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-01--administrer-le-parc-matériel) portent sur les matériels de toutes les écoles. Une affectation groupée porte sur des matériels d’une même école (« Sélectionnez des matériels de la même école. ») ; un import JSON est rattaché à l’école choisie dans le champ **École** du formulaire d’import, et le transfert y fait entrer un matériel venu d’une autre école.
 
 ### Salles et installation
 
