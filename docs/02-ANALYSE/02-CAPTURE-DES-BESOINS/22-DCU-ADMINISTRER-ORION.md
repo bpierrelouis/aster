@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.0 | 15/11/2026 | Production destinée à la remise | Administrer ORION et personnaliser son espace | [1 version](../../../archive/README.md#22-dcu-administrer-orion) |
+| 2.0 | 15/11/2026 | Production destinée à la remise | Désignation du premier super administrateur par l’exploitant | [2 versions](../../../archive/README.md#22-dcu-administrer-orion) |
 <!-- version:fin -->
 
 ```mermaid
@@ -13,6 +13,7 @@ flowchart LR
     gestionnaire(["Gestionnaire"])
     administrateur(["Administrateur"])
     superAdministrateur(["Super administrateur"])
+    exploitant(["Exploitant"])
 
     formateur -->|« hérite de »| utilisateur
     gestionnaire -->|« hérite de »| utilisateur
@@ -35,6 +36,7 @@ flowchart LR
         creerEcole(["Créer une école"])
         renommerEcole(["Renommer une école"])
         choisirEcole(["Choisir l'école affichée<br/>ou toutes les écoles"])
+        designerPremierSuperAdministrateur(["Désigner le premier<br/>super administrateur<br/>d'un espace neuf"])
     end
 
     mindefConnect(["MindefConnect"])
@@ -51,6 +53,7 @@ flowchart LR
     superAdministrateur --- creerEcole
     superAdministrateur --- renommerEcole
     superAdministrateur --- choisirEcole
+    exploitant --- designerPremierSuperAdministrateur
 
     modifierCompte -.->|« include »| consulterComptes
     desactiverCompte -.->|« include »| consulterComptes
@@ -64,10 +67,10 @@ flowchart LR
     classDef acteurAbstrait fill:#E3F5E6,stroke:#35864A,color:#173B22,stroke-width:2px,stroke-dasharray:6 4
     classDef acteurSecondaire fill:#FFECBD,stroke:#E8B84E,color:#17243B
     classDef casUtilisation fill:#F5F2FF,stroke:#6954C0,color:#241C45
-    class formateur,gestionnaire,administrateur,superAdministrateur acteurReel
+    class formateur,gestionnaire,administrateur,superAdministrateur,exploitant acteurReel
     class utilisateur acteurAbstrait
     class mindefConnect acteurSecondaire
-    class seConnecter,consulterNotifications,personnaliserTableaux,choisirAmbiance,consulterComptes,creerCompte,modifierCompte,desactiverCompte,reactiverCompte,creerSuperAdministrateur,changerEcole,creerEcole,renommerEcole,choisirEcole casUtilisation
+    class seConnecter,consulterNotifications,personnaliserTableaux,choisirAmbiance,consulterComptes,creerCompte,modifierCompte,desactiverCompte,reactiverCompte,creerSuperAdministrateur,changerEcole,creerEcole,renommerEcole,choisirEcole,designerPremierSuperAdministrateur casUtilisation
 
     style orion fill:none,stroke:#7D8793,stroke-width:1px
 ```

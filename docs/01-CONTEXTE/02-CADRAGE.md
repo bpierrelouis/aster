@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.1 | 14/11/2026 | Source de travail interne | Notifications et tableau de bord du parc selon RG-36 et RG-37 | [17 versions](../../archive/README.md#02-cadrage) |
+| 5.2 | 15/11/2026 | Source de travail interne | Création du premier compte d’un espace neuf, d’après l’application | [18 versions](../../archive/README.md#02-cadrage) |
 <!-- version:fin -->
 
 **Document de travail interne, non destiné à la remise aux cadres évaluateurs.** Il conserve les réponses et leurs périmètres pour préparer les productions. Les documents remis décrivent la cible en production ; les modalités de réalisation et les comptes du démonstrateur sont réservés au [guide interne de développement](../../application/README.md). Cette distinction a été fixée par l’utilisateur le 6 novembre.
@@ -56,6 +56,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] Existe-t-il un rôle d’administrateur technique chargé de l’exploitation ? — **Décision de l’utilisateur du 3 novembre :** l’administrateur et le super administrateur possèdent les mêmes droits applicatifs ; ils se distinguent par leur périmètre d’accès aux écoles. Aucun profil technique distinct n’est prévu.
 - [x] Un utilisateur peut-il cumuler plusieurs rôles ? — **Décision de l’utilisateur du 3 novembre :** non. Chaque utilisateur ORION possède exactement un profil parmi administrateur, gestionnaire, formateur et super administrateur.
 - [x] Qui crée, modifie, désactive et réactive les comptes ? — **Décision de l’utilisateur du 3 novembre :** l’administrateur gère les comptes rattachés à son école. Le super administrateur gère les comptes de toutes les écoles. Le gestionnaire et le formateur ne gèrent pas les comptes ORION.
+- [x] Comment le premier compte d’un espace neuf est-il créé ? — **Application, 15 novembre :** un espace neuf ne contient aucun compte. L’exploitant désigne à l’installation l’adresse du premier super administrateur ; le compte est créé au démarrage si l’espace n’a aucun compte, puis ce super administrateur crée les écoles et les autres comptes.
 - [x] Qui autorise les opérations sensibles sur les postes ? — Précision de l’utilisateur du 24 octobre, complétée le 3 novembre : chaque utilisateur autorisé peut agir directement, dans la limite de ses droits, sans accord préalable d’une autre personne. L’administrateur et le super administrateur disposent de tous les droits sur leur périmètre et réalisent la réinitialisation ; le formateur peut arrêter les processus utilisateur, hors processus système (23 octobre, § 1.2 et 1.5).
 - [x] Certaines opérations nécessitent-elles une validation par une seconde personne ? — Précision de l’utilisateur du 24 octobre : non, l’utilisateur autorisé peut agir directement dans la limite de ses droits.
 - [ ] ~~Faut-il déléguer temporairement des droits en cas d’absence ?~~ — **Sans objet, décision de l’utilisateur du 3 novembre :** aucun mécanisme de délégation temporaire des droits n’est demandé.

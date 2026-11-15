@@ -573,6 +573,13 @@
         "version": "5.1",
         "date": "2026-11-14",
         "modification": "Notifications et tableau de bord du parc selon RG-36 et RG-37",
+        "archive": null,
+        "commit": "2ce55f7"
+      },
+      {
+        "version": "5.2",
+        "date": "2026-11-15",
+        "modification": "Création du premier compte d’un espace neuf, d’après l’application",
         "archive": null
       }
     ]
@@ -1742,6 +1749,13 @@
         "version": "1.0",
         "date": "2026-11-15",
         "modification": "Administrer ORION et personnaliser son espace",
+        "archive": null,
+        "commit": "36f4195"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-15",
+        "modification": "Désignation du premier super administrateur par l’exploitant",
         "archive": null
       }
     ]
