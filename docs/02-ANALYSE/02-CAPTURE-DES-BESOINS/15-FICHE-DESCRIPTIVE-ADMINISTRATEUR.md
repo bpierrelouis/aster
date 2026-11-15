@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.2 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | [12 versions](../../../archive/README.md#15-fiche-descriptive-administrateur) |
+| 4.3 | 15/11/2026 | Production destinée à la remise | Termes whitelist et blacklist ; catalogue, M42 et Linux en V2 | [13 versions](../../../archive/README.md#15-fiche-descriptive-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -22,7 +22,7 @@
 | Salles et bâtiments | Créer, modifier et supprimer une salle ; renommer un bâtiment ; initier les déplacements d’une installation et la suivre en lecture seule |
 | Recensement | Suivre en lecture seule les recensements de son école et leur bilan |
 | Administration des postes | Consulter les postes, leur état et leurs applications ; installer ou désinstaller une application sur un poste ou une salle ; demander la réinitialisation d’un ou plusieurs postes ; suivre les interventions |
-| Supervision | Alertes de toutes les salles, supervision d’une salle et arrêt d’un processus, listes de processus (liste blanche, liste noire) de son école, statistiques d’utilisation |
+| Supervision | Alertes de toutes les salles, supervision d’une salle et arrêt d’un processus, listes de processus (whitelist, blacklist) de son école, statistiques d’utilisation |
 | Remontées | Créer une remontée et suivre les siennes ; consulter toutes les remontées de son école et leurs états des lieux ; le traitement est réservé au gestionnaire |
 | Comptes ORION | Créer, modifier, désactiver et réactiver les comptes de son école, sans pouvoir les rattacher à une autre école ni changer la sienne ; consulter leur dernière connexion et leur date de désactivation |
 | Notifications | Évolution de ses propres remontées, fin des interventions qu’il a demandées, lancement d’un processus interdit |
@@ -85,8 +85,8 @@ RG-03 à RG-10, RG-15, RG-25 à RG-29, RG-69, RG-72, RG-73, RG-86, RG-87 et RG-9
 
 ### Questions ouvertes
 
-- Solution d’administration à distance (dont l’agent Windows M42 envisagé, non réalisé), protocole, compte technique et gestion des secrets.
-- Origine, validation et version des paquets ; gestion du catalogue des applications.
+- Solution d’administration à distance, protocole, compte technique et gestion des secrets ; l’agent M42 et les postes Linux relèvent de la V2.
+- Origine, validation et version des paquets ; la gestion du catalogue des applications relève de la V2.
 - Reprise d’une intervention en échec.
 
 ### Règles applicables
@@ -132,15 +132,15 @@ RG-15, RG-22, RG-25, RG-30, RG-39, RG-69 et RG-81.
 
 1. **Alertes** liste les détections de toutes les salles de l’école, des plus récentes aux plus anciennes : processus et classement, poste et salle, adresse IP, compte Windows, date et résultat de l’arrêt automatique ; une salle peut être choisie et une recherche (processus, poste, adresse IP, compte) appliquée pour restreindre la liste.
 2. **Salles** présente, pour la salle choisie, l’état de chaque poste (« Connecté », « Allumé », « Poste déconnecté », « Matériel hors service ») et ses processus utilisateur, actualisés toutes les cinq secondes ; le bouton d’arrêt demande l’arrêt d’un processus (« Arrêt demandé au poste »).
-3. **Listes de processus** présente les règles applicables (processus, classement, portée) ; **Ajouter une règle** ouvre le formulaire : nom du processus, classement « Autorisé (liste blanche) » ou « Interdit (liste noire) », portée école, bâtiment ou salle. ORION confirme « Règle enregistrée ». Le crayon d’une règle la modifie ; sa corbeille la supprime, après confirmation.
-4. ORION applique les règles cumulées et arrête automatiquement un processus de la liste noire ; la détection est historisée.
+3. **Listes de processus** présente les règles applicables (processus, classement, portée) ; **Ajouter une règle** ouvre le formulaire : nom du processus, classement « Autorisé (whitelist) » ou « Interdit (blacklist) », portée école, bâtiment ou salle. ORION confirme « Règle enregistrée ». Le crayon d’une règle la modifie ; sa corbeille la supprime, après confirmation.
+4. ORION applique les règles cumulées et arrête automatiquement un processus de la blacklist ; la détection est historisée.
 5. L’administrateur reçoit une notification pour chaque processus interdit lancé.
 6. **Statistiques** présente les postes allumés, les processus utilisateur actifs, les détections conservées et les processus les plus détectés.
 
 ### Variantes et limites
 
 - Les règles globales sont présentées sans modification ; seul le super administrateur les gère. La suppression d’une règle est confirmée et laisse actives les autres règles.
-- La liste noire est prioritaire et une interdiction héritée ne peut pas être annulée à un niveau inférieur.
+- La blacklist est prioritaire et une interdiction héritée ne peut pas être annulée à un niveau inférieur.
 - Les processus du système d’exploitation ne sont pas proposés à l’arrêt ; un seul arrêt peut être en attente pour un même processus.
 - Après trente secondes sans remontée, un poste est « Poste déconnecté » et reste visible sans processus.
 
@@ -320,7 +320,7 @@ Les détections de toutes les salles sont listées avec le poste, l’adresse IP
 
 ![Listes de processus](../../../design/maquettes/captures/42-supervision-listes.png)
 
-Les règles de liste blanche et de liste noire sont présentées par portée ; l’administrateur ajoute, modifie ou supprime celles de son école.
+Les règles de whitelist et de blacklist sont présentées par portée ; l’administrateur ajoute, modifie ou supprime celles de son école.
 
 ### Statistiques
 

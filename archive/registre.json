@@ -403,7 +403,7 @@
       {
         "version": "3.5",
         "date": "2026-11-14",
-        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Termes whitelist et blacklist",
         "archive": null
       }
     ]
@@ -737,6 +737,13 @@
         "version": "2.0",
         "date": "2026-11-14",
         "modification": "Mise à jour d’après l’état actuel : super administrateur, MindefConnect, RIGEL, solution d’administration des postes, PDF à la demande, traitement par le gestionnaire",
+        "archive": null,
+        "commit": "6a42b9f"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-15",
+        "modification": "Termes whitelist et blacklist",
         "archive": null
       }
     ]
@@ -858,6 +865,13 @@
         "version": "7.0",
         "date": "2026-11-14",
         "modification": "RG-36 et RG-37 alignées sur l’application, RG-39 étendue au super administrateur",
+        "archive": null,
+        "commit": "2ce55f7"
+      },
+      {
+        "version": "8.0",
+        "date": "2026-11-15",
+        "modification": "RG-77 réduite à la vue et à la réinitialisation des postes ; RG-97 à RG-100",
         "archive": null
       }
     ]
@@ -1068,6 +1082,13 @@
         "version": "2.0",
         "date": "2026-11-15",
         "modification": "DCU complété d’après l’application",
+        "archive": null,
+        "commit": "36f4195"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-15",
+        "modification": "Vue des postes ; catalogue des applications en V2",
         "archive": null
       }
     ]
@@ -1307,6 +1328,13 @@
         "version": "6.5",
         "date": "2026-11-14",
         "modification": "Notifications et tableau de bord du parc selon RG-36 et RG-37",
+        "archive": null,
+        "commit": "2ce55f7"
+      },
+      {
+        "version": "7.0",
+        "date": "2026-11-15",
+        "modification": "Section import JSON et RIGEL ; espace personnel ; vue des postes",
         "archive": null
       }
     ]
@@ -1515,6 +1543,13 @@
         "version": "3.1",
         "date": "2026-11-14",
         "modification": "Formateur : remontées sur les matériels d’une salle seulement ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans",
+        "archive": null,
+        "commit": "2ce55f7"
+      },
+      {
+        "version": "3.2",
+        "date": "2026-11-15",
+        "modification": "Termes whitelist et blacklist",
         "archive": null
       }
     ]
@@ -1627,6 +1662,13 @@
         "version": "4.2",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans",
+        "archive": null,
+        "commit": "2ce55f7"
+      },
+      {
+        "version": "4.3",
+        "date": "2026-11-15",
+        "modification": "Termes whitelist et blacklist ; catalogue, M42 et Linux en V2",
         "archive": null
       }
     ]
@@ -1873,6 +1915,13 @@
         "version": "4.1",
         "date": "2026-11-14",
         "modification": "Intervention : état « En cours » de la demande et des postes ; Machines à états du matériel et du processus",
+        "archive": null,
+        "commit": "36f4195"
+      },
+      {
+        "version": "4.2",
+        "date": "2026-11-15",
+        "modification": "Termes whitelist et blacklist",
         "archive": null
       }
     ]
@@ -2501,6 +2550,13 @@
         "version": "4.22",
         "date": "2026-11-15",
         "modification": "Clôt le retrait des données de démonstration des livrables",
+        "archive": null,
+        "commit": "c0ace77"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-15",
+        "modification": "M42, catalogue et postes Linux en V2 ; DCU et termes traités",
         "archive": null
       }
     ]
