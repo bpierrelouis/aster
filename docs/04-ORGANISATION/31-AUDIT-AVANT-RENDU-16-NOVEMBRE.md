@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 15/11/2026 | Pilotage interne | Retient la recette VM confirmée et rectifie les verdicts | [2 versions](../../archive/README.md#31-audit-avant-rendu-16-novembre) |
+| 2.1 | 15/11/2026 | Pilotage interne | Suite donnée à CODE-04 : solution retenue, charge utile écrite, règles de supervision | [3 versions](../../archive/README.md#31-audit-avant-rendu-16-novembre) |
 <!-- version:fin -->
 
 Document de pilotage interne, non remis. Situation contrôlée le **15 novembre 2026**, pour le daily du lundi 16 et le rendu du mardi 17. Référence examinée : `3fbaa9a713770c0fb64d35f1ab631fa18860ad10`, après intégration de quatre commits distants sur `dev` ; dépôt propre au départ. Mode d’investigation **VERIFY**, profondeur **audit** ; revue des sources, tests locaux, reproductions isolées et relecture documentaire. Les résultats décrivent ce périmètre vérifié, sans garantie d’exhaustivité de tous les états possibles.
@@ -67,6 +67,17 @@ Les captures ont utilisé un fichier de travail isolé et un relais local en mé
 | **CODE-03 — Mineur** | Résidus « campagne » dans commentaires et sélecteur CSS mort, hors compatibilité historique. | `frontend/src/rigel/styles/ecrans.css:34`, `frontend/src/espace/styles/recensement.css:2,6,28`. Aucun libellé utilisateur actif trouvé dans les TSX examinés. | Renommer/supprimer ces résidus ; conserver les anciens noms indispensables à la reprise des migrations et du stockage mobile. | #162 ; BAELDE, VILBERT-TAHON |
 
 Les chemins abrégés de cette table et de la suivante sont relatifs à `application/`.
+
+### Suite donnée à CODE-04 (à faire, non traité ; relecture de l’utilisateur du 15 novembre)
+
+La correction proposée (limite de 20 000 éléments réservée aux collections modifiables, données des postes refusées en 403 quelle que soit leur taille) est validée : la règle du 403 existe déjà (`espace.ts:136`), seul le contrôle de taille `espace.ts:122` s’applique à tort au repli serveur `visible[c]` des collections `processus`, `detections` et `installations`. Elle ne traite toutefois que le symptôme ; à faire dans l’ordre :
+
+1. **Serveur** : ignorer le contrôle de taille et d’identifiants pour ces trois collections lorsque le navigateur ne les envoie pas (`continue` avant l’assert) ; conserver le 403 si elles sont envoyées modifiées. Test à 20 001 processus : créer un matériel et changer ses préférences passent, altérer un processus est refusé ; vérifier dans les deux modes.
+2. **Navigateur** : ne plus renvoyer `processus`, `detections` et `installations` dans l’écriture `PUT /api/workspace` (`store.ts:78-80`, qui envoie aujourd’hui tout l’état sauf pour `prefs`). C’est la réponse au dépassement des 8 Mo : une pagination ne concerne que la lecture et l’affichage, pas la charge utile écrite. Étape suivante, non requise pour le rendu : n’envoyer que les collections modifiées.
+3. **Volume** : le pic à 50 000 processus vient de deux simulateurs concurrents, chaque rapport arrêtant les processus de l’autre (`postes.ts:65-72`, arrêtés conservés une heure `:88`). Borner en plus le nombre de processus conservés par poste, et documenter qu’un seul simulateur tourne par espace.
+4. **Lecture paginée de `/api/workspace`** : refonte du front (état local complet) ; à inscrire en V2, pas avant le rendu.
+
+Observation liée de l’utilisateur : des règles whitelist/blacklist non modifiables ni supprimables. Deux causes possibles, à distinguer à la reproduction : les règles du référentiel sont toutes de portée globale (`shared/referentiels.ts:102`), donc réservées au super administrateur (boutons masqués pour l’administrateur, conforme à RG-50) ; ou l’écriture a échoué pendant le dépassement de processus (CODE-04, message « Données invalides. »). Évolution d’interface demandée : liste des règles sur `DataPanel` (recherche existante, filtre par classement, 25 par page) comme Administration › Postes ; mettre à jour la fiche 15 (UC listes de processus), la capture correspondante (`npm run captures`) et, si l’interaction change, le DCU 10 ; les séquences 25 et 28 ne changent pas.
 
 ### 2.2. Sécurité
 

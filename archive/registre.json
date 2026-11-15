@@ -2977,6 +2977,13 @@
         "version": "7.0",
         "date": "2026-11-15",
         "modification": "Distingue la recette VM validée du risque local de volume",
+        "archive": null,
+        "commit": "cdeea37"
+      },
+      {
+        "version": "7.1",
+        "date": "2026-11-15",
+        "modification": "CODE-04 et liste des règles à traiter",
         "archive": null
       }
     ]
@@ -3048,6 +3055,13 @@
         "version": "2.0",
         "date": "2026-11-15",
         "modification": "Retient la recette VM confirmée et rectifie les verdicts",
+        "archive": null,
+        "commit": "cdeea37"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-15",
+        "modification": "Suite donnée à CODE-04 : solution retenue, charge utile écrite, règles de supervision",
         "archive": null
       }
     ]
