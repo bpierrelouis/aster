@@ -356,7 +356,7 @@ def publier(chemin, majeure, message):
         fiche["destination"] = destination(chemin)  # recalculée à chaque publication, selon le classement du README
         avant = fiche["versions"][-2] if len(fiche["versions"]) > 1 else None
         # Déjà publié depuis le dernier commit (ou renommé sans commit depuis) : même version, modification complétée.
-        if avant and (avant.get("commit") == dernier_commit(chemin) or dernier_commit(chemin) is None):
+        if dernier_commit(chemin) is None or (avant and avant.get("commit") == dernier_commit(chemin)):
             # Fichier déjà publié depuis le dernier commit : même version, modification complétée.
             fiche["versions"][-1]["modification"] += f" ; {message}"
             enregistrer(registre)
