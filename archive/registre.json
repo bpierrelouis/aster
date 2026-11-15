@@ -2984,6 +2984,13 @@
         "version": "7.1",
         "date": "2026-11-15",
         "modification": "CODE-04 et liste des règles à traiter",
+        "archive": null,
+        "commit": "7779590"
+      },
+      {
+        "version": "7.2",
+        "date": "2026-11-15",
+        "modification": "Renvoi vers le § 3.1 de l’audit",
         "archive": null
       }
     ]
@@ -3062,6 +3069,13 @@
         "version": "2.1",
         "date": "2026-11-15",
         "modification": "Suite donnée à CODE-04 : solution retenue, charge utile écrite, règles de supervision",
+        "archive": null,
+        "commit": "7779590"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-15",
+        "modification": "Rapport remanié : priorités, incident des simulateurs, cause de CODE-04, verdicts fondés sur la recette de l’équipe, matrice des règles en annexe",
         "archive": null
       }
     ]

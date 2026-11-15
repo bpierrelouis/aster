@@ -41,9 +41,9 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [5.1](#18-dossier-architecture-technique) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.0](#20-backlog-et-suivi-projet) | 15/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [7.1](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [7.2](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
 | [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [3.0](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
-| [docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md](../docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md) | Pilotage interne | [2.1](#31-audit-avant-rendu-16-novembre) | 15/11/2026 |
+| [docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md](../docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md) | Pilotage interne | [3.0](#31-audit-avant-rendu-16-novembre) | 15/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -572,7 +572,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 7.1 | 15/11/2026 | CODE-04 et liste des règles à traiter | en vigueur | — |
+| 7.2 | 15/11/2026 | Renvoi vers le § 3.1 de l’audit | en vigueur | — |
+| 7.1 | 15/11/2026 | CODE-04 et liste des règles à traiter | `7779590` | — |
 | 7.0 | 15/11/2026 | Distingue la recette VM validée du risque local de volume | `cdeea37` | — |
 | 6.0 | 15/11/2026 | Suit les anomalies confirmées et les réserves de recette ; Ajoute le défaut mineur de versionnement corrigé | `e4c7b0f` | — |
 | 5.18 | 15/11/2026 | Jeton du relais fiabilisé ; RIGEL vérifié sur iOS | `3fbaa9a` | — |
@@ -649,7 +650,8 @@ Fichier : [docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md](../docs/04-
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.1 | 15/11/2026 | Suite donnée à CODE-04 : solution retenue, charge utile écrite, règles de supervision | en vigueur | — |
+| 3.0 | 15/11/2026 | Rapport remanié : priorités, incident des simulateurs, cause de CODE-04, verdicts fondés sur la recette de l’équipe, matrice des règles en annexe | en vigueur | — |
+| 2.1 | 15/11/2026 | Suite donnée à CODE-04 : solution retenue, charge utile écrite, règles de supervision | `7779590` | — |
 | 2.0 | 15/11/2026 | Retient la recette VM confirmée et rectifie les verdicts | `cdeea37` | — |
 | 1.0 | 15/11/2026 | Consigne les preuves, écarts et verdicts avant rendu ; Complète les contrôles finaux et la correction du versionnement ; Harmonise la présentation des écarts | `e4c7b0f` | — |
 

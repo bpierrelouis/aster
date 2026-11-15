@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 7.1 | 15/11/2026 | Pilotage interne | CODE-04 et liste des règles à traiter | [56 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 7.2 | 15/11/2026 | Pilotage interne | Renvoi vers le § 3.1 de l’audit | [57 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -50,7 +50,7 @@ Audit du 15 novembre : [rapport avant rendu](31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md
 
 ### Corrections relevées par l’audit du 13 novembre
 
-- [ ] **Haute** — CODE-04 (#167) : contrôle de taille réservé aux collections modifiables ; le navigateur ne renvoie plus `processus`, `detections` ni `installations` (charge utile sous 8 Mo) ; processus conservés par poste bornés, un seul simulateur par espace ; détail au § « Suite donnée à CODE-04 » de l’[audit](31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md).
+- [ ] **Haute** — CODE-04 (#167) : contrôle de taille réservé aux collections modifiables ; le navigateur ne renvoie plus `processus`, `detections` ni `installations` (charge utile sous 8 Mo) ; processus conservés par poste bornés, un seul simulateur par espace ; détail au § 3.1 de l’[audit](31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md).
 - [ ] **Moyenne** — Supervision › Listes : règles sur `DataPanel` (recherche, filtre par classement, 25 par page) ; fiche 15 et capture à mettre à jour. Vérifier d’abord si les règles « non modifiables » observées étaient globales (réservées au super administrateur, RG-50) ou bloquées par CODE-04.
 - [x] **Haute** — Jeton du relais RIGEL : une seule source, le secret `RELAIS_TOKEN` du dépôt, transmis à chaque déploiement ; secret Swarm nommé par son empreinte, connecteur redéployé si le jeton change, anciens secrets retirés ; le job Hidora échoue si le relais refuse le jeton (constat du 15 novembre). `installer.sh --commande` réinstalle la commande `orion-deploiement` d’orion-1, à lancer avant le prochain déploiement.
 - [x] **Moyenne** — Détections : conservées trente jours sans la limite des 2 000 plus récentes (RG-56) ([52c3add](https://github.com/bpierrelouis/aster/commit/52c3add)).
