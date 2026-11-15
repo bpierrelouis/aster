@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.7 | 15/11/2026 | Pilotage interne | RIGEL dans le cadrage et la cible traité ; écart avec le code inscrit ; RIGEL dans le cadrage et la cible traité ; écart avec le code inscrit | [42 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.8 | 15/11/2026 | Pilotage interne | Contradictions entre livrables traitées ; étage obligatoire côté serveur inscrit | [43 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -48,6 +48,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Corrections relevées par l’audit du 13 novembre
 
+- [ ] **Moyenne** — Étage d’une salle obligatoire côté serveur (RG-61, accord de l’utilisateur du 15 novembre) : `backend/domaine/parc.ts` accepte une salle sans étage (`x.etage ?? 0`) ; seule l’interface l’exige.
 - [x] **Moyenne** — Remontée : le serveur ne garde à la création que les champs saisis (école, matériels, type de problème, description) ; une salle ou toute autre valeur envoyée est ignorée (`rules.ts`, 14 novembre).
 - [x] **Moyenne** — Recherche globale du formateur limitée aux matériels de salle (`009cfd5`).
 - [x] **Moyenne** — Test « une synchronisation lue pendant un enregistrement… » instable : une synchronisation périodique, normale avant le choix de Minarm (le simulateur des postes fait avancer la révision), était comptée ; le test ne vérifie plus que les états qui suivent le choix. L’apparence est rétablie avant chaque test (`beforeEach`, `2ac9f50`).
@@ -176,14 +177,14 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 ### Contradictions à corriger
 
 - [x] RIGEL dans la cible : les livrables présentent l’architecture cible (décision de l’utilisateur du 15 novembre) ; glossaire, diagrammes 06 et 07 (mise à jour autorisée), 26, 27, 28 et modèle physique 29 alignés : téléphone joint directement l’API RIGEL d’Express, sans relais ni connecteur (#161).
-- [ ] Notification de processus interdit attribuée au formateur : matrice (`12:73`), glossaire (`00:84`) et cadrage (`02:208`) ; le code, la fiche 14, le DCU 10 et RG-55 ne lui en envoient pas.
-- [ ] RG-81 et RG-22 : « postes d’une seule école » alors que le serveur impose une seule salle **[RG]**.
-- [ ] Matrice (`12:46`, import JSON) : « seuls la lisibilité et les données obligatoires sont contrôlés » contredit RG-29 et l’application ; renvoyer à RG-29.
-- [ ] Cadrage `02:134` et `02:191` : « sans entité `BATIMENT` autonome » contredit l’arbitrage du 9 novembre, le MCD et RG-02.
-- [ ] Cadrage `02:194` : « seul l’administrateur gère les listes » ; RG-50 inclut le super administrateur.
-- [ ] RG-02 et MCD imposent l’étage d’une salle ; RG-61 et le serveur ne l’exigent pas (l’interface si) **[RG]**.
-- [ ] DCU 08 : l’`include` « consulter → rechercher » donne au formateur une recherche que la matrice lui refuse.
-- [ ] Brouillon d’activité V2 (section 3) : PDF généré à la création, type de problème non exigé ; il déclare encore ouverts des points tranchés (RG-29, RG-74, RG-76, RG-79, RG-82), repris dans le README (`README.md:75-79`).
+- [x] Notification de processus interdit attribuée au formateur : matrice, glossaire (acteur de supervision) et cadrage § 12 alignés sur RG-55 (#140).
+- [x] RG-81 et RG-22 : une intervention porte sur des postes d’une seule salle (accord de l’utilisateur du 15 novembre, #140).
+- [x] Matrice (import JSON) : contrôles du fichier renvoyés à RG-29 (#140).
+- [x] Cadrage : l’arbitrage du 9 novembre (bâtiment représenté) figure au § 2 et est reporté au § 11 (portée bâtiment) (#140).
+- [x] Cadrage § 11 : gestion des listes par l’administrateur et le super administrateur reportée en « Application » (RG-50, #140).
+- [x] Étage d’une salle obligatoire : RG-61 alignée sur RG-02, le MCD et l’interface (accord de l’utilisateur du 15 novembre, #140) ; contrôle du serveur à ajouter (§ 3).
+- [x] DCU 08 : l’`include` « consulter → rechercher » n’existe plus ; « Rechercher un matériel » est réservé à l’acteur de gestion (vérifié le 15 novembre).
+- [x] Brouillon d’activité V2 : retiré ; le README ne le cite plus (vérifié le 15 novembre).
 
 ### Décisions du 13 novembre non reportées
 

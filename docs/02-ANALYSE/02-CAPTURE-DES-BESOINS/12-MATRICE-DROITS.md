@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 7.0 | 15/11/2026 | Production destinée à la remise | Section import JSON et RIGEL ; espace personnel ; vue des postes | [18 versions](../../../archive/README.md#12-matrice-droits) |
+| 8.0 | 15/11/2026 | Production destinée à la remise | Alerte de processus blacklisté non notifiée au formateur ; import renvoyé à RG-29 | [19 versions](../../../archive/README.md#12-matrice-droits) |
 <!-- version:fin -->
 
 Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
@@ -51,7 +51,7 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 
 | Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
 | --- | --- | --- | --- | --- | --- | --- |
-| Importer de nouveaux matériels en JSON | Oui | Non | Oui | Oui | Les données sont appliquées immédiatement, sans validation métier préalable ; seuls la lisibilité du fichier et les données obligatoires sont contrôlés. Un matériel d’une autre école peut changer d’école si l’importeur valide son transfert. | RG-15, RG-28, RG-29 et RG-72 |
+| Importer de nouveaux matériels en JSON | Oui | Non | Oui | Oui | Les données sont appliquées immédiatement, sans validation métier préalable ; un fichier illisible, vide ou contenant un matériel incomplet ou invalide est refusé (RG-29). Un matériel d’une autre école peut changer d’école si l’importeur valide son transfert. | RG-15, RG-28, RG-29 et RG-72 |
 | Lier un téléphone à une installation ou à un recensement | Oui | Non | Non | Non | Par le QR code affiché dans ORION, qui transmet des données à jour ; RIGEL fonctionne ensuite hors connexion. | RG-94 |
 | Confirmer l’installation d’un matériel (point de déplacement, « Terminer le restockage » ou RIGEL) | Oui | Non | Non | Non | Depuis Salles › Déplacements ou sur place avec RIGEL (« Installer avec un téléphone ») ; l’installation d’une salle se termine d’elle-même quand plus aucun matériel n’est à déplacer vers elle ou depuis elle. | RG-92 et RG-94 |
 | Lancer un recensement et le réaliser avec RIGEL | Oui | Non | Non | Non | « Nouveau recensement » dans ORION, sur toute ou une partie de l’école ; au plus 14 jours, jamais rouvert ni supprimé. | RG-93 |
@@ -83,7 +83,7 @@ ORION génère le PDF d’état des lieux à chaque consultation ou télécharge
 | Consulter l’état des postes et leurs processus utilisateur | Non | Oui | Oui | Oui | Le formateur accède à toutes les salles de son école, mais doit en sélectionner une et ne dispose pas d’une vue globale. Les processus système sont exclus. | RG-15, RG-19, RG-20, RG-32, RG-59, RG-69 et RG-83, DCU 10 |
 | Arrêter manuellement un processus utilisateur affiché | Non | Oui | Oui | Oui | L’arrêt porte uniquement sur un processus utilisateur en cours présenté par ORION, avec un seul arrêt en attente ; le résultat est renvoyé par le poste. | RG-15, RG-19, RG-20 et RG-33, DCU 10 |
 | Gérer les listes de processus autorisés et interdits | Non | Non | Oui | Oui | L’administrateur gère les règles de portée école, bâtiment ou salle de son école et consulte les règles globales ; seul le super administrateur gère les règles globales. | RG-15, RG-47 et RG-50, DCU 10 |
-| Recevoir une alerte de processus blacklisté | Non | Oui | Oui | Oui | Notifiée à l’administrateur et au super administrateur ; le formateur la consulte dans les alertes de la salle qu’il supervise. | RG-39 et RG-55, DCU 10 |
+| Recevoir une alerte de processus blacklisté | Non | Non | Oui | Oui | Notifiée à l’administrateur et au super administrateur ; le formateur la consulte dans les alertes de la salle qu’il supervise. | RG-39 et RG-55, DCU 10 |
 | Consulter des statistiques d’utilisation | Non | Non | Oui | Oui | Les indicateurs relatifs aux postes et aux processus ainsi que leurs règles de calcul restent à définir. | RG-68, DCU 10 |
 
 ## Administration des postes

@@ -418,6 +418,13 @@
         "version": "5.0",
         "date": "2026-11-15",
         "modification": "RIGEL défini selon l’architecture cible",
+        "archive": null,
+        "commit": "04c54ca"
+      },
+      {
+        "version": "5.1",
+        "date": "2026-11-15",
+        "modification": "Acteur de supervision aligné sur RG-55",
         "archive": null
       }
     ]
@@ -608,6 +615,13 @@
         "version": "6.0",
         "date": "2026-11-15",
         "modification": "RIGEL reporté aux §§ 19 et 23 ; simulateur et éléments en place",
+        "archive": null,
+        "commit": "04c54ca"
+      },
+      {
+        "version": "6.1",
+        "date": "2026-11-15",
+        "modification": "Réponses de l’application sur l’alerte de processus blacklisté, la portée bâtiment et les listes",
         "archive": null
       }
     ]
@@ -914,6 +928,13 @@
         "version": "8.0",
         "date": "2026-11-15",
         "modification": "RG-77 réduite à la vue et à la réinitialisation des postes ; RG-97 à RG-100",
+        "archive": null,
+        "commit": "70bd202"
+      },
+      {
+        "version": "9.0",
+        "date": "2026-11-15",
+        "modification": "RG-22 et RG-81 sur une seule salle ; étage obligatoire (RG-61)",
         "archive": null
       }
     ]
@@ -1391,6 +1412,13 @@
         "version": "7.0",
         "date": "2026-11-15",
         "modification": "Section import JSON et RIGEL ; espace personnel ; vue des postes",
+        "archive": null,
+        "commit": "70bd202"
+      },
+      {
+        "version": "8.0",
+        "date": "2026-11-15",
+        "modification": "Alerte de processus blacklisté non notifiée au formateur ; import renvoyé à RG-29",
         "archive": null
       }
     ]
@@ -2739,6 +2767,13 @@
         "version": "5.7",
         "date": "2026-11-15",
         "modification": "RIGEL dans le cadrage et la cible traité ; écart avec le code inscrit ; RIGEL dans le cadrage et la cible traité ; écart avec le code inscrit",
+        "archive": null,
+        "commit": "04c54ca"
+      },
+      {
+        "version": "5.8",
+        "date": "2026-11-15",
+        "modification": "Contradictions entre livrables traitées ; étage obligatoire côté serveur inscrit",
         "archive": null
       }
     ]
