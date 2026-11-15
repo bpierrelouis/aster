@@ -50,7 +50,7 @@ def destination(chemin):
         return "Source fournie par l’encadrement"
     if nom.startswith(("02-", "03-")):
         return "Source de travail interne"
-    if "BACKLOG-TECHNIQUE" in nom or "DAILY-SCRUM" in nom:
+    if "BACKLOG-TECHNIQUE" in nom or "DAILY-SCRUM" in nom or "AUDIT" in nom:
         return "Pilotage interne"
     return "Production destinée à la remise"
 
