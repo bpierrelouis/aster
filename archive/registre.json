@@ -2669,6 +2669,13 @@
         "version": "5.5",
         "date": "2026-11-15",
         "modification": "Consigne la CI réussie et les vérifications après déploiement",
+        "archive": null,
+        "commit": "6a462c0"
+      },
+      {
+        "version": "5.6",
+        "date": "2026-11-15",
+        "modification": "Consigne les tests d'intrusion du 15 novembre et leurs corrections",
         "archive": null
       }
     ]
