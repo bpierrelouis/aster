@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.6 | 14/11/2026 | Production destinée à la remise | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | [7 versions](../../../archive/README.md#09-dcu-administration-postes) |
+| 2.0 | 15/11/2026 | Production destinée à la remise | DCU complété d’après l’application | [8 versions](../../../archive/README.md#09-dcu-administration-postes) |
 <!-- version:fin -->
 
 ```mermaid
@@ -21,6 +21,9 @@ flowchart LR
         demanderPoste(["Demander la réinitialisation<br/>d'un ou plusieurs postes"])
         demanderSalle(["Demander la réinitialisation d'une salle"])
         suivreInterventions(["Suivre les demandes d'intervention"])
+        recevoirFin(["Recevoir une notification de fin<br/>d'une intervention qu'il a demandée"])
+        gererPostes(["Gérer les postes supervisés"])
+        gererCatalogue(["Gérer le catalogue des applications"])
     end
 
     administrationDistante(["Solution d’administration<br/>et de déploiement des postes"])
@@ -31,6 +34,10 @@ flowchart LR
     administrateur --- demanderPoste
     administrateur --- demanderSalle
     administrateur --- suivreInterventions
+    administrateur --- recevoirFin
+    administrateur --- gererPostes
+    administrateur --- gererCatalogue
+
     consulterApplications --- administrationDistante
     installerApplication --- administrationDistante
     desinstallerApplication --- administrationDistante
@@ -43,7 +50,7 @@ flowchart LR
     classDef casUtilisation fill:#F5F2FF,stroke:#6954C0,color:#241C45
     class administrateur,superAdministrateur acteurReel
     class administrationDistante acteurSecondaire
-    class consulterApplications,installerApplication,desinstallerApplication,demanderPoste,demanderSalle,suivreInterventions casUtilisation
+    class consulterApplications,installerApplication,desinstallerApplication,demanderPoste,demanderSalle,suivreInterventions,recevoirFin,gererPostes,gererCatalogue casUtilisation
 
     style orion fill:none,stroke:#7D8793,stroke-width:1px
 ```

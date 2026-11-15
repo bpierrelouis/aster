@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.1 | 14/11/2026 | Production destinée à la remise | Intervention : état « En cours » de la demande et des postes | [6 versions](../../../archive/README.md#17-diagrammes-etats) |
+| 4.1 | 14/11/2026 | Production destinée à la remise | Intervention : état « En cours » de la demande et des postes ; Machines à états du matériel et du processus | [6 versions](../../../archive/README.md#17-diagrammes-etats) |
 <!-- version:fin -->
 
 ## Remontée
@@ -60,4 +60,65 @@ stateDiagram-v2
     enregistree : Enregistrée
     terminee : Terminée
     echec : Échec
+```
+
+## Matériel
+
+```mermaid
+stateDiagram-v2
+    direction LR
+    [*] --> parc : déclarer ou importer le matériel<br/>[gestionnaire · administrateur · super administrateur]<br/>/ identifiant ORION attribué par le serveur
+    [*] --> parc : code inconnu confirmé et renseigné sur RIGEL<br/>/ ajout au parc dans le lieu ouvert, identifiant ORION attribué
+
+    state parc {
+        direction LR
+        [*] --> en_service
+        en_service --> hors_service : déclarer hors service<br/>[gestionnaire · administrateur · super administrateur]<br/>/ date de mise hors service fixée, poste de l'unité centrale éteint
+        hors_service --> en_service : remettre en service<br/>/ date de mise hors service retirée
+        en_service : En service
+        hors_service : Hors service
+        --
+        [*] --> stock : [déclaré sans salle]
+        [*] --> affecte : [déclaré dans une salle de son école]
+        stock --> affecte : affecter à une salle ∨ présence acceptée par RIGEL dans une salle<br/>[en service ∧ salle de son école]
+        affecte --> affecte : réaffecter à une autre salle ∨ présence acceptée par RIGEL<br/>[en service]
+        affecte --> stock : renvoyer au stock ∨ constat RIGEL « stock »<br/>∨ présence acceptée par RIGEL au stock
+        stock : Au stock
+        affecte : Affecté à une salle
+        --
+        [*] --> installe
+        installe --> deplacement : affectation modifiée [nouveau lieu ≠ emplacement physique]<br/>∨ constat RIGEL « retour » ou « stock »<br/>/ déplacement lancé : origine, auteur et date
+        deplacement --> installe : confirmer l'installation<br/>[gestionnaire, dans ORION ou par un scan RIGEL dans le lieu affecté]<br/>/ installation confirmée : origine, auteur et date
+        deplacement --> installe : affectation ramenée à l'emplacement physique<br/>/ déplacement annulé
+        installe : Installé
+        deplacement : Déplacement en cours
+    }
+
+    parc : Au parc
+    parc --> [*] : supprimer<br/>[administrateur · super administrateur]<br/>[au stock ∧ cité par aucune remontée]
+```
+
+## Processus
+
+```mermaid
+stateDiagram-v2
+    direction LR
+    state classement <<choice>>
+    [*] --> classement : processus utilisateur<br/>remonté par le poste<br/>/ début fixé à la date du rapport
+    classement --> en_cours : [liste blanche]
+    classement --> en_cours : [non référencé]<br/>/ détection enregistrée
+    classement --> arret_demande : [liste noire]<br/>/ détection enregistrée,<br/>arrêt automatique demandé
+
+    en_cours --> arret_demande : demander l'arrêt<br/>[formateur · administrateur<br/>· super administrateur]<br/>[aucun arrêt en attente]
+    arret_demande --> echec : résultat du poste « échec »<br/>/ détection « arrêt en échec »
+    echec --> arret_demande : demander l'arrêt<br/>[formateur · administrateur<br/>· super administrateur]
+    en_cours --> arrete : fin constatée<br/>[absent du rapport du poste<br/>∨ poste déconnecté<br/>∨ réinitialisation réussie]<br/>/ fin fixée par le serveur
+    arret_demande --> arrete : résultat du poste « réussie »<br/>/ détection « arrêt réussi »<br/>∨ fin constatée
+    echec --> arrete : fin constatée
+    arrete --> [*] : after(1 h)<br/>/ retiré de l'historique
+
+    en_cours : En cours
+    arret_demande : Arrêt demandé
+    echec : Arrêt en échec
+    arrete : Arrêté
 ```

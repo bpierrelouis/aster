@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.5 | 14/11/2026 | Production destinée à la remise | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | [6 versions](../../../archive/README.md#10-dcu-supervision-postes) |
+| 2.0 | 15/11/2026 | Production destinée à la remise | DCU complété d’après l’application | [7 versions](../../../archive/README.md#10-dcu-supervision-postes) |
 <!-- version:fin -->
 
 ```mermaid
@@ -20,7 +20,7 @@ flowchart LR
     subgraph orion["Application web ORION — Supervision des postes"]
         direction TB
         accederSalle(["Accéder à une salle"])
-        consulterEtat(["Consulter l'état des postes"])
+        consulterEtat(["Consulter l'état des postes,<br/>leur adresse IP et leur système d'exploitation"])
         consulterProcessus(["Consulter les processus utilisateur"])
         arreterProcessus(["Arrêter manuellement un processus"])
         gererListes(["Gérer la whitelist et la blacklist"])
@@ -28,7 +28,7 @@ flowchart LR
         appliquerRegles(["Classer les processus et<br/>appliquer les règles"])
         arreterInterdit(["Arrêter automatiquement<br/>un processus blacklisté"])
         consulterAlertes(["Consulter les détections<br/>de processus d'une salle"])
-        recevoirAlerte(["Recevoir une notification<br/>de processus blacklisté"])
+        recevoirAlerte(["Recevoir une notification du lancement<br/>d'une application interdite (blacklist)"])
         consulterStatistiques(["Consulter les statistiques d'utilisation"])
     end
 

@@ -64,16 +64,24 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 - [MCD Merise](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) : modèle conceptuel des données conservées par ORION, établi d’après les décisions du client et l’application, avec sa [source draw.io éditable](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio).
 - [Diagramme de contexte](docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md) : quatre profils, MindefConnect, RIGEL et solution d’administration des postes Windows, avec leurs principaux échanges avec ORION.
 - [Diagrammes d’activité](docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) : parcours général selon les droits, création, état des lieux à la demande et traitement d’une remontée, supervision et état des postes, interventions, notifications, installation d’une salle et recensement avec RIGEL.
-- [DCU — Gestion du parc](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md) : recherche, inventaire, affectations et tableau de bord du parc.
-- [DCU — Administration des postes](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md) : consultation des applications et installation et désinstallation d’applications, réinitialisation des postes ou des salles.
-- [DCU — Supervision des postes](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md) : état des postes, processus, alertes et statistiques d'utilisation dont les indicateurs restent à définir.
+- [DCU — Gestion du parc](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md) : recherche, inventaire, import JSON avec rapprochement des numéros de série et transfert entre écoles, affectations, installation des salles, recensement avec RIGEL et tableau de bord du parc.
+- [DCU — Administration des postes](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md) : postes supervisés et catalogue des applications, installation et désinstallation d’applications, réinitialisation des postes ou des salles, suivi des interventions et notification de leur fin.
+- [DCU — Supervision des postes](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md) : état des postes (adresse IP, système d'exploitation), processus, alertes, notification des applications interdites et statistiques d'utilisation dont les indicateurs restent à définir.
 - [DCU — Remontées utilisateur](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md) : création des remontées, consultation des PDF d'état des lieux et tableau de bord spécialisé.
+- [DCU — Administrer ORION](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/22-DCU-ADMINISTRER-ORION.md) : connexion par MindefConnect, comptes ORION, écoles, école affichée, notifications et préférences personnelles (ambiance, tableaux de bord).
+- [Diagrammes d’activité des cas d’utilisation](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/23-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md) : un parcours acteur/ORION par cas d’utilisation principal, en couloirs d’activité.
+- [Diagramme de classes métier](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/24-DIAGRAMME-CLASSES-METIER.md) : modèle du domaine en cinq vues (organisation et comptes, parc, remontées, supervision et interventions, RIGEL), cohérent avec le MCD.
+- [Diagrammes de séquence système](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/25-DIAGRAMMES-SEQUENCE-SYSTEME.md) : échanges entre les acteurs et ORION en boîte noire pour les cas principaux.
 - [Matrice des droits applicatifs](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md) : droits confirmés et conditions d’application pour chaque profil.
 - [Fiche descriptive — Gestionnaire](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) : périmètre, parcours, interface et questions ouvertes du gestionnaire.
 - [Fiche descriptive — Formateur](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) : supervision, alertes et remontées accessibles au formateur.
 - [Fiche descriptive — Administrateur](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) : parc, postes, supervision, remontées et comptes de son école.
 - [Fiche descriptive — Super administrateur](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) : adaptation globale des capacités de l'administrateur à toutes les écoles.
-- [Diagrammes d’états](docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md) : cycles de vie d’une remontée (prise en charge obligatoire par le gestionnaire) et d’une intervention sur les postes (conditions, état par poste, effets et fin).
+- [Diagrammes d’états](docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md) : cycles de vie d’une remontée (prise en charge obligatoire par le gestionnaire), d’une intervention sur les postes (conditions, état par poste, effets et fin), d’un matériel (service, affectation et installation physique) et d’un processus (classement, arrêt et fin).
+- [Diagramme de classes d’analyse](docs/02-ANALYSE/03-ANALYSE/26-DIAGRAMME-CLASSES-ANALYSE.md) : classes « boundary », « control » et « entity » des remontées, du parc et des déplacements, de la supervision et des interventions, des comptes et de la connexion, et du recensement avec RIGEL.
+- [Diagramme de classes de conception](docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md) : modules du serveur (API, moteur d’écriture, fusion, persistance, règles du domaine, PDF, connecteur et relais RIGEL) et du navigateur (magasin, vues principales, application RIGEL), avec opérations clés et dépendances.
+- [Diagrammes de séquence détaillés](docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md) : écriture concurrente fusionnée, création et traitement d’une remontée, intervention sur un poste, constat RIGEL intégré, état des lieux PDF à la demande et connexion OIDC.
+- [Modèle physique des données](docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md) : tables PostgreSQL d’ORION avec clés, contraintes et index, documents JSONB et tables du relais RIGEL, en notation UML de modélisation des données.
 - [Dossier d’architecture technique](docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) : contexte et contraintes, choix techniques, architecture réelle sur VM, configurations remises, versions et architecture cible sur le C1NP.
 - [Diagrammes d’architecture](docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) : vue simplifiée et vue complète du démonstrateur sur dix VM, puis vues simplifiée et détaillée de la cible sur quatre VM C1NP.
 - [Backlog et suivi du projet](docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) : backlog, organisation Agile et suivi des progressions.
@@ -81,11 +89,7 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 - [Design](design/README.md) : charte graphique, ressources visuelles et maquettes d’interface.
 - [Présentations](presentations/README.md) : supports datés et instructions pour les consulter.
 
-Les [diagrammes d’activité détaillés des cas d’utilisation — brouillon V2](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md) complètent les DCU par des parcours acteur/ORION, représentés en Mermaid comme approximations de diagrammes d’activité UML. Ils couvrent l’import JSON, la modification d’un matériel, la création d’une remontée, le changement de profil, l’ajout d’une règle de processus et les propositions de création de salle et d’école.
-
 Le [backlog technique et feuille de route](docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md), document de pilotage interne tenu à chaque itération, recense le travail technique restant par échéance et par domaine, puis les évolutions envisagées du projet.
-
-Leurs sources sont le [cadrage](docs/01-CONTEXTE/02-CADRAGE.md) (§§ 4, 6 et 17 pour les matériels ; §§ 13 et 15 pour les remontées ; § 11 pour les règles ; §§ 2 et 3 pour les écoles, salles et profils), les [règles de gestion](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) et les fiches [Administrateur](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) (UC-ADMIN-06) et [Super administrateur](docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md). L’import décrit uniquement le succès avec un fichier exploitable et des données conformes, sans validation métier préalable ; les contrôles techniques, doublons et échecs partiels restent à préciser. Le scénario de remontée se limite aux matériels d’une même école ; les remontées multi-écoles et leurs destinataires restent ouverts. Les transitions de profil et la gestion des comptes super administrateur, les droits de création des salles et les modalités de création des écoles restent à préciser ; la création d’école est une proposition hors V1. Ces parcours n’ajoutent aucune règle validée et ne modifient pas les premiers diagrammes d’activité.
 
 ## Retrouver une information
 
@@ -107,6 +111,18 @@ Utiliser le sommaire ci-dessus, puis les sections indiquées ci-dessous. Ces par
 Pour la charte, une maquette ou un support client, commencer directement par le README de `design/` ou de `presentations/`. Les propositions présentées ne valent pas validation du client. Pour le fonctionnement du démonstrateur, les contrats HTTP et les règles serveur effectivement réalisées, consulter le [guide de l’application](application/README.md) et le code concerné.
 
 Pour une recherche ciblée, repérer d’abord les titres ou les identifiants de règles avec `rg -n`, puis lire les passages utiles et leurs sources. Élargir aux dépendances si nécessaire. Une lecture complète reste adaptée à un audit global explicitement demandé.
+
+## Références méthodologiques
+
+La démarche suit le processus 2TUP (capture des besoins, analyse, conception) et la notation UML 2.5.1.
+
+- OMG, *Unified Modeling Language, version 2.5.1*, formal/17-12-05, 2017.
+- P. Roques, F. Vallée, *UML 2 en action : de l’analyse des besoins à la conception*, Eyrolles, 4e éd., 2007.
+- P. Roques, *UML 2 par la pratique*, Eyrolles, 7e éd., 2009.
+- C. Larman, *Applying UML and Patterns*, Prentice Hall, 3e éd., 2004 (diagrammes de séquence système, contrôleurs GRASP).
+- A. Cockburn, *Writing Effective Use Cases*, Addison-Wesley, 2000 (fiches descriptives).
+- I. Jacobson et al., *Object-Oriented Software Engineering*, Addison-Wesley, 1992 (classes boundary, control, entity).
+- S. W. Ambler, *The Elements of UML 2.0 Style*, Cambridge University Press, 2005, et *UML Data Modeling Profile* (modèle physique des données).
 
 ## Outillage documentaire
 
