@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.3 | 15/11/2026 | Source de travail interne | Journal applicatif reporté aux §§ 18 et 21 | [23 versions](../../archive/README.md#02-cadrage) |
+| 6.4 | 15/11/2026 | Source de travail interne | Réponses de l’application reportées aux questions déjà résolues ; prochain rendez-vous à fixer | [24 versions](../../archive/README.md#02-cadrage) |
 <!-- version:fin -->
 
 **Document de travail interne, non destiné à la remise aux cadres évaluateurs.** Il conserve les réponses et leurs périmètres pour préparer les productions. Les documents remis décrivent la cible en production ; les modalités de réalisation et les comptes du démonstrateur sont réservés au [guide interne de développement](../../application/README.md). Cette distinction a été fixée par l’utilisateur le 6 novembre.
@@ -74,7 +74,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] **P0** Comment représenter l'état « hors service » dans le MCD tout en excluant les attributs booléens : par une entité d'état, une association ou une autre valeur persistante ? — **Arbitrage délégué par l’utilisateur le 9 novembre :** une date de mise hors service, vide lorsque le matériel est en service. Le même principe représente la désactivation d’un compte ORION par une date de désactivation.
 - [x] Quel identifiant fait foi : numéro d’inventaire, numéro de série, étiquette interne ou autre ? — Précision de l’utilisateur du 24 octobre : identifiant interne unique attribué et géré automatiquement par ORION, consultable mais non saisi par l’utilisateur. Le numéro de série constitue une information distincte, renseignée lorsqu’il existe.
 - [x] Un matériel peut-il posséder plusieurs identifiants ? — Précision de l’utilisateur du 24 octobre : chaque matériel possède un identifiant interne géré par l’application et peut aussi avoir un numéro de série lorsqu’il en possède un.
-- [ ] **P0** Les identifiants ajoutés à `ECOLE`, `SALLE`, `UTILISATEUR`, `REMONTEE` et `REGLE_PROCESSUS` sont-ils obligatoires, internes et uniques ? — **MCD du 15 novembre :** ces entités sont devenues `ÉCOLE`, `SALLE`, `COMPTE_ORION`, `REMONTÉE` et `RÈGLE`.
+- [ ] **P0** Les identifiants ajoutés à `ECOLE`, `SALLE`, `UTILISATEUR`, `REMONTEE` et `REGLE_PROCESSUS` sont-ils obligatoires, internes et uniques ? — **MCD du 15 novembre :** ces entités sont devenues `ÉCOLE`, `SALLE`, `COMPTE_ORION`, `REMONTÉE` et `RÈGLE`. **Application :** chaque élément porte un identifiant interne unique ; l’identifiant ORION d’un matériel et le numéro d’une remontée sont attribués par le serveur.
 - [x] Faut-il gérer la marque, le modèle, le fournisseur, la date d’achat, la garantie et la valeur ? — Précisions de l’utilisateur du 24 octobre : modèle obligatoire, pouvant simplement désigner le matériel ; marque pouvant rester non renseignée, notamment pour un câble. Aucun fournisseur, aucune valeur et aucune date d’achat. La gestion de la garantie reste un bonus (23 octobre, § 1.1) ; seule sa date de fin est renseignée, sans date de début ni durée (précision de l’utilisateur du 24 octobre).
 - [ ] Faut-il gérer les caractéristiques techniques des machines ?
 - [x] Faut-il joindre des documents, photographies ou factures à une fiche matériel ? — 22 octobre, § 2.4 : aucun document associé à la fiche matériel.
@@ -126,7 +126,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 8. Applications installées
 
-- [ ] **P0** La liste des applications doit-elle être déclarée manuellement ou détectée automatiquement sur les postes ?
+- [ ] **P0** La liste des applications doit-elle être déclarée manuellement ou détectée automatiquement sur les postes ? — **Application :** les postes remontent leurs applications installées dans leurs rapports ; aucune saisie manuelle par poste. Les applications reconnues sont celles du catalogue commun (RG-77).
 - [ ] Si elle est détectée, quel mécanisme ou outil existant fournit ces informations ? — Le mécanisme de collecte, le format et le protocole restent à définir dans le cadre de l’étude du § 19.
 - [ ] Qu’est-ce qui distingue une application métier d’une autre application ? — **Réponse partielle :** 23 octobre, § 1.1 : application « de base » présente sur un poste ; le caractère natif et la distinction exacte restent à préciser.
 - [ ] Existe-t-il un référentiel officiel des applications métier ?
@@ -135,7 +135,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] Les règles dépendent-elles de l’école, de la salle, du poste ou de la formation en cours ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** les règles de processus peuvent être globales ou concerner une école, un bâtiment ou une salle. La portée bâtiment désigne les salles dont l'information de bâtiment correspond ; elle ne suppose pas une entité `BATIMENT` autonome (décision de l'utilisateur du 2 novembre dans le présent échange). Les règles ne sont portées ni par un poste ni par une formation.
 - [ ] Faut-il détecter les versions absentes, obsolètes ou non conformes ?
 - [ ] Faut-il conserver l’historique des logiciels installés ?
-- [ ] Qui peut modifier le référentiel des applications ?
+- [ ] Qui peut modifier le référentiel des applications ? — **Application :** personne dans l’application : le catalogue est un référentiel commun à toutes les écoles ; sa gestion relève de la V2 (RG-77).
 - [x] ORION doit-il installer ou désinstaller une application, ou seulement signaler sa présence ? — **Décision de l’utilisateur du 3 novembre :** l’administrateur peut déclencher à distance l’installation et la désinstallation d’une application depuis ORION, pour un poste individuel ou l’ensemble des postes d’une salle. Le mécanisme reste à déterminer (§ 19).
 
 ## 9. Réinitialisation des postes et des salles
@@ -154,9 +154,9 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Faut-il vérifier que la salle est libre avant de démarrer ?
 - [ ] ~~Qui peut annuler ou interrompre une réinitialisation ?~~ — **Sans objet, décision de l’utilisateur du 3 novembre :** ces actions ne sont pas demandées dans ORION. L’administrateur reste le seul profil autorisé à déclencher la réinitialisation.
 - [ ] Faut-il demander une confirmation renforcée pour une salle complète ?
-- [ ] Peut-on réinitialiser seulement une partie des postes d’une salle ?
-- [ ] Comment suivre la progression de l’opération ?
-- [ ] Comment signaler un échec partiel ou total ?
+- [ ] Peut-on réinitialiser seulement une partie des postes d’une salle ? — **Application :** oui, un ou plusieurs postes d’une même salle, ou toute la salle (RG-22).
+- [ ] Comment suivre la progression de l’opération ? — **Application :** le suivi est mis à jour poste par poste par les postes eux-mêmes (RG-81).
+- [ ] Comment signaler un échec partiel ou total ? — **Application :** le résultat est affiché par poste ; l’intervention est en échec si un poste au moins a échoué (RG-81).
 - [ ] Une reprise automatique est-elle attendue après un échec ?
 - [ ] Quel compte rendu doit être conservé après l’opération ?
 - [ ] Combien de réinitialisations simultanées l’infrastructure peut-elle supporter ?
@@ -176,7 +176,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] Quelle fréquence de collecte est nécessaire ? — **Réponse de l'utilisateur du 2 novembre :** toutes les cinq secondes. Un léger décalage entre les postes et un recul progressif en cas d'erreur sont recommandés pour éviter des pics de charge simultanés.
 - [x] Quelle ancienneté maximale d’une donnée est acceptable à l’écran ? — **Réponse de l'utilisateur du 2 novembre :** cinq secondes pour un poste connecté ; après environ quinze secondes sans remontée, le poste passe à l'état déconnecté et ses processus ne sont plus affichés. **Arbitrage du 9 novembre, d’après l’application :** un poste sans remontée depuis trente secondes est considéré comme déconnecté (RG-58).
 - [x] Faut-il conserver un historique des mesures ? — **Réponse de l'utilisateur du 2 novembre :** oui pour les détections de processus blacklistés et non référencés. Les exécutions des processus de la whitelist ne sont pas historisées.
-- [ ] Pendant combien de temps cet historique doit-il être conservé ? — **Réponse partielle de l'utilisateur du 2 novembre :** l'historique des processus blacklistés et non référencés doit être conservé ; sa durée de conservation reste à confirmer.
+- [ ] Pendant combien de temps cet historique doit-il être conservé ? — **Réponse partielle de l'utilisateur du 2 novembre :** l'historique des processus blacklistés et non référencés doit être conservé ; sa durée de conservation reste à confirmer. **Application :** trente jours (RG-56).
 - [x] **P0** Parmi les données exigées par RG-56, lesquelles doivent rester persistantes dans le MCD malgré l'exclusion des valeurs temporaires et calculées ? — **Arbitrage du 9 novembre, d’après l’application :** une détection conserve le poste, et par lui la salle, le compte Windows, le processus, la date de détection et le classement. L’arrêt automatique est relié à la détection par l’intervention qu’elle provoque, qui porte sa date et son résultat. Le PID, la date de démarrage et la règle déclenchée ne sont pas conservés (RG-56).
 - [ ] Un agent doit-il être installé sur les postes ? — **Étude demandée le 4 novembre (§ 3.3) :** préparer une proposition avec un agent et examiner les solutions existantes (§ 19). La décision du 3 novembre écartait l’agent. Le choix de la solution et l’autorisation de déployer un agent restent à confirmer.
 - [ ] Si un agent est retenu, qui le déploie, le configure et le met à jour ? — À préciser dans la proposition.
@@ -225,7 +225,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [x] **P0** Qu’est-ce qu’une remontée utilisateur : incident, demande, suggestion, questionnaire ou autre ? — 23 octobre, § 1.3 : déclaration d’un problème sur un périphérique, via un formulaire générant un PDF d’état des lieux.
 - [x] Qui peut créer une remontée ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** le formateur et l'administrateur peuvent créer des remontées, puisque l'administrateur peut réaliser toutes les actions. Cette réponse complète les propos du 22 octobre qui réservaient explicitement leur création au formateur. Chaque remontée conserve le lien vers l'utilisateur ORION qui la déclare. **Orientation de l’utilisateur du 13 novembre :** le formateur, l’administrateur et le super administrateur créent des remontées ; le type de problème est obligatoire (RG-21 ; écart avec le client au § 23).
 - [x] L’utilisateur doit-il être authentifié ? — **Réponse de l’utilisateur du 2 novembre, précisée le 6 novembre :** oui. L’authentification est obligatoire et la cible utilise MindefConnect (§ 18).
-- [ ] Une remontée anonyme est-elle autorisée ?
+- [ ] Une remontée anonyme est-elle autorisée ? — **Application :** non ; l’auteur est le compte ORION actif connecté, fixé par le serveur (RG-21, RG-85).
 - [x] Quelles informations doivent obligatoirement être fournies ? — **Réponse de l'utilisateur du 2 novembre :** le ou les matériels concernés et la description du problème sont obligatoires. La remontée ne possède pas de lien direct avec une salle ; la localisation présentée provient de chaque matériel concerné.
 - [x] La salle et le poste doivent-ils être détectés automatiquement ? — **Réponse de l'utilisateur du 2 novembre :** aucun rattachement direct de la remontée à une salle ou à un poste n'est conservé. La localisation affichée est celle du matériel concerné lorsqu'elle est renseignée.
 - [ ] Quelles catégories et priorités doivent être proposées ?
@@ -236,7 +236,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Qui reçoit et qualifie une nouvelle remontée ? — **Réponse partielle, complétée par l’utilisateur le 3 novembre :** le gestionnaire reçoit dans ORION une notification à la création de chaque nouvelle remontée. Le traitement relève du gestionnaire seul (orientation de l’utilisateur du 13 novembre, RG-64) ; les modalités de qualification restent à préciser.
 - [ ] Comment une remontée est-elle affectée à un intervenant ?
 - [x] Le formateur peut-il suivre le traitement de ses signalements ? — Précision de l’utilisateur du 27 octobre : oui, le formateur peut consulter l’avancement des signalements qu’il a créés.
-- [ ] Le formateur peut-il compléter un signalement après sa création ?
+- [ ] Le formateur peut-il compléter un signalement après sa création ? — **Application :** non ; après la création, seul le gestionnaire fait évoluer la remontée, par son traitement (RG-13).
 - [x] Doit-il recevoir des notifications lors des changements de statut ? — **Décision de l’utilisateur du 3 novembre :** le formateur reçoit dans ORION une notification lorsque le statut d’une remontée qu’il a lui-même créée change. Aucun courriel n’est envoyé. **Orientation de l’utilisateur du 13 novembre :** l’auteur d’une remontée est notifié de chaque changement de statut, quel que soit son profil (RG-66).
 - [ ] Une remontée peut-elle être transformée en alerte ou liée à une alerte existante ?
 - [ ] Comment traiter les doublons concernant le même incident ?
@@ -253,7 +253,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Quels filtres doivent être disponibles ? — **Réponse partielle :** le tableau de bord du parc propose une vue globale filtrable par salle (22 octobre, § 2.6). Les filtres des autres tableaux de bord spécialisés restent à préciser.
 - [ ] Faut-il comparer des périodes, des écoles ou des salles ?
 - [ ] Faut-il afficher des tendances et des historiques ?
-- [ ] Les utilisateurs peuvent-ils personnaliser leur tableau de bord ?
+- [ ] Les utilisateurs peuvent-ils personnaliser leur tableau de bord ? — **Application :** oui, chaque profil dispose d’un tableau de bord personnel qu’il personnalise (RG-84).
 - [ ] Faut-il permettre d’explorer le détail à partir d’un indicateur ?
 - [ ] Les statistiques doivent-elles être exportables ?
 - [ ] Sous quels formats les exports sont-ils attendus ?
@@ -383,8 +383,8 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 ## 22. Présentations client et nom du projet
 
 - [x] Quel format adopter ? — 4 novembre, § 3.1 : montrer les usages et leurs bénéfices, présenter la maquette directement, même si elle se limite à l’interface, et garder les diagrammes, les détails techniques et les captures d’écran hors du support client. Chaque membre de l’équipe prend la parole, avec un temps de parole libre.
-- [ ] Quel nom retenir ? — **Retour du 4 novembre (§ 3.1) :** ORION plaît au client. Préparer un second nom et soumettre les deux propositions à son choix. **Orientation de l’utilisateur du 13 novembre :** ORION signifie « Outil de Recensement, d’Intervention et d’Observation Numérique ».
-- [x] Quand aura lieu le prochain rendez-vous ? — Jeudi 12 novembre 2026 (4 novembre, § 3.4), à 10 h 45 (précision de l’utilisateur du 11 novembre).
+- [ ] Quel nom retenir ? — **Retour du 4 novembre (§ 3.1) :** ORION plaît au client. Préparer un second nom et soumettre les deux propositions à son choix. **Orientation de l’utilisateur du 13 novembre :** ORION signifie « Outil de Recensement, d’Intervention et d’Observation Numérique ». **Application :** nommée ORION.
+- [ ] Quand aura lieu le prochain rendez-vous ? — Jeudi 12 novembre 2026 (4 novembre, § 3.4), à 10 h 45 (précision de l’utilisateur du 11 novembre). Ce rendez-vous a eu lieu ; ses retours sont reportés. Le suivant reste à fixer.
 
 ## 23. Points à soumettre au client au prochain rendez-vous
 

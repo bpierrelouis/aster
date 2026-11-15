@@ -13,7 +13,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [3.0](#design-maquettes-index) | 15/11/2026 |
 | [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md) | Production destinée à la remise | [5.3](#00-glossaire) | 15/11/2026 |
 | [docs/01-CONTEXTE/01-CONSIGNES.md](../docs/01-CONTEXTE/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.4](#01-consignes) | 14/11/2026 |
-| [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [6.3](#02-cadrage) | 15/11/2026 |
+| [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [6.4](#02-cadrage) | 15/11/2026 |
 | [docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.1](#03-compte-rendu-entretiens) | 14/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [4.0](#06-diagramme-contexte) | 15/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [2.2](#07-diagrammes-activite) | 15/11/2026 |
@@ -41,7 +41,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [4.0](#18-dossier-architecture-technique) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.5](#20-backlog-et-suivi-projet) | 15/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.11](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.12](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
 | [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [1.2](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
 
 ## Fichiers en vigueur
@@ -133,7 +133,8 @@ Fichier : [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) ·
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.3 | 15/11/2026 | Journal applicatif reporté aux §§ 18 et 21 | en vigueur | — |
+| 6.4 | 15/11/2026 | Réponses de l’application reportées aux questions déjà résolues ; prochain rendez-vous à fixer | en vigueur | — |
+| 6.3 | 15/11/2026 | Journal applicatif reporté aux §§ 18 et 21 | `60a0e11` | — |
 | 6.2 | 15/11/2026 | Décisions du 13 novembre reportées : identifiants, adresse MAC, dates du compte | `1237188` | — |
 | 6.1 | 15/11/2026 | Réponses de l’application sur l’alerte de processus blacklisté, la portée bâtiment et les listes | `0f1761c` | — |
 | 6.0 | 15/11/2026 | RIGEL reporté aux §§ 19 et 23 ; simulateur et éléments en place | `04c54ca` | — |
@@ -560,7 +561,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.11 | 15/11/2026 | Étage obligatoire et détections corrigés dans le code ; documentation du 15 novembre consignée | en vigueur | — |
+| 5.12 | 15/11/2026 | Questions du cadrage déjà résolues reportées | en vigueur | — |
+| 5.11 | 15/11/2026 | Étage obligatoire et détections corrigés dans le code ; documentation du 15 novembre consignée | `e3b635b` | — |
 | 5.10 | 15/11/2026 | Informations non répercutées traitées ; limite des détections inscrite | `60a0e11` | — |
 | 5.9 | 15/11/2026 | Décisions du 13 novembre reportées | `1237188` | — |
 | 5.8 | 15/11/2026 | Contradictions entre livrables traitées ; étage obligatoire côté serveur inscrit | `0f1761c` | — |

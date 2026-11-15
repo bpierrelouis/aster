@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.11 | 15/11/2026 | Pilotage interne | Étage obligatoire et détections corrigés dans le code ; documentation du 15 novembre consignée | [46 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.12 | 15/11/2026 | Pilotage interne | Questions du cadrage déjà résolues reportées | [47 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -219,7 +219,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Cadrage : questions déjà résolues encore ouvertes
 
-- [ ] Reporter en « Application : … », sans fermer la question côté client : identifiants (`02:76`, MCD), détection des applications par les postes (`02:128`), référentiel modifié par les administrateurs (`02:137`, RG-77), sous-ensemble de postes d’une salle, suivi par poste et échec partiel (`02:156-158`, RG-22 et RG-81), conservation de 30 jours (`02:178`, `02:201`, RG-56), remontée authentifiée (`02:227`, RG-62 et RG-85), tableaux de bord personnalisables (`02:255`, RG-84), refus de compléter un signalement par le formateur (§ 13), nom du projet ORION (`02:385`), rendez-vous du 12 novembre passé (`02:386`).
+- [x] Reporté en « Application : … », sans fermer la question côté client (15 novembre, #143) : identifiants, détection et référentiel des applications (RG-77), réinitialisation partielle, suivi par poste et échec (RG-22, RG-81), conservation de 30 jours (RG-56), remontée anonyme refusée (RG-85), formateur sans complément (RG-13), tableau de bord personnalisable (RG-84), nom ORION ; rendez-vous du 12 novembre passé, suivant à fixer.
 
 ### Brouillons
 

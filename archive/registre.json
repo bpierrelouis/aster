@@ -650,6 +650,13 @@
         "version": "6.3",
         "date": "2026-11-15",
         "modification": "Journal applicatif reporté aux §§ 18 et 21",
+        "archive": null,
+        "commit": "60a0e11"
+      },
+      {
+        "version": "6.4",
+        "date": "2026-11-15",
+        "modification": "Réponses de l’application reportées aux questions déjà résolues ; prochain rendez-vous à fixer",
         "archive": null
       }
     ]
@@ -2837,6 +2844,13 @@
         "version": "5.11",
         "date": "2026-11-15",
         "modification": "Étage obligatoire et détections corrigés dans le code ; documentation du 15 novembre consignée",
+        "archive": null,
+        "commit": "e3b635b"
+      },
+      {
+        "version": "5.12",
+        "date": "2026-11-15",
+        "modification": "Questions du cadrage déjà résolues reportées",
         "archive": null
       }
     ]
