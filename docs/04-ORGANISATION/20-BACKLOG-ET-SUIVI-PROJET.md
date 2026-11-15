@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.0 | 15/11/2026 | Production destinée à la remise | Inclut RIGEL dans la clôture et actualise le suivi après audit | [10 versions](../../archive/README.md#20-backlog-et-suivi-projet) |
+| 5.0 | 15/11/2026 | Production destinée à la remise | Actualise les clôtures après confirmation de la recette | [11 versions](../../archive/README.md#20-backlog-et-suivi-projet) |
 <!-- version:fin -->
 
 **Période : du 20 octobre au 19 novembre 2026.**
@@ -153,7 +153,7 @@ Ces pratiques complètent les événements Scrum ; elles ne constituent pas des 
 
 ### 4.6. Suivi dans le projet GitHub
 
-Le backlog est tenu dans le projet GitHub [« ORION development »](https://github.com/users/bpierrelouis/projects/2) : une épopée par type de travail (pilotage, capture des besoins, analyse, conception, architecture, design et IHM, réalisation par domaine, recette, présentation et remise, feuille de route) et ses tâches, chacune avec ses responsables, son statut, sa priorité (P0 à P2), son sprint et ses dates de début et de fin. Chaque ticket cite la tâche BL ou le point du backlog technique qu’il réalise, ainsi que les commits correspondants. Les graphiques suivants sont produits depuis ce projet. Situation révisée le 15 novembre après contrôle : six tickets de revue terminés, neuf remis en cours et cinq anomalies ajoutées au sprint 2. La recette connectée reste partiellement en échec ; le gel dépend de la résolution du blocage d’écriture observé. Les tâches inachevées restent visibles dans le tableau.
+Le backlog est tenu dans le projet GitHub [« ORION development »](https://github.com/users/bpierrelouis/projects/2) : une épopée par type de travail (pilotage, capture des besoins, analyse, conception, architecture, design et IHM, réalisation par domaine, recette, présentation et remise, feuille de route) et ses tâches, chacune avec ses responsables, son statut, sa priorité (P0 à P2), son sprint et ses dates de début et de fin. Chaque ticket cite la tâche BL ou le point du backlog technique qu’il réalise, ainsi que les commits correspondants. Les graphiques suivants sont produits depuis ce projet. Situation révisée le 15 novembre : dix tickets de revue terminés, cinq en cours et cinq anomalies ajoutées au sprint 2. La recette de l’application déployée est retenue sur les vérifications de l’équipe, confirmées par l’utilisateur. Le défaut de volume observé sous stress local reste une réserve majeure distincte ; les tâches inachevées restent visibles dans le tableau.
 
 ![Burndown des sprints 1 et 2](assets/BURNDOWN.svg)
 

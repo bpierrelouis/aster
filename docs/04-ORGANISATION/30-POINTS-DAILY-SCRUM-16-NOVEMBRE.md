@@ -3,12 +3,12 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 15/11/2026 | Pilotage interne | Actualise chaque point avec les résultats de l’audit ; Actualise le total après les contrôles finaux | [6 versions](../../archive/README.md#30-points-daily-scrum-16-novembre) |
+| 3.0 | 15/11/2026 | Pilotage interne | Valide les vérifications VM confirmées par l’équipe | [7 versions](../../archive/README.md#30-points-daily-scrum-16-novembre) |
 <!-- version:fin -->
 
 Situation au dimanche 15 novembre. Rendu de l’application le mardi 17, supports prêts le mercredi 18, présentation le jeudi 19 (horaire non fixé). Les numéros renvoient aux tickets du projet GitHub.
 
-Audit du 15 novembre au soir : [rapport31](31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md), preuves et parallèle exhaustif des points au §4. **Gel déconseillé : blocage des écritures au-delà de 20 000 processus dans l’état observé (#167), six majeurs et douze mineurs.** Migration locale et relais repris sans perte ; 89 tests serveur, 2 tests de connexion et 50 tests interface seule réussis ; recette connectée de reprise 15/19.
+Audit du 15 novembre au soir : [rapport31](31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md), preuves et parallèle exhaustif des points au §4. **Aucun bloquant du rendu établi : sept majeurs et douze mineurs.** L’utilisateur confirme le 15 novembre que son collègue a vérifié le bon fonctionnement de l’application déployée ; les VM sont sur un réseau fermé, sans conséquence défavorable sur l’audit. #167 décrit un risque de volume reproduit localement sous deux simulateurs, pas un blocage VM. Migration locale et relais repris sans perte ; 89 tests serveur, 2 tests de connexion et 50 tests interface seule réussis ; essais connectés locaux de reprise 15/19, distincts de la recette VM confirmée.
 
 ## 1. À boucler au plus vite
 
@@ -45,13 +45,13 @@ Après la présentation : retirer les jetons « Accès de présentation » (#113
 
 | Point | État au 15 novembre au soir | Suite / preuve |
 | --- | --- | --- |
-| Déploiement #103/#116 | Recette VM historique consignée ; #116 non validé. | Création compte et reprise des données VM à vérifier ; VM injoignables ici. |
+| Déploiement #103/#116 | Recette VM consignée, bon fonctionnement confirmé par l’utilisateur après contrôle de son collègue ; #116 validé. | Réseau fermé attendu ; aucun test distant supplémentaire imposé par l’absence d’accès du poste d’audit. |
 | Scénario #108 | Non fourni comme fil complet par profil. | Rédiger les attendus et passages de présentation. |
-| Recette #105/#106/#107 | Refusée : quatre échecs connectés en reprise. | Corriger #167 et rejouer ; le stress à deux simulateurs est consigné au rapport. |
+| Recette #105/#106/#107 | Validée sur la recette VM de l’équipe, confirmée par l’utilisateur. | Les échecs locaux sous stress et #167 restent suivis séparément ; ils ne sont pas attribués aux VM. |
 | Conception #63 | Relue, anomalies nouvelles. | #166 salle historique ; variantes/XT et formulation RG-15 au rapport. |
 | Architecture #70 | Rendus relus ; deux écarts DAT proposés. | Réseau réel/cible et stockage mobile ; DAT inchangé. |
 | Sécurité #109 | Refusée. | #163 à #165 et mineurs quota/log/mot de passe. |
-| Version #111 | Gel non validé. | Résoudre le blocage observé et identifier la version remise. |
+| Version #111 | Aucun blocage nominal sur les VM établi par cet audit. | Identifier la version remise, prioriser les majeurs et consigner les réserves. |
 | Dossier #112 | Assemblage non attesté. | Sélection README, ressources et réserves ; exclure rapport31 et ses preuves. |
 | Documentation | #61/#140/#141/#142/#161 validés ; #60/#143/#162 refusés. | Rédactions et preuves au rapport31. #130 validé. |
 | Support #110 | Prévu, non attesté. | Support18, répétition et passages. |
@@ -61,7 +61,7 @@ Après la présentation : retirer les jetons « Accès de présentation » (#113
 
 ## 2. Points à trancher
 
-1. **Renommage de la base et du code (#162)** : tables sans préfixe `orion_`, relais RIGEL `operation` et `evenement`, « campagne » remplacée par « opération ». Le faire avant le gel du mardi 17, ou après le rendu ? Le changement touche une migration et les données des VM. **Tranché par l’utilisateur le 15 novembre :** avant le gel, vocabulaire complet ; réalisé sur `dev`, migration neuve/0001 et relais vérifiés localement sans perte. #162 reste en cours : reprise des données VM, e2e et résidus de vocabulaire à vérifier/corriger.
+1. **Renommage de la base et du code (#162)** : tables sans préfixe `orion_`, relais RIGEL `operation` et `evenement`, « campagne » remplacée par « opération ». Le faire avant le gel du mardi 17, ou après le rendu ? Le changement touche une migration et les données des VM. **Tranché par l’utilisateur le 15 novembre :** avant le gel, vocabulaire complet ; réalisé sur `dev`, migration neuve/0001 et relais vérifiés localement sans perte. #162 reste en cours uniquement pour les résidus de vocabulaire CODE-03 ; la recette VM est retenue sur la confirmation de l’utilisateur, sans défaut de migration VM établi.
 2. **Cible ou application dans les diagrammes (#161)** : le glossaire et les diagrammes 06, 07 et 26 à 29 présentent-ils RIGEL selon l’architecture cible (second Apache, sans relais) ou selon l’application actuelle (relais et connecteur) ? **Tranché par l’utilisateur le 15 novembre :** selon la cible ; livrables alignés et #161 validé par l’audit. Les contradictions internes au DAT restent #70.
 3. **Retrait des matériels (#91)** : remplacer la suppression par un retrait daté et motivé (rédaction de RG-91 à valider), en V1 ou en V2 ? **Tranché le 15 novembre :** V2.
 4. **Tickets secondaires du sprint 2** : jeton d’un poste dans l’administration (#127), transfert d’un matériel hors service à l’import (#129), tests du détail de `/api/health` et `/api/infos` (#130). Les garder pour le rendu ou les reporter ? **Tranché le 15 novembre :** #130 gardé pour le rendu ; #127 et #129 en V2.

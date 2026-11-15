@@ -2533,6 +2533,13 @@
         "version": "4.0",
         "date": "2026-11-15",
         "modification": "Inclut RIGEL dans la clôture et actualise le suivi après audit",
+        "archive": null,
+        "commit": "067e0b5"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-15",
+        "modification": "Actualise les clôtures après confirmation de la recette",
         "archive": null
       }
     ]
@@ -2963,6 +2970,13 @@
         "version": "6.0",
         "date": "2026-11-15",
         "modification": "Suit les anomalies confirmées et les réserves de recette ; Ajoute le défaut mineur de versionnement corrigé",
+        "archive": null,
+        "commit": "e4c7b0f"
+      },
+      {
+        "version": "7.0",
+        "date": "2026-11-15",
+        "modification": "Distingue la recette VM validée du risque local de volume",
         "archive": null
       }
     ]
@@ -3009,6 +3023,13 @@
         "version": "2.0",
         "date": "2026-11-15",
         "modification": "Actualise chaque point avec les résultats de l’audit ; Actualise le total après les contrôles finaux",
+        "archive": null,
+        "commit": "e4c7b0f"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-15",
+        "modification": "Valide les vérifications VM confirmées par l’équipe",
         "archive": null
       }
     ]
@@ -3020,6 +3041,13 @@
         "version": "1.0",
         "date": "2026-11-15",
         "modification": "Consigne les preuves, écarts et verdicts avant rendu ; Complète les contrôles finaux et la correction du versionnement ; Harmonise la présentation des écarts",
+        "archive": null,
+        "commit": "e4c7b0f"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-15",
+        "modification": "Retient la recette VM confirmée et rectifie les verdicts",
         "archive": null
       }
     ]

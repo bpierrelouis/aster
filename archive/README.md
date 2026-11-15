@@ -40,10 +40,10 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [3.0](#29-modele-physique-donnees) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [5.1](#18-dossier-architecture-technique) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
-| [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [4.0](#20-backlog-et-suivi-projet) | 15/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [6.0](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
-| [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [2.0](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
-| [docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md](../docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md) | Pilotage interne | [1.0](#31-audit-avant-rendu-16-novembre) | 15/11/2026 |
+| [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.0](#20-backlog-et-suivi-projet) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [7.0](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [3.0](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
+| [docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md](../docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md) | Pilotage interne | [2.0](#31-audit-avant-rendu-16-novembre) | 15/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -554,7 +554,8 @@ Fichier : [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANI
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.0 | 15/11/2026 | Inclut RIGEL dans la clôture et actualise le suivi après audit | en vigueur | — |
+| 5.0 | 15/11/2026 | Actualise les clôtures après confirmation de la recette | en vigueur | — |
+| 4.0 | 15/11/2026 | Inclut RIGEL dans la clôture et actualise le suivi après audit | `067e0b5` | — |
 | 3.5 | 15/11/2026 | Référence le tracé des flux et la cible NFS et RIGEL | `122f91b` | — |
 | 3.4 | 14/11/2026 | Plus de version Word : le Markdown fait foi | `5da7ebd` | — |
 | 3.3 | 14/11/2026 | Reprendre les références de commits du brouillon de suivi | `6a9d33c` | — |
@@ -571,7 +572,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.0 | 15/11/2026 | Suit les anomalies confirmées et les réserves de recette ; Ajoute le défaut mineur de versionnement corrigé | en vigueur | — |
+| 7.0 | 15/11/2026 | Distingue la recette VM validée du risque local de volume | en vigueur | — |
+| 6.0 | 15/11/2026 | Suit les anomalies confirmées et les réserves de recette ; Ajoute le défaut mineur de versionnement corrigé | `e4c7b0f` | — |
 | 5.18 | 15/11/2026 | Jeton du relais fiabilisé ; RIGEL vérifié sur iOS | `3fbaa9a` | — |
 | 5.17 | 15/11/2026 | Recette sur les VM consignée ; jeton du relais à fiabiliser | `97191e8` | — |
 | 5.16 | 15/11/2026 | Durcissement reporté au DAT | `75615df` | — |
@@ -632,7 +634,8 @@ Fichier : [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 15/11/2026 | Actualise chaque point avec les résultats de l’audit ; Actualise le total après les contrôles finaux | en vigueur | — |
+| 3.0 | 15/11/2026 | Valide les vérifications VM confirmées par l’équipe | en vigueur | — |
+| 2.0 | 15/11/2026 | Actualise chaque point avec les résultats de l’audit ; Actualise le total après les contrôles finaux | `e4c7b0f` | — |
 | 1.4 | 15/11/2026 | Points 1, 3, 4 et 6 tranchés | `0867182` | — |
 | 1.3 | 15/11/2026 | Lien d’une remontée à son école tranché | `8be49e9` | — |
 | 1.2 | 15/11/2026 | Présentation de RIGEL selon la cible tranchée | `04c54ca` | — |
@@ -645,7 +648,8 @@ Fichier : [docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md](../docs/04-
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 15/11/2026 | Consigne les preuves, écarts et verdicts avant rendu ; Complète les contrôles finaux et la correction du versionnement ; Harmonise la présentation des écarts | en vigueur | — |
+| 2.0 | 15/11/2026 | Retient la recette VM confirmée et rectifie les verdicts | en vigueur | — |
+| 1.0 | 15/11/2026 | Consigne les preuves, écarts et verdicts avant rendu ; Complète les contrôles finaux et la correction du versionnement ; Harmonise la présentation des écarts | `e4c7b0f` | — |
 
 ## Fichiers retirés
 
