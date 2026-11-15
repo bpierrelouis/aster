@@ -404,6 +404,13 @@
         "version": "3.5",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Termes whitelist et blacklist",
+        "archive": null,
+        "commit": "70bd202"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-15",
+        "modification": "Déplacement, opération et paquet ; recensement et installation, types d’opération",
         "archive": null
       }
     ]
@@ -913,6 +920,13 @@
         "version": "2.0",
         "date": "2026-11-14",
         "modification": "Système d’exploitation du poste, remontée liée à l’école, recensement et constat",
+        "archive": null,
+        "commit": "7aa82ae"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-15",
+        "modification": "Déplacement, opération, système d’exploitation et paquet ; listes de valeurs en attributs ; contraintes d’exclusion",
         "archive": null
       }
     ]
@@ -978,6 +992,13 @@
         "version": "3.0",
         "date": "2026-11-14",
         "modification": "Système d’exploitation du poste, remontée liée à l’école, recensement et constat",
+        "archive": null,
+        "commit": "7aa82ae"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-15",
+        "modification": "Déplacement, opération, système d’exploitation et paquet ; listes de valeurs en attributs ; contraintes d’exclusion",
         "archive": null
       }
     ]
@@ -1827,6 +1848,13 @@
         "version": "1.0",
         "date": "2026-11-15",
         "modification": "Diagramme de classes métier en cinq vues",
+        "archive": null,
+        "commit": "36f4195"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-15",
+        "modification": "Déplacement, opération, système d’exploitation et paquet, comme le MCD",
         "archive": null
       }
     ]
@@ -1940,6 +1968,13 @@
         "version": "1.0",
         "date": "2026-11-15",
         "modification": "Classes d’analyse boundary, control, entity",
+        "archive": null,
+        "commit": "36f4195"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-15",
+        "modification": "Déplacement et opération, comme le MCD",
         "archive": null
       }
     ]

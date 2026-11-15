@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.0 | 15/11/2026 | Production destinée à la remise | Diagramme de classes métier en cinq vues | [1 version](../../../archive/README.md#24-diagramme-classes-metier) |
+| 2.0 | 15/11/2026 | Production destinée à la remise | Déplacement, opération, système d’exploitation et paquet, comme le MCD | [2 versions](../../../archive/README.md#24-diagramme-classes-metier) |
 <!-- version:fin -->
 
 ## 1. Organisation des écoles et comptes ORION
@@ -69,8 +69,6 @@ classDiagram
         dateFinGarantie
         horsService
         dateMiseHorsService
-        dateDéplacement
-        dateInstallation
         /enStock
         /garantieÉchue
     }
@@ -86,8 +84,23 @@ classDiagram
         autre
     }
 
+    class Deplacement["Déplacement"] {
+        dateDemande
+        dateConfirmation
+        /enCours
+    }
+    class CompteORION["Compte ORION"] {
+        nom
+        profil
+    }
+
     Ecole "1" -- "0..*" Materiel : détient
     Materiel "0..*" -- "0..1" Salle : est affecté à
+    Materiel "1" -- "0..*" Deplacement : est déplacé par
+    Deplacement "0..*" -- "0..1" Salle : provient de
+    Deplacement "0..*" -- "0..1" Salle : est destiné à
+    CompteORION "1" -- "0..*" Deplacement : ordonne
+    CompteORION "0..1" -- "0..*" Deplacement : confirme
     Materiel ..> TypeMateriel
 ```
 
@@ -165,7 +178,15 @@ classDiagram
     class Poste {
         nomRéseau
         adresseIP
-        systèmeExploitation
+    }
+    class SystemeExploitation["Système d’exploitation"] {
+        nom
+        version
+    }
+    class Paquet {
+        nomFichier
+        version
+        empreinte
     }
     class Application {
         nom
@@ -214,13 +235,17 @@ classDiagram
     Salle "1" -- "0..*" Poste : accueille
     Poste "0..1" -- "0..1" Materiel : a pour unité centrale
     Poste "0..*" -- "0..*" Application : est équipé de
+    Poste "0..*" -- "0..1" SystemeExploitation : fonctionne sous
+    Application "0..1" -- "0..*" Paquet : est conditionnée par {xor}
+    SystemeExploitation "0..1" -- "0..*" Paquet : est distribué par {xor}
+    SystemeExploitation "0..1" -- "0..*" Intervention : est restauré par
     Detection "0..*" -- "1" Poste : survient sur
     CompteWindows "1" -- "0..*" Detection : exécute
     Processus "1" -- "0..*" Detection : est signalé par
     Processus "1" -- "0..*" Regle : est réglementé par
-    Ecole "0..1" -- "0..*" Regle : couvre
-    Batiment "0..1" -- "0..*" Regle : limite
-    Salle "0..1" -- "0..*" Regle : vise
+    Ecole "0..1" -- "0..*" Regle : couvre {xor}
+    Batiment "0..1" -- "0..*" Regle : limite {xor}
+    Salle "0..1" -- "0..*" Regle : vise {xor}
     Intervention "0..*" -- "1..*" Poste : cible
     CibleIntervention .. Intervention
     CompteORION "0..1" -- "0..*" Intervention : demande
@@ -248,11 +273,10 @@ classDiagram
     }
     class Materiel["Matériel"] {
         identifiantORION
-        dateDéplacement
-        dateInstallation
     }
-    class Recensement {
+    class Operation["Opération"] {
         nom
+        type : TypeOpération
         dateOuverture
         dateClôture
     }
@@ -265,10 +289,17 @@ classDiagram
         dateTraitement
     }
 
-    CompteORION "1" -- "0..*" Recensement : ouvre
-    Recensement "0..*" -- "1" Ecole : porte sur
-    Recensement "0..*" -- "0..*" Salle : inclut
-    Recensement "1" *-- "0..*" Constat : regroupe
+    class TypeOperation["TypeOpération"] {
+        <<enumeration>>
+        recensement
+        installation
+    }
+
+    CompteORION "1" -- "0..*" Operation : ouvre
+    Operation ..> TypeOperation
+    Operation "0..*" -- "1" Ecole : porte sur
+    Operation "0..*" -- "0..*" Salle : inclut
+    Operation "1" *-- "0..*" Constat : regroupe
     Constat "0..*" -- "0..1" Materiel : identifie
     Constat "0..*" -- "0..1" Salle : localise
     CompteORION "0..1" -- "0..*" Constat : traite

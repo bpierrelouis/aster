@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.0 | 15/11/2026 | Production destinée à la remise | Classes d’analyse boundary, control, entity | [1 version](../../../archive/README.md#26-diagramme-classes-analyse) |
+| 1.1 | 15/11/2026 | Production destinée à la remise | Déplacement et opération, comme le MCD | [2 versions](../../../archive/README.md#26-diagramme-classes-analyse) |
 <!-- version:fin -->
 
 ## Remontées utilisateur
@@ -158,7 +158,7 @@ classDiagram
         horsService
         dateHorsService
     }
-    class Mouvement {
+    class Deplacement["Déplacement"] {
         <<entity>>
         origine
         date
@@ -198,16 +198,16 @@ classDiagram
     GererMateriel --> Materiel
     GererMateriel --> Remontee
     AffecterMateriel --> Materiel
-    AffecterMateriel --> Mouvement
-    ConfirmerInstallation --> Mouvement
+    AffecterMateriel --> Deplacement
+    ConfirmerInstallation --> Deplacement
     ImporterMateriels --> Materiel
     GererLieux --> Salle
     GererLieux --> Etage
     Materiel "*" --> "1" Ecole : appartient à
     Materiel "*" --> "0..1" Salle : affecté à
-    Materiel "1" *-- "0..1" Mouvement : déplacement en cours
-    Materiel "1" *-- "0..1" Mouvement : dernière installation
-    Mouvement "*" --> "0..1" Salle : origine
+    Materiel "1" *-- "0..1" Deplacement : déplacement en cours
+    Materiel "1" *-- "0..1" Deplacement : dernière installation
+    Deplacement "*" --> "0..1" Salle : origine
     Salle "*" --> "1" Ecole
     Etage "*" --> "1" Ecole
     Remontee "*" --> "1..*" Materiel : cite
@@ -489,10 +489,10 @@ classDiagram
     class CloreInstallation["Clore l'installation"] {
         <<control>>
     }
-    class OperationRigel["Opération RIGEL"] {
+    class Operation["Opération"] {
         <<entity>>
         nom
-        mode
+        type
         date
         expiration
         cloture
@@ -510,7 +510,7 @@ classDiagram
     class Materiel["Matériel"] {
         <<entity>>
     }
-    class Mouvement {
+    class Deplacement["Déplacement"] {
         <<entity>>
     }
     class Salle {
@@ -531,20 +531,20 @@ classDiagram
     InterfaceRigel --> PublierOperations
     InterfaceRigel --> IntegrerConstats
     IntegrerConstats --> CloreInstallation
-    LancerRecensement --> OperationRigel
-    LancerInstallation --> OperationRigel
-    PublierOperations --> OperationRigel
+    LancerRecensement --> Operation
+    LancerInstallation --> Operation
+    PublierOperations --> Operation
     IntegrerConstats --> Constat
     IntegrerConstats --> Materiel
-    IntegrerConstats --> Mouvement
+    IntegrerConstats --> Deplacement
     TraiterConstat --> Constat
     TraiterConstat --> Materiel
-    CloreInstallation --> OperationRigel
-    OperationRigel "*" --> "1" Ecole
-    OperationRigel "*" --> "0..*" Salle : salles visées
-    Constat "*" --> "1" OperationRigel : rattaché à
+    CloreInstallation --> Operation
+    Operation "*" --> "1" Ecole
+    Operation "*" --> "0..*" Salle : salles visées
+    Constat "*" --> "1" Operation : rattaché à
     Constat "*" --> "0..1" Materiel : concerne
     Constat "*" --> "0..1" Salle : lieu constaté
-    Materiel "1" *-- "0..2" Mouvement
+    Materiel "1" *-- "0..2" Deplacement
     Materiel "*" --> "0..1" Salle
 ```
