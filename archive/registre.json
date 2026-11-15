@@ -411,6 +411,13 @@
         "version": "4.0",
         "date": "2026-11-15",
         "modification": "Déplacement, opération et paquet ; recensement et installation, types d’opération",
+        "archive": null,
+        "commit": "26885dc"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-15",
+        "modification": "RIGEL défini selon l’architecture cible",
         "archive": null
       }
     ]
@@ -594,6 +601,13 @@
         "version": "5.3",
         "date": "2026-11-15",
         "modification": "Création du premier compte d’un espace neuf, d’après l’application",
+        "archive": null,
+        "commit": "24f0e4e"
+      },
+      {
+        "version": "6.0",
+        "date": "2026-11-15",
+        "modification": "RIGEL reporté aux §§ 19 et 23 ; simulateur et éléments en place",
         "archive": null
       }
     ]
@@ -696,6 +710,13 @@
         "version": "3.0",
         "date": "2026-11-14",
         "modification": "Mise à jour d’après l’état actuel : super administrateur, MindefConnect, RIGEL, solution d’administration des postes, PDF à la demande, traitement par le gestionnaire",
+        "archive": null,
+        "commit": "6a42b9f"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-15",
+        "modification": "RIGEL présenté selon l’architecture cible, sans relais",
         "archive": null
       }
     ]
@@ -758,6 +779,13 @@
         "version": "2.1",
         "date": "2026-11-15",
         "modification": "Termes whitelist et blacklist",
+        "archive": null,
+        "commit": "70bd202"
+      },
+      {
+        "version": "2.2",
+        "date": "2026-11-15",
+        "modification": "Constats RIGEL transmis directement à ORION",
         "archive": null
       }
     ]
@@ -1975,6 +2003,13 @@
         "version": "1.1",
         "date": "2026-11-15",
         "modification": "Déplacement et opération, comme le MCD",
+        "archive": null,
+        "commit": "26885dc"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-15",
+        "modification": "API de RIGEL à la place du connecteur",
         "archive": null
       }
     ]
@@ -1986,6 +2021,13 @@
         "version": "1.0",
         "date": "2026-11-15",
         "modification": "Classes de conception du serveur et du navigateur",
+        "archive": null,
+        "commit": "36f4195"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-15",
+        "modification": "RIGEL selon la cible : API d’Express, sans relais ni connecteur ; RIGEL selon la cible : API d’Express, sans relais ni connecteur",
         "archive": null
       }
     ]
@@ -1997,6 +2039,13 @@
         "version": "1.0",
         "date": "2026-11-15",
         "modification": "Séquences détaillées sur les objets réels",
+        "archive": null,
+        "commit": "36f4195"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-15",
+        "modification": "Constat RIGEL transmis directement à Express ; Constat RIGEL transmis directement à Express",
         "archive": null
       }
     ]
@@ -2008,6 +2057,13 @@
         "version": "1.0",
         "date": "2026-11-15",
         "modification": "Modèle physique des données en UML (profil d’Ambler)",
+        "archive": null,
+        "commit": "36f4195"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-15",
+        "modification": "Base du relais RIGEL retirée de la cible",
         "archive": null
       }
     ]
@@ -2676,6 +2732,13 @@
         "version": "5.6",
         "date": "2026-11-15",
         "modification": "Consigne les tests d'intrusion du 15 novembre et leurs corrections",
+        "archive": null,
+        "commit": "fe48601"
+      },
+      {
+        "version": "5.7",
+        "date": "2026-11-15",
+        "modification": "RIGEL dans le cadrage et la cible traité ; écart avec le code inscrit ; RIGEL dans le cadrage et la cible traité ; écart avec le code inscrit",
         "archive": null
       }
     ]
@@ -2694,6 +2757,13 @@
         "version": "1.1",
         "date": "2026-11-15",
         "modification": "Classement en pilotage interne",
+        "archive": null,
+        "commit": "1640070"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-15",
+        "modification": "Présentation de RIGEL selon la cible tranchée",
         "archive": null
       }
     ]

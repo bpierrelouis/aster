@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.0 | 15/11/2026 | Production destinée à la remise | Classes de conception du serveur et du navigateur | [1 version](../../../archive/README.md#27-diagramme-classes-conception) |
+| 2.0 | 15/11/2026 | Production destinée à la remise | RIGEL selon la cible : API d’Express, sans relais ni connecteur ; RIGEL selon la cible : API d’Express, sans relais ni connecteur | [2 versions](../../../archive/README.md#27-diagramme-classes-conception) |
 <!-- version:fin -->
 
 ## Serveur : API, moteur d'écriture et persistance
@@ -51,8 +51,8 @@ classDiagram
     }
     class RigelRouter["routes.ts · createRigelRouter · /api/rigel"] {
         <<router>>
-        GET /campagnes
-        POST /campagnes/:id/evenements
+        GET /operations/:id/instantane
+        POST /operations/:id/evenements
     }
     class Engine["engine.ts · Engine"] {
         -listeners : Set
@@ -66,8 +66,8 @@ classDiagram
         +importMateriels(actor, input)
         +pdf(reportId, actor) Promise~Buffer~
         +rigel.appairage(actor, id, config)
-        +rigel.campagnes(secret)
-        +rigel.evenements(secret, campagne, blocs)
+        +rigel.instantane(jeton, operation)
+        +rigel.evenements(jeton, operation, evenements)
         +rigel.installation(actor, salleId, config)
         +rigel.traiter(actor, constat, action)
         +agent.postes()
@@ -149,7 +149,7 @@ classDiagram
         +pdf(reportId, actor)
         +agent.rapports(rapports)
         +agent.resultats(resultats)
-        +rigel.evenements(secret, campagne, blocs)
+        +rigel.evenements(jeton, operation, evenements)
     }
     class Espace["espace.ts"] {
         <<module>>
@@ -212,9 +212,8 @@ classDiagram
         +lancerInstallation(state, actor, salleId, now)
         +cloreInstallations(state, now)
         +appairage(state, actor, id, config)
-        +campagnesPubliees(state, secret, now)
-        +dechiffrerEvenements(secret, campagne, blocs)
-        +appliquerEvenements(state, campagne, evenements, now)
+        +instantane(state, jeton, operation, now)
+        +appliquerEvenements(state, operation, evenements, now)
     }
     class Import["import.ts"] {
         <<module>>
@@ -235,41 +234,10 @@ classDiagram
     }
     class SharedRigel["shared/rigel.ts"] {
         <<module>>
-        +chiffrer(cle, campagne, valeur) Bloc
-        +dechiffrer(cle, campagne, bloc)
         +empreinte(valeur) string
         +installationDe(operations, salleId, now)
         +ouverte(r, now) boolean
     }
-    class Connecteur["connecteur.ts · createConnecteur"] {
-        -publiees : Map
-        +cycle() Promise~number~
-        +demarrer(intervalle)
-        -versOrion(chemin, init)
-        -versRelais(chemin, init)
-    }
-    class Relais["relais.ts · createRelais · /api"] {
-        GET /campagnes/:id/instantane
-        POST /campagnes/:id/evenements
-        GET /connecteur/campagnes
-        PUT DELETE /connecteur/campagnes/:id
-        GET /connecteur/campagnes/:id/evenements
-        POST /connecteur/campagnes/:id/acquittement
-    }
-    class RelaisStore {
-        <<interface>>
-        +campagnes()
-        +campagne(id)
-        +deposer(campagne)
-        +supprimer(id)
-        +ajouter(campagne, evenements)
-        +enAttente(campagne) number
-        +evenements(campagne, limite)
-        +acquitter(campagne, jusqua)
-        +purger(now)
-    }
-    class RelaisPg["relais-store.ts · createPostgresStore"]
-    class RelaisMemoire["relais-store.ts · createMemoryStore"]
 
     Engine ..> Espace : «use»
     Engine ..> Postes : «use»
@@ -290,11 +258,6 @@ classDiagram
     Comptes ..> Contexte
     Pdf ..> PdfTexte : «use»
     Recensement ..> SharedRigel : «use»
-    Connecteur ..> Engine : HTTP /api/rigel
-    Connecteur ..> Relais : HTTPS /api/connecteur
-    Relais --> RelaisStore : store
-    RelaisPg ..|> RelaisStore
-    RelaisMemoire ..|> RelaisStore
 ```
 
 ## Navigateur : espace de travail ORION et application RIGEL
@@ -388,7 +351,7 @@ classDiagram
         +synchroniser() Promise
         +dissocier()
     }
-    class RelaisClient["rigel/core/relais.ts"] {
+    class ApiRigel["rigel/core/api.ts"] {
         <<module>>
         +deposer(appairage, evenements) Set
         +telecharger(appairage) InstantaneRigel
@@ -431,6 +394,6 @@ classDiagram
     Workspace ..> Overlays
     RigelApp ..> UseRigel
     UseRigel ..> EtatRigel
-    EtatRigel ..> RelaisClient
+    EtatRigel ..> ApiRigel : HTTPS /api/rigel
     EtatRigel ..> BaseLocale
 ```

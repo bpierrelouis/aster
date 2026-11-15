@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.0 | 15/11/2026 | Production destinée à la remise | Déplacement, opération et paquet ; recensement et installation, types d’opération | [18 versions](../../archive/README.md#00-glossaire) |
+| 5.0 | 15/11/2026 | Production destinée à la remise | RIGEL défini selon l’architecture cible | [19 versions](../../archive/README.md#00-glossaire) |
 <!-- version:fin -->
 
 Ce glossaire centralise les abréviations et les termes employés dans la documentation du projet. Les définitions décrivent leur sens dans ORION. Lorsqu'un sigle n'est pas développé dans les sources, cette absence est signalée afin de ne pas inventer sa signification.
@@ -32,7 +32,7 @@ Ce glossaire centralise les abréviations et les termes employés dans la docume
 | PID         | Process Identifier                                                       | Identifiant numérique attribué par Windows à un processus pendant son exécution. Il est temporaire et réutilisable ; ORION ne le conserve pas. |
 | PFORM       | Pôle formation                                                           | Entité distincte de la DRHAT.                                                                                                                                                     |
 | RG          | Règle de gestion                                                         | Contrainte confirmée portant sur les données, les droits ou les traitements réalisés par ORION.                                                                                   |
-| RIGEL | Reconnaissance d’identifiants graphiques et extraction par lecture | Module externe de recensement mobile : PWA hors ligne, relais public, stockage de transport et connecteur sortant vers ORION. |
+| RIGEL | Reconnaissance d’identifiants graphiques et extraction par lecture | Module de recensement mobile d’ORION : application web installable sur le téléphone du gestionnaire, utilisable hors connexion, servie sous son propre nom public par l’entrée d’ORION et synchronisée avec son back (RG-94). |
 | Scrum-XP    | Association de pratiques Scrum et Extreme Programming                    | Organisation Agile attendue dans les éléments d'évaluation du projet.                                                                                                             |
 | SSO | Authentification unique | La connexion à ORION est confiée à MindefConnect ; les modalités d’intégration sont précisées avec le fournisseur du service. |
 | V1 | Première version utilisable | Version initiale d’ORION couvrant la gestion des matériels et la supervision des processus utilisateur à l’échelle d’une école. |

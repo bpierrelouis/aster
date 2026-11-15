@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.6 | 15/11/2026 | Pilotage interne | Consigne les tests d'intrusion du 15 novembre et leurs corrections | [41 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.7 | 15/11/2026 | Pilotage interne | RIGEL dans le cadrage et la cible traité ; écart avec le code inscrit ; RIGEL dans le cadrage et la cible traité ; écart avec le code inscrit | [42 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -169,13 +169,13 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Priorité haute
 
-- [ ] RIGEL dans le cadrage (§ 19 et § 23 : la ligne `02:400` « application de scan non intégrée » est fausse) ; les livrables (glossaire, RG-92 à RG-96, matrice, fiches 13, 15 et 16, DCU 08, MCD) ont été mis à jour le 14 novembre et restent à relire (#158).
+- [x] RIGEL dans le cadrage : § 23 (application de scan réalisée par RIGEL, RG-92 à RG-96) et § 19 (décision du 15 novembre, fonctionnement hors connexion) mis à jour le 15 novembre ; livrables relus (#158).
 - [x] Captures des fiches 13, 15 et 16 : les anciennes maquettes IHM sont supprimées ; les fiches reprennent les captures de l’application (`design/maquettes/captures/`, 14 novembre).
-- [ ] Cadrage § 23 : il dit que la documentation suit le client (`02:391`, `:405`, `:406`), contrairement à la règle en vigueur (la documentation suit l’état actuel, l’écart est inscrit au § 23). En découlent RG-36 (filtre par salle du tableau de bord du parc) et RG-37 (fenêtre contextuelle des notifications) **[RG]**, la matrice (`12:48`) et la fiche 13 (`:141`), qui décrivent ce que l’application n’a pas.
+- [x] Cadrage § 23 (vérifié le 15 novembre : § 23, RG-36, RG-37, matrice et fiche 13 suivent l’application) : il disait que la documentation suit le client (`02:391`, `:405`, `:406`), contrairement à la règle en vigueur (la documentation suit l’état actuel, l’écart est inscrit au § 23). En découlent RG-36 (filtre par salle du tableau de bord du parc) et RG-37 (fenêtre contextuelle des notifications) **[RG]**, la matrice (`12:48`) et la fiche 13 (`:141`), qui décrivent ce que l’application n’a pas.
 
 ### Contradictions à corriger
 
-- [ ] RIGEL dans la cible (orientation du 15 novembre : second Apache derrière le même HAProxy et le même back, nom public, ni relais ni connecteur ; DAT et schémas cible à jour) : le glossaire, les diagrammes 06 et 07 **[PROT]**, 26, 27, 28 et le modèle physique 29 décrivent encore le relais et le connecteur ; décider s’ils présentent la cible ou l’application actuelle, puis les aligner.
+- [x] RIGEL dans la cible : les livrables présentent l’architecture cible (décision de l’utilisateur du 15 novembre) ; glossaire, diagrammes 06 et 07 (mise à jour autorisée), 26, 27, 28 et modèle physique 29 alignés : téléphone joint directement l’API RIGEL d’Express, sans relais ni connecteur (#161).
 - [ ] Notification de processus interdit attribuée au formateur : matrice (`12:73`), glossaire (`00:84`) et cadrage (`02:208`) ; le code, la fiche 14, le DCU 10 et RG-55 ne lui en envoient pas.
 - [ ] RG-81 et RG-22 : « postes d’une seule école » alors que le serveur impose une seule salle **[RG]**.
 - [ ] Matrice (`12:46`, import JSON) : « seuls la lisibilité et les données obligatoires sont contrôlés » contredit RG-29 et l’application ; renvoyer à RG-29.
@@ -199,7 +199,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 - [x] Installation physique des salles et notification « matériels à déplacer » du gestionnaire : décrites dans la fiche 13, RG-92, le glossaire et le DCU 08 (« Installer une salle », « Recenser le parc »).
 - [ ] Journal applicatif (`backend/journal.ts`, événement `enregistrement` des écritures des utilisateurs) : absent du cadrage (§§ 18 et 21) et de la fiche 15 (« Journalisation éventuelle », UC-ADMIN-06).
 - [ ] RG-56 : 30 jours de conservation des détections ; le code ne garde en plus que les 2 000 dernières **[RG]**.
-- [ ] Cadrage § 19 : aucune décision RIGEL ni Hidora ; « déploiement proposé » (`02:340-341`) alors que le DAT le présente comme en place ; « émulateur » au lieu de « simulateur ».
+- [x] Cadrage § 19 : décision RIGEL du 15 novembre reportée ; runner et point d’entrée présentés en « Application » ; « simulateur » au lieu de « émulateur ».
 - [ ] Glossaire : manquent Intervention, Compte ORION, Étape de remontée, Type de problème, C1NP et CCT ; `00:15` « aucune API d’intégration confirmée » alors que l’API des postes existe ; l’entrée LDAP ne sert que le démonstrateur.
 
 ### Modèle de données
@@ -249,6 +249,8 @@ Le DAT, tenu par l’utilisateur, fait foi ; ces écarts entre lui, la configura
 - [x] **Basse** — Vue complète (15 novembre) : tous les flux réels sont tracés sans croisement : bandeau « Sur chaque VM » relié aux managers (Swarm 2377, 7946), à chrony (NTP), à Logstash (syslog TLS 6514), au proxy (images, paquets) et au DNS du réseau ; registres et dépôts (Docker Hub, docker.elastic.co, Debian) joints par le proxy, GitHub et Hidora ; publication de la CI vers Docker Hub et Hidora ; console Keycloak (8444) depuis le navigateur ; overlay (4789, ESP) dans le titre du cluster.
 
 ## 7. Feuille de route : évolutions du projet
+
+- [ ] **RIGEL selon la cible** — La conception (diagrammes 27, 28 et 29) présente la cible : le téléphone joint l’API RIGEL d’Express (`GET /api/rigel/operations/:id/instantane`, `POST /api/rigel/operations/:id/evenements`, module `rigel/core/api.ts` du téléphone ; noms retenus par l’utilisateur le 15 novembre, à reprendre dans le code avec #162) avec le jeton de son appairage, sans chiffrement de bout en bout ni base du relais. Le code garde le relais Hidora, le connecteur et les blocs chiffrés de l’architecture réelle ; l’écart est voulu tant que le démonstrateur n’a pas d’entrée depuis Internet.
 
 Évolutions envisagées au-delà du périmètre en cours, reportées en V2 (décision de l’utilisateur du 15 novembre) : l’agent M42, la gestion du catalogue des applications et les postes Linux.
 

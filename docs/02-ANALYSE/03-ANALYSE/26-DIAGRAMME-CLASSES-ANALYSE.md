@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.1 | 15/11/2026 | Production destinée à la remise | Déplacement et opération, comme le MCD | [2 versions](../../../archive/README.md#26-diagramme-classes-analyse) |
+| 2.0 | 15/11/2026 | Production destinée à la remise | API de RIGEL à la place du connecteur | [3 versions](../../../archive/README.md#26-diagramme-classes-analyse) |
 <!-- version:fin -->
 
 ## Remontées utilisateur
@@ -464,7 +464,7 @@ classDiagram
     class Appairage["Code d'appairage"] {
         <<boundary>>
     }
-    class InterfaceRigel["Interface du connecteur RIGEL"] {
+    class InterfaceRigel["API de RIGEL"] {
         <<boundary>>
     }
     class LancerRecensement["Lancer ou clore un recensement"] {
@@ -473,14 +473,14 @@ classDiagram
     class LancerInstallation["Lancer l'installation d'une salle"] {
         <<control>>
     }
-    class PublierOperations["Publier les opérations ouvertes"] {
+    class PublierOperations["Fournir l'opération au téléphone"] {
         <<control>>
+        +authentifier()
         +produireInstantane()
-        +chiffrer()
     }
     class IntegrerConstats["Intégrer les constats"] {
         <<control>>
-        +dechiffrer()
+        +authentifier()
         +appliquer()
     }
     class TraiterConstat["Traiter un constat"] {

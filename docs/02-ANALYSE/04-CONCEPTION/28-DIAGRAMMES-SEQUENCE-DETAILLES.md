@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.0 | 15/11/2026 | Production destinée à la remise | Séquences détaillées sur les objets réels | [1 version](../../../archive/README.md#28-diagrammes-sequence-detailles) |
+| 2.0 | 15/11/2026 | Production destinée à la remise | Constat RIGEL transmis directement à Express ; Constat RIGEL transmis directement à Express | [2 versions](../../../archive/README.md#28-diagrammes-sequence-detailles) |
 <!-- version:fin -->
 
 ## Écriture concurrente fusionnée
@@ -190,9 +190,6 @@ sequenceDiagram
     participant RC as domaine/recensement.ts
     participant DB as PostgreSQL
     participant RG as RigelRouter
-    participant C as Connecteur RIGEL
-    participant RL as Relais public
-    participant RDB as Stockage du relais
     participant T as Téléphone RIGEL
 
     G->>V: installer la salle avec RIGEL
@@ -202,47 +199,32 @@ sequenceDiagram
     E->>RC: lancerInstallation(état, actor, salleId)
     E->>DB: INSERT orion_donnee (recensements), COMMIT
     E->>RC: appairage(état, actor, id, config)
-    RC-->>E: adresse avec opération, jeton et clé dérivés du secret
+    RC-->>E: adresse avec opération et jeton dérivé du secret
     R-->>S: {url, expireLe, state}
     S-->>V: code QR d'appairage
     G->>T: lire le code QR
     T->>T: appairer() : appairage enregistré dans IndexedDB
 
-    C->>RG: GET /api/rigel/campagnes
-    RG->>E: rigel.campagnes(secret)
-    E->>RC: campagnesPubliees(état, secret)
-    RC-->>E: instantané chiffré, version, empreinte du jeton
-    RG-->>C: opérations ouvertes
-    C->>RL: PUT /api/connecteur/campagnes/:id
-    RL->>RDB: deposer() : rigel_campagne
-    T->>RL: GET /api/campagnes/:id/instantane (jeton)
-    RL->>RL: empreinte du jeton comparée
-    RL-->>T: instantané chiffré
-    T->>T: déchiffrer, enregistrer dans IndexedDB
+    T->>RG: GET /api/rigel/operations/:id/instantane (jeton)
+    RG->>E: rigel.instantane(jeton, operation)
+    E->>RC: jeton comparé, opération ouverte
+    RC-->>E: instantané de l'opération, version
+    RG-->>T: instantané
+    T->>T: enregistrer dans IndexedDB
 
     G->>T: scanner un matériel dans la salle
     T->>T: constater() : événement en file locale
-    T->>T: chiffrer l'événement avec la clé de l'opération
-    T->>RL: POST /api/campagnes/:id/evenements
-    RL->>RDB: ajouter() : rigel_evenement
-    RL-->>T: identifiants reçus
-
-    C->>RL: GET /api/connecteur/campagnes/:id/evenements
-    RL-->>C: blocs chiffrés et rangs
-    C->>RG: POST /api/rigel/campagnes/:id/evenements
-    RG->>E: rigel.evenements(secret, campagne, blocs)
-    E->>RC: dechiffrerEvenements(secret, campagne, blocs)
-    E->>RC: appliquerEvenements(état, campagne, événements)
+    T->>RG: POST /api/rigel/operations/:id/evenements (jeton), dès que le réseau le permet
+    RG->>E: rigel.evenements(jeton, operation, événements)
+    E->>RC: jeton comparé, opération ouverte
+    E->>RC: appliquerEvenements(état, operation, événements)
     RC->>RC: doublon, opération ouverte, salle de l'opération, constat dépassé
     RC->>RC: matériel dans sa salle : installation confirmée, constat « confirme »
     E->>RC: cloreInstallations(next)
     E->>DB: écriture système, COMMIT
-    RG-->>C: résultats par événement
-    C->>RL: POST /api/connecteur/campagnes/:id/acquittement
-    RL->>RDB: acquitter() : événements supprimés
-    C->>RL: PUT de l'instantané de la nouvelle version
-    T->>RL: GET /api/campagnes/:id/instantane
-    RL-->>T: instantané avec le constat intégré
+    RG-->>T: résultats par événement
+    T->>RG: GET /api/rigel/operations/:id/instantane (jeton)
+    RG-->>T: instantané avec le constat intégré
     T->>T: integrer() : constat déplacé vers l'historique
 ```
 

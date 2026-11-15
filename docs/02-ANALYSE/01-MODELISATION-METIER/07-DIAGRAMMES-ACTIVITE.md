@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.1 | 15/11/2026 | Production destinée à la remise | Termes whitelist et blacklist | [8 versions](../../../archive/README.md#07-diagrammes-activite) |
+| 2.2 | 15/11/2026 | Production destinée à la remise | Constats RIGEL transmis directement à ORION | [9 versions](../../../archive/README.md#07-diagrammes-activite) |
 <!-- version:fin -->
 
 ## Parcours général
@@ -171,7 +171,7 @@ flowchart TD
     mode -->|"Non"| confirmer["Confirmer dans ORION le déplacement<br/>de chaque matériel installé"]
     mode -->|"Oui"| lier["Lancer l'installation RIGEL de la salle<br/>et lier son téléphone par le QR code"]
     lier --> scanner["Ouvrir la salle sur le téléphone<br/>et scanner les matériels"]
-    scanner --> integrer["ORION intègre les constats<br/>transmis par le relais"]
+    scanner --> integrer["ORION intègre les constats<br/>transmis par le téléphone"]
     confirmer --> reste{"Reste-t-il des déplacements<br/>vers la salle ou depuis elle ?"}
     integrer --> reste
     reste -->|"Oui"| mode
@@ -198,7 +198,7 @@ flowchart TD
     constat --> suivant{"Autre matériel ou autre lieu ?"}
     suivant -->|"Autre matériel"| scan
     suivant -->|"Autre lieu"| lieu
-    suivant -->|"Non"| transmettre["Transmettre les constats chiffrés<br/>au relais dès que le réseau le permet"]
+    suivant -->|"Non"| transmettre["Transmettre les constats à ORION<br/>dès que le réseau le permet"]
     transmettre --> recent{"Scan plus récent que la dernière<br/>information connue du matériel ?"}
     recent -->|"Non"| refuse["ORION refuse le constat"]
     recent -->|"Oui"| integrer["ORION intègre le constat : présence confirmée,<br/>matériel réaffecté, déplacement lancé<br/>ou matériel créé dans le lieu du scan"]

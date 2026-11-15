@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.0 | 15/11/2026 | Production destinée à la remise | Modèle physique des données en UML (profil d’Ambler) | [1 version](../../../archive/README.md#29-modele-physique-donnees) |
+| 2.0 | 15/11/2026 | Production destinée à la remise | Base du relais RIGEL retirée de la cible | [2 versions](../../../archive/README.md#29-modele-physique-donnees) |
 <!-- version:fin -->
 
 ## Base ORION : tables relationnelles
@@ -317,29 +317,4 @@ classDiagram
     Operation ..> Poste : cibles
     Operation ..> Processus : processusId
     Constat ..> Recensement : recensementId
-```
-
-## Base du relais RIGEL
-
-```mermaid
-classDiagram
-    direction LR
-    class rigel_campagne {
-        <<Table>>
-        «PK» id : text
-        empreinte : text NOT NULL
-        version : text NOT NULL
-        expire_le : timestamptz NOT NULL
-        instantane : jsonb NOT NULL, bloc chiffré iv data
-    }
-    class rigel_evenement {
-        <<Table>>
-        «PK» rang : bigint GENERATED ALWAYS AS IDENTITY
-        «FK» «AK» campagne_id : text NOT NULL
-        «AK» id : text NOT NULL
-        bloc : jsonb NOT NULL, bloc chiffré iv data
-        recu_le : timestamptz NOT NULL DEFAULT now
-    }
-
-    rigel_evenement "*" --* "1" rigel_campagne : campagne_id ON DELETE CASCADE
 ```
