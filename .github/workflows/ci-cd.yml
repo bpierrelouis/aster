@@ -195,7 +195,8 @@ jobs:
       - name: Déployer la pile orion
         run: bash infra/vm/deployer.sh "${{ vars.DOCKERHUB_USERNAME }}" "${{ github.sha }}"
         shell: bash
-        # Recensement mobile : relais (vide : connecteur non déployé) et jeton du relais, lu au premier déploiement seulement
+        # Recensement mobile : relais (vide : connecteur non déployé) et jeton du relais, transmis à chaque déploiement : le
+        # secret RELAIS_TOKEN du dépôt fait foi pour le connecteur comme pour le relais (deploiement.sh)
         env:
           RELAIS_URL: ${{ vars.RELAIS_URL }}
           RELAIS_TOKEN: ${{ secrets.RELAIS_TOKEN }}
@@ -240,6 +241,11 @@ jobs:
         if: vars.RELAIS_URL != ''
         env:
           RELAIS_URL: ${{ vars.RELAIS_URL }}
+          RELAIS_TOKEN: ${{ secrets.RELAIS_TOKEN }}
         run: |
-          for _ in $(seq 30); do curl -sf "$RELAIS_URL/api/health" && exit 0; sleep 10; done
-          echo "Le relais ne répond pas sur $RELAIS_URL/api/health" >&2; exit 1
+          pret=""
+          for _ in $(seq 30); do curl -sf "$RELAIS_URL/api/health" && { pret=1; break; }; sleep 10; done
+          [ -n "$pret" ] || { echo "Le relais ne répond pas sur $RELAIS_URL/api/health" >&2; exit 1; }
+          # Le relais accepte le jeton du dépôt, celui que reçoit aussi le connecteur des VM
+          statut=$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $RELAIS_TOKEN" "$RELAIS_URL/api/connecteur/operations")
+          [ "$statut" = 200 ] || { echo "Le relais refuse le jeton RELAIS_TOKEN du dépôt (HTTP $statut) : connecteur et relais désaccordés" >&2; exit 1; }

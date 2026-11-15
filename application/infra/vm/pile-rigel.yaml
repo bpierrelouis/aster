@@ -11,7 +11,8 @@ services:
       RELAIS_URL: ${ORION_RELAIS}
       HTTPS_PROXY: ${ORION_PROXY}
       NO_PROXY: orion_api,localhost,127.0.0.1
-    secrets: [RIGEL_SECRET, RELAIS_TOKEN]
+    # Jeton du relais : secret nommé par son empreinte (deploiement.sh), lu sous /run/secrets/RELAIS_TOKEN
+    secrets: [RIGEL_SECRET, { source: relais_token, target: RELAIS_TOKEN }]
     networks: [orion]
     cap_drop: [ALL]
     logging:
@@ -38,4 +39,4 @@ networks:
 
 secrets:
   RIGEL_SECRET: { external: true }
-  RELAIS_TOKEN: { external: true }
+  relais_token: { external: true, name: '${RELAIS_TOKEN_SECRET}' }

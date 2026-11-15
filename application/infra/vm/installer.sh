@@ -5,6 +5,7 @@
 # Le mot de passe sudo est lu dans SUDO_PASSWORD, sinon demandé une fois ; il n'est enregistré nulle part.
 # DISQUE_DONNEES et DISQUE_LOGS : disques de données et de logs d'orion-10, formatés en ext4 s'ils sont vierges (/dev/sdb et /dev/sdc par défaut) ;
 # un disque absent est remplacé par un fichier image ext4 (6 Go pour les données, 4 Go pour les logs) dans /srv/orion/disques.
+# installer.sh --commande ne réinstalle que la commande orion-deploiement d'orion-1 (deploiement.sh).
 # Idempotent : relancer le script ne recrée ni le cluster, ni les secrets, ni les certificats existants ; il amène un cluster
 # existant à la répartition prévue (managers, workers, étiquettes), et fait quitter le cluster à orion-10 et à toute VM
 # membre d'un autre cluster. Les autres piles éventuellement présentes ne sont pas modifiées.
@@ -17,6 +18,20 @@ PKI="${ORION_PKI:-$HOME/.orion-pki}"
 if command -v cygpath >/dev/null; then PKI=$(cygpath -m "$PKI"); fi
 
 if [ -z "${SUDO_PASSWORD:-}" ]; then read -rsp "Mot de passe sudo des VM : " SUDO_PASSWORD; echo; fi
+
+# Commande de déploiement d'orion-1 (deploiement.sh), appelée par deployer.sh ; propriété de root, hors de portée des clés SSH
+commande_deploiement() {
+  echo "== commande orion-deploiement sur orion-1"
+  { printf '%s\n' "$SUDO_PASSWORD"; tar -cf - deploiement.sh vm.sh; } | ssh_vm 1 "sudo -S -p '' bash -c '
+  set -e
+  d=\$(mktemp -d); tar -xf - -C \$d; sed -i \"s/\\r\$//\" \$d/*
+  install -m 755 \$d/deploiement.sh /usr/local/bin/orion-deploiement
+  install -D -m 644 \$d/vm.sh /usr/local/lib/orion/vm.sh
+  rm -rf \$d
+'"
+}
+# --commande : seulement la commande de déploiement, après une modification de deploiement.sh ou de vm.sh
+if [ "${1:-}" = --commande ]; then commande_deploiement; exit 0; fi
 
 # 1. Certificats, conservés hors du dépôt : autorité locale, entrée (HAProxy), jointe par l'adresse d'orion-1, collecteur
 #    de logs (Logstash), joint par chaque VM sur sa propre adresse locale (maillage de routage de Swarm), et certificat client
@@ -94,15 +109,7 @@ for n in 1 2 3 4 5 6 7 8 9 10; do
   '"
 done
 
-# Commande de déploiement d'orion-1 (deploiement.sh), appelée par deployer.sh ; propriété de root, hors de portée des clés SSH
-echo "== commande orion-deploiement sur orion-1"
-{ printf '%s\n' "$SUDO_PASSWORD"; tar -cf - deploiement.sh vm.sh; } | ssh_vm 1 "sudo -S -p '' bash -c '
-  set -e
-  d=\$(mktemp -d); tar -xf - -C \$d; sed -i \"s/\\r\$//\" \$d/*
-  install -m 755 \$d/deploiement.sh /usr/local/bin/orion-deploiement
-  install -D -m 644 \$d/vm.sh /usr/local/lib/orion/vm.sh
-  rm -rf \$d
-'"
+commande_deploiement
 
 # 3. Stockage (orion-10, hors Swarm) : un disque ext4 pour les données (/srv/orion/donnees) et un pour les logs
 #    (/srv/orion/logs). Un export NFSv4 par dossier de service, vers la VM du service et la VM de secours seulement ;

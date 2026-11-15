@@ -96,13 +96,27 @@ timeout 900 docker stack deploy --detach=false --prune -c pile.yaml orion \
   || timeout 900 docker stack deploy --detach=false --prune -c pile.yaml orion
 
 # Connecteur RIGEL, pile à part, au mieux : jamais d'attente ni d'échec du déploiement d'ORION à cause de lui (design for failure).
-# Sans relais, la pile est retirée. Jeton du relais : celui transmis au premier déploiement, sinon aléatoire, à lire dans le
-# conteneur et à reporter sur le relais (application/README.md).
+# Sans relais, la pile est retirée.
+# Jeton du relais : celui transmis à chaque déploiement (secret RELAIS_TOKEN du dépôt, que reçoit aussi le relais) fait foi.
+# Un secret Swarm ne se modifie pas : il est nommé par l'empreinte du jeton, si bien qu'un jeton changé crée un nouveau secret
+# et redéploie le connecteur. Sans jeton transmis (déploiement manuel) : celui du connecteur en service, sinon aléatoire, à
+# reporter sur le relais. Les secrets de jetons qui ne servent plus sont retirés.
+jeton_relais() { printf 'relais_token_%s' "$(printf '%s' "$1" | sha256sum | cut -c1-16)"; }
 rigel() {
   if [ -z "$RELAIS_URL" ]; then docker stack rm orion-rigel >/dev/null 2>&1 || true; return 0; fi
-  secret RELAIS_TOKEN "${RELAIS_TOKEN:-$(aleatoire)}"
-  ORION_PROXY=$(grep -siE '^https_proxy=' /etc/environment | head -n1 | cut -d= -f2- | tr -d '"' || true) \
+  local nom jeton
+  if [ -n "$RELAIS_TOKEN" ]; then nom=$(jeton_relais "$RELAIS_TOKEN"); secret "$nom" "$RELAIS_TOKEN"
+  else
+    nom=$(docker service inspect orion-rigel_connecteur --format '{{range .Spec.TaskTemplate.ContainerSpec.Secrets}}{{.SecretName}} {{end}}' 2>/dev/null \
+      | tr ' ' '\n' | grep -E '^(RELAIS_TOKEN|relais_token_[0-9a-f]+)$' | head -n1 || true)
+    if [ -z "$nom" ]; then jeton=$(aleatoire); nom=$(jeton_relais "$jeton"); secret "$nom" "$jeton"; fi
+  fi
+  RELAIS_TOKEN_SECRET=$nom ORION_PROXY=$(grep -siE '^https_proxy=' /etc/environment | head -n1 | cut -d= -f2- | tr -d '"' || true) \
     docker stack deploy --detach=true -c pile-rigel.yaml orion-rigel >/dev/null
+  # Retrait au mieux : un secret encore monté par l'ancienne tâche est refusé, puis retiré au déploiement suivant
+  for ancien in $(docker secret ls --format '{{.Name}}' | grep -E '^(RELAIS_TOKEN|relais_token_[0-9a-f]+)$' | grep -vx "$nom" || true); do
+    docker secret rm "$ancien" >/dev/null 2>&1 || true
+  done
 }
 rigel || echo "Connecteur RIGEL non déployé : ORION n'est pas concerné ; voir docker service ps orion-rigel_connecteur" >&2
 

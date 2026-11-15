@@ -4,7 +4,7 @@
 # Prérequis : installer.sh exécuté (cluster, stockage, secrets, certificats, commande orion-deploiement d'orion-1).
 # Envoie les fichiers de la pile à orion-1, où orion-deploiement (deploiement.sh) les déploie et contrôle la version servie.
 # Recensement mobile (fonctionnalité complémentaire) : RELAIS_URL, adresse HTTPS du relais (vide : connecteur non déployé) ;
-# RELAIS_TOKEN, jeton du relais, lu au premier déploiement seulement.
+# RELAIS_TOKEN, jeton du relais, transmis à chaque déploiement : il fait foi (vide : jeton du connecteur en service).
 set -euo pipefail
 cd "$(dirname "$0")"
 . ./vm.sh
