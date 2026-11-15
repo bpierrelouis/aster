@@ -72,3 +72,23 @@ test('connecteur : une erreur du relais interrompt le cycle sans rien acquitter'
     await assert.rejects(createConnecteur({ orion: orion.url, secret: 'mauvais', relais: relais.url, token: TOKEN }).cycle(), /401/);
   } finally { orion.server.close(); relais.server.close(); }
 });
+
+test('connecteur : une opération en erreur n’empêche pas d’intégrer les constats des autres', async () => {
+  const bloc = { iv: 'iv', data: 'data' };
+  const acquittees: string[] = [];
+  // ORION et relais simulés : deux opérations ouvertes, ORION refuse l'envoi de la première (rec-a)
+  const http = (async (url: string, init?: RequestInit) => {
+    const { pathname } = new URL(url);
+    const json = (status: number, body: unknown) => new Response(status === 204 ? null : JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
+    if (pathname === '/api/rigel/campagnes') return json(200, { campagnes: ['rec-a', 'rec-b'].map((id) => ({ id, version: 'v1', expireLe: Date.now() + 60_000, empreinte: '0'.repeat(64), instantane: bloc })) });
+    if (pathname === '/api/connecteur/campagnes') return json(200, { campagnes: ['rec-a', 'rec-b'].map((id) => ({ id, version: 'v1' })) });
+    const [, , , , id, action] = pathname.split('/');
+    if (pathname.startsWith('/api/connecteur/') && action === 'evenements') return json(200, { evenements: [{ rang: 1, id: `evenement-${id}`, bloc }] });
+    if (pathname.startsWith('/api/rigel/') && action === 'evenements') return id === 'rec-a' ? json(413, { error: 'Trop gros' }) : json(200, { resultats: [{ id: `evenement-${id}`, statut: 'applique' }] });
+    if (action === 'acquittement' && init?.method === 'POST') { acquittees.push(id); return json(204, null); }
+    return json(404, { error: 'inconnu' });
+  }) as typeof fetch;
+  const connecteur = createConnecteur({ orion: 'http://orion.test', secret: SECRET, relais: 'http://relais.test', token: TOKEN, fetch: http });
+  assert.equal(await connecteur.cycle(), 1);
+  assert.deepEqual(acquittees, ['rec-b'], 'seule l’opération intégrée est acquittée');
+});

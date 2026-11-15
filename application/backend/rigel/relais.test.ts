@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os';
 import type { AddressInfo } from 'node:net';
 import { createRelais } from './relais.ts';
 import { createMemoryStore, createPostgresStore } from './relais-store.ts';
-import { empreinte } from '#shared/rigel.ts';
+import { BLOC_EVENEMENT_MAX, empreinte } from '#shared/rigel.ts';
 import { readConfig } from '../config.ts';
 import type { RelaisStore } from './relais-store.ts';
 
@@ -38,10 +38,12 @@ async function scenario(store: RelaisStore) {
     // Téléphone : jeton de sa campagne seulement
     assert.equal((await fetch(`${url}/api/campagnes/rec-1/instantane`)).status, 401);
     assert.equal((await fetch(`${url}/api/campagnes/rec-1/instantane`, { headers: { Authorization: `Bearer ${TOKEN}` } })).status, 401, 'le secret du connecteur n’ouvre pas une campagne');
-    assert.equal((await fetch(`${url}/api/campagnes/rec-2/instantane`, { headers: telephone })).status, 404);
+    assert.equal((await fetch(`${url}/api/campagnes/rec-2/instantane`, { headers: telephone })).status, 401, 'opération inconnue : même refus qu’un jeton faux');
     assert.deepEqual(await (await fetch(`${url}/api/campagnes/rec-1/instantane`, { headers: telephone })).json(), { version: 'v1', instantane: bloc });
     const envoi = (evenements: unknown) => fetch(`${url}/api/campagnes/rec-1/evenements`, { method: 'POST', headers: telephone, body: JSON.stringify({ evenements }) });
     assert.equal((await envoi([{ id: 'court', bloc }])).status, 400);
+    assert.equal((await envoi([{ id: 'evenement-gros', bloc: { iv: bloc.iv, data: 'x'.repeat(BLOC_EVENEMENT_MAX + 1) } }])).status, 400, 'bloc d’événement trop gros');
+    assert.equal((await envoi([{ id: 'evenement-unicode', bloc: { iv: bloc.iv, data: '€'.repeat(100) } }])).status, 400, 'bloc hors base64url (plusieurs octets par caractère)');
     assert.deepEqual(await (await envoi([{ id: 'evenement-1', bloc }, { id: 'evenement-2', bloc }])).json(), { recus: ['evenement-1', 'evenement-2'] });
     assert.equal((await envoi([{ id: 'evenement-1', bloc }])).status, 200, 'renvoi après une coupure');
     assert.equal((await envoi([{ id: 'evenement-3', bloc }, { id: 'evenement-4', bloc }])).status, 429, 'plafond des événements en attente');
@@ -56,10 +58,10 @@ async function scenario(store: RelaisStore) {
 
     // Suppression et expiration
     assert.equal((await fetch(`${url}/api/connecteur/campagnes/rec-1`, { method: 'DELETE', headers: connecteur })).status, 204);
-    assert.equal((await fetch(`${url}/api/campagnes/rec-1/instantane`, { headers: telephone })).status, 404);
+    assert.equal((await fetch(`${url}/api/campagnes/rec-1/instantane`, { headers: telephone })).status, 401);
     assert.deepEqual((await store.evenements('rec-1', 10)), []);
     await fetch(`${url}/api/connecteur/campagnes/rec-3`, { method: 'PUT', headers: connecteur, body: JSON.stringify({ ...depot, expireLe: Date.now() - 1 }) });
-    assert.equal((await fetch(`${url}/api/campagnes/rec-3/instantane`, { headers: telephone })).status, 404, 'campagne expirée');
+    assert.equal((await fetch(`${url}/api/campagnes/rec-3/instantane`, { headers: telephone })).status, 401, 'campagne expirée');
     await store.purger();
     assert.deepEqual(await store.campagnes(), []);
   } finally { server.close(); }

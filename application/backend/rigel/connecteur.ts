@@ -57,14 +57,18 @@ export function createConnecteur({ orion, secret, relais, token, fetch: http = f
       publiees.set(c.id, c.version);
     }
     let integres = 0;
+    // Chaque opération à part : une opération en erreur n'empêche pas d'intégrer les constats des autres
     for (const c of campagnes) {
       const chemin = `/campagnes/${encodeURIComponent(c.id)}`;
-      const { evenements } = await versRelais<{ evenements: { rang: number; id: string; bloc: Bloc }[] }>(`${chemin}/evenements?limite=500`);
-      if (!evenements.length) continue;
-      const { resultats } = await versOrion<{ resultats: ResultatRigel[] }>(`${chemin}/evenements`, { method: 'POST', body: { evenements: evenements.map(({ id, bloc }) => ({ id, bloc })) } });
-      for (const r of resultats.filter((x) => x.statut === 'refuse')) journal.warn('rigel_constat_refuse', { evenement: r.id, motif: r.message });
-      await versRelais(`${chemin}/acquittement`, { method: 'POST', body: { jusqua: Math.max(...evenements.map((e) => e.rang)) } });
-      integres += evenements.length;
+      try {
+        // 200 événements de BLOC_EVENEMENT_MAX au plus : l'envoi reste sous la taille de requête admise par ORION
+        const { evenements } = await versRelais<{ evenements: { rang: number; id: string; bloc: Bloc }[] }>(`${chemin}/evenements?limite=200`);
+        if (!evenements.length) continue;
+        const { resultats } = await versOrion<{ resultats: ResultatRigel[] }>(`${chemin}/evenements`, { method: 'POST', body: { evenements: evenements.map(({ id, bloc }) => ({ id, bloc })) } });
+        for (const r of resultats.filter((x) => x.statut === 'refuse')) journal.warn('rigel_constat_refuse', { evenement: r.id, motif: r.message });
+        await versRelais(`${chemin}/acquittement`, { method: 'POST', body: { jusqua: Math.max(...evenements.map((e) => e.rang)) } });
+        integres += evenements.length;
+      } catch (error) { journal.error('connecteur', { campagne: c.id, erreur: raison(error) }); }
     }
     return integres;
   }

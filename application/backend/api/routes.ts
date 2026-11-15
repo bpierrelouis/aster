@@ -6,6 +6,7 @@
 import express from 'express';
 import { createHmac } from 'node:crypto';
 import { egalConstant } from '../securite.ts';
+import { blocEvenementValide } from '#shared/rigel.ts';
 import { assert } from '../domaine/commun.ts';
 import { journal, raison } from '../journal.ts';
 import { refuser } from './refus.ts';
@@ -148,7 +149,7 @@ export function createRigelRouter({ repository, secret }: { repository: Engine; 
   router.post('/campagnes/:id/evenements', async (req, res, next) => {
     try {
       const evenements = req.body?.evenements;
-      assert(Array.isArray(evenements) && evenements.length <= 1000 && evenements.every((x) => x && typeof x.id === 'string' && x.bloc), 'Événements invalides.');
+      assert(Array.isArray(evenements) && evenements.length <= 1000 && evenements.every((x) => x && typeof x.id === 'string' && blocEvenementValide(x.bloc)), 'Événements invalides.');
       const resultats = await repository.rigel.evenements(secret, req.params.id, evenements);
       const statuts: Record<string, number> = {};
       for (const r of resultats) statuts[r.statut] = (statuts[r.statut] ?? 0) + 1;

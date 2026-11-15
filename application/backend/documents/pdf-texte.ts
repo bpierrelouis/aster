@@ -30,10 +30,21 @@ export const textWidth = (s: string, size: number, bold = false, spacing = 0) =>
 
 /** Texte réduit à une largeur, terminé par « … » s'il dépasse. */
 export function fit(s: string, width: number, size: number, bold?: boolean) {
-  let t = String(s ?? '');
+  const t = String(s ?? '');
   if (textWidth(t, size, bold) <= width) return t;
-  while (t && textWidth(`${t}…`, size, bold) > width) t = t.slice(0, -1);
-  return `${t.trimEnd()}…`;
+  return `${t.slice(0, coupure(t, width - textWidth('…', size, bold), size, bold)).trimEnd()}…`;
+}
+
+/** Nombre de caractères de s tenant dans width, mesuré en un seul passage (coût linéaire, même pour un très long mot) */
+function coupure(s: string, width: number, size: number, bold = false) {
+  const caracteres = [...s];
+  let w = 0, n = 0;
+  for (const ch of caracteres) {
+    w += (charWidth(codeOf(ch), bold) * size) / 1000;
+    if (w > width) break;
+    n += ch.length;
+  }
+  return n;
 }
 
 /** Découpe en lignes d'une largeur donnée (paragraphes conservés, mots trop longs coupés). */
@@ -44,8 +55,7 @@ export function wrap(s: string, width: number, size: number) {
     for (const word of para.split(/\s+/).filter(Boolean)) {
       let w = word;
       while (textWidth(w, size) > width) {
-        let cut = w.length;
-        while (cut > 1 && textWidth(w.slice(0, cut), size) > width) cut--;
+        const cut = Math.max(coupure(w, width, size), [...w][0].length); // au moins un caractère par ligne
         if (line) { lines.push(line); line = ''; }
         lines.push(w.slice(0, cut));
         w = w.slice(cut);

@@ -15,7 +15,7 @@ import helmet from 'helmet';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { empreinte } from '#shared/rigel.ts';
+import { blocEvenementValide, empreinte } from '#shared/rigel.ts';
 import type { NextFunction, Request, Response } from 'express';
 import type { Bloc } from '#shared/rigel.ts';
 import type { RelaisStore } from './relais-store.ts';
@@ -31,6 +31,7 @@ export const MAX_EN_ATTENTE = 5000;
 const ID = /^[\w-]{8,100}$/;
 const CAMPAGNE = /^[\w-]{1,80}$/;
 const jetonDe = (req: Request) => String(req.get('Authorization') ?? '').replace(/^Bearer /, '');
+/** Instantané chiffré d'une opération (déposé par le connecteur) */
 const estBloc = (b: unknown): b is Bloc => !!b && typeof (b as Bloc).iv === 'string' && typeof (b as Bloc).data === 'string' && (b as Bloc).iv.length < 64 && (b as Bloc).data.length < 12_000_000;
 type Erreur = Error & { status?: number; type?: string };
 const refus = (status: number, message: string): never => { throw Object.assign(new Error(message), { status }); };
@@ -63,8 +64,9 @@ export function createRelais({ store, token, dist = DIST_RIGEL, production = fal
     try {
       const id = String(req.params.id);
       const c = CAMPAGNE.test(id) ? await store.campagne(id) : null;
-      if (!c || c.expireLe <= Date.now()) refus(404, 'Opération inconnue ou close.');
-      if (!egalConstant(await empreinte(jetonDe(req)), c!.empreinte)) refus(401, 'Accès à l’opération refusé.');
+      // Même réponse pour une opération inconnue, close ou un jeton faux : l'existence d'une opération n'est pas révélée
+      const jeton = await empreinte(jetonDe(req));
+      if (!c || c.expireLe <= Date.now() || !egalConstant(jeton, c.empreinte)) refus(401, 'Opération inconnue, close ou accès refusé.');
       res.locals.campagne = c;
       next();
     } catch (e) { next(e); }
@@ -73,7 +75,7 @@ export function createRelais({ store, token, dist = DIST_RIGEL, production = fal
   telephone.post('/evenements', express.json({ limit: '1mb' }), async (req, res, next) => {
     try {
       const evenements: unknown = req.body?.evenements;
-      if (!Array.isArray(evenements) || evenements.length > 200 || !evenements.every((e) => e && ID.test(e.id) && estBloc(e.bloc))) refus(400, 'Événements invalides.');
+      if (!Array.isArray(evenements) || evenements.length > 200 || !evenements.every((e) => e && ID.test(e.id) && blocEvenementValide(e.bloc))) refus(400, 'Événements invalides.');
       const liste = (evenements as { id: string; bloc: Bloc }[]).map(({ id, bloc }) => ({ id, bloc: { iv: bloc.iv, data: bloc.data } }));
       // Le téléphone garde ses événements refusés et les renvoie une fois les précédents relevés par ORION
       if (await store.enAttente(res.locals.campagne.id) + liste.length > maxEnAttente) refus(429, 'Trop d’événements en attente d’ORION : réessayez plus tard.');

@@ -296,6 +296,16 @@ function cleAes(cle: string) {
   return cles.get(cle)!;
 }
 
+/** Taille maximale (caractères de data) d'un bloc d'événement : un constat chiffré fait quelques Ko */
+export const BLOC_EVENEMENT_MAX = 16_384;
+const BASE64URL = /^[A-Za-z0-9_-]*$/;
+/** Bloc d'événement d'un téléphone : base64url (un octet par caractère) et BLOC_EVENEMENT_MAX au plus, si bien qu'un envoi
+ *  relevé par le connecteur reste sous la taille de requête admise par ORION et ne bloque pas la relève (relais, /api/rigel) */
+export const blocEvenementValide = (b: unknown): b is Bloc => {
+  const { iv, data } = (b ?? {}) as Partial<Bloc>;
+  return typeof iv === 'string' && typeof data === 'string' && iv.length < 64 && data.length <= BLOC_EVENEMENT_MAX && BASE64URL.test(iv) && BASE64URL.test(data);
+};
+
 /** Chiffre une valeur JSON ; campagne : identifiant authentifié avec le bloc */
 export async function chiffrer(cle: string, campagne: string, valeur: unknown): Promise<Bloc> {
   const iv = crypto.getRandomValues(new Uint8Array(12));

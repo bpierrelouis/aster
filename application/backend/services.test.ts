@@ -77,3 +77,9 @@ test('INITIAL_SUPERADMIN_EMAIL : adresse normalisée, adresse invalide refusée'
   assert.equal(readConfig({}).initialSuperadmin, null);
   assert.throws(() => readConfig({ INITIAL_SUPERADMIN_EMAIL: 'chef' }), /INITIAL_SUPERADMIN_EMAIL/);
 });
+
+test('production : mot de passe PostgreSQL de développement refusé', () => {
+  const env = { NODE_ENV: 'production', APP_URL: 'https://orion.test', OIDC_ISSUER: 'https://id.test/realms/orion', OIDC_CLIENT_ID: 'orion-web', OIDC_CLIENT_SECRET: 'x'.repeat(32), SESSION_SECRET: 'x'.repeat(32), AGENT_TOKEN: 'y'.repeat(32), IDENTITY_PROVISIONING: 'false' };
+  assert.throws(() => readConfig({ ...env, DATABASE_URL: 'postgres://orion:orion-local@db:5432/orion' }), /PostgreSQL/);
+  assert.equal(readConfig({ ...env, DATABASE_URL: 'postgres://orion:dedie@db:5432/orion' }).production, true);
+});

@@ -10,6 +10,7 @@ export function readConfig(env = process.env) {
   }
   const appUrl = new URL(env.APP_URL || 'http://localhost:5173');
   const issuer = new URL(env.OIDC_ISSUER || 'http://localhost:8081/realms/orion');
+  if (production && /orion-local@/.test(env.DATABASE_URL!)) throw new Error('La production exige un mot de passe PostgreSQL dédié (DATABASE_URL).');
   if (production && (env.AGENT_TOKEN === 'orion-agent-local' || env.AGENT_TOKEN!.length < 32)) throw new Error('La production exige un jeton dédié pour les postes (32 caractères minimum).');
   if (production && (appUrl.protocol !== 'https:' || issuer.protocol !== 'https:' || env.OIDC_CLIENT_SECRET === 'orion-client-local' || env.SESSION_SECRET!.length < 32)) {
     throw new Error('La production exige HTTPS, un fournisseur hors démonstrateur et des secrets dédiés.');
