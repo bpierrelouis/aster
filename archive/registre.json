@@ -2928,6 +2928,13 @@
         "version": "5.16",
         "date": "2026-11-15",
         "modification": "Durcissement reporté au DAT",
+        "archive": null,
+        "commit": "75615df"
+      },
+      {
+        "version": "5.17",
+        "date": "2026-11-15",
+        "modification": "Recette sur les VM consignée ; jeton du relais à fiabiliser",
         "archive": null
       }
     ]
