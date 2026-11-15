@@ -2526,6 +2526,13 @@
         "version": "3.5",
         "date": "2026-11-15",
         "modification": "Référence le tracé des flux et la cible NFS et RIGEL",
+        "archive": null,
+        "commit": "122f91b"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-15",
+        "modification": "Inclut RIGEL dans la clôture et actualise le suivi après audit",
         "archive": null
       }
     ]

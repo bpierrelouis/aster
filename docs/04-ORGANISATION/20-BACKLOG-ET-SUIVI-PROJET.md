@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.5 | 15/11/2026 | Production destinée à la remise | Référence le tracé des flux et la cible NFS et RIGEL | [9 versions](../../archive/README.md#20-backlog-et-suivi-projet) |
+| 4.0 | 15/11/2026 | Production destinée à la remise | Inclut RIGEL dans la clôture et actualise le suivi après audit | [10 versions](../../archive/README.md#20-backlog-et-suivi-projet) |
 <!-- version:fin -->
 
 **Période : du 20 octobre au 19 novembre 2026.**
@@ -16,7 +16,7 @@ Ce livrable présente l’organisation Agile de l’équipe, le backlog et le di
 
 Le backlog organise le projet en vingt tâches : compréhension du besoin, conception, réalisation des parcours, vérification et préparation de la remise. Chaque tâche possède un responsable, un appui, un résultat attendu et une échéance. Le responsable coordonne la tâche ; l’appui contribue à la relecture et à la continuité du travail.
 
-Le périmètre couvre la gestion du parc, les salles et affectations, la supervision, les interventions, les remontées et leurs états des lieux, les profils, l’architecture et les productions de conception. Les fonctionnalités encore ouvertes dans le cadrage ne sont pas considérées comme acquises : les propositions de scan QR et de suivi des commandes restent en dehors du périmètre de clôture présenté ici.
+Le périmètre couvre la gestion du parc, les salles et affectations, la supervision, les interventions, les remontées et leurs états des lieux, les profils, l’architecture et les productions de conception. Le recensement mobile et la confirmation des installations avec RIGEL font partie des parcours suivis pour la clôture, selon RG-92 à RG-96. Le suivi des commandes reste hors du périmètre de clôture présenté ici. Les questions encore ouvertes dans le cadrage restent distinguées des décisions en vigueur.
 
 La connexion cible repose sur MindefConnect. Les choix d’outillage local, les comptes de test et les consignes de lancement ne font pas partie de ce livrable.
 
@@ -153,7 +153,7 @@ Ces pratiques complètent les événements Scrum ; elles ne constituent pas des 
 
 ### 4.6. Suivi dans le projet GitHub
 
-Le backlog est tenu dans le projet GitHub [« ORION development »](https://github.com/users/bpierrelouis/projects/2) : une épopée par type de travail (pilotage, capture des besoins, analyse, conception, architecture, design et IHM, réalisation par domaine, recette, présentation et remise, feuille de route) et ses tâches, chacune avec ses responsables, son statut, sa priorité (P0 à P2), son sprint et ses dates de début et de fin. Chaque ticket cite la tâche BL ou le point du backlog technique qu’il réalise, ainsi que les commits correspondants. Les graphiques suivants sont produits depuis ce projet.
+Le backlog est tenu dans le projet GitHub [« ORION development »](https://github.com/users/bpierrelouis/projects/2) : une épopée par type de travail (pilotage, capture des besoins, analyse, conception, architecture, design et IHM, réalisation par domaine, recette, présentation et remise, feuille de route) et ses tâches, chacune avec ses responsables, son statut, sa priorité (P0 à P2), son sprint et ses dates de début et de fin. Chaque ticket cite la tâche BL ou le point du backlog technique qu’il réalise, ainsi que les commits correspondants. Les graphiques suivants sont produits depuis ce projet. Situation révisée le 15 novembre après contrôle : six tickets de revue terminés, neuf remis en cours et cinq anomalies ajoutées au sprint 2. La recette connectée reste partiellement en échec ; le gel dépend de la résolution du blocage d’écriture observé. Les tâches inachevées restent visibles dans le tableau.
 
 ![Burndown des sprints 1 et 2](assets/BURNDOWN.svg)
 
