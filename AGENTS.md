@@ -81,7 +81,7 @@ Ces instructions s'appliquent à tout le dépôt.
 - Ne pas présenter l’architecture comme des microservices : ORION a un back unique, les briques d’infrastructure sont séparées.
 - RIGEL ne crée aucune entrée depuis Internet vers les VM ORION. Le téléphone joint en HTTPS un relais public ; un connecteur sans port publié, dans une pile Swarm `orion-rigel` indépendante sur orion-4 ou orion-5, relève les blocs chiffrés par le proxy `172.16.0.1:8080`, puis joint Express sur le réseau overlay en HTTP `3001`. Sa panne ou son déploiement ne bloque jamais la pile principale.
 - Dans l’architecture réelle, le relais RIGEL et son PostgreSQL sont hébergés sur Hidora ; les données du relais sont chiffrées et le téléphone conserve son travail hors ligne dans IndexedDB. PostgreSQL ORION reste l’autorité sur les campagnes et les constats. Ne pas prétendre que le connecteur est incapable de déchiffrer : il reçoit `RIGEL_SECRET`.
-- Dans l’architecture cible, ne pas reconduire Hidora par défaut : représenter un relais public et un stockage durable autorisés, à qualifier, ainsi qu’un flux sortant du connecteur. Qualifier l’hébergement public, le proxy, les certificats, la base, la sauvegarde, la rétention, la supervision, la disponibilité et la classification des données.
+- Dans l’architecture cible (orientation de l’utilisateur du 15 novembre), ni relais ni connecteur : un second Apache sur la VM d’entrée sert la PWA RIGEL, derrière le même HAProxy et le même back Express ; un nom public résolu sur Internet mène à ce front, et le téléphone joint ce même reverse proxy.
 
 ### Schémas d’architecture
 

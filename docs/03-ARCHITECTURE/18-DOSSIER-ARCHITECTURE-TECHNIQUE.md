@@ -42,7 +42,7 @@ Les contraintes structurantes sont les suivantes :
 | Sessions | `express-session` et `connect-pg-simple` dans PostgreSQL ORION | Session en mémoire du processus | Le navigateur ne reçoit qu’un cookie HttpOnly et plusieurs instances d’Express partagent les mêmes sessions. Un redémarrage d’instance ne déconnecte pas les utilisateurs. |
 | Données structurées | PostgreSQL | Stockage propre à chaque instance | Les transactions et contraintes portent les données métier et les sessions. Une base partagée permet aux deux instances d’Express de rester sans état faisant autorité. |
 | Administration des postes Windows | Configuration Manager existant ou agent Windows M42 développé par ASTER, à arbitrer | — | Dans les deux options, le poste reste l’origine des processus, installations et résultats ; Express autorise les demandes et en suit l’exécution par l’API des postes. L’architecture réelle simule ce circuit complet. |
-| Recensement mobile | PWA hors ligne, relais public et connecteur sortant | Exposition de l’API ORION sur Internet | Le téléphone peut travailler sans réseau et ne crée aucune entrée vers les VM. Le relais conserve seulement les échanges chiffrés ; le connecteur les relève depuis le réseau d’ORION et PostgreSQL ORION reste l’autorité. |
+| Recensement mobile | PWA hors ligne servie par un second Apache, derrière la même entrée HAProxy et le même back | Relais public et connecteur sortant | Le téléphone travaille sans réseau et se synchronise dès qu’il joint le nom public de RIGEL. Une seule entrée et un seul back évitent un hébergement public séparé, une seconde base et un connecteur ; PostgreSQL ORION reste l’unique autorité. L’architecture réelle n’ouvre aucune entrée depuis Internet : elle passe par un relais public et un connecteur sortant. |
 | Collecte des journaux | Logstash et fichiers centralisés | Journaux conservés uniquement sur chaque VM | La centralisation conserve un point de consultation commun et produit des fichiers lisibles directement sur la VM de stockage. Le mode non bloquant évite qu’une panne du collecteur arrête les services. |
 
 L’architecture réelle se cale au maximum sur les produits autorisés pour le C1NP par le CCT 2026-2027 (version 3.7). Les exceptions propres au démonstrateur sont identifiées au § 4.5 et ne sont pas reportées dans la cible.
@@ -366,7 +366,7 @@ Les versions du déploiement sont des références à qualifier sur les VM ; cha
 | Keycloak | 26.7.4, image officielle | Exception : substitut de MindefConnect | orion-7 (secours orion-9) |
 | OpenLDAP | 1.5.0, image `osixia/openldap` | Exception : substitut de MindefConnect | orion-7 (secours orion-9) ; données sur orion-10 |
 | Runner GitHub Actions | 2.338.2, archive officielle | Hors CCT : architecture réelle seulement, exclu de la cible | Hôte d’orion-3, service systemd ; déploiement continu |
-| Serveur et client NFS (NFSv4.2) | paquets Debian 13 `nfs-kernel-server` et `nfs-common` | Non vérifié : composant de Debian 13 | Serveur sur l’hôte d’orion-10 ; client sur orion-6 à orion-9 |
+| Serveur et client NFS (NFSv4.2) | paquets Debian 13 `nfs-kernel-server` et `nfs-common` | Autorisé (NFSv4) | Serveur sur l’hôte d’orion-10 ; client sur orion-6 à orion-9 |
 
 ## 6. Architecture cible
 
@@ -376,23 +376,23 @@ Le ministère des Armées héberge ORION sur le C1NP. Le premier palier d’essa
 
 | VM | Services | vCPU | RAM | Stockage initial d’essai |
 | --- | --- | ---: | ---: | --- |
-| VM 1 . Entrée | HAProxy 3.2.16 et Apache HTTP Server 2.4.69. Apache sert les fichiers React 19.3.1 sur la boucle locale. | 2 | 8 Go | 50 Go système |
-| VM 2 . Application | Node.js 22.22.3, Express 5.3.0, connecteur RIGEL et composant d’administration des postes Windows à préciser. | 8 | 32 Go | 50 Go système |
+| VM 1 . Entrée | HAProxy 3.2.16 et deux Apache HTTP Server 2.4.69 sur la boucle locale : l’un sert les fichiers React 19.3.1 d’ORION, l’autre la PWA RIGEL. | 2 | 8 Go | 50 Go système |
+| VM 2 . Application | Node.js 22.22.3, Express 5.3.0 et composant d’administration des postes Windows à préciser. | 8 | 32 Go | 50 Go système |
 | VM 3 . Base et collecte | PostgreSQL 17.7 et Logstash 8.19.14. | 4 | 16 Go | 50 Go système, dont une file de collecte locale bornée, et 100 Go SSD pour PostgreSQL |
-| VM 4 . Stockage | Service de fichiers autorisé par l’offre C1NP, à qualifier. Aucun processus ORION, PostgreSQL ou Logstash. | 2 | 8 Go | 50 Go système et 100 Go pour les fichiers de logs |
+| VM 4 . Stockage | Serveur NFS (NFSv4.2), comme dans l’architecture réelle. Aucun processus ORION, PostgreSQL ou Logstash. | 2 | 8 Go | 50 Go système et 100 Go pour les fichiers de logs |
 | **Total** | **4 VM** | **16** | **64 Go** | **400 Go** |
 
-VM 1 assure l’entrée HTTPS, VM 2 exécute Express et VM 3 regroupe Logstash et PostgreSQL. VM 4 porte les fichiers de logs centralisés ; « sans processus » signifie sans processus applicatif, moteur de base ni collecteur. Le système et le service de fichiers restent nécessaires. La file de collecte reste sur le disque local de VM 3. Borner la consommation CPU, mémoire et disque de Logstash pour préserver PostgreSQL, notamment lors de la reprise après une coupure.
+VM 1 assure l’entrée HTTPS, VM 2 exécute Express et VM 3 regroupe Logstash et PostgreSQL. VM 4 porte les fichiers de logs centralisés ; « sans processus » signifie sans processus applicatif, moteur de base ni collecteur. Le système et le serveur NFS restent nécessaires. La file de collecte reste sur le disque local de VM 3. Borner la consommation CPU, mémoire et disque de Logstash pour préserver PostgreSQL, notamment lors de la reprise après une coupure.
 
-Le contrat du service de fichiers doit préciser le produit autorisé, le protocole, le port, les droits, les quotas, la supervision et le comportement en cas de coupure. Le réseau privé C1NP limite son accès à VM 3. Un réseau de stockage séparé n’est utile que si une exigence d’isolement ou les mesures de débit et de latence le justifient.
+Le partage NFSv4.2 (TCP 2049) n’est accessible qu’à VM 3, par le réseau privé C1NP. Les droits, les quotas, la supervision et le comportement en cas de coupure restent à fixer avec l’offre C1NP. Un réseau de stockage séparé n’est utile que si une exigence d’isolement ou les mesures de débit et de latence le justifient.
 
-PostgreSQL utilise d’abord le SSD local de VM 3. Ses données, journaux de transactions compris, ne passent sur VM 4 que si l’offre C1NP autorise ce stockage distant et si les essais confirment la durabilité des écritures et la latence sous charge. Une seule instance doit alors monter le volume en écriture et son démarrage doit échouer si le stockage est absent. Tester la coupure de VM 4, la reprise et la concurrence des écritures de logs et de base avant ce déplacement.
+PostgreSQL utilise d’abord le SSD local de VM 3. Ses données, journaux de transactions compris, ne passent sur VM 4 que si les essais confirment la durabilité des écritures et la latence sous charge. Une seule instance doit alors monter le volume en écriture et son démarrage doit échouer si le stockage est absent. Tester la coupure de VM 4, la reprise et la concurrence des écritures de logs et de base avant ce déplacement.
 
 La perte de VM 4 suspend l’archivage des logs ; elle ne bloque PostgreSQL que si le stockage distant a été qualifié et retenu. La perte de VM 1 interrompt l’entrée HTTPS, celle de VM 2 l’API, et celle de VM 3 PostgreSQL et la collecte centralisée. Prévoir une sauvegarde de la base sur un stockage indépendant des quatre VM. La capacité de sauvegarde, les délais et pertes de données acceptables et les procédures de restauration restent à qualifier.
 
-MindefConnect authentifie les utilisateurs. ORION applique les droits selon le compte, le profil et l’école dans PostgreSQL. Le back génère les PDF à la demande, après contrôle des droits, et les renvoie via HAProxy. Aucun document généré n’est conservé. La VM 2 accueille le composant d’administration Windows côté ORION et le connecteur RIGEL. Son rôle Windows et ses flux dépendent de l’option retenue (§ 6.5) : pilotage de M42 ou connecteur vers Configuration Manager. Un serveur de site Configuration Manager dédié conserve ses propres prérequis.
+MindefConnect authentifie les utilisateurs. ORION applique les droits selon le compte, le profil et l’école dans PostgreSQL. Le back génère les PDF à la demande, après contrôle des droits, et les renvoie via HAProxy. Aucun document généré n’est conservé. La VM 2 accueille le composant d’administration Windows côté ORION. Son rôle Windows et ses flux dépendent de l’option retenue (§ 6.5) : pilotage de M42 ou connecteur vers Configuration Manager. Un serveur de site Configuration Manager dédié conserve ses propres prérequis.
 
-Le module externe RIGEL exige un point d’accès public sans exposer le réseau privé C1NP. La cible conserve donc le principe d’un relais public et d’un stockage durable autorisés, joints uniquement par un flux HTTPS sortant du connecteur. Le connecteur et le relais restent conditionnés sous forme d’images de conteneur versionnées ; leur environnement d’exécution autorisé sur le C1NP et chez l’hébergeur public reste à qualifier. Hidora décrit l’architecture réelle, pas un choix pour la cible. Avant déploiement, qualifier l’hébergement public, le passage par le proxy C1NP, les certificats, la base, les sauvegardes, la rétention, la supervision, la disponibilité et la classification des données chiffrées.
+RIGEL utilise la même entrée et le même back qu’ORION. Un nom public, résolu sur Internet vers l’adresse de HAProxy, mène au front RIGEL : le second Apache de VM 1 sert la PWA et HAProxy transmet ses appels d’API (`/api/rigel`) à Express. Sous ce nom, HAProxy n’expose que les fichiers de RIGEL et ces routes. Le téléphone conserve son travail hors ligne et le synchronise dès qu’il joint ce nom ; PostgreSQL ORION reste l’autorité. La cible n’a ni relais public ni connecteur ; Hidora décrit l’architecture réelle.
 
 ### 6.2. Flux et exploitation
 
@@ -400,19 +400,18 @@ Le module externe RIGEL exige un point d’accès public sans exposer le réseau
 | --- | --- | --- |
 | 1. Firefox → HAProxy (VM 1) | HTTPS, TCP 443 | Interface, API et parcours de connexion. |
 | 2. HAProxy → Apache (VM 1) | HTTP, TCP 8080, boucle locale | Fichiers de l’interface. |
-| 3. HAProxy (VM 1) → Express (VM 2) | HTTPS, TCP 3001 | API et routes `/auth`. Prévoir la terminaison TLS côté VM 2 : Express écoute actuellement en HTTP. |
+| 3. HAProxy (VM 1) → Express (VM 2) | HTTPS, TCP 3001 | API, routes `/auth` et API de RIGEL (`/api/rigel`). Prévoir la terminaison TLS côté VM 2 : Express écoute actuellement en HTTP. |
 | 4. Express (VM 2) → PostgreSQL (VM 3) | PostgreSQL sur TLS, TCP 5432, réseau privé | Données et sessions. |
 | 5. Firefox → MindefConnect | HTTPS, TCP 443 | Authentification et retour du navigateur vers ORION. |
 | 6. Express (VM 2) → MindefConnect | HTTPS, TCP 443 | Découverte, clés et échanges OIDC, selon le contrat d’intégration. |
 | 7. Émetteurs VM 1 et VM 2 → Logstash (VM 3) | Syslog RFC 5424 sur TLS, TCP 6514 | Logs techniques de l’entrée et du back. Les logs PostgreSQL sont collectés localement sur VM 3. |
-| 8. Logstash (VM 3) → stockage (VM 4) | Protocole et port de l’offre C1NP, réseau privé | Écriture des fichiers de logs sur le volume dédié. |
-| 9. PostgreSQL (VM 3) → stockage (VM 4), si retenu | Protocole et port de l’offre C1NP, réseau privé | Accès au volume de base après qualification du stockage distant. |
+| 8. Logstash (VM 3) → stockage (VM 4) | NFSv4.2, TCP 2049, réseau privé | Écriture des fichiers de logs sur le volume dédié. |
+| 9. PostgreSQL (VM 3) → stockage (VM 4), si retenu | NFSv4.2, TCP 2049, réseau privé | Accès au volume de base après qualification du stockage distant. |
 | 10A. Express → service d’administration de Configuration Manager | HTTPS et contrat d’API à obtenir | Option Configuration Manager : demandes autorisées, état et résultat des interventions. |
 | 11A. Clients Windows ↔ infrastructure Configuration Manager | Protocoles Microsoft à qualifier | Option Configuration Manager : inventaire, logiciels, images et opérations disponibles. |
 | 10B. M42 → HAProxy puis Express | HTTPS, TCP 443 | Option M42 : rapport authentifié, résultats et récupération des interventions dans la réponse. |
-| 12. Téléphone → relais public RIGEL | HTTPS, TCP 443 | Chargement de la PWA RIGEL et synchronisation de blocs chiffrés ; aucune connexion au réseau privé C1NP. |
-| 13. Connecteur RIGEL (VM 2) → relais public RIGEL | HTTPS, TCP 443, par le proxy C1NP | Publication des recensements et installations en cours, relève et acquittement des événements ; flux sortant uniquement. |
-| 14. Connecteur RIGEL → Express (VM 2) | HTTPS ou canal local protégé, port à fixer | Intégration des événements dans PostgreSQL ORION, qui reste l’autorité. |
+| 12. Téléphone → HAProxy (VM 1), par le nom public de RIGEL | HTTPS, TCP 443, depuis Internet | Chargement de la PWA RIGEL et synchronisation des recensements et installations. |
+| 13. HAProxy → Apache RIGEL (VM 1) | HTTP, TCP 8081, boucle locale | Fichiers de la PWA RIGEL. |
 | Administration → VM 1 à 4 | SSH, TCP 22 | Depuis le réseau d’administration autorisé. |
 | VM 1 à 4 → services de plateforme | DNS TCP/UDP 53 et NTP UDP 123, à qualifier | Résolution des noms et synchronisation de l’heure. |
 | VM 3 → stockage de sauvegarde | Contrat et port à obtenir | Sauvegarde et restauration de PostgreSQL. |
@@ -444,7 +443,7 @@ Avant mise en production, éprouver la charge mixte avec des jeux de données r�
 
 ### 6.4. Extension à 5 000 postes
 
-Pour préparer le palier de **5 000 postes**, le gabarit d’essai passe à **cinq VM ORION**. VM 1 porte l’entrée (4 vCPU, 16 Go). Deux VM back (8 vCPU, 32 Go chacune) servent les appels répartis par HAProxy. Une VM exécute PostgreSQL et Logstash (20 vCPU, 80 Go). Les deux back joignent PostgreSQL sur le réseau privé, en TLS sur TCP 5432, et envoient leurs logs au collecteur. La VM de stockage (2 vCPU, 8 Go) porte 400 Go pour les fichiers de logs. PostgreSQL utilise un SSD de 500 Go attaché à sa VM ; son déplacement vers le service de fichiers reste soumis aux mêmes essais qu’au premier palier. Chaque VM reçoit 50 Go de disque système. La file du collecteur reste locale sur la VM qui exécute PostgreSQL. Total : **42 vCPU, 168 Go de RAM et 1 150 Go de disques actifs**. VM 2 devient le premier back et une cinquième VM accueille le second. Les essais détermineront si ce gabarit suffit après adaptation du traitement de la supervision.
+Pour préparer le palier de **5 000 postes**, le gabarit d’essai passe à **cinq VM ORION**. VM 1 porte l’entrée (4 vCPU, 16 Go). Deux VM back (8 vCPU, 32 Go chacune) servent les appels répartis par HAProxy. Une VM exécute PostgreSQL et Logstash (20 vCPU, 80 Go). Les deux back joignent PostgreSQL sur le réseau privé, en TLS sur TCP 5432, et envoient leurs logs au collecteur. La VM de stockage (2 vCPU, 8 Go) porte 400 Go pour les fichiers de logs. PostgreSQL utilise un SSD de 500 Go attaché à sa VM ; son déplacement vers le stockage NFS reste soumis aux mêmes essais qu’au premier palier. Chaque VM reçoit 50 Go de disque système. La file du collecteur reste locale sur la VM qui exécute PostgreSQL. Total : **42 vCPU, 168 Go de RAM et 1 150 Go de disques actifs**. VM 2 devient le premier back et une cinquième VM accueille le second. Les essais détermineront si ce gabarit suffit après adaptation du traitement de la supervision.
 
 ### 6.5. Deux solutions pour administrer les postes Windows
 
@@ -490,13 +489,13 @@ Les jours-personnes mesurent la charge de l’équipe. Ils excluent les délais 
 | Dix VM Debian et pile Docker Swarm | Quatre VM C1NP pour le premier palier | Qualifier le système, les services de l’hôte et les modalités de déploiement du C1NP |
 | Keycloak et annuaire OpenLDAP locaux | MindefConnect | Obtenir le contrat, configurer les environnements et qualifier les attributs et parcours |
 | Simulateur des postes et de M42 | Configuration Manager ou M42 | Vérifier l’existant, qualifier la réimagerie et tester les interventions et la supervision (§ 6.5) |
-| Apache derrière HAProxy | HAProxy en entrée, Apache pour les fichiers de l’interface | Qualifier leur déploiement sur le C1NP |
+| Apache derrière HAProxy | HAProxy en entrée, deux Apache pour les fichiers d’ORION et de RIGEL | Qualifier leur déploiement sur le C1NP |
 | Express derrière HAProxy | Serveur back | Qualifier les contrôles de santé et le déploiement sur le C1NP |
 | `/api/health` et `/api/infos` | Réponse minimale publique, détail réservé au super administrateur | Conserver la séparation entre contrôle externe et diagnostic détaillé |
 | Logstash sur orion-8, fichiers sur orion-10 | Collecteur sur VM 3, fichiers de logs sur VM 4 | Qualifier la collecte, le partage, la rétention et l’accès |
 | Secrets Swarm à noms fixes | Gestion des secrets du C1NP | Choisir le coffre, l’injection, la rotation et la révocation |
 | Volumes NFS sur orion-10, sans sauvegarde | Stockage C1NP qualifié et sauvegardé | Choisir le service autorisé, puis définir sauvegardes, restaurations, RPO, RTO et essais réguliers |
-| Relais RIGEL et PostgreSQL sur Hidora ; connecteur sortant sur orion-4 ou orion-5 | Relais public RIGEL et stockage durable autorisés ; connecteur RIGEL sur VM 2 | Qualifier l’hébergement, le proxy, TLS, la base, les sauvegardes, la rétention, la supervision, la disponibilité et la classification des données |
+| Relais RIGEL et PostgreSQL sur Hidora ; connecteur sortant sur orion-4 ou orion-5 | PWA RIGEL servie par le second Apache de VM 1, sous un nom public résolu sur Internet ; API RIGEL d’Express | Synchroniser le téléphone directement avec Express, retirer le relais et le connecteur, obtenir le nom public, son certificat et l’accès depuis Internet à l’entrée |
 
 ## 8. Références techniques
 

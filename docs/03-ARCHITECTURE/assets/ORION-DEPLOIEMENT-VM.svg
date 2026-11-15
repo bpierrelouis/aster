@@ -1,16 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1910" height="1380" viewBox="0 0 1910 1380" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="2370" height="1500" viewBox="0 0 2370 1500" role="img" aria-labelledby="title desc">
 <title id="title">ORION — architecture du démonstrateur</title>
 <desc id="desc">Placement des services par VM ou groupe de VM, conteneurs ou services de l’hôte, rôles Swarm, versions, ports, volumes et flux.</desc>
 <defs>
 <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f6cbd"/></marker>
 <marker id="arrow-start" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M10 0 L0 5 L10 10 Z" fill="#0f6cbd"/></marker>
 <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
-<symbol id="i-user-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="m21.7 16.4-.9-.3"/><path d="m15.2 13.9-.9-.3"/><path d="m16.6 18.7.3-.9"/><path d="m19.1 12.2.3-.9"/><path d="m19.6 18.7-.4-1"/><path d="m16.8 12.3-.4-1"/><path d="m14.3 16.6 1-.4"/><path d="m20.7 13.8 1-.4"/></symbol>
 <symbol id="i-boxes" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42Z"/><path d="m7 16.5-4.74-2.85"/><path d="m7 16.5 5-3"/><path d="M7 16.5v5.17"/><path d="M12 13.5V19l3.97 2.38a2 2 0 0 0 2.06 0l3-1.8a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L17 10.5l-5 3Z"/><path d="m17 16.5-5-3"/><path d="m17 16.5 4.74-2.85"/><path d="M17 16.5v5.17"/><path d="M7.97 4.42A2 2 0 0 0 7 6.13v4.37l5 3 5-3V6.13a2 2 0 0 0-.97-1.71l-3-1.8a2 2 0 0 0-2.06 0l-3 1.8Z"/><path d="M12 8 7.26 5.15"/><path d="m12 8 4.74-2.85"/><path d="M12 13.5V8"/></symbol>
 <symbol id="i-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></symbol>
 <symbol id="i-split" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></symbol>
 <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
-<symbol id="i-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 22v-2"/><path d="m17 20.66-1-1.73"/><path d="M11 10.27 7 3.34"/><path d="m20.66 17-1.73-1"/><path d="m3.34 7 1.73 1"/><path d="M14 12h8"/><path d="M2 12h2"/><path d="m20.66 7-1.73 1"/><path d="m3.34 17 1.73-1"/><path d="m17 3.34-1 1.73"/><path d="m11 13.73-4 6.93"/></symbol>
 <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
 <symbol id="i-app-window" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></symbol>
 <symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></symbol>
@@ -20,12 +18,16 @@
 <symbol id="i-hard-drive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></symbol>
 <symbol id="i-scroll-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 12h-5"/><path d="M15 8h-5"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></symbol>
 <symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
+<symbol id="i-user-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="m21.7 16.4-.9-.3"/><path d="m15.2 13.9-.9-.3"/><path d="m16.6 18.7.3-.9"/><path d="m19.1 12.2.3-.9"/><path d="m19.6 18.7-.4-1"/><path d="m16.8 12.3-.4-1"/><path d="m14.3 16.6 1-.4"/><path d="m20.7 13.8 1-.4"/></symbol>
 <symbol id="i-folder-sync" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v.5"/><path d="M12 10v4h4"/><path d="m12 14 1.535-1.605a5 5 0 0 1 8 1.5"/><path d="M22 22v-4h-4"/><path d="m22 18-1.535 1.605a5 5 0 0 1-8-1.5"/></symbol>
-<symbol id="i-smartphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
+<symbol id="i-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 22v-2"/><path d="m17 20.66-1-1.73"/><path d="M11 10.27 7 3.34"/><path d="m20.66 17-1.73-1"/><path d="m3.34 7 1.73 1"/><path d="M14 12h8"/><path d="M2 12h2"/><path d="m20.66 7-1.73 1"/><path d="m3.34 17 1.73-1"/><path d="m17 3.34-1 1.73"/><path d="m11 13.73-4 6.93"/></symbol>
+<symbol id="i-network" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+<symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
+<symbol id="i-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 7.703 4.734a2 2 0 0 0 1.994 0L20.7 7"/><path d="m7.5 4.27 9 5.15"/></symbol>
 <symbol id="i-scan-line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></symbol>
 <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></symbol>
-<symbol id="i-network" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></symbol>
-<symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
+<symbol id="i-smartphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
 </defs>
 <style>
 text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
@@ -47,31 +49,24 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 .flow{fill:none;stroke:#0f6cbd;stroke-width:2}
 .auto{stroke-dasharray:6 4}
 </style>
-<rect width="1910" height="1380" fill="#fff"/>
+<rect width="2370" height="1500" fill="#fff"/>
 <text x="40" y="46" class="title" text-anchor="start">ORION — architecture du démonstrateur</text>
 <text x="40" y="74" class="body" text-anchor="start">Vue détaillée · dix VM</text>
 <g transform="translate(0 -10)">
-<rect x="20" y="280" width="170" height="170" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
-<use href="#i-users" x="32" y="292" width="22" height="22" style="color:#3d5a78"/>
-<text x="64" y="308" class="service" text-anchor="start">Firefox</text>
-<text x="64" y="327" class="caption" text-anchor="start">172.16.131.188</text>
-<rect x="20" y="1150" width="170" height="110" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
-<use href="#i-user-cog" x="32" y="1162" width="22" height="22" style="color:#3d5a78"/>
-<text x="64" y="1178" class="service" text-anchor="start">Opérateur</text>
-<text x="64" y="1197" class="caption" text-anchor="start">son poste, sur le</text>
-<text x="64" y="1213" class="caption" text-anchor="start">réseau</text>
-<text x="64" y="1229" class="caption" text-anchor="start">d’administration</text>
-<rect x="285" y="140" width="1195" height="980" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
-<use href="#i-boxes" x="301" y="152" width="22" height="22" style="color:#0f6cbd"/>
-<text x="331" y="169" class="frame" text-anchor="start">Cluster Docker Swarm « orion » · orion-1 à orion-9 · réseau overlay « orion »</text>
-<rect x="305" y="195" width="275" height="525" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
+<rect x="20" y="150" width="160" height="90" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-users" x="32" y="162" width="22" height="22" style="color:#3d5a78"/>
+<text x="64" y="178" class="service" text-anchor="start">Firefox</text>
+<text x="64" y="197" class="caption" text-anchor="start">172.16.131.188</text>
+<rect x="215" y="140" width="1265" height="980" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
+<use href="#i-boxes" x="231" y="152" width="22" height="22" style="color:#0f6cbd"/>
+<text x="261" y="169" class="frame" text-anchor="start">Cluster Docker Swarm « orion » · orion-1 à orion-9 · réseau overlay chiffré « orion » · VXLAN 4789/UDP · ESP</text>
+<rect x="305" y="195" width="275" height="565" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
 <use href="#i-server" x="317" y="206" width="16" height="16" style="color:#5b7690"/>
 <text x="339" y="219" class="vm" text-anchor="start">Managers et entrée</text>
 <text x="339" y="236" class="caption" text-anchor="start">orion-1 · 172.16.131.188</text>
 <text x="339" y="253" class="caption" text-anchor="start">orion-2 · 172.16.131.133</text>
 <rect x="505.6" y="205" width="64.4" height="19" rx="9.5" fill="#d7e8fb" stroke="none"/>
 <text x="537.8" y="218.5" class="badge" text-anchor="middle">MANAGER</text>
-<text x="339" y="270" class="caption" text-anchor="start">Swarm · TCP 2377</text>
 <rect x="318" y="367" width="249" height="250" rx="8" fill="#f2f7fd" stroke="#aac6e3"/>
 <use href="#i-split" x="328" y="377" width="20" height="20" style="color:#0f6cbd"/>
 <text x="356" y="392" class="service" text-anchor="start">HAProxy 3.2.16</text>
@@ -87,14 +82,6 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="557" y="656" class="tag host" text-anchor="end">service hôte</text>
 <text x="356" y="675" class="caption" text-anchor="start">paquet Debian · orion-1</text>
 <text x="356" y="691" class="caption" text-anchor="start">NTP 123/UDP</text>
-<rect x="305" y="750" width="275" height="126" rx="10" fill="#fff6e5" stroke="#e3bd6d"/>
-<use href="#i-cog" x="317" y="762" width="18" height="18" style="color:#a06a00"/>
-<text x="343" y="777" class="service" text-anchor="start">Sur chaque VM</text>
-<text x="317" y="799" class="caption" text-anchor="start">Debian 13 · Docker · OpenSSH 22</text>
-<text x="317" y="815" class="caption" text-anchor="start">systemd-timesyncd → orion-1</text>
-<text x="317" y="831" class="caption" text-anchor="start">syslog → 127.0.0.1:6514 → Logstash</text>
-<text x="317" y="847" class="caption" text-anchor="start">images → proxy 172.16.0.1:8080</text>
-<text x="317" y="863" class="caption" text-anchor="start">DNS du réseau · 7946 · 4789 · ESP</text>
 <rect x="305" y="900" width="275" height="120" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
 <use href="#i-server" x="317" y="911" width="16" height="16" style="color:#5b7690"/>
 <text x="339" y="924" class="vm" text-anchor="start">Secours</text>
@@ -203,6 +190,11 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <use href="#i-hard-drive" x="1133" y="1059" width="16" height="16" style="color:#2f7a4f"/>
 <text x="1157" y="1064" class="vol" text-anchor="start">pg-nfs</text>
 <text x="1157" y="1079" class="caption" text-anchor="start">volume NFS · /var/lib/postgresql/data</text>
+<rect x="300" y="1180" width="260" height="90" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-user-cog" x="312" y="1192" width="22" height="22" style="color:#3d5a78"/>
+<text x="344" y="1208" class="service" text-anchor="start">Opérateur</text>
+<text x="344" y="1227" class="caption" text-anchor="start">son poste, sur le réseau</text>
+<text x="344" y="1243" class="caption" text-anchor="start">d’administration</text>
 <rect x="650" y="1160" width="780" height="205" rx="10" fill="#ffffff" stroke="#b9c7d6"/>
 <use href="#i-server" x="662" y="1171" width="16" height="16" style="color:#5b7690"/>
 <text x="684" y="1184" class="vm" text-anchor="start">Stockage</text>
@@ -223,37 +215,52 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <use href="#i-hard-drive" x="1057" y="1312" width="16" height="16" style="color:#2f7a4f"/>
 <text x="1081" y="1317" class="vol" text-anchor="start">Logs · ext4 · fichier image 4 Go</text>
 <text x="1081" y="1332" class="caption" text-anchor="start">/srv/orion/logs : conteneurs</text>
-<rect x="1580" y="150" width="260" height="80" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
-<use href="#i-smartphone" x="1592" y="162" width="22" height="22" style="color:#3d5a78"/>
-<text x="1624" y="178" class="service" text-anchor="start">Téléphone</text>
-<text x="1624" y="197" class="caption" text-anchor="start">PWA RIGEL hors ligne</text>
-<rect x="1555" y="280" width="310" height="360" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
-<use href="#i-scan-line" x="1571" y="292" width="22" height="22" style="color:#0f6cbd"/>
-<text x="1601" y="309" class="frame" text-anchor="start">RIGEL · Hidora</text>
-<text x="1571" y="331" class="caption" text-anchor="start">Reconnaissance d’identifiants graphiques</text>
-<text x="1571" y="347" class="caption" text-anchor="start">et extraction par lecture</text>
-<rect x="1580" y="360" width="260" height="95" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
-<use href="#i-cloud" x="1592" y="372" width="22" height="22" style="color:#3d5a78"/>
-<text x="1624" y="388" class="service" text-anchor="start">Relais RIGEL</text>
-<text x="1830" y="384" class="tag" text-anchor="end">conteneur</text>
-<text x="1624" y="407" class="caption" text-anchor="start">rigel.sh1.hidora.net</text>
-<text x="1624" y="423" class="caption" text-anchor="start">image rigel:&lt;SHA Git&gt;</text>
-<text x="1624" y="439" class="caption" text-anchor="start">HTTPS 443 · HTTP interne 3000</text>
-<rect x="1580" y="525" width="260" height="80" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
-<use href="#i-database" x="1592" y="537" width="22" height="22" style="color:#3d5a78"/>
-<text x="1624" y="553" class="service" text-anchor="start">PostgreSQL RIGEL</text>
-<text x="1624" y="572" class="caption" text-anchor="start">données chiffrées</text>
-<text x="1624" y="588" class="caption" text-anchor="start">TCP 5432</text>
-<rect x="1580" y="690" width="260" height="80" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
-<use href="#i-network" x="1592" y="702" width="22" height="22" style="color:#3d5a78"/>
-<text x="1624" y="718" class="service" text-anchor="start">Proxy du réseau</text>
-<text x="1624" y="737" class="caption" text-anchor="start">172.16.0.1:8080</text>
-<rect x="1580" y="850" width="260" height="80" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
-<use href="#i-github" x="1592" y="862" width="22" height="22" style="color:#3d5a78"/>
-<text x="1624" y="878" class="service" text-anchor="start">GitHub</text>
-<text x="1624" y="897" class="caption" text-anchor="start">dépôt et GitHub Actions</text>
-<path d="M190 400 L316 400" class="flow" marker-end="url(#arrow)"/>
-<text x="196" y="394" class="route" text-anchor="start">HTTPS 443</text>
+<rect x="210" y="1400" width="1385" height="80" rx="10" fill="#fff6e5" stroke="#e3bd6d"/>
+<use href="#i-cog" x="224" y="1413" width="18" height="18" style="color:#a06a00"/>
+<text x="250" y="1428" class="service" text-anchor="start">Sur chaque VM</text>
+<text x="1585" y="1427" class="tag host" text-anchor="end">service hôte</text>
+<text x="250" y="1449" class="caption" text-anchor="start">orion-1 à orion-10 · Debian 13 · OpenSSH 22 · systemd-timesyncd · résolveur DNS · apt</text>
+<text x="250" y="1466" class="caption" text-anchor="start">orion-1 à orion-9 · Docker · pilote syslog → 127.0.0.1:6514 · téléchargement des images</text>
+<rect x="1640" y="520" width="240" height="100" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-network" x="1652" y="532" width="22" height="22" style="color:#3d5a78"/>
+<text x="1684" y="548" class="service" text-anchor="start">Proxy du réseau</text>
+<text x="1684" y="567" class="caption" text-anchor="start">172.16.0.1:8080</text>
+<rect x="1680" y="1400" width="200" height="80" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-globe" x="1692" y="1412" width="22" height="22" style="color:#3d5a78"/>
+<text x="1724" y="1428" class="service" text-anchor="start">DNS du réseau</text>
+<text x="1724" y="1447" class="caption" text-anchor="start">172.16.143.251</text>
+<rect x="1960" y="360" width="240" height="80" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-github" x="1972" y="372" width="22" height="22" style="color:#3d5a78"/>
+<text x="2004" y="388" class="service" text-anchor="start">GitHub</text>
+<text x="2004" y="407" class="caption" text-anchor="start">dépôt et GitHub Actions</text>
+<rect x="1960" y="520" width="240" height="100" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-package" x="1972" y="532" width="22" height="22" style="color:#3d5a78"/>
+<text x="2004" y="548" class="service" text-anchor="start">Registres et dépôts</text>
+<text x="2004" y="567" class="caption" text-anchor="start">Docker Hub · docker.elastic.co</text>
+<text x="2004" y="583" class="caption" text-anchor="start">dépôts Debian</text>
+<rect x="1940" y="700" width="280" height="360" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
+<use href="#i-scan-line" x="1956" y="712" width="22" height="22" style="color:#0f6cbd"/>
+<text x="1986" y="729" class="frame" text-anchor="start">RIGEL · Hidora</text>
+<text x="1956" y="751" class="caption" text-anchor="start">Reconnaissance d’identifiants graphiques</text>
+<text x="1956" y="767" class="caption" text-anchor="start">et extraction par lecture</text>
+<rect x="1965" y="780" width="230" height="95" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-cloud" x="1977" y="792" width="22" height="22" style="color:#3d5a78"/>
+<text x="2009" y="808" class="service" text-anchor="start">Relais RIGEL</text>
+<text x="2185" y="804" class="tag" text-anchor="end">conteneur</text>
+<text x="2009" y="827" class="caption" text-anchor="start">rigel.sh1.hidora.net</text>
+<text x="2009" y="843" class="caption" text-anchor="start">image rigel:&lt;SHA Git&gt;</text>
+<text x="2009" y="859" class="caption" text-anchor="start">HTTPS 443 · HTTP interne 3000</text>
+<rect x="1965" y="945" width="230" height="80" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-database" x="1977" y="957" width="22" height="22" style="color:#3d5a78"/>
+<text x="2009" y="973" class="service" text-anchor="start">PostgreSQL RIGEL</text>
+<text x="2009" y="992" class="caption" text-anchor="start">données chiffrées</text>
+<text x="2009" y="1008" class="caption" text-anchor="start">TCP 5432</text>
+<rect x="1640" y="850" width="240" height="80" rx="10" fill="#eef3f8" stroke="#b3c3d3"/>
+<use href="#i-smartphone" x="1652" y="862" width="22" height="22" style="color:#3d5a78"/>
+<text x="1684" y="878" class="service" text-anchor="start">Téléphone</text>
+<text x="1684" y="897" class="caption" text-anchor="start">PWA RIGEL hors ligne</text>
+<path d="M80 240 L80 400 L316 400" class="flow" marker-end="url(#arrow)"/>
+<text x="88" y="330" class="route" text-anchor="start">HTTPS 443 · 8444</text>
 <path d="M567 418 L661 418" class="flow" marker-end="url(#arrow)"/>
 <text x="575" y="411" class="route" text-anchor="start">8080</text>
 <path d="M567 530 L661 530" class="flow" marker-end="url(#arrow)"/>
@@ -284,27 +291,41 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="1452" y="1150" class="route" text-anchor="end">NFS 2049</text>
 <path d="M1270 1087 L1270 1213" class="flow" marker-end="url(#arrow)"/>
 <text x="1278" y="1150" class="route" text-anchor="start">NFS 2049</text>
-<path d="M440 750 L440 706" class="flow" marker-end="url(#arrow)"/>
-<text x="448" y="733" class="route" text-anchor="start">NTP 123</text>
-<path d="M190 1200 L560 1200 L560 1122" class="flow" marker-end="url(#arrow)"/>
-<text x="196" y="1193" class="route" text-anchor="start">SSH 22 · client Docker vers un manager</text>
-<path d="M105 1260 L105 1345 L648 1345" class="flow" marker-end="url(#arrow)"/>
-<text x="196" y="1338" class="route" text-anchor="start">SSH 22</text>
-<path d="M105 1150 L105 1130 L262 1130 L262 580 L316 580" class="flow" marker-end="url(#arrow)"/>
-<text x="255" y="1124" class="route" text-anchor="end">HTTPS 8444 · console Keycloak</text>
+<path d="M330 1180 L330 1122" class="flow" marker-end="url(#arrow)"/>
+<text x="338" y="1156" class="route" text-anchor="start">SSH 22 · client Docker vers un manager</text>
+<path d="M560 1225 L648 1225" class="flow" marker-end="url(#arrow)"/>
+<text x="568" y="1218" class="route" text-anchor="start">SSH 22</text>
+<path d="M230 1400 L230 668 L316 668" class="flow" marker-end="url(#arrow)"/>
+<text x="222" y="1330" class="route" text-anchor="end">NTP 123/UDP</text>
+<path d="M255 1400 L255 740 L303 740" class="flow" marker-end="url(#arrow)"/>
+<text x="263" y="1330" class="route" text-anchor="start">Swarm TCP 2377 · 7946</text>
+<path d="M1500 1400 L1500 786 L1419 786" class="flow" marker-end="url(#arrow)"/>
+<text x="1459" y="779" class="route" text-anchor="middle">TLS 6514</text>
+<path d="M1580 1400 L1580 600 L1638 600" class="flow" marker-end="url(#arrow)"/>
+<text x="1588" y="1200" class="route" text-anchor="start">TCP 8080</text>
+<path d="M1595 1440 L1678 1440" class="flow" marker-end="url(#arrow)"/>
+<text x="1636" y="1433" class="route" text-anchor="middle">DNS 53</text>
 <path d="M1040 258 L582 258" class="flow" marker-end="url(#arrow)"/>
 <text x="670" y="281" class="route" text-anchor="start">SSH 22 · orion-1</text>
-<path d="M1330 256 L1520 256 L1520 720 L1578 720" class="flow" marker-end="url(#arrow)"/>
+<path d="M1330 256 L1520 256 L1520 540 L1638 540" class="flow" marker-end="url(#arrow)"/>
 <text x="1380" y="248" class="route" text-anchor="middle">TCP 8080</text>
-<path d="M1417 600 L1500 600 L1500 755 L1578 755" class="flow" marker-end="url(#arrow)"/>
-<text x="1540" y="748" class="route" text-anchor="middle">TCP 8080</text>
-<path d="M1710 770 L1710 848" class="flow" marker-end="url(#arrow)"/>
-<text x="1720" y="815" class="route" text-anchor="start">HTTPS 443</text>
-<path d="M1840 730 L1875 730 L1875 430 L1842 430" class="flow" marker-end="url(#arrow)"/>
-<text x="1868" y="680" class="route" text-anchor="end">HTTPS 443</text>
-<path d="M1840 190 L1890 190 L1890 385 L1842 385" class="flow" marker-end="url(#arrow)"/>
-<text x="1848" y="178" class="route" text-anchor="start">HTTPS 443</text>
-<path d="M1710 455 L1710 523" class="flow" marker-end="url(#arrow)"/>
-<text x="1720" y="494" class="route" text-anchor="start">TCP 5432</text>
+<path d="M1417 570 L1638 570" class="flow" marker-end="url(#arrow)"/>
+<text x="1560" y="563" class="route" text-anchor="middle">TCP 8080</text>
+<path d="M1760 520 L1760 400 L1958 400" class="flow" marker-end="url(#arrow)"/>
+<text x="1860" y="393" class="route" text-anchor="middle">HTTPS 443</text>
+<path d="M1880 570 L1958 570" class="flow" marker-end="url(#arrow)"/>
+<text x="1919" y="563" class="route" text-anchor="middle">HTTPS 443</text>
+<path d="M1760 620 L1760 805 L1963 805" class="flow" marker-end="url(#arrow)"/>
+<text x="1768" y="700" class="route" text-anchor="start">HTTPS 443</text>
+<path d="M2080 440 L2080 518" class="flow" marker-end="url(#arrow)"/>
+<text x="2088" y="484" class="route" text-anchor="start">HTTPS 443</text>
+<path d="M2080 700 L2080 622" class="flow" marker-end="url(#arrow)"/>
+<text x="2088" y="666" class="route" text-anchor="start">HTTPS 443</text>
+<path d="M2200 400 L2270 400 L2270 1110 L2120 1110 L2120 1062" class="flow" marker-end="url(#arrow)"/>
+<text x="2278" y="760" class="route" text-anchor="start">HTTPS 443</text>
+<path d="M1880 860 L1963 860" class="flow" marker-end="url(#arrow)"/>
+<text x="1921" y="853" class="route" text-anchor="middle">HTTPS 443</text>
+<path d="M2080 875 L2080 943" class="flow" marker-end="url(#arrow)"/>
+<text x="2088" y="914" class="route" text-anchor="start">TCP 5432</text>
 </g>
 </svg>

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.2 | 14/11/2026 | Production destinée à la remise | Redessiner les quatre vues sans croisement et compléter les flux réels | [8 versions](../../archive/README.md#19-diagrammes-architecture) |
+| 2.3 | 15/11/2026 | Production destinée à la remise | Trace tous les flux réels de la vue complète du démonstrateur ; Trace tous les flux réels de la vue complète et nomme le stockage NFS de la cible ; Trace tous les flux de la vue complète ; cible avec stockage NFS et RIGEL servi par l’entrée d’ORION | [9 versions](../../archive/README.md#19-diagrammes-architecture) |
 <!-- version:fin -->
 
 ## Vue simplifiée
