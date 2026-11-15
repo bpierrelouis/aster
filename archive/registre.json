@@ -2648,6 +2648,13 @@
         "version": "5.2",
         "date": "2026-11-15",
         "modification": "MCD refait le 15 novembre ; renommage de la base et du code (#162)",
+        "archive": null,
+        "commit": "1a774ec"
+      },
+      {
+        "version": "5.3",
+        "date": "2026-11-15",
+        "modification": "Consigne l’audit de sécurité du 15 novembre et ses corrections ; Consigne l’audit de sécurité du 15 novembre et ses corrections",
         "archive": null
       }
     ]

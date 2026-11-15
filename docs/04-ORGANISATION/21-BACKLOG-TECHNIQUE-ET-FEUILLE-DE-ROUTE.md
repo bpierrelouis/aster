@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.2 | 15/11/2026 | Pilotage interne | MCD refait le 15 novembre ; renommage de la base et du code (#162) | [37 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.3 | 15/11/2026 | Pilotage interne | Consigne l’audit de sécurité du 15 novembre et ses corrections ; Consigne l’audit de sécurité du 15 novembre et ses corrections | [38 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -121,26 +121,42 @@ Plan, une étape par commit, chacune vérifiée par `npm test`, `npm run build`,
 
 ## 4. Sécurité
 
-- [ ] **Haute** — Tester la sécurité de l’application, côté code et côté applicatif :
-  - code : revue des contrôles d’accès de chaque route et de chaque règle serveur, analyse statique, audit des dépendances (`npm audit`) et des images ;
-  - applicatif : tests d’intrusion sur l’application déployée (référentiel OWASP ASVS, outil de type OWASP ZAP), contournement des droits par profil et par école, falsification des valeurs d’autorité, jetons des postes et de RIGEL, relais public, en-têtes, TLS, sessions ;
-  - consigner résultats et corrections ; inscrire au § 6 ce qui touche l’architecture.
+Audit du 15 novembre : revue du code (droits de chaque route et de chaque règle serveur, valeurs d’autorité, RIGEL, import, PDF, persistance), `npm audit` (aucune vulnérabilité), revue de la configuration des VM, de Keycloak et de la CI. Aucun contournement des droits ni du cloisonnement des écoles ; sessions OIDC (PKCE, nonce, régénération), contrôle d’origine, cryptographie RIGEL, requêtes SQL paramétrées, PDF et journaux sans défaut.
+
+- [ ] **Haute** — Tests d’intrusion sur l’application déployée (OWASP ASVS, outil de type OWASP ZAP) : contournement des droits par profil et par école, falsification des valeurs d’autorité, jetons des postes et de RIGEL, relais public, en-têtes, TLS, sessions, limites de débit. Les VM n’étaient pas joignables lors de l’audit.
+- [ ] **Haute** — Déployer les corrections sur les VM : publier le commit (CI), puis `installer.sh` (arrête PostgreSQL, l’annuaire et Logstash avant le changement des exports NFS et redéploie la pile) et `runner.sh` ; vérifier ce qui n’a pas pu l’être localement : exports NFS en `root_squash` et données PostgreSQL rendues à l’uid 70, tâche `orion-roles` et connexion de l’API en `orion_app`, certificats clients du collecteur, clé restreinte du runner (un job complet), OpenLDAP sur ses exports, seuils de débit en usage réel ; supprimer ensuite le secret `orion_database_url`.
+
+| Sujet | Constat | Correction | Portée |
+| --- | --- | --- | --- |
+| CI | Dépôt public et runner auto-hébergé sur orion-3 (manager Swarm) : une contribution externe pouvait exécuter un workflow sur le runner | Approbation obligatoire de tous les contributeurs externes (GitHub) ; clé SSH du runner limitée à la commande `orion-deploiement` d’orion-1 ; archive du runner vérifiée. Reste : le compte du runner est dans le groupe `docker` d’un manager | Démonstrateur |
+| Keycloak | Console de compte : adresse et mot de passe modifiables, prise d’un compte ORION non encore rapproché par son adresse ; pas de protection contre la force brute ; `sslRequired: none` | Console de compte fermée, adresse modifiable par l’administrateur seul, force brute sur les realms `orion` et `master`, `sslRequired: external` | Démonstrateur et cible |
+| Jetons « Accès de présentation » | Connexion sans mot de passe, dont un administrateur d’école | Conservés pour la présentation ; `ORION_COMPTES_PRESENTATION=false` hors des séances | Démonstrateur |
+| Limitation de débit | Aucune | `stick-table` HAProxy par adresse IP, par connexion et par jeton des postes, réponse 429 | Démonstrateur et cible |
+| HAProxy | Liste de refus de `/admin` contournable par `..` ; TLS minimal implicite ; `X-Forwarded-For` falsifiable ; pas de HSTS | Liste d’autorisation (`/realms/orion/`, `/resources/`), chemins à `..` encodés refusés, `ssl-min-ver TLSv1.2`, en-têtes du client retirés, HSTS | Démonstrateur et cible |
+| Apache | CSP partielle, liste des dossiers, version annoncée, maître en root | CSP complète, `-Indexes`, `ServerTokens Prod`, `www-data`, lecture seule | Démonstrateur et cible |
+| PostgreSQL | API en superutilisateur | Rôle `orion_app` propriétaire de la base, sans superutilisateur | Démonstrateur |
+| NFS | `no_root_squash`, chaque partage ouvert à quatre VM | Un export par dossier, VM du service et orion-9 ; `root_squash` sauf OpenLDAP | Démonstrateur |
+| Logstash | `6514` sans authentification des émetteurs, nom de service libre | TLS mutuel, certificat client par VM ; service limité à `[a-z0-9_-]` | Démonstrateur |
+| Autorité de certification | Clé en clair, sans restriction de noms | Autorité neuve : `nameConstraints` et clé chiffrée ; l’autorité existante est conservée | Démonstrateur |
+| Conteneurs | Capacités Linux par défaut | `cap_drop: ALL` (sauf OpenLDAP), `read_only` pour HAProxy et Apache | Démonstrateur et cible |
+| PDF | Découpe des longs mots en temps cubique : un formateur pouvait figer une instance d’Express environ 20 s par demande | Découpe en un passage | Démonstrateur et cible |
+| RIGEL | Un téléphone appairé pouvait bloquer l’intégration de toutes les opérations (blocs trop gros) ; existence d’une opération révélée par le relais | Blocs d’événement en base64url limités à 16 Ko, opérations traitées séparément par le connecteur, même refus 401 ; une adresse ou un jeton du relais invalide désactive RIGEL sans bloquer le déploiement d’ORION | Démonstrateur |
+| Configuration de production | Mot de passe PostgreSQL de développement non refusé | Refusé au démarrage | Cible |
+
+Restent ouverts :
 
 | Sujet | Constat | Proposition | Portée |
 | --- | --- | --- | --- |
-| Limitation de débit | Aucune limite : création de sessions par `/auth/login`, `/api/health` coûteux, écritures jusqu’à 8 Mo | `stick-table` HAProxy par adresse IP (et par jeton pour l’API des postes), réponse 429 ; seuils à régler sur l’usage réel | Démonstrateur et cible |
-| Rôle PostgreSQL | L’API se connecte en superutilisateur | Rôle applicatif propriétaire de la base `orion`, sans privilège de superutilisateur | Démonstrateur |
-| Partage NFS | Exports en `no_root_squash`, `sec=sys`, sans chiffrement | `root_squash` après vérification des propriétaires des fichiers de chaque conteneur (PostgreSQL attribue ses fichiers au démarrage) | Démonstrateur |
-| HAProxy | Filtrage de `/admin` par liste de refus, sans normalisation ; version TLS minimale implicite | Liste d’autorisation (`/realms/orion/`, `/resources/`) et `ssl-min-ver TLSv1.2` | Démonstrateur |
-| En-têtes de l’interface | Seuls `frame-ancestors`, `object-src`, `base-uri`, `nosniff` et `Referrer-Policy` sont posés par Apache | Politique CSP complète (`script-src`, `style-src`) et HSTS, après essai de l’interface | Démonstrateur et cible |
-| OpenLDAP | Image `osixia/openldap:1.5.0` non maintenue depuis 2021, sans TLS | Image maintenue, LDAP sur TLS | Démonstrateur |
-| Image Apache | Processus maître lancé en root | Image ou configuration sans root | Démonstrateur |
-| CI | Le runner auto-hébergé, sur orion-3, exécute tout push sur `main` | Protéger la branche `main` sur GitHub | Démonstrateur |
-| Configuration de production | La valeur de développement de `DATABASE_URL` n’est pas explicitement refusée | Refuser `orion-local` en production, comme les autres secrets | Cible |
+| OpenLDAP | Image `osixia/openldap:1.5.0` non maintenue, sans TLS ; Keycloak lié en `cn=admin` ; export NFS en `no_root_squash` | Image maintenue, LDAP sur TLS, compte de liaison limité à `ou=people` | Démonstrateur |
+| Administrateur de Keycloak | `keycloak-admin` d’amorçage permanent, console sur `8444` | Administrateur nominatif avec OTP, puis suppression de `keycloak-admin` | Démonstrateur |
+| Secrets | `secrets.sh` exporte chaque secret en variable d’environnement | Lecture des fichiers `/run/secrets` par l’application | Démonstrateur et cible |
+| Images | Épinglées par étiquette, réécrivable sur Docker Hub | Épinglage par empreinte (`@sha256:`) | Démonstrateur et cible |
+| Keycloak derrière HAProxy | `KC_PROXY_TRUSTED_ADDRESSES` non posé : plage de l’overlay non fixée | Fixer la plage de l’overlay `orion`, puis la déclarer | Démonstrateur |
+| QR d’appairage RIGEL | Accès porteur valable pendant toute l’opération (14 jours au plus), révocable seulement en la clôturant | Plafond des ajouts de matériels par opération ; régénération du QR | Démonstrateur et cible |
 | Identité des postes | Jeton propre à chaque poste | Certificat client si le mécanisme d’administration des postes le permet | Cible |
-| Relais RIGEL | Le relais sert le code de l’application mobile : un relais compromis pourrait lire la clé du fragment `#k=` | Décrire ce point dans le modèle de menace ; intégrité du code servi (signature ou empreinte) | Démonstrateur et cible |
+| Relais RIGEL | Le relais sert le code de l’application mobile : un relais compromis pourrait lire la clé du fragment `#k=` | Modèle de menace ; intégrité du code servi | Démonstrateur |
 
-Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la console Keycloak (8444) et de Logstash (6514), pare-feu des VM.
+Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la console Keycloak (8444) et de Logstash (6514), pare-feu des VM. Dépôt laissé public (utilisateur, 15 novembre) pour ne pas limiter les minutes de la CI.
 
 ## 5. Documentation à remettre
 
@@ -217,6 +233,8 @@ Le DAT, tenu par l’utilisateur, fait foi ; ces écarts entre lui, la configura
 - [x] **Basse** — Versions : « HAProxy 3.2 » et « Apache 2.4 » remplacés par les versions épinglées 3.2.16 et 2.4.69 (§ 5.3). L’image Keycloak, image officielle avec une légère surcouche ORION, est voulue (utilisateur, 14 novembre).
 - [x] **Basse** — Logstash n’envoie pas ses propres logs au collecteur, ce qui est voulu : le DAT le précise (« chaque conteneur, sauf Logstash… »).
 - [x] **Basse** — Chemins `/srv/orion/…`, `/var/lib/…`, `/run/secrets/…` cités hors de l’inventaire des configurations : admis, car ils décrivent le déploiement sur les VM et dans les conteneurs (utilisateur, 14 novembre ; règle précisée dans `AGENTS.md`).
+
+- [ ] **Moyenne** — Durcissement du 15 novembre (§ 4), absent du DAT : HAProxy (liste d’autorisation vers Keycloak, chemins à `..` refusés, limitation de débit, HSTS, TLS 1.2 minimum, en-têtes de relais retirés) ; stockage (un export NFS par dossier de service, `root_squash` sauf OpenLDAP, PostgreSQL en uid 70) ; PostgreSQL (rôle `orion_app`, tâche ponctuelle `orion-roles` au déploiement) ; Logstash (TLS mutuel sur `6514`, certificats clients des VM) ; autorité de certification (`nameConstraints`, clé chiffrée) ; déploiement (logique exécutée sur orion-1 par `orion-deploiement`, seule commande permise à la clé du runner ; nouveaux fichiers `deploiement.sh` et `postgres-roles.sh` dans les configurations remises) ; services (Apache en `www-data` sur système de fichiers en lecture seule, `cap_drop: ALL`) ; Keycloak (realm `master` importé, console de compte fermée, adresse modifiable par l’administrateur seul).
 
 ### Schémas d’architecture (générateur)
 
