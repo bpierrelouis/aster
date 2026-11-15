@@ -2031,6 +2031,13 @@
         "version": "3.5",
         "date": "2026-11-15",
         "modification": "Décrit la création du premier super administrateur d’une base neuve",
+        "archive": null,
+        "commit": "8866971"
+      },
+      {
+        "version": "3.6",
+        "date": "2026-11-15",
+        "modification": "Retire les identités de démonstration de l’annuaire remis et signale l’accès de présentation",
         "archive": null
       }
     ],
@@ -2473,6 +2480,13 @@
         "version": "4.21",
         "date": "2026-11-15",
         "modification": "Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT",
+        "archive": null,
+        "commit": "8866971"
+      },
+      {
+        "version": "4.22",
+        "date": "2026-11-15",
+        "modification": "Clôt le retrait des données de démonstration des livrables",
         "archive": null
       }
     ]

@@ -67,7 +67,7 @@ Keycloak tient lieu de MindefConnect pour exercer le parcours de connexion OIDC 
 
 Sur les VM, l’image ORION de Keycloak 26.7.4 démarre en mode `start` et importe le realm `orion`, son client `orion-web` et la fédération LDAP à chaque création du conteneur. Keycloak utilise sa base embarquée H2, sans volume persistant : ses données internes et ses sessions sont perdues à la recréation du conteneur. Aucun paramètre ne le raccorde à PostgreSQL ORION. Les identités sont conservées par OpenLDAP sur les volumes NFS d’orion-10. La fédération est en écriture : une identité créée par Keycloak est enregistrée dans l’annuaire.
 
-Le realm permet la connexion par adresse électronique, sans inscription ni réinitialisation de mot de passe.
+Le realm permet la connexion par adresse électronique, sans inscription ni réinitialisation de mot de passe. Le mot de passe est vérifié par l’annuaire. Pour la présentation au client, la variable `ORION_COMPTES_PRESENTATION` permet à trois comptes de se connecter sans mot de passe ; elle est retirée de la pile après la présentation.
 
 #### Client OIDC
 
@@ -307,7 +307,7 @@ Les fichiers suivants constituent la configuration de l’architecture réelle r
 | `vm/installer.sh` | Préparation des VM, stockage NFS, cluster, certificats et secrets |
 | `vm/deployer.sh` | Déploiement d’une version publiée et contrôle de la version servie |
 | `vm/runner.sh` | Installation du runner GitHub Actions sur orion-3 |
-| `ldap/orion-utilisateurs.ldif` | Données d’initialisation de l’annuaire du démonstrateur |
+| `ldap/orion-utilisateurs.ldif` | Branche des identités de l’annuaire, créée à son initialisation |
 
 Les valeurs secrètes, les clés privées, les certificats générés et les données créées à l’exécution ne sont pas joints. Les fichiers du montage local de développement, les fichiers JSON de configuration, le thème de connexion et les documents du projet sont exclus de cet ensemble.
 

@@ -96,7 +96,7 @@ L’utilisateur est d’abord le premier compte actif du profil `ORION_UI_ROLE` 
 
 ## Identité et comptes
 
-Le 6 novembre, l’utilisateur a retenu MindefConnect pour la production. Dans le démonstrateur, Keycloak tient lieu de MindefConnect ; depuis le 9 novembre, à la demande de l’utilisateur, il fédère un annuaire LDAP local qui contient les identités des utilisateurs ([infra/ldap/orion-utilisateurs.ldif](infra/ldap/orion-utilisateurs.ldif), chargé au premier démarrage). Keycloak n’a plus de base PostgreSQL : sa configuration est réimportée depuis [le realm](infra/keycloak/orion-realm.json) et ses données internes, sans valeur propre, sont perdues à la recréation du conteneur. Les utilisateurs de l’annuaire ne sont pas importés dans Keycloak : leur identifiant (sujet OIDC, `f:orion-annuaire-ldap:<uid>`) ne dépend que du composant LDAP, d’identifiant fixe, et reste donc le même d’une recréation à l’autre ; un identifiant aléatoire rendrait inutilisables les comptes ORION déjà reliés.
+Le 6 novembre, l’utilisateur a retenu MindefConnect pour la production. Dans le démonstrateur, Keycloak tient lieu de MindefConnect ; depuis le 9 novembre, à la demande de l’utilisateur, il fédère un annuaire LDAP local qui contient les identités des utilisateurs (branche créée par [infra/ldap/orion-utilisateurs.ldif](infra/ldap/orion-utilisateurs.ldif), chargé au premier démarrage ; les identités y sont créées par le serveur). Keycloak n’a plus de base PostgreSQL : sa configuration est réimportée depuis [le realm](infra/keycloak/orion-realm.json) et ses données internes, sans valeur propre, sont perdues à la recréation du conteneur. Les utilisateurs de l’annuaire ne sont pas importés dans Keycloak : leur identifiant (sujet OIDC, `f:orion-annuaire-ldap:<uid>`) ne dépend que du composant LDAP, d’identifiant fixe, et reste donc le même d’une recréation à l’autre ; un identifiant aléatoire rendrait inutilisables les comptes ORION déjà reliés.
 
 - L’annuaire ne porte que l’identité : identifiant (`uid`), nom (`cn`, `givenName`, `sn`) et adresse (`mail`). Les profils ne sont pas stockés dans l’annuaire : MindefConnect, en cible, ne transmettra pas les profils ORION, et le profil comme l’école sont gérés dans ORION.
 
@@ -382,7 +382,7 @@ application/
 │   ├── keycloak/                # Realm (fédération LDAP) et thème de connexion
 │   ├── vm/                      # Pile Swarm des VM, HAProxy, Logstash, installation et déploiement
 │   ├── rigel/                   # Publication du relais RIGEL sur Hidora
-│   ├── ldap/                    # Identités de départ de l’annuaire (LDIF)
+│   ├── ldap/                    # Branche des identités de l’annuaire (LDIF)
 │   └── images/                  # Lecture des secrets et configuration Apache des images
 ├── tests/                       # Tests d’interface et de bout en bout ; fixtures/ : fichiers d’import
 │   ├── captures.ts              # Captures des maquettes (npm run captures)
@@ -395,7 +395,7 @@ application/
 
 Les classes CSS étant partagées entre écrans (tableaux `ops-`, contenus de widgets `w-`), les feuilles de style restent regroupées dans `styles/` et chargées dans un ordre fixe, qui détermine la cascade. Les tests du serveur (`*.test.ts`) sont placés à côté des modules qu’ils vérifient.
 
-Les volumes Docker du projet Compose `orion` séparent et conservent les données PostgreSQL d’ORION, l’annuaire LDAP (`ldap-data`, `ldap-config`). Le fichier LDIF n’est chargé que si l’annuaire est vide : pour le recharger, supprimer les deux volumes LDAP. `npm run infra:down` arrête les services sans supprimer les données. Keycloak réimporte son realm à chaque recréation de son conteneur ; les identités manquantes sont créées dans l’annuaire par le serveur au démarrage. Ne pas supprimer un volume sans vérifier les données qu’il contient.
+Les volumes Docker du projet Compose `orion` séparent et conservent les données PostgreSQL d’ORION, l’annuaire LDAP (`ldap-data`, `ldap-config`). Le fichier LDIF, qui ne crée que la branche des identités, n’est chargé que si l’annuaire est vide : pour le recharger, supprimer les deux volumes LDAP. `npm run infra:down` arrête les services sans supprimer les données. Keycloak réimporte son realm à chaque recréation de son conteneur ; les identités manquantes sont créées dans l’annuaire par le serveur au démarrage. Ne pas supprimer un volume sans vérifier les données qu’il contient.
 
 ## Vérifications
 
@@ -534,7 +534,7 @@ Configurations du déploiement, remises avec le dossier d’architecture :
 | [Dockerfile](Dockerfile) | Une cible par image (voir [Images et intégration continue](#images-et-intégration-continue)) |
 | [infra/images/](infra/images/) | Transmission des secrets Swarm aux services (`secrets.sh`) et configuration Apache de l’image `web` |
 | [infra/keycloak/](infra/keycloak/) | Realm (fédération LDAP, clients, flux de connexion) et thème de connexion de l’image `keycloak` |
-| [infra/ldap/](infra/ldap/) | Identités de départ de l’annuaire (LDIF), chargées si l’annuaire est vide |
+| [infra/ldap/](infra/ldap/) | Branche des identités de l’annuaire (LDIF), chargée si l’annuaire est vide |
 
 Le realm Keycloak lit `APP_URL`, `OIDC_CLIENT_SECRET`, `LDAP_ADMIN_PASSWORD`, `PROVISIONING_CLIENT_SECRET` et `ORION_COMPTES_PRESENTATION` (flux de connexion) s’ils sont définis (`${VARIABLE:valeur locale}`) ; sans eux, il garde les valeurs locales de Compose.
 

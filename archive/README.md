@@ -38,10 +38,10 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md](../docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md) | Production destinée à la remise | [1.0](#27-diagramme-classes-conception) | 15/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md](../docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md) | Production destinée à la remise | [1.0](#28-diagrammes-sequence-detailles) | 15/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [1.0](#29-modele-physique-donnees) | 15/11/2026 |
-| [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [3.5](#18-dossier-architecture-technique) | 15/11/2026 |
+| [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [3.6](#18-dossier-architecture-technique) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.2](#19-diagrammes-architecture) | 14/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.4](#20-backlog-et-suivi-projet) | 14/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.21](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.22](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -471,7 +471,8 @@ Fichier : [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.5 | 15/11/2026 | Décrit la création du premier super administrateur d’une base neuve | en vigueur | — |
+| 3.6 | 15/11/2026 | Retire les identités de démonstration de l’annuaire remis et signale l’accès de présentation | en vigueur | — |
+| 3.5 | 15/11/2026 | Décrit la création du premier super administrateur d’une base neuve | `8866971` | — |
 | 3.4 | 14/11/2026 | Préciser que Logstash garde ses propres logs sur sa VM | `28ed8d4` | — |
 | 3.3 | 14/11/2026 | Donner les versions épinglées de HAProxy et Apache | `8337387` | — |
 | 3.2 | 14/11/2026 | Corriger secrets, données, migrations, provisionnement, filtrage et éléments manquants | `e1c2f59` | — |
@@ -522,7 +523,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.21 | 15/11/2026 | Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT | en vigueur | — |
+| 4.22 | 15/11/2026 | Clôt le retrait des données de démonstration des livrables | en vigueur | — |
+| 4.21 | 15/11/2026 | Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT | `8866971` | — |
 | 4.20 | 15/11/2026 | Cocher les mots de passe des comptes ; Cocher les mots de passe des comptes | `8ad0b2a` | — |
 | 4.19 | 14/11/2026 | Admettre les chemins sur les VM dans le DAT | `d1239fb` | — |
 | 4.18 | 14/11/2026 | Cocher l'exception des logs de Logstash | `28ed8d4` | — |
