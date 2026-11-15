@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.0 | 15/11/2026 | Production destinée à la remise | Points du daily scrum du 16 novembre | [1 version](../../archive/README.md#30-points-daily-scrum-16-novembre) |
+| 1.1 | 15/11/2026 | Pilotage interne | Classement en pilotage interne | [2 versions](../../archive/README.md#30-points-daily-scrum-16-novembre) |
 <!-- version:fin -->
 
 Situation au dimanche 15 novembre. Rendu de l’application le mardi 17, supports prêts le mercredi 18, présentation le jeudi 19 (horaire non fixé). Les numéros renvoient aux tickets du projet GitHub.
