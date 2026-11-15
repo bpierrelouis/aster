@@ -59,7 +59,7 @@ export interface Salle {
   ecoleId: Id;
   batiment: string;
   nom: string;
-  etage?: number | null;
+  etage: number;
 }
 
 export interface Materiel {

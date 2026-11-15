@@ -84,9 +84,9 @@ export function applyReports(s: WorkspaceState, rapports: Rapport[], now = Date.
     }
   }
   markDisconnected(s, now);
-  // Historique borné : processus arrêtés et détections conservés sur une durée limitée
+  // Historique borné : processus arrêtés une heure, détections trente jours (RG-56)
   s.processus = s.processus.filter((x) => !x.stoppedAt || now - x.stoppedAt < HOUR);
-  s.detections = s.detections.filter((d) => now - d.at < 30 * DAY).slice(-2000);
+  s.detections = s.detections.filter((d) => now - d.at < 30 * DAY);
   return unknown;
 }
 

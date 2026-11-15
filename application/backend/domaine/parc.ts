@@ -43,9 +43,9 @@ export function regleMateriel(x: LooseItem, old: LooseItem | undefined, { actor,
   else keepInstallation();
 }
 
-/** Bâtiment en code capitales (salles, étages, règles d'un bâtiment) ; étage et niveau bornés */
+/** Bâtiment en code capitales (salles, étages, règles d'un bâtiment) ; étage d'une salle obligatoire (RG-61), étage et niveau bornés */
 export function regleLieu(c: CollectionName, x: LooseItem) {
   if (['salles', 'etages'].includes(c) || (c === 'regles' && x.portee === 'batiment')) x.batiment = batimentCode(x.batiment); // code en capitales, comme à la saisie
-  if (c === 'salles') assert(typeof x.nom === 'string' && x.nom.trim() && typeof x.batiment === 'string' && x.batiment.trim() && Number.isInteger(x.etage ?? 0) && (x.etage ?? 0) >= -5 && (x.etage ?? 0) <= 30);
+  if (c === 'salles') assert(typeof x.nom === 'string' && x.nom.trim() && typeof x.batiment === 'string' && x.batiment.trim() && Number.isInteger(x.etage) && x.etage! >= -5 && x.etage! <= 30, 'Renseignez le nom, le bâtiment et un étage entre −5 et 30.');
   if (c === 'etages') assert(Number.isInteger(x.niveau) && x.niveau! >= -5 && x.niveau! <= 30 && typeof x.batiment === 'string' && x.batiment.trim());
 }

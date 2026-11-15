@@ -355,6 +355,26 @@ test('formateur : le matériel des salles seulement, pas le stock ; remontée su
   assert(mergeState(state, parAdmin, admin).remontees.some((r) => r.description === 'Stock par l’administrateur'));
 });
 
+test('salles : nom, bâtiment et étage obligatoires (RG-61)', () => {
+  const state = etatDemonstration();
+  const admin = as(state, ADMIN);
+  const ajout = (salle: { etage?: number }) => { const input = scopedState(state, admin); input.salles.push({ id: 's-neuve', ecoleId: 'e-num', batiment: 'A', nom: 'A999', ...salle } as never); return () => mergeState(state, input, admin); };
+  assert.throws(ajout({ etage: undefined }), { status: 400, message: /étage/ });
+  assert.throws(ajout({ etage: 31 }), { status: 400 });
+  assert(ajout({ etage: 2 })().salles.some((x) => x.id === 's-neuve' && x.etage === 2));
+});
+
+test('détections : conservées trente jours, sans limite de nombre (RG-56)', () => {
+  const state = etatDemonstration();
+  const now = Date.now();
+  const poste = state.postes[0];
+  const detection = (i: number, age: number) => ({ id: `d-${i}`, at: now - age, posteId: poste.id, salleId: poste.salleId, processus: 'jeu.exe', compte: 'stagiaire.01', classement: 'blacklist' as const, arret: null });
+  state.detections = [...Array.from({ length: 2500 }, (_, i) => detection(i, 60_000)), detection(9999, 31 * 24 * 3_600_000)];
+  applyReports(state, [], now);
+  assert.equal(state.detections.length, 2500);
+  assert(!state.detections.some((d) => d.id === 'd-9999'));
+});
+
 test('bâtiments : un administrateur renomme un bâtiment ; salles, étages et règles suivent', () => {
   const state = etatDemonstration();
   state.regles.push({ id: 'rule-bat', nom: 'jeu.exe', classement: 'blacklist', portee: 'batiment', ecoleId: 'e-num', batiment: 'C' });
