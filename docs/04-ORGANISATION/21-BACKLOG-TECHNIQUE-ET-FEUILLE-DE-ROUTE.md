@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.14 | 15/11/2026 | Pilotage interne | Noms de la base et du code alignés (#162) | [49 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.15 | 15/11/2026 | Pilotage interne | Tests des points d’état faits ; version publique conservée | [50 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -77,7 +77,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 - [ ] Jeton d’un poste : seule l’API `GET /api/workspace/postes/:id/jeton` permet de l’obtenir ; prévoir l’action dans Administration › Postes. Renouveler `AGENT_TOKEN` révoque tous les jetons à la fois : prévoir une révocation poste par poste si le besoin apparaît.
 - [x] Adresse MAC du matériel : saisie, import JSON et étiquettes du parc (`0505b22`, #128).
 - [ ] Import JSON : le transfert d’un matériel hors service vers une salle d’une autre école est bloqué (conséquence de RG-87) ; à confirmer par l’utilisateur.
-- [ ] Tests : ajouter un test du détail de `/api/health` et `/api/infos` réservé au super administrateur.
+- [x] Tests : détail de `/api/health` et `/api/infos` réservé au super administrateur ; état global, description et version publics (#130).
 - [x] Mode développement : un gros corps refusé tôt ne coupe plus la connexion du proxy de Vite (le serveur lit le corps avant de refuser, `47544cf`, #131).
 
 ### Organisation du code : démonstrateur et espace de travail
@@ -163,7 +163,9 @@ Restent ouverts :
 | Relais RIGEL | Le relais sert le code de l’application mobile : un relais compromis pourrait lire la clé du fragment `#k=` | Modèle de menace ; intégrité du code servi | Démonstrateur |
 | Import | L’analyse de l’import révèle les matériels des autres écoles par leur numéro de série, et l’import les transfère sans accord de l’école d’origine (orientation du 11 novembre) | Transfert soumis à l’école d’origine ou au super administrateur ; analyse réduite à « connu dans une autre école » | Démonstrateur et cible |
 | Énumération des comptes | La connexion en deux étapes distingue une adresse inconnue d’une adresse existante | Formulaire unique adresse et mot de passe, ou page du mot de passe pour toute adresse | Démonstrateur et cible |
-| Divulgation | Message distinct pour un identifiant ou une adresse existant dans une autre école ; `/api/infos` publie le SHA du commit sans connexion | Réponse générique hors périmètre ; version réservée au super administrateur, sans casser la vérification du déploiement | Démonstrateur et cible |
+| Divulgation | Message distinct pour un identifiant ou une adresse existant dans une autre école | Réponse générique hors périmètre | Démonstrateur et cible |
+
+Version publiée sans connexion par `/api/infos` : conservée, attendue pour les applications déployées sur le C1NP (décision de l’utilisateur du 15 novembre) ; testée avec le détail réservé au super administrateur (#130).
 
 Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la console Keycloak (8444) et de Logstash (6514), pare-feu des VM. Dépôt laissé public (utilisateur, 15 novembre) pour ne pas limiter les minutes de la CI.
 
