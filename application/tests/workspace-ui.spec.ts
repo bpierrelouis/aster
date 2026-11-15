@@ -706,7 +706,7 @@ test('supervision : Alertes par défaut ; la recherche ignore casse et espaces, 
   const search = page.getByRole('searchbox', { name: 'Rechercher', exact: true });
   await search.fill('  LibreOffice ');
   await expect(page.locator('.ops-table tbody tr')).toHaveText([/soffice\.exe/, /soffice\.bin/]);
-  await search.fill('liste noire STEAM');
+  await search.fill('blacklist STEAM');
   await expect(page.locator('.ops-table tbody tr')).toHaveText([/steam\.exe/]);
   await search.fill('processus-absent');
   await expect(page.locator('.ops-table tbody tr')).toHaveText([/Aucune règle/]);
