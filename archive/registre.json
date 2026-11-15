@@ -2112,6 +2112,13 @@
         "version": "2.0",
         "date": "2026-11-15",
         "modification": "RIGEL selon la cible : API d’Express, sans relais ni connecteur ; RIGEL selon la cible : API d’Express, sans relais ni connecteur",
+        "archive": null,
+        "commit": "04c54ca"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-15",
+        "modification": "Routes et règle des opérations RIGEL renommées",
         "archive": null
       }
     ]
@@ -2130,6 +2137,13 @@
         "version": "2.0",
         "date": "2026-11-15",
         "modification": "Constat RIGEL transmis directement à Express ; Constat RIGEL transmis directement à Express",
+        "archive": null,
+        "commit": "04c54ca"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-15",
+        "modification": "Tables sans préfixe ; collections interventions et operations",
         "archive": null
       }
     ]
@@ -2148,6 +2162,13 @@
         "version": "2.0",
         "date": "2026-11-15",
         "modification": "Base du relais RIGEL retirée de la cible",
+        "archive": null,
+        "commit": "04c54ca"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-15",
+        "modification": "Tables sans préfixe orion_ ; Intervention, Operation et Deplacement",
         "archive": null
       }
     ]
@@ -2865,6 +2886,13 @@
         "version": "5.13",
         "date": "2026-11-15",
         "modification": "Lien remontée → école justifié ; préférences couvertes par le DCU 22",
+        "archive": null,
+        "commit": "8be49e9"
+      },
+      {
+        "version": "5.14",
+        "date": "2026-11-15",
+        "modification": "Noms de la base et du code alignés (#162)",
         "archive": null
       }
     ]
@@ -2897,6 +2925,13 @@
         "version": "1.3",
         "date": "2026-11-15",
         "modification": "Lien d’une remontée à son école tranché",
+        "archive": null,
+        "commit": "8be49e9"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-15",
+        "modification": "Points 1, 3, 4 et 6 tranchés",
         "archive": null
       }
     ]

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 15/11/2026 | Production destinée à la remise | Constat RIGEL transmis directement à Express ; Constat RIGEL transmis directement à Express | [2 versions](../../../archive/README.md#28-diagrammes-sequence-detailles) |
+| 2.1 | 15/11/2026 | Production destinée à la remise | Tables sans préfixe ; collections interventions et operations | [3 versions](../../../archive/README.md#28-diagrammes-sequence-detailles) |
 <!-- version:fin -->
 
 ## Écriture concurrente fusionnée
@@ -29,15 +29,15 @@ sequenceDiagram
     R->>E: update(state, n, actor)
     E->>P: write(change)
     P->>DB: BEGIN
-    P->>DB: SELECT revision FROM orion_espace WHERE id = 1 FOR UPDATE
+    P->>DB: SELECT revision FROM espace WHERE id = 1 FOR UPDATE
     DB-->>P: revision = n + k
     opt copie du serveur périmée
-        P->>DB: SELECT des tables orion_* et orion_donnee
+        P->>DB: SELECT des tables relationnelles et de donnee
         DB-->>P: lignes
         P->>P: loadState() → état courant
     end
     P->>E: change(état courant, since)
-    E->>DB: SELECT revision, cles FROM orion_journal WHERE revision > n
+    E->>DB: SELECT revision, cles FROM journal WHERE revision > n
     DB-->>E: entrées n + 1 … n + k
     E->>F: rebase(état, saisie, n, journal, actor)
     alt même élément modifié par le navigateur et par une autre écriture
@@ -55,8 +55,8 @@ sequenceDiagram
         E->>E: cloreInstallations(next), diffKeys(état, next)
         E-->>P: next, résultat, entrée du journal
         P->>DB: writeDiff : INSERT … ON CONFLICT DO UPDATE, DELETE
-        P->>DB: writePreferences, writeMeta (UPDATE orion_espace)
-        P->>DB: INSERT INTO orion_journal, DELETE des entrées au-delà de 2000
+        P->>DB: writePreferences, writeMeta (UPDATE espace)
+        P->>DB: INSERT INTO journal, DELETE des entrées au-delà de 2000
         P->>DB: COMMIT
         P-->>E: before, next, résultat
         E->>E: journal « enregistrement », écouteurs onCommit
@@ -95,7 +95,7 @@ sequenceDiagram
     RR->>RR: contrôle du type de problème, de la description et des matériels de l'école
     RR-->>M: remontée complétée
     M-->>E: next
-    E->>DB: INSERT orion_remontee, orion_remontee_materiel, orion_journal, COMMIT
+    E->>DB: INSERT remontee, remontee_materiel, journal, COMMIT
     E-->>R: vue du compte
     R-->>S: 200 avec le numéro attribué
     S-->>C: adopt(vue)
@@ -115,14 +115,14 @@ sequenceDiagram
     M->>RR: regleRemontee(x, ancienne, contexte)
     RR->>RR: gestionnaire seul, transition attente → encours, seuls statut et historique modifiés
     RR->>RR: étape ajoutée à l'historique (statut, date, auteur)
-    E->>DB: UPDATE orion_remontee, COMMIT
+    E->>DB: UPDATE remontee, COMMIT
     R-->>S: 200
     G->>L: traiter « Remplacé » ou « Corrigé »
     L->>S: update('data', statut final)
     S->>R: PUT /api/workspace
     R->>E: update
     E->>RR: transition encours → remplace ou corrige
-    E->>DB: UPDATE orion_remontee, COMMIT
+    E->>DB: UPDATE remontee, COMMIT
     R-->>S: 200
 ```
 
@@ -148,7 +148,7 @@ sequenceDiagram
     E->>PO: regleIntervention(x, undefined, contexte) via mergeState
     PO->>PO: droits, cibles = postes de la salle, une seule salle, application du catalogue
     PO->>PO: auteur, date, statut « enregistree », résultats « en_attente » par poste
-    E->>DB: INSERT orion_donnee (collection operations), COMMIT
+    E->>DB: INSERT donnee (collection interventions), COMMIT
     R-->>S: 200
 
     loop à chaque rapport du poste
@@ -163,7 +163,7 @@ sequenceDiagram
         AR-->>AG: commandes en attente pour ce poste
     end
     AG->>AG: exécuter la commande
-    AG->>AR: POST /api/agent/resultats {operation, poste, statut}
+    AG->>AR: POST /api/agent/resultats {intervention, poste, statut}
     AR->>E: agent.resultats(resultats)
     E->>PO: applyResults(état, resultats)
     PO->>PO: résultat du poste, installation ajoutée si réussie
@@ -197,7 +197,7 @@ sequenceDiagram
     S->>R: POST /api/workspace/salles/:id/installation
     R->>E: rigel.installation(actor, salleId, config)
     E->>RC: lancerInstallation(état, actor, salleId)
-    E->>DB: INSERT orion_donnee (recensements), COMMIT
+    E->>DB: INSERT donnee (collection operations), COMMIT
     E->>RC: appairage(état, actor, id, config)
     RC-->>E: adresse avec opération et jeton dérivé du secret
     R-->>S: {url, expireLe, state}
@@ -252,7 +252,7 @@ sequenceDiagram
         R->>E: pdf(id, actor)
         E->>P: read()
         P->>DB: BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY
-        P->>DB: SELECT revision FROM orion_espace
+        P->>DB: SELECT revision FROM espace
         opt copie du serveur périmée
             P->>DB: lecture des tables
         end

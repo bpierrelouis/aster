@@ -35,14 +35,14 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/25-DIAGRAMMES-SEQUENCE-SYSTEME.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/25-DIAGRAMMES-SEQUENCE-SYSTEME.md) | Production destinée à la remise | [1.0](#25-diagrammes-sequence-systeme) | 15/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [4.2](#17-diagrammes-etats) | 15/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/26-DIAGRAMME-CLASSES-ANALYSE.md](../docs/02-ANALYSE/03-ANALYSE/26-DIAGRAMME-CLASSES-ANALYSE.md) | Production destinée à la remise | [2.0](#26-diagramme-classes-analyse) | 15/11/2026 |
-| [docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md](../docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md) | Production destinée à la remise | [2.0](#27-diagramme-classes-conception) | 15/11/2026 |
-| [docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md](../docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md) | Production destinée à la remise | [2.0](#28-diagrammes-sequence-detailles) | 15/11/2026 |
-| [docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [2.0](#29-modele-physique-donnees) | 15/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md](../docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md) | Production destinée à la remise | [2.1](#27-diagramme-classes-conception) | 15/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md](../docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md) | Production destinée à la remise | [2.1](#28-diagrammes-sequence-detailles) | 15/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [3.0](#29-modele-physique-donnees) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [4.0](#18-dossier-architecture-technique) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.5](#20-backlog-et-suivi-projet) | 15/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.13](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
-| [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [1.3](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.14](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [1.4](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -480,7 +480,8 @@ Fichier : [docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 15/11/2026 | RIGEL selon la cible : API d’Express, sans relais ni connecteur ; RIGEL selon la cible : API d’Express, sans relais ni connecteur | en vigueur | — |
+| 2.1 | 15/11/2026 | Routes et règle des opérations RIGEL renommées | en vigueur | — |
+| 2.0 | 15/11/2026 | RIGEL selon la cible : API d’Express, sans relais ni connecteur ; RIGEL selon la cible : API d’Express, sans relais ni connecteur | `04c54ca` | — |
 | 1.0 | 15/11/2026 | Classes de conception du serveur et du navigateur | `36f4195` | — |
 
 ### 28-DIAGRAMMES-SEQUENCE-DETAILLES
@@ -489,7 +490,8 @@ Fichier : [docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md](..
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 15/11/2026 | Constat RIGEL transmis directement à Express ; Constat RIGEL transmis directement à Express | en vigueur | — |
+| 2.1 | 15/11/2026 | Tables sans préfixe ; collections interventions et operations | en vigueur | — |
+| 2.0 | 15/11/2026 | Constat RIGEL transmis directement à Express ; Constat RIGEL transmis directement à Express | `04c54ca` | — |
 | 1.0 | 15/11/2026 | Séquences détaillées sur les objets réels | `36f4195` | — |
 
 ### 29-MODELE-PHYSIQUE-DONNEES
@@ -498,7 +500,8 @@ Fichier : [docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md](../docs/
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 15/11/2026 | Base du relais RIGEL retirée de la cible | en vigueur | — |
+| 3.0 | 15/11/2026 | Tables sans préfixe orion_ ; Intervention, Operation et Deplacement | en vigueur | — |
+| 2.0 | 15/11/2026 | Base du relais RIGEL retirée de la cible | `04c54ca` | — |
 | 1.0 | 15/11/2026 | Modèle physique des données en UML (profil d’Ambler) | `36f4195` | — |
 
 ### 18-DOSSIER-ARCHITECTURE-TECHNIQUE
@@ -562,7 +565,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.13 | 15/11/2026 | Lien remontée → école justifié ; préférences couvertes par le DCU 22 | en vigueur | — |
+| 5.14 | 15/11/2026 | Noms de la base et du code alignés (#162) | en vigueur | — |
+| 5.13 | 15/11/2026 | Lien remontée → école justifié ; préférences couvertes par le DCU 22 | `8be49e9` | — |
 | 5.12 | 15/11/2026 | Questions du cadrage déjà résolues reportées | `4268db6` | — |
 | 5.11 | 15/11/2026 | Étage obligatoire et détections corrigés dans le code ; documentation du 15 novembre consignée | `e3b635b` | — |
 | 5.10 | 15/11/2026 | Informations non répercutées traitées ; limite des détections inscrite | `60a0e11` | — |
@@ -617,7 +621,8 @@ Fichier : [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.3 | 15/11/2026 | Lien d’une remontée à son école tranché | en vigueur | — |
+| 1.4 | 15/11/2026 | Points 1, 3, 4 et 6 tranchés | en vigueur | — |
+| 1.3 | 15/11/2026 | Lien d’une remontée à son école tranché | `8be49e9` | — |
 | 1.2 | 15/11/2026 | Présentation de RIGEL selon la cible tranchée | `04c54ca` | — |
 | 1.1 | 15/11/2026 | Classement en pilotage interne | `1640070` | — |
 | 1.0 | 15/11/2026 | Points du daily scrum du 16 novembre | `36a3477` | — |

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 15/11/2026 | Production destinée à la remise | RIGEL selon la cible : API d’Express, sans relais ni connecteur ; RIGEL selon la cible : API d’Express, sans relais ni connecteur | [2 versions](../../../archive/README.md#27-diagramme-classes-conception) |
+| 2.1 | 15/11/2026 | Production destinée à la remise | Routes et règle des opérations RIGEL renommées | [3 versions](../../../archive/README.md#27-diagramme-classes-conception) |
 <!-- version:fin -->
 
 ## Serveur : API, moteur d'écriture et persistance
@@ -37,7 +37,7 @@ classDiagram
         POST /import/analyse
         POST /import
         GET /postes/:id/jeton
-        GET /recensements/:id/appairage
+        GET /operations/:id/appairage
         POST /salles/:id/installation
         POST /constats/:id/traitement
         GET /reports/:id/pdf
@@ -206,7 +206,7 @@ classDiagram
     }
     class Recensement["recensement.ts"] {
         <<module>>
-        +regleRecensement(x, old, state, actor, now)
+        +regleOperation(x, old, state, actor, now)
         +regleConstat(x, old, actor, now)
         +traiterConstat(state, id, action, actor, now)
         +lancerInstallation(state, actor, salleId, now)

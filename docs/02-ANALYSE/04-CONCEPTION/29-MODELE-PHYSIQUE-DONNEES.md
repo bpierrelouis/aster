@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 15/11/2026 | Production destinée à la remise | Base du relais RIGEL retirée de la cible | [2 versions](../../../archive/README.md#29-modele-physique-donnees) |
+| 3.0 | 15/11/2026 | Production destinée à la remise | Tables sans préfixe orion_ ; Intervention, Operation et Deplacement | [3 versions](../../../archive/README.md#29-modele-physique-donnees) |
 <!-- version:fin -->
 
 ## Base ORION : tables relationnelles
@@ -11,19 +11,19 @@
 ```mermaid
 classDiagram
     direction LR
-    class orion_espace {
+    class espace {
         <<Table>>
         «PK» id : smallint CHECK id = 1
         version_donnees : integer NOT NULL
         revision : integer NOT NULL
         initialise_le : timestamptz NOT NULL
     }
-    class orion_journal {
+    class journal {
         <<Table>>
         «PK» revision : integer
         cles : json NOT NULL
     }
-    class orion_migration {
+    class migration {
         <<Table>>
         «PK» version : integer
         nom : text NOT NULL
@@ -35,13 +35,13 @@ classDiagram
         sess : json NOT NULL
         expire : timestamp NOT NULL
     }
-    class orion_ecole {
+    class ecole {
         <<Table>>
         «PK» id : text
         nom : text NOT NULL
         extra : jsonb NOT NULL
     }
-    class orion_etage {
+    class etage {
         <<Table>>
         «PK» id : text
         «FK» «AK» ecole_id : text NOT NULL
@@ -49,7 +49,7 @@ classDiagram
         «AK» niveau : integer NOT NULL, -5 à 30
         extra : jsonb NOT NULL
     }
-    class orion_salle {
+    class salle {
         <<Table>>
         «PK» id : text
         «FK» ecole_id : text NOT NULL
@@ -58,7 +58,7 @@ classDiagram
         etage : integer, -5 à 30
         extra : jsonb NOT NULL
     }
-    class orion_materiel {
+    class materiel {
         <<Table>>
         «PK» id : text
         «FK» ecole_id : text NOT NULL
@@ -75,7 +75,7 @@ classDiagram
         date_hors_service : timestamptz
         extra : jsonb NOT NULL
     }
-    class orion_compte {
+    class compte {
         <<Table>>
         «PK» id : text
         nom : text NOT NULL
@@ -88,7 +88,7 @@ classDiagram
         date_desactivation : timestamptz
         extra : jsonb NOT NULL
     }
-    class orion_preference {
+    class preference {
         <<Table>>
         «PK» «FK» compte_id : text
         affichage : jsonb
@@ -96,7 +96,7 @@ classDiagram
         consultation : timestamptz
         ecole_affichee : text
     }
-    class orion_remontee {
+    class remontee {
         <<Table>>
         «PK» id : text
         «FK» ecole_id : text NOT NULL
@@ -109,13 +109,13 @@ classDiagram
         historique : jsonb NOT NULL
         extra : jsonb NOT NULL
     }
-    class orion_remontee_materiel {
+    class remontee_materiel {
         <<Table>>
         «PK» «FK» remontee_id : text
         «PK» rang : integer
         materiel_id : text NOT NULL
     }
-    class orion_donnee {
+    class donnee {
         <<Table>>
         «PK» collection : text
         «PK» id : text
@@ -123,15 +123,15 @@ classDiagram
         data : jsonb NOT NULL
         rang : bigint GENERATED ALWAYS AS IDENTITY
     }
-    class orion_materiel_ecole {
+    class materiel_ecole {
         <<Index>>
         ecole_id
     }
-    class orion_materiel_salle {
+    class materiel_salle {
         <<Index>>
         salle_id
     }
-    class orion_remontee_ecole {
+    class remontee_ecole {
         <<Index>>
         ecole_id, statut
     }
@@ -140,19 +140,19 @@ classDiagram
         expire
     }
 
-    orion_etage "*" --> "1" orion_ecole : ecole_id
-    orion_salle "*" --> "1" orion_ecole : ecole_id
-    orion_materiel "*" --> "1" orion_ecole : ecole_id
-    orion_materiel "*" --> "0..1" orion_salle : salle_id
-    orion_compte "*" --> "0..1" orion_ecole : ecole_id
-    orion_preference "0..1" --> "1" orion_compte : compte_id ON DELETE CASCADE
-    orion_remontee "*" --> "1" orion_ecole : ecole_id
-    orion_remontee "*" --> "0..1" orion_compte : auteur_id
-    orion_remontee_materiel "1..*" --* "1" orion_remontee : remontee_id ON DELETE CASCADE
-    orion_remontee_materiel ..> orion_materiel : materiel_id sans contrainte
-    orion_materiel_ecole ..> orion_materiel
-    orion_materiel_salle ..> orion_materiel
-    orion_remontee_ecole ..> orion_remontee
+    etage "*" --> "1" ecole : ecole_id
+    salle "*" --> "1" ecole : ecole_id
+    materiel "*" --> "1" ecole : ecole_id
+    materiel "*" --> "0..1" salle : salle_id
+    compte "*" --> "0..1" ecole : ecole_id
+    preference "0..1" --> "1" compte : compte_id ON DELETE CASCADE
+    remontee "*" --> "1" ecole : ecole_id
+    remontee "*" --> "0..1" compte : auteur_id
+    remontee_materiel "1..*" --* "1" remontee : remontee_id ON DELETE CASCADE
+    remontee_materiel ..> materiel : materiel_id sans contrainte
+    materiel_ecole ..> materiel
+    materiel_salle ..> materiel
+    remontee_ecole ..> remontee
     IDX_session_expire ..> session
 ```
 
@@ -161,7 +161,7 @@ classDiagram
 ```mermaid
 classDiagram
     direction LR
-    class orion_donnee {
+    class donnee {
         <<Table>>
         «PK» collection : text
         «PK» id : text
@@ -228,7 +228,7 @@ classDiagram
         ecoleId : Id
         applicationId : Id
     }
-    class Operation {
+    class Intervention {
         <<JSON>>
         id : Id
         type : installation desinstallation reinstallation arret
@@ -247,7 +247,7 @@ classDiagram
         auto : boolean
         termineLe : horodatage
     }
-    class Recensement {
+    class Operation {
         <<JSON>>
         id : Id
         ecoleId : Id
@@ -263,7 +263,7 @@ classDiagram
     class Constat {
         <<JSON>>
         id : cst-identifiant de l'événement
-        recensementId : Id
+        operationId : Id
         ecoleId : Id
         type : vu releve retour stock inconnu
         code : string
@@ -276,7 +276,7 @@ classDiagram
         saisie : type modele marque serie garantieFin
         traite : Trace et action
     }
-    class Mouvement {
+    class Deplacement {
         <<JSON>>
         de : Id ou null
         at : horodatage
@@ -290,31 +290,31 @@ classDiagram
         par : string
         parId : Id ou null
     }
-    class orion_materiel {
+    class materiel {
         <<Table>>
         extra : jsonb
     }
-    class orion_remontee {
+    class remontee {
         <<Table>>
         historique : jsonb
     }
 
-    orion_donnee "1" *-- "*" Poste : collection postes
-    orion_donnee "1" *-- "*" Processus : collection processus
-    orion_donnee "1" *-- "*" Detection : collection detections
-    orion_donnee "1" *-- "*" Regle : collection regles
-    orion_donnee "1" *-- "*" Application : collection applications
-    orion_donnee "1" *-- "*" Installation : collection installations
-    orion_donnee "1" *-- "*" Operation : collection operations
-    orion_donnee "1" *-- "*" Recensement : collection recensements
-    orion_donnee "1" *-- "*" Constat : collection constats
-    orion_materiel *-- "0..1" Mouvement : extra.deplacement
-    orion_materiel *-- "0..1" Mouvement : extra.installation
-    orion_remontee *-- "1..*" EtapeRemontee : historique
+    donnee "1" *-- "*" Poste : collection postes
+    donnee "1" *-- "*" Processus : collection processus
+    donnee "1" *-- "*" Detection : collection detections
+    donnee "1" *-- "*" Regle : collection regles
+    donnee "1" *-- "*" Application : collection applications
+    donnee "1" *-- "*" Installation : collection installations
+    donnee "1" *-- "*" Intervention : collection interventions
+    donnee "1" *-- "*" Operation : collection operations
+    donnee "1" *-- "*" Constat : collection constats
+    materiel *-- "0..1" Deplacement : extra.deplacement
+    materiel *-- "0..1" Deplacement : extra.installation
+    remontee *-- "1..*" EtapeRemontee : historique
     Processus ..> Poste : posteId
     Detection ..> Poste : posteId
     Installation ..> Application : applicationId
-    Operation ..> Poste : cibles
-    Operation ..> Processus : processusId
-    Constat ..> Recensement : recensementId
+    Intervention ..> Poste : cibles
+    Intervention ..> Processus : processusId
+    Constat ..> Operation : operationId
 ```

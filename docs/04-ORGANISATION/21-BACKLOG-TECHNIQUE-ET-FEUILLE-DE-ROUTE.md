@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.13 | 15/11/2026 | Pilotage interne | Lien remontée → école justifié ; préférences couvertes par le DCU 22 | [48 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.14 | 15/11/2026 | Pilotage interne | Noms de la base et du code alignés (#162) | [49 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -63,7 +63,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Évolutions
 
-- [ ] **Haute** — Noms de la base et du code alignés sur la documentation, après la réunion d’équipe ([#162](https://github.com/bpierrelouis/aster/issues/162)) : tables ORION sans préfixe `orion_` (migration `0002`), relais RIGEL `operation` et `evenement`, « campagne » remplacée par « opération » dans le code ; modèle physique (29), séquences détaillées (28) et `application/README.md` à jour.
+- [x] **Haute** — Noms de la base et du code alignés sur la documentation ([#162](https://github.com/bpierrelouis/aster/issues/162), décision de l’utilisateur du 15 novembre : avant le gel, vocabulaire complet) : migration `0002` (tables, index et contraintes sans préfixe `orion_`, collections `operations` → `interventions` et `recensements` → `operations`, `operationId` des constats, journal de fusion repris), table de suivi `migration`, tables du relais `operation` et `evenement` (reprise des anciennes) ; code : `Intervention`, `Operation` (RIGEL), `Deplacement`, « campagne » → « opération », routes `/operations`, champ `intervention` des résultats des postes ; appairages enregistrés sur les téléphones repris ; `SEED_VERSION` 22. Reste : vérifier la reprise des données sur les VM au prochain déploiement.
 - [ ] **Moyenne** — Observatoire anonymisé des parcours utilisateurs : mesurer, sans identifier les personnes, le taux de réussite, la durée, les abandons et les erreurs des tâches principales (créer et traiter une remontée, déplacer ou importer du matériel, demander une intervention, recenser une salle), puis adapter la navigation à partir de ces données réelles. À cadrer avant réalisation : liste des tâches et de leurs étapes, anonymisation et durée de conservation, information des utilisateurs, stockage dans ORION, restitution (tableau de bord du super administrateur), et place dans l’architecture cible à soumettre au collègue du DAT.
 - [ ] **Moyenne** — Retirer au lieu de supprimer (bonne pratique de gestion de parc, proposée le 13 novembre) :
   - matériel, poste, application du catalogue et règle : un retrait (état « retiré » avec date, auteur et motif : réformé, perdu, transféré, erreur de saisie) remplace la suppression ; l’élément reste en base, sort des listes courantes, garde son historique et peut être réactivé ;
@@ -252,7 +252,7 @@ Le DAT, tenu par l’utilisateur, fait foi ; ces écarts entre lui, la configura
 
 ## 7. Feuille de route : évolutions du projet
 
-- [ ] **RIGEL selon la cible** — La conception (diagrammes 27, 28 et 29) présente la cible : le téléphone joint l’API RIGEL d’Express (`GET /api/rigel/operations/:id/instantane`, `POST /api/rigel/operations/:id/evenements`, module `rigel/core/api.ts` du téléphone ; noms retenus par l’utilisateur le 15 novembre, à reprendre dans le code avec #162) avec le jeton de son appairage, sans chiffrement de bout en bout ni base du relais. Le code garde le relais Hidora, le connecteur et les blocs chiffrés de l’architecture réelle ; l’écart est voulu tant que le démonstrateur n’a pas d’entrée depuis Internet.
+- [ ] **RIGEL selon la cible** — La conception (diagrammes 27, 28 et 29) présente la cible : le téléphone joint l’API RIGEL d’Express (`GET /api/rigel/operations/:id/instantane`, `POST /api/rigel/operations/:id/evenements`) avec le jeton de son appairage, sans chiffrement de bout en bout ni base du relais. Les noms sont repris dans le code (#162) ; le code garde le relais Hidora, le connecteur et les blocs chiffrés de l’architecture réelle, écart voulu tant que le démonstrateur n’a pas d’entrée depuis Internet.
 
 Évolutions envisagées au-delà du périmètre en cours, reportées en V2 (décision de l’utilisateur du 15 novembre) : l’agent M42, la gestion du catalogue des applications et les postes Linux.
 
