@@ -72,11 +72,11 @@
       "fullScopeAllowed": true
     }
   ],
-  "browserFlow": "orion-username-only",
+  "browserFlow": "orion-connexion-${ORION_COMPTES_PRESENTATION:false}",
   "authenticationFlows": [
     {
-      "alias": "orion-username-only",
-      "description": "LOCAL ONLY: known usernames without a password. Never deploy in production.",
+      "alias": "orion-connexion-false",
+      "description": "Adresse électronique, puis mot de passe.",
       "providerId": "basic-flow",
       "topLevel": true,
       "builtIn": false,
@@ -87,8 +87,74 @@
           "requirement": "REQUIRED",
           "priority": 10,
           "userSetupAllowed": false
+        },
+        {
+          "authenticator": "auth-password-form",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 20,
+          "userSetupAllowed": false
         }
       ]
+    },
+    {
+      "alias": "orion-connexion-true",
+      "description": "Présentation au client (ORION_COMPTES_PRESENTATION=true) : mot de passe demandé, sauf aux comptes des jetons « Accès de présentation ». Jamais en production.",
+      "providerId": "basic-flow",
+      "topLevel": true,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "authenticator": "auth-username-form",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 10,
+          "userSetupAllowed": false
+        },
+        {
+          "authenticatorFlow": true,
+          "flowAlias": "orion-mot-de-passe-hors-presentation",
+          "requirement": "CONDITIONAL",
+          "priority": 20,
+          "userSetupAllowed": false
+        }
+      ]
+    },
+    {
+      "alias": "orion-mot-de-passe-hors-presentation",
+      "description": "Mot de passe, sauf pour les comptes des jetons « Accès de présentation » (mêmes adresses que le thème orion-mindef).",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "authenticator": "conditional-user-attribute",
+          "authenticatorConfig": "orion-comptes-presentation",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 10,
+          "userSetupAllowed": false
+        },
+        {
+          "authenticator": "auth-password-form",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 20,
+          "userSetupAllowed": false
+        }
+      ]
+    }
+  ],
+  "authenticatorConfig": [
+    {
+      "alias": "orion-comptes-presentation",
+      "config": {
+        "attribute_name": "email",
+        "attribute_expected_value": "^(julien\\.mercier@outlook\\.fr|sophie\\.garnier@yahoo\\.fr|thomas\\.lefebvre@hotmail\\.fr)$",
+        "regex": "true",
+        "not": "true",
+        "include_group_attributes": "false"
+      }
     }
   ],
   "components": {
@@ -212,6 +278,9 @@
           ],
           "editMode": [
             "WRITABLE"
+          ],
+          "usePasswordModifyExtendedOp": [
+            "true"
           ],
           "importEnabled": [
             "false"

@@ -78,6 +78,7 @@ services:
       - SESSION_SECRET
       - AGENT_TOKEN
       - PROVISIONING_CLIENT_SECRET
+      - PROVISIONING_PASSWORD_SECRET
       - RIGEL_SECRET
       - source: ca
         target: /etc/ssl/orion/ca.pem
@@ -223,6 +224,7 @@ secrets:
   SESSION_SECRET: { external: true }
   AGENT_TOKEN: { external: true }
   PROVISIONING_CLIENT_SECRET: { external: true }
+  PROVISIONING_PASSWORD_SECRET: { external: true }
   RIGEL_SECRET: { external: true }
   keycloak_admin: { external: true }
   orion_postgres_password: { external: true }

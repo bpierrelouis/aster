@@ -6,12 +6,15 @@
    ========================================================================== */
 
 import { identifiantDeBase, identifiantUnique } from './identifiant.ts';
+import { motDePasse } from './mot-de-passe.ts';
 import type { Compte } from '#shared/types.ts';
 
 // adminUrl : adresse de l'API d'administration, par défaut celle de l'émetteur ; sur les VM, l'adresse interne de Keycloak.
 // Compte de service du realm (client orion-provisionnement), limité à la gestion de ses utilisateurs.
-export function createKeycloakProvisioning({ issuer, adminUrl = issuer, clientId, clientSecret, log = console }: {
-  issuer: URL; adminUrl?: URL; clientId: string; clientSecret: string; log?: Partial<Pick<Console, 'info'>>;
+// passwordSecret : secret dont est dérivé le mot de passe de chaque compte (mot-de-passe.ts), jamais versionné ;
+// l'annuaire n'en garde qu'une empreinte (opération LDAP de changement de mot de passe, realm).
+export function createKeycloakProvisioning({ issuer, adminUrl = issuer, clientId, clientSecret, passwordSecret, log = console }: {
+  issuer: URL; adminUrl?: URL; clientId: string; clientSecret: string; passwordSecret: string; log?: Partial<Pick<Console, 'info'>>;
 }) {
   const base = adminUrl.origin;
   const realm = issuer.pathname.match(/\/realms\/([^/]+)/)?.[1];
@@ -36,15 +39,23 @@ export function createKeycloakProvisioning({ issuer, adminUrl = issuer, clientId
     return response.status === 201 || response.status === 204 ? true : response.json();
   }
 
-  /** Crée les identités manquantes pour les comptes actifs (rapprochement par adresse électronique). */
+  const credential = (email: string) => ({ type: 'password', value: motDePasse(passwordSecret, email), temporary: false });
+  // Identités dont le mot de passe a été fixé par ce processus : une fois chacune, au démarrage ou à leur création
+  const fixes = new Set<string>();
+
+  /** Crée les identités manquantes pour les comptes actifs (rapprochement par adresse électronique) et fixe leur mot de passe. */
   async function ensure(accounts: Compte[]) {
     const active = accounts.filter((c) => c.actif && c.email);
     if (!active.length) return 0;
     const access = await token();
     let created = 0;
     for (const c of active) {
-      const found = (await api(`/users?email=${encodeURIComponent(c.email)}&exact=true`, access)) as unknown[];
-      if (found.length) continue;
+      const found = (await api(`/users?email=${encodeURIComponent(c.email)}&exact=true`, access)) as { id: string }[];
+      if (found.length) {
+        if (!fixes.has(found[0].id)) await api(`/users/${found[0].id}/reset-password`, access, { method: 'PUT', body: JSON.stringify(credential(c.email)) });
+        fixes.add(found[0].id);
+        continue;
+      }
       // Identifiant formé à partir du nom ; homonymes départagés par un chiffre (identifiant.ts). Recherche
       // (sous-chaîne) sur les 17 premiers caractères : couvre aussi les identifiants raccourcis pour le chiffre.
       const repli = c.email.split('@')[0];
@@ -52,7 +63,7 @@ export function createKeycloakProvisioning({ issuer, adminUrl = issuer, clientId
       const pris = new Set(existants.map((u) => u.username.toLowerCase()));
       const username = identifiantUnique(c.nom, (id) => pris.has(id), repli);
       const [firstName, ...rest] = c.nom.split(' ');
-      if (await api('/users', access, { method: 'POST', body: JSON.stringify({ username, email: c.email, firstName, lastName: rest.join(' ') || firstName, enabled: true, emailVerified: true }) })) created++;
+      if (await api('/users', access, { method: 'POST', body: JSON.stringify({ username, email: c.email, firstName, lastName: rest.join(' ') || firstName, enabled: true, emailVerified: true, credentials: [credential(c.email)] }) })) created++;
     }
     if (created) log.info?.(`Identités créées dans le fournisseur local : ${created}`);
     return created;

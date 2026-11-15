@@ -45,8 +45,13 @@ test('les identifiants locaux sont utilisables uniquement hors production', () =
   assert.equal(readConfig({}).identityProvisioning, true);
   assert.equal(readConfig(production).identityProvisioning, false);
   assert.throws(() => readConfig({ ...production, IDENTITY_PROVISIONING: 'true' }));
-  const demo = readConfig({ ...production, IDENTITY_PROVISIONING: 'true', PROVISIONING_CLIENT_SECRET: 'dedicated-client', KEYCLOAK_ADMIN_URL: 'http://keycloak:8080' });
+  const vm = { ...production, IDENTITY_PROVISIONING: 'true', PROVISIONING_CLIENT_SECRET: 'dedicated-client', KEYCLOAK_ADMIN_URL: 'http://keycloak:8080' };
+  assert.throws(() => readConfig(vm), /PROVISIONING_PASSWORD_SECRET/, 'secret des mots de passe exigé');
+  assert.throws(() => readConfig({ ...vm, PROVISIONING_PASSWORD_SECRET: 'orion-local' }), /PROVISIONING_PASSWORD_SECRET/, 'secret local refusé');
+  const demo = readConfig({ ...vm, PROVISIONING_PASSWORD_SECRET: 'x'.repeat(32) });
   assert.equal(demo.identityProvisioning, true);
+  assert.equal(demo.provisioning.passwordSecret, 'x'.repeat(32));
+  assert.equal(readConfig({}).provisioning.passwordSecret, 'orion-local');
   assert.equal(demo.provisioning.adminUrl.origin, 'http://keycloak:8080');
   assert.equal(readConfig(production).provisioning.adminUrl.origin, 'https://identity.example.test');
 });

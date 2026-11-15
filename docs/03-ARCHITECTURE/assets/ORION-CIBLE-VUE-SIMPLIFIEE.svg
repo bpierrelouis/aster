@@ -60,10 +60,10 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <rect x="32" y="466" width="145" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
 <use href="#i-monitor" x="86.5" y="480" width="36" height="36" style="color:#0f6cbd"/>
 <text x="104.5" y="558" class="cname" text-anchor="middle">Postes Windows</text>
-<rect x="465" y="117" width="200" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
-<use href="#i-key-round" x="547" y="131" width="36" height="36" style="color:#0f6cbd"/>
-<text x="565" y="189" class="cname" text-anchor="middle">MindefConnect</text>
-<text x="565" y="208" class="crole" text-anchor="middle">Service d’identité</text>
+<rect x="520" y="117" width="200" height="128" rx="8" fill="#fff" stroke="#b3c3d3"/>
+<use href="#i-key-round" x="602" y="131" width="36" height="36" style="color:#0f6cbd"/>
+<text x="620" y="189" class="cname" text-anchor="middle">MindefConnect</text>
+<text x="620" y="208" class="crole" text-anchor="middle">Service d’identité</text>
 <rect x="290" y="329" width="195" height="128" rx="8" fill="#fff" stroke="#c8d6e4"/>
 <use href="#i-split" x="369.5" y="343" width="36" height="36" style="color:#0f6cbd"/>
 <text x="387.5" y="401" class="cname" text-anchor="middle">HAProxy et Apache</text>
@@ -115,19 +115,16 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 <text x="832" y="373" class="route" text-anchor="middle">Données</text>
 <path d="M1077 385 L1180 385" class="flow" marker-end="url(#arrow)"/>
 <text x="1128" y="373" class="route" text-anchor="middle">Stockage</text>
-<path d="M105 320 L105 181 L465 181" class="flow" marker-end="url(#arrow)"/>
-<text x="337" y="170" class="route" text-anchor="middle">Connexion</text>
-<path d="M586 349 L552 349 L552 257 L707 257 L707 181 L665 181" class="flow" marker-end="url(#arrow)"/>
-<text x="717" y="226" class="route" text-anchor="start">Identité</text>
-<path d="M177 526 L640 526 L640 457" class="flow" marker-end="url(#arrow)"/>
-<text x="505" y="516" class="route" text-anchor="middle">Rapports et résultats</text>
-<path d="M605 457 L605 491 L177 491" class="flow" marker-end="url(#arrow)"/>
-<text x="515" y="481" class="route" text-anchor="middle">Interventions</text>
-<path d="M389 457V483 M389 499V518" class="flow"/>
-<path d="M389 534 L389 551 L980 551 L980 457" class="flow" marker-end="url(#arrow)"/>
-<text x="850" y="540" class="route" text-anchor="middle">Logs</text>
-<path d="M735 457 L735 485 L923 485 L923 457" class="flow" marker-end="url(#arrow)"/>
+<path d="M105 320 L105 181 L520 181" class="flow" marker-end="url(#arrow)"/>
+<text x="312" y="170" class="route" text-anchor="middle">Connexion</text>
+<path d="M700 329 L700 247" class="flow" marker-end="url(#arrow)"/>
+<text x="708" y="285" class="route" text-anchor="start">Identité</text>
+<path d="M177 526 L340 526 L340 459" class="flow" marker-end="url(#arrow)"/>
+<text x="258" y="516" class="route" text-anchor="middle">Rapports et résultats</text>
+<path d="M735 457 L735 485 L923 485 L923 459" class="flow" marker-end="url(#arrow)"/>
 <text x="830" y="475" class="route" text-anchor="middle">Logs</text>
+<path d="M640 600 L640 459" class="flow" marker-end="url(#arrow)"/>
+<text x="648" y="540" class="route" text-anchor="start">Événements</text>
 <path d="M1700 174 L1765 174 L1765 409 L1702 409" class="flow" marker-end="url(#arrow)"/>
 <text x="1732" y="163" class="route" text-anchor="middle">HTTPS 443</text>
 <path d="M1605 473 L1605 538" class="flow" marker-end="url(#arrow)"/>
