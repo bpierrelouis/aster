@@ -2662,6 +2662,13 @@
         "version": "5.4",
         "date": "2026-11-15",
         "modification": "Consigne le déploiement des corrections de sécurité et l'épinglage des images",
+        "archive": null,
+        "commit": "a94ec62"
+      },
+      {
+        "version": "5.5",
+        "date": "2026-11-15",
+        "modification": "Consigne la CI réussie et les vérifications après déploiement",
         "archive": null
       }
     ]

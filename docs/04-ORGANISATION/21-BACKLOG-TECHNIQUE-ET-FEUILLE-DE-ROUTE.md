@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.4 | 15/11/2026 | Pilotage interne | Consigne le déploiement des corrections de sécurité et l'épinglage des images | [39 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.5 | 15/11/2026 | Pilotage interne | Consigne la CI réussie et les vérifications après déploiement | [40 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -19,7 +19,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 ### Avant le prochain déploiement sur les VM
 
 - [x] Réinitialisation des données de démonstration : le service `api` des VM recharge le jeu de départ à chaque changement de `SEED_VERSION` (21 au 14 novembre, comptes fictifs compris).
-- [ ] Vérifier après déploiement : `https://172.16.131.188/api/infos` (version servie) ; connexion des comptes (jetons « Accès de présentation » compris), leurs identités étant créées dans l’annuaire par le provisionnement au démarrage ; création d’un compte ; rapports des postes simulés ; recensement RIGEL. Les anciennes identités `@orion.demo` restent dans l’annuaire LDAP des VM (le LDIF n’est chargé qu’à la création du volume) : sans compte ORION, elles sont refusées ; les supprimer dans la console Keycloak si besoin.
+- [ ] Vérifier après déploiement : `https://172.16.131.188/api/infos` (version servie) ; connexion des comptes (jetons « Accès de présentation » compris), leurs identités étant créées dans l’annuaire par le provisionnement au démarrage ; création d’un compte ; rapports des postes simulés ; recensement RIGEL. Les anciennes identités `@orion.demo` restent dans l’annuaire LDAP des VM (le LDIF n’est chargé qu’à la création du volume) : sans compte ORION, elles sont refusées ; les supprimer dans la console Keycloak si besoin. Le 15 novembre (version `a94ec62`) : version servie, connexion d’un compte et réponse du relais RIGEL vérifiées ; restent les autres points.
 
 ### Avant le rendu de l’application (mardi 17 novembre)
 
@@ -125,7 +125,8 @@ Audit du 15 novembre : revue du code (droits de chaque route et de chaque règle
 
 - [ ] **Haute** — Tests d’intrusion sur l’application déployée (OWASP ASVS, outil de type OWASP ZAP) : contournement des droits par profil et par école, falsification des valeurs d’autorité, jetons des postes et de RIGEL, relais public, en-têtes, TLS, sessions, limites de débit. Les VM n’étaient pas joignables lors de l’audit.
 - [x] **Haute** — Déployer les corrections sur les VM (15 novembre) : exports NFS en `root_squash`, données PostgreSQL à l’uid 70, API connectée en `orion_app`, certificats clients du collecteur, OpenLDAP sur ses exports, en-têtes, filtrage de HAProxy et TLS vérifiés ; secret `orion_database_url` supprimé. Le premier déploiement a été bloqué par le pilote de logs, Logstash étant arrêté puis redémarré : `deploiement.sh` relance désormais Logstash avant PostgreSQL et reprend une mise à jour suspendue.
-- [ ] **Moyenne** — Vérifier un job complet du runner avec sa clé restreinte (après `installer.sh`, qui installe le dernier `deploiement.sh`) et les seuils de débit en usage réel.
+- [x] Job complet du runner avec sa clé restreinte : CI entièrement réussie le 15 novembre (VM et Hidora). Le correctif de `deploiement.sh` ne s’applique sur orion-1 qu’au prochain `installer.sh`.
+- [ ] **Moyenne** — Vérifier les seuils de débit en usage réel.
 
 | Sujet | Constat | Correction | Portée |
 | --- | --- | --- | --- |
