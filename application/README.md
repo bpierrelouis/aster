@@ -406,6 +406,7 @@ npm run build
 npm run test:ui        # Page de connexion
 npm run test:workspace # Écrans de l'espace de travail en mode interface seule (port 5174) ; -- tests/espace-parc.spec.ts pour un groupe
 npm run test:linux     # test:workspace sous Linux, comme la CI (Docker requis) ; npm run test:linux -- test:ui pour une autre suite
+npm run test:recette   # Recette sur les VM déployées (voir plus bas)
 ```
 
 Les tests d’intégration utilisent un schéma PostgreSQL temporaire, supprimé à la fin ; ils sont ignorés si l’infrastructure est absente. Les tests Playwright utilisent Google Chrome s’il est installé (comme sur les machines de la CI), sinon le Chromium de Playwright, à installer une fois avec `npx playwright install chromium` ([tests/navigateur.ts](tests/navigateur.ts)). `npm run test:ui` démarre l’interface sur le port 5173, ou réutilise celle qui y tourne déjà : il doit s’agir de `npm run dev:frontend`, pas du mode interface seule.
@@ -440,6 +441,16 @@ npm run test:e2e
 ```
 
 Ces tests passent réellement par Keycloak pour chaque profil et vérifient : l’identité et les modules par profil, la session persistante et la déconnexion ; la création d’un compte puis la connexion de ce nouvel utilisateur, la coupure de session à sa désactivation ; le refus d’une identité sans compte ORION ; l’enregistrement d’un matériel en base ; une remontée transmise et son état des lieux PDF, produit à la demande ; un arrêt de processus exécuté par un poste ; le refus des écritures d’une autre origine, d’un state incorrect et d’un retour sans demande préalable.
+
+**Recette sur les VM.** [tests/recette-vm.recette.ts](tests/recette-vm.recette.ts) rejoue, contre l’application déployée et sans serveur local, les parcours de recette par profil (tickets #116, #105, #106 et #107), avec les vrais comptes, Keycloak, les postes simulés et le relais RIGEL :
+
+```sh
+. infra/vm/vm.sh   # clé SSH des VM
+export RECETTE_SECRET=$(ssh_vm 4 'docker exec $(docker ps -qf name=orion_api | head -1) cat /run/secrets/PROVISIONING_PASSWORD_SECRET')
+RECETTE_VERSION=<SHA déployé> npm run test:recette   # RECETTE_URL : https://172.16.131.188 par défaut
+```
+
+Le secret des mots de passe est lu dans le conteneur de l’API au lancement et n’est enregistré nulle part. Les tests s’enchaînent un à un, sous les limites de débit de HAProxy ; le rapport HTML est dans `playwright-report/recette/`. Ils vérifient : la version servie et l’état public limité ; la connexion par mot de passe de chaque profil et par les trois jetons de présentation ; le super administrateur sur toutes les écoles ; les rapports récents des postes simulés ; le cloisonnement des écoles, les écritures refusées hors des droits ou d’une autre origine ; un matériel créé, affecté puis installé ; un arrêt de processus et une installation d’application exécutés par les postes ; une remontée de sa création à sa correction, avec son PDF ; un recensement RIGEL avec un téléphone émulé, appairé par le relais Hidora, dont les présences sont intégrées par ORION. Ils écrivent dans les données de démonstration (recharger le jeu au besoin). Non couverts : caméra et installation de l’application mobile sur un vrai téléphone, import JSON, ergonomie.
 
 Un refus prononcé avant la lecture du corps (session absente, origine refusée, jeton de poste ou de connecteur invalide) lit d’abord le corps envoyé puis l’ignore ([backend/api/refus.ts](backend/api/refus.ts)) : la connexion n’est pas coupée pendant l’envoi et le proxy de développement renvoie le vrai refus au lieu d’une erreur 502 (au-delà de 16 Mo, la connexion est fermée avec la réponse).
 
