@@ -2024,6 +2024,13 @@
         "version": "3.4",
         "date": "2026-11-14",
         "modification": "Préciser que Logstash garde ses propres logs sur sa VM",
+        "archive": null,
+        "commit": "28ed8d4"
+      },
+      {
+        "version": "3.5",
+        "date": "2026-11-15",
+        "modification": "Décrit la création du premier super administrateur d’une base neuve",
         "archive": null
       }
     ],
@@ -2459,6 +2466,13 @@
         "version": "4.20",
         "date": "2026-11-15",
         "modification": "Cocher les mots de passe des comptes ; Cocher les mots de passe des comptes",
+        "archive": null,
+        "commit": "8ad0b2a"
+      },
+      {
+        "version": "4.21",
+        "date": "2026-11-15",
+        "modification": "Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT",
         "archive": null
       }
     ]

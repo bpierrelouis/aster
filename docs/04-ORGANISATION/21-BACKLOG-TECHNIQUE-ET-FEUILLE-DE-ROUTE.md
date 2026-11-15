@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.20 | 15/11/2026 | Pilotage interne | Cocher les mots de passe des comptes ; Cocher les mots de passe des comptes | [30 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 4.21 | 15/11/2026 | Pilotage interne | Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT | [31 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -123,14 +123,14 @@ Plan, une étape par commit, chacune vérifiée par `npm test`, `npm run build`,
 - [x] 4. Remplacer la création du schéma au démarrage par des migrations versionnées (`backend/persistance/migrations/`), pour faire évoluer une base de production sans réinitialisation. La migration `0001` reprend le schéma existant et s’applique aussi aux bases déjà créées.
 - [x] 5. Découper `rules.ts` par domaine dans `backend/domaine/` et renommer `workspace` en `espace` (back et front), en dernier : changement le plus large, purement structurel. Écarts au plan : `backend/rigel/` et `frontend/src/rigel/` gardent leur nom (au lieu de `recon/`) ; l’adresse `/api/workspace`, les types `Workspace…` et le script `test:workspace` sont conservés (contrat d’API et noms de code inchangés).
 - [x] 6. Mettre à jour `AGENTS.md` (chemins cités) et le guide de l’application ; signaler au collègue du DAT les chemins de l’inventaire des configurations remises (chemins inchangés ; contenus de `Dockerfile` et `pile.yaml` modifiés : § 6).
-- [ ] **Haute** — Espace de production neuf : sans données de démonstration, il ne contient ni école ni compte, donc personne ne peut se connecter. Prévoir la création du premier super administrateur (commande d’amorçage ou variable dédiée) avant toute mise en production. (#159)
+- [x] **Haute** — Espace de production neuf : sans données de démonstration, il ne contient ni école ni compte, donc personne ne peut se connecter. Le serveur crée au démarrage le premier super administrateur d’un espace sans aucun compte, à l’adresse donnée par `INITIAL_SUPERADMIN_EMAIL` (15 novembre) ; ORION ne garde aucun mot de passe : l’identité est celle de MindefConnect, rapprochée par l’adresse à la première connexion ; DAT complété (§ 6.2). (#159)
 
 ## 4. Sécurité
 
 - [ ] **Haute** — Tester la sécurité de l’application, côté code et côté applicatif :
   - code : revue des contrôles d’accès de chaque route et de chaque règle serveur, analyse statique, audit des dépendances (`npm audit`) et des images ;
   - applicatif : tests d’intrusion sur l’application déployée (référentiel OWASP ASVS, outil de type OWASP ZAP), contournement des droits par profil et par école, falsification des valeurs d’autorité, jetons des postes et de RIGEL, relais public, en-têtes, TLS, sessions ;
-  - consigner résultats et corrections ; signaler au collègue du DAT ce qui touche l’architecture.
+  - consigner résultats et corrections ; inscrire au § 6 ce qui touche l’architecture.
 
 | Sujet | Constat | Proposition | Portée |
 | --- | --- | --- | --- |
@@ -204,9 +204,9 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 - [x] Versions Word des fiches et du backlog retirées le 15 novembre : le Markdown fait foi (#144).
 
-## 6. Dossier d’architecture : écarts à soumettre au collègue [DAT]
+## 6. Dossier d’architecture : écarts à traiter [DAT]
 
-Le DAT validé fait foi ; ces écarts entre lui, la configuration réelle et ses schémas sont à lui soumettre. Le 14 novembre, l’utilisateur a fait corriger directement le DAT et les schémas pour les points cochés ci-dessous.
+Le DAT, tenu par l’utilisateur, fait foi ; ces écarts entre lui, la configuration réelle et ses schémas sont à lui soumettre. Le 14 novembre, l’utilisateur a fait corriger directement le DAT et les schémas pour les points cochés ci-dessous.
 
 ### DAT et configuration réelle
 
@@ -236,7 +236,7 @@ Le DAT validé fait foi ; ces écarts entre lui, la configuration réelle et ses
   - images Linux fictives et déclinaison Linux de M42 installée avec le système ; une réinitialisation applique une image du même système que la salle ;
   - un paquet par système pris en charge ; une application ne s’installe que sur une salle dont le système a un paquet ;
   - la vue des postes affiche le système en petit (liste, fiche du poste, cartes de Supervision › Salles) ;
-  - écart à signaler avant ouverture : le sujet, le client et le DAT ne parlent que de postes Windows (cadrage § 23, collègue du DAT) ;
+  - écart à signaler avant ouverture : le sujet, le client et le DAT ne parlent que de postes Windows (cadrage § 23, DAT) ;
   - conséquences : glossaire, règles de gestion **[RG]** (système commun à la salle, image du même système, paquet requis), MCD (`SYSTÈME` ou attribut de `SALLE`), DCU 09, matrice, code et données de départ.
 
 ## 8. Historique conservé tel quel
