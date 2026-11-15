@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 7.0 | 14/11/2026 | Production destinée à la remise | RG-36 et RG-37 alignées sur l’application, RG-39 étendue au super administrateur | [16 versions](../../../archive/README.md#04-regles-de-gestion) |
+| 8.0 | 15/11/2026 | Production destinée à la remise | RG-77 réduite à la vue et à la réinitialisation des postes ; RG-97 à RG-100 | [17 versions](../../../archive/README.md#04-regles-de-gestion) |
 <!-- version:fin -->
 
 Ce document formalise uniquement les règles confirmées qui imposent une contrainte sur les données, les droits des utilisateurs ou les traitements réalisés par ORION. Il s'appuie sur les [consignes du projet](../../01-CONTEXTE/01-CONSIGNES.md), les [entretiens des 22 et 23 octobre et du 4 novembre](../../01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md), le fonctionnement de l'application ORION et le [cadrage consolidé](../../01-CONTEXTE/02-CADRAGE.md).
@@ -103,7 +103,7 @@ Les limites du périmètre, les questions ouvertes et les réponses historiques 
 - **RG-74 — Gestion des salles et des étages.** Seuls l'administrateur et le super administrateur créent, modifient et suppriment les salles et les étages de leur périmètre (application, 9 novembre).
 - **RG-75 — Suppression d'une salle.** Une salle qui accueille des postes supervisés ne peut pas être supprimée. À la suppression d'une salle, ses matériels passent en stock (application, 9 novembre).
 - **RG-76 — Gestion des écoles.** Seul le super administrateur crée et renomme les écoles (application, 9 novembre).
-- **RG-77 — Postes supervisés et catalogue des applications.** Seuls l'administrateur et le super administrateur gèrent les postes supervisés et le catalogue des applications. Ce catalogue est commun à toutes les écoles. Un poste appartient à une salle existante (application, 9 novembre).
+- **RG-77 — Gestion des postes.** La gestion des postes recouvre la vue des postes et leur réinitialisation, réservées à l'administrateur et au super administrateur. Un poste appartient à une salle existante. Le catalogue des applications, commun à toutes les écoles, est un référentiel ; sa gestion, les postes Linux et l'agent M42 relèvent de la V2 (décision de l’utilisateur du 15 novembre 2026).
 - **RG-78 — Consultation du parc par le formateur.** Le formateur consulte les salles et les matériels de son école, sans pouvoir les créer, les modifier, les affecter ni les supprimer (application, 9 novembre).
 - **RG-79 — Intégrité d'une remontée.** Une remontée est numérotée par ORION et créée au statut « en attente ». Ses matériels appartiennent à son école. Elle ne peut être ni supprimée ni modifiée, à l'exception de son statut (RG-64). Le gestionnaire ne peut pas créer de remontée (application, 9 novembre).
 - **RG-80 — Consultation des remontées.** Le gestionnaire et l'administrateur consultent toutes les remontées de leur école, et le super administrateur celles de toutes les écoles ; le formateur consulte uniquement les remontées qu'il a lui-même créées (application, 9 novembre).
@@ -123,3 +123,7 @@ Les limites du périmètre, les questions ouvertes et les réponses historiques 
 - **RG-94 — Téléphone lié.** Le téléphone du gestionnaire est lié à une installation ou à un recensement par un QR code affiché dans ORION, qui lui transmet des données à jour. Il fonctionne hors connexion ; un scan plus ancien que la dernière information connue sur le matériel est refusé (décision de l’utilisateur du 14 novembre 2026).
 - **RG-95 — Code inconnu.** Un matériel inconnu scanné n'est ajouté qu'après confirmation et saisie de ses informations ; ORION le crée alors dans le lieu du scan. Les constats ne sont jamais supprimés (décision de l’utilisateur du 14 novembre 2026).
 - **RG-96 — Matériel mal placé.** Ouvrir un lieu dans RIGEL, c'est s'y trouver. Un matériel affecté ailleurs est accepté sur place, ramené dans son lieu d'affectation ou mis au stock ; relocaliser un matériel sans être dans le lieu de destination lance toujours un déplacement (décision de l’utilisateur du 14 novembre 2026).
+- **RG-97 — Ambiance d'affichage.** Chaque utilisateur choisit son ambiance d'affichage ; elle est propre à son compte ORION et retrouvée à chaque connexion (application).
+- **RG-98 — Recherche globale.** La recherche porte sur les salles, les matériels et les remontées que l'utilisateur peut consulter, sans tenir compte de la casse ; le stock n'est proposé qu'aux profils qui le gèrent (application).
+- **RG-99 — Déconnexion.** La déconnexion met fin à la session ORION puis à celle de MindefConnect ; elle est journalisée (application).
+- **RG-100 — Premier super administrateur.** Un espace sans aucun compte reçoit au démarrage un super administrateur dont l'adresse est fixée par l'exploitant ; ce compte crée ensuite les écoles et les autres comptes (application, 15 novembre 2026).

@@ -13,27 +13,27 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [3.0](#design-maquettes-index) | 15/11/2026 |
 | [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md) | Production destinée à la remise | [3.5](#00-glossaire) | 14/11/2026 |
 | [docs/01-CONTEXTE/01-CONSIGNES.md](../docs/01-CONTEXTE/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.4](#01-consignes) | 14/11/2026 |
-| [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [5.2](#02-cadrage) | 15/11/2026 |
+| [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [5.3](#02-cadrage) | 15/11/2026 |
 | [docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.1](#03-compte-rendu-entretiens) | 14/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [3.0](#06-diagramme-contexte) | 14/11/2026 |
-| [docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [2.0](#07-diagrammes-activite) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [7.0](#04-regles-de-gestion) | 14/11/2026 |
+| [docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [2.1](#07-diagrammes-activite) | 15/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md) | Production destinée à la remise | [8.0](#04-regles-de-gestion) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio) | Production destinée à la remise | [2.0](#05-mcd-merise) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) | Production destinée à la remise | [3.0](#05-mcd-merise) | 14/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md) | Production destinée à la remise | [1.5](#08-dcu-gestion-parc) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md) | Production destinée à la remise | [2.0](#09-dcu-administration-postes) | 15/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md) | Production destinée à la remise | [3.0](#09-dcu-administration-postes) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md) | Production destinée à la remise | [2.0](#10-dcu-supervision-postes) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md) | Production destinée à la remise | [3.1](#11-dcu-remontees-utilisateur) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md) | Production destinée à la remise | [6.5](#12-matrice-droits) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md) | Production destinée à la remise | [7.0](#12-matrice-droits) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [4.3](#13-fiche-descriptive-gestionnaire) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [3.1](#14-fiche-descriptive-formateur) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [4.2](#15-fiche-descriptive-administrateur) | 14/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [3.2](#14-fiche-descriptive-formateur) | 15/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [4.3](#15-fiche-descriptive-administrateur) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [4.2](#16-fiche-descriptive-super-administrateur) | 14/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/22-DCU-ADMINISTRER-ORION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/22-DCU-ADMINISTRER-ORION.md) | Production destinée à la remise | [1.0](#22-dcu-administrer-orion) | 15/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/22-DCU-ADMINISTRER-ORION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/22-DCU-ADMINISTRER-ORION.md) | Production destinée à la remise | [2.0](#22-dcu-administrer-orion) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/23-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/23-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md) | Production destinée à la remise | [1.0](#23-diagrammes-activite-cas-utilisation) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/24-DIAGRAMME-CLASSES-METIER.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/24-DIAGRAMME-CLASSES-METIER.md) | Production destinée à la remise | [1.0](#24-diagramme-classes-metier) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/25-DIAGRAMMES-SEQUENCE-SYSTEME.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/25-DIAGRAMMES-SEQUENCE-SYSTEME.md) | Production destinée à la remise | [1.0](#25-diagrammes-sequence-systeme) | 15/11/2026 |
-| [docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [4.1](#17-diagrammes-etats) | 14/11/2026 |
+| [docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [4.2](#17-diagrammes-etats) | 15/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/26-DIAGRAMME-CLASSES-ANALYSE.md](../docs/02-ANALYSE/03-ANALYSE/26-DIAGRAMME-CLASSES-ANALYSE.md) | Production destinée à la remise | [1.0](#26-diagramme-classes-analyse) | 15/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md](../docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md) | Production destinée à la remise | [1.0](#27-diagramme-classes-conception) | 15/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md](../docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md) | Production destinée à la remise | [1.0](#28-diagrammes-sequence-detailles) | 15/11/2026 |
@@ -41,7 +41,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [4.0](#18-dossier-architecture-technique) | 15/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [3.5](#20-backlog-et-suivi-projet) | 15/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [4.24](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [5.0](#21-backlog-technique-et-feuille-de-route) | 15/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -91,7 +91,7 @@ Fichier : [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.5 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | en vigueur | — |
+| 3.5 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Termes whitelist et blacklist | en vigueur | — |
 | 3.4 | 14/11/2026 | Système d’exploitation ; recensement, installation, écart et constat | `186f904` | — |
 | 3.3 | 14/11/2026 | RIGEL : accepter sur place ou ramener (RG-96) | `07a0096` | — |
 | 3.2 | 14/11/2026 | Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération | `6219944` | — |
@@ -127,7 +127,8 @@ Fichier : [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) ·
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.2 | 15/11/2026 | Consigne l’autorisation du stockage NFSv4 pour la cible ; Consigne le stockage NFSv4 et RIGEL sans relais dans la cible | en vigueur | — |
+| 5.3 | 15/11/2026 | Création du premier compte d’un espace neuf, d’après l’application | en vigueur | — |
+| 5.2 | 15/11/2026 | Consigne l’autorisation du stockage NFSv4 pour la cible ; Consigne le stockage NFSv4 et RIGEL sans relais dans la cible | `e6b9ffd` | — |
 | 5.1 | 14/11/2026 | Notifications et tableau de bord du parc selon RG-36 et RG-37 | `2ce55f7` | — |
 | 5.0 | 14/11/2026 | Nommer M42 comme option d’agent ASTER | `e99107c` | — |
 | 4.1 | 14/11/2026 | Déplacer dans docs/01-CONTEXTE/ | `69eaf4e` | — |
@@ -179,7 +180,8 @@ Fichier : [docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 14/11/2026 | Mise à jour d’après l’état actuel : super administrateur, MindefConnect, RIGEL, solution d’administration des postes, PDF à la demande, traitement par le gestionnaire | en vigueur | — |
+| 2.1 | 15/11/2026 | Termes whitelist et blacklist | en vigueur | — |
+| 2.0 | 14/11/2026 | Mise à jour d’après l’état actuel : super administrateur, MindefConnect, RIGEL, solution d’administration des postes, PDF à la demande, traitement par le gestionnaire | `6a42b9f` | — |
 | 1.5 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/01-MODELISATION-METIER/ | `69eaf4e` | — |
 | 1.4 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/07-DIAGRAMMES-ACTIVITE.md`) | — |
 | 1.3 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/07-DIAGRAMMES-ACTIVITE.md`) | — |
@@ -193,7 +195,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md](../do
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 7.0 | 14/11/2026 | RG-36 et RG-37 alignées sur l’application, RG-39 étendue au super administrateur | en vigueur | — |
+| 8.0 | 15/11/2026 | RG-77 réduite à la vue et à la réinitialisation des postes ; RG-97 à RG-100 | en vigueur | — |
+| 7.0 | 14/11/2026 | RG-36 et RG-37 alignées sur l’application, RG-39 étendue au super administrateur | `2ce55f7` | — |
 | 6.1 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; RG-21 : le formateur ne signale que des matériels d’une salle | `bf1cfba` | — |
 | 6.0 | 14/11/2026 | RG-92 à RG-96 simplifiées : installation distincte du recensement, téléphone lié, code inconnu ajouté, matériel mal placé | `186f904` | — |
 | 5.0 | 14/11/2026 | RG-96 : lieu ouvert dans RIGEL ; matériel trouvé ailleurs accepté sur place ou ramené ; RG-93 et RG-95 ajustées | `07a0096` | — |
@@ -255,7 +258,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.m
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 15/11/2026 | DCU complété d’après l’application | en vigueur | — |
+| 3.0 | 15/11/2026 | Vue des postes ; catalogue des applications en V2 | en vigueur | — |
+| 2.0 | 15/11/2026 | DCU complété d’après l’application | `36f4195` | — |
 | 1.6 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | `69eaf4e` | — |
 | 1.5 | 13/11/2026 | Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image) | `ddc3262` (`docs/09-DCU-ADMINISTRATION-POSTES.md`) | — |
 | 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/09-DCU-ADMINISTRATION-POSTES.md`) | — |
@@ -298,7 +302,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md](../docs/
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.5 | 14/11/2026 | Notifications et tableau de bord du parc selon RG-36 et RG-37 | en vigueur | — |
+| 7.0 | 15/11/2026 | Section import JSON et RIGEL ; espace personnel ; vue des postes | en vigueur | — |
+| 6.5 | 14/11/2026 | Notifications et tableau de bord du parc selon RG-36 et RG-37 | `2ce55f7` | — |
 | 6.4 | 14/11/2026 | Formateur : remontées sur les matériels d’une salle seulement | `2f50ac0` | — |
 | 6.3 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée | `fa8e2ad` | — |
 | 6.2 | 14/11/2026 | Recensement, installation et anciens constats | `186f904` | — |
@@ -341,7 +346,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.1 | 14/11/2026 | Formateur : remontées sur les matériels d’une salle seulement ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | en vigueur | — |
+| 3.2 | 15/11/2026 | Termes whitelist et blacklist | en vigueur | — |
+| 3.1 | 14/11/2026 | Formateur : remontées sur les matériels d’une salle seulement ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | `2ce55f7` | — |
 | 3.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | `fa8e2ad` | — |
 | 2.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | `69eaf4e` | — |
 | 2.0 | 13/11/2026 | Prise en charge « en cours » puis « remplacé » ou « corrigé » par le gestionnaire ; remontées et notifications des administrateurs ; type de problème obligatoire | `38c405d` (`docs/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
@@ -357,7 +363,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTR
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.2 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | en vigueur | — |
+| 4.3 | 15/11/2026 | Termes whitelist et blacklist ; catalogue, M42 et Linux en V2 | en vigueur | — |
+| 4.2 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | `2ce55f7` | — |
 | 4.1 | 14/11/2026 | Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école | `186f904` | — |
 | 4.0 | 14/11/2026 | Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application | `5383a9f` | — |
 | 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM | `69eaf4e` | — |
@@ -395,7 +402,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/22-DCU-ADMINISTRER-ORION.md](.
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 15/11/2026 | Administrer ORION et personnaliser son espace | en vigueur | — |
+| 2.0 | 15/11/2026 | Désignation du premier super administrateur par l’exploitant | en vigueur | — |
+| 1.0 | 15/11/2026 | Administrer ORION et personnaliser son espace | `36f4195` | — |
 
 ### 23-DIAGRAMMES-ACTIVITE-CAS-UTILISATION
 
@@ -427,7 +435,8 @@ Fichier : [docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.1 | 14/11/2026 | Intervention : état « En cours » de la demande et des postes ; Machines à états du matériel et du processus | en vigueur | — |
+| 4.2 | 15/11/2026 | Termes whitelist et blacklist | en vigueur | — |
+| 4.1 | 14/11/2026 | Intervention : état « En cours » de la demande et des postes ; Machines à états du matériel et du processus | `36f4195` | — |
 | 4.0 | 14/11/2026 | Promouvoir en livrable de la phase Analyse ; intervention complétée (gardes, effets, fin) | `fa8e2ad` | — |
 | 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/03-ANALYSE/ | `69eaf4e` (`docs/02-ANALYSE/03-ANALYSE/DIAGRAMMES-ETATS-BROUILLON-V1.md`) | — |
 | 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/temporaire/DIAGRAMMES-ETATS-BROUILLON-V1.md`) | — |
@@ -527,7 +536,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.24 | 15/11/2026 | Consigne la clôture des écarts du dossier d’architecture | en vigueur | — |
+| 5.0 | 15/11/2026 | M42, catalogue et postes Linux en V2 ; DCU et termes traités | en vigueur | — |
+| 4.24 | 15/11/2026 | Consigne la clôture des écarts du dossier d’architecture | `122f91b` | — |
 | 4.23 | 15/11/2026 | Clôt le tracé des flux de la vue complète ; Clôt le tracé des flux de la vue complète et inscrit l’alignement de RIGEL dans la cible | `e6b9ffd` | — |
 | 4.22 | 15/11/2026 | Clôt le retrait des données de démonstration des livrables | `c0ace77` | — |
 | 4.21 | 15/11/2026 | Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT | `8866971` | — |

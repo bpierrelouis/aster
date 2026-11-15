@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 14/11/2026 | Production destinée à la remise | Mise à jour d’après l’état actuel : super administrateur, MindefConnect, RIGEL, solution d’administration des postes, PDF à la demande, traitement par le gestionnaire | [7 versions](../../../archive/README.md#07-diagrammes-activite) |
+| 2.1 | 15/11/2026 | Production destinée à la remise | Termes whitelist et blacklist | [8 versions](../../../archive/README.md#07-diagrammes-activite) |
 <!-- version:fin -->
 
 ## Parcours général
@@ -110,9 +110,9 @@ flowchart TD
 flowchart TD
     rapport(["Solution d'administration des postes :<br/>état d'un poste toutes les cinq secondes"]) --> etat["ORION met à jour le système d'exploitation,<br/>la session, les processus utilisateur<br/>et les applications installées du poste"]
     etat --> classement{"Classement d'un nouveau processus ?"}
-    classement -->|"Liste blanche"| affichage["Afficher le processus en temps réel"]
+    classement -->|"Whitelist"| affichage["Afficher le processus en temps réel"]
     classement -->|"Non référencé"| detection["Afficher le processus et<br/>enregistrer une détection"]
-    classement -->|"Liste noire"| interdit["Enregistrer une détection et<br/>demander l'arrêt automatique du processus"]
+    classement -->|"Blacklist"| interdit["Enregistrer une détection et<br/>demander l'arrêt automatique du processus"]
     interdit --> alerte["Notifier l'administrateur et le super administrateur ;<br/>afficher l'alerte dans la salle"]
     alerte --> resultat["Conserver le résultat de l'arrêt<br/>renvoyé par le poste"]
     affichage --> fin(["Poste à jour"])

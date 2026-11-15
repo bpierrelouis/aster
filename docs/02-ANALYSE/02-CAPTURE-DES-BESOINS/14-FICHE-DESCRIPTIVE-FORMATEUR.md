@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.1 | 14/11/2026 | Production destinée à la remise | Formateur : remontées sur les matériels d’une salle seulement ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | [9 versions](../../../archive/README.md#14-fiche-descriptive-formateur) |
+| 3.2 | 15/11/2026 | Production destinée à la remise | Termes whitelist et blacklist | [10 versions](../../../archive/README.md#14-fiche-descriptive-formateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -36,7 +36,7 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 
 1. Le formateur choisit la salle dans **Salle à superviser** ; sans choix, ORION l’invite à « Choisir votre salle ».
 2. ORION affiche une carte par poste avec son nom et son état : « Connecté » avec le compte Windows de la session, « Allumé » sans session, « Poste déconnecté » ou « Matériel hors service ».
-3. Pour chaque poste connecté, ORION liste les processus utilisateur en cours : nom, compte Windows et classement (« Liste blanche », « Liste noire » ou « Non référencé »).
+3. Pour chaque poste connecté, ORION liste les processus utilisateur en cours : nom, compte Windows et classement (« Whitelist », « Blacklist » ou « Non référencé »).
 4. Les données sont actualisées automatiquement toutes les cinq secondes ; l’en-tête indique l’heure de la dernière actualisation.
 5. Le formateur peut rechercher un poste, un processus (y compris par le nom de son application) ou un compte.
 6. Il clique sur le bouton d’arrêt d’un processus. ORION confirme « Arrêt demandé au poste » et affiche « Arrêt demandé » à la place du bouton.
@@ -46,8 +46,8 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 
 - Un poste sans remontée depuis trente secondes est « Poste déconnecté » : il reste affiché, sans processus (« Aucun processus disponible »).
 - Les processus du système d’exploitation ne sont ni présentés ni proposés à l’arrêt.
-- Un processus de la liste blanche reste visible sans historique ; un processus non référencé reste autorisé, visible et historisé.
-- Un processus de la liste noire est arrêté automatiquement, sans confirmation ni justification et sans prévenir l’utilisateur du poste.
+- Un processus de la whitelist reste visible sans historique ; un processus non référencé reste autorisé, visible et historisé.
+- Un processus de la blacklist est arrêté automatiquement, sans confirmation ni justification et sans prévenir l’utilisateur du poste.
 - Seul un processus en cours peut être arrêté, et un seul arrêt peut être demandé à la fois pour un même processus.
 - Un poste dont l’unité centrale est hors service est éteint et ses processus sont arrêtés.
 
@@ -76,7 +76,7 @@ RG-19, RG-20, RG-25, RG-31 à RG-33, RG-41 à RG-49, RG-51 à RG-54, RG-57 à RG
 ### Scénario nominal
 
 1. Sans salle choisie, ORION rappelle que « les alertes concernent la salle que vous supervisez ».
-2. Une fois la salle choisie, ORION liste ses détections, des plus récentes aux plus anciennes : processus et classement, poste et salle, adresse IP, compte Windows, date de détection et résultat (« Arrêt réussi », « Arrêt en échec » ou « Arrêt en cours » pour la liste noire, « Historisé » pour un processus non référencé).
+2. Une fois la salle choisie, ORION liste ses détections, des plus récentes aux plus anciennes : processus et classement, poste et salle, adresse IP, compte Windows, date de détection et résultat (« Arrêt réussi », « Arrêt en échec » ou « Arrêt en cours » pour la blacklist, « Historisé » pour un processus non référencé).
 3. Il filtre par processus, poste, adresse IP ou compte.
 
 ### Variantes et limites

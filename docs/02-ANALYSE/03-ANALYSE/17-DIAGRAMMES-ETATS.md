@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.1 | 14/11/2026 | Production destinée à la remise | Intervention : état « En cours » de la demande et des postes ; Machines à états du matériel et du processus | [6 versions](../../../archive/README.md#17-diagrammes-etats) |
+| 4.2 | 15/11/2026 | Production destinée à la remise | Termes whitelist et blacklist | [7 versions](../../../archive/README.md#17-diagrammes-etats) |
 <!-- version:fin -->
 
 ## Remontée
@@ -105,9 +105,9 @@ stateDiagram-v2
     direction LR
     state classement <<choice>>
     [*] --> classement : processus utilisateur<br/>remonté par le poste<br/>/ début fixé à la date du rapport
-    classement --> en_cours : [liste blanche]
+    classement --> en_cours : [whitelist]
     classement --> en_cours : [non référencé]<br/>/ détection enregistrée
-    classement --> arret_demande : [liste noire]<br/>/ détection enregistrée,<br/>arrêt automatique demandé
+    classement --> arret_demande : [blacklist]<br/>/ détection enregistrée,<br/>arrêt automatique demandé
 
     en_cours --> arret_demande : demander l'arrêt<br/>[formateur · administrateur<br/>· super administrateur]<br/>[aucun arrêt en attente]
     arret_demande --> echec : résultat du poste « échec »<br/>/ détection « arrêt en échec »
