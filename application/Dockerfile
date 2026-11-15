@@ -15,9 +15,8 @@ COPY backend ./backend
 # Outillage du démonstrateur (jeu de démonstration, identités du Keycloak local, simulateur des postes) : présent dans
 # l'image unique, exécuté seulement quand la configuration du démonstrateur le demande, jamais importé par le serveur sinon
 COPY outils ./outils
-COPY --chmod=755 infra/images/secrets.sh /usr/local/bin/orion-secrets
+# Secrets Swarm lus dans /run/secrets par la configuration (backend/secrets.ts), sans variables d'environnement
 USER node
-ENTRYPOINT ["orion-secrets"]
 
 # Express : API, connexion et API des postes
 FROM node AS api

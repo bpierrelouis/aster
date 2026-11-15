@@ -15,6 +15,7 @@ import { fileURLToPath } from 'node:url';
 import { UTILISATEURS, SALLES_FERMEES, prng } from '../donnees-demonstration/jeu.ts';
 import type { Commande, Rapport, Resultat } from '../../backend/domaine/postes.ts';
 import { journal, raison } from '../../backend/journal.ts';
+import { environnement } from '../../backend/secrets.ts';
 
 /* Échanges avec l'API d'agent (backend/domaine/postes.ts), vus depuis le poste */
 export type PosteAgent = { nomReseau: string; horsService: boolean; salleId: string; ecoleId: string | null };
@@ -175,7 +176,7 @@ export const directTransport = (repository: { agent: AgentTransport }): AgentTra
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const api = process.env.ORION_API || 'http://127.0.0.1:3001';
-  const token = process.env.AGENT_TOKEN || 'orion-agent-local';
+  const token = environnement().AGENT_TOKEN || 'orion-agent-local';
   createAgentEmulator({ transport: httpTransport({ api, token }) }).start();
   setInterval(() => {}, 1 << 30); // processus maintenu actif
   journal.info('demarrage', { api: `${api}/api/agent` });

@@ -20,6 +20,7 @@
 import { fileURLToPath } from 'node:url';
 import type { Bloc, CampagnePubliee, ResultatRigel } from '#shared/rigel.ts';
 import { journal, raison } from '../journal.ts';
+import { environnement } from '../secrets.ts';
 
 type Fetch = typeof fetch;
 
@@ -93,7 +94,7 @@ export function createConnecteur({ orion, secret, relais, token, fetch: http = f
 /* ---------- Exécution ---------- */
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const env = process.env;
+  const env = environnement();
   const production = env.NODE_ENV === 'production';
   const config = {
     orion: env.ORION_API || 'http://127.0.0.1:3001',

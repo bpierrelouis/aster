@@ -1,8 +1,9 @@
 import { randomBytes } from 'node:crypto';
 import { journal } from './journal.ts';
 import { EMAIL } from './domaine/comptes.ts';
+import { environnement } from './secrets.ts';
 
-export function readConfig(env = process.env) {
+export function readConfig(env = environnement()) {
   const production = env.NODE_ENV === 'production';
   const required = ['APP_URL', 'DATABASE_URL', 'OIDC_ISSUER', 'OIDC_CLIENT_ID', 'OIDC_CLIENT_SECRET', 'SESSION_SECRET', 'AGENT_TOKEN'];
   if (production && required.some((name) => !env[name])) {
