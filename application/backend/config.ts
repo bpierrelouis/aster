@@ -1,5 +1,6 @@
 import { randomBytes } from 'node:crypto';
 import { journal } from './journal.ts';
+import { EMAIL } from './domaine/comptes.ts';
 
 export function readConfig(env = process.env) {
   const production = env.NODE_ENV === 'production';
@@ -27,8 +28,12 @@ export function readConfig(env = process.env) {
   if (production && identityProvisioning && (env.PROVISIONING_PASSWORD_SECRET?.length ?? 0) < 32) {
     throw new Error('La création des identités en production exige un secret des mots de passe de 32 caractères minimum (PROVISIONING_PASSWORD_SECRET).');
   }
+  // Amorçage d'un espace neuf : adresse du premier super administrateur, créé au démarrage si l'espace n'a aucun compte
+  const initialSuperadmin = env.INITIAL_SUPERADMIN_EMAIL?.trim().toLowerCase() || null;
+  if (initialSuperadmin && (!EMAIL.test(initialSuperadmin) || initialSuperadmin.length > 254)) throw new Error('INITIAL_SUPERADMIN_EMAIL : adresse électronique invalide.');
   return {
     production,
+    initialSuperadmin,
     port: Number(env.PORT || 3001),
     // Adresse d'écoute : boucle locale par défaut, toutes les interfaces dans un conteneur (HOST=0.0.0.0)
     host: env.HOST || '127.0.0.1',

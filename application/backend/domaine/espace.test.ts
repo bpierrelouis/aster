@@ -776,3 +776,15 @@ test('espace neuf : référentiels seuls ; le jeu de démonstration est chargé 
   const charge = await repo.snapshot();
   await assert.rejects(chargerDemonstration(await createWorkspaceRepository({ initialState: { ...charge, version: 0 } })), /chargement refusé/);
 });
+
+test('espace neuf : le premier super administrateur est créé une seule fois, jamais dans un espace qui a des comptes', async () => {
+  const repo = await createWorkspaceRepository({ initialState: initialState() });
+  assert.equal(await repo.amorcer('chef@exemple.fr'), true);
+  assert.equal(await repo.amorcer('autre@exemple.fr'), false);
+  const { comptes } = await repo.snapshot();
+  assert.equal(comptes.length, 1);
+  assert.deepEqual({ ...comptes[0], id: undefined }, { id: undefined, nom: 'chef@exemple.fr', email: 'chef@exemple.fr', role: 'superadmin', ecoleId: null, actif: true });
+  assert.equal((await repo.findAccount({ sub: 'sujet-1', email: 'CHEF@exemple.fr' }))?.role, 'superadmin');
+  const demo = await createWorkspaceRepository({ initialState: etatDemonstration() });
+  assert.equal(await demo.amorcer('chef@exemple.fr'), false);
+});

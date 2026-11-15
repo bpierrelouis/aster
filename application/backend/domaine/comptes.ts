@@ -6,11 +6,11 @@
    ========================================================================== */
 
 import { isRole } from '#shared/catalog.ts';
-import { assert, fail } from './commun.ts';
+import { assert, fail, id } from './commun.ts';
 import type { Actor, Compte, Id, WorkspaceState } from '#shared/types.ts';
 import type { Contexte, LooseItem } from './commun.ts';
 
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Utilisateur agissant : compte actif uniquement. */
 export function actorOf(state: WorkspaceState, accountId: Id): Actor | null {
@@ -26,6 +26,14 @@ export function accountForIdentity(state: WorkspaceState, { sub, email }: { sub?
   const byEmail = mail ? state.comptes.find((c) => c.email.toLowerCase() === mail) : undefined;
   if (byEmail?.sujet && byEmail.sujet !== sub) return null; // adresse reprise par une autre identité
   return byEmail ?? null;
+}
+
+/** Amorçage d'un espace neuf : sans aucun compte, personne ne peut se connecter. Le premier super administrateur
+ *  est créé avec l'adresse fixée par l'exploitant (INITIAL_SUPERADMIN_EMAIL) ; renvoie false si l'espace a déjà un compte. */
+export function premierSuperAdmin(state: WorkspaceState, email: string) {
+  if (state.comptes.length) return false;
+  state.comptes.push({ id: id('cpt'), nom: email, email, role: 'superadmin', ecoleId: null, actif: true });
+  return true;
 }
 
 /** Création ou modification d'un compte par un administrateur */

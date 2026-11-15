@@ -463,10 +463,13 @@ La cible est le véritable MindefConnect. Son contrat d’intégration, ses acc�
 
 `npm run build` produit l’interface dans `frontend/dist/`. `npm start` démarre le serveur en mode production et sert cette interface ; il exige `APP_URL`, `DATABASE_URL`, `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`, un `SESSION_SECRET` d’au moins 32 caractères et un `AGENT_TOKEN` d’au moins 32 caractères. Les valeurs de démonstration sont refusées et le provisionnement des identités est désactivé. Le serveur écoute sur la boucle locale et attend un proxy HTTPS de confiance devant lui.
 
+Un espace neuf ne contient que les référentiels, sans école ni compte : personne ne pourrait se connecter. `INITIAL_SUPERADMIN_EMAIL` donne l’adresse du premier super administrateur, créé au démarrage si l’espace n’a aucun compte (nom provisoire : l’adresse), puis sans effet. Il se connecte par le fournisseur d’identité avec cette adresse et crée les écoles et les autres comptes. Sans cette variable, le serveur signale l’espace sans compte dans son journal (`amorcage`).
+
 Variables complémentaires, notamment pour le démonstrateur déployé sur VM en conteneurs :
 
 | Variable | Rôle | Valeur par défaut |
 | --- | --- | --- |
+| `INITIAL_SUPERADMIN_EMAIL` | Adresse du premier super administrateur, créé au démarrage d’un espace sans aucun compte | aucune |
 | `PORT` | Port d’écoute du serveur | `3001` |
 | `HOST` | Adresse d’écoute du serveur ; `0.0.0.0` dans un conteneur, pour être joint par le proxy et par le simulateur | `127.0.0.1` |
 | `IDENTITY_PROVISIONING` | `true` : charge l’outil de création des identités et crée dans le Keycloak local celles des comptes actifs, même en mode production ; exige alors un `PROVISIONING_CLIENT_SECRET` et un `PROVISIONING_PASSWORD_SECRET` dédiés | actif hors production seulement |

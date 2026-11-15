@@ -71,3 +71,9 @@ test('description : système et services, sans identifiants', async () => {
     assert.ok(!JSON.stringify(infos).includes('orion-local'));
   } finally { close(); }
 });
+
+test('INITIAL_SUPERADMIN_EMAIL : adresse normalisée, adresse invalide refusée', () => {
+  assert.equal(readConfig({ INITIAL_SUPERADMIN_EMAIL: ' Chef@Exemple.fr ' }).initialSuperadmin, 'chef@exemple.fr');
+  assert.equal(readConfig({}).initialSuperadmin, null);
+  assert.throws(() => readConfig({ INITIAL_SUPERADMIN_EMAIL: 'chef' }), /INITIAL_SUPERADMIN_EMAIL/);
+});

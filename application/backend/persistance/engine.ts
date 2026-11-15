@@ -9,7 +9,7 @@ import { readFile, writeFile, rename, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { collections, same, fail, schoolOf } from '../domaine/commun.ts';
 import { initialState, scopedState, mergeState } from '../domaine/espace.ts';
-import { actorOf, accountForIdentity } from '../domaine/comptes.ts';
+import { actorOf, accountForIdentity, premierSuperAdmin } from '../domaine/comptes.ts';
 import { keyOf, parseKey, rebase } from './fusion.ts';
 import { journal, raison } from '../journal.ts';
 import { DISCONNECT_AFTER, applyReports, applyResults, markDisconnected, pendingCommands } from '../domaine/postes.ts';
@@ -104,6 +104,8 @@ export function createEngine({ store }: { store: Store }) {
       const next = mergeState(state, rebase(state, input, baseRevision, await since(baseRevision), actor), actor);
       return { next, result: scopedState(next, actor) };
     }, actor),
+    /** Premier super administrateur d'un espace sans compte (comptes.ts) ; renvoie true s'il a été créé */
+    amorcer: async (email: string) => !(await store.read()).comptes.length && system((s) => premierSuperAdmin(s, email)),
     /** Connexion réussie : identité rapprochée (sujet OIDC, absent en mode interface seule) et date de dernière connexion, fixées par le serveur */
     connexion: (accountId: Id, sub?: string) => system((s) => {
       const c = s.comptes.find((x) => x.id === accountId);

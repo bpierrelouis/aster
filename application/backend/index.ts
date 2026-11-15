@@ -84,6 +84,9 @@ const destroySession = (req: Request) => new Promise<void>((resolve, reject) => 
 
 // Espace de travail : données métier dans PostgreSQL (schéma tenu par les migrations) ; états des lieux PDF produits à la demande.
 const workspaceRepository = await createPostgresWorkspaceRepository({ pool });
+// Espace neuf (aucun compte) : premier super administrateur, qui crée ensuite les écoles et les autres comptes
+if (config.initialSuperadmin && await workspaceRepository.amorcer(config.initialSuperadmin)) journal.info('amorcage', { email: config.initialSuperadmin });
+else if (!(await workspaceRepository.snapshot()).comptes.length) journal.warn('amorcage', { motif: 'aucun compte : renseigner INITIAL_SUPERADMIN_EMAIL' });
 
 // Système : état et description des services, documentation de l'API. Sans session de super administrateur,
 // l'état et la description se limitent au minimum utile aux contrôles (HAProxy, déploiement) : ni adresse, ni port.
