@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.3 | 15/11/2026 | Production destinée à la remise | Termes whitelist et blacklist ; catalogue, M42 et Linux en V2 | [13 versions](../../../archive/README.md#15-fiche-descriptive-administrateur) |
+| 4.4 | 15/11/2026 | Production destinée à la remise | Question ouverte sur le journal applicatif précisée | [14 versions](../../../archive/README.md#15-fiche-descriptive-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -207,7 +207,7 @@ RG-11 à RG-15, RG-21, RG-23 à RG-25, RG-34 à RG-39, RG-63, RG-64, RG-66, RG-6
 
 - Modalités d’intégration à MindefConnect (cadrage § 18).
 - Revue des droits et désactivation des comptes quittant l’organisation.
-- Consultation et durée de conservation du journal des opérations sur les comptes.
+- Consultation dans ORION et durée de conservation du journal applicatif, qui trace les connexions et chaque enregistrement des utilisateurs (cadrage § 18).
 
 ### Règles applicables
 

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.9 | 15/11/2026 | Pilotage interne | Décisions du 13 novembre reportées | [44 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 5.10 | 15/11/2026 | Pilotage interne | Informations non répercutées traitées ; limite des détections inscrite | [45 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -48,6 +48,7 @@ Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correctio
 
 ### Corrections relevées par l’audit du 13 novembre
 
+- [ ] **Moyenne** — Détections : `backend/domaine/postes.ts` ne garde que les 2 000 plus récentes, toutes écoles confondues, alors que RG-56 les conserve trente jours (décision de l’utilisateur du 15 novembre) ; retirer cette limite.
 - [ ] **Moyenne** — Étage d’une salle obligatoire côté serveur (RG-61, accord de l’utilisateur du 15 novembre) : `backend/domaine/parc.ts` accepte une salle sans étage (`x.etage ?? 0`) ; seule l’interface l’exige.
 - [x] **Moyenne** — Remontée : le serveur ne garde à la création que les champs saisis (école, matériels, type de problème, description) ; une salle ou toute autre valeur envoyée est ignorée (`rules.ts`, 14 novembre).
 - [x] **Moyenne** — Recherche globale du formateur limitée aux matériels de salle (`009cfd5`).
@@ -198,10 +199,10 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 ### Informations non répercutées
 
 - [x] Installation physique des salles et notification « matériels à déplacer » du gestionnaire : décrites dans la fiche 13, RG-92, le glossaire et le DCU 08 (« Installer une salle », « Recenser le parc »).
-- [ ] Journal applicatif (`backend/journal.ts`, événement `enregistrement` des écritures des utilisateurs) : absent du cadrage (§§ 18 et 21) et de la fiche 15 (« Journalisation éventuelle », UC-ADMIN-06).
-- [ ] RG-56 : 30 jours de conservation des détections ; le code ne garde en plus que les 2 000 dernières **[RG]**.
+- [x] Journal applicatif : reporté au cadrage (§§ 18 et 21) et à la fiche 15 (#142).
+- [x] RG-56 : conservation de 30 jours maintenue (décision de l’utilisateur du 15 novembre) ; la limite de 2 000 détections du code est à retirer (§ 3) (#142).
 - [x] Cadrage § 19 : décision RIGEL du 15 novembre reportée ; runner et point d’entrée présentés en « Application » ; « simulateur » au lieu de « émulateur ».
-- [ ] Glossaire : manquent Intervention, Compte ORION, Étape de remontée, Type de problème, C1NP et CCT ; `00:15` « aucune API d’intégration confirmée » alors que l’API des postes existe ; l’entrée LDAP ne sert que le démonstrateur.
+- [x] Glossaire : Intervention, Compte ORION, Étape de remontée, Type de problème, C1NP et CCT ajoutés ; API décrite d’après l’API des postes ; entrée LDAP conservée (décision de l’utilisateur du 15 novembre) (#142).
 
 ### Modèle de données
 

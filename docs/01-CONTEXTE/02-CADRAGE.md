@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.2 | 15/11/2026 | Source de travail interne | Décisions du 13 novembre reportées : identifiants, adresse MAC, dates du compte | [22 versions](../../archive/README.md#02-cadrage) |
+| 6.3 | 15/11/2026 | Source de travail interne | Journal applicatif reporté aux §§ 18 et 21 | [23 versions](../../archive/README.md#02-cadrage) |
 <!-- version:fin -->
 
 **Document de travail interne, non destiné à la remise aux cadres évaluateurs.** Il conserve les réponses et leurs périmètres pour préparer les productions. Les documents remis décrivent la cible en production ; les modalités de réalisation et les comptes du démonstrateur sont réservés au [guide interne de développement](../../application/README.md). Cette distinction a été fixée par l’utilisateur le 6 novembre.
@@ -318,8 +318,8 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Existe-t-il une classification de sécurité à respecter ?
 - [ ] Quelles données personnelles seront enregistrées ? — **Réponse partielle :** 23 octobre, § 1.2, complété par l'utilisateur le 2 novembre : le nom du compte Windows utilisé sur le poste est représenté par `COMPTE_WINDOWS.nom_utilisateur` pour identifier l'utilisateur associé aux programmes exécutés. Les autres données personnelles restent à préciser.
 - [ ] Quelles durées de conservation s’appliquent aux données et aux journaux ?
-- [ ] Quelles actions doivent être tracées dans un journal d’audit ? — **Réponse partielle :** 22 octobre, § 2.8 : journaux en bonus et proposition libre ; actions à tracer non définies.
-- [ ] Qui peut consulter les journaux d’audit ?
+- [ ] Quelles actions doivent être tracées dans un journal d’audit ? — **Réponse partielle :** 22 octobre, § 2.8 : journaux en bonus et proposition libre ; actions à tracer non définies. **Application :** le serveur tient un journal applicatif, sans secret ni contenu de requête : connexions, déconnexions et refus de connexion, chaque enregistrement d’un utilisateur (compte, profil, éléments modifiés) et résultats des interventions. Ces journaux sont centralisés par le collecteur de logs ; aucun écran d’ORION ne les présente.
+- [ ] Qui peut consulter les journaux d’audit ? — **Application :** l’exploitant, sur le collecteur de logs ; aucun profil ORION ne les consulte dans l’application.
 - [ ] Les journaux doivent-ils être protégés contre la modification ?
 - [ ] Comment ORION s’authentifie-t-il auprès de la solution d’administration à distance ? — Le compte technique, le protocole d’authentification et la gestion des secrets restent à définir.
 - [ ] Comment les secrets, certificats et clés techniques sont-ils distribués et renouvelés ? — **Proposition pour le démonstrateur du 11 novembre :** secrets natifs Swarm pour les conteneurs, certificats des hôtes déposés par SSH depuis le poste de l’opérateur, rotation opérateur. Le choix pour la production reste ouvert. **Demande de l’utilisateur :** représenter l’administration SSH de toutes les VM ; accès proposé depuis le réseau d’administration vers leurs IP privées sur TCP 22. Voir le [dossier technique](../03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md#45-architecture-réelle-sur-vm).
@@ -375,7 +375,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Comment les mises à jour de l’application seront-elles déployées ?
 - [ ] Comment déployer les mises à jour d’un agent s’il est retenu ? — À préciser dans la proposition (§ 19).
 - [ ] Une procédure de retour à la version précédente est-elle nécessaire ?
-- [ ] Quels journaux techniques doivent être collectés ? — **Réponse partielle :** 22 octobre, § 2.8 : journaux en bonus, proposition libre de l’équipe ; contenu technique non précisé.
+- [ ] Quels journaux techniques doivent être collectés ? — **Réponse partielle :** 22 octobre, § 2.8 : journaux en bonus, proposition libre de l’équipe ; contenu technique non précisé. **Application :** les journaux de chaque service et le journal applicatif (§ 18) sont centralisés par le collecteur de logs.
 - [ ] Qui reçoit les alertes concernant le fonctionnement d’ORION lui-même ?
 - [ ] Quels outils de supervision technique sont déjà disponibles ?
 - [ ] Quel niveau de documentation technique et d’exploitation est attendu ? — **Réponse partielle :** 23 octobre, § 1.6 : dossier d’architecture technique demandé ; niveau attendu pour les procédures d’exploitation non précisé.
