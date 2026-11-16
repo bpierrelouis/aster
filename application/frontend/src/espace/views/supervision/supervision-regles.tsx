@@ -17,12 +17,12 @@ import { Tile, Icon } from '../../ui/icons.tsx';
 import { AppIcon } from '../../ui/app-icon.tsx';
 import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
-import { DataPanel, Pagination, SearchField, paginate } from '../../widgets/parts.tsx';
+import { DataPanel, Pagination, SearchField } from '../../widgets/parts.tsx';
+import { usePagination } from '../../hooks/use-pagination.ts';
 import { plural } from '#shared/format.ts';
 import { Status, processText } from './supervision-parts.tsx';
 import type { Id, Portee, Regle } from '#shared/types.ts';
 
-const RULES_PAGE = 25;
 const PORTEES: Record<Portee, string> = { global: 'Globale', ecole: 'École', batiment: 'Bâtiment', salle: 'Salle' };
 const CLASSES = [{ value: '', label: 'Tous les classements' }, ...(['whitelist', 'blacklist'] as const).map((c) => ({ value: c, label: CLASSEMENTS[c].label }))];
 
@@ -39,29 +39,27 @@ async function deleteRule(id: Id) {
   } catch (error) { notify((error as Error).message, { tone: 'danger' }); }
 }
 
-/** Règles visibles dans l'école affichée, par nom de processus ; un filtre revient à la première page */
+/** Règles visibles dans l'école affichée, par nom de processus */
 export function Rules() {
   useStore();
   const [query, setQuery] = useState('');
   const [classement, setClassement] = useState('');
-  const [page, setPage] = useState(1);
-  const filter = (set: (value: string) => void) => (value: string) => { set(value); setPage(1); };
   const e = currentEcole();
   const matches = matcher(query);
   const rules = (store.state.regles || []).filter((r) => (r.portee === 'global' || e === 'all' || r.ecoleId === e) && (!classement || r.classement === classement)
     && matches(processText(r.nom), CLASSEMENTS[r.classement]?.label, scopeLabel(r)))
     .sort((a, b) => a.nom.localeCompare(b.nom, 'fr', { sensitivity: 'base' }));
-  const { pages, current, rows } = paginate(rules, page, RULES_PAGE);
+  const { rows, pager } = usePagination(rules, `${query}|${classement}`);
   const actions = rules.some(editable); // sans règle modifiable, pas de colonne Actions
   return <>
     <p className="ops-muted" style={{ marginBottom: 20 }}>Les règles se cumulent. Une interdiction reste prioritaire sur une autorisation.</p>
     <DataPanel
       filters={<>
-        <SearchField value={query} onChange={filter(setQuery)} placeholder="Processus ou application…" label="Rechercher" />
-        <FilterSelect aria-label="Filtrer par classement" value={classement} onChange={(ev) => filter(setClassement)(ev.target.value)} options={CLASSES} />
+        <SearchField value={query} onChange={setQuery} placeholder="Processus ou application…" label="Rechercher" />
+        <FilterSelect aria-label="Filtrer par classement" value={classement} onChange={(ev) => setClassement(ev.target.value)} options={CLASSES} />
       </>}
       head={<><th>Processus</th><th>Classement</th><th>Portée</th>{actions && <th><span className="sr-only">Actions</span></th>}</>}
-      footer={<Pagination current={current} pages={pages} onPage={setPage} total={plural(rules.length, 'règle')} />}>
+      footer={<Pagination {...pager} total={plural(rules.length, 'règle')} />}>
       {rows.length ? rows.map((r) => <tr key={r.id}>
         <td><span className="app-cell"><AppIcon name={r.nom} /><strong>{r.nom}</strong></span></td>
         <td><Status c={r.classement} /></td>

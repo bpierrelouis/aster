@@ -22,8 +22,9 @@ import { openAccountForm, openSchoolForm, openPostDetail } from './administratio
 import { openInterventionForm } from './administration-intervention-form.tsx';
 import { Interventions } from './administration-interventions.tsx';
 import { openBuildingForm } from '../salles/salles-forms.tsx';
-import { DataPanel, OpsEmpty, OpsTable, PageHead, Pagination, PosteEtat, SearchField, paginate } from '../../widgets/parts.tsx';
+import { DataPanel, OpsEmpty, OpsTable, PageHead, Pagination, PosteEtat, SearchField } from '../../widgets/parts.tsx';
 import { useTitle } from '../../hooks/use-title.ts';
+import { usePagination } from '../../hooks/use-pagination.ts';
 import type { Id, Poste } from '#shared/types.ts';
 
 const Empty = ({ text }: { text: string }) => <OpsEmpty icon="desktop" title={text} />;
@@ -75,28 +76,24 @@ export function Administration() {
   </>;
 }
 
-const POSTS_PAGE = 25;
-
 /** Filtre par salle (postes, applications) */
 function SalleFilter({ value, onChange }: { value: Id; onChange: (salleId: Id) => void }) {
   return <FilterSelect aria-label="Filtrer par salle" value={value} onChange={(e) => onChange(e.target.value)}
     options={[{ value: '', label: 'Toutes les salles' }, ...optionsSalles()]} />;
 }
 
-/** Postes : même carte que l'inventaire (filtres, tableau, pagination) ; un filtre revient à la première page.
+/** Postes : même carte que l'inventaire (filtres, tableau, pagination).
     La réinitialisation (salle entière ou postes) se demande depuis la barre haute. */
 function Posts({ list, salleId, onSalle, query, onQuery }: { list: Poste[]; salleId: Id; onSalle: (salleId: Id) => void; query: string; onQuery: (query: string) => void }) {
-  const [page, setPage] = useState(1);
-  const filter = (set: (value: string) => void) => (value: string) => { set(value); setPage(1); };
   const installations = store.state.installations || [];
-  const { pages, current, rows } = paginate(list, page, POSTS_PAGE);
+  const { rows, pager } = usePagination(list, `${query}|${salleId}`);
   return <DataPanel
     filters={<>
-      <SearchField value={query} onChange={filter(onQuery)} placeholder={SEARCH.postes} label="Rechercher un poste" />
-      <SalleFilter value={salleId} onChange={filter(onSalle)} />
+      <SearchField value={query} onChange={onQuery} placeholder={SEARCH.postes} label="Rechercher un poste" />
+      <SalleFilter value={salleId} onChange={onSalle} />
     </>}
     head={<><th>Poste</th><th>Emplacement</th><th>Matériel</th><th>État</th><th>Applications</th><th><span className="sr-only">Actions</span></th></>}
-    footer={<Pagination current={current} pages={pages} onPage={setPage} total={plural(list.length, 'poste')} />}>
+    footer={<Pagination {...pager} total={plural(list.length, 'poste')} />}>
     {rows.length ? rows.map((p) => {
       const m = index().materiel.get(p.materielId!);
       return <tr key={p.id}>
@@ -142,9 +139,11 @@ function Buildings({ query }: { query: string }) {
   const list = [...groups.values()]
     .filter((g) => batimentLabel(g.batiment).toLowerCase().includes(query))
     .sort((a, b) => (index().ecole.get(a.ecoleId)?.nom ?? '').localeCompare(index().ecole.get(b.ecoleId)?.nom ?? '', 'fr') || a.batiment.localeCompare(b.batiment, 'fr', { numeric: true }));
+  const { rows, pager } = usePagination(list, query);
   if (!list.length) return <Empty text="Aucun bâtiment trouvé" />;
-  return <OpsTable head={['Bâtiment', ...(all ? ['École'] : []), 'Étages', 'Salles', 'Matériels', 'Actions']}>
-    {list.map((g) => <tr key={`${g.ecoleId}-${g.batiment}`}>
+  return <OpsTable head={['Bâtiment', ...(all ? ['École'] : []), 'Étages', 'Salles', 'Matériels', 'Actions']}
+    footer={<Pagination {...pager} total={plural(list.length, 'bâtiment')} />}>
+    {rows.map((g) => <tr key={`${g.ecoleId}-${g.batiment}`}>
       <td><span className="ops-building"><span className="code-badge">{g.batiment}</span><strong>{batimentLabel(g.batiment)}</strong></span></td>
       {all && <td>{index().ecole.get(g.ecoleId)?.nom}</td>}
       <td>{num(g.etages.size)}</td>
@@ -168,9 +167,11 @@ async function toggleAccount(id: Id) {
 
 function Accounts({ query }: { query: string }) {
   const list = (store.state.comptes || []).filter((c) => (currentEcole() === 'all' || c.ecoleId === currentEcole()) && `${c.nom} ${c.email}`.toLowerCase().includes(query));
+  const { rows, pager } = usePagination(list, query);
   if (!list.length) return <Empty text="Aucun compte trouvé" />;
-  return <OpsTable head={['Utilisateur', 'Profil', 'École', 'État', 'Dernière connexion', 'Actions']}>
-    {list.map((c) => <tr key={c.id}>
+  return <OpsTable head={['Utilisateur', 'Profil', 'École', 'État', 'Dernière connexion', 'Actions']}
+    footer={<Pagination {...pager} total={plural(list.length, 'compte')} />}>
+    {rows.map((c) => <tr key={c.id}>
       <td><strong>{c.nom}</strong><small>{c.email}</small></td>
       <td>{role(c.role).label}</td>
       <td>{index().ecole.get(c.ecoleId!)?.nom || 'Toutes les écoles'}</td>

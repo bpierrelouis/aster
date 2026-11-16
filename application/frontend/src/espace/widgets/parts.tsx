@@ -139,15 +139,15 @@ export function SearchField({ value, onChange, placeholder, label, compact = fal
     <input type="search" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} aria-label={label} /></label>;
 }
 
-/** Tableau des écrans Supervision et Administration : en-tête fixe, défilement dans le cadre */
-export function OpsTable({ head, scroll = true, children }: { head: string[]; scroll?: boolean; children: ReactNode }) {
-  const ref = usePeek();
+/** Tableau des écrans Supervision et Administration : en-tête fixe, défilement dans le cadre, pied (pagination) */
+export function OpsTable({ head, scroll = true, footer = null, children }: { head: string[]; scroll?: boolean; footer?: ReactNode; children: ReactNode }) {
+  const ref = usePeek('.ops-table-wrap');
   const table = <table className="ops-table data-table">
     <thead><tr>{head.map((h) => <th key={h}>{h}</th>)}</tr></thead>
     <tbody>{children}</tbody>
   </table>;
   // scroll : le tableau défile dans sa carte ; sinon il s'affiche en entier et défile avec la page
-  return <div className="ops-table-wrap glass">{scroll ? <div ref={ref} className="ops-table-scroll">{table}</div> : table}</div>;
+  return <div className="ops-table-wrap glass">{scroll ? <div ref={ref} className="ops-table-scroll">{table}</div> : table}{footer}</div>;
 }
 
 /**
@@ -170,14 +170,7 @@ export function DataPanel({ filters, selection = null, head, children, footer = 
   </section>;
 }
 
-/** Page d'une liste : page demandée bornée au nombre de pages, lignes de cette page */
-export function paginate<T>(list: readonly T[], page: number, size: number) {
-  const pages = Math.max(1, Math.ceil(list.length / size));
-  const current = Math.min(Math.max(1, page), pages);
-  return { pages, current, rows: list.slice((current - 1) * size, current * size) };
-}
-
-/** Pied de tableau paginé : nombre de lignes à gauche (facultatif), puis Précédent, page courante, Suivant */
+/** Pied de tableau paginé (props issues de usePagination) : nombre de lignes à gauche (facultatif), puis Précédent, page courante, Suivant */
 export function Pagination({ current, pages, onPage, total = null }: { current: number; pages: number; onPage: (page: number) => void; total?: string | null }) {
   return <footer className="pagination">
     {total && <span className="pagination-total">{total}</span>}

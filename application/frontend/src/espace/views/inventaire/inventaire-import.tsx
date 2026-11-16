@@ -23,7 +23,8 @@ import { adresseMac, DEVICE_TYPES, deviceType, serieKey } from '#shared/catalog.
 import { notify } from '../../ui/overlays.tsx';
 import { Switch } from '../../ui/forms.tsx';
 import { accord, dateNum, num, plural } from '#shared/format.ts';
-import { Loader, OpsTable, Pagination, paginate } from '../../widgets/parts.tsx';
+import { Loader, OpsTable, Pagination } from '../../widgets/parts.tsx';
+import { usePagination } from '../../hooks/use-pagination.ts';
 import type { ChangeEvent, FormEvent } from 'react';
 import type { Id, Materiel, Salle } from '#shared/types.ts';
 
@@ -39,7 +40,6 @@ type Kind = keyof typeof ORDER;
 /** Ligne de l'aperçu : matériel, numéro de série normalisé (k), correspondance (hit) et nature */
 interface ImportItem { m: ImportRow; k: string | null; hit?: Correspondance | null; kind: Kind }
 
-const PAGE_SIZE = 25;
 // Ordre de l'aperçu : ce qui demande une décision, puis ce qui ne sera pas traité, puis les nouveaux
 const ORDER = { ecole: 0, present: 1, double: 2, nouveau: 3 };
 const ANALYSE_MIN = 900; // l'analyse reste affichée un instant, même quand le serveur répond aussitôt
@@ -118,9 +118,8 @@ function PreviewRow({ x, on, onToggle, done }: { x: ImportItem; on: boolean; onT
 
 /** Aperçu : bilan, incohérences, matériels (ceux qui demandent une décision d'abord) ; une fois l'import fait (done), son résultat */
 function ImportPreview({ items, transferts, onToggle, ecoleNom, done = false }: { items: ImportItem[]; transferts: Set<string>; onToggle?: (k: string, on: boolean) => void; ecoleNom: string; done?: boolean }) {
-  const [page, setPage] = useState(1);
   const ordered = [...items].sort((a, b) => ORDER[a.kind] - ORDER[b.kind]);
-  const { rows, pages, current } = paginate(ordered, page, PAGE_SIZE);
+  const { rows, pager } = usePagination(ordered);
   const count = (kind: Kind) => items.filter((x) => x.kind === kind).length;
   const [nouveaux, ecoles, presents, doubles] = [count('nouveau'), count('ecole'), count('present'), count('double')];
   const transferes = items.filter((x) => x.kind === 'ecole' && transferts.has(x.k!)).length;
@@ -138,10 +137,9 @@ function ImportPreview({ items, transferts, onToggle, ecoleNom, done = false }: 
       {presents ? `${plural(presents, 'matériel')} ${presents > 1 ? 'sont' : 'est'} déjà ${presents > 1 ? 'présents' : 'présent'} dans l’inventaire (même numéro de série). ` : ''}
       {doubles ? `${plural(doubles, 'ligne')} ${doubles > 1 ? 'répètent' : 'répète'} un numéro de série du fichier. ` : ''}
       {presents + doubles > 1 ? 'Ils ne seront pas traités par l’import.' : 'Il ne sera pas traité par l’import.'}</span></div> : null}
-    <OpsTable scroll={false} head={['Aperçu', 'Modèle', 'Type', 'Numéro de série', 'Réception', 'Destination', 'Import']}>
+    <OpsTable scroll={false} footer={pager.pages > 1 && <Pagination {...pager} />} head={['Aperçu', 'Modèle', 'Type', 'Numéro de série', 'Réception', 'Destination', 'Import']}>
       {rows.map((x) => <PreviewRow key={x.m.id} x={x} done={done} on={x.k ? transferts.has(x.k) : false} onToggle={(v) => onToggle!(x.k!, v)} />)}
     </OpsTable>
-    {pages > 1 && <Pagination current={current} pages={pages} onPage={setPage} />}
   </section>;
 }
 

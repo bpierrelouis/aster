@@ -14,7 +14,8 @@ import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.tsx';
 import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
 import { accord, dateNum, num, plural } from '#shared/format.ts';
 import { useTitle } from '../../hooks/use-title.ts';
-import { PageHead, DataPanel, LieuChip, Pagination, etatMateriel, paginate, SearchField } from '../../widgets/parts.tsx';
+import { usePagination } from '../../hooks/use-pagination.ts';
+import { PageHead, DataPanel, LieuChip, Pagination, etatMateriel, SearchField } from '../../widgets/parts.tsx';
 import { ImportPanel } from './inventaire-import.tsx';
 import type { ChangeEvent } from 'react';
 import type { SheetClose } from '../../ui/overlays.tsx';
@@ -28,7 +29,6 @@ type SortKey = 'idOrion' | 'modele' | 'dateReception';
 const date = (n: Timestamp | null) => (n ? dateNum(n) : '—');
 const TABS: Tab[] = ['inventaire', 'import'];
 const TITLES: Record<Tab, string> = { inventaire: 'Inventaire', import: 'Import JSON' };
-const PAGE_SIZE = 25;
 
 export function Inventaire() {
   useTitle('Matériels');
@@ -43,11 +43,7 @@ export function Inventaire() {
   const [guarantee, setGuarantee] = useState(() => (GARANTIES.includes(query.get('garantie') as Garantie) ? query.get('garantie')! : '')); // lien d'une notification
   const [sort, setSort] = useState<SortKey>('idOrion');
   const [direction, setDirection] = useState(1);
-  const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(() => new Set<Id>());
-
-  // Changement d'onglet : retour à la première page
-  useEffect(() => { setPage(1); }, [tab]);
 
   // Sélection : purgée des matériels supprimés, vidée au changement d'école ou de profil
   useEffect(() => store.subscribe((topic) => {
@@ -62,10 +58,10 @@ export function Inventaire() {
       && (!location || (location === 'stock' ? !m.salleId : m.salleId === location))
       && (!guarantee || garantie(m) === guarantee);
   }).sort((a, b) => direction * (sort === 'dateReception' ? a[sort] - b[sort] : String(a[sort] || '').localeCompare(String(b[sort] || ''), 'fr', { numeric: true })));
-  const { pages, current, rows } = paginate(list, page, PAGE_SIZE);
+  const { rows, pager } = usePagination(list, [tab, q, type, status, location, guarantee].join('|'));
   const chosen = () => scope().materiels.filter((m) => selected.has(m.id));
 
-  const filter = (setter: (value: string) => void) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => { setter(e.target.value); setPage(1); };
+  const filter = (setter: (value: string) => void) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setter(e.target.value);
   const toggle = (ids: Id[], on: boolean) => setSelected((prev) => {
     const next = new Set(prev);
     for (const id of ids) if (on) next.add(id); else next.delete(id);
@@ -103,7 +99,7 @@ export function Inventaire() {
     </PageHead>
     {tab === 'import' ? <ImportPanel /> : <DataPanel
       filters={<>
-        <SearchField value={q} onChange={(v) => { setQ(v); setPage(1); }} placeholder="Modèle, identifiant, série…" label="Rechercher un matériel" />
+        <SearchField value={q} onChange={setQ} placeholder="Modèle, identifiant, série…" label="Rechercher un matériel" />
         <FilterSelect aria-label="Type" value={type} onChange={filter(setType)} options={[{ value: '', label: 'Tous les types' }, ...DEVICE_TYPES.map((t) => ({ value: t.id, label: t.plural }))]} />
         <FilterSelect aria-label="État" value={status} onChange={filter(setStatus)} options={[{ value: '', label: 'Tous les états' }, { value: 'ok', label: 'En service' }, { value: 'hs', label: 'Hors service' }]} />
         <FilterSelect aria-label="Localisation" value={location} onChange={filter(setLocation)} options={[{ value: '', label: 'Toutes les salles' }, { value: 'stock', label: 'Stock' }, ...optionsSalles()]} />
@@ -120,7 +116,7 @@ export function Inventaire() {
         <th><input type="checkbox" aria-label="Sélectionner la page" checked={rows.length > 0 && rows.every((m) => selected.has(m.id))} onChange={(e) => toggle(rows.map((m) => m.id), e.target.checked)} /></th>
         <th>{header('idOrion', 'Identifiant')}</th><th>{header('modele', 'Matériel')}</th><th>Localisation</th><th>État</th><th>{header('dateReception', 'Réception')}</th><th>Garantie</th>
       </>}
-      footer={<Pagination current={current} pages={pages} onPage={setPage} />}>
+      footer={<Pagination {...pager} />}>
       {rows.length ? rows.map((m) => {
         const t = deviceType(m.type), room = index().salle.get(m.salleId!), on = selected.has(m.id);
         return <tr key={m.id} className={on ? 'is-selected' : ''} onClick={(e) => { if (outsideControls(e)) toggle([m.id], !on); }}>
