@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.2 | 15/11/2026 | Production destinée à la remise | Termes whitelist et blacklist | [7 versions](../../../archive/README.md#17-diagrammes-etats) |
+| 5.0 | 16/11/2026 | Production destinée à la remise | Traitement et confirmation ouverts aux administrateurs | [8 versions](../../../archive/README.md#17-diagrammes-etats) |
 <!-- version:fin -->
 
 ## Remontée
@@ -12,9 +12,9 @@
 stateDiagram-v2
     direction LR
     [*] --> attente : créer la remontée<br/>[formateur · administrateur · super administrateur]<br/>[description et type de problème saisis ∧ ≥ 1 matériel de l'école]<br/>/ numéro attribué, historique initialisé, notification des gestionnaires
-    attente --> encours : prendre en charge<br/>[gestionnaire]<br/>/ ajout à l'historique, notification de l'auteur
-    encours --> remplace : traiter « Remplacé »<br/>[gestionnaire]<br/>/ ajout à l'historique, notification de l'auteur
-    encours --> corrige : traiter « Corrigé »<br/>[gestionnaire]<br/>/ ajout à l'historique, notification de l'auteur
+    attente --> encours : prendre en charge<br/>[gestionnaire · administrateur · super administrateur]<br/>/ ajout à l'historique, notification de l'auteur
+    encours --> remplace : traiter « Remplacé »<br/>[gestionnaire · administrateur · super administrateur]<br/>/ ajout à l'historique, notification de l'auteur
+    encours --> corrige : traiter « Corrigé »<br/>[gestionnaire · administrateur · super administrateur]<br/>/ ajout à l'historique, notification de l'auteur
     remplace --> [*]
     corrige --> [*]
 
@@ -88,7 +88,7 @@ stateDiagram-v2
         --
         [*] --> installe
         installe --> deplacement : affectation modifiée [nouveau lieu ≠ emplacement physique]<br/>∨ constat RIGEL « retour » ou « stock »<br/>/ déplacement lancé : origine, auteur et date
-        deplacement --> installe : confirmer l'installation<br/>[gestionnaire, dans ORION ou par un scan RIGEL dans le lieu affecté]<br/>/ installation confirmée : origine, auteur et date
+        deplacement --> installe : confirmer l’installation<br/>[gestionnaire · administrateur · super administrateur dans ORION,<br/>ou scan RIGEL dans le lieu affecté]<br/>/ installation confirmée : origine, auteur et date
         deplacement --> installe : affectation ramenée à l'emplacement physique<br/>/ déplacement annulé
         installe : Installé
         deplacement : Déplacement en cours

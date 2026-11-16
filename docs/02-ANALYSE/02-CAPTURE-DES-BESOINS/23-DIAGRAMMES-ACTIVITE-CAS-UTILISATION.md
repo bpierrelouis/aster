@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.0 | 15/11/2026 | Production destinée à la remise | Diagrammes d’activité des cas d’utilisation, d’après l’application | [1 version](../../../archive/README.md#23-diagrammes-activite-cas-utilisation) |
+| 2.0 | 16/11/2026 | Production destinée à la remise | Installation, recensement et traitement ouverts aux administrateurs | [2 versions](../../../archive/README.md#23-diagrammes-activite-cas-utilisation) |
 <!-- version:fin -->
 
 ## 1. Se connecter par MindefConnect
@@ -176,8 +176,8 @@ flowchart TD
     debut(["Début — matériels affectés à la salle ou retirés vers le stock"])
     fin(["Fin — installation de la salle terminée"])
 
-    subgraph GESTIONNAIRE["Gestionnaire"]
-        mode{"Confirmer avec RIGEL ?"}
+    subgraph GESTIONNAIRE["Gestionnaire, administrateur ou super administrateur"]
+        mode{"Confirmer avec RIGEL ?<br/>(gestionnaire ou administrateur)"}
         confirmerOrion["Confirmer dans ORION le déplacement<br/>de chaque matériel installé ou rangé"]
         lier["Lancer l’installation RIGEL de la salle<br/>et lier son téléphone par le QR code"]
         scanner["Ouvrir la salle sur le téléphone<br/>et scanner chaque matériel"]
@@ -193,7 +193,7 @@ flowchart TD
         integrer["Intégrer les constats : déplacement confirmé,<br/>auteur et date conservés"]
         enregistrer["Enregistrer la confirmation, son auteur et sa date"]
         reste{"Reste-t-il des déplacements<br/>vers la salle ou depuis elle ?"}
-        terminer["Terminer l’installation au nom du gestionnaire<br/>qui a confirmé le dernier déplacement"]
+        terminer["Terminer l’installation au nom de l’utilisateur<br/>qui a confirmé le dernier déplacement"]
     end
 
     debut --> enCours --> mode
@@ -210,7 +210,7 @@ flowchart TD
     debut(["Début"])
     fin(["Fin — recensement clos, constats conservés"])
 
-    subgraph GESTIONNAIRE["Gestionnaire"]
+    subgraph GESTIONNAIRE["Gestionnaire ou administrateur"]
         lancer["Lancer un nouveau recensement :<br/>nom, école entière ou salles choisies"]
         lier["Lier son téléphone par le QR code affiché"]
         ouvrir["Ouvrir un lieu sur le téléphone : s’y déclarer présent"]
@@ -290,11 +290,11 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    debut(["Début — remontée de son école notifiée ou repérée"])
+    debut(["Début — remontée de son périmètre notifiée ou repérée"])
     fin(["Fin — remontée terminée, statut définitif"])
     finRefus(["Fin — remontée déjà terminée, aucun changement"])
 
-    subgraph GESTIONNAIRE["Gestionnaire"]
+    subgraph GESTIONNAIRE["Gestionnaire, administrateur ou super administrateur"]
         ouvrir["Ouvrir la remontée et consulter son suivi"]
         prendre["Prendre en charge la remontée"]
         intervenir["Remplacer ou corriger le ou les matériels"]

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.1 | 15/11/2026 | Production destinée à la remise | Tables sans préfixe ; collections interventions et operations | [3 versions](../../../archive/README.md#28-diagrammes-sequence-detailles) |
+| 3.0 | 16/11/2026 | Production destinée à la remise | Traitement et RIGEL ouverts aux administrateurs | [4 versions](../../../archive/README.md#28-diagrammes-sequence-detailles) |
 <!-- version:fin -->
 
 ## Écriture concurrente fusionnée
@@ -73,7 +73,7 @@ sequenceDiagram
 sequenceDiagram
     autonumber
     actor A as Formateur ou administrateur
-    actor G as Gestionnaire
+    actor G as Gestionnaire, administrateur<br/>ou super administrateur
     participant C as Création (remontees-create.tsx)
     participant L as Remontées (remontees.tsx)
     participant S as store
@@ -113,7 +113,7 @@ sequenceDiagram
     R->>E: update(saisie, révision, actor)
     E->>M: mergeState
     M->>RR: regleRemontee(x, ancienne, contexte)
-    RR->>RR: gestionnaire seul, transition attente → encours, seuls statut et historique modifiés
+    RR->>RR: refus si formateur, transition attente → encours, seuls statut et historique modifiés
     RR->>RR: étape ajoutée à l'historique (statut, date, auteur)
     E->>DB: UPDATE remontee, COMMIT
     R-->>S: 200
@@ -182,7 +182,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     autonumber
-    actor G as Gestionnaire
+    actor G as Gestionnaire ou administrateur
     participant V as Déplacements de la salle
     participant S as store
     participant R as WorkspaceRouter

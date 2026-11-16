@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 7.6 | 16/11/2026 | Pilotage interne | Mot de passe jamais conservé ; données du téléphone effacées | [61 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 8.0 | 16/11/2026 | Pilotage interne | Décision du 16 novembre sur les droits des administrateurs consignée | [62 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -200,9 +200,10 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 ### Suites de l’audit du 16 novembre
 
-- [x] **Haute** — RG-15 et définition « Administrateur » du glossaire : confirmation des installations et actions RIGEL réservées au gestionnaire (accord de l’utilisateur du 16 novembre).
+- [x] **Haute** — RG-15 et définition « Administrateur » du glossaire : confirmation des installations et actions RIGEL réservées au gestionnaire (accord de l’utilisateur du 16 novembre) ; remplacé par la décision suivante.
+- [x] **Haute** — Décision de l’utilisateur du 16 novembre : l’administrateur hérite de tous les droits du gestionnaire dans son école (traitement des remontées, confirmation des installations, RIGEL, alerte de garantie) ; le super administrateur les a sur toutes les écoles, sauf RIGEL, qu’il suit en lecture seule. RG-15, RG-64, RG-86 et RG-92 à RG-94 réécrites, code aligné ; glossaire (acteurs abstraits « Responsable des remontées » et « Utilisateur de RIGEL »), cadrage, matrice, fiches 13 à 16, DCU 08 et 11, diagrammes 06, 07, 17, 23, 25, 26 et 28 et guide de l’application alignés. Le DCU 08 fait désormais de la liaison du téléphone une extension de l’installation, ce qui lève DOC-03.
 - [x] DOC-06 (#166) abandonné (décision de l’utilisateur du 16 novembre) : un poste est toujours dans une salle, le lieu historique d’une détection n’est pas ajouté au MCD ni aux classes métier. Le code et le MPD gardent la salle de la détection.
-- Réserves de la V1 (décision de l’utilisateur du 16 novembre), non corrigées : DOC-03 (appairage RIGEL en inclusion dans le DCU 08), DOC-04 (points d’extension non nommés), DOC-05 (propriétaire du paquet).
+- Réserves de la V1 (décision de l’utilisateur du 16 novembre), non corrigées : DOC-03 (appairage RIGEL en inclusion dans le DCU 08, levé par l’alignement des droits du 16 novembre), DOC-04 (points d’extension non nommés), DOC-05 (propriétaire du paquet).
 
 ### Contradictions à corriger
 
@@ -239,7 +240,7 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 - [ ] **Haute** — #166 : représenter la salle historique d’une détection dans le MCD/classes métier ; RG-56 et le code la conservent, contrairement à une jointure par la salle actuelle du poste.
 - [ ] **Basse** — #63 : retirer l’appairage obligatoire de toute installation (DCU 08), préciser conditions/points des extensions DCU 08/10/22 et totalité du propriétaire de PAQUET (XT).
-- [ ] **Basse [RG]** — Préciser RG-15 et l’entrée Administrateur du glossaire : exceptions supplémentaires pour les installations et RIGEL, déjà appliquées par RG-92 à RG-96. Rédaction proposée et sources au rapport31§6 ; accord de l’utilisateur requis, aucune règle modifiée.
+- [x] ~~**Basse [RG]** — Préciser RG-15 et l’entrée Administrateur du glossaire : exceptions supplémentaires pour les installations et RIGEL, déjà appliquées par RG-92 à RG-96.~~ Sans objet : l’administrateur hérite des droits du gestionnaire (décision de l’utilisateur du 16 novembre).
 
 ### Modèle de données
 

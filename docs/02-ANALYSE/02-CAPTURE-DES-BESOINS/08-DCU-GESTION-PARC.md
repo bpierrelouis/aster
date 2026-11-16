@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.5 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée ; DCU complété d’après l’application | [6 versions](../../../archive/README.md#08-dcu-gestion-parc) |
+| 2.0 | 16/11/2026 | Production destinée à la remise | Utilisateur de RIGEL ajouté ; installation et garantie ouvertes aux administrateurs | [7 versions](../../../archive/README.md#08-dcu-gestion-parc) |
 <!-- version:fin -->
 
 ```mermaid
@@ -15,13 +15,17 @@ flowchart LR
     consultantParc(["Consultant du parc"])
     acteurGestion(["Acteur de gestion du parc"])
     acteurAdministrationParc(["Acteur d'administration du parc"])
+    utilisateurRigel(["Utilisateur de RIGEL"])
 
     formateur -->|« hérite de »| consultantParc
     acteurGestion -->|« hérite de »| consultantParc
     gestionnaire -->|« hérite de »| acteurGestion
     administrateur -->|« hérite de »| acteurGestion
     administrateur -->|« hérite de »| acteurAdministrationParc
-    superAdministrateur -->|« hérite de »| administrateur
+    gestionnaire -->|« hérite de »| utilisateurRigel
+    administrateur -->|« hérite de »| utilisateurRigel
+    superAdministrateur -->|« hérite de »| acteurGestion
+    superAdministrateur -->|« hérite de »| acteurAdministrationParc
 
     subgraph orion["Application web ORION — Gestion du parc"]
         direction TB
@@ -60,10 +64,11 @@ flowchart LR
     acteurGestion --- consulterStock
     acteurGestion --- consulterTableau
     acteurGestion --- suivreInstallations
-    gestionnaire --- recevoirGarantie
-    gestionnaire --- installer
-    gestionnaire --- recenser
-    gestionnaire --- traiterConstats
+    acteurGestion --- recevoirGarantie
+    acteurGestion --- installer
+    utilisateurRigel --- recenser
+    utilisateurRigel --- lierTelephone
+    utilisateurRigel --- traiterConstats
     acteurAdministrationParc --- supprimer
     acteurAdministrationParc --- gererSalles
 
@@ -73,7 +78,7 @@ flowchart LR
     renseignerGarantie -.->|« extend »| modifier
     importer -.->|« include »| rapprocher
     transferer -.->|« extend »| importer
-    installer -.->|« include »| lierTelephone
+    lierTelephone -.->|« extend »| installer
     recenser -.->|« include »| lierTelephone
     traiterConstats -.->|« extend »| recenser
 
@@ -85,7 +90,7 @@ flowchart LR
     classDef casUtilisation fill:#F5F2FF,stroke:#6954C0,color:#241C45
 
     class formateur,gestionnaire,administrateur,superAdministrateur acteurReel
-    class consultantParc,acteurGestion,acteurAdministrationParc acteurAbstrait
+    class consultantParc,acteurGestion,acteurAdministrationParc,utilisateurRigel acteurAbstrait
     class rigel acteurSecondaire
     class consulterSalles,consulter,recevoirGarantie,rechercher,enregistrer,importer,modifier,renseignerGarantie,affecter,consulterStock,supprimer,gererSalles,consulterTableau,installer,recenser,rapprocher,transferer,suivreInstallations,lierTelephone,traiterConstats casUtilisation
 

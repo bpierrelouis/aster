@@ -3,14 +3,14 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.5 | 16/11/2026 | Production destinée à la remise | Liste des règles paginée, avec recherche et filtre par classement | [15 versions](../../../archive/README.md#15-fiche-descriptive-administrateur) |
+| 5.0 | 16/11/2026 | Production destinée à la remise | L’administrateur hérite des droits du gestionnaire | [16 versions](../../../archive/README.md#15-fiche-descriptive-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
 - **Profil :** administrateur.
 - **Rattachement :** une école.
-- **Périmètre :** toutes les données et fonctionnalités de son école, à l’exception du traitement des remontées et de l’usage de RIGEL, réservés au gestionnaire.
-- **Finalité :** administrer le parc, les salles, les postes, la supervision et les comptes de son école, et suivre les remontées.
+- **Périmètre :** toutes les données et fonctionnalités de son école, dont tous les droits du gestionnaire : traitement des remontées, confirmation des installations, RIGEL et alerte de garantie.
+- **Finalité :** administrer le parc, les salles, les postes, la supervision et les comptes de son école, installer les salles, recenser le parc et traiter les remontées.
 
 ## Périmètre fonctionnel
 
@@ -19,14 +19,14 @@
 | Accès | Connexion par MindefConnect, avec un compte ORION actif de son école ; recherche globale, préférences d’affichage et déconnexion |
 | Tableaux de bord | « Mon tableau de bord » personnalisable, tableaux spécialisés « Parc » et « Remontées », tableaux ajoutés, renommés ou supprimés par le compte |
 | Parc matériel | Toutes les actions du gestionnaire sur les matériels, y compris l’import JSON, et la suppression d’un ou plusieurs matériels du stock |
-| Salles et bâtiments | Créer, modifier et supprimer une salle ; renommer un bâtiment ; initier les déplacements d’une installation et la suivre en lecture seule |
-| Recensement | Suivre en lecture seule les recensements de son école et leur bilan |
+| Salles et bâtiments | Créer, modifier et supprimer une salle ; renommer un bâtiment ; prévoir les déplacements d’une installation et les confirmer, dans ORION ou avec RIGEL |
+| Recensement | Lancer, réaliser avec RIGEL et clore les recensements de son école ; appairer son téléphone, imprimer les étiquettes et traiter les anciens constats, comme le gestionnaire |
 | Administration des postes | Consulter les postes, leur état et leurs applications ; installer ou désinstaller une application sur un poste ou une salle ; demander la réinitialisation d’un ou plusieurs postes ; suivre les interventions |
 | Supervision | Alertes de toutes les salles, supervision d’une salle et arrêt d’un processus, listes de processus (whitelist, blacklist) de son école, statistiques d’utilisation |
-| Remontées | Créer une remontée et suivre les siennes ; consulter toutes les remontées de son école et leurs états des lieux ; le traitement est réservé au gestionnaire |
+| Remontées | Créer une remontée et suivre les siennes ; consulter toutes les remontées de son école et leurs états des lieux ; les prendre en charge et les terminer |
 | Comptes ORION | Créer, modifier, désactiver et réactiver les comptes de son école, sans pouvoir les rattacher à une autre école ni changer la sienne ; consulter leur dernière connexion et leur date de désactivation |
-| Notifications | Évolution de ses propres remontées, fin des interventions qu’il a demandées, lancement d’un processus interdit |
-| Exclusions | Traitement des remontées, confirmation des installations, RIGEL (installation sur place et recensement), traitement des constats, règles globales, écoles et comptes super administrateur |
+| Notifications | Évolution de ses propres remontées, fin des interventions qu’il a demandées, lancement d’un processus interdit, garanties échues ou proches de l’échéance |
+| Exclusions | Règles globales, écoles et comptes super administrateur |
 
 Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-DROITS.md).
 
@@ -48,7 +48,7 @@ Les droits détaillés sont consolidés dans la [matrice des droits](12-MATRICE-
 - Seul un matériel du stock, cité par aucune remontée, peut être supprimé : sinon, la corbeille reste désactivée avec son motif (« Seul un matériel du stock peut être supprimé : renvoyez-le d’abord au stock. » ou « Un matériel cité par une remontée est conservé. »).
 - Un matériel hors service ne peut aller qu’au stock.
 - L’import JSON (**Matériels › Import**) suit le parcours du gestionnaire ([UC-GEST-02](13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md#uc-gest-02--importer-des-matériels-en-json)) : format attendu, aperçu, matériels déjà présents ou répétés non traités, transfert d’un matériel d’une autre école validé par l’importeur, bilan ligne par ligne, refus d’un fichier invalide en entier.
-- L’administrateur renseigne la date de fin de garantie et consulte l’état des garanties ; il ne reçoit pas l’alerte de garantie, réservée au gestionnaire.
+- L’administrateur renseigne la date de fin de garantie, consulte l’état des garanties et reçoit l’alerte de garantie, comme le gestionnaire.
 
 ### Résultats attendus
 
@@ -170,8 +170,8 @@ RG-15, RG-31 à RG-58, RG-68, RG-69 et RG-88.
 
 ### Variantes et limites
 
-- L’administrateur ne prend pas en charge et ne termine pas les remontées.
-- Il consulte toutes les remontées et tous les états des lieux de son école, mais n’est notifié que de l’évolution des remontées qu’il a créées.
+- L’administrateur prend en charge et termine les remontées de son école par le parcours du gestionnaire ([UC-GEST-03](13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md#uc-gest-03--consulter-et-traiter-les-remontées)).
+- Il consulte toutes les remontées et tous les états des lieux de son école, mais n’est notifié que de l’évolution des remontées qu’il a créées ; la notification d’une nouvelle remontée est adressée au gestionnaire.
 - L’état des lieux présente le statut et le suivi ; il est produit à chaque demande et n’est pas conservé.
 
 ### Questions ouvertes
@@ -237,9 +237,9 @@ RG-01, RG-15, RG-60, RG-62, RG-69 à RG-71, RG-82 et RG-85.
 
 RG-02, RG-15, RG-61, RG-69, RG-74 et RG-75.
 
-## UC-ADMIN-08 — Prévoir l’installation d’une salle
+## UC-ADMIN-08 — Prévoir et réaliser l’installation d’une salle
 
-- **Objectif :** préparer les déplacements de matériels que le gestionnaire réalisera sur place.
+- **Objectif :** préparer les déplacements de matériels et confirmer leur installation.
 - **Déclencheur :** une salle doit être équipée, complétée ou vidée.
 - **Préconditions :** l’administrateur est connecté ; la salle et les matériels appartiennent à son école.
 
@@ -247,21 +247,21 @@ RG-02, RG-15, RG-61, RG-69, RG-74 et RG-75.
 
 1. Dans le détail d’une salle, l’administrateur clique sur **Équiper la salle** et choisit le nombre de postes complets et les matériels secondaires pris dans le stock en service, ou glisse des matériels vers la salle ou vers le stock.
 2. ORION enregistre les affectations ; les matériels passent « en cours de déplacement » et le gestionnaire est notifié des matériels à déplacer.
-3. L’administrateur suit l’avancement dans **Salles › Déplacements** ; chaque matériel passe au vert lorsque le gestionnaire confirme son installation, dans ORION ou sur place avec RIGEL.
+3. L’administrateur suit l’avancement dans **Salles › Déplacements** ; chaque matériel passe au vert lorsque le gestionnaire ou lui-même confirme son installation, dans ORION ou sur place avec RIGEL.
 
 ### Variantes et limites
 
-- L’administrateur initie les déplacements et suit l’installation en lecture seule : les points de déplacement ne sont pas cliquables pour lui, **Terminer le restockage** et **Installer avec un téléphone** ne lui sont pas proposés, et il n’utilise pas RIGEL.
-- Il consulte de même, sans action, les recensements de son école dans **Matériels › Recensement**.
+- L’administrateur confirme les installations comme le gestionnaire ([UC-GEST-04](13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md#uc-gest-04--installer-une-salle-avec-rigel)) : point de déplacement, **Terminer le restockage** ou **Installer avec un téléphone**.
+- Il lance et réalise de même les recensements de son école dans **Matériels › Recensement** ([UC-GEST-05](13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md#uc-gest-05--recenser-le-parc-avec-rigel-et-traiter-les-anciens-constats)), avec RIGEL sur son téléphone ([UC-GEST-06](13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md#uc-gest-06--utiliser-rigel-sur-le-téléphone)).
 - Un matériel hors service ne peut être affecté qu’au stock.
 
 ### Résultats attendus
 
-- Les déplacements prévus sont visibles par le gestionnaire, qui les réalise.
+- Les déplacements prévus sont visibles par le gestionnaire ; chaque installation confirmée enregistre son auteur et sa date.
 
 ### Règles applicables
 
-RG-26, RG-27, RG-87 et RG-92.
+RG-15, RG-26, RG-27, RG-87 et RG-92 à RG-96.
 
 ## UC-ADMIN-09 — Suivre son activité : tableaux de bord et notifications
 
@@ -272,14 +272,14 @@ RG-26, RG-27, RG-87 et RG-92.
 ### Scénario nominal
 
 1. La cloche de la barre supérieure indique le nombre de ses notifications et ouvre leur résumé ; la page **Notifications** les détaille.
-2. Les notifications sont regroupées : remontées qu’il a créées prises en charge ou terminées, interventions qu’il a demandées terminées (réussies ou en échec), processus interdits lancés et arrêtés automatiquement.
+2. Les notifications sont regroupées : remontées qu’il a créées prises en charge ou terminées, interventions qu’il a demandées terminées (réussies ou en échec), processus interdits lancés et arrêtés automatiquement, garanties échues ou arrivant à échéance.
 3. **Accueil** présente son tableau de bord (matériels hors service, remontées en attente, flux des remontées, part hors service par bâtiment, salles à surveiller), personnalisable, ainsi que les tableaux **Parc** et **Remontées**. **Personnaliser** déplace, redimensionne, retire ou ajoute des cartes et rétablit la disposition par défaut ; le **+** du sous-menu de l’accueil crée un autre tableau, à renommer ou supprimer.
 4. La recherche de la barre supérieure trouve une salle, un matériel ou une remontée et ouvre l’écran concerné.
 5. Le menu du compte rappelle son nom, son profil et son école ; il règle l’ambiance (Orion ou Minarm), le mode clair ou sombre, la couleur d’accent de l’ambiance Orion et le verre (liquide ou opaque), conservés pour ses connexions suivantes, et propose **Se déconnecter**.
 
 ### Variantes et limites
 
-- Il n’est pas notifié des remontées créées par d’autres, ni des garanties.
+- Il n’est pas notifié des remontées créées par d’autres, ni des matériels à déplacer.
 - Aucune notification n’est envoyée par courriel.
 
 ### Questions ouvertes
@@ -288,7 +288,7 @@ RG-26, RG-27, RG-87 et RG-92.
 
 ### Règles applicables
 
-RG-24, RG-36 à RG-39, RG-55, RG-66 et RG-84.
+RG-24, RG-36 à RG-39, RG-55, RG-66, RG-84 et RG-86.
 
 ## Écrans de l’application
 
@@ -302,7 +302,7 @@ L’administrateur suit les matériels hors service, les remontées en attente e
 
 ![Liste des remontées](../../../design/maquettes/captures/30-remontees-liste.png)
 
-Les remontées de l’école sont filtrées par onglet, bâtiment ou recherche ; une ligne ouvre le détail, sans action de traitement.
+Les remontées de l’école sont filtrées par onglet, bâtiment ou recherche ; une ligne ouvre le détail, où l’administrateur prend en charge puis termine la remontée.
 
 ### État des lieux
 
@@ -358,11 +358,11 @@ Les écrans du parc, communs avec le gestionnaire, sont présentés dans la [fic
 
 - Tous les écrans du parc, avec suppression réservée aux administrateurs et motif affiché lorsqu’elle est impossible.
 - Gestion des salles depuis la vue des bâtiments et renommage des bâtiments.
-- Préparation des installations (« Équiper la salle », glisser-déposer) et suivi des déplacements.
+- Préparation des installations (« Équiper la salle », glisser-déposer), confirmation et suivi des déplacements, recensement avec RIGEL.
 - Sélection d’une salle entière ou de postes pour les interventions, avec résumé des postes allumés et déconnectés.
 - Catalogue des applications, détail d’un poste et suivi des interventions poste par poste.
 - Supervision des postes et processus, listes de processus, alertes et statistiques.
-- Création, consultation et suivi des remontées avec accès aux PDF, sans action de traitement.
+- Création, consultation, suivi et traitement des remontées avec accès aux PDF.
 - Gestion des comptes limitée à l’école, avec dernière connexion et date de désactivation.
 - Notifications dans ORION ; aucun écran ne laisse penser que l’administrateur a un périmètre sur plusieurs écoles.
 

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.0 | 15/11/2026 | Production destinée à la remise | Diagrammes de séquence système | [1 version](../../../archive/README.md#25-diagrammes-sequence-systeme) |
+| 2.0 | 16/11/2026 | Production destinée à la remise | Traitement, confirmation et RIGEL ouverts aux administrateurs | [2 versions](../../../archive/README.md#25-diagrammes-sequence-systeme) |
 <!-- version:fin -->
 
 ## 1. Se connecter par MindefConnect
@@ -49,7 +49,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     autonumber
-    actor G as Gestionnaire
+    actor G as Gestionnaire, administrateur<br/>ou super administrateur
     participant O as :ORION
     actor A as Auteur de la remontée
     G->>O: consulterRemontée(numéro)
@@ -80,8 +80,13 @@ sequenceDiagram
     alt même école et aucun matériel hors service vers une salle
         O-->>A: affectation enregistrée, matériels « en cours de déplacement »
         O-)G: notification de matériels à déplacer
-        G->>O: confirmerInstallation(matériel)
-        O-->>G: matériel installé, date et auteur conservés
+        alt confirmation par le gestionnaire
+            G->>O: confirmerInstallation(matériel)
+            O-->>G: matériel installé, date et auteur conservés
+        else confirmation par l'administrateur ou le super administrateur
+            A->>O: confirmerInstallation(matériel)
+            O-->>A: matériel installé, date et auteur conservés
+        end
     else affectation non permise
         O-->>A: affectation refusée
     end
@@ -157,7 +162,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     autonumber
-    actor G as Gestionnaire
+    actor G as Gestionnaire<br/>ou administrateur
     participant O as :ORION
     participant R as RIGEL
     G->>O: installerAvecTéléphone(salle)
@@ -181,7 +186,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     autonumber
-    actor G as Gestionnaire
+    actor G as Gestionnaire<br/>ou administrateur
     participant O as :ORION
     participant R as RIGEL
     G->>O: lancerRecensement(nom, école ou salles)

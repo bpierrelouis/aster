@@ -446,6 +446,13 @@
         "version": "6.0",
         "date": "2026-11-16",
         "modification": "Administrateur sans confirmation des installations ni RIGEL",
+        "archive": null,
+        "commit": "9bb9802"
+      },
+      {
+        "version": "7.0",
+        "date": "2026-11-16",
+        "modification": "L’administrateur hérite des droits du gestionnaire ; acteurs abstraits ajustés",
         "archive": null
       }
     ]
@@ -692,6 +699,13 @@
         "version": "7.1",
         "date": "2026-11-16",
         "modification": "Réponses actuelles reportées : unité centrale du poste, filtres",
+        "archive": null,
+        "commit": "85d83bc"
+      },
+      {
+        "version": "8.0",
+        "date": "2026-11-16",
+        "modification": "Décision du 16 novembre sur les droits des administrateurs reportée",
         "archive": null
       }
     ]
@@ -801,6 +815,13 @@
         "version": "4.0",
         "date": "2026-11-15",
         "modification": "RIGEL présenté selon l’architecture cible, sans relais",
+        "archive": null,
+        "commit": "04c54ca"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-16",
+        "modification": "Administrateur relié à RIGEL, aux installations et au traitement des remontées",
         "archive": null
       }
     ]
@@ -870,6 +891,13 @@
         "version": "2.2",
         "date": "2026-11-15",
         "modification": "Constats RIGEL transmis directement à ORION",
+        "archive": null,
+        "commit": "04c54ca"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-16",
+        "modification": "Traitement, installations et RIGEL ouverts aux administrateurs",
         "archive": null
       }
     ]
@@ -1026,6 +1054,13 @@
         "version": "12.0",
         "date": "2026-11-16",
         "modification": "RG-15 réserve au gestionnaire la confirmation des installations et RIGEL",
+        "archive": null,
+        "commit": "9bb9802"
+      },
+      {
+        "version": "13.0",
+        "date": "2026-11-16",
+        "modification": "L'administrateur hérite des droits du gestionnaire",
         "archive": null
       }
     ]
@@ -1187,6 +1222,13 @@
         "version": "1.5",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; DCU complété d’après l’application",
+        "archive": null,
+        "commit": "36f4195"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-16",
+        "modification": "Utilisateur de RIGEL ajouté ; installation et garantie ouvertes aux administrateurs",
         "archive": null
       }
     ]
@@ -1369,6 +1411,13 @@
         "version": "3.1",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null,
+        "commit": "69eaf4e"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-16",
+        "modification": "Traitement des remontées confié au responsable des remontées",
         "archive": null
       }
     ]
@@ -1510,6 +1559,13 @@
         "version": "8.0",
         "date": "2026-11-15",
         "modification": "Alerte de processus blacklisté non notifiée au formateur ; import renvoyé à RG-29",
+        "archive": null,
+        "commit": "0f1761c"
+      },
+      {
+        "version": "9.0",
+        "date": "2026-11-16",
+        "modification": "Administrateurs : traitement, installations, RIGEL et alerte de garantie",
         "archive": null
       }
     ]
@@ -1621,6 +1677,13 @@
         "version": "4.3",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Toutes les actions du gestionnaire : import JSON, RIGEL détaillé, activité ; écrans RIGEL",
+        "archive": null,
+        "commit": "2ce55f7"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-16",
+        "modification": "Droits partagés avec les administrateurs",
         "archive": null
       }
     ]
@@ -1725,6 +1788,13 @@
         "version": "3.2",
         "date": "2026-11-15",
         "modification": "Termes whitelist et blacklist",
+        "archive": null,
+        "commit": "70bd202"
+      },
+      {
+        "version": "3.3",
+        "date": "2026-11-16",
+        "modification": "Traitement par le gestionnaire ou un administrateur",
         "archive": null
       }
     ]
@@ -1858,6 +1928,13 @@
         "version": "4.5",
         "date": "2026-11-16",
         "modification": "Liste des règles paginée, avec recherche et filtre par classement",
+        "archive": null,
+        "commit": "9bb9802"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-16",
+        "modification": "L’administrateur hérite des droits du gestionnaire",
         "archive": null
       }
     ]
@@ -1969,6 +2046,13 @@
         "version": "4.2",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans",
+        "archive": null,
+        "commit": "2ce55f7"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-16",
+        "modification": "Droits du gestionnaire sur toutes les écoles, sauf RIGEL",
         "archive": null
       }
     ]
@@ -1998,6 +2082,13 @@
         "version": "1.0",
         "date": "2026-11-15",
         "modification": "Diagrammes d’activité des cas d’utilisation, d’après l’application",
+        "archive": null,
+        "commit": "36f4195"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-16",
+        "modification": "Installation, recensement et traitement ouverts aux administrateurs",
         "archive": null
       }
     ]
@@ -2027,6 +2118,13 @@
         "version": "1.0",
         "date": "2026-11-15",
         "modification": "Diagrammes de séquence système",
+        "archive": null,
+        "commit": "36f4195"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-16",
+        "modification": "Traitement, confirmation et RIGEL ouverts aux administrateurs",
         "archive": null
       }
     ]
@@ -2118,6 +2216,13 @@
         "version": "4.2",
         "date": "2026-11-15",
         "modification": "Termes whitelist et blacklist",
+        "archive": null,
+        "commit": "70bd202"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-16",
+        "modification": "Traitement et confirmation ouverts aux administrateurs",
         "archive": null
       }
     ]
@@ -2143,6 +2248,13 @@
         "version": "2.0",
         "date": "2026-11-15",
         "modification": "API de RIGEL à la place du connecteur",
+        "archive": null,
+        "commit": "04c54ca"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-16",
+        "modification": "Responsable des remontées et utilisateur de RIGEL",
         "archive": null
       }
     ]
@@ -2193,6 +2305,13 @@
         "version": "2.1",
         "date": "2026-11-15",
         "modification": "Tables sans préfixe ; collections interventions et operations",
+        "archive": null,
+        "commit": "0867182"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-16",
+        "modification": "Traitement et RIGEL ouverts aux administrateurs",
         "archive": null
       }
     ]
@@ -3061,6 +3180,13 @@
         "version": "7.6",
         "date": "2026-11-16",
         "modification": "Mot de passe jamais conservé ; données du téléphone effacées",
+        "archive": null,
+        "commit": "49e01c4"
+      },
+      {
+        "version": "8.0",
+        "date": "2026-11-16",
+        "modification": "Décision du 16 novembre sur les droits des administrateurs consignée",
         "archive": null
       }
     ]

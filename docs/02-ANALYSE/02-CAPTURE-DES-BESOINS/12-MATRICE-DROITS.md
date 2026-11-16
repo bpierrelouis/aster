@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 8.0 | 15/11/2026 | Production destinée à la remise | Alerte de processus blacklisté non notifiée au formateur ; import renvoyé à RG-29 | [19 versions](../../../archive/README.md#12-matrice-droits) |
+| 9.0 | 16/11/2026 | Production destinée à la remise | Administrateurs : traitement, installations, RIGEL et alerte de garantie | [20 versions](../../../archive/README.md#12-matrice-droits) |
 <!-- version:fin -->
 
 Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
@@ -52,24 +52,24 @@ Le super administrateur choisit l’école affichée ou l’ensemble des écoles
 | Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
 | --- | --- | --- | --- | --- | --- | --- |
 | Importer de nouveaux matériels en JSON | Oui | Non | Oui | Oui | Les données sont appliquées immédiatement, sans validation métier préalable ; un fichier illisible, vide ou contenant un matériel incomplet ou invalide est refusé (RG-29). Un matériel d’une autre école peut changer d’école si l’importeur valide son transfert. | RG-15, RG-28, RG-29 et RG-72 |
-| Lier un téléphone à une installation ou à un recensement | Oui | Non | Non | Non | Par le QR code affiché dans ORION, qui transmet des données à jour ; RIGEL fonctionne ensuite hors connexion. | RG-94 |
-| Confirmer l’installation d’un matériel (point de déplacement, « Terminer le restockage » ou RIGEL) | Oui | Non | Non | Non | Depuis Salles › Déplacements ou sur place avec RIGEL (« Installer avec un téléphone ») ; l’installation d’une salle se termine d’elle-même quand plus aucun matériel n’est à déplacer vers elle ou depuis elle. | RG-92 et RG-94 |
-| Lancer un recensement et le réaliser avec RIGEL | Oui | Non | Non | Non | « Nouveau recensement » dans ORION, sur toute ou une partie de l’école ; au plus 14 jours, jamais rouvert ni supprimé. | RG-93 |
-| Traiter un matériel mal placé avec RIGEL (« Accepter ici », « Ramener », « Mettre au stock ») | Oui | Non | Non | Non | Ouvrir un lieu dans RIGEL vaut présence ; relocaliser un matériel sans être dans le lieu de destination lance un déplacement. | RG-96 |
-| Ajouter un matériel au code inconnu avec RIGEL | Oui | Non | Non | Non | Après avertissement et saisie de ses informations, le matériel est créé dans le lieu du scan. | RG-95 |
-| Traiter un ancien constat (écart ou code inconnu) | Oui | Non | Non | Non | Remettre au stock ou ramener (déplacement à confirmer), réaffecter au lieu constaté, ou écarter un ancien code inconnu ; un nouveau code inconnu est ajouté automatiquement au parc. | RG-95 |
-| Suivre les installations, les déplacements et les recensements | Oui | Non | Oui | Oui | Lecture seule pour l’administrateur et le super administrateur ; le formateur n’a accès ni aux déplacements, ni à RIGEL, ni au recensement. | RG-92 et RG-93 |
+| Lier un téléphone à une installation ou à un recensement | Oui | Non | Oui | Non | Par le QR code affiché dans ORION, qui transmet des données à jour ; RIGEL fonctionne ensuite hors connexion. RIGEL est propre à une école : le super administrateur, sans école de rattachement, ne l’utilise pas. | RG-15 et RG-94 |
+| Confirmer l’installation d’un matériel (point de déplacement, « Terminer le restockage » ou RIGEL) | Oui | Non | Oui | Oui | Depuis Salles › Déplacements ou sur place avec RIGEL (« Installer avec un téléphone »), RIGEL excepté pour le super administrateur ; l’installation d’une salle se termine d’elle-même quand plus aucun matériel n’est à déplacer vers elle ou depuis elle. | RG-15, RG-92 et RG-94 |
+| Lancer un recensement et le réaliser avec RIGEL | Oui | Non | Oui | Non | « Nouveau recensement » dans ORION, sur toute ou une partie de l’école ; au plus 14 jours, jamais rouvert ni supprimé. | RG-15 et RG-93 |
+| Traiter un matériel mal placé avec RIGEL (« Accepter ici », « Ramener », « Mettre au stock ») | Oui | Non | Oui | Non | Ouvrir un lieu dans RIGEL vaut présence ; relocaliser un matériel sans être dans le lieu de destination lance un déplacement. | RG-96 |
+| Ajouter un matériel au code inconnu avec RIGEL | Oui | Non | Oui | Non | Après avertissement et saisie de ses informations, le matériel est créé dans le lieu du scan. | RG-95 |
+| Traiter un ancien constat (écart ou code inconnu) | Oui | Non | Oui | Non | Remettre au stock ou ramener (déplacement à confirmer), réaffecter au lieu constaté, ou écarter un ancien code inconnu ; un nouveau code inconnu est ajouté automatiquement au parc. | RG-95 |
+| Suivre les installations, les déplacements et les recensements | Oui | Non | Oui | Oui | Lecture seule des recensements pour le super administrateur ; le formateur n’a accès ni aux déplacements, ni à RIGEL, ni au recensement. | RG-15, RG-92 et RG-93 |
 
 ## Remontées utilisateur
 
 | Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
 | --- | --- | --- | --- | --- | --- | --- |
 | Créer une remontée | Non | Oui | Oui | Oui | La remontée concerne un ou plusieurs matériels de l’école de la remontée ; le type de problème est obligatoire. Le formateur ne signale que des matériels affectés à une salle (pas le stock). | RG-15, RG-21 et RG-79, DCU 11 |
-| Consulter les remontées et leur suivi | Oui | Oui | Oui | Oui | Le formateur consulte uniquement ses propres remontées ; le gestionnaire et l’administrateur consultent toutes les remontées de leur école. | RG-15, RG-64 et RG-80, DCU 11 |
+| Consulter les remontées et leur suivi | Oui | Oui | Oui | Oui | Le formateur consulte uniquement ses propres remontées ; le gestionnaire et l’administrateur consultent toutes les remontées de leur école, le super administrateur celles de toutes les écoles. | RG-15, RG-64 et RG-80, DCU 11 |
 | Consulter un PDF d’état des lieux | Oui | Oui | Oui | Oui | Le formateur consulte uniquement le PDF d’une remontée qu’il a lui-même créée. Le PDF présente le statut et le suivi de la remontée. | RG-15, RG-23 et RG-89, DCU 11 |
 | Télécharger un PDF d’état des lieux | Oui | Oui | Oui | Oui | Le formateur télécharge uniquement le PDF d’une remontée qu’il a lui-même créée. | RG-23, DCU 11 |
-| Prendre en charge une remontée | Oui | Non | Non | Non | « En attente » → « en cours » ; prise en charge obligatoire avant un statut final. Seul le gestionnaire traite les remontées. | RG-13 et RG-64, DCU 11 |
-| Terminer une remontée en « remplacé » ou « corrigé » | Oui | Non | Non | Non | Depuis « en cours » uniquement. Une remontée terminée ne change plus de statut. | RG-13 et RG-64, DCU 11 |
+| Prendre en charge une remontée | Oui | Non | Oui | Oui | « En attente » → « en cours » ; prise en charge obligatoire avant un statut final. Le gestionnaire, l’administrateur et le super administrateur traitent les remontées de leur périmètre. | RG-13, RG-15 et RG-64, DCU 11 |
+| Terminer une remontée en « remplacé » ou « corrigé » | Oui | Non | Oui | Oui | Depuis « en cours » uniquement. Une remontée terminée ne change plus de statut. | RG-13, RG-15 et RG-64, DCU 11 |
 | Supprimer une remontée ou en modifier le contenu | Non | Non | Non | Non | Seul le statut d’une remontée peut être modifié. | RG-79 |
 | Consulter le tableau de bord des remontées | Oui | Non | Oui | Oui | Les indicateurs détaillés restent à définir. | RG-15, RG-24 et RG-36, DCU 11 |
 | Recevoir une notification liée à une remontée | Oui | Oui | Oui | Oui | Le gestionnaire est notifié à la création d’une remontée. L’auteur d’une remontée (formateur, administrateur ou super administrateur) est notifié de chaque changement de statut. | RG-38, RG-39, RG-66 et RG-67, DCU 11 |
@@ -118,6 +118,6 @@ ORION génère le PDF d’état des lieux à chaque consultation ou télécharge
 | --- | --- | --- | --- | --- | --- | --- |
 | Renseigner ou modifier la date de fin de garantie | Oui | Non | Oui | Oui | La date de fin de garantie est facultative. | RG-86, DCU 08 |
 | Consulter les indicateurs de garantie | Oui | Non | Oui | Oui | Les garanties proches de l’échéance (six mois) et arrivées à échéance sont distinguées. | RG-36 et RG-86 |
-| Recevoir une alerte de garantie | Oui | Non | Non | Non | L’alerte est affichée dans ORION ; aucun courriel n’est prévu. | RG-37, RG-38 et RG-86 |
+| Recevoir une alerte de garantie | Oui | Non | Oui | Oui | L’alerte est affichée dans ORION ; aucun courriel n’est prévu. | RG-15, RG-37, RG-38 et RG-86 |
 
 Sources générales : [règles de gestion](04-REGLES-DE-GESTION.md), [cadrage consolidé](../../01-CONTEXTE/02-CADRAGE.md), DCU [gestion du parc](08-DCU-GESTION-PARC.md), [administration des postes](09-DCU-ADMINISTRATION-POSTES.md), [supervision des postes](10-DCU-SUPERVISION-POSTES.md) et [remontées utilisateur](11-DCU-REMONTEES-UTILISATEUR.md).

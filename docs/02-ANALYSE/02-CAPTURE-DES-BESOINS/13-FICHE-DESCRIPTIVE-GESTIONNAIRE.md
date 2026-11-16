@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.3 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Toutes les actions du gestionnaire : import JSON, RIGEL détaillé, activité ; écrans RIGEL | [12 versions](../../../archive/README.md#13-fiche-descriptive-gestionnaire) |
+| 5.0 | 16/11/2026 | Production destinée à la remise | Droits partagés avec les administrateurs | [13 versions](../../../archive/README.md#13-fiche-descriptive-gestionnaire) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -119,7 +119,7 @@ RG-03 à RG-05, RG-28, RG-29, RG-69, RG-72 et RG-87.
 
 - Une remontée peut concerner plusieurs matériels ; elle n’a qu’un statut : « en attente », « en cours », « remplacé » ou « corrigé ».
 - La prise en charge est obligatoire avant « remplacé » ou « corrigé » ; une remontée terminée ne change plus de statut. Son contenu n’est ni modifié ni supprimé.
-- Le gestionnaire est seul à traiter les remontées ; il n’en crée pas.
+- Le gestionnaire traite les remontées, comme l’administrateur et le super administrateur ; il n’en crée pas.
 - L’état des lieux est produit par ORION à chaque demande, avec les informations du moment, dont le statut et le suivi ; il n’est pas conservé.
 - Aucun courriel n’est envoyé.
 
@@ -163,7 +163,7 @@ RG-11 à RG-14, RG-23 à RG-25, RG-34 à RG-38, RG-64, RG-66, RG-67, RG-69, RG-7
 - Un matériel hors service n’est jamais accepté dans une salle ; il ne peut aller qu’au stock.
 - Une installation et un recensement peuvent être en cours en même temps dans une salle : son détail propose alors **Installation en cours** et **Recensement en cours**.
 - Hors connexion, RIGEL garde les scans et les transmet chiffrés au retour du réseau ; un scan plus ancien que la dernière information connue sur le matériel est refusé.
-- L’administrateur et le super administrateur initient les déplacements et suivent l’installation en lecture seule ; le formateur n’a pas accès à RIGEL.
+- L’administrateur réalise l’installation comme le gestionnaire ; le super administrateur confirme les installations dans ORION, sans RIGEL ; le formateur n’a pas accès à RIGEL.
 
 ### Résultats attendus
 
@@ -196,7 +196,7 @@ RG-26, RG-27, RG-87, RG-92, RG-94, RG-95 et RG-96.
 
 ### Variantes et limites
 
-- Seul le gestionnaire lance et réalise un recensement ; l’administrateur et le super administrateur le suivent en lecture seule ; le formateur n’y a pas accès.
+- Le gestionnaire ou l’administrateur de l’école lance et réalise un recensement ; le super administrateur le suit en lecture seule ; le formateur n’y a pas accès.
 - Un recensement dure au plus 14 jours ; il peut être clos plus tôt et, une fois clos, n’est ni rouvert ni supprimé.
 - Un même code inconnu scanné plusieurs fois forme une seule ligne (« Vu n fois »), traitée en une fois ; si son numéro de série est déjà au parc, **Ajouter au parc** propose seulement de marquer le constat traité, sans doublon.
 - Un matériel hors service ne peut être que remis au stock.
@@ -272,7 +272,7 @@ RG-87, RG-93, RG-94, RG-95 et RG-96.
 
 ### Variantes et limites
 
-- Le gestionnaire est seul à recevoir les alertes de garantie.
+- Le gestionnaire reçoit les alertes de garantie, comme l’administrateur et le super administrateur.
 - Aucune notification n’est envoyée par courriel.
 
 ### Résultats attendus

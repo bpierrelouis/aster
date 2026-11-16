@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 15/11/2026 | Production destinée à la remise | API de RIGEL à la place du connecteur | [3 versions](../../../archive/README.md#26-diagramme-classes-analyse) |
+| 3.0 | 16/11/2026 | Production destinée à la remise | Responsable des remontées et utilisateur de RIGEL | [4 versions](../../../archive/README.md#26-diagramme-classes-analyse) |
 <!-- version:fin -->
 
 ## Remontées utilisateur
@@ -12,6 +12,9 @@
 classDiagram
     direction LR
     class AuteurRemontee["Auteur de remontée"] {
+        <<actor>>
+    }
+    class ResponsableRemontees["Responsable des remontées"] {
         <<actor>>
     }
     class Gestionnaire {
@@ -74,7 +77,7 @@ classDiagram
 
     AuteurRemontee -- FormulaireRemontee
     AuteurRemontee -- EcranRemontees
-    Gestionnaire -- EcranRemontees
+    ResponsableRemontees -- EcranRemontees
     Gestionnaire -- EcranNotifications
     AuteurRemontee -- EcranNotifications
     EcranRemontees -- DocumentEtatDesLieux
@@ -449,7 +452,7 @@ classDiagram
 ```mermaid
 classDiagram
     direction LR
-    class Gestionnaire {
+    class UtilisateurRigel["Utilisateur de RIGEL"] {
         <<actor>>
     }
     class Rigel["RIGEL"] {
@@ -520,8 +523,8 @@ classDiagram
         <<entity>>
     }
 
-    Gestionnaire -- EcranRecensement
-    Gestionnaire -- EcranDeplacements
+    UtilisateurRigel -- EcranRecensement
+    UtilisateurRigel -- EcranDeplacements
     EcranRecensement -- Appairage
     EcranDeplacements -- Appairage
     Rigel -- InterfaceRigel

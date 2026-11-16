@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.2 | 15/11/2026 | Production destinée à la remise | Termes whitelist et blacklist | [10 versions](../../../archive/README.md#14-fiche-descriptive-formateur) |
+| 3.3 | 16/11/2026 | Production destinée à la remise | Traitement par le gestionnaire ou un administrateur | [11 versions](../../../archive/README.md#14-fiche-descriptive-formateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -112,7 +112,7 @@ RG-38, RG-52 à RG-56 et RG-69.
 5. Il clique sur **Transmettre la remontée**. ORION attribue le numéro, enregistre le formateur comme auteur et la remontée « en attente », notifie le gestionnaire et confirme « REM-… transmise, état des lieux disponible ».
 6. Dans **Remontées**, le formateur retrouve ses remontées par onglet (**En attente**, **En cours**, **Terminées**, **Toutes**) ; le détail présente les matériels, leur localisation et le suivi daté.
 7. Il ouvre l’**état des lieux** pour le consulter, le télécharger ou l’imprimer en PDF.
-8. À la prise en charge puis à la fin du traitement par le gestionnaire, il reçoit une notification dans ORION.
+8. À la prise en charge puis à la fin du traitement par le gestionnaire ou un administrateur, il reçoit une notification dans ORION.
 
 ### Variantes et limites
 

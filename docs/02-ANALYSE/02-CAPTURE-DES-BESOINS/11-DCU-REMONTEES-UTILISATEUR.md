@@ -3,13 +3,13 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.1 | 14/11/2026 | Production destinée à la remise | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | [7 versions](../../../archive/README.md#11-dcu-remontees-utilisateur) |
+| 4.0 | 16/11/2026 | Production destinée à la remise | Traitement des remontées confié au responsable des remontées | [8 versions](../../../archive/README.md#11-dcu-remontees-utilisateur) |
 <!-- version:fin -->
 
 ```mermaid
 flowchart LR
     auteurRemontee(["Auteur de remontée"])
-    consultantRemontees(["Consultant des remontées"])
+    responsableRemontees(["Responsable des remontées"])
     lecteurRemontee(["Lecteur d'une remontée autorisée"])
     formateur(["Formateur"])
     gestionnaire(["Gestionnaire"])
@@ -18,10 +18,10 @@ flowchart LR
 
     formateur -->|« hérite de »| auteurRemontee
     administrateur -->|« hérite de »| auteurRemontee
-    gestionnaire -->|« hérite de »| consultantRemontees
-    administrateur -->|« hérite de »| consultantRemontees
+    gestionnaire -->|« hérite de »| responsableRemontees
+    administrateur -->|« hérite de »| responsableRemontees
     formateur -->|« hérite de »| lecteurRemontee
-    consultantRemontees -->|« hérite de »| lecteurRemontee
+    responsableRemontees -->|« hérite de »| lecteurRemontee
     superAdministrateur -->|« hérite de »| administrateur
 
     subgraph orion["Application web ORION — Remontées utilisateur"]
@@ -44,10 +44,10 @@ flowchart LR
     lecteurRemontee --- consulterRemontee
     lecteurRemontee --- consulterPdf
     lecteurRemontee --- telechargerPdf
-    consultantRemontees --- consulterTableau
-    gestionnaire --- prendreEnCharge
-    gestionnaire --- marquerRemplace
-    gestionnaire --- marquerCorrige
+    responsableRemontees --- consulterTableau
+    responsableRemontees --- prendreEnCharge
+    responsableRemontees --- marquerRemplace
+    responsableRemontees --- marquerCorrige
     auteurRemontee ---|sa propre remontée| recevoirNotification
     gestionnaire --- recevoirNouvelleRemontee
 
@@ -59,7 +59,7 @@ flowchart LR
     classDef acteurAbstrait fill:#E3F5E6,stroke:#35864A,color:#173B22,stroke-width:2px,stroke-dasharray:6 4
     classDef casUtilisation fill:#F5F2FF,stroke:#6954C0,color:#241C45
     class formateur,gestionnaire,administrateur,superAdministrateur acteurReel
-    class auteurRemontee,consultantRemontees,lecteurRemontee acteurAbstrait
+    class auteurRemontee,responsableRemontees,lecteurRemontee acteurAbstrait
     class creerRemontee,suivreRemontee,consulterRemontee,consulterPdf,telechargerPdf,consulterTableau,prendreEnCharge,marquerRemplace,marquerCorrige,recevoirNotification,recevoirNouvelleRemontee casUtilisation
 
     style orion fill:none,stroke:#7D8793,stroke-width:1px

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.2 | 14/11/2026 | Production destinée à la remise | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | [12 versions](../../../archive/README.md#16-fiche-descriptive-super-administrateur) |
+| 5.0 | 16/11/2026 | Production destinée à la remise | Droits du gestionnaire sur toutes les écoles, sauf RIGEL | [13 versions](../../../archive/README.md#16-fiche-descriptive-super-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -16,7 +16,7 @@
 
 Le super administrateur possède les mêmes capacités que l’administrateur, sur toutes les écoles. Il dispose en outre de capacités propres au périmètre global : choix de l’école affichée, gestion des écoles, gestion des règles globales de processus et attribution du profil super administrateur.
 
-Comme l’administrateur, il ne traite pas les remontées, n’utilise pas RIGEL et ne reçoit pas les alertes de garantie, réservés au gestionnaire.
+Comme l’administrateur, il dispose des droits du gestionnaire : il traite les remontées, confirme les installations dans ORION et reçoit les alertes de garantie. RIGEL, propre à une école, fait exception : sans école de rattachement, il n’appaire pas de téléphone, ne lance ni ne clôt de recensement et ne traite pas les anciens constats ; il suit les recensements en lecture seule.
 
 Afin d’éviter de dupliquer les scénarios, les parcours détaillés sont décrits dans la [fiche Administrateur](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md). Ils s’appliquent au super administrateur avec les adaptations de périmètre ci-dessous.
 
@@ -27,14 +27,14 @@ Afin d’éviter de dupliquer les scénarios, les parcours détaillés sont déc
 | Accès | Connexion par MindefConnect, avec un compte ORION actif de profil super administrateur ; recherche globale, préférences d’affichage et déconnexion, comme l’administrateur |
 | Écoles | Choisir l’école affichée ou toutes les écoles ; créer et renommer une école |
 | Parc matériel | Toutes les actions sur les matériels de toutes les écoles, y compris la suppression et l’import JSON |
-| Salles et bâtiments | Gestion des salles et renommage des bâtiments de toutes les écoles ; déplacements d’une installation initiés et suivis en lecture seule |
+| Salles et bâtiments | Gestion des salles et renommage des bâtiments de toutes les écoles ; déplacements d’une installation prévus et confirmés dans ORION, sans RIGEL |
 | Recensement | Suivi en lecture seule des recensements de toutes les écoles |
 | Administration des postes | Applications, installation, désinstallation, réinitialisation et suivi des interventions sur les postes de toutes les écoles |
 | Supervision | Alertes, supervision des salles, arrêt d’un processus et statistiques de toutes les écoles |
 | Règles de processus | Règles globales, en plus des règles d’école, de bâtiment et de salle |
-| Remontées | Création et suivi de ses remontées ; consultation des remontées et des états des lieux de toutes les écoles ; le traitement est réservé au gestionnaire |
+| Remontées | Création et suivi de ses remontées ; consultation, prise en charge et fin des remontées de toutes les écoles ; consultation de leurs états des lieux |
 | Comptes ORION | Création, modification, désactivation et réactivation des comptes de toutes les écoles, y compris des comptes super administrateur ; changement de l’école d’un administrateur, rattaché à une seule école |
-| Notifications | Comme l’administrateur : évolution de ses propres remontées, fin des interventions qu’il a demandées, lancement d’un processus interdit |
+| Notifications | Comme l’administrateur : évolution de ses propres remontées, fin des interventions qu’il a demandées, lancement d’un processus interdit, garanties échues ou proches de l’échéance |
 
 ## Adaptation des parcours administrateur
 
@@ -50,7 +50,7 @@ Les opérations de [UC-ADMIN-01](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin
 
 ### Salles et installation
 
-Les parcours [UC-ADMIN-07](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-07--gérer-les-salles-et-les-étages) et [UC-ADMIN-08](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-08--prévoir-linstallation-dune-salle) s’appliquent aux salles de toutes les écoles. Lorsque toutes les écoles sont affichées, **Administration › Bâtiments** ajoute la colonne **École**. Le super administrateur initie les déplacements et suit l’installation en lecture seule ; seul le gestionnaire de l’école la confirme, dans ORION ou avec RIGEL. Il suit de même les recensements, sans action.
+Les parcours [UC-ADMIN-07](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-07--gérer-les-salles-et-les-étages) et [UC-ADMIN-08](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-08--prévoir-et-réaliser-linstallation-dune-salle) s’appliquent aux salles de toutes les écoles. Lorsque toutes les écoles sont affichées, **Administration › Bâtiments** ajoute la colonne **École**. Le super administrateur prévoit les déplacements et confirme les installations dans ORION (point de déplacement, **Terminer le restockage**) ; **Installer avec un téléphone** ne lui est pas proposé. Il suit les recensements, sans action.
 
 ### Administration des postes
 
@@ -62,7 +62,7 @@ Le parcours [UC-ADMIN-04](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-04--su
 
 ### Remontées
 
-Le parcours [UC-ADMIN-05](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-05--créer-consulter-et-suivre-les-remontées) permet de consulter les remontées et les états des lieux de toutes les écoles. Une remontée réunit des matériels d’une seule école. Le super administrateur crée des remontées et est notifié de l’évolution des siennes ; il ne les prend pas en charge et ne les termine pas.
+Le parcours [UC-ADMIN-05](15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md#uc-admin-05--créer-consulter-et-suivre-les-remontées) permet de consulter les remontées et les états des lieux de toutes les écoles. Une remontée réunit des matériels d’une seule école. Le super administrateur crée des remontées et est notifié de l’évolution des siennes ; il prend en charge et termine les remontées de toutes les écoles.
 
 ### Comptes ORION
 
