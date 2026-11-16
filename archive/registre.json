@@ -2164,6 +2164,13 @@
         "version": "5.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "6.0",
+        "date": "2026-11-16",
+        "modification": "Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés)",
         "archive": null
       }
     ]
@@ -2260,6 +2267,13 @@
         "version": "3.4",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-16",
+        "modification": "Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés)",
         "archive": null
       }
     ]
@@ -2415,6 +2429,13 @@
         "version": "5.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "6.0",
+        "date": "2026-11-16",
+        "modification": "Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés)",
         "archive": null
       }
     ]
@@ -2572,6 +2593,13 @@
         "version": "5.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "6.0",
+        "date": "2026-11-16",
+        "modification": "Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés)",
         "archive": null
       }
     ]
@@ -2991,6 +3019,17 @@
       }
     ],
     "retire": "Retiré le 15/11/2026 : Remplacé par les livrables de conception 27 à 29"
+  },
+  "docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Créer la source du DSE remis en PDF ; Créer la source du DSE remis en PDF",
+        "archive": null
+      }
+    ]
   },
   "docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md": {
     "destination": "Production destinée à la remise",
@@ -3871,6 +3910,13 @@
         "version": "9.2",
         "date": "2026-11-16",
         "modification": "Clore l’harmonisation des noms de l’équipe",
+        "archive": null,
+        "commit": "45c7511"
+      },
+      {
+        "version": "9.3",
+        "date": "2026-11-16",
+        "modification": "Clore la mise en page du DSE, produit en PDF",
         "archive": null
       }
     ]

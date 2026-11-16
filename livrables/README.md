@@ -1,12 +1,14 @@
 # Rédaction et mise en forme des livrables
 
-Ce dossier contient les livrables mis en forme, remis aux cadres évaluateurs et au client : le dossier de spécifications des exigences (`DSE-ORION/`, Word, avec ses annexes) et le dossier d’architecture technique (`DAT-ORION/`, PDF). Les règles ci-dessous s’appliquent à tous ; elles complètent celles d’[AGENTS.md](../AGENTS.md) (contenu cible, absence d’éléments du démonstrateur hors DAT, sources qui font foi).
+Ce dossier contient les livrables mis en forme, remis aux cadres évaluateurs et au client : le dossier de spécifications des exigences (`DSE-ORION/`, PDF, annexes comprises) et le dossier d’architecture technique (`DAT-ORION/`, PDF). Les règles ci-dessous s’appliquent à tous ; elles complètent celles d’[AGENTS.md](../AGENTS.md) (contenu cible, absence d’éléments du démonstrateur hors DAT, sources qui font foi).
 
 ## Sources et production
 
 - Le contenu vient des documents de `docs/` : un livrable n’est jamais rédigé ou corrigé directement dans sa mise en forme. On corrige la source, puis on reproduit le livrable.
 - Un livrable est un fichier unique : schémas et diagrammes y sont intégrés, sans renvoi à un autre fichier du dépôt.
 - Le DAT est produit par `node .agents/skills/orion-documentation/scripts/dat-pdf.mts`, depuis la racine du dépôt, à partir de `docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md` et des schémas de `docs/03-ARCHITECTURE/assets/`.
+- Le DSE est produit par `node .agents/skills/orion-documentation/scripts/dse-pdf.mts`, depuis la racine du dépôt, à partir de `docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md`. Ses schémas sont rendus en vectoriel depuis les sources draw.io des diagrammes cités ; ses tableaux de cas d’utilisation et de règles sont établis depuis les fiches descriptives et les règles de gestion ; ses annexes reprennent les documents listés dans sa partie « Annexes ». Le premier lancement télécharge le moteur de rendu officiel de draw.io (version épinglée, empreinte vérifiée).
+- Éléments communs aux deux livrables (charte, page de garde, fiche, sommaire, pagination) : `livrable-pdf.mts`.
 - Avant chaque remise, rendre le livrable en images et relire chaque page.
 
 ## Charte graphique
@@ -49,7 +51,7 @@ Charte commune à tous les livrables, issue de la [charte ORION](../design/chart
 
 ## Mise en page
 
-- Format A4 portrait ; les schémas sont en A4 paysage et remplissent la page.
+- Format A4 portrait ; les schémas remplissent une page A4, en paysage ou, pour un schéma en hauteur, en portrait.
 - Un schéma ne doit pas laisser de page presque vide dans le texte : le placer en fin de chapitre plutôt qu’au paragraphe qui y renvoie, avec un lien vers lui.
 - Ne pas couper un tableau, une liste numérotée ou un paragraphe par un saut de page, sauf s’il ne tient pas sur une page. Une phrase qui introduit un tableau ou une liste reste sur la même page que lui.
 - Aucun élément ne doit déborder de la largeur de la page : Chromium réduirait alors tout le document. Après une modification, contrôler la taille réelle de la police dans le PDF.

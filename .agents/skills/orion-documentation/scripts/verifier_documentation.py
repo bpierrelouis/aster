@@ -178,6 +178,12 @@ def audit(root):
         match = re.fullmatch(r"(\d{2})-([\w-]+)\.svg", path.name)
         if match and path.resolve() in local_links[readme]:
             occupied.setdefault(path.parent, set()).add(int(match[1]))
+    # Les sous-dossiers numérotés (phases de l’analyse) occupent aussi un numéro.
+    for dossier in list(occupied):
+        for sous in dossier.iterdir():
+            match = re.fullmatch(r"(\d{2})-[A-Z0-9-]+", sous.name)
+            if sous.is_dir() and match:
+                occupied[dossier].add(int(match[1]))
     for dossier, numeros in occupied.items():
         missing = sorted(set(range(1, max(numeros) + 1)) - numeros)
         if missing:
