@@ -161,8 +161,10 @@ export function createRigelRouter({ repository, secret }: { repository: Engine; 
   return router;
 }
 
-const errorHandler = (label: string) => (error: HttpError, req: Request, res: Response, _next: NextFunction) => {
+const errorHandler = (label: string) => (error: HttpError & { type?: string }, req: Request, res: Response, _next: NextFunction) => {
+  // Le message d'un JSON illisible cite un extrait du corps : ni journalisé ni renvoyé
+  const message = error.type === 'entity.parse.failed' ? 'JSON invalide.' : error.message;
   if (!error.status) journal.error('erreur', { api: label, chemin: req.originalUrl.split('?')[0], erreur: raison(error) });
-  else if (error.status !== 401) journal.warn('refus', { api: label, chemin: req.originalUrl.split('?')[0], compte: res.locals.actor?.id, statut: error.status, motif: error.message });
-  res.status(error.status || 500).json({ error: error.status ? error.message : 'Enregistrement momentanément indisponible.' });
+  else if (error.status !== 401) journal.warn('refus', { api: label, chemin: req.originalUrl.split('?')[0], compte: res.locals.actor?.id, statut: error.status, motif: message });
+  res.status(error.status || 500).json({ error: error.status ? message : 'Enregistrement momentanément indisponible.' });
 };

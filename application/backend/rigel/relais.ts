@@ -78,8 +78,7 @@ export function createRelais({ store, token, dist = DIST_RIGEL, production = fal
       if (!Array.isArray(evenements) || evenements.length > 200 || !evenements.every((e) => e && ID.test(e.id) && blocEvenementValide(e.bloc))) refus(400, 'Événements invalides.');
       const liste = (evenements as { id: string; bloc: Bloc }[]).map(({ id, bloc }) => ({ id, bloc: { iv: bloc.iv, data: bloc.data } }));
       // Le téléphone garde ses événements refusés et les renvoie une fois les précédents relevés par ORION
-      if (await store.enAttente(res.locals.operation.id) + liste.length > maxEnAttente) refus(429, 'Trop d’événements en attente d’ORION : réessayez plus tard.');
-      await store.ajouter(res.locals.operation.id, liste);
+      if (!await store.ajouter(res.locals.operation.id, liste, maxEnAttente)) refus(429, 'Trop d’événements en attente d’ORION : réessayez plus tard.');
       res.json({ recus: liste.map((e) => e.id) });
     } catch (e) { next(e); }
   });
@@ -123,7 +122,8 @@ export function createRelais({ store, token, dist = DIST_RIGEL, production = fal
   app.use((error: Erreur, _req: Request, res: Response, _next: NextFunction) => {
     const status = error.status ?? (error.type === 'entity.too.large' ? 413 : error.type === 'entity.parse.failed' ? 400 : 500);
     if (status >= 500) journal.error('relais', { erreur: raison(error) });
-    res.status(status).json({ error: status >= 500 ? 'Relais momentanément indisponible.' : error.message });
+    // Le message d'un JSON illisible cite un extrait du corps : jamais renvoyé
+    res.status(status).json({ error: status >= 500 ? 'Relais momentanément indisponible.' : error.type === 'entity.parse.failed' ? 'JSON invalide.' : error.message });
   });
 
   /* ---------- Application mobile ---------- */

@@ -29,6 +29,8 @@ const recent = (choix) => choix && Date.now() - choix.at < 2 * 60 * 1000;
 const MOT_DE_PASSE = 'orion.mot-de-passe';
 const motDePasse = document.getElementById('password');
 const passwordForm = document.getElementById('password-form');
+// Toute autre page du thème (erreur, nouvelle connexion, déconnexion) efface un mot de passe qui n'a pas été repris
+if (!passwordForm) { try { sessionStorage.removeItem(MOT_DE_PASSE); } catch { /* stockage indisponible */ } }
 
 let presentation = false;
 loginForm?.addEventListener('submit', () => {

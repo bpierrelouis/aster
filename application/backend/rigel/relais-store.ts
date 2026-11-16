@@ -20,8 +20,11 @@ export interface RelaisStore {
   deposer(c: OperationRelais): Promise<void>;
   /** Supprime l’opération et ses événements */
   supprimer(id: string): Promise<void>;
-  /** Ajoute les événements ; un événement déjà reçu (même identifiant) est ignoré */
-  ajouter(operation: string, evenements: { id: string; bloc: Bloc }[]): Promise<void>;
+  /**
+   * Ajoute les événements, sauf si les non acquittés dépasseraient max (renvoie false) ; contrôle et ajout sont atomiques.
+   * Un événement déjà reçu (même identifiant) est ignoré.
+   */
+  ajouter(operation: string, evenements: { id: string; bloc: Bloc }[], max: number): Promise<boolean>;
   /** Nombre d'événements de l’opération non encore acquittés par le connecteur */
   enAttente(operation: string): Promise<number>;
   evenements(operation: string, limite: number): Promise<EvenementRelais[]>;
@@ -42,10 +45,12 @@ export function createMemoryStore(): RelaisStore {
     async operation(id) { return operations.get(id) ?? null; },
     async deposer(c) { operations.set(c.id, structuredClone(c)); },
     supprimer,
-    async ajouter(operation, liste) {
+    async ajouter(operation, liste, max) {
       const file = evenements.get(operation) ?? [];
+      if (file.length + liste.length > max) return false;
       for (const e of liste) if (!file.some((x) => x.id === e.id)) file.push({ rang: ++rang, id: e.id, bloc: e.bloc });
       evenements.set(operation, file);
+      return true;
     },
     async enAttente(operation) { return evenements.get(operation)?.length ?? 0; },
     async evenements(operation, limite) { return (evenements.get(operation) ?? []).slice(0, limite); },
@@ -93,10 +98,23 @@ export async function createPostgresStore({ pool, schema = 'public' }: { pool: P
       [c.id, c.empreinte, c.version, new Date(c.expireLe), JSON.stringify(c.instantane)]);
     },
     async supprimer(id) { await pool.query(`DELETE FROM ${s}.operation WHERE id = $1`, [id]); },
-    async ajouter(operation, liste) {
-      if (!liste.length) return;
-      await pool.query(`INSERT INTO ${s}.evenement (operation_id, id, bloc)
-        SELECT $1, x->>'id', x->'bloc' FROM jsonb_array_elements($2::jsonb) AS x ON CONFLICT (operation_id, id) DO NOTHING`, [operation, JSON.stringify(liste)]);
+    async ajouter(operation, liste, max) {
+      if (!liste.length) return true;
+      // Verrou sur l'opération : deux dépôts simultanés ne dépassent pas le plafond
+      const client = await pool.connect();
+      try {
+        await client.query('BEGIN');
+        await client.query(`SELECT 1 FROM ${s}.operation WHERE id = $1 FOR UPDATE`, [operation]);
+        const { rows } = await client.query<{ n: number }>(`SELECT count(*)::int AS n FROM ${s}.evenement WHERE operation_id = $1`, [operation]);
+        if (rows[0].n + liste.length > max) { await client.query('ROLLBACK'); return false; }
+        await client.query(`INSERT INTO ${s}.evenement (operation_id, id, bloc)
+          SELECT $1, x->>'id', x->'bloc' FROM jsonb_array_elements($2::jsonb) AS x ON CONFLICT (operation_id, id) DO NOTHING`, [operation, JSON.stringify(liste)]);
+        await client.query('COMMIT');
+        return true;
+      } catch (error) {
+        await client.query('ROLLBACK').catch(() => {});
+        throw error;
+      } finally { client.release(); }
     },
     async enAttente(operation) {
       const { rows } = await pool.query<{ n: number }>(`SELECT count(*)::int AS n FROM ${s}.evenement WHERE operation_id = $1`, [operation]);
