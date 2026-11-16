@@ -18,6 +18,8 @@ import { DISCONNECT_AFTER } from './domaine/postes.ts';
 import { same } from './domaine/commun.ts';
 import { editable } from './domaine/espace.ts';
 import { refuser } from './api/refus.ts';
+import { INACTIVITE_MAX, prolonger, sessionValide } from './api/duree-session.ts';
+import { ARRIERE_PLAN } from '#shared/session.ts';
 import type { Compte, Id, WorkspaceState } from '#shared/types.ts';
 
 declare module 'express-session' {
@@ -26,7 +28,9 @@ declare module 'express-session' {
     logins: Record<string, { verifier: string; nonce: string; createdAt: number }>;
     accountId: Id;
     idToken: string;
-    expiresAt: number;
+    /** Connexion et dernière action de l'utilisateur (api/duree-session.ts) */
+    ouverteLe: number;
+    activeLe: number;
   }
 }
 
@@ -75,7 +79,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: new (connectPgSimple(session))({ pool, createTableIfMissing: true }),
-  cookie: { httpOnly: true, secure: config.production, sameSite: 'lax', maxAge: 60 * 60 * 1000 },
+  cookie: { httpOnly: true, secure: config.production, sameSite: 'lax', maxAge: INACTIVITE_MAX },
 }));
 
 const saveSession = (req: Request) => new Promise<void>((resolve, reject) => req.session.save((error) => error ? reject(error) : resolve()));
@@ -115,11 +119,13 @@ const comptesGeres = (s: WorkspaceState) => s.comptes.map((c) => editable('compt
 workspaceRepository.onCommit((before, after) => { if (!same(comptesGeres(before), comptesGeres(after))) provision(after.comptes); });
 setInterval(() => workspaceRepository.agent.sweep().catch(() => {}), 10_000).unref();
 
-/** Compte ORION actif de la session ; une session dont le compte est désactivé est fermée. */
+/** Compte ORION actif de la session, prolongée par les actions de l'utilisateur ; une session expirée ou dont le compte est désactivé est fermée. */
 async function sessionActor(req: Request) {
   if (!req.session.accountId) return null;
-  const actor = req.session.expiresAt! > Date.now() ? await workspaceRepository.actor(req.session.accountId) : null;
-  if (!actor) { journal.info('session_fermee', { compte: req.session.accountId, motif: req.session.expiresAt! > Date.now() ? 'compte_inactif' : 'expiree' }); await destroySession(req); }
+  const valide = sessionValide(req.session);
+  const actor = valide ? await workspaceRepository.actor(req.session.accountId) : null;
+  if (!actor) { journal.info('session_fermee', { compte: req.session.accountId, motif: valide ? 'compte_inactif' : 'expiree' }); await destroySession(req); }
+  else prolonger(req.session, req.get(ARRIERE_PLAN) === '1');
   return actor;
 }
 
@@ -175,7 +181,7 @@ app.get('/auth/callback', async (req, res) => {
     await regenerateSession(req);
     req.session.accountId = account.id;
     req.session.idToken = tokens.id_token;
-    req.session.expiresAt = Math.min(claims.exp * 1000, Date.now() + 60 * 60 * 1000);
+    req.session.ouverteLe = req.session.activeLe = Date.now();
     await saveSession(req);
     journal.info('connexion', { compte: account.id, profil: account.role, ecole: account.ecoleId });
     res.redirect('/');

@@ -73,8 +73,8 @@ export const openapi = {
     '/api/workspace': {
       get: {
         tags: ['Espace de travail'], summary: 'Lire l’espace de travail', security: session,
-        description: 'Données visibles par l’utilisateur selon son profil et son école. Requête conditionnelle par `ETag`.',
-        parameters: [{ name: 'If-None-Match', in: 'header', schema: { type: 'string' } }],
+        description: 'Données visibles par l’utilisateur selon son profil et son école. Requête conditionnelle par `ETag`. Une relecture périodique, sans action de l’utilisateur, porte `X-Orion-Arriere-Plan: 1` et ne prolonge pas la session.',
+        parameters: [{ name: 'If-None-Match', in: 'header', schema: { type: 'string' } }, { name: 'X-Orion-Arriere-Plan', in: 'header', schema: { type: 'string', enum: ['1'] } }],
         responses: {
           200: { ...json({ $ref: '#/components/schemas/Espace' }), headers: { ETag: { schema: { type: 'string' } } } },
           304: { description: 'Inchangé depuis l’ETag fourni' },

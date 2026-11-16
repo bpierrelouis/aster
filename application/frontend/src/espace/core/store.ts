@@ -1,4 +1,5 @@
 import { defaultLayouts } from '#shared/layouts.ts';
+import { ARRIERE_PLAN } from '#shared/session.ts';
 import type { Board, RoleId, WorkspaceView } from '#shared/types.ts';
 
 /** Nature d'un changement : données, école affichée, disposition, apparence, reprise du serveur (remote), retour à l'état enregistré (all) */
@@ -48,11 +49,17 @@ export const ready = request().then((data) => { committed = data as WorkspaceVie
    régulièrement, uniquement quand aucune écriture locale n'est en attente. */
 const SYNC_INTERVAL = 4000;
 let etag: string | null = null;
+// Session : une relecture ne la prolonge que si l'utilisateur a agi depuis la précédente (backend/api/duree-session.ts)
+let actif = false;
+for (const type of ['pointerdown', 'keydown', 'wheel', 'touchstart']) addEventListener(type, () => { actif = true; }, { capture: true, passive: true });
 async function sync() {
   if (!state || pending || document.hidden) return;
   const batch = generation;
+  const headers: Record<string, string> = actif ? {} : { [ARRIERE_PLAN]: '1' };
+  if (etag) headers['If-None-Match'] = etag;
+  actif = false;
   try {
-    const response = await fetch('/api/workspace', { headers: etag ? { 'If-None-Match': etag } : {} });
+    const response = await fetch('/api/workspace', { headers });
     if (response.status === 401) { location.replace('/'); return; }
     if (response.status === 304 || !response.ok) return;
     etag = response.headers.get('ETag');
