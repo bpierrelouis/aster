@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 7.5 | 16/11/2026 | Pilotage interne | Risques de sécurité résiduels arbitrés | [60 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 7.6 | 16/11/2026 | Pilotage interne | Mot de passe jamais conservé ; données du téléphone effacées | [61 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -165,10 +165,10 @@ Audit du 15 novembre : revue du code (droits de chaque route et de chaque règle
 
 Audit du 15 novembre, #109 refusé :
 
-- [x] **Haute** — #165 : une opération dont le lanceur n’est plus gestionnaire actif de l’école n’est plus publiée et ses constats sont refusés (RG-85) ; un autre gestionnaire clôt le recensement ou relance l’installation, qui clôt l’ancienne. La copie déjà sur le téléphone ne s’efface pas à distance.
+- [x] **Haute** — #165 : une opération dont le lanceur n’est plus gestionnaire actif de l’école n’est plus publiée et ses constats sont refusés (RG-85) ; un autre gestionnaire clôt le recensement ou relance l’installation, qui clôt l’ancienne. Refusé par le relais après une première synchronisation (opération close, expirée ou retirée), le téléphone efface toutes ses données (décision de l’utilisateur du 16 novembre).
 - [x] **Basse** — Quota du relais atomique : contrôle et ajout dans une transaction, sous verrou de l’opération (#120, #109).
 - [x] **Basse** — JSON invalide : « JSON invalide. », sans extrait du corps, dans la réponse et le journal (API et relais).
-- [x] **Basse** — Mot de passe du thème Keycloak effacé par toute autre page du thème. Réserve : conservé jusqu’à la fermeture de l’onglet si l’utilisateur quitte Keycloak entre les deux pages.
+- [x] **Basse** — Mot de passe du thème Keycloak jamais conservé par le navigateur (16 novembre) : adresse sur la première page (« Continuer »), mot de passe sur la seconde. Après un retour arrière sur une page déjà utilisée, le mot de passe est redemandé une fois la session précédente fermée.
 
 Restent ouverts (vérifiés le 16 novembre dans la configuration et le code : aucun n’est corrigé) :
 
@@ -184,7 +184,7 @@ Restent ouverts (vérifiés le 16 novembre dans la configuration et le code : au
 | Énumération des comptes | La connexion en deux étapes distingue une adresse inconnue d’une adresse existante | Formulaire unique adresse et mot de passe, ou page du mot de passe pour toute adresse | Démonstrateur et cible |
 | Divulgation | Message distinct pour un identifiant ou une adresse existant dans une autre école | Réponse générique hors périmètre | Démonstrateur et cible |
 
-Décisions de l’utilisateur du 16 novembre : OpenLDAP, administrateur de Keycloak, plage de confiance du proxy et énumération à la connexion acceptés (démonstrateur) ; QR d’appairage reporté en V2 ; import accepté, l’analyse ne renvoyant que les matériels dont le numéro de série figure dans le fichier.
+Décisions de l’utilisateur du 16 novembre : OpenLDAP, administrateur de Keycloak, plage de confiance du proxy et énumération à la connexion acceptés (démonstrateur) ; QR d’appairage reporté en V2 ; import accepté, l’analyse ne renvoyant que les matériels dont le numéro de série figure dans le fichier ; message « adresse déjà utilisée » accepté.
 
 Version publiée sans connexion par `/api/infos` : conservée, attendue pour les applications déployées sur le C1NP (décision de l’utilisateur du 15 novembre) ; testée avec le détail réservé au super administrateur (#130).
 

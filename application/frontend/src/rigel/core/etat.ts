@@ -149,6 +149,13 @@ async function executer() {
     await Promise.all([enregistrerFile(), ecrire('historique', etat.historique)]);
   } catch (error) {
     const refuse = error instanceof AccesRefuse;
+    // Accès retiré après une synchronisation réussie (opération close ou expirée, gestionnaire désactivé) : toutes les
+    // données du téléphone sont effacées. Avant la première, l'opération n'est peut-être pas encore publiée : on réessaie.
+    if (refuse && etat.version !== null && etat.appairage?.operation === a.operation) {
+      await dissocier();
+      annoncer(`${(error as Error).message} Les données du téléphone ont été effacées.`, 'crit');
+      return;
+    }
     const erreur = refuse ? (error as Error).message : navigator.onLine ? 'Relais momentanément indisponible.' : 'Hors ligne.';
     changer({ reseau: { ...etat.reseau, enCours: false, erreur, refuse } });
   }

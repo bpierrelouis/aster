@@ -3054,6 +3054,13 @@
         "version": "7.5",
         "date": "2026-11-16",
         "modification": "Risques de sécurité résiduels arbitrés",
+        "archive": null,
+        "commit": "07bb8ce"
+      },
+      {
+        "version": "7.6",
+        "date": "2026-11-16",
+        "modification": "Mot de passe jamais conservé ; données du téléphone effacées",
         "archive": null
       }
     ]
