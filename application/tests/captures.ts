@@ -4,7 +4,7 @@
    courant et les préférences des comptes utilisés. Compression par pngquant.
    ORION_URL=http://127.0.0.1:5175 npm run captures */
 import { chromium } from '@playwright/test';
-import { execFileSync } from 'node:child_process';
+import { compresserCaptures } from './compresser-captures.ts';
 import { fileURLToPath } from 'node:url';
 import { channel } from './navigateur.ts';
 import type { APIRequestContext, Page } from '@playwright/test';
@@ -212,4 +212,4 @@ try {
   if (errors.length) { console.error('Rétablissement incomplet :', ...errors); process.exitCode = 1; }
 }
 
-execFileSync('sh', ['-c', 'pngquant --quality=70-90 --skip-if-larger --strip --force --ext .png -- *.png || [ $? -eq 98 -o $? -eq 99 ]'], { cwd: DIR, stdio: 'inherit' });
+compresserCaptures(DIR, () => true);

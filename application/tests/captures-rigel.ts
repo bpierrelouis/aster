@@ -5,7 +5,7 @@
    La caméra du téléphone est remplacée, pour la capture seulement, par une image fixe sans code lisible.
    ORION_URL=http://127.0.0.1:5175 RIGEL_URL=http://127.0.0.1:5177 npm run captures:rigel (valeurs par défaut) */
 import { chromium } from '@playwright/test';
-import { execFileSync } from 'node:child_process';
+import { compresserCaptures } from './compresser-captures.ts';
 import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -159,4 +159,4 @@ try {
   await Promise.all([browser.close(), camera.close()]);
 }
 
-execFileSync('sh', ['-c', 'pngquant --quality=70-90 --skip-if-larger --strip --force --ext .png -- 24-*.png 8?-rigel-*.png || [ $? -eq 98 -o $? -eq 99 ]'], { cwd: DIR, stdio: 'inherit' });
+compresserCaptures(DIR, (nom) => /^(24-|8\d-rigel-)/.test(nom));
