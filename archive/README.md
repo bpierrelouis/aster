@@ -17,7 +17,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/01-CONTEXTE/04-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/04-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.2](#04-compte-rendu-entretiens) | 16/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.drawio](../docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.drawio) | Production destinée à la remise | [1.0](#01-diagramme-contexte) | 16/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [5.1](#01-diagramme-contexte) | 16/11/2026 |
-| [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio](../docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio) | Production destinée à la remise | [1.1](#02-diagrammes-activite) | 16/11/2026 |
+| [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio](../docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio) | Production destinée à la remise | [1.2](#02-diagrammes-activite) | 16/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [3.1](#02-diagrammes-activite) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION.md) | Production destinée à la remise | [13.1](#01-regles-de-gestion) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio) | Production destinée à la remise | [1.0](#03-dcu-gestion-parc) | 16/11/2026 |
@@ -43,7 +43,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [3.4](#13-fiche-descriptive-formateur) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [5.1](#14-fiche-descriptive-administrateur) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [5.1](#15-fiche-descriptive-super-administrateur) | 16/11/2026 |
-| [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio](../docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio) | Production destinée à la remise | [1.0](#01-diagrammes-etats) | 16/11/2026 |
+| [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio](../docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio) | Production destinée à la remise | [1.1](#01-diagrammes-etats) | 16/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [5.1](#01-diagrammes-etats) | 16/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio](../docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio) | Production destinée à la remise | [1.0](#02-diagramme-classes-analyse) | 16/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md](../docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md) | Production destinée à la remise | [3.1](#02-diagramme-classes-analyse) | 16/11/2026 |
@@ -229,7 +229,8 @@ Fichier : [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio]
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 16/11/2026 | Améliore le placement des fins et des boucles retour | en vigueur | — |
+| 1.2 | 16/11/2026 | Réorganiser la remontée de l'état d'un poste pour dégager flèches et libellés | en vigueur | — |
+| 1.1 | 16/11/2026 | Améliore le placement des fins et des boucles retour | `ee30282` | — |
 | 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 02-DIAGRAMMES-ACTIVITE
@@ -596,7 +597,8 @@ Fichier : [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio](../docs/02-ANA
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | en vigueur | — |
+| 1.1 | 16/11/2026 | Réorganiser le diagramme d'intervention pour dégager flèches et libellés | en vigueur | — |
+| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 01-DIAGRAMMES-ETATS
 

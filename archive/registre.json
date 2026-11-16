@@ -929,6 +929,13 @@
         "version": "1.1",
         "date": "2026-11-16",
         "modification": "Améliore le placement des fins et des boucles retour",
+        "archive": null,
+        "commit": "ee30282"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-16",
+        "modification": "Réorganiser la remontée de l'état d'un poste pour dégager flèches et libellés",
         "archive": null
       }
     ]
@@ -2557,6 +2564,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Crée la source draw.io du diagramme",
+        "archive": null,
+        "commit": "e57b695"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Réorganiser le diagramme d'intervention pour dégager flèches et libellés",
         "archive": null
       }
     ]
