@@ -21,6 +21,8 @@ const EMAILS = {
   formateur: 'thomas.lefebvre@hotmail.fr',
 };
 type Profil = keyof typeof EMAILS;
+// Compte sans jeton de présentation : Keycloak lui demande son mot de passe (administrateur de l'École des réseaux)
+const AVEC_MOT_DE_PASSE = 'antoine.girard@gmail.com';
 const PROFILES: { username: Profil; profile: string; role: string; nom: string; modules: string[] }[] = [
   { username: 'superadmin', profile: 'Super administrateur', role: 'superadmin', nom: 'Camille Rousseau', modules: ['Accueil', 'Salles', 'Matériels', 'Remontées', 'Supervision', 'Administration'] },
   { username: 'admin', profile: 'Administrateur', role: 'admin', nom: 'Julien Mercier', modules: ['Accueil', 'Salles', 'Matériels', 'Remontées', 'Supervision', 'Administration'] },
@@ -85,8 +87,8 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
       await expect(page.getByRole('dialog')).toContainText('Pour demander un accès à Orion, contactez votre administrateur.');
       await expectPublicPresentation(page);
       await page.getByRole('button', { name: 'Fermer', exact: true }).click();
-      // Page du mot de passe : affichage du mot de passe et aide, puis retour à l'adresse
-      await page.getByLabel('email', { exact: true }).fill(EMAILS[username]);
+      // Page du mot de passe (compte sans jeton) : affichage du mot de passe et aide, puis retour à l'adresse
+      await page.getByLabel('email', { exact: true }).fill(AVEC_MOT_DE_PASSE);
       await page.getByRole('button', { name: 'Continuer', exact: true }).click();
       await page.getByLabel('Afficher', { exact: true }).check();
       await expect(page.locator('#password')).toHaveAttribute('type', 'text');
@@ -283,7 +285,7 @@ test('accès de présentation : un jeton connecte directement avec son compte', 
 const JETONS: Record<Profil, string> = { superadmin: 'Super administrateur', admin: 'Administrateur', gestionnaire: 'Gestionnaire', formateur: 'Formateur' };
 const choisir = (page: Page, email: string) => {
   const profil = (Object.keys(EMAILS) as Profil[]).find((k) => EMAILS[k] === email)!;
-  return page.getByRole('region', { name: 'Accès de présentation' }).getByRole('button', { name: JETONS[profil]! }).click();
+  return page.getByRole('region', { name: 'Accès de présentation' }).getByRole('button', { name: JETONS[profil], exact: true }).click();
 };
 const moi = async (page: Page) => (await (await page.request.get('/api/workspace')).json()).moi;
 
@@ -307,19 +309,19 @@ test('changement de compte : adresse saisie sur une page déjà utilisée, mot d
   await page.goBack();
   // Adresse saisie : Keycloak ne constate l'autre session qu'après le mot de passe ; il la ferme (page d'erreur,
   // déconnexion), puis la connexion reprend avec l'adresse choisie et redemande le mot de passe, jamais conservé
-  await page.getByLabel('email', { exact: true }).fill(EMAILS.superadmin);
+  await page.getByLabel('email', { exact: true }).fill(AVEC_MOT_DE_PASSE);
   await page.getByRole('button', { name: 'Continuer', exact: true }).click();
-  await page.locator('#password').fill(mdp(EMAILS.superadmin));
+  await page.locator('#password').fill(mdp(AVEC_MOT_DE_PASSE));
   const premiere = page.url();
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await page.waitForURL((u) => u.href !== premiere && u.searchParams.has('execution'));
-  await expect(page.getByLabel('email', { exact: true })).toHaveValue(EMAILS.superadmin);
+  await expect(page.getByLabel('email', { exact: true })).toHaveValue(AVEC_MOT_DE_PASSE);
   await expect(page.locator('#password')).toHaveValue('');
   await expectPublicPresentation(page);
-  await page.locator('#password').fill(mdp(EMAILS.superadmin));
+  await page.locator('#password').fill(mdp(AVEC_MOT_DE_PASSE));
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await expect(page).toHaveURL(/\/accueil$/);
-  expect(await moi(page)).toMatchObject({ email: EMAILS.superadmin });
+  expect(await moi(page)).toMatchObject({ email: AVEC_MOT_DE_PASSE });
   await logout(page);
 });
 
@@ -355,14 +357,14 @@ test('une écriture d’une autre origine est refusée', async ({ page }) => {
 
 test('un mot de passe erroné est refusé, puis ressaisi sur la page du mot de passe', async ({ page }) => {
   await page.goto('/auth/login');
-  await saisir(page, EMAILS.superadmin, 'mot-de-passe-errone');
+  await saisir(page, AVEC_MOT_DE_PASSE, 'mot-de-passe-errone');
   await expect(page.getByRole('alert')).toBeVisible();
-  await expect(page.getByLabel('email', { exact: true })).toHaveValue(EMAILS.superadmin);
+  await expect(page.getByLabel('email', { exact: true })).toHaveValue(AVEC_MOT_DE_PASSE);
   expect((await page.request.get('http://localhost:5173/api/me')).status()).toBe(401);
-  await page.locator('#password').fill(mdp(EMAILS.superadmin));
+  await page.locator('#password').fill(mdp(AVEC_MOT_DE_PASSE));
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await expect(page).toHaveURL(/\/accueil$/);
-  expect(await moi(page)).toMatchObject({ email: EMAILS.superadmin });
+  expect(await moi(page)).toMatchObject({ email: AVEC_MOT_DE_PASSE });
   await logout(page);
 });
 

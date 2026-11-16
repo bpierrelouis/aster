@@ -101,7 +101,7 @@ test('#116 · jetons « Accès de présentation » : chaque jeton connecte son c
   for (const [jeton, role] of [['Super administrateur', 'superadmin'], ['Administrateur', 'admin'], ['Gestionnaire', 'gestionnaire'], ['Formateur', 'formateur']] as const) {
     await page.goto('/');
     await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
-    await page.getByRole('region', { name: 'Accès de présentation' }).getByRole('button', { name: jeton }).click();
+    await page.getByRole('region', { name: 'Accès de présentation' }).getByRole('button', { name: jeton, exact: true }).click();
     await expect(page).toHaveURL(/\/accueil$/, { timeout: 30_000 });
     expect((await vue(page)).role).toBe(role);
     await deconnecter(page);
