@@ -331,7 +331,8 @@ test('le menu principal n’a pas de bulle ; les règles de processus portent le
   await expect(page.locator('.rail-lens')).toHaveCount(0);
   await expect(page.locator('.rail-item.is-active')).toHaveAttribute('data-nav', 'supervision');
   for (const nom of ['firefox.exe', 'Code.exe', 'steam.exe']) {
-    await expect(page.locator('.ops-table tr', { hasText: nom }).locator('img.app-icon')).toHaveCount(1);
+    await page.getByRole('searchbox', { name: 'Rechercher', exact: true }).fill(nom);
+    await expect(page.locator('.inv-table tr', { hasText: nom }).locator('img.app-icon')).toHaveCount(1);
   }
 });
 

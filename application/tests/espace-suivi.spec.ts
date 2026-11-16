@@ -121,11 +121,16 @@ test('supervision : Alertes par défaut ; la recherche ignore casse et espaces, 
   await open(page, '/supervision/listes');
   const search = page.getByRole('searchbox', { name: 'Rechercher', exact: true });
   await search.fill('  LibreOffice ');
-  await expect(page.locator('.ops-table tbody tr')).toHaveText([/soffice\.exe/, /soffice\.bin/]);
+  await expect(page.locator('.inv-table tbody tr')).toHaveText([/soffice\.bin/, /soffice\.exe/]);
   await search.fill('blacklist STEAM');
-  await expect(page.locator('.ops-table tbody tr')).toHaveText([/steam\.exe/]);
+  await expect(page.locator('.inv-table tbody tr')).toHaveText([/steam\.exe/]);
+  // Filtre par classement : aucune règle autorisée ne correspond à « steam »
+  await page.getByRole('combobox', { name: 'Filtrer par classement' }).click();
+  await page.getByRole('listbox').getByRole('option', { name: 'Whitelist', exact: true }).click();
+  await search.fill('steam');
+  await expect(page.locator('.inv-table tbody tr')).toHaveText([/Aucune règle/]);
   await search.fill('processus-absent');
-  await expect(page.locator('.ops-table tbody tr')).toHaveText([/Aucune règle/]);
+  await expect(page.locator('.inv-table tbody tr')).toHaveText([/Aucune règle/]);
   // Un poste trouvé par un processus ne montre que les processus correspondants
   await open(page, '/supervision/salles?salle=s-e-num-a101');
   await search.fill('FIREFOX');

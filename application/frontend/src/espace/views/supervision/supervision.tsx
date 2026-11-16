@@ -10,28 +10,24 @@
 import { FilterSelect } from '../../ui/filter-select.tsx';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router';
-import { store, currentEcole, me } from '../../core/store.ts';
+import { store } from '../../core/store.ts';
 import { useStore } from '../../hooks/use-store.ts';
-import { scope, index, optionsSalles, detections, batiments, batimentLabel } from '../../core/selectors.ts';
+import { scope, index, optionsSalles, detections } from '../../core/selectors.ts';
 import { uid } from '../../core/dom.ts';
 import { can } from '../../core/permissions.ts';
 import { matcher } from '../../core/search.ts';
-import { CLASSEMENTS } from '#shared/catalog.ts';
-import { processClass, logiciel } from '#shared/referentiels.ts';
+import { processClass } from '#shared/referentiels.ts';
 import { Icon, Tile } from '../../ui/icons.tsx';
 import { AppIcon } from '../../ui/app-icon.tsx';
-import { Sheet, openSheet, confirmSheet, notify } from '../../ui/overlays.tsx';
-import { SheetForm, SheetFormActions } from '../../ui/forms.tsx';
+import { notify } from '../../ui/overlays.tsx';
 import { OpsEmpty, OpsTable, PageHead, PosteEtat, SearchField } from '../../widgets/parts.tsx';
 import { dateTime, clock, num, plural } from '#shared/format.ts';
 import { useTitle } from '../../hooks/use-title.ts';
-import type { Classement, Id, Intervention, Portee, Processus, Regle, WorkspaceView } from '#shared/types.ts';
+import { Rules, openRuleForm } from './supervision-regles.tsx';
+import { Status, processText } from './supervision-parts.tsx';
+import type { Id, Intervention, Processus, WorkspaceView } from '#shared/types.ts';
 
 const time = () => clock(Date.now());
-
-function Status({ c }: { c: Classement }) {
-  return <span className="ops-status"><span className={`led led--${CLASSEMENTS[c]?.led || 'wait'}`}></span>{CLASSEMENTS[c]?.label || c}</span>;
-}
 
 const Empty = ({ title, text }: { title: string; text: string }) => <OpsEmpty icon="supervision" title={title} text={text} />;
 
@@ -42,10 +38,7 @@ const TITLES = {
   statistiques: 'Utilisation du parc',
 };
 type Tab = keyof typeof TITLES;
-const SEARCH: Record<Tab, string> = { alertes: 'Processus, poste, IP ou compte…', salles: 'Poste, processus ou compte…', listes: 'Processus ou application…', statistiques: 'Processus ou application…' };
-
-// Un exécutable se cherche aussi par le nom de son application
-const processText = (nom: string) => `${nom} ${logiciel(nom)?.nom ?? ''}`;
+const SEARCH: Record<Exclude<Tab, 'listes'>, string> = { alertes: 'Processus, poste, IP ou compte…', salles: 'Poste, processus ou compte…', statistiques: 'Processus ou application…' };
 
 export function Supervision() {
   useTitle('Supervision');
@@ -77,18 +70,20 @@ export function Supervision() {
         ? <button className="btn btn--primary" onClick={() => openRuleForm()}><Icon name="plus" size={18} /><span>Ajouter une règle</span></button>
         : <span className="ops-status"><span className="led led--ok"></span><span>Actualisé à {stamp}</span></span>}
     </PageHead>
-    <div className="ops-toolbar">
-      {['salles', 'alertes'].includes(tab) && <div className="field"><span className="field-label">Salle à superviser</span>
-        <FilterSelect aria-label="Salle à superviser" value={salleId} onChange={(e) => setSalleId(e.target.value)} options={[{ value: '', label: 'Choisir une salle' }, ...optionsSalles()]} />
-      </div>}
-      <SearchField compact value={query} onChange={setQuery} placeholder={SEARCH[tab]} label="Rechercher" />
-    </div>
-    <div>
-      {tab === 'listes' ? <Rules query={query} />
-        : tab === 'salles' ? <Rooms salleId={salleId} query={query} relevant={relevant} />
+    {/* Règles : liste filtrable et paginée, avec sa propre recherche */}
+    {tab === 'listes' ? <Rules /> : <>
+      <div className="ops-toolbar">
+        {['salles', 'alertes'].includes(tab) && <div className="field"><span className="field-label">Salle à superviser</span>
+          <FilterSelect aria-label="Salle à superviser" value={salleId} onChange={(e) => setSalleId(e.target.value)} options={[{ value: '', label: 'Choisir une salle' }, ...optionsSalles()]} />
+        </div>}
+        <SearchField compact value={query} onChange={setQuery} placeholder={SEARCH[tab]} label="Rechercher" />
+      </div>
+      <div>
+        {tab === 'salles' ? <Rooms salleId={salleId} query={query} relevant={relevant} />
           : tab === 'statistiques' ? <Stats relevant={relevant} query={query} />
             : <Alerts salleId={salleId} query={query} />}
-    </div>
+      </div>
+    </>}
   </>;
 }
 
@@ -150,41 +145,6 @@ function Alerts({ salleId, query }: { salleId: Id; query: string }) {
   </OpsTable>;
 }
 
-async function deleteRule(id: Id) {
-  try {
-    if (!await confirmSheet({ title: 'Supprimer cette règle ?', message: 'Les autres règles applicables restent actives.' })) return;
-    await store.update('data', (s) => { s.regles = s.regles.filter((r) => r.id !== id); });
-    await store.flush();
-    notify('Règle supprimée', { icon: 'check' });
-  } catch (error) { notify((error as Error).message, { tone: 'danger' }); }
-}
-
-function Rules({ query }: { query: string }) {
-  const e = currentEcole();
-  const matches = matcher(query);
-  const scopeLabel = (r: Regle) => (r.portee === 'global' ? 'Toutes les écoles' : r.portee === 'ecole' ? index().ecole.get(r.ecoleId!)?.nom : r.portee === 'batiment' ? batimentLabel(r.batiment!) : index().salle.get(r.salleId!)?.nom);
-  const rules = (store.state.regles || []).filter((r) => (r.portee === 'global' || e === 'all' || r.ecoleId === e)
-    && matches(processText(r.nom), CLASSEMENTS[r.classement]?.label, scopeLabel(r)));
-  // Règle globale : réservée au super administrateur ; sans règle modifiable, pas de colonne Actions
-  const editable = (r: Regle) => r.portee !== 'global' || me().role === 'superadmin';
-  const actions = rules.some(editable);
-  return <>
-    <p className="ops-muted" style={{ marginBottom: 20 }}>Les règles se cumulent. Une interdiction reste prioritaire sur une autorisation.</p>
-    <OpsTable head={['Processus', 'Classement', 'Portée', ...(actions ? ['Actions'] : [])]}>
-      {!rules.length && <tr><td colSpan={actions ? 4 : 3}><div className="w-empty w-empty--l">Aucune règle ne correspond à cette recherche.</div></td></tr>}
-      {rules.map((r) => <tr key={r.id}>
-        <td><span className="app-cell"><AppIcon name={r.nom} /><strong>{r.nom}</strong></span></td>
-        <td><Status c={r.classement} /></td>
-        <td>{scopeLabel(r)}</td>
-        {actions && <td>{editable(r) && <>
-          <button className="icon-btn" onClick={() => openRuleForm(store.state.regles.find((x) => x.id === r.id))} aria-label={`Modifier ${r.nom}`}><Icon name="pencil" size={17} /></button>
-          <button className="icon-btn" onClick={() => deleteRule(r.id)} aria-label={`Supprimer ${r.nom}`}><Icon name="trash" size={17} /></button>
-        </>}</td>}
-      </tr>)}
-    </OpsTable>
-  </>;
-}
-
 function Stats({ relevant, query }: { relevant: Processus[]; query: string }) {
   const postes = scope().postes;
   const allumes = postes.filter((p) => p.allume).length;
@@ -208,56 +168,4 @@ function Stats({ relevant, query }: { relevant: Processus[]; query: string }) {
       </article>)}</div>
       : <p className="ops-muted">{counts.size ? 'Aucun processus détecté ne correspond à cette recherche.' : 'Aucun processus détecté.'}</p>}
   </>;
-}
-
-const PORTEES: Record<Portee, string> = { global: 'Globale', ecole: 'École', batiment: 'Bâtiment', salle: 'Salle' };
-/** Champs saisis d'une règle ; école absente si la salle choisie est introuvable */
-type RegleSaisie = Omit<Regle, 'id' | 'ecoleId'> & { ecoleId?: Id | null };
-
-function openRuleForm(rule: Regle | null = null) {
-  openSheet(<Sheet title={rule ? 'Modifier la règle' : 'Ajouter une règle'} lead={<Tile name="shield" color="var(--accent)" size="m" />}
-    footer={<SheetFormActions form="rule-form" />}>
-    <RuleForm rule={rule} />
-  </Sheet>);
-}
-
-function RuleForm({ rule }: { rule: Regle | null }) {
-  const state = useStore();
-  const ecole = currentEcole() === 'all' ? state.ecoles[0]?.id : currentEcole();
-
-  async function save(form: FormData) {
-    const values = Object.fromEntries(form) as RegleSaisie;
-    values.nom = values.nom.trim();
-    const room = scope().salles.find((s) => s.id === values.salleId);
-    if (values.portee === 'salle') values.ecoleId = room?.ecoleId;
-    if (values.portee === 'global') values.ecoleId = null;
-    await store.update('data', (s) => {
-      const item = { id: rule?.id || uid('rule'), ...values } as Regle;
-      if (rule) s.regles.splice(s.regles.findIndex((r) => r.id === rule.id), 1, item); else s.regles.push(item);
-    });
-    await store.flush();
-    notify('Règle enregistrée', { icon: 'shield', tone: 'info' });
-  }
-
-  return <SheetForm id="rule-form" onSave={save}>
-    <label className="field"><span className="field-label">Nom du processus *</span><input name="nom" defaultValue={rule?.nom || ''} required maxLength={100} placeholder="application.exe" /></label>
-    <div className="form-2">
-      <div className="field"><span className="field-label">Classement</span>
-        <FilterSelect aria-label="Classement" name="classement" defaultValue={rule?.classement} options={[{ value: 'whitelist', label: 'Autorisé (whitelist)' }, { value: 'blacklist', label: 'Interdit (blacklist)' }]} />
-      </div>
-      <div className="field"><span className="field-label">Portée</span>
-        <FilterSelect aria-label="Portée" name="portee" defaultValue={rule?.portee}
-          options={((me().role === 'superadmin' ? ['global', 'ecole', 'batiment', 'salle'] : ['ecole', 'batiment', 'salle']) as Portee[]).map((p) => ({ value: p, label: PORTEES[p] }))} />
-      </div>
-      <div className="field"><span className="field-label">École</span>
-        <FilterSelect aria-label="École" name="ecoleId" defaultValue={(rule?.ecoleId || ecole) ?? undefined} options={state.ecoles.map((e) => ({ value: e.id, label: e.nom }))} />
-      </div>
-      <div className="field"><span className="field-label">Bâtiment</span>
-        <FilterSelect aria-label="Bâtiment" name="batiment" defaultValue={rule?.batiment} options={batiments().map((b) => ({ value: b, label: b }))} />
-      </div>
-      <div className="field"><span className="field-label">Salle</span>
-        <FilterSelect aria-label="Salle" name="salleId" defaultValue={rule?.salleId} options={optionsSalles()} />
-      </div>
-    </div>
-  </SheetForm>;
 }
