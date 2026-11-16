@@ -31,7 +31,7 @@
 .surtitre { display: block; margin: 0; font-size: .8125rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
 .discret { margin: 0; color: var(--ink-2); font-size: .9375rem; }
 .vide { margin: 24px 0; text-align: center; color: var(--ink-2); }
-.campagne .synchro {
+.operation .synchro {
   display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px;
   margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--trait); text-decoration: none; color: var(--ink-2);
 }
