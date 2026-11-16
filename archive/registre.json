@@ -3047,6 +3047,13 @@
         "version": "7.4",
         "date": "2026-11-16",
         "modification": "#143 et #162 traités",
+        "archive": null,
+        "commit": "85d83bc"
+      },
+      {
+        "version": "7.5",
+        "date": "2026-11-16",
+        "modification": "Risques de sécurité résiduels arbitrés",
         "archive": null
       }
     ]

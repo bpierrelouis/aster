@@ -41,7 +41,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [5.2](#18-dossier-architecture-technique) | 16/11/2026 |
 | [docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.3](#19-diagrammes-architecture) | 15/11/2026 |
 | [docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.0](#20-backlog-et-suivi-projet) | 15/11/2026 |
-| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [7.4](#21-backlog-technique-et-feuille-de-route) | 16/11/2026 |
+| [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [7.5](#21-backlog-technique-et-feuille-de-route) | 16/11/2026 |
 | [docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md](../docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md) | Pilotage interne | [3.0](#30-points-daily-scrum-16-novembre) | 15/11/2026 |
 | [docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md](../docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md) | Pilotage interne | [3.0](#31-audit-avant-rendu-16-novembre) | 15/11/2026 |
 
@@ -578,7 +578,8 @@ Fichier : [docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 7.4 | 16/11/2026 | #143 et #162 traités | en vigueur | — |
+| 7.5 | 16/11/2026 | Risques de sécurité résiduels arbitrés | en vigueur | — |
+| 7.4 | 16/11/2026 | #143 et #162 traités | `85d83bc` | — |
 | 7.3 | 16/11/2026 | Corrections et décisions du 16 novembre consignées ; Corrections et décisions du 16 novembre consignées | `9bb9802` | — |
 | 7.2 | 15/11/2026 | Renvoi vers le § 3.1 de l’audit | `be52f06` | — |
 | 7.1 | 15/11/2026 | CODE-04 et liste des règles à traiter | `7779590` | — |

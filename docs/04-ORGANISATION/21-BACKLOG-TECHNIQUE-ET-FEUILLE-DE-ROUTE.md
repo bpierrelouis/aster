@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 7.4 | 16/11/2026 | Pilotage interne | #143 et #162 traités | [59 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 7.5 | 16/11/2026 | Pilotage interne | Risques de sécurité résiduels arbitrés | [60 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -183,6 +183,8 @@ Restent ouverts (vérifiés le 16 novembre dans la configuration et le code : au
 | Import | L’analyse de l’import révèle les matériels des autres écoles par leur numéro de série, et l’import les transfère sans accord de l’école d’origine (orientation du 11 novembre) | Transfert soumis à l’école d’origine ou au super administrateur ; analyse réduite à « connu dans une autre école » | Démonstrateur et cible |
 | Énumération des comptes | La connexion en deux étapes distingue une adresse inconnue d’une adresse existante | Formulaire unique adresse et mot de passe, ou page du mot de passe pour toute adresse | Démonstrateur et cible |
 | Divulgation | Message distinct pour un identifiant ou une adresse existant dans une autre école | Réponse générique hors périmètre | Démonstrateur et cible |
+
+Décisions de l’utilisateur du 16 novembre : OpenLDAP, administrateur de Keycloak, plage de confiance du proxy et énumération à la connexion acceptés (démonstrateur) ; QR d’appairage reporté en V2 ; import accepté, l’analyse ne renvoyant que les matériels dont le numéro de série figure dans le fichier.
 
 Version publiée sans connexion par `/api/infos` : conservée, attendue pour les applications déployées sur le C1NP (décision de l’utilisateur du 15 novembre) ; testée avec le détail réservé au super administrateur (#130).
 
