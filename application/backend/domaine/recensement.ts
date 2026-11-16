@@ -45,6 +45,13 @@ export const sallesDe = (state: Pick<WorkspaceState, 'salles'>, r: Pick<Operatio
 /** RIGEL réservé au gestionnaire (ticket #156, décision de l'utilisateur du 14 novembre) : opérations, constats et appairage */
 const reserve = (actor: Actor) => { if (actor.role !== 'gestionnaire') fail(403, 'Recensement réservé au gestionnaire.'); };
 
+/**
+ * Lanceur encore gestionnaire actif de l'école de l'opération : sinon l'opération n'est plus publiée aux téléphones et ses
+ * constats sont refusés (RG-85, la désactivation prend effet immédiatement) ; un autre gestionnaire la clôt ou la relance.
+ */
+export const lanceurActif = (s: Pick<WorkspaceState, 'comptes'>, r: Pick<Operation, 'parId' | 'ecoleId'>) =>
+  s.comptes.some((c) => c.id === r.parId && c.actif && c.role === 'gestionnaire' && c.ecoleId === r.ecoleId);
+
 /** Lancement ou clôture d'un recensement ; x : élément proposé, old : élément enregistré */
 export function regleOperation(x: LooseItem, old: LooseItem | undefined, state: WorkspaceState, actor: Actor, now: number) {
   reserve(actor);
@@ -112,13 +119,17 @@ export function traiterConstat(s: WorkspaceState, id: Id, action: ActionConstat,
 
 /* ---------- Installation d'une salle ---------- */
 
-/** Installation en cours de la salle, sinon lancée : gestionnaire seul, salle de son école concernée par un déplacement */
+/**
+ * Installation en cours de la salle, sinon lancée : gestionnaire seul, salle de son école concernée par un déplacement.
+ * Celle d'un gestionnaire qui n'est plus actif est close et relancée au nom du compte connecté.
+ */
 export function lancerInstallation(s: WorkspaceState, actor: Actor, salleId: Id, now = Date.now()) {
   reserve(actor);
   const salle = s.salles.find((x) => x.id === salleId && x.ecoleId === actor.ecoleId);
   if (!salle) fail(404, 'Salle introuvable.');
   const existante = installationDe(s.operations, salleId, now);
-  if (existante) return existante;
+  if (existante && lanceurActif(s, existante)) return existante;
+  if (existante) existante.close = { at: now, par: actor.nom, parId: actor.id };
   if (!s.materiels.some((m) => aDeplacer(m, salleId))) fail(400, 'Aucun déplacement en cours pour cette salle.');
   const r: Operation = { id: identifiant('ins'), ecoleId: salle.ecoleId, nom: `Installation de ${salle.nom}`, mode: 'installation', salleIds: [salleId], at: now, par: actor.nom, parId: actor.id, expireLe: now + DUREE_OPERATION };
   s.operations.push(r);
@@ -174,7 +185,7 @@ export function instantane(state: WorkspaceState, r: Operation): InstantaneRigel
 
 /** Opérations en cours, chacune avec son instantané chiffré, sa version et l'empreinte du jeton des téléphones */
 export async function operationsPubliees(state: WorkspaceState, secret: string, now = Date.now()): Promise<OperationPubliee[]> {
-  return Promise.all(state.operations.filter((r) => ouverte(r, now)).map(async (r) => {
+  return Promise.all(state.operations.filter((r) => ouverte(r, now) && lanceurActif(state, r)).map(async (r) => {
     const contenu = instantane(state, r);
     return {
       id: r.id, expireLe: r.expireLe,
@@ -239,8 +250,8 @@ function appliquer(s: WorkspaceState, r: Operation | undefined, e: EvenementRige
   if (s.constats.some((c) => c.id === cid)) return { id, statut: 'doublon' };
   if ('illisible' in e) return { id, statut: 'refuse', message: 'Événement illisible.' };
   if (!r || !ouverte(r, now)) return { id, statut: 'refuse', message: 'Opération close.' };
-  // Les constats confirment des installations au nom de son lanceur : une opération d'un autre profil n'est plus appliquée
-  if (s.comptes.find((c) => c.id === r.parId)?.role !== 'gestionnaire') return { id, statut: 'refuse', message: 'Opération non lancée par un gestionnaire.' };
+  // Les constats confirment des installations au nom de son lanceur : il doit rester gestionnaire actif de l'école
+  if (!lanceurActif(s, r)) return { id, statut: 'refuse', message: 'Opération suspendue : son gestionnaire n’est plus actif.' };
   if (!['vu', 'releve', 'retour', 'stock', 'inconnu'].includes(e.type)) return { id, statut: 'refuse', message: 'Constat inconnu.' };
   const salleId = e.salleId ?? null;
   if (salleId !== null && !sallesDe(s, r).some((x) => x.id === salleId)) return { id, statut: 'refuse', message: 'Salle hors de l’opération.' };

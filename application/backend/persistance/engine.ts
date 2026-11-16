@@ -15,7 +15,7 @@ import { journal, raison } from '../journal.ts';
 import { DISCONNECT_AFTER, applyReports, applyResults, markDisconnected, pendingCommands } from '../domaine/postes.ts';
 import { reportPdf } from '../documents/pdf.ts';
 import { analyseImport, importMateriels } from '../domaine/import.ts';
-import { appairage, appliquerEvenements, operationsPubliees, cloreInstallations, dechiffrerEvenements, lancerInstallation, traiterConstat } from '../domaine/recensement.ts';
+import { appairage, appliquerEvenements, operationsPubliees, cloreInstallations, dechiffrerEvenements, lancerInstallation, lanceurActif, traiterConstat } from '../domaine/recensement.ts';
 import { installationDe } from '#shared/rigel.ts';
 import type { Bloc } from '#shared/rigel.ts';
 import type { ActionConstat, Actor, Id, Item, WorkspaceState } from '#shared/types.ts';
@@ -138,7 +138,7 @@ export function createEngine({ store }: { store: Store }) {
       async installation(actor: Actor, salleId: Id, config: { secret: string; url: string | null }) {
         const courant = await store.read();
         const existante = installationDe(courant.operations, salleId);
-        if (existante) return { id: existante.id, ...appairage(courant, actor, existante.id, config) };
+        if (existante && lanceurActif(courant, existante)) return { id: existante.id, ...appairage(courant, actor, existante.id, config) };
         return write((state) => {
           const next = structuredClone(state);
           const r = lancerInstallation(next, actor, salleId);

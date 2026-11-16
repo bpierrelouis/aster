@@ -7,7 +7,7 @@ import { actorOf } from './comptes.ts';
 import { createWorkspaceRepository } from '../persistance/engine.ts';
 import { createRigelRouter, createWorkspaceRouter } from '../api/routes.ts';
 import { etatDemonstration } from '../../outils/donnees-demonstration/charger.ts';
-import { appliquerEvenements, cleOperation, cloreInstallations, instantane, jetonOperation, lancerInstallation, traiterConstat } from './recensement.ts';
+import { appliquerEvenements, cleOperation, cloreInstallations, instantane, jetonOperation, lancerInstallation, operationsPubliees, traiterConstat } from './recensement.ts';
 import { chiffrer, choisirCode, dechiffrer, empreinte, etiquette, lireAppairage, lireEtiquette, rapprocherSerie, resoudre, serieLue } from '#shared/rigel.ts';
 import type { EvenementRigel, InstantaneRigel } from '#shared/rigel.ts';
 import type { Id, Operation, WorkspaceState } from '#shared/types.ts';
@@ -146,8 +146,25 @@ test('constats : une opération qui n’a pas été lancée par un gestionnaire 
   s.operations.push({ id: 'rec-admin', ecoleId: 'e-num', nom: 'Ancienne', mode: 'recensement', salleIds: [], at: Date.now(), par: admin.nom, parId: admin.id, expireLe: Date.now() + 86400e3 });
   const enCours = s.materiels.find((m) => m.ecoleId === 'e-num' && m.deplacement && m.salleId)!;
   const [r] = appliquerEvenements(s, 'rec-admin', [evt({ type: 'vu', materielId: enCours.id, salleId: enCours.salleId })]);
-  assert.deepEqual(r, { id: r.id, statut: 'refuse', message: 'Opération non lancée par un gestionnaire.' });
+  assert.deepEqual(r, { id: r.id, statut: 'refuse', message: 'Opération suspendue : son gestionnaire n’est plus actif.' });
   assert(enCours.deplacement, 'déplacement toujours en cours');
+});
+
+test('gestionnaire désactivé : son opération n’est plus publiée ni appliquée ; un autre gestionnaire relance l’installation (RG-85, #165)', async () => {
+  const s = etatDemonstration();
+  const enCours = s.materiels.find((m) => m.ecoleId === 'e-num' && m.deplacement && m.salleId)!;
+  const ins = lancerInstallation(s, as(s, MANAGER), enCours.salleId!);
+  assert((await operationsPubliees(s, 'secret')).some((o) => o.id === ins.id));
+  s.comptes.find((c) => c.id === MANAGER)!.actif = false;
+  assert(!(await operationsPubliees(s, 'secret')).some((o) => o.id === ins.id), 'plus publiée');
+  const [r] = appliquerEvenements(s, ins.id, [evt({ type: 'vu', materielId: enCours.id, salleId: enCours.salleId })]);
+  assert.equal(r.statut, 'refuse');
+  assert(enCours.deplacement, 'déplacement toujours en cours');
+  s.comptes.push({ id: 'cpt-num-gestionnaire-2', nom: 'Second Gestionnaire', email: 'second.gestionnaire@orion.test', role: 'gestionnaire', ecoleId: 'e-num', actif: true });
+  const reprise = lancerInstallation(s, as(s, 'cpt-num-gestionnaire-2'), enCours.salleId!);
+  assert.notEqual(reprise.id, ins.id);
+  assert.equal(ins.close?.parId, 'cpt-num-gestionnaire-2', 'ancienne installation close');
+  assert.equal(appliquerEvenements(s, reprise.id, [evt({ type: 'vu', materielId: enCours.id, salleId: enCours.salleId })])[0].statut, 'applique');
 });
 
 test('constats : présence, écart (version antérieure), relocalisation, stock, hors service, code inconnu ajouté au parc, doublon', () => {
