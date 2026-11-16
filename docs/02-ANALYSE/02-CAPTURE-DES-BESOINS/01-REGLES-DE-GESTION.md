@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 13.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [23 versions](../../../archive/README.md#01-regles-de-gestion) |
+| 14.0 | 16/11/2026 | Production destinée à la remise | Notifier aussi les administrateurs des matériels à déplacer (RG-39) | [24 versions](../../../archive/README.md#01-regles-de-gestion) |
 <!-- version:fin -->
 
 Ce document formalise uniquement les règles confirmées qui imposent une contrainte sur les données, les droits des utilisateurs ou les traitements réalisés par ORION. Il s'appuie sur les [consignes du projet](../../01-CONTEXTE/02-CONSIGNES.md), les [entretiens des 22 et 23 octobre et du 4 novembre](../../01-CONTEXTE/04-COMPTE-RENDU-ENTRETIENS.md), le fonctionnement de l'application ORION et le [cadrage consolidé](../../01-CONTEXTE/03-CADRAGE.md).
@@ -56,7 +56,7 @@ Les limites du périmètre, les questions ouvertes et les réponses historiques 
 - **RG-36 — Tableaux de bord spécialisés.** ORION propose plusieurs tableaux de bord spécialisés, dont un tableau de bord du parc et un tableau de bord des remontées. Le tableau de bord du parc présente l'état du parc et des stocks, la part de matériels hors service par bâtiment et les salles à surveiller (client, 22 octobre ; adapté par la décision de l’utilisateur du 15 novembre 2026 et l’application, écart inscrit au cadrage § 23).
 - **RG-37 — Affichage des notifications.** Les notifications d'un utilisateur sont signalées par un compteur dans la barre supérieure d'ORION, résumées dans un menu et détaillées dans une page Notifications ; aucun courriel n'est envoyé (client, 23 octobre ; adapté par la décision de l’utilisateur du 15 novembre 2026 et l’application, écart inscrit au cadrage § 23).
 - **RG-38 — Canal de notification.** ORION n'envoie pas les notifications par courriel.
-- **RG-39 — Notifications de l'administrateur.** L'administrateur et le super administrateur reçoivent dans ORION trois types de notifications : l'évolution des remontées qu'il a créées, la fin des installations ou réinitialisations qu'il a lancées et le lancement d'une application interdite (blacklist). Ils ne sont pas notifiés des remontées créées par d'autres utilisateurs (décisions de l’utilisateur des 13 et 15 novembre 2026 et application).
+- **RG-39 — Notifications de l'administrateur.** L'administrateur et le super administrateur reçoivent dans ORION quatre types de notifications : l'évolution des remontées qu'il a créées, la fin des installations ou réinitialisations qu'il a lancées, le lancement d'une application interdite (blacklist) et, comme le gestionnaire dont ils ont les droits (RG-15), les matériels à déplacer pour l'installation des salles ; les alertes de garantie relèvent de RG-86. Ils ne sont pas notifiés des remontées créées par d'autres utilisateurs (décisions de l’utilisateur des 13, 15 et 16 novembre 2026 et application).
 
 ## 4. Règles spécifiques à la supervision des processus
 

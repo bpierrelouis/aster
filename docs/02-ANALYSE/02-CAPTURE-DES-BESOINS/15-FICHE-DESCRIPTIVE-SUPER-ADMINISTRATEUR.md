@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [14 versions](../../../archive/README.md#15-fiche-descriptive-super-administrateur) |
+| 6.0 | 16/11/2026 | Production destinée à la remise | Notifier aussi les matériels à déplacer | [15 versions](../../../archive/README.md#15-fiche-descriptive-super-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -34,7 +34,7 @@ Afin d’éviter de dupliquer les scénarios, les parcours détaillés sont déc
 | Règles de processus | Règles globales, en plus des règles d’école, de bâtiment et de salle |
 | Remontées | Création et suivi de ses remontées ; consultation, prise en charge et fin des remontées de toutes les écoles ; consultation de leurs états des lieux |
 | Comptes ORION | Création, modification, désactivation et réactivation des comptes de toutes les écoles, y compris des comptes super administrateur ; changement de l’école d’un administrateur, rattaché à une seule école |
-| Notifications | Comme l’administrateur : évolution de ses propres remontées, fin des interventions qu’il a demandées, lancement d’un processus interdit, garanties échues ou proches de l’échéance |
+| Notifications | Comme l’administrateur : évolution de ses propres remontées, fin des interventions qu’il a demandées, lancement d’un processus interdit, matériels à déplacer, garanties échues ou proches de l’échéance |
 
 ## Adaptation des parcours administrateur
 

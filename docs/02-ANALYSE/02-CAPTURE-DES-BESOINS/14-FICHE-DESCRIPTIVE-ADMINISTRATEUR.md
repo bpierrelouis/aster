@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [17 versions](../../../archive/README.md#14-fiche-descriptive-administrateur) |
+| 6.0 | 16/11/2026 | Production destinée à la remise | Notifier aussi les matériels à déplacer | [18 versions](../../../archive/README.md#14-fiche-descriptive-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -25,7 +25,7 @@
 | Supervision | Alertes de toutes les salles, supervision d’une salle et arrêt d’un processus, listes de processus (whitelist, blacklist) de son école, statistiques d’utilisation |
 | Remontées | Créer une remontée et suivre les siennes ; consulter toutes les remontées de son école et leurs états des lieux ; les prendre en charge et les terminer |
 | Comptes ORION | Créer, modifier, désactiver et réactiver les comptes de son école, sans pouvoir les rattacher à une autre école ni changer la sienne ; consulter leur dernière connexion et leur date de désactivation |
-| Notifications | Évolution de ses propres remontées, fin des interventions qu’il a demandées, lancement d’un processus interdit, garanties échues ou proches de l’échéance |
+| Notifications | Évolution de ses propres remontées, fin des interventions qu’il a demandées, lancement d’un processus interdit, matériels à déplacer, garanties échues ou proches de l’échéance |
 | Exclusions | Règles globales, écoles et comptes super administrateur |
 
 Les droits détaillés sont consolidés dans la [matrice des droits](11-MATRICE-DROITS.md).
@@ -246,7 +246,7 @@ RG-02, RG-15, RG-61, RG-69, RG-74 et RG-75.
 ### Scénario nominal
 
 1. Dans le détail d’une salle, l’administrateur clique sur **Équiper la salle** et choisit le nombre de postes complets et les matériels secondaires pris dans le stock en service, ou glisse des matériels vers la salle ou vers le stock.
-2. ORION enregistre les affectations ; les matériels passent « en cours de déplacement » et le gestionnaire est notifié des matériels à déplacer.
+2. ORION enregistre les affectations ; les matériels passent « en cours de déplacement » ; le gestionnaire et l’administrateur sont notifiés des matériels à déplacer.
 3. L’administrateur suit l’avancement dans **Salles › Déplacements** ; chaque matériel passe au vert lorsque le gestionnaire ou lui-même confirme son installation, dans ORION ou sur place avec RIGEL.
 
 ### Variantes et limites
@@ -272,14 +272,14 @@ RG-15, RG-26, RG-27, RG-87 et RG-92 à RG-96.
 ### Scénario nominal
 
 1. La cloche de la barre supérieure indique le nombre de ses notifications et ouvre leur résumé ; la page **Notifications** les détaille.
-2. Les notifications sont regroupées : remontées qu’il a créées prises en charge ou terminées, interventions qu’il a demandées terminées (réussies ou en échec), processus interdits lancés et arrêtés automatiquement, garanties échues ou arrivant à échéance.
+2. Les notifications sont regroupées : remontées qu’il a créées prises en charge ou terminées, interventions qu’il a demandées terminées (réussies ou en échec), processus interdits lancés et arrêtés automatiquement, matériels à déplacer, garanties échues ou arrivant à échéance.
 3. **Accueil** présente son tableau de bord (matériels hors service, remontées en attente, flux des remontées, part hors service par bâtiment, salles à surveiller), personnalisable, ainsi que les tableaux **Parc** et **Remontées**. **Personnaliser** déplace, redimensionne, retire ou ajoute des cartes et rétablit la disposition par défaut ; le **+** du sous-menu de l’accueil crée un autre tableau, à renommer ou supprimer.
 4. La recherche de la barre supérieure trouve une salle, un matériel ou une remontée et ouvre l’écran concerné.
 5. Le menu du compte rappelle son nom, son profil et son école ; il règle l’ambiance (Orion ou Minarm), le mode clair ou sombre, la couleur d’accent de l’ambiance Orion et le verre (liquide ou opaque), conservés pour ses connexions suivantes, et propose **Se déconnecter**.
 
 ### Variantes et limites
 
-- Il n’est pas notifié des remontées créées par d’autres, ni des matériels à déplacer.
+- Il n’est pas notifié des remontées créées par d’autres.
 - Aucune notification n’est envoyée par courriel.
 
 ### Questions ouvertes

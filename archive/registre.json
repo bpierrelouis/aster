@@ -1200,6 +1200,13 @@
         "version": "13.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "14.0",
+        "date": "2026-11-16",
+        "modification": "Notifier aussi les administrateurs des matériels à déplacer (RG-39)",
         "archive": null
       }
     ]
@@ -2334,6 +2341,13 @@
         "version": "5.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "6.0",
+        "date": "2026-11-16",
+        "modification": "Notifier aussi les matériels à déplacer",
         "archive": null
       }
     ]
@@ -2491,6 +2505,13 @@
         "version": "5.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "6.0",
+        "date": "2026-11-16",
+        "modification": "Notifier aussi les matériels à déplacer",
         "archive": null
       }
     ]
