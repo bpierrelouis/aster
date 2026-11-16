@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <meta name="description" content="Une exploration animée des architectures réelle et cible d’ORION : machines virtuelles, services et circulation des données.">
+  <title>ORION — Voyage dans l’architecture</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/orion.svg">
+  <link rel="stylesheet" href="styles.css">
+  <script src="architecture.js" defer></script>
+  <script src="presentation.js" defer></script>
+</head>
+<body>
+  <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m9 5 11 7-11 7Z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+    <symbol id="i-fit" viewBox="0 0 24 24"><path d="M9 3H3v6m12-6h6v6M3 15v6h6m6 0h6v-6"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2Zm6-2v16m6-14v16"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-motion" viewBox="0 0 24 24"><path d="M3 8h9a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h4"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.1 2.4c-.6.2-.6 1.1-.6 1.6m0 3h.01"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-server" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01M12 6.5h5M12 17.5h5"/></symbol>
+    <symbol id="i-browser" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="17" rx="2"/><path d="M2 8h20M6 5.5h.01M9 5.5h.01m1 7-3 2 3 2m4-4 3 2-3 2"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4m-3 14h2"/></symbol>
+    <symbol id="i-disk" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 4 18 4 18 0V5M3 12c0 4 18 4 18 0"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 2 9 4v6c0 5-9 10-9 10S3 17 3 12V6Zm-4 10 3 3 5-6"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M6 19a5 5 0 0 1-1-9 7 7 0 0 1 13-2 5.5 5.5 0 0 1 0 11Z"/></symbol>
+    <symbol id="i-network" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="6" rx="1"/><rect x="2" y="16" width="7" height="6" rx="1"/><rect x="15" y="16" width="7" height="6" rx="1"/><path d="M12 8v4m-6 4v-4h12v4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  </svg>
+
+  <header class="header">
+    <a class="brand" href="#reel/01" aria-label="ORION, début de la présentation">
+      <img src="assets/logos/orion.svg" width="32" height="32" alt="">
+      <span>ORION<small>ATLAS D’ARCHITECTURE</small></span>
+    </a>
+    <nav class="architecture-switch" aria-label="Architecture présentée">
+      <button type="button" id="show-real" aria-pressed="true"><span class="status-dot"></span>Réelle <span class="tab-count">10 VM</span></button>
+      <button type="button" id="show-target" aria-pressed="false">Cible <span class="tab-count">4 VM</span></button>
+    </nav>
+    <div class="header-actions">
+      <button type="button" class="icon-button motion-button" id="motion" aria-label="Animations" aria-pressed="true" title="Suspendre les animations"><svg><use href="#i-motion"/></svg></button>
+      <button type="button" class="icon-button" id="fullscreen" aria-label="Plein écran" title="Plein écran · F"><svg><use href="#i-fit"/></svg></button>
+      <button type="button" class="icon-button" id="help" aria-label="Aide et sources" title="Aide et sources · ?"><svg><use href="#i-help"/></svg></button>
+    </div>
+  </header>
+
+  <main class="presentation">
+    <aside class="story" aria-label="Explication de l’étape">
+      <div class="story-topline"><span class="eyebrow" id="chapter">LE DÉPLOIEMENT</span><span class="step-number" id="step-number">01</span></div>
+      <div class="story-copy" id="story-copy">
+        <p class="story-kicker" id="kicker">ARCHITECTURE RÉELLE</p>
+        <h1 id="story-title">Dix machines.<br>Un même système.</h1>
+        <p class="story-description" id="description">De l’entrée HTTPS aux données, suivez le rôle de chaque machine et le trajet d’une requête.</p>
+        <dl class="facts" id="facts"></dl>
+        <div class="takeaway" id="takeaway"></div>
+      </div>
+      <div class="story-footer"><span class="live-dot"></span><span id="context-label">Déploiement sur VM · Debian 13</span></div>
+    </aside>
+
+    <section class="canvas-panel" aria-label="Carte interactive de l’architecture">
+      <div class="canvas-topbar"><span class="canvas-breadcrumb" id="map-title">ARCHITECTURE RÉELLE <span>/</span> VUE D’ENSEMBLE</span><span class="canvas-hint">Glisser pour explorer</span></div>
+      <div class="viewport" id="viewport" tabindex="0" aria-label="Schéma interactif. Cliquez sur une VM pour l’explorer. Utilisez les boutons de zoom pour ajuster la vue.">
+        <div class="world" id="world"></div>
+      </div>
+      <div class="map-caption" id="map-caption" aria-live="polite"></div>
+      <div class="map-bottom">
+        <div class="legend" aria-label="Légende des rôles"><span class="legend-entry">Entrée</span><span class="legend-app">Application</span><span class="legend-data">Données</span><span class="legend-identity">Identité</span></div>
+        <div class="zoom-tools" aria-label="Caméra">
+          <button type="button" class="icon-button" id="zoom-out" aria-label="Dézoomer" title="Dézoomer · −"><svg><use href="#i-minus"/></svg></button>
+          <output id="zoom-level" aria-label="Niveau de zoom">100 %</output>
+          <button type="button" class="icon-button" id="zoom-in" aria-label="Zoomer" title="Zoomer · +"><svg><use href="#i-plus"/></svg></button>
+          <span class="tool-separator"></span>
+          <button type="button" class="icon-button" id="overview" aria-label="Vue d’ensemble du schéma" title="Vue d’ensemble · O"><svg><use href="#i-map"/></svg></button>
+        </div>
+      </div>
+      <div class="scene-index" aria-hidden="true"><svg id="minimap" viewBox="0 0 2400 1540"></svg></div>
+    </section>
+  </main>
+
+  <footer class="transport">
+    <button type="button" class="contents-button" id="contents" aria-label="Ouvrir le plan du parcours"><svg><use href="#i-list"/></svg><span>Le parcours</span></button>
+    <div class="playback">
+      <button type="button" class="icon-button previous" id="previous" aria-label="Étape précédente" title="Étape précédente · ←"><svg><use href="#i-arrow"/></svg></button>
+      <button type="button" class="play-button" id="autoplay" title="Lecture automatique · Espace"><svg><use href="#i-play"/></svg><span>Lire le parcours</span></button>
+      <button type="button" class="icon-button" id="next" aria-label="Étape suivante" title="Étape suivante · →"><svg><use href="#i-arrow"/></svg></button>
+    </div>
+    <div class="progress-area"><div class="progress-track" role="progressbar" aria-label="Progression du parcours" aria-valuemin="1" aria-valuemax="27" aria-valuenow="1" id="progress"><span id="progress-fill"></span></div><span id="progress-text">01 <span>/ 27</span></span></div>
+  </footer>
+  <p class="sr-only" id="announcement" role="status" aria-live="polite"></p>
+  <noscript><div class="no-js">Activez JavaScript pour explorer la présentation. Les schémas de référence restent consultables dans <a href="../../docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md">la documentation d’architecture</a>.</div></noscript>
+
+  <dialog id="contents-dialog" aria-labelledby="contents-title">
+    <div class="dialog-heading"><div><p class="eyebrow">EXPLORATION GUIDÉE</p><h2 id="contents-title">Choisissez votre escale.</h2></div><button type="button" class="icon-button" aria-label="Fermer le plan" data-close><svg><use href="#i-close"/></svg></button></div>
+    <div class="contents-grid" id="contents-list"></div>
+  </dialog>
+  <dialog id="help-dialog" aria-labelledby="help-title">
+    <div class="dialog-heading"><div><p class="eyebrow">MODE D’EMPLOI</p><h2 id="help-title">Explorez à votre rythme.</h2></div><button type="button" class="icon-button" aria-label="Fermer l’aide" data-close><svg><use href="#i-close"/></svg></button></div>
+    <p>Suivez le parcours avec les flèches ou cliquez directement sur une machine. La caméra relie les vues ; les flèches colorées montrent le sens des échanges.</p>
+    <dl class="shortcuts"><div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Étape précédente / suivante</dd></div><div><dt><kbd>Espace</kbd></dt><dd>Lire / suspendre le parcours</dd></div><div><dt><kbd>O</kbd></dt><dd>Vue d’ensemble</dd></div><div><dt><kbd>+</kbd> <kbd>−</kbd></dt><dd>Zoomer / dézoomer</dd></div><div><dt><kbd>F</kbd></dt><dd>Plein écran</dd></div><div><dt><kbd>Échap</kbd></dt><dd>Fermer une fenêtre</dd></div></dl>
+    <p class="help-note">Le bouton <strong>Animations</strong> suspend les mouvements. La préférence système de réduction des animations est respectée. Sur un écran étroit, les détails restent accessibles en sélectionnant une machine dans le plan.</p>
+    <details><summary>Sources et périmètre</summary>
+      <p>Architecture réelle : configurations de déploiement et correction de l’utilisateur du 16 novembre 2026. Architecture cible : DAT, § 6, gabarit initial d’essai pour 1 000 postes ; les dimensions et intégrations restent à qualifier.</p>
+      <p class="source-gap">Correction du 16 novembre 2026 : trois managers (orion-1 à orion-3), quorum de deux. Orion-4 et orion-5 sont workers applicatifs, conformément aux scripts. Le DAT et les schémas documentaires conservent encore la répartition précédente ; le présent support applique cette correction.</p>
+      <ul class="source-links"><li><a href="../../docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md">Dossier d’architecture technique</a></li><li><a href="../../docs/01-CONTEXTE/02-CADRAGE.md#19-architecture-réseau-et-intégrations">Cadrage — correction du 16 novembre</a></li><li><a href="../../docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md#6-dossier-darchitecture--écarts-à-traiter-dat">Backlog technique — DAT et schémas à aligner</a></li><li><a href="../../application/infra/vm/installer.sh">Rôles des VM — installer.sh</a></li><li><a href="../../application/infra/vm/pile.yaml">Services et réplicats — pile.yaml</a></li><li><a href="../../application/infra/vm/haproxy.cfg">Routage — haproxy.cfg</a></li><li><a href="../../application/infra/vm/pile-rigel.yaml">Connecteur RIGEL indépendant</a></li><li><a href="assets/logos/SOURCES.md">Provenance et licences des logos</a></li></ul>
+    </details>
+  </dialog>
+</body>
+</html>

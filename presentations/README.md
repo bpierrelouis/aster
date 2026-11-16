@@ -8,6 +8,7 @@ Pour les prochaines présentations client, suivre les [retours du 4 novembre](..
 
 ## Présentations disponibles
 
+- [`2026-11-16_architecture`](2026-11-16_architecture/index.html) : présentation HTML autonome des architectures réelle et cible, avec exploration des VM, zooms de caméra et flux animés ; [commandes, sources et écart documentaire](2026-11-16_architecture/README.md).
 - [`2026-11-04-point-etape-client`](2026-11-04-point-etape-client/) : proposition du nom et de la direction artistique, compréhension du projet, gestion des matériels comme MVP, premières IHM, MCD et architecture cible initiale à valider.
 
 Les présentations web restent autonomes et référencent les ressources communes du dépôt, notamment la direction artistique et les diagrammes documentaires.
