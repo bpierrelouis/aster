@@ -202,6 +202,13 @@
         "version": "3.0",
         "date": "2026-11-15",
         "modification": "Section RIGEL (application mobile) et bilan d’un recensement",
+        "archive": "design/maquettes/maquettes-v3.0-2026-11-15.html",
+        "commit": "2ce55f7"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-16",
+        "modification": "Bilan d’un recensement : l’administrateur l’utilise, le super administrateur le suit",
         "archive": null
       }
     ]

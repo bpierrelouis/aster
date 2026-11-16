@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>RIGEL — Saisie d’un matériel inconnu</title>
+  <g id="RIGEL — Saisie d’un matériel inconnu">
+<rect x="0" y="0" width="390" height="844" rx="0" fill="#F4F4F5" id="Fond"/>
+<g id="En-tête">
+<g id="Retour">
+<circle cx="38" cy="40" r="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<polyline points="41,33 34,40 41,47" fill="none" stroke="#52525B" stroke-width="1.8" stroke-linejoin="round"/>
+</g>
+<text x="76" y="48" font-family="Inter, Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#27272A">Matériel inconnu</text>
+</g>
+<g id="Code lu">
+<rect x="16" y="76" width="358" height="86" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="36" y="108" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#71717A">CODE LU</text>
+<text x="36" y="136" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="500" fill="#27272A">PF4KX29T</text>
+</g>
+<g id="Formulaire">
+<rect x="16" y="178" width="358" height="516" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="36" y="212" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">Lieu : A101</text>
+<g id="Type">
+<text x="36" y="238" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27272A">Type</text>
+<rect x="36" y="250" width="318" height="50" rx="14" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="52" y="281" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#27272A">Écran</text>
+</g>
+<g id="Modèle">
+<text x="36" y="331" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27272A">Modèle</text>
+<rect x="36" y="343" width="318" height="50" rx="14" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="52" y="374" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#27272A">ThinkVision …</text>
+</g>
+<g id="Marque  facultatif">
+<text x="36" y="424" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27272A">Marque  facultatif</text>
+<rect x="36" y="436" width="318" height="50" rx="14" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="52" y="467" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#27272A">Lenovo</text>
+</g>
+<g id="Numéro de série  facultatif">
+<text x="36" y="517" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27272A">Numéro de série  facultatif</text>
+<rect x="36" y="529" width="318" height="50" rx="14" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="52" y="560" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#27272A">PF4KX29T</text>
+</g>
+<g id="Bouton Ajouter au parc">
+<rect x="36" y="620" width="318" height="52" rx="26.0" fill="#52525B"/>
+<text x="195.0" y="652.0" font-family="Inter, Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#FFFFFF" text-anchor="middle">Ajouter au parc</text>
+</g>
+</g>
+</g>
+</svg>

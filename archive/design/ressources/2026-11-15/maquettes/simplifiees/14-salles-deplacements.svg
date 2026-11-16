@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <title>Déplacements</title>
+  <g id="Déplacements">
+    <rect id="Fond" x="0" y="0" width="1440" height="900" fill="#F4F4F5"/>
+    <g id="Menu latéral">
+      <rect x="20" y="20" width="120" height="860" rx="20" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <path id="Marque ORION" transform="translate(64 47) scale(0.8)" fill="#52525B" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/>
+      <g id="Navigation Accueil">
+        <rect x="70" y="130" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="171" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Accueil</text>
+      </g>
+      <g id="Navigation Salles">
+        <rect x="70" y="198" width="20" height="20" rx="5" fill="none" stroke="#52525B"/>
+        <text x="80" y="239" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#27272A" text-anchor="middle">Salles</text>
+      </g>
+      <g id="Navigation Matériels">
+        <rect x="70" y="266" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="307" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Matériels</text>
+      </g>
+      <g id="Navigation Remontées">
+        <rect x="70" y="334" width="20" height="20" rx="5" fill="none" stroke="#A1A1AA"/>
+        <text x="80" y="375" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">Remontées</text>
+        <circle cx="92" cy="335" r="7" fill="#52525B"/>
+      </g>
+    </g>
+    <g id="Onglets">
+      <rect x="164" y="20" width="699.3" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="183" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="205" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">Tous les bâtiments</text>
+      <rect x="389.6" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="411.6" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">A</text>
+      <rect x="448.3" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="470.3" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">B</text>
+      <rect x="507" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="529" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">C</text>
+      <rect x="565.7" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="587.7" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">D</text>
+      <rect x="624.4" y="37" width="14" height="14" rx="3" fill="none" stroke="#A1A1AA"/>
+      <text x="646.4" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A">Stock</text>
+      <rect x="703.9" y="25" width="154.4" height="38" rx="19" fill="#E4E4E7"/>
+      <rect x="717.9" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="739.9" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27272A">Déplacements</text>
+    </g>
+    <g id="Barre d’outils">
+      <rect x="1060" y="20" width="340" height="48" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+      <rect x="1064" y="24" width="196" height="40" rx="20" fill="#E4E4E7"/>
+      <rect x="1076" y="37" width="14" height="14" rx="3" fill="none" stroke="#52525B"/>
+      <text x="1098" y="49" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#27272A">École</text>
+      <polyline points="1236,41 1242,47 1248,41" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="1286" cy="43" r="7" fill="none" stroke="#52525B" stroke-width="1.5"/>
+      <line x1="1291" y1="48" x2="1296" y2="53" stroke="#52525B" stroke-width="1.5"/>
+      <rect x="1321" y="35" width="16" height="17" rx="6" fill="none" stroke="#52525B"/>
+      <circle cx="1373" cy="44" r="18" fill="#D4D4D8"/>
+    </g>
+    <g id="Contenu">
+      <rect x="164" y="98" width="170" height="12" rx="6" fill="#E4E4E7"/>
+      <g id="Trajet">
+        <rect x="164" y="132" width="609" height="259" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <rect x="182" y="156" width="50" height="14" rx="7" fill="#D4D4D8"/>
+        <text x="244" y="169" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#71717A">›</text>
+        <rect x="260" y="156" width="60" height="14" rx="7" fill="#D4D4D8"/>
+        <rect x="182" y="184" width="200" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="182" y="222" width="520" height="5" rx="2.5" fill="#E4E4E7"/>
+        <rect x="724" y="218" width="30" height="12" rx="6" fill="#D4D4D8"/>
+        <circle cx="194" cy="279" r="7" fill="#A1A1AA"/>
+        <rect x="212" y="264" width="230" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="212" y="288" width="220" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="734" y="276" width="20" height="9" rx="4.5" fill="#E4E4E7"/>
+        <circle cx="194" cy="343" r="7" fill="#A1A1AA"/>
+        <rect x="212" y="328" width="230" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="212" y="352" width="220" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="734" y="340" width="20" height="9" rx="4.5" fill="#E4E4E7"/>
+      </g>
+      <g id="Trajet">
+        <rect x="164" y="410" width="609" height="323" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <rect x="182" y="434" width="50" height="14" rx="7" fill="#D4D4D8"/>
+        <text x="244" y="447" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#71717A">›</text>
+        <rect x="260" y="434" width="60" height="14" rx="7" fill="#D4D4D8"/>
+        <rect x="182" y="462" width="200" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="182" y="500" width="520" height="5" rx="2.5" fill="#E4E4E7"/>
+        <rect x="724" y="496" width="30" height="12" rx="6" fill="#D4D4D8"/>
+        <circle cx="194" cy="557" r="7" fill="#A1A1AA"/>
+        <rect x="212" y="542" width="230" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="212" y="566" width="220" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="734" y="554" width="20" height="9" rx="4.5" fill="#E4E4E7"/>
+        <circle cx="194" cy="621" r="7" fill="#A1A1AA"/>
+        <rect x="212" y="606" width="230" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="212" y="630" width="220" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="734" y="618" width="20" height="9" rx="4.5" fill="#E4E4E7"/>
+        <circle cx="194" cy="685" r="7" fill="#A1A1AA"/>
+        <rect x="212" y="670" width="230" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="212" y="694" width="220" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="734" y="682" width="20" height="9" rx="4.5" fill="#E4E4E7"/>
+      </g>
+      <g id="Trajet">
+        <rect x="791" y="132" width="609" height="643" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+        <rect x="809" y="156" width="50" height="14" rx="7" fill="#D4D4D8"/>
+        <text x="871" y="169" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#71717A">›</text>
+        <rect x="887" y="156" width="60" height="14" rx="7" fill="#D4D4D8"/>
+        <rect x="809" y="184" width="200" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="809" y="222" width="520" height="5" rx="2.5" fill="#E4E4E7"/>
+        <rect x="1351" y="218" width="30" height="12" rx="6" fill="#D4D4D8"/>
+        <circle cx="821" cy="279" r="7" fill="#A1A1AA"/>
+        <rect x="839" y="264" width="230" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="839" y="288" width="220" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1361" y="276" width="20" height="9" rx="4.5" fill="#E4E4E7"/>
+        <circle cx="821" cy="343" r="7" fill="#A1A1AA"/>
+        <rect x="839" y="328" width="230" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="839" y="352" width="220" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1361" y="340" width="20" height="9" rx="4.5" fill="#E4E4E7"/>
+        <circle cx="821" cy="407" r="7" fill="#A1A1AA"/>
+        <rect x="839" y="392" width="230" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="839" y="416" width="220" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1361" y="404" width="20" height="9" rx="4.5" fill="#E4E4E7"/>
+        <circle cx="821" cy="471" r="7" fill="#A1A1AA"/>
+        <rect x="839" y="456" width="230" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="839" y="480" width="220" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1361" y="468" width="20" height="9" rx="4.5" fill="#E4E4E7"/>
+        <circle cx="821" cy="535" r="7" fill="#A1A1AA"/>
+        <rect x="839" y="520" width="230" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="839" y="544" width="220" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1361" y="532" width="20" height="9" rx="4.5" fill="#E4E4E7"/>
+        <circle cx="821" cy="599" r="7" fill="#A1A1AA"/>
+        <rect x="839" y="584" width="230" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="839" y="608" width="220" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1361" y="596" width="20" height="9" rx="4.5" fill="#E4E4E7"/>
+        <circle cx="821" cy="663" r="7" fill="#A1A1AA"/>
+        <rect x="839" y="648" width="230" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="839" y="672" width="220" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1361" y="660" width="20" height="9" rx="4.5" fill="#E4E4E7"/>
+        <circle cx="821" cy="727" r="7" fill="#A1A1AA"/>
+        <rect x="839" y="712" width="230" height="12" rx="6" fill="#D4D4D8"/>
+        <rect x="839" y="736" width="220" height="9" rx="4.5" fill="#E4E4E7"/>
+        <rect x="1361" y="724" width="20" height="9" rx="4.5" fill="#E4E4E7"/>
+      </g>
+    </g>
+  </g>
+</svg>

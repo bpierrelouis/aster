@@ -10,7 +10,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | --- | --- | --- | --- |
 | [design/README.md](../design/README.md) | Ressource de préparation | [2.5](#design-readme) | 14/11/2026 |
 | [design/charte-graphique/index.html](../design/charte-graphique/index.html) | Ressource de préparation | [2.2](#design-charte-graphique-index) | 14/11/2026 |
-| [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [3.0](#design-maquettes-index) | 15/11/2026 |
+| [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [3.1](#design-maquettes-index) | 16/11/2026 |
 | [docs/01-CONTEXTE/00-GLOSSAIRE.md](../docs/01-CONTEXTE/00-GLOSSAIRE.md) | Production destinée à la remise | [7.0](#00-glossaire) | 16/11/2026 |
 | [docs/01-CONTEXTE/01-CONSIGNES.md](../docs/01-CONTEXTE/01-CONSIGNES.md) | Source fournie par l’encadrement | [1.4](#01-consignes) | 14/11/2026 |
 | [docs/01-CONTEXTE/02-CADRAGE.md](../docs/01-CONTEXTE/02-CADRAGE.md) | Source de travail interne | [8.0](#02-cadrage) | 16/11/2026 |
@@ -83,7 +83,8 @@ Fichier : [design/maquettes/index.html](../design/maquettes/index.html) · Resso
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.0 | 15/11/2026 | Section RIGEL (application mobile) et bilan d’un recensement | en vigueur | — |
+| 3.1 | 16/11/2026 | Bilan d’un recensement : l’administrateur l’utilise, le super administrateur le suit | en vigueur | — |
+| 3.0 | 15/11/2026 | Section RIGEL (application mobile) et bilan d’un recensement | `2ce55f7` | [archive](design/maquettes/maquettes-v3.0-2026-11-15.html) |
 | 2.0 | 13/11/2026 | Ajouter les maquettes simplifiées à côté des captures | `bf823e8` | [archive](design/maquettes/maquettes-v2.0-2026-11-13.html) |
 | 1.0 | 13/11/2026 | Présenter les écrans de l'application par module et par profil | `e594af2` | [archive](design/maquettes/maquettes-v1.0-2026-11-13.html) |
 

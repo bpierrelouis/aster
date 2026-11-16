@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>RIGEL — Accueil</title>
+  <g id="RIGEL — Accueil">
+<rect x="0" y="0" width="390" height="844" rx="0" fill="#F4F4F5" id="Fond"/>
+<g id="Marque">
+<path transform="translate(22 30) scale(0.6)" fill="#52525B" d="M20 0C21.5 13 27 18.5 40 20C27 21.5 21.5 27 20 40C18.5 27 13 21.5 0 20C13 18.5 18.5 13 20 0Z"/>
+<text x="70" y="50" font-family="Inter, Arial, Helvetica, sans-serif" font-size="18" font-weight="500" fill="#27272A">Recensement</text>
+</g>
+<g id="Opération">
+<rect x="16" y="84" width="358" height="176" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="36" y="118" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#71717A">RECENSEMENT · ÉCOLE</text>
+<text x="36" y="150" font-family="Inter, Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#27272A">Recensement du bâtiment A</text>
+<text x="36" y="178" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#71717A">Jusqu’au …</text>
+<line x1="36" y1="198" x2="354" y2="198" stroke="#E4E4E7"/>
+<g id="Pastille À jour">
+<rect x="36" y="213" width="84" height="26" rx="13" fill="#E4E4E7"/>
+<text x="78.0" y="231" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">À jour</text>
+</g>
+<polyline points="344,220 350,226 344,232" fill="none" stroke="#71717A" stroke-width="1.5" stroke-linejoin="round"/>
+</g>
+<g id="Scanner">
+<rect x="16" y="278" width="358" height="92" rx="30" fill="#52525B"/>
+<rect x="40" y="311" width="24" height="24" rx="6.0" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+<text x="86" y="318" font-family="Inter, Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#FFFFFF">Scanner</text>
+<text x="86" y="344" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#FFFFFF">Salle ou matériel</text>
+</g>
+<g id="Explorer">
+<rect x="16" y="382" width="358" height="92" rx="30" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="40" y="415" width="24" height="24" rx="6.0" fill="none" stroke="#52525B" stroke-width="1.5"/>
+<text x="86" y="422" font-family="Inter, Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#27272A">Explorer</text>
+<text x="86" y="448" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">Salles et stock</text>
+</g>
+<text x="195" y="516" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#71717A" text-anchor="middle">Saisie manuelle</text>
+</g>
+</svg>

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>RIGEL — Matériel affecté ailleurs</title>
+  <g id="RIGEL — Matériel affecté ailleurs">
+<rect x="0" y="0" width="390" height="844" rx="0" fill="#F4F4F5" id="Fond"/>
+<g id="En-tête">
+<g id="Retour">
+<circle cx="38" cy="40" r="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<polyline points="41,33 34,40 41,47" fill="none" stroke="#52525B" stroke-width="1.8" stroke-linejoin="round"/>
+</g>
+<text x="76" y="48" font-family="Inter, Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#27272A">Unité centrale …</text>
+</g>
+<g id="Fiche">
+<rect x="16" y="76" width="358" height="312" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<rect x="36" y="96" width="44" height="44" rx="12" fill="#E4E4E7"/>
+<text x="96" y="112" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#71717A">UNITÉ CENTRALE</text>
+<text x="96" y="134" font-family="Inter, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#27272A">MAT-…</text>
+<g id="Marque">
+<line x1="36" y1="142" x2="354" y2="142" stroke="#E4E4E7"/>
+<text x="36" y="168" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">Marque</text>
+<text x="200" y="168" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#27272A">Lenovo</text>
+</g>
+<g id="Numéro de série">
+<line x1="36" y1="186" x2="354" y2="186" stroke="#E4E4E7"/>
+<text x="36" y="212" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">Numéro de série</text>
+<text x="200" y="212" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#27272A">…</text>
+</g>
+<g id="Affectation">
+<line x1="36" y1="230" x2="354" y2="230" stroke="#E4E4E7"/>
+<text x="36" y="256" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">Affectation</text>
+<text x="200" y="256" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#27272A">A105</text>
+</g>
+<g id="État">
+<line x1="36" y1="274" x2="354" y2="274" stroke="#E4E4E7"/>
+<text x="36" y="300" font-family="Inter, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#71717A">État</text>
+</g>
+<g id="Pastille En service">
+<rect x="200" y="300" width="96" height="26" rx="13" fill="#E4E4E7"/>
+<text x="248.0" y="318" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">En service</text>
+</g>
+<g id="Pastille Installé">
+<rect x="200" y="334" width="80" height="26" rx="13" fill="#E4E4E7"/>
+<text x="240.0" y="352" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#52525B" text-anchor="middle">Installé</text>
+</g>
+</g>
+<g id="Bouton Accepter ici">
+<rect x="16" y="406" width="358" height="52" rx="26.0" fill="#52525B"/>
+<text x="195.0" y="438.0" font-family="Inter, Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#FFFFFF" text-anchor="middle">Accepter ici</text>
+</g>
+<g id="Bouton Ramener dans A105">
+<rect x="16" y="468" width="358" height="52" rx="26.0" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="195.0" y="500.0" font-family="Inter, Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#27272A" text-anchor="middle">Ramener dans A105</text>
+</g>
+<g id="Bouton Mettre au stock">
+<rect x="16" y="530" width="358" height="52" rx="26.0" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="195.0" y="562.0" font-family="Inter, Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#27272A" text-anchor="middle">Mettre au stock</text>
+</g>
+</g>
+</svg>

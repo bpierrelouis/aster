@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <title>RIGEL — Code inconnu</title>
+  <g id="RIGEL — Code inconnu">
+<rect x="0" y="0" width="390" height="844" rx="0" fill="#F4F4F5" id="Fond"/>
+<g id="En-tête">
+<g id="Retour">
+<circle cx="38" cy="40" r="22" fill="#FFFFFF" stroke="#D4D4D8"/>
+<polyline points="41,33 34,40 41,47" fill="none" stroke="#52525B" stroke-width="1.8" stroke-linejoin="round"/>
+</g>
+<text x="76" y="48" font-family="Inter, Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#27272A">Matériel inconnu</text>
+</g>
+<g id="Code lu">
+<rect x="16" y="76" width="358" height="86" rx="24" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="36" y="108" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#71717A">CODE LU</text>
+<text x="36" y="136" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="500" fill="#27272A">PF4KX29T</text>
+</g>
+<g id="Avertissement">
+<rect x="16" y="178" width="358" height="98" rx="18" fill="#E4E4E7" stroke="#A1A1AA"/>
+<rect x="36" y="202" width="300" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="36" y="226" width="280" height="12" rx="6.0" fill="#E4E4E7"/>
+<rect x="36" y="250" width="180" height="12" rx="6.0" fill="#E4E4E7"/>
+</g>
+<g id="Bouton Installer ici">
+<rect x="16" y="292" width="358" height="52" rx="26.0" fill="#52525B"/>
+<text x="195.0" y="324.0" font-family="Inter, Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#FFFFFF" text-anchor="middle">Installer ici</text>
+</g>
+<g id="Bouton Annuler">
+<rect x="16" y="354" width="358" height="52" rx="26.0" fill="#FFFFFF" stroke="#D4D4D8"/>
+<text x="195.0" y="386.0" font-family="Inter, Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#27272A" text-anchor="middle">Annuler</text>
+</g>
+</g>
+</svg>
