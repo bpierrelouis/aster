@@ -1,8 +1,8 @@
 /* ==========================================================================
    Référentiels ORION : types de matériel, états, statuts de remontée,
    profils. Une entité = une icône + une couleur, partout dans l'application.
-   Sources : docs/01-CONTEXTE/00-GLOSSAIRE, docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION,
-   docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.
+   Sources : docs/01-CONTEXTE/01-GLOSSAIRE, docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION,
+   docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-MATRICE-DROITS.
    ========================================================================== */
 
 import { DAY } from './format.ts';

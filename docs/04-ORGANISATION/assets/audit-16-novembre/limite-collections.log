@@ -1,6 +1,0 @@
-INFO enregistrement compte=cpt-num-admin profil=admin revision=1
-PASS 20000 processus : écriture préférences seules acceptée
-INFO enregistrement compte=cpt-num-admin profil=admin revision=2
-PASS 20000 processus : écriture complète acceptée
-CONFIRMED 20001 processus : écriture préférences seules refusée400 Données invalides. sans modifier aucun processus
-CONFIRMED 20001 processus : écriture complète refusée400 Données invalides. sans modifier aucun processus

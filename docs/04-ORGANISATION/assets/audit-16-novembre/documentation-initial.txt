@@ -1,2 +1,0 @@
-0 erreur(s), 0 avertissement(s).
-Contrôle structurel seulement : ancres, cardinalités, rendu et cohérence métier à relire.

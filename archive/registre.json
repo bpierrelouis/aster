@@ -286,7 +286,7 @@
     ],
     "retire": "Retiré le 13/11/2026 : Proposition de tableau de bord remplacée par les captures de l'application"
   },
-  "docs/01-CONTEXTE/00-GLOSSAIRE.md": {
+  "docs/01-CONTEXTE/01-GLOSSAIRE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -370,101 +370,122 @@
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/01-CONTEXTE/",
         "archive": null,
-        "commit": "69eaf4e"
+        "commit": "69eaf4e",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-14",
         "modification": "Définir RIGEL et M42",
         "archive": null,
-        "commit": "21c57cf"
+        "commit": "21c57cf",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
       },
       {
         "version": "3.1",
         "date": "2026-11-14",
         "modification": "RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95)",
         "archive": null,
-        "commit": "1162c04"
+        "commit": "1162c04",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
       },
       {
         "version": "3.2",
         "date": "2026-11-14",
         "modification": "Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération",
         "archive": null,
-        "commit": "6219944"
+        "commit": "6219944",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
       },
       {
         "version": "3.3",
         "date": "2026-11-14",
         "modification": "RIGEL : accepter sur place ou ramener (RG-96)",
         "archive": null,
-        "commit": "07a0096"
+        "commit": "07a0096",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
       },
       {
         "version": "3.4",
         "date": "2026-11-14",
         "modification": "Système d’exploitation ; recensement, installation, écart et constat",
         "archive": null,
-        "commit": "186f904"
+        "commit": "186f904",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
       },
       {
         "version": "3.5",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Termes whitelist et blacklist",
         "archive": null,
-        "commit": "70bd202"
+        "commit": "70bd202",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
       },
       {
         "version": "4.0",
         "date": "2026-11-15",
         "modification": "Déplacement, opération et paquet ; recensement et installation, types d’opération",
         "archive": null,
-        "commit": "26885dc"
+        "commit": "26885dc",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
       },
       {
         "version": "5.0",
         "date": "2026-11-15",
         "modification": "RIGEL défini selon l’architecture cible",
         "archive": null,
-        "commit": "04c54ca"
+        "commit": "04c54ca",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
       },
       {
         "version": "5.1",
         "date": "2026-11-15",
         "modification": "Acteur de supervision aligné sur RG-55",
         "archive": null,
-        "commit": "0f1761c"
+        "commit": "0f1761c",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
       },
       {
         "version": "5.2",
         "date": "2026-11-15",
         "modification": "Identifiant Id_compte_Windows",
         "archive": null,
-        "commit": "1237188"
+        "commit": "1237188",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
       },
       {
         "version": "5.3",
         "date": "2026-11-15",
         "modification": "Termes ajoutés : intervention, compte ORION, étape de remontée, type de problème, C1NP, CCT ; API précisée",
         "archive": null,
-        "commit": "60a0e11"
+        "commit": "60a0e11",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
       },
       {
         "version": "6.0",
         "date": "2026-11-16",
         "modification": "Administrateur sans confirmation des installations ni RIGEL",
         "archive": null,
-        "commit": "9bb9802"
+        "commit": "9bb9802",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
       },
       {
         "version": "7.0",
         "date": "2026-11-16",
         "modification": "L’administrateur hérite des droits du gestionnaire ; acteurs abstraits ajustés",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/01-CONTEXTE/00-GLOSSAIRE.md"
+      },
+      {
+        "version": "7.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/01-CONTEXTE/01-CONSIGNES.md": {
+  "docs/01-CONTEXTE/02-CONSIGNES.md": {
     "destination": "Source fournie par l’encadrement",
     "versions": [
       {
@@ -500,11 +521,19 @@
         "version": "1.4",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/01-CONTEXTE/",
+        "archive": null,
+        "commit": "69eaf4e",
+        "chemin": "docs/01-CONTEXTE/01-CONSIGNES.md"
+      },
+      {
+        "version": "1.5",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/01-CONTEXTE/02-CADRAGE.md": {
+  "docs/01-CONTEXTE/03-CADRAGE.md": {
     "destination": "Source de travail interne",
     "versions": [
       {
@@ -616,108 +645,130 @@
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/01-CONTEXTE/",
         "archive": null,
-        "commit": "69eaf4e"
+        "commit": "69eaf4e",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "5.0",
         "date": "2026-11-14",
         "modification": "Nommer M42 comme option d’agent ASTER",
         "archive": null,
-        "commit": "e99107c"
+        "commit": "e99107c",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "5.1",
         "date": "2026-11-14",
         "modification": "Notifications et tableau de bord du parc selon RG-36 et RG-37",
         "archive": null,
-        "commit": "2ce55f7"
+        "commit": "2ce55f7",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "5.2",
         "date": "2026-11-15",
         "modification": "Consigne l’autorisation du stockage NFSv4 pour la cible ; Consigne le stockage NFSv4 et RIGEL sans relais dans la cible",
         "archive": null,
-        "commit": "e6b9ffd"
+        "commit": "e6b9ffd",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "5.3",
         "date": "2026-11-15",
         "modification": "Création du premier compte d’un espace neuf, d’après l’application",
         "archive": null,
-        "commit": "24f0e4e"
+        "commit": "24f0e4e",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "6.0",
         "date": "2026-11-15",
         "modification": "RIGEL reporté aux §§ 19 et 23 ; simulateur et éléments en place",
         "archive": null,
-        "commit": "04c54ca"
+        "commit": "04c54ca",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "6.1",
         "date": "2026-11-15",
         "modification": "Réponses de l’application sur l’alerte de processus blacklisté, la portée bâtiment et les listes",
         "archive": null,
-        "commit": "0f1761c"
+        "commit": "0f1761c",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "6.2",
         "date": "2026-11-15",
         "modification": "Décisions du 13 novembre reportées : identifiants, adresse MAC, dates du compte",
         "archive": null,
-        "commit": "1237188"
+        "commit": "1237188",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "6.3",
         "date": "2026-11-15",
         "modification": "Journal applicatif reporté aux §§ 18 et 21",
         "archive": null,
-        "commit": "60a0e11"
+        "commit": "60a0e11",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "6.4",
         "date": "2026-11-15",
         "modification": "Réponses de l’application reportées aux questions déjà résolues ; prochain rendez-vous à fixer",
         "archive": null,
-        "commit": "4268db6"
+        "commit": "4268db6",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "6.5",
         "date": "2026-11-15",
         "modification": "Version publique de /api/infos, attendue sur le C1NP",
         "archive": null,
-        "commit": "3017d43"
+        "commit": "3017d43",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "6.6",
         "date": "2026-11-15",
         "modification": "Limitation de débit en place",
         "archive": null,
-        "commit": "75615df"
+        "commit": "75615df",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "7.0",
         "date": "2026-11-16",
         "modification": "Les productions suivent l’état actuel ; écarts présentés au client",
         "archive": null,
-        "commit": "9bb9802"
+        "commit": "9bb9802",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "7.1",
         "date": "2026-11-16",
         "modification": "Réponses actuelles reportées : unité centrale du poste, filtres",
         "archive": null,
-        "commit": "85d83bc"
+        "commit": "85d83bc",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
       },
       {
         "version": "8.0",
         "date": "2026-11-16",
         "modification": "Décision du 16 novembre sur les droits des administrateurs reportée",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/01-CONTEXTE/02-CADRAGE.md"
+      },
+      {
+        "version": "8.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md": {
+  "docs/01-CONTEXTE/04-COMPTE-RENDU-ENTRETIENS.md": {
     "destination": "Source de travail interne",
     "versions": [
       {
@@ -767,11 +818,19 @@
         "version": "2.1",
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/01-CONTEXTE/",
+        "archive": null,
+        "commit": "69eaf4e",
+        "chemin": "docs/01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md"
+      },
+      {
+        "version": "2.2",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md": {
+  "docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -802,38 +861,50 @@
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/01-MODELISATION-METIER/",
         "archive": null,
-        "commit": "69eaf4e"
+        "commit": "69eaf4e",
+        "chemin": "docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-14",
         "modification": "Nommer M42 comme agent candidat",
         "archive": null,
-        "commit": "21c57cf"
+        "commit": "21c57cf",
+        "chemin": "docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-14",
         "modification": "Mise à jour d’après l’état actuel : super administrateur, MindefConnect, RIGEL, solution d’administration des postes, PDF à la demande, traitement par le gestionnaire",
         "archive": null,
-        "commit": "6a42b9f"
+        "commit": "6a42b9f",
+        "chemin": "docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md"
       },
       {
         "version": "4.0",
         "date": "2026-11-15",
         "modification": "RIGEL présenté selon l’architecture cible, sans relais",
         "archive": null,
-        "commit": "04c54ca"
+        "commit": "04c54ca",
+        "chemin": "docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md"
       },
       {
         "version": "5.0",
         "date": "2026-11-16",
         "modification": "Administrateur relié à RIGEL, aux installations et au traitement des remontées",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md"
+      },
+      {
+        "version": "5.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md": {
+  "docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -878,38 +949,50 @@
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/01-MODELISATION-METIER/",
         "archive": null,
-        "commit": "69eaf4e"
+        "commit": "69eaf4e",
+        "chemin": "docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-14",
         "modification": "Mise à jour d’après l’état actuel : super administrateur, MindefConnect, RIGEL, solution d’administration des postes, PDF à la demande, traitement par le gestionnaire",
         "archive": null,
-        "commit": "6a42b9f"
+        "commit": "6a42b9f",
+        "chemin": "docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md"
       },
       {
         "version": "2.1",
         "date": "2026-11-15",
         "modification": "Termes whitelist et blacklist",
         "archive": null,
-        "commit": "70bd202"
+        "commit": "70bd202",
+        "chemin": "docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md"
       },
       {
         "version": "2.2",
         "date": "2026-11-15",
         "modification": "Constats RIGEL transmis directement à ORION",
         "archive": null,
-        "commit": "04c54ca"
+        "commit": "04c54ca",
+        "chemin": "docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-16",
         "modification": "Traitement, installations et RIGEL ouverts aux administrateurs",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -985,89 +1068,319 @@
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
         "archive": null,
-        "commit": "69eaf4e"
+        "commit": "69eaf4e",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-14",
         "modification": "RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95)",
         "archive": null,
-        "commit": "1162c04"
+        "commit": "1162c04",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md"
       },
       {
         "version": "4.0",
         "date": "2026-11-14",
         "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération",
         "archive": null,
-        "commit": "6219944"
+        "commit": "6219944",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md"
       },
       {
         "version": "5.0",
         "date": "2026-11-14",
         "modification": "RG-96 : lieu ouvert dans RIGEL ; matériel trouvé ailleurs accepté sur place ou ramené ; RG-93 et RG-95 ajustées",
         "archive": null,
-        "commit": "07a0096"
+        "commit": "07a0096",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md"
       },
       {
         "version": "6.0",
         "date": "2026-11-14",
         "modification": "RG-92 à RG-96 simplifiées : installation distincte du recensement, téléphone lié, code inconnu ajouté, matériel mal placé",
         "archive": null,
-        "commit": "186f904"
+        "commit": "186f904",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md"
       },
       {
         "version": "6.1",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; RG-21 : le formateur ne signale que des matériels d’une salle",
         "archive": null,
-        "commit": "bf1cfba"
+        "commit": "bf1cfba",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md"
       },
       {
         "version": "7.0",
         "date": "2026-11-14",
         "modification": "RG-36 et RG-37 alignées sur l’application, RG-39 étendue au super administrateur",
         "archive": null,
-        "commit": "2ce55f7"
+        "commit": "2ce55f7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md"
       },
       {
         "version": "8.0",
         "date": "2026-11-15",
         "modification": "RG-77 réduite à la vue et à la réinitialisation des postes ; RG-97 à RG-100",
         "archive": null,
-        "commit": "70bd202"
+        "commit": "70bd202",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md"
       },
       {
         "version": "9.0",
         "date": "2026-11-15",
         "modification": "RG-22 et RG-81 sur une seule salle ; étage obligatoire (RG-61)",
         "archive": null,
-        "commit": "0f1761c"
+        "commit": "0f1761c",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md"
       },
       {
         "version": "10.0",
         "date": "2026-11-15",
         "modification": "RG-44 cite l’adresse IP du poste ; RG-43 renomme Id_compte_Windows",
         "archive": null,
-        "commit": "1237188"
+        "commit": "1237188",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md"
       },
       {
         "version": "11.0",
         "date": "2026-11-15",
         "modification": "RG-79 : la remontée reste rattachée à l’école de sa création",
         "archive": null,
-        "commit": "8be49e9"
+        "commit": "8be49e9",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md"
       },
       {
         "version": "12.0",
         "date": "2026-11-16",
         "modification": "RG-15 réserve au gestionnaire la confirmation des installations et RIGEL",
         "archive": null,
-        "commit": "9bb9802"
+        "commit": "9bb9802",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md"
       },
       {
         "version": "13.0",
         "date": "2026-11-16",
         "modification": "L'administrateur hérite des droits du gestionnaire",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md"
+      },
+      {
+        "version": "13.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
+        "resume": "Consolider le cadrage et épurer les diagrammes",
+        "commit": "874689d",
+        "chemin": "docs/08-DCU-GESTION-PARC.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Formaliser les profils et leurs autorisations",
+        "commit": "f7310c1",
+        "chemin": "docs/08-DCU-GESTION-PARC.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-09",
+        "modification": "Harmoniser les diagrammes de cas d'utilisation",
+        "commit": "af0e24e",
+        "chemin": "docs/08-DCU-GESTION-PARC.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-12",
+        "modification": "Renommer le projet en ORION dans tout le dépôt",
+        "archive": null,
+        "commit": "e072d65",
+        "chemin": "docs/08-DCU-GESTION-PARC.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null,
+        "commit": "186f904",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md"
+      },
+      {
+        "version": "1.5",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; DCU complété d’après l’application",
+        "archive": null,
+        "commit": "36f4195",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-16",
+        "modification": "Utilisateur de RIGEL ajouté ; installation et garantie ouvertes aux administrateurs",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
+        "resume": "Consolider le cadrage et épurer les diagrammes",
+        "commit": "874689d",
+        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations",
+        "resume": "Formaliser les profils et leurs autorisations",
+        "commit": "f7310c1",
+        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "commit": "a592d58",
+        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-09",
+        "modification": "Harmoniser les diagrammes de cas d'utilisation",
+        "commit": "af0e24e",
+        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-12",
+        "modification": "Renommer le projet en ORION dans tout le dépôt",
+        "commit": "e072d65",
+        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
+      },
+      {
+        "version": "1.5",
+        "date": "2026-11-13",
+        "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
+        "archive": null,
+        "commit": "ddc3262",
+        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
+      },
+      {
+        "version": "1.6",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null,
+        "commit": "69eaf4e",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-15",
+        "modification": "DCU complété d’après l’application",
+        "archive": null,
+        "commit": "36f4195",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-15",
+        "modification": "Vue des postes ; catalogue des applications en V2",
+        "archive": null,
+        "commit": "70bd202",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-02",
+        "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
+        "resume": "Consolider le cadrage et épurer les diagrammes",
+        "commit": "874689d",
+        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-03",
+        "modification": "Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations",
+        "resume": "Formaliser les profils et leurs autorisations",
+        "commit": "f7310c1",
+        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-08",
+        "modification": "Intégrer le retour client du 4 novembre",
+        "commit": "a592d58",
+        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-09",
+        "modification": "Harmoniser les diagrammes de cas d'utilisation",
+        "commit": "af0e24e",
+        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-12",
+        "modification": "Renommer le projet en ORION dans tout le dépôt",
+        "archive": null,
+        "commit": "e072d65",
+        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
+      },
+      {
+        "version": "1.5",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
+        "archive": null,
+        "commit": "69eaf4e",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-15",
+        "modification": "DCU complété d’après l’application",
+        "archive": null,
+        "commit": "36f4195",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
@@ -1185,188 +1498,7 @@
       }
     ]
   },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-02",
-        "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
-        "resume": "Consolider le cadrage et épurer les diagrammes",
-        "commit": "874689d",
-        "chemin": "docs/08-DCU-GESTION-PARC.md"
-      },
-      {
-        "version": "1.1",
-        "date": "2026-11-03",
-        "modification": "Formaliser les profils et leurs autorisations",
-        "commit": "f7310c1",
-        "chemin": "docs/08-DCU-GESTION-PARC.md"
-      },
-      {
-        "version": "1.2",
-        "date": "2026-11-09",
-        "modification": "Harmoniser les diagrammes de cas d'utilisation",
-        "commit": "af0e24e",
-        "chemin": "docs/08-DCU-GESTION-PARC.md"
-      },
-      {
-        "version": "1.3",
-        "date": "2026-11-12",
-        "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "archive": null,
-        "commit": "e072d65",
-        "chemin": "docs/08-DCU-GESTION-PARC.md"
-      },
-      {
-        "version": "1.4",
-        "date": "2026-11-14",
-        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
-        "archive": null,
-        "commit": "186f904"
-      },
-      {
-        "version": "1.5",
-        "date": "2026-11-14",
-        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; DCU complété d’après l’application",
-        "archive": null,
-        "commit": "36f4195"
-      },
-      {
-        "version": "2.0",
-        "date": "2026-11-16",
-        "modification": "Utilisateur de RIGEL ajouté ; installation et garantie ouvertes aux administrateurs",
-        "archive": null
-      }
-    ]
-  },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-02",
-        "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
-        "resume": "Consolider le cadrage et épurer les diagrammes",
-        "commit": "874689d",
-        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
-      },
-      {
-        "version": "1.1",
-        "date": "2026-11-03",
-        "modification": "Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations",
-        "resume": "Formaliser les profils et leurs autorisations",
-        "commit": "f7310c1",
-        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
-      },
-      {
-        "version": "1.2",
-        "date": "2026-11-08",
-        "modification": "Intégrer le retour client du 4 novembre",
-        "commit": "a592d58",
-        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
-      },
-      {
-        "version": "1.3",
-        "date": "2026-11-09",
-        "modification": "Harmoniser les diagrammes de cas d'utilisation",
-        "commit": "af0e24e",
-        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
-      },
-      {
-        "version": "1.4",
-        "date": "2026-11-12",
-        "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "commit": "e072d65",
-        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
-      },
-      {
-        "version": "1.5",
-        "date": "2026-11-13",
-        "modification": "Remplacer « masterisation » et « réinstallation » par « réinitialisation » (réinstallation du système par réapplication d’une image)",
-        "archive": null,
-        "commit": "ddc3262",
-        "chemin": "docs/09-DCU-ADMINISTRATION-POSTES.md"
-      },
-      {
-        "version": "1.6",
-        "date": "2026-11-14",
-        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
-        "archive": null,
-        "commit": "69eaf4e"
-      },
-      {
-        "version": "2.0",
-        "date": "2026-11-15",
-        "modification": "DCU complété d’après l’application",
-        "archive": null,
-        "commit": "36f4195"
-      },
-      {
-        "version": "3.0",
-        "date": "2026-11-15",
-        "modification": "Vue des postes ; catalogue des applications en V2",
-        "archive": null
-      }
-    ]
-  },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-02",
-        "modification": "Sous dcu temporaires ; Consolider le cadrage et épurer les diagrammes",
-        "resume": "Consolider le cadrage et épurer les diagrammes",
-        "commit": "874689d",
-        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
-      },
-      {
-        "version": "1.1",
-        "date": "2026-11-03",
-        "modification": "Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations",
-        "resume": "Formaliser les profils et leurs autorisations",
-        "commit": "f7310c1",
-        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
-      },
-      {
-        "version": "1.2",
-        "date": "2026-11-08",
-        "modification": "Intégrer le retour client du 4 novembre",
-        "commit": "a592d58",
-        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
-      },
-      {
-        "version": "1.3",
-        "date": "2026-11-09",
-        "modification": "Harmoniser les diagrammes de cas d'utilisation",
-        "commit": "af0e24e",
-        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
-      },
-      {
-        "version": "1.4",
-        "date": "2026-11-12",
-        "modification": "Renommer le projet en ORION dans tout le dépôt",
-        "archive": null,
-        "commit": "e072d65",
-        "chemin": "docs/10-DCU-SUPERVISION-POSTES.md"
-      },
-      {
-        "version": "1.5",
-        "date": "2026-11-14",
-        "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
-        "archive": null,
-        "commit": "69eaf4e"
-      },
-      {
-        "version": "2.0",
-        "date": "2026-11-15",
-        "modification": "DCU complété d’après l’application",
-        "archive": null
-      }
-    ]
-  },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -1419,17 +1551,134 @@
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
         "archive": null,
-        "commit": "69eaf4e"
+        "commit": "69eaf4e",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md"
       },
       {
         "version": "4.0",
         "date": "2026-11-16",
         "modification": "Traitement des remontées confié au responsable des remontées",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-15",
+        "modification": "Administrer ORION et personnaliser son espace",
+        "archive": null,
+        "commit": "36f4195",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/22-DCU-ADMINISTRER-ORION.md"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-15",
+        "modification": "Désignation du premier super administrateur par l’exploitant",
+        "archive": null,
+        "commit": "87813f4",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/22-DCU-ADMINISTRER-ORION.md"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-15",
+        "modification": "Diagrammes d’activité des cas d’utilisation, d’après l’application",
+        "archive": null,
+        "commit": "36f4195",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/23-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-16",
+        "modification": "Installation, recensement et traitement ouverts aux administrateurs",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/23-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-15",
+        "modification": "Diagramme de classes métier en cinq vues",
+        "archive": null,
+        "commit": "36f4195",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/24-DIAGRAMME-CLASSES-METIER.md"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-15",
+        "modification": "Déplacement, opération, système d’exploitation et paquet, comme le MCD",
+        "archive": null,
+        "commit": "26885dc",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/24-DIAGRAMME-CLASSES-METIER.md"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-15",
+        "modification": "Diagrammes de séquence système",
+        "archive": null,
+        "commit": "36f4195",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/25-DIAGRAMMES-SEQUENCE-SYSTEME.md"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-16",
+        "modification": "Traitement, confirmation et RIGEL ouverts aux administrateurs",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/25-DIAGRAMMES-SEQUENCE-SYSTEME.md"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-MATRICE-DROITS.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -1497,107 +1746,106 @@
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
         "archive": null,
-        "commit": "69eaf4e"
+        "commit": "69eaf4e",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md"
       },
       {
         "version": "4.2",
         "date": "2026-11-14",
         "modification": "Recherche du formateur limitée aux matériels de salle, menant à la salle (#118)",
         "archive": null,
-        "commit": "009cfd5"
+        "commit": "009cfd5",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md"
       },
       {
         "version": "5.0",
         "date": "2026-11-14",
         "modification": "RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95)",
         "archive": null,
-        "commit": "1162c04"
+        "commit": "1162c04",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md"
       },
       {
         "version": "6.0",
         "date": "2026-11-14",
         "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération",
         "archive": null,
-        "commit": "6219944"
+        "commit": "6219944",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md"
       },
       {
         "version": "6.1",
         "date": "2026-11-14",
         "modification": "RIGEL : accepter sur place ou ramener (RG-96)",
         "archive": null,
-        "commit": "07a0096"
+        "commit": "07a0096",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md"
       },
       {
         "version": "6.2",
         "date": "2026-11-14",
         "modification": "Recensement, installation et anciens constats",
         "archive": null,
-        "commit": "186f904"
+        "commit": "186f904",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md"
       },
       {
         "version": "6.3",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null,
-        "commit": "fa8e2ad"
+        "commit": "fa8e2ad",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md"
       },
       {
         "version": "6.4",
         "date": "2026-11-14",
         "modification": "Formateur : remontées sur les matériels d’une salle seulement",
         "archive": null,
-        "commit": "2f50ac0"
+        "commit": "2f50ac0",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md"
       },
       {
         "version": "6.5",
         "date": "2026-11-14",
         "modification": "Notifications et tableau de bord du parc selon RG-36 et RG-37",
         "archive": null,
-        "commit": "2ce55f7"
+        "commit": "2ce55f7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md"
       },
       {
         "version": "7.0",
         "date": "2026-11-15",
         "modification": "Section import JSON et RIGEL ; espace personnel ; vue des postes",
         "archive": null,
-        "commit": "70bd202"
+        "commit": "70bd202",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md"
       },
       {
         "version": "8.0",
         "date": "2026-11-15",
         "modification": "Alerte de processus blacklisté non notifiée au formateur ; import renvoyé à RG-29",
         "archive": null,
-        "commit": "0f1761c"
+        "commit": "0f1761c",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md"
       },
       {
         "version": "9.0",
         "date": "2026-11-16",
         "modification": "Administrateurs : traitement, installations, RIGEL et alerte de garantie",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md"
+      },
+      {
+        "version": "9.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-14",
-        "modification": "Version Word générée depuis la fiche Markdown",
-        "archive": null,
-        "commit": "186f904"
-      },
-      {
-        "version": "1.1",
-        "date": "2026-11-14",
-        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
-        "archive": null,
-        "commit": "80413fc"
-      }
-    ],
-    "retire": "Retiré le 14/11/2026 : Version Word retirée : le Markdown fait foi"
-  },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNAIRE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -1657,72 +1905,58 @@
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM",
         "archive": null,
-        "commit": "69eaf4e"
+        "commit": "69eaf4e",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md"
       },
       {
         "version": "4.0",
         "date": "2026-11-14",
         "modification": "Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application",
         "archive": null,
-        "commit": "5383a9f"
+        "commit": "5383a9f",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md"
       },
       {
         "version": "4.1",
         "date": "2026-11-14",
         "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école ; Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération",
         "archive": null,
-        "commit": "6219944"
+        "commit": "6219944",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md"
       },
       {
         "version": "4.2",
         "date": "2026-11-14",
         "modification": "RIGEL : accepter sur place ou ramener (RG-96)",
         "archive": null,
-        "commit": "186f904"
+        "commit": "186f904",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md"
       },
       {
         "version": "4.3",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Toutes les actions du gestionnaire : import JSON, RIGEL détaillé, activité ; écrans RIGEL",
         "archive": null,
-        "commit": "2ce55f7"
+        "commit": "2ce55f7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md"
       },
       {
         "version": "5.0",
         "date": "2026-11-16",
         "modification": "Droits partagés avec les administrateurs",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md"
+      },
+      {
+        "version": "5.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-14",
-        "modification": "Version Word générée depuis la fiche Markdown",
-        "archive": null,
-        "commit": "186f904"
-      },
-      {
-        "version": "1.1",
-        "date": "2026-11-14",
-        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
-        "archive": null,
-        "commit": "fa8e2ad"
-      },
-      {
-        "version": "1.2",
-        "date": "2026-11-14",
-        "modification": "Régénérée depuis la fiche",
-        "archive": null,
-        "commit": "fa8e2ad"
-      }
-    ],
-    "retire": "Retiré le 14/11/2026 : Version Word retirée : le Markdown fait foi"
-  },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -1775,38 +2009,50 @@
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/",
         "archive": null,
-        "commit": "69eaf4e"
+        "commit": "69eaf4e",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-14",
         "modification": "Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application",
         "archive": null,
-        "commit": "fa8e2ad"
+        "commit": "fa8e2ad",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md"
       },
       {
         "version": "3.1",
         "date": "2026-11-14",
         "modification": "Formateur : remontées sur les matériels d’une salle seulement ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans",
         "archive": null,
-        "commit": "2ce55f7"
+        "commit": "2ce55f7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md"
       },
       {
         "version": "3.2",
         "date": "2026-11-15",
         "modification": "Termes whitelist et blacklist",
         "archive": null,
-        "commit": "70bd202"
+        "commit": "70bd202",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md"
       },
       {
         "version": "3.3",
         "date": "2026-11-16",
         "modification": "Traitement par le gestionnaire ou un administrateur",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md"
+      },
+      {
+        "version": "3.4",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.docx": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -1826,7 +2072,7 @@
     ],
     "retire": "Retiré le 14/11/2026 : Version Word retirée : le Markdown fait foi"
   },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -1894,59 +2140,101 @@
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM",
         "archive": null,
-        "commit": "69eaf4e"
+        "commit": "69eaf4e",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "4.0",
         "date": "2026-11-14",
         "modification": "Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application",
         "archive": null,
-        "commit": "5383a9f"
+        "commit": "5383a9f",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "4.1",
         "date": "2026-11-14",
         "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école",
         "archive": null,
-        "commit": "186f904"
+        "commit": "186f904",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "4.2",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans",
         "archive": null,
-        "commit": "2ce55f7"
+        "commit": "2ce55f7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "4.3",
         "date": "2026-11-15",
         "modification": "Termes whitelist et blacklist ; catalogue, M42 et Linux en V2",
         "archive": null,
-        "commit": "70bd202"
+        "commit": "70bd202",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "4.4",
         "date": "2026-11-15",
         "modification": "Question ouverte sur le journal applicatif précisée",
         "archive": null,
-        "commit": "60a0e11"
+        "commit": "60a0e11",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "4.5",
         "date": "2026-11-16",
         "modification": "Liste des règles paginée, avec recherche et filtre par classement",
         "archive": null,
-        "commit": "9bb9802"
+        "commit": "9bb9802",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
       },
       {
         "version": "5.0",
         "date": "2026-11-16",
         "modification": "L’administrateur hérite des droits du gestionnaire",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md"
+      },
+      {
+        "version": "5.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.docx": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.docx": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-14",
+        "modification": "Version Word générée depuis la fiche Markdown",
+        "archive": null,
+        "commit": "186f904"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
+        "archive": null,
+        "commit": "fa8e2ad"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-14",
+        "modification": "Régénérée depuis la fiche",
+        "archive": null,
+        "commit": "fa8e2ad"
+      }
+    ],
+    "retire": "Retiré le 14/11/2026 : Version Word retirée : le Markdown fait foi"
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.docx": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -1966,7 +2254,7 @@
     ],
     "retire": "Retiré le 14/11/2026 : Version Word retirée : le Markdown fait foi"
   },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -2033,108 +2321,68 @@
         "date": "2026-11-14",
         "modification": "Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ ; Captures de l’application à la place des anciennes maquettes IHM",
         "archive": null,
-        "commit": "69eaf4e"
+        "commit": "69eaf4e",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md"
       },
       {
         "version": "4.0",
         "date": "2026-11-14",
         "modification": "Refaire d’après l’application : parcours écran par écran, RIGEL, noms actuels, captures de l’application",
         "archive": null,
-        "commit": "5383a9f"
+        "commit": "5383a9f",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md"
       },
       {
         "version": "4.1",
         "date": "2026-11-14",
         "modification": "Installation confirmée par le gestionnaire seul (clic ou RIGEL) ; super administrateur : autres super administrateurs et école d’un administrateur ; un administrateur par école",
         "archive": null,
-        "commit": "186f904"
+        "commit": "186f904",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md"
       },
       {
         "version": "4.2",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans",
         "archive": null,
-        "commit": "2ce55f7"
+        "commit": "2ce55f7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md"
       },
       {
         "version": "5.0",
         "date": "2026-11-16",
         "modification": "Droits du gestionnaire sur toutes les écoles, sauf RIGEL",
-        "archive": null
-      }
-    ]
-  },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/22-DCU-ADMINISTRER-ORION.md": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-15",
-        "modification": "Administrer ORION et personnaliser son espace",
         "archive": null,
-        "commit": "36f4195"
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md"
       },
       {
-        "version": "2.0",
-        "date": "2026-11-15",
-        "modification": "Désignation du premier super administrateur par l’exploitant",
-        "archive": null
-      }
-    ]
-  },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/23-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-15",
-        "modification": "Diagrammes d’activité des cas d’utilisation, d’après l’application",
-        "archive": null,
-        "commit": "36f4195"
-      },
-      {
-        "version": "2.0",
+        "version": "5.1",
         "date": "2026-11-16",
-        "modification": "Installation, recensement et traitement ouverts aux administrateurs",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/24-DIAGRAMME-CLASSES-METIER.md": {
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.docx": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
         "version": "1.0",
-        "date": "2026-11-15",
-        "modification": "Diagramme de classes métier en cinq vues",
+        "date": "2026-11-14",
+        "modification": "Version Word générée depuis la fiche Markdown",
         "archive": null,
-        "commit": "36f4195"
+        "commit": "186f904"
       },
       {
-        "version": "2.0",
-        "date": "2026-11-15",
-        "modification": "Déplacement, opération, système d’exploitation et paquet, comme le MCD",
-        "archive": null
-      }
-    ]
-  },
-  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/25-DIAGRAMMES-SEQUENCE-SYSTEME.md": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-15",
-        "modification": "Diagrammes de séquence système",
+        "version": "1.1",
+        "date": "2026-11-14",
+        "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null,
-        "commit": "36f4195"
-      },
-      {
-        "version": "2.0",
-        "date": "2026-11-16",
-        "modification": "Traitement, confirmation et RIGEL ouverts aux administrateurs",
-        "archive": null
+        "commit": "80413fc"
       }
-    ]
+    ],
+    "retire": "Retiré le 14/11/2026 : Version Word retirée : le Markdown fait foi"
   },
   "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/DIAGRAMMES-ACTIVITE-CAS-UTILISATION-BROUILLON-V2.md": {
     "destination": "Brouillon interne",
@@ -2171,7 +2419,7 @@
     ],
     "retire": "Retiré le 15/11/2026 : Remplacé par le livrable 23-DIAGRAMMES-ACTIVITE-CAS-UTILISATION"
   },
-  "docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md": {
+  "docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -2210,31 +2458,42 @@
         "date": "2026-11-14",
         "modification": "Promouvoir en livrable de la phase Analyse ; intervention complétée (gardes, effets, fin)",
         "archive": null,
-        "commit": "fa8e2ad"
+        "commit": "fa8e2ad",
+        "chemin": "docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md"
       },
       {
         "version": "4.1",
         "date": "2026-11-14",
         "modification": "Intervention : état « En cours » de la demande et des postes ; Machines à états du matériel et du processus",
         "archive": null,
-        "commit": "36f4195"
+        "commit": "36f4195",
+        "chemin": "docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md"
       },
       {
         "version": "4.2",
         "date": "2026-11-15",
         "modification": "Termes whitelist et blacklist",
         "archive": null,
-        "commit": "70bd202"
+        "commit": "70bd202",
+        "chemin": "docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md"
       },
       {
         "version": "5.0",
         "date": "2026-11-16",
         "modification": "Traitement et confirmation ouverts aux administrateurs",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md"
+      },
+      {
+        "version": "5.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/03-ANALYSE/26-DIAGRAMME-CLASSES-ANALYSE.md": {
+  "docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -2242,31 +2501,42 @@
         "date": "2026-11-15",
         "modification": "Classes d’analyse boundary, control, entity",
         "archive": null,
-        "commit": "36f4195"
+        "commit": "36f4195",
+        "chemin": "docs/02-ANALYSE/03-ANALYSE/26-DIAGRAMME-CLASSES-ANALYSE.md"
       },
       {
         "version": "1.1",
         "date": "2026-11-15",
         "modification": "Déplacement et opération, comme le MCD",
         "archive": null,
-        "commit": "26885dc"
+        "commit": "26885dc",
+        "chemin": "docs/02-ANALYSE/03-ANALYSE/26-DIAGRAMME-CLASSES-ANALYSE.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-15",
         "modification": "API de RIGEL à la place du connecteur",
         "archive": null,
-        "commit": "04c54ca"
+        "commit": "04c54ca",
+        "chemin": "docs/02-ANALYSE/03-ANALYSE/26-DIAGRAMME-CLASSES-ANALYSE.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-16",
         "modification": "Responsable des remontées et utilisateur de RIGEL",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/03-ANALYSE/26-DIAGRAMME-CLASSES-ANALYSE.md"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md": {
+  "docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -2274,24 +2544,34 @@
         "date": "2026-11-15",
         "modification": "Classes de conception du serveur et du navigateur",
         "archive": null,
-        "commit": "36f4195"
+        "commit": "36f4195",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-15",
         "modification": "RIGEL selon la cible : API d’Express, sans relais ni connecteur ; RIGEL selon la cible : API d’Express, sans relais ni connecteur",
         "archive": null,
-        "commit": "04c54ca"
+        "commit": "04c54ca",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md"
       },
       {
         "version": "2.1",
         "date": "2026-11-15",
         "modification": "Routes et règle des opérations RIGEL renommées",
+        "archive": null,
+        "commit": "0867182",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md"
+      },
+      {
+        "version": "2.2",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md": {
+  "docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -2299,31 +2579,42 @@
         "date": "2026-11-15",
         "modification": "Séquences détaillées sur les objets réels",
         "archive": null,
-        "commit": "36f4195"
+        "commit": "36f4195",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-15",
         "modification": "Constat RIGEL transmis directement à Express ; Constat RIGEL transmis directement à Express",
         "archive": null,
-        "commit": "04c54ca"
+        "commit": "04c54ca",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md"
       },
       {
         "version": "2.1",
         "date": "2026-11-15",
         "modification": "Tables sans préfixe ; collections interventions et operations",
         "archive": null,
-        "commit": "0867182"
+        "commit": "0867182",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-16",
         "modification": "Traitement et RIGEL ouverts aux administrateurs",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md": {
+  "docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -2331,19 +2622,29 @@
         "date": "2026-11-15",
         "modification": "Modèle physique des données en UML (profil d’Ambler)",
         "archive": null,
-        "commit": "36f4195"
+        "commit": "36f4195",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md"
       },
       {
         "version": "2.0",
         "date": "2026-11-15",
         "modification": "Base du relais RIGEL retirée de la cible",
         "archive": null,
-        "commit": "04c54ca"
+        "commit": "04c54ca",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md"
       },
       {
         "version": "3.0",
         "date": "2026-11-15",
         "modification": "Tables sans préfixe orion_ ; Intervention, Operation et Deplacement",
+        "archive": null,
+        "commit": "0867182",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
@@ -2368,7 +2669,7 @@
     ],
     "retire": "Retiré le 15/11/2026 : Remplacé par les livrables de conception 27 à 29"
   },
-  "docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md": {
+  "docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -2445,74 +2746,91 @@
         "date": "2026-11-14",
         "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
         "archive": null,
-        "commit": "ca0187c"
+        "commit": "ca0187c",
+        "chemin": "docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "3.2",
         "date": "2026-11-14",
         "modification": "Corriger secrets, données, migrations, provisionnement, filtrage et éléments manquants",
         "archive": null,
-        "commit": "e1c2f59"
+        "commit": "e1c2f59",
+        "chemin": "docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "3.3",
         "date": "2026-11-14",
         "modification": "Donner les versions épinglées de HAProxy et Apache",
         "archive": null,
-        "commit": "8337387"
+        "commit": "8337387",
+        "chemin": "docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "3.4",
         "date": "2026-11-14",
         "modification": "Préciser que Logstash garde ses propres logs sur sa VM",
         "archive": null,
-        "commit": "28ed8d4"
+        "commit": "28ed8d4",
+        "chemin": "docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "3.5",
         "date": "2026-11-15",
         "modification": "Décrit la création du premier super administrateur d’une base neuve",
         "archive": null,
-        "commit": "8866971"
+        "commit": "8866971",
+        "chemin": "docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "3.6",
         "date": "2026-11-15",
         "modification": "Retire les identités de démonstration de l’annuaire remis et signale l’accès de présentation",
         "archive": null,
-        "commit": "c0ace77"
+        "commit": "c0ace77",
+        "chemin": "docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "4.0",
         "date": "2026-11-15",
         "modification": "Retient NFSv4.2 pour le stockage de l’architecture cible ; Retient NFSv4.2 pour le stockage cible et sert RIGEL par l’entrée et le back d’ORION",
         "archive": null,
-        "commit": "e6b9ffd"
+        "commit": "e6b9ffd",
+        "chemin": "docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "5.0",
         "date": "2026-11-15",
         "modification": "Durcissement du 15 novembre : entrée, Keycloak, collecteur, NFS, PostgreSQL, conteneurs, déploiement",
         "archive": null,
-        "commit": "75615df"
+        "commit": "75615df",
+        "chemin": "docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "5.1",
         "date": "2026-11-15",
         "modification": "Jeton du relais fourni par l’intégration continue à chaque déploiement",
         "archive": null,
-        "commit": "3fbaa9a"
+        "commit": "3fbaa9a",
+        "chemin": "docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
       },
       {
         "version": "5.2",
         "date": "2026-11-16",
         "modification": "Contrainte RIGEL réelle et cible distinguées ; stockage mobile précisé",
+        "archive": null,
+        "commit": "9bb9802",
+        "chemin": "docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md"
+      },
+      {
+        "version": "5.3",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ],
     "sans_entete": true
   },
-  "docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md": {
+  "docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -2566,68 +2884,34 @@
         "date": "2026-11-14",
         "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
         "archive": null,
-        "commit": "e99107c"
+        "commit": "e99107c",
+        "chemin": "docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md"
       },
       {
         "version": "2.2",
         "date": "2026-11-14",
         "modification": "Redessiner les quatre vues sans croisement et compléter les flux réels",
         "archive": null,
-        "commit": "e1c2f59"
+        "commit": "e1c2f59",
+        "chemin": "docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md"
       },
       {
         "version": "2.3",
         "date": "2026-11-15",
         "modification": "Trace tous les flux réels de la vue complète du démonstrateur ; Trace tous les flux réels de la vue complète et nomme le stockage NFS de la cible ; Trace tous les flux de la vue complète ; cible avec stockage NFS et RIGEL servi par l’entrée d’ORION",
+        "archive": null,
+        "commit": "e6b9ffd",
+        "chemin": "docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md"
+      },
+      {
+        "version": "2.4",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx": {
-    "destination": "Production destinée à la remise",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-13",
-        "modification": "Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word",
-        "resume": "Styliser les graphiques en SVG dans Word",
-        "commit": "b2a5a17",
-        "chemin": "docs/19-BACKLOG-ET-SUIVI-PROJET.docx"
-      },
-      {
-        "version": "1.1",
-        "date": "2026-11-13",
-        "modification": "Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP",
-        "archive": null,
-        "commit": "61abf4a",
-        "chemin": "docs/19-BACKLOG-ET-SUIVI-PROJET.docx"
-      },
-      {
-        "version": "1.2",
-        "date": "2026-11-14",
-        "modification": "Déplacer dans docs/04-ORGANISATION/",
-        "archive": null,
-        "commit": "69eaf4e",
-        "chemin": "docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx"
-      },
-      {
-        "version": "1.3",
-        "date": "2026-11-14",
-        "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
-        "archive": null,
-        "commit": "fa8e2ad"
-      },
-      {
-        "version": "1.4",
-        "date": "2026-11-14",
-        "modification": "Version Word régénérée (graphiques à jour)",
-        "archive": null,
-        "commit": "fa8e2ad"
-      }
-    ],
-    "retire": "Retiré le 14/11/2026 : Version Word retirée : le Markdown fait foi"
-  },
-  "docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md": {
+  "docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -2667,88 +2951,66 @@
         "date": "2026-11-14",
         "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
         "archive": null,
-        "commit": "e99107c"
+        "commit": "e99107c",
+        "chemin": "docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md"
       },
       {
         "version": "3.2",
         "date": "2026-11-14",
         "modification": "Actualiser les graphiques depuis le projet GitHub",
         "archive": null,
-        "commit": "b5f9cf9"
+        "commit": "b5f9cf9",
+        "chemin": "docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md"
       },
       {
         "version": "3.3",
         "date": "2026-11-14",
         "modification": "Reprendre les références de commits du brouillon de suivi",
         "archive": null,
-        "commit": "6a9d33c"
+        "commit": "6a9d33c",
+        "chemin": "docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md"
       },
       {
         "version": "3.4",
         "date": "2026-11-14",
         "modification": "Plus de version Word : le Markdown fait foi",
         "archive": null,
-        "commit": "5da7ebd"
+        "commit": "5da7ebd",
+        "chemin": "docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md"
       },
       {
         "version": "3.5",
         "date": "2026-11-15",
         "modification": "Référence le tracé des flux et la cible NFS et RIGEL",
         "archive": null,
-        "commit": "122f91b"
+        "commit": "122f91b",
+        "chemin": "docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md"
       },
       {
         "version": "4.0",
         "date": "2026-11-15",
         "modification": "Inclut RIGEL dans la clôture et actualise le suivi après audit",
         "archive": null,
-        "commit": "067e0b5"
+        "commit": "067e0b5",
+        "chemin": "docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md"
       },
       {
         "version": "5.0",
         "date": "2026-11-15",
         "modification": "Actualise les clôtures après confirmation de la recette",
+        "archive": null,
+        "commit": "cdeea37",
+        "chemin": "docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md"
+      },
+      {
+        "version": "5.1",
+        "date": "2026-11-16",
+        "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
   },
-  "docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md": {
-    "destination": "Brouillon interne",
-    "versions": [
-      {
-        "version": "1.0",
-        "date": "2026-11-13",
-        "modification": "Consolider le suivi des progressions",
-        "commit": "83658a3",
-        "chemin": "docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md"
-      },
-      {
-        "version": "1.1",
-        "date": "2026-11-13",
-        "modification": "Remplacer l’ancien nom par ORION et corriger le commit de la cible C1NP",
-        "archive": null,
-        "commit": "61abf4a",
-        "chemin": "docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md"
-      },
-      {
-        "version": "1.2",
-        "date": "2026-11-14",
-        "modification": "Déplacer dans docs/04-ORGANISATION/",
-        "archive": null,
-        "commit": "69eaf4e",
-        "chemin": "docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md"
-      },
-      {
-        "version": "1.3",
-        "date": "2026-11-14",
-        "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
-        "archive": null,
-        "commit": "e99107c"
-      }
-    ],
-    "retire": "Retiré le 14/11/2026 : Remplacé par le backlog et suivi du projet, qui reprend ses références"
-  },
-  "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md": {
+  "docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md": {
     "destination": "Pilotage interne",
     "versions": [
       {
@@ -2852,351 +3114,499 @@
         "date": "2026-11-14",
         "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
         "archive": null,
-        "commit": "e99107c"
+        "commit": "e99107c",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.4",
         "date": "2026-11-14",
         "modification": "RIGEL : installation d’une salle, recensement, appairage et traitement des écarts (RG-92 à RG-95)",
         "archive": null,
-        "commit": "1162c04"
+        "commit": "1162c04",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.5",
         "date": "2026-11-14",
         "modification": "Fiches descriptives à jour, brouillons Word retirés",
         "archive": null,
-        "commit": "5383a9f"
+        "commit": "5383a9f",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.6",
         "date": "2026-11-14",
         "modification": "Recensement lancé depuis ORION par le gestionnaire, téléphone lié à l’opération",
         "archive": null,
-        "commit": "6219944"
+        "commit": "6219944",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.7",
         "date": "2026-11-14",
         "modification": "RIGEL : accepter sur place ou ramener (RG-96)",
         "archive": null,
-        "commit": "07a0096"
+        "commit": "07a0096",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.8",
         "date": "2026-11-14",
         "modification": "Corrections de l’audit du 13 novembre réalisées",
         "archive": null,
-        "commit": "d092d37"
+        "commit": "d092d37",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.9",
         "date": "2026-11-14",
         "modification": "Comptes fictifs, tableau des comptes et changement de compte à la connexion ; réinitialisation des données préparée",
         "archive": null,
-        "commit": "b5ee002"
+        "commit": "b5ee002",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.10",
         "date": "2026-11-14",
         "modification": "Organisation du code et migrations réalisées ; amorçage de production et écarts du DAT ajoutés",
         "archive": null,
-        "commit": "186f904"
+        "commit": "186f904",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.11",
         "date": "2026-11-14",
         "modification": "RIGEL : installation et recensement consolidés, notion de campagne retirée",
         "archive": null,
-        "commit": "80413fc"
+        "commit": "80413fc",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.12",
         "date": "2026-11-14",
         "modification": "Consigner la mise à jour des statuts GitHub",
         "archive": null,
-        "commit": "baabbf7"
+        "commit": "baabbf7",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.13",
         "date": "2026-11-14",
         "modification": "Jetons « Accès de présentation » rétablis à la place du tableau des comptes",
         "archive": null,
-        "commit": "2a88faf"
+        "commit": "2a88faf",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.14",
         "date": "2026-11-14",
         "modification": "Actualiser déploiement, CI, adresse MAC et proxy de développement ; Actualiser adresse MAC, proxy de développement et suivi GitHub",
         "archive": null,
-        "commit": "6a9d33c"
+        "commit": "6a9d33c",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.15",
         "date": "2026-11-14",
         "modification": "Versions Word retirées",
         "archive": null,
-        "commit": "5da7ebd"
+        "commit": "5da7ebd",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.16",
         "date": "2026-11-14",
         "modification": "Cocher les corrections du DAT et des schémas",
         "archive": null,
-        "commit": "e1c2f59"
+        "commit": "e1c2f59",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.17",
         "date": "2026-11-14",
         "modification": "Cocher les versions de HAProxy et Apache",
         "archive": null,
-        "commit": "8337387"
+        "commit": "8337387",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.18",
         "date": "2026-11-14",
         "modification": "Cocher l'exception des logs de Logstash",
         "archive": null,
-        "commit": "28ed8d4"
+        "commit": "28ed8d4",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.19",
         "date": "2026-11-14",
         "modification": "Admettre les chemins sur les VM dans le DAT",
         "archive": null,
-        "commit": "d1239fb"
+        "commit": "d1239fb",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.20",
         "date": "2026-11-15",
         "modification": "Cocher les mots de passe des comptes ; Cocher les mots de passe des comptes",
         "archive": null,
-        "commit": "8ad0b2a"
+        "commit": "8ad0b2a",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.21",
         "date": "2026-11-15",
         "modification": "Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT ; Consigne la création du premier super administrateur et l’écart au DAT",
         "archive": null,
-        "commit": "8866971"
+        "commit": "8866971",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.22",
         "date": "2026-11-15",
         "modification": "Clôt le retrait des données de démonstration des livrables",
         "archive": null,
-        "commit": "c0ace77"
+        "commit": "c0ace77",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.23",
         "date": "2026-11-15",
         "modification": "Clôt le tracé des flux de la vue complète ; Clôt le tracé des flux de la vue complète et inscrit l’alignement de RIGEL dans la cible",
         "archive": null,
-        "commit": "e6b9ffd"
+        "commit": "e6b9ffd",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "4.24",
         "date": "2026-11-15",
         "modification": "Consigne la clôture des écarts du dossier d’architecture",
         "archive": null,
-        "commit": "122f91b"
+        "commit": "122f91b",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.0",
         "date": "2026-11-15",
         "modification": "M42, catalogue et postes Linux en V2 ; DCU et termes traités",
         "archive": null,
-        "commit": "70bd202"
+        "commit": "70bd202",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.1",
         "date": "2026-11-15",
         "modification": "MCD refait le 15 novembre ; renommage de la base et du code (#162)",
         "archive": null,
-        "commit": "d9bfc0c"
+        "commit": "d9bfc0c",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.2",
         "date": "2026-11-15",
         "modification": "MCD refait le 15 novembre ; renommage de la base et du code (#162)",
         "archive": null,
-        "commit": "1a774ec"
+        "commit": "1a774ec",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.3",
         "date": "2026-11-15",
         "modification": "Consigne l’audit de sécurité du 15 novembre et ses corrections ; Consigne l’audit de sécurité du 15 novembre et ses corrections",
         "archive": null,
-        "commit": "998171d"
+        "commit": "998171d",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.4",
         "date": "2026-11-15",
         "modification": "Consigne le déploiement des corrections de sécurité et l'épinglage des images",
         "archive": null,
-        "commit": "a94ec62"
+        "commit": "a94ec62",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.5",
         "date": "2026-11-15",
         "modification": "Consigne la CI réussie et les vérifications après déploiement",
         "archive": null,
-        "commit": "6a462c0"
+        "commit": "6a462c0",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.6",
         "date": "2026-11-15",
         "modification": "Consigne les tests d'intrusion du 15 novembre et leurs corrections",
         "archive": null,
-        "commit": "fe48601"
+        "commit": "fe48601",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.7",
         "date": "2026-11-15",
         "modification": "RIGEL dans le cadrage et la cible traité ; écart avec le code inscrit ; RIGEL dans le cadrage et la cible traité ; écart avec le code inscrit",
         "archive": null,
-        "commit": "04c54ca"
+        "commit": "04c54ca",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.8",
         "date": "2026-11-15",
         "modification": "Contradictions entre livrables traitées ; étage obligatoire côté serveur inscrit",
         "archive": null,
-        "commit": "0f1761c"
+        "commit": "0f1761c",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.9",
         "date": "2026-11-15",
         "modification": "Décisions du 13 novembre reportées",
         "archive": null,
-        "commit": "1237188"
+        "commit": "1237188",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.10",
         "date": "2026-11-15",
         "modification": "Informations non répercutées traitées ; limite des détections inscrite",
         "archive": null,
-        "commit": "60a0e11"
+        "commit": "60a0e11",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.11",
         "date": "2026-11-15",
         "modification": "Étage obligatoire et détections corrigés dans le code ; documentation du 15 novembre consignée",
         "archive": null,
-        "commit": "e3b635b"
+        "commit": "e3b635b",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.12",
         "date": "2026-11-15",
         "modification": "Questions du cadrage déjà résolues reportées",
         "archive": null,
-        "commit": "4268db6"
+        "commit": "4268db6",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.13",
         "date": "2026-11-15",
         "modification": "Lien remontée → école justifié ; préférences couvertes par le DCU 22",
         "archive": null,
-        "commit": "8be49e9"
+        "commit": "8be49e9",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.14",
         "date": "2026-11-15",
         "modification": "Noms de la base et du code alignés (#162)",
         "archive": null,
-        "commit": "0867182"
+        "commit": "0867182",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.15",
         "date": "2026-11-15",
         "modification": "Tests des points d’état faits ; version publique conservée",
         "archive": null,
-        "commit": "3017d43"
+        "commit": "3017d43",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.16",
         "date": "2026-11-15",
         "modification": "Durcissement reporté au DAT",
         "archive": null,
-        "commit": "75615df"
+        "commit": "75615df",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.17",
         "date": "2026-11-15",
         "modification": "Recette sur les VM consignée ; jeton du relais à fiabiliser",
         "archive": null,
-        "commit": "97191e8"
+        "commit": "97191e8",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "5.18",
         "date": "2026-11-15",
         "modification": "Jeton du relais fiabilisé ; RIGEL vérifié sur iOS",
         "archive": null,
-        "commit": "3fbaa9a"
+        "commit": "3fbaa9a",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "6.0",
         "date": "2026-11-15",
         "modification": "Suit les anomalies confirmées et les réserves de recette ; Ajoute le défaut mineur de versionnement corrigé",
         "archive": null,
-        "commit": "e4c7b0f"
+        "commit": "e4c7b0f",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "7.0",
         "date": "2026-11-15",
         "modification": "Distingue la recette VM validée du risque local de volume",
         "archive": null,
-        "commit": "cdeea37"
+        "commit": "cdeea37",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "7.1",
         "date": "2026-11-15",
         "modification": "CODE-04 et liste des règles à traiter",
         "archive": null,
-        "commit": "7779590"
+        "commit": "7779590",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "7.2",
         "date": "2026-11-15",
         "modification": "Renvoi vers le § 3.1 de l’audit",
         "archive": null,
-        "commit": "be52f06"
+        "commit": "be52f06",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "7.3",
         "date": "2026-11-16",
         "modification": "Corrections et décisions du 16 novembre consignées ; Corrections et décisions du 16 novembre consignées",
         "archive": null,
-        "commit": "9bb9802"
+        "commit": "9bb9802",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "7.4",
         "date": "2026-11-16",
         "modification": "#143 et #162 traités",
         "archive": null,
-        "commit": "85d83bc"
+        "commit": "85d83bc",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "7.5",
         "date": "2026-11-16",
         "modification": "Risques de sécurité résiduels arbitrés",
         "archive": null,
-        "commit": "07bb8ce"
+        "commit": "07bb8ce",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "7.6",
         "date": "2026-11-16",
         "modification": "Mot de passe jamais conservé ; données du téléphone effacées",
         "archive": null,
-        "commit": "49e01c4"
+        "commit": "49e01c4",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
       },
       {
         "version": "8.0",
         "date": "2026-11-16",
         "modification": "Décision du 16 novembre sur les droits des administrateurs consignée",
+        "archive": null,
+        "commit": "ddcfea7",
+        "chemin": "docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md"
+      },
+      {
+        "version": "9.0",
+        "date": "2026-11-16",
+        "modification": "Retirer la synthèse de l’audit du 16 novembre ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null
       }
     ]
+  },
+  "docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Créer le journal simulé des cérémonies et entretiens ; Corriger la fin du document ; Présenter les échanges comme journal de bord ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-13",
+        "modification": "Consolider le suivi des progressions ; Structurer le suivi Agile et les cérémonies ; Styliser les graphiques en SVG dans Word",
+        "resume": "Styliser les graphiques en SVG dans Word",
+        "commit": "b2a5a17",
+        "chemin": "docs/19-BACKLOG-ET-SUIVI-PROJET.docx"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-13",
+        "modification": "Remplacer l’ancien nom par ORION et corriger le lien du commit de la cible C1NP",
+        "archive": null,
+        "commit": "61abf4a",
+        "chemin": "docs/19-BACKLOG-ET-SUIVI-PROJET.docx"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/04-ORGANISATION/",
+        "archive": null,
+        "commit": "69eaf4e",
+        "chemin": "docs/04-ORGANISATION/19-BACKLOG-ET-SUIVI-PROJET.docx"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-14",
+        "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
+        "archive": null,
+        "commit": "fa8e2ad"
+      },
+      {
+        "version": "1.4",
+        "date": "2026-11-14",
+        "modification": "Version Word régénérée (graphiques à jour)",
+        "archive": null,
+        "commit": "fa8e2ad"
+      }
+    ],
+    "retire": "Retiré le 14/11/2026 : Version Word retirée : le Markdown fait foi"
+  },
+  "docs/04-ORGANISATION/20-SUIVI-BACKLOG-BROUILLON-V1.md": {
+    "destination": "Brouillon interne",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-13",
+        "modification": "Consolider le suivi des progressions",
+        "commit": "83658a3",
+        "chemin": "docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-13",
+        "modification": "Remplacer l’ancien nom par ORION et corriger le commit de la cible C1NP",
+        "archive": null,
+        "commit": "61abf4a",
+        "chemin": "docs/temporaire/19-SUIVI-BACKLOG-BROUILLON-V1.md"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-14",
+        "modification": "Déplacer dans docs/04-ORGANISATION/",
+        "archive": null,
+        "commit": "69eaf4e",
+        "chemin": "docs/04-ORGANISATION/19-SUIVI-BACKLOG-BROUILLON-V1.md"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-14",
+        "modification": "Renuméroter après l’ajout des diagrammes d’états (17)",
+        "archive": null,
+        "commit": "e99107c"
+      }
+    ],
+    "retire": "Retiré le 14/11/2026 : Remplacé par le backlog et suivi du projet, qui reprend ses références"
   },
   "docs/04-ORGANISATION/30-POINTS-DAILY-SCRUM-16-NOVEMBRE.md": {
     "destination": "Pilotage interne",
@@ -3247,9 +3657,18 @@
         "version": "3.0",
         "date": "2026-11-15",
         "modification": "Valide les vérifications VM confirmées par l’équipe",
-        "archive": null
+        "archive": null,
+        "commit": "cdeea37"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-16",
+        "modification": "Retirer la référence à l’audit du 16 novembre ; Nettoyer les renvois vers le rapport retiré",
+        "archive": null,
+        "commit": "cdeea37"
       }
-    ]
+    ],
+    "retire": "Retiré le 16/11/2026 : Retirer le point quotidien désormais intégré au journal de bord"
   },
   "docs/04-ORGANISATION/31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md": {
     "destination": "Pilotage interne",
@@ -3279,9 +3698,11 @@
         "version": "3.0",
         "date": "2026-11-15",
         "modification": "Rapport remanié : priorités, incident des simulateurs, cause de CODE-04, verdicts fondés sur la recette de l’équipe, matrice des règles en annexe",
-        "archive": null
+        "archive": null,
+        "commit": "be52f06"
       }
-    ]
+    ],
+    "retire": "Retiré le 16/11/2026 : Retirer l’audit du 16 novembre et ses preuves"
   },
   "docs/05-MCD-MERISE-MOCODO.url": {
     "destination": "Production destinée à la remise",

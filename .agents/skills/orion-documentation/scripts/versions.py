@@ -46,9 +46,9 @@ def destination(chemin):
         return "Brouillon interne"
     if chemin.startswith("design/"):
         return "Ressource de préparation"
-    if nom.startswith("01-"):
+    if "CONSIGNES" in nom:
         return "Source fournie par l’encadrement"
-    if nom.startswith(("02-", "03-")):
+    if "CADRAGE" in nom or "COMPTE-RENDU-ENTRETIENS" in nom:
         return "Source de travail interne"
     if "BACKLOG-TECHNIQUE" in nom or "DAILY-SCRUM" in nom or "AUDIT" in nom:
         return "Pilotage interne"
@@ -375,18 +375,36 @@ def renommer(ancien, nouveau, majeure, message):
     if ancien not in registre or nouveau in registre:
         sys.exit(f"{ancien} : absent du registre, ou {nouveau} déjà suivi.")
     fiche = registre.pop(ancien)
-    for v in fiche["versions"]:
+    versions = fiche["versions"]
+    commit = dernier_commit(ancien)
+    precedente = versions[-2] if len(versions) > 1 else None
+    version_en_cours = commit is None or (precedente and precedente.get("commit") == commit)
+    for v in versions[:-1] if version_en_cours else versions:
         if v.get("commit") and not v.get("chemin"):
             v["chemin"] = ancien
-    v = fiche["versions"][-1]
-    v["commit"], v["chemin"] = dernier_commit(ancien), ancien
-    subprocess.run(["git", "mv", ancien, nouveau], cwd=ROOT, check=True)
+    v = versions[-1]
+    suivi_index = subprocess.run(
+        ["git", "ls-files", "--error-unmatch", "--", ancien],
+        cwd=ROOT,
+        capture_output=True,
+    ).returncode == 0
+    if commit is None and not suivi_index:
+        source, cible = ROOT / ancien, ROOT / nouveau
+        cible.parent.mkdir(parents=True, exist_ok=True)
+        source.rename(cible)
+    else:
+        subprocess.run(["git", "mv", ancien, nouveau], cwd=ROOT, check=True)
     fiche["destination"] = destination(nouveau)
-    fiche["versions"].append({"version": suivante(v["version"], majeure), "date": datetime.date.today().isoformat(), "modification": message, "archive": None})
+    if version_en_cours:
+        v["modification"] += f" ; {message}"
+    else:
+        v["commit"], v["chemin"] = commit, ancien
+        versions.append({"version": suivante(v["version"], majeure), "date": datetime.date.today().isoformat(), "modification": message, "archive": None})
     registre[nouveau] = fiche
     enregistrer(registre)
     rendre(registre)
-    print(f"{ancien} → {nouveau} : version {fiche['versions'][-1]['version']}")
+    suffixe = " complétée" if version_en_cours else ""
+    print(f"{ancien} -> {nouveau} : version {fiche['versions'][-1]['version']}{suffixe}")
 
 
 def retirer(chemin, message):
@@ -394,7 +412,7 @@ def retirer(chemin, message):
     fiche = registre.setdefault(chemin, {"destination": destination(chemin), "versions": [{"version": "1.0", "date": datetime.date.today().isoformat(), "modification": "Version unique", "archive": None}]})
     archiver_version(chemin, fiche)
     fiche["retire"] = f"Retiré le {date_fr(datetime.date.today().isoformat())} : {message}"
-    (ROOT / chemin).unlink()
+    (ROOT / chemin).unlink(missing_ok=True)
     enregistrer(registre)
     rendre(registre)
     print(f"{chemin} : retiré, dernière version au commit {fiche['versions'][-1]['commit']}")

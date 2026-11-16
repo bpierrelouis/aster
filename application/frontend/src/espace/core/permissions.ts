@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Droits par profil, d'après docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md
+   Droits par profil, d'après docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-MATRICE-DROITS.md
    - Administrateur : tous les droits dans son école, dont ceux du
      gestionnaire (RG-15, décision de l'utilisateur du 16 novembre)
    - Super administrateur : mêmes droits, toutes les écoles (RG-15, RG-69),

@@ -1,5 +1,0 @@
-INFO enregistrement compte=cpt-num-admin profil=admin revision=1 regles=audit-invalid-rule
-ACCEPTED : règle sans nom enregistrée par administrateur
-CONFIRMED : rapport agent rejeté TypeError reading toLowerCase sur règle persistée
-INFO enregistrement compte=cpt-num-admin profil=admin revision=1 regles=audit-invalid-scope
-ACCEPTED : portée et classement hors catalogue enregistrés

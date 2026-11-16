@@ -1,6 +1,0 @@
-HTTP 400 {"error":"Unexpected token 'C', \"CONTENU_PRIVE_AUDIT\" is not valid JSON"}
-HTTP 400 {"error":"Unexpected token 'C', \"{\"nom\":CONTENU_PR\"... is not valid JSON"}
-HTTP 400 {"error":"Unexpected non-whitespace character after JSON at position 29 (line 1 column 30)"}
-WARN refus api="Espace de travail" chemin=/api/workspace compte=audit statut=400 motif="Unexpected token 'C', \"CONTENU_PRIVE_AUDIT\" is not valid JSON"
-WARN refus api="Espace de travail" chemin=/api/workspace compte=audit statut=400 motif="Unexpected token 'C', \"{\"nom\":CONTENU_PR\"... is not valid JSON"
-WARN refus api="Espace de travail" chemin=/api/workspace compte=audit statut=400 motif="Unexpected non-whitespace character after JSON at position 29 (line 1 column 30)"

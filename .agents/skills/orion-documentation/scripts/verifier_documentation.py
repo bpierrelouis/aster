@@ -2,7 +2,7 @@
 """Contrôles structurels en lecture seule, sans dépendance ni accès réseau.
 
 Périmètre : liens Markdown inline et de référence (existence des fichiers,
-sans validation des ancres), conflits, noms/numéros du premier niveau de docs/,
+sans validation des ancres), conflits, noms et numéros locaux des documents,
 sommaire du README, références RG, absence de prose dans les fichiers de
 diagrammes et libellés des couples Mocodo URL/SVG.
 Le sens métier, les cardinalités et la mise en page exigent une revue humaine.
@@ -156,31 +156,32 @@ def audit(root):
 
     # Documents numérotés de toutes les parties de docs/ ; brouillons, README de partie et annexes des assets/ exclus
     docs = sorted(p for p in (root / "docs").rglob("*.md") if "BROUILLON" not in p.name and p.name != "README.md" and "assets" not in p.parts)
-    numbers = defaultdict(list)
+    numbers = defaultdict(lambda: defaultdict(list))
     readme = root / "README.md"
     for path in docs:
         match = re.fullmatch(r"(\d{2})-([\w-]+)\.md", path.name)
         if not match or match[2] != match[2].upper() or "_" in match[2]:
             report("avertissement", "NOM_DOCUMENT", path, 1, "Nom attendu : NN-TITRE-EN-MAJUSCULES.md.")
         if match:
-            numbers[int(match[1])].append(path)
+            numbers[path.parent][int(match[1])].append(path)
         if readme in texts and path.resolve() not in local_links[readme]:
             report("avertissement", "SOMMAIRE", path, 1, "Document absent des liens du README.")
-    for number, files in numbers.items():
-        if len(files) > 1:
-            for path in files:
-                report("avertissement", "NUMERO_DUPLIQUE", path, 1, f"Préfixe {number:02} partagé par plusieurs documents Markdown.")
+    for dossier, par_numero in numbers.items():
+        for number, files in par_numero.items():
+            if len(files) > 1:
+                for path in files:
+                    report("avertissement", "NUMERO_DUPLIQUE", path, 1, f"Préfixe {number:02} partagé dans ce dossier.")
     # Un diagramme SVG lié directement depuis le sommaire est un livrable
     # numéroté à part entière ; il ne nécessite pas de page Markdown.
-    occupied = set(numbers)
+    occupied = {dossier: set(par_numero) for dossier, par_numero in numbers.items()}
     for path in (root / "docs").rglob("*.svg"):
         match = re.fullmatch(r"(\d{2})-([\w-]+)\.svg", path.name)
         if match and path.resolve() in local_links[readme]:
-            occupied.add(int(match[1]))
-    if occupied:
-        missing = sorted(set(range(min(occupied), max(occupied) + 1)) - occupied)
+            occupied.setdefault(path.parent, set()).add(int(match[1]))
+    for dossier, numeros in occupied.items():
+        missing = sorted(set(range(1, max(numeros) + 1)) - numeros)
         if missing:
-            report("avertissement", "NUMEROTATION", root / "docs", 1, "Numéros sans document Markdown ou diagramme SVG référencé au sommaire : " + ", ".join(f"{n:02}" for n in missing) + ". Vérifier avant toute renumérotation.")
+            report("avertissement", "NUMEROTATION", dossier, 1, "Numéros manquants dans ce dossier : " + ", ".join(f"{n:02}" for n in missing) + ".")
 
     for source in sorted((root / "docs").rglob("*-MOCODO.url")):
         svg = source.with_name(source.name.replace("-MOCODO.url", ".svg"))

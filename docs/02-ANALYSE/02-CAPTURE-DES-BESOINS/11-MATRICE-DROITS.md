@@ -1,0 +1,123 @@
+# Matrice des droits applicatifs — ORION
+
+<!-- version:debut : généré par versions.py, ne pas modifier à la main -->
+| Version | Mise à jour | Destination | Dernière évolution | Historique |
+| --- | --- | --- | --- | --- |
+| 9.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [21 versions](../../../archive/README.md#11-matrice-droits) |
+<!-- version:fin -->
+
+Cette matrice consolide les droits connus des quatre profils ORION. Elle ne remplace pas les règles de gestion ni les questions de cadrage qui constituent les sources de référence.
+
+**Légende :**
+
+- **Oui** : droit établi dans les sources ;
+- **Non** : refus explicite ;
+- **—** : droit non attribué à ce profil dans les sources.
+
+Tous les droits recensés dans cette matrice sont désormais attribués. Les précisions techniques encore ouvertes ne modifient pas leur répartition entre les profils.
+
+## Périmètre organisationnel
+
+| Profil | Rattachement | Données accessibles |
+| --- | --- | --- |
+| Gestionnaire | Une école | Uniquement son école de rattachement |
+| Formateur | Une école | Uniquement son école de rattachement |
+| Administrateur | Une école | Uniquement son école de rattachement |
+| Super administrateur | Aucun | Toutes les écoles |
+
+Le super administrateur choisit l’école affichée ou l’ensemble des écoles (RG-84).
+
+## Organisation des écoles et des salles
+
+| Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
+| --- | --- | --- | --- | --- | --- | --- |
+| Consulter les salles | Oui | Oui | Oui | Oui | Consultation seule pour le formateur. | RG-17, RG-69 et RG-78 |
+| Créer, modifier ou supprimer une salle ou un étage | Non | Non | Oui | Oui | Une salle qui accueille des postes ne peut pas être supprimée ; ses matériels passent en stock. | RG-74 et RG-75 |
+| Créer ou renommer une école | Non | Non | Non | Oui | Le super administrateur intervient sur toutes les écoles. | RG-15 et RG-76 |
+
+## Gestion du parc
+
+| Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
+| --- | --- | --- | --- | --- | --- | --- |
+| Consulter les matériels d’une salle | Oui | Oui | Oui | Oui | Depuis la salle ; consultation seule pour le formateur, dont la recherche ne propose que les matériels affectés à une salle et mène à cette salle (pas le stock). | RG-17, RG-69 et RG-78 |
+| Rechercher et consulter un matériel | Oui | Non | Oui | Oui | Recherche dans tout le parc de l’école, inventaire compris. | RG-17, RG-69 et RG-78, DCU 08 |
+| Créer et modifier un matériel | Oui | Non | Oui | Oui | Le gestionnaire intervient sur l’ensemble du parc de son école, sans restriction à un bâtiment. | RG-15 à RG-17, RG-69 et RG-78, DCU 08 |
+| Affecter ou déplacer un ou plusieurs matériels | Oui | Non | Oui | Oui | L’opération prend effet immédiatement et peut concerner plusieurs matériels. Les matériels d’une même opération appartiennent à une même école. Un matériel hors service ne peut être déplacé que vers le stock. | RG-15, RG-16, RG-18, RG-26, RG-27, RG-72, RG-78 et RG-87, DCU 08 |
+| Supprimer un matériel | Non | Non | Oui | Oui | L’interdiction du gestionnaire est explicite. Seul un matériel dans le stock peut être supprimé ; un matériel concerné par une remontée ne peut pas l’être. | RG-15, RG-17, RG-73, RG-78 et RG-91, DCU 08 |
+| Consulter le tableau de bord du parc | Oui | Non | Oui | Oui | La vue présente l’état du parc et des stocks, la part hors service par bâtiment et les salles à surveiller. | RG-15, RG-24 et RG-36, DCU 08 |
+| Prévoir l’installation d’une salle (déplacements prévus dans ORION) | Oui | Non | Oui | Oui | Les matériels affectés passent « en cours de déplacement ». | RG-92 |
+
+## Import JSON et RIGEL
+
+| Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
+| --- | --- | --- | --- | --- | --- | --- |
+| Importer de nouveaux matériels en JSON | Oui | Non | Oui | Oui | Les données sont appliquées immédiatement, sans validation métier préalable ; un fichier illisible, vide ou contenant un matériel incomplet ou invalide est refusé (RG-29). Un matériel d’une autre école peut changer d’école si l’importeur valide son transfert. | RG-15, RG-28, RG-29 et RG-72 |
+| Lier un téléphone à une installation ou à un recensement | Oui | Non | Oui | Non | Par le QR code affiché dans ORION, qui transmet des données à jour ; RIGEL fonctionne ensuite hors connexion. RIGEL est propre à une école : le super administrateur, sans école de rattachement, ne l’utilise pas. | RG-15 et RG-94 |
+| Confirmer l’installation d’un matériel (point de déplacement, « Terminer le restockage » ou RIGEL) | Oui | Non | Oui | Oui | Depuis Salles › Déplacements ou sur place avec RIGEL (« Installer avec un téléphone »), RIGEL excepté pour le super administrateur ; l’installation d’une salle se termine d’elle-même quand plus aucun matériel n’est à déplacer vers elle ou depuis elle. | RG-15, RG-92 et RG-94 |
+| Lancer un recensement et le réaliser avec RIGEL | Oui | Non | Oui | Non | « Nouveau recensement » dans ORION, sur toute ou une partie de l’école ; au plus 14 jours, jamais rouvert ni supprimé. | RG-15 et RG-93 |
+| Traiter un matériel mal placé avec RIGEL (« Accepter ici », « Ramener », « Mettre au stock ») | Oui | Non | Oui | Non | Ouvrir un lieu dans RIGEL vaut présence ; relocaliser un matériel sans être dans le lieu de destination lance un déplacement. | RG-96 |
+| Ajouter un matériel au code inconnu avec RIGEL | Oui | Non | Oui | Non | Après avertissement et saisie de ses informations, le matériel est créé dans le lieu du scan. | RG-95 |
+| Traiter un ancien constat (écart ou code inconnu) | Oui | Non | Oui | Non | Remettre au stock ou ramener (déplacement à confirmer), réaffecter au lieu constaté, ou écarter un ancien code inconnu ; un nouveau code inconnu est ajouté automatiquement au parc. | RG-95 |
+| Suivre les installations, les déplacements et les recensements | Oui | Non | Oui | Oui | Lecture seule des recensements pour le super administrateur ; le formateur n’a accès ni aux déplacements, ni à RIGEL, ni au recensement. | RG-15, RG-92 et RG-93 |
+
+## Remontées utilisateur
+
+| Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
+| --- | --- | --- | --- | --- | --- | --- |
+| Créer une remontée | Non | Oui | Oui | Oui | La remontée concerne un ou plusieurs matériels de l’école de la remontée ; le type de problème est obligatoire. Le formateur ne signale que des matériels affectés à une salle (pas le stock). | RG-15, RG-21 et RG-79, DCU 11 |
+| Consulter les remontées et leur suivi | Oui | Oui | Oui | Oui | Le formateur consulte uniquement ses propres remontées ; le gestionnaire et l’administrateur consultent toutes les remontées de leur école, le super administrateur celles de toutes les écoles. | RG-15, RG-64 et RG-80, DCU 11 |
+| Consulter un PDF d’état des lieux | Oui | Oui | Oui | Oui | Le formateur consulte uniquement le PDF d’une remontée qu’il a lui-même créée. Le PDF présente le statut et le suivi de la remontée. | RG-15, RG-23 et RG-89, DCU 11 |
+| Télécharger un PDF d’état des lieux | Oui | Oui | Oui | Oui | Le formateur télécharge uniquement le PDF d’une remontée qu’il a lui-même créée. | RG-23, DCU 11 |
+| Prendre en charge une remontée | Oui | Non | Oui | Oui | « En attente » → « en cours » ; prise en charge obligatoire avant un statut final. Le gestionnaire, l’administrateur et le super administrateur traitent les remontées de leur périmètre. | RG-13, RG-15 et RG-64, DCU 11 |
+| Terminer une remontée en « remplacé » ou « corrigé » | Oui | Non | Oui | Oui | Depuis « en cours » uniquement. Une remontée terminée ne change plus de statut. | RG-13, RG-15 et RG-64, DCU 11 |
+| Supprimer une remontée ou en modifier le contenu | Non | Non | Non | Non | Seul le statut d’une remontée peut être modifié. | RG-79 |
+| Consulter le tableau de bord des remontées | Oui | Non | Oui | Oui | Les indicateurs détaillés restent à définir. | RG-15, RG-24 et RG-36, DCU 11 |
+| Recevoir une notification liée à une remontée | Oui | Oui | Oui | Oui | Le gestionnaire est notifié à la création d’une remontée. L’auteur d’une remontée (formateur, administrateur ou super administrateur) est notifié de chaque changement de statut. | RG-38, RG-39, RG-66 et RG-67, DCU 11 |
+
+ORION génère le PDF d’état des lieux à chaque consultation ou téléchargement autorisé, sans le conserver (RG-35 et RG-89). Cette génération constitue un traitement automatique, pas un droit distinct.
+
+## Supervision des postes
+
+| Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
+| --- | --- | --- | --- | --- | --- | --- |
+| Consulter l’état des postes et leurs processus utilisateur | Non | Oui | Oui | Oui | Le formateur accède à toutes les salles de son école, mais doit en sélectionner une et ne dispose pas d’une vue globale. Les processus système sont exclus. | RG-15, RG-19, RG-20, RG-32, RG-59, RG-69 et RG-83, DCU 10 |
+| Arrêter manuellement un processus utilisateur affiché | Non | Oui | Oui | Oui | L’arrêt porte uniquement sur un processus utilisateur en cours présenté par ORION, avec un seul arrêt en attente ; le résultat est renvoyé par le poste. | RG-15, RG-19, RG-20 et RG-33, DCU 10 |
+| Gérer les listes de processus autorisés et interdits | Non | Non | Oui | Oui | L’administrateur gère les règles de portée école, bâtiment ou salle de son école et consulte les règles globales ; seul le super administrateur gère les règles globales. | RG-15, RG-47 et RG-50, DCU 10 |
+| Recevoir une alerte de processus blacklisté | Non | Non | Oui | Oui | Notifiée à l’administrateur et au super administrateur ; le formateur la consulte dans les alertes de la salle qu’il supervise. | RG-39 et RG-55, DCU 10 |
+| Consulter des statistiques d’utilisation | Non | Non | Oui | Oui | Les indicateurs relatifs aux postes et aux processus ainsi que leurs règles de calcul restent à définir. | RG-68, DCU 10 |
+
+## Administration des postes
+
+| Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
+| --- | --- | --- | --- | --- | --- | --- |
+| Consulter les applications installées sur un poste | Non | Non | Oui | Oui | Les applications installées sont remontées par les postes ; la solution d’administration à distance reste à retenir. | RG-15 et RG-83, DCU 09 |
+| Déclencher l’installation ou la désinstallation d’une application | Non | Non | Oui | Oui | L’action cible un poste individuel ou l’ensemble des postes d’une salle. Le résultat est suivi pour chaque poste. | RG-65 et RG-81, DCU 09 |
+| Demander la réinitialisation d’un ou de plusieurs postes, notamment d’une salle | Non | Non | Oui | Oui | Le mécanisme de déploiement reste à identifier. | RG-22, RG-30 et RG-81, DCU 09 |
+| Recevoir une notification de fin d’installation ou de réinitialisation | Non | Non | Oui | Oui | Uniquement pour les interventions qu’il a lancées. | RG-39, DCU 09 |
+| Consulter la vue des postes | Non | Non | Oui | Oui | La gestion des postes recouvre la vue des postes et leur réinitialisation. Un poste correspond au plus à un matériel, son unité centrale. Le catalogue des applications, les postes Linux et l’agent M42 relèvent de la V2. | RG-69, RG-77 et RG-90 |
+
+## Administration des comptes
+
+| Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
+| --- | --- | --- | --- | --- | --- | --- |
+| Créer, modifier, désactiver ou réactiver un compte ORION | Non | Non | Oui | Oui | L’administrateur gère uniquement les comptes de son école, sans pouvoir les rattacher à une autre. Le super administrateur gère les comptes de toutes les écoles, crée d’autres super administrateurs et peut changer l’école d’un administrateur. Un compte n’est jamais supprimé. Personne ne modifie son propre profil ni ne désactive son propre compte. Seul le super administrateur attribue le profil de super administrateur. | RG-70 et RG-82 |
+| Désigner le premier super administrateur d’un espace neuf | Non | Non | Non | Non | Réservé à l’exploitant, à l’installation d’un espace sans aucun compte. | RG-100 |
+
+## Espace personnel
+
+| Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
+| --- | --- | --- | --- | --- | --- | --- |
+| Rechercher dans ORION | Oui | Oui | Oui | Oui | Salles, matériels et remontées que l’utilisateur peut consulter ; le stock n’est proposé qu’aux profils qui le gèrent. | RG-98 |
+| Personnaliser son tableau de bord | Oui | Oui | Oui | Oui | Propre à chaque compte. | RG-84 |
+| Choisir son ambiance d’affichage | Oui | Oui | Oui | Oui | Propre à chaque compte et retrouvée à chaque connexion. | RG-97 |
+| Se déconnecter | Oui | Oui | Oui | Oui | Met fin à la session ORION et à celle de MindefConnect. | RG-99 |
+
+## Gestion des garanties
+
+| Action | Gestionnaire | Formateur | Administrateur | Super administrateur | Périmètre ou condition | Sources |
+| --- | --- | --- | --- | --- | --- | --- |
+| Renseigner ou modifier la date de fin de garantie | Oui | Non | Oui | Oui | La date de fin de garantie est facultative. | RG-86, DCU 08 |
+| Consulter les indicateurs de garantie | Oui | Non | Oui | Oui | Les garanties proches de l’échéance (six mois) et arrivées à échéance sont distinguées. | RG-36 et RG-86 |
+| Recevoir une alerte de garantie | Oui | Non | Oui | Oui | L’alerte est affichée dans ORION ; aucun courriel n’est prévu. | RG-15, RG-37, RG-38 et RG-86 |
+
+Sources générales : [règles de gestion](01-REGLES-DE-GESTION.md), [cadrage consolidé](../../01-CONTEXTE/03-CADRAGE.md), DCU [gestion du parc](03-DCU-GESTION-PARC.md), [administration des postes](04-DCU-ADMINISTRATION-POSTES.md), [supervision des postes](05-DCU-SUPERVISION-POSTES.md) et [remontées utilisateur](06-DCU-REMONTEES-UTILISATEUR.md).
