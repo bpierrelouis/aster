@@ -2744,6 +2744,13 @@
         "version": "1.1",
         "date": "2026-11-16",
         "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
+        "archive": null,
+        "commit": "cb9873f"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
@@ -2798,6 +2805,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Crée la source draw.io du diagramme",
+        "archive": null,
+        "commit": "e57b695"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
