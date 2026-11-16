@@ -15,47 +15,24 @@ for (const button of document.querySelectorAll('[data-help]')) {
 }
 
 /* Changement de compte. Une page de connexion déjà utilisée (retour arrière, autre onglet) envoie le formulaire alors que
-   la session Keycloak est ouverte avec un autre compte : Keycloak refuse (page d'erreur). Le compte choisi est gardé le
+   la session Keycloak est ouverte avec un autre compte : Keycloak refuse (page d'erreur). L'adresse choisie est gardée le
    temps de fermer cette session (page d'erreur, puis confirmation de déconnexion) ; ORION relance la connexion et la page
-   de connexion le reprend : envoyée d'elle-même pour un compte choisi par un jeton, sinon seulement préremplie (mot de passe). */
+   de connexion l'envoie d'elle-même. Le mot de passe n'est jamais conservé : il est saisi sur la page suivante. */
 const CLE = 'orion.compte-choisi';
 const lire = () => { try { return JSON.parse(sessionStorage.getItem(CLE)); } catch { return null; } };
 const garder = (valeur) => { try { sessionStorage.setItem(CLE, JSON.stringify(valeur)); } catch { /* stockage indisponible */ } };
 const oublier = () => { try { sessionStorage.removeItem(CLE); } catch { /* stockage indisponible */ } };
 const recent = (choix) => choix && Date.now() - choix.at < 2 * 60 * 1000;
 
-/* Mot de passe. Keycloak demande l'adresse, puis le mot de passe sur une seconde page (sautée pour les comptes des jetons
-   « Accès de présentation ») : le mot de passe saisi avec l'adresse y est repris et envoyé de lui-même, puis oublié. */
-const MOT_DE_PASSE = 'orion.mot-de-passe';
-const motDePasse = document.getElementById('password');
-const passwordForm = document.getElementById('password-form');
-// Toute autre page du thème (erreur, nouvelle connexion, déconnexion) efface un mot de passe qui n'a pas été repris
-if (!passwordForm) { try { sessionStorage.removeItem(MOT_DE_PASSE); } catch { /* stockage indisponible */ } }
-
-let presentation = false;
 loginForm?.addEventListener('submit', () => {
   document.getElementById('login-button').disabled = true;
-  garder({ compte: username.value, presentation, at: Date.now() });
-  try {
-    if (!presentation && motDePasse.value) sessionStorage.setItem(MOT_DE_PASSE, JSON.stringify({ valeur: motDePasse.value, at: Date.now() }));
-    else sessionStorage.removeItem(MOT_DE_PASSE);
-  } catch { /* stockage indisponible : le mot de passe sera demandé sur la page suivante */ }
+  garder({ compte: username.value, at: Date.now() });
 });
-if (passwordForm) {
-  let repris = null;
-  try { repris = JSON.parse(sessionStorage.getItem(MOT_DE_PASSE)); sessionStorage.removeItem(MOT_DE_PASSE); } catch { /* stockage indisponible */ }
-  passwordForm.addEventListener('submit', () => { document.getElementById('login-button').disabled = true; });
-  // Une seule reprise, jamais après un refus : l'utilisateur ressaisit alors son mot de passe sur cette page
-  if (repris && Date.now() - repris.at < 60 * 1000 && !document.querySelector('.error')) {
-    motDePasse.value = repris.valeur;
-    passwordForm.requestSubmit();
-  }
-}
+document.getElementById('password-form')?.addEventListener('submit', () => { document.getElementById('login-button').disabled = true; });
 // Démonstrateur (présentation au client) : un jeton « Accès de présentation » remplit l'adresse et lance la connexion
 for (const token of document.querySelectorAll('[data-compte]')) {
   token.addEventListener('click', () => {
     username.value = token.dataset.compte;
-    presentation = true;
     loginForm.requestSubmit();
   });
 }
@@ -72,10 +49,7 @@ if (changer) {
   // Session précédente fermée : la connexion reprend avec le compte choisi
   oublier();
   username.value = choix.compte;
-  if (choix.presentation) {
-    presentation = true;
-    loginForm.requestSubmit();
-  }
+  loginForm.requestSubmit();
 } else if (loginForm) {
   oublier();
 }

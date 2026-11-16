@@ -28,14 +28,23 @@ const PROFILES: { username: Profil; profile: string; role: string; nom: string; 
   { username: 'formateur', profile: 'Formateur', role: 'formateur', nom: 'Thomas Lefebvre', modules: ['Accueil', 'Salles', 'Remontées', 'Supervision'] },
 ];
 
+/** Connexion en deux pages : adresse (« Continuer »), puis mot de passe, sauf pour les comptes des jetons de présentation */
+async function saisir(page: Page, email: string, motDePasse = mdp(email)) {
+  await page.getByLabel('email', { exact: true }).fill(email);
+  await page.getByRole('button', { name: 'Continuer', exact: true }).click();
+  const formulaire = page.locator('#password-form');
+  await expect(formulaire.or(page.locator('#view h1')).or(page.getByRole('alert')).first()).toBeAttached();
+  if (!await formulaire.count()) return;
+  await page.locator('#password').fill(motDePasse);
+  await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
+}
+
 async function login(page: Page, username: Profil | string) {
   await page.goto('/');
   await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
   await expect(page).toHaveURL(/localhost:8081/);
   const email = username in EMAILS ? EMAILS[username as Profil] : username;
-  await page.getByLabel('email', { exact: true }).fill(email);
-  await page.locator('#password').fill(mdp(email));
-  await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
+  await saisir(page, email);
   await expect(page).toHaveURL(/\/accueil$/);
   await expect(page.locator('#view h1')).toBeAttached();
   await expect(page.locator('.loading')).toHaveCount(0);
@@ -71,20 +80,23 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
       await page.screenshot({ path: 'test-results/mindef-form-mobile.png', fullPage: true });
       await page.setViewportSize({ width: 1280, height: 800 });
-      await page.getByLabel('Afficher', { exact: true }).check();
-      await expect(page.locator('#password')).toHaveAttribute('type', 'text');
+      await expect(page.locator('#password')).toHaveCount(0); // le mot de passe n'est demandé que sur la page suivante
       await page.getByRole('button', { name: 'Créer un compte', exact: true }).click();
       await expect(page.getByRole('dialog')).toContainText('Pour demander un accès à Orion, contactez votre administrateur.');
       await expectPublicPresentation(page);
       await page.getByRole('button', { name: 'Fermer', exact: true }).click();
+      // Page du mot de passe : affichage du mot de passe et aide, puis retour à l'adresse
+      await page.getByLabel('email', { exact: true }).fill(EMAILS[username]);
+      await page.getByRole('button', { name: 'Continuer', exact: true }).click();
+      await page.getByLabel('Afficher', { exact: true }).check();
+      await expect(page.locator('#password')).toHaveAttribute('type', 'text');
       await page.getByRole('button', { name: 'Mot de passe oublié?', exact: true }).click();
       await expect(page.getByRole('dialog')).toContainText('Pour obtenir de l’aide concernant votre accès, contactez votre administrateur.');
       await expectPublicPresentation(page);
       await page.getByRole('button', { name: 'Fermer', exact: true }).click();
+      await page.getByRole('link', { name: 'Changer d’adresse', exact: true }).click();
     }
-    await page.getByLabel('email', { exact: true }).fill(EMAILS[username]);
-    await page.locator('#password').fill(mdp(EMAILS[username]));
-    await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
+    await saisir(page, EMAILS[username]);
     await expect(page).toHaveURL(/\/accueil$/);
     await expect(page.locator('#view h1')).toBeAttached();
     await expectPublicPresentation(page);
@@ -219,9 +231,7 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
   await expect(page.locator('tr', { hasText: email })).toContainText(/Désactivé\s*le \d{2}\/\d{2}\/\d{4}/);
   await newcomer.goto('/');
   await newcomer.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
-  await newcomer.getByLabel('email', { exact: true }).fill(email);
-  await newcomer.locator('#password').fill(mdp(email));
-  await newcomer.getByRole('button', { name: 'Se connecter', exact: true }).click();
+  await saisir(newcomer, email);
   await expect(newcomer.getByRole('alert')).toContainText('aucun compte Orion actif');
   expect((await newcomer.request.get('/api/me')).status()).toBe(401);
   await other.close();
@@ -237,9 +247,7 @@ test('une identité du fournisseur sans compte ORION est refusée', async ({ pag
   else await keycloak('/users', { method: 'POST', body: JSON.stringify({ username: email, email, firstName: 'Sans', lastName: 'Compte', enabled: true, emailVerified: true, credentials: [credential] }) });
   await page.goto('/');
   await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
-  await page.getByLabel('email', { exact: true }).fill(email);
-  await page.locator('#password').fill(mdp(email));
-  await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
+  await saisir(page, email);
   await expect(page.getByRole('alert')).toContainText('aucun compte Orion actif');
   expect((await page.request.get('/api/me')).status()).toBe(401);
 });
@@ -291,21 +299,27 @@ test('changement de compte : retour arrière vers la page de connexion puis autr
   await logout(page);
 });
 
-test('changement de compte : adresse saisie sur une page déjà utilisée, reprise préremplie', async ({ page }) => {
+test('changement de compte : adresse saisie sur une page déjà utilisée, mot de passe redemandé', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
   await choisir(page, EMAILS.admin);
   await expect(page).toHaveURL(/\/accueil$/);
   await page.goBack();
-  // Adresse saisie : la reprise est seulement préremplie, l'utilisateur ressaisit son mot de passe
-  await page.getByLabel('email', { exact: true }).fill(EMAILS.gestionnaire);
+  // Adresse saisie : Keycloak ne constate l'autre session qu'après le mot de passe ; il la ferme (page d'erreur,
+  // déconnexion), puis la connexion reprend avec l'adresse choisie et redemande le mot de passe, jamais conservé
+  await page.getByLabel('email', { exact: true }).fill(EMAILS.superadmin);
+  await page.getByRole('button', { name: 'Continuer', exact: true }).click();
+  await page.locator('#password').fill(mdp(EMAILS.superadmin));
+  const premiere = page.url();
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
-  await expect(page.getByLabel('email', { exact: true })).toHaveValue(EMAILS.gestionnaire);
+  await page.waitForURL((u) => u.href !== premiere && u.searchParams.has('execution'));
+  await expect(page.getByLabel('email', { exact: true })).toHaveValue(EMAILS.superadmin);
+  await expect(page.locator('#password')).toHaveValue('');
   await expectPublicPresentation(page);
-  await page.locator('#password').fill(mdp(EMAILS.gestionnaire));
+  await page.locator('#password').fill(mdp(EMAILS.superadmin));
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await expect(page).toHaveURL(/\/accueil$/);
-  expect(await moi(page)).toMatchObject({ email: EMAILS.gestionnaire });
+  expect(await moi(page)).toMatchObject({ email: EMAILS.superadmin });
   await logout(page);
 });
 
@@ -341,9 +355,7 @@ test('une écriture d’une autre origine est refusée', async ({ page }) => {
 
 test('un mot de passe erroné est refusé, puis ressaisi sur la page du mot de passe', async ({ page }) => {
   await page.goto('/auth/login');
-  await page.getByLabel('email', { exact: true }).fill(EMAILS.superadmin);
-  await page.locator('#password').fill('mot-de-passe-errone');
-  await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
+  await saisir(page, EMAILS.superadmin, 'mot-de-passe-errone');
   await expect(page.getByRole('alert')).toBeVisible();
   await expect(page.getByLabel('email', { exact: true })).toHaveValue(EMAILS.superadmin);
   expect((await page.request.get('http://localhost:5173/api/me')).status()).toBe(401);
@@ -357,7 +369,7 @@ test('un mot de passe erroné est refusé, puis ressaisi sur la page du mot de p
 test('un compte inconnu ne crée aucune session ORION', async ({ page }) => {
   await page.goto('/auth/login');
   await page.getByLabel('email', { exact: true }).fill('inconnu@orion.demo');
-  await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
+  await page.getByRole('button', { name: 'Continuer', exact: true }).click();
   await expect(page.getByRole('alert')).toBeVisible();
   expect((await page.request.get('http://localhost:5173/api/me')).status()).toBe(401);
 });

@@ -1,3 +1,5 @@
+<#-- Première étape de la connexion : adresse. Le mot de passe est saisi sur la page suivante (login-password.ftl),
+     sauf pour les comptes des jetons « Accès de présentation ». -->
 <!doctype html>
 <html lang="fr">
 <head>
@@ -18,11 +20,7 @@
         </#if>
         <label for="username">email</label>
         <input id="username" name="username" type="text" autocomplete="username" value="${(login.username!'')}" placeholder="Veuillez entrer votre adresse courriel personnelle." required autofocus <#if messagesPerField.existsError('username')>aria-invalid="true"</#if>>
-        <label for="password">Mot de passe</label>
-        <input id="password" type="password" autocomplete="current-password" placeholder="Veuillez indiquer votre mot de passe.">
-        <label class="show-password"><input id="show-password" type="checkbox">Afficher</label>
-        <button class="text-button" type="button" data-help="password">Mot de passe oublié?</button>
-        <button class="submit-button" id="login-button" type="submit">Se connecter</button>
+        <button class="submit-button" id="login-button" type="submit">Continuer</button>
       </form>
       <div class="separator"><span>Ou</span></div>
       <h2 class="no-account">Vous n’avez pas de compte ?</h2>

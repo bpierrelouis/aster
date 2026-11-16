@@ -1,5 +1,5 @@
-<#-- Deuxième étape de la connexion : mot de passe du compte dont l'adresse vient d'être saisie. Le mot de passe tapé
-     sur la première page y est repris et envoyé de lui-même (login.js) : l'utilisateur ne voit qu'une page. -->
+<#-- Deuxième étape de la connexion : mot de passe du compte dont l'adresse vient d'être saisie. Il n'est saisi qu'ici
+     et envoyé directement à Keycloak, jamais conservé par le navigateur. -->
 <!doctype html>
 <html lang="fr">
 <head>
@@ -23,10 +23,16 @@
         <label for="password">Mot de passe</label>
         <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Veuillez indiquer votre mot de passe." required autofocus <#if messagesPerField.existsError('password')>aria-invalid="true"</#if>>
         <label class="show-password"><input id="show-password" type="checkbox">Afficher</label>
+        <button class="text-button" type="button" data-help="password">Mot de passe oublié?</button>
         <a class="text-button" href="${url.loginRestartFlowUrl}">Changer d’adresse</a>
         <button class="submit-button" id="login-button" type="submit">Se connecter</button>
       </form>
     </section>
   </main>
+  <dialog id="help-dialog" aria-labelledby="help-title">
+    <h2 id="help-title">Aide à la connexion</h2>
+    <p id="help-message"></p>
+    <form method="dialog"><button class="create-button">Fermer</button></form>
+  </dialog>
 </body>
 </html>

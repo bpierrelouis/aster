@@ -38,9 +38,15 @@ async function connecter(page: Page, compte: Compte) {
   await page.goto('/');
   await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
   await expect(page).toHaveURL(/\/realms\/orion\//);
+  // Adresse, puis mot de passe sur la page suivante (sautée pour les comptes des jetons de présentation)
   await page.getByLabel('email', { exact: true }).fill(COMPTES[compte]);
-  await page.locator('#password').fill(motDePasse(SECRET, COMPTES[compte]));
-  await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
+  await page.getByRole('button', { name: 'Continuer', exact: true }).click();
+  const formulaire = page.locator('#password-form');
+  await expect(formulaire.or(page.locator('#view h1')).first()).toBeAttached({ timeout: 30_000 });
+  if (await formulaire.count()) {
+    await page.locator('#password').fill(motDePasse(SECRET, COMPTES[compte]));
+    await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
+  }
   await expect(page).toHaveURL(/\/accueil$/, { timeout: 30_000 });
   await expect(page.locator('#view h1')).toBeAttached();
 }
