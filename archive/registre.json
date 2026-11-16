@@ -3220,6 +3220,13 @@
         "version": "5.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "5.2",
+        "date": "2026-11-16",
+        "modification": "Corriger l’orthographe du nom BONEY",
         "archive": null
       }
     ]
@@ -3738,6 +3745,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Créer le journal simulé des cérémonies et entretiens ; Corriger la fin du document ; Présenter les échanges comme journal de bord ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Corriger l’orthographe du nom BONEY",
         "archive": null
       }
     ]

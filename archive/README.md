@@ -55,9 +55,9 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [3.1](#03-modele-physique-donnees) | 16/11/2026 |
 | [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [6.0](#01-dossier-architecture-technique) | 16/11/2026 |
 | [docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [3.0](#02-diagrammes-architecture) | 16/11/2026 |
-| [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.1](#01-backlog-et-suivi-projet) | 16/11/2026 |
+| [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.2](#01-backlog-et-suivi-projet) | 16/11/2026 |
 | [docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [9.0](#02-backlog-technique-et-feuille-de-route) | 16/11/2026 |
-| [docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md](../docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md) | Production destinée à la remise | [1.0](#03-journal-de-bord-projet) | 16/11/2026 |
+| [docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md](../docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md) | Production destinée à la remise | [1.1](#03-journal-de-bord-projet) | 16/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -746,7 +746,8 @@ Fichier : [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANI
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 5.2 | 16/11/2026 | Corriger l’orthographe du nom BONEY | en vigueur | — |
+| 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.0 | 15/11/2026 | Actualise les clôtures après confirmation de la recette | `cdeea37` (`docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md`) | — |
 | 4.0 | 15/11/2026 | Inclut RIGEL dans la clôture et actualise le suivi après audit | `067e0b5` (`docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md`) | — |
 | 3.5 | 15/11/2026 | Référence le tracé des flux et la cible NFS et RIGEL | `122f91b` (`docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md`) | — |
@@ -835,7 +836,8 @@ Fichier : [docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md](../docs/04-ORGANIS
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Créer le journal simulé des cérémonies et entretiens ; Corriger la fin du document ; Présenter les échanges comme journal de bord ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 1.1 | 16/11/2026 | Corriger l’orthographe du nom BONEY | en vigueur | — |
+| 1.0 | 16/11/2026 | Créer le journal simulé des cérémonies et entretiens ; Corriger la fin du document ; Présenter les échanges comme journal de bord ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 
 ## Fichiers retirés
 
