@@ -830,6 +830,17 @@
       }
     ]
   },
+  "docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
+        "archive": null
+      }
+    ]
+  },
   "docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
@@ -900,6 +911,17 @@
         "version": "5.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
         "archive": null
       }
     ]
@@ -1175,6 +1197,17 @@
       }
     ]
   },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
+        "archive": null
+      }
+    ]
+  },
   "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.md": {
     "destination": "Production destinée à la remise",
     "versions": [
@@ -1236,6 +1269,17 @@
         "version": "2.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
         "archive": null
       }
     ]
@@ -1316,6 +1360,17 @@
         "version": "3.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
         "archive": null
       }
     ]
@@ -1498,6 +1553,17 @@
       }
     ]
   },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
+        "archive": null
+      }
+    ]
+  },
   "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.md": {
     "destination": "Production destinée à la remise",
     "versions": [
@@ -1570,6 +1636,17 @@
       }
     ]
   },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
+        "archive": null
+      }
+    ]
+  },
   "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.md": {
     "destination": "Production destinée à la remise",
     "versions": [
@@ -1593,6 +1670,17 @@
         "version": "2.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
         "archive": null
       }
     ]
@@ -1624,6 +1712,17 @@
       }
     ]
   },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
+        "archive": null
+      }
+    ]
+  },
   "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.md": {
     "destination": "Production destinée à la remise",
     "versions": [
@@ -1647,6 +1746,17 @@
         "version": "2.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
         "archive": null
       }
     ]
@@ -2419,6 +2529,17 @@
     ],
     "retire": "Retiré le 15/11/2026 : Remplacé par le livrable 23-DIAGRAMMES-ACTIVITE-CAS-UTILISATION"
   },
+  "docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
+        "archive": null
+      }
+    ]
+  },
   "docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md": {
     "destination": "Production destinée à la remise",
     "versions": [
@@ -2493,6 +2614,17 @@
       }
     ]
   },
+  "docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
+        "archive": null
+      }
+    ]
+  },
   "docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md": {
     "destination": "Production destinée à la remise",
     "versions": [
@@ -2536,6 +2668,17 @@
       }
     ]
   },
+  "docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
+        "archive": null
+      }
+    ]
+  },
   "docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md": {
     "destination": "Production destinée à la remise",
     "versions": [
@@ -2567,6 +2710,17 @@
         "version": "2.2",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
         "archive": null
       }
     ]
@@ -2610,6 +2764,17 @@
         "version": "3.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Crée la source draw.io du diagramme",
         "archive": null
       }
     ]
