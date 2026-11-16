@@ -45,7 +45,7 @@ Les productions remises aux cadres évaluateurs décrivent l’application cible
 | Sources de travail internes | Cadrage `docs/01-CONTEXTE/03-*` et entretiens `docs/01-CONTEXTE/04-*` | Réponses en vigueur et historique des échanges ; ne pas les joindre automatiquement à une remise |
 | Source fournie par l’encadrement | Consignes `docs/01-CONTEXTE/02-*` | Sujet et critères d’évaluation, distincts des productions de l’équipe |
 | Réalisation et exploitation internes | Le reste d’`application/`, son README, le README général et `AGENTS.md` | Implémentation, démarrage, comptes de test et limites du démonstrateur ; seules les configurations décrites dans le guide applicatif accompagnent la remise du DAT |
-| Pilotage interne | Backlog technique et feuille de route `docs/04-ORGANISATION/02-*` | Travail technique restant et évolutions envisagées ; cite des éléments du démonstrateur, jamais remis comme livrable |
+| Pilotage interne | Backlog technique et feuille de route `docs/04-ORGANISATION/02-*`, audit final avant remise `docs/04-ORGANISATION/04-*` | Travail technique restant et évolutions envisagées ; cite des éléments du démonstrateur, jamais remis comme livrable |
 | Brouillons et ressources de préparation | Fichiers `*-BROUILLON-Vn` rangés dans leur partie de `docs/`, `design/` et sources éditables des modèles | Travaux et ressources à sélectionner avant inclusion dans un livrable |
 | Archives | `archive/` | Compte rendu des évolutions des documents suivis, avec le commit de chaque version remplacée, et copies des anciennes versions du design ; historique à conserver tel quel, jamais remis comme livrable |
 | Livrables mis en forme | `livrables/` (DSE et DAT en PDF) | Produits à partir des documents de `docs/`, selon les [règles de rédaction et de mise en forme](livrables/README.md) |
@@ -114,6 +114,7 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 - [Backlog et suivi du projet](docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md) : backlog, organisation Agile et suivi des progressions.
 - [Backlog technique et feuille de route](docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) : travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre) et évolutions envisagées ; document de pilotage interne, non remis.
 - [Journal de bord du projet](docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md) : suivi chronologique des daily scrums, points hebdomadaires et entretiens client.
+- [Audit final avant remise](docs/04-ORGANISATION/04-AUDIT-FINAL-AVANT-REMISE.md) : notes par partie et d’ensemble, problèmes critiques et majeurs relevés le 16 novembre et ordre de traitement (pilotage interne).
 
 #### Ressources complémentaires
 

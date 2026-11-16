@@ -4191,6 +4191,17 @@
       }
     ]
   },
+  "docs/04-ORGANISATION/04-AUDIT-FINAL-AVANT-REMISE.md": {
+    "destination": "Pilotage interne",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Consigner l’audit final avant remise et sa notation",
+        "archive": null
+      }
+    ]
+  },
   "docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.docx": {
     "destination": "Production destinée à la remise",
     "versions": [
