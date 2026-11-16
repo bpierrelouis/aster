@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [8 versions](../../../archive/README.md#03-dcu-gestion-parc) |
+| 3.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [9 versions](../../../archive/README.md#03-dcu-gestion-parc) |
 <!-- version:fin -->
 
 ```mermaid
@@ -51,7 +51,7 @@ flowchart LR
         traiterConstats(["Traiter les anciens constats"])
     end
 
-    rigel(["RIGEL"])
+    rigel(["« système »<br/>RIGEL"])
 
     consultantParc --- consulterSalles
     consultantParc --- consulter

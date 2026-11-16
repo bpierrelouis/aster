@@ -1,16 +1,16 @@
-# DCU — Créer une remontée et consulter son état des lieux
+# DCU — Créer, traiter et suivre une remontée
 
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [9 versions](../../../archive/README.md#06-dcu-remontees-utilisateur) |
+| 5.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [10 versions](../../../archive/README.md#06-dcu-remontees-utilisateur) |
 <!-- version:fin -->
 
 ```mermaid
 flowchart LR
     auteurRemontee(["Auteur de remontée"])
     responsableRemontees(["Responsable des remontées"])
-    lecteurRemontee(["Lecteur d'une remontée autorisée"])
+    lecteurRemontee(["Lecteur d'une remontée<br/>autorisée"])
     formateur(["Formateur"])
     gestionnaire(["Gestionnaire"])
     administrateur(["Administrateur"])
@@ -18,11 +18,12 @@ flowchart LR
 
     formateur -->|« hérite de »| auteurRemontee
     administrateur -->|« hérite de »| auteurRemontee
+    superAdministrateur -->|« hérite de »| auteurRemontee
     gestionnaire -->|« hérite de »| responsableRemontees
     administrateur -->|« hérite de »| responsableRemontees
+    superAdministrateur -->|« hérite de »| responsableRemontees
     formateur -->|« hérite de »| lecteurRemontee
     responsableRemontees -->|« hérite de »| lecteurRemontee
-    superAdministrateur -->|« hérite de »| administrateur
 
     subgraph orion["Application web ORION — Remontées utilisateur"]
         direction TB

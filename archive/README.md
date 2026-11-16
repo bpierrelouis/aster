@@ -11,48 +11,48 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [design/README.md](../design/README.md) | Ressource de préparation | [2.5](#design-readme) | 14/11/2026 |
 | [design/charte-graphique/index.html](../design/charte-graphique/index.html) | Ressource de préparation | [2.2](#design-charte-graphique-index) | 14/11/2026 |
 | [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [3.1](#design-maquettes-index) | 16/11/2026 |
-| [docs/01-CONTEXTE/01-GLOSSAIRE.md](../docs/01-CONTEXTE/01-GLOSSAIRE.md) | Production destinée à la remise | [7.1](#01-glossaire) | 16/11/2026 |
+| [docs/01-CONTEXTE/01-GLOSSAIRE.md](../docs/01-CONTEXTE/01-GLOSSAIRE.md) | Production destinée à la remise | [7.2](#01-glossaire) | 16/11/2026 |
 | [docs/01-CONTEXTE/02-CONSIGNES.md](../docs/01-CONTEXTE/02-CONSIGNES.md) | Source fournie par l’encadrement | [1.5](#02-consignes) | 16/11/2026 |
 | [docs/01-CONTEXTE/03-CADRAGE.md](../docs/01-CONTEXTE/03-CADRAGE.md) | Source de travail interne | [8.1](#03-cadrage) | 16/11/2026 |
 | [docs/01-CONTEXTE/04-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/04-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.2](#04-compte-rendu-entretiens) | 16/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.drawio](../docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.drawio) | Production destinée à la remise | [1.0](#01-diagramme-contexte) | 16/11/2026 |
-| [docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [5.1](#01-diagramme-contexte) | 16/11/2026 |
+| [docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [6.0](#01-diagramme-contexte) | 16/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio](../docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio) | Production destinée à la remise | [1.1](#02-diagrammes-activite) | 16/11/2026 |
-| [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [3.1](#02-diagrammes-activite) | 16/11/2026 |
+| [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [4.0](#02-diagrammes-activite) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION.md) | Production destinée à la remise | [14.0](#01-regles-de-gestion) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio) | Production destinée à la remise | [1.0](#03-dcu-gestion-parc) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.md) | Production destinée à la remise | [2.1](#03-dcu-gestion-parc) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.md) | Production destinée à la remise | [3.0](#03-dcu-gestion-parc) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.drawio) | Production destinée à la remise | [1.0](#04-dcu-administration-postes) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.md) | Production destinée à la remise | [3.1](#04-dcu-administration-postes) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.md) | Production destinée à la remise | [4.0](#04-dcu-administration-postes) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.drawio) | Production destinée à la remise | [1.0](#05-dcu-supervision-postes) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.md) | Production destinée à la remise | [2.1](#05-dcu-supervision-postes) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.md) | Production destinée à la remise | [3.0](#05-dcu-supervision-postes) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio) | Production destinée à la remise | [3.0](#05-mcd-merise) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) | Production destinée à la remise | [4.0](#05-mcd-merise) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.drawio) | Production destinée à la remise | [1.0](#06-dcu-remontees-utilisateur) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.md) | Production destinée à la remise | [4.1](#06-dcu-remontees-utilisateur) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.md) | Production destinée à la remise | [5.0](#06-dcu-remontees-utilisateur) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.drawio) | Production destinée à la remise | [1.0](#07-dcu-administrer-orion) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.md) | Production destinée à la remise | [2.1](#07-dcu-administrer-orion) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.md) | Production destinée à la remise | [3.0](#07-dcu-administrer-orion) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.drawio) | Production destinée à la remise | [1.1](#08-diagrammes-activite-cas-utilisation) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md) | Production destinée à la remise | [2.1](#08-diagrammes-activite-cas-utilisation) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md) | Production destinée à la remise | [3.0](#08-diagrammes-activite-cas-utilisation) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.drawio) | Production destinée à la remise | [1.0](#09-diagramme-classes-metier) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.md) | Production destinée à la remise | [2.1](#09-diagramme-classes-metier) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.md) | Production destinée à la remise | [3.0](#09-diagramme-classes-metier) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.drawio) | Production destinée à la remise | [1.1](#10-diagrammes-sequence-systeme) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.md) | Production destinée à la remise | [2.1](#10-diagrammes-sequence-systeme) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.md) | Production destinée à la remise | [3.0](#10-diagrammes-sequence-systeme) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-MATRICE-DROITS.md) | Production destinée à la remise | [9.1](#11-matrice-droits) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [5.1](#12-fiche-descriptive-gestionnaire) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [3.4](#13-fiche-descriptive-formateur) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [6.0](#14-fiche-descriptive-administrateur) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [6.0](#15-fiche-descriptive-super-administrateur) | 16/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio](../docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio) | Production destinée à la remise | [1.0](#01-diagrammes-etats) | 16/11/2026 |
-| [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [5.1](#01-diagrammes-etats) | 16/11/2026 |
+| [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [6.0](#01-diagrammes-etats) | 16/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio](../docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio) | Production destinée à la remise | [1.0](#02-diagramme-classes-analyse) | 16/11/2026 |
-| [docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md](../docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md) | Production destinée à la remise | [3.1](#02-diagramme-classes-analyse) | 16/11/2026 |
+| [docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md](../docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md) | Production destinée à la remise | [4.0](#02-diagramme-classes-analyse) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.drawio](../docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.drawio) | Production destinée à la remise | [1.0](#01-diagramme-classes-conception) | 16/11/2026 |
-| [docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md](../docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md) | Production destinée à la remise | [3.0](#01-diagramme-classes-conception) | 16/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md](../docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md) | Production destinée à la remise | [4.0](#01-diagramme-classes-conception) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.drawio](../docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.drawio) | Production destinée à la remise | [1.1](#02-diagrammes-sequence-detailles) | 16/11/2026 |
-| [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md](../docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md) | Production destinée à la remise | [3.1](#02-diagrammes-sequence-detailles) | 16/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md](../docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md) | Production destinée à la remise | [4.0](#02-diagrammes-sequence-detailles) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio) | Production destinée à la remise | [1.0](#03-modele-physique-donnees) | 16/11/2026 |
-| [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [3.1](#03-modele-physique-donnees) | 16/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [4.0](#03-modele-physique-donnees) | 16/11/2026 |
 | [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [6.0](#01-dossier-architecture-technique) | 16/11/2026 |
 | [docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [3.0](#02-diagrammes-architecture) | 16/11/2026 |
 | [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.2](#01-backlog-et-suivi-projet) | 16/11/2026 |
@@ -108,7 +108,8 @@ Fichier : [docs/01-CONTEXTE/01-GLOSSAIRE.md](../docs/01-CONTEXTE/01-GLOSSAIRE.md
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 7.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 7.2 | 16/11/2026 | Ajouter les acteurs abstraits d’administration des postes, de la supervision et des comptes | en vigueur | — |
+| 7.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 7.0 | 16/11/2026 | L’administrateur hérite des droits du gestionnaire ; acteurs abstraits ajustés | `ddcfea7` (`docs/01-CONTEXTE/00-GLOSSAIRE.md`) | — |
 | 6.0 | 16/11/2026 | Administrateur sans confirmation des installations ni RIGEL | `9bb9802` (`docs/01-CONTEXTE/00-GLOSSAIRE.md`) | — |
 | 5.3 | 15/11/2026 | Termes ajoutés : intervention, compte ORION, étape de remontée, type de problème, C1NP, CCT ; API précisée | `60a0e11` (`docs/01-CONTEXTE/00-GLOSSAIRE.md`) | — |
@@ -213,7 +214,8 @@ Fichier : [docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.md](../d
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 6.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.0 | 16/11/2026 | Administrateur relié à RIGEL, aux installations et au traitement des remontées | `ddcfea7` (`docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md`) | — |
 | 4.0 | 15/11/2026 | RIGEL présenté selon l’architecture cible, sans relais | `04c54ca` (`docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md`) | — |
 | 3.0 | 14/11/2026 | Mise à jour d’après l’état actuel : super administrateur, MindefConnect, RIGEL, solution d’administration des postes, PDF à la demande, traitement par le gestionnaire | `6a42b9f` (`docs/02-ANALYSE/01-MODELISATION-METIER/06-DIAGRAMME-CONTEXTE.md`) | — |
@@ -238,7 +240,8 @@ Fichier : [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 4.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 3.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 3.0 | 16/11/2026 | Traitement, installations et RIGEL ouverts aux administrateurs | `ddcfea7` (`docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md`) | — |
 | 2.2 | 15/11/2026 | Constats RIGEL transmis directement à ORION | `04c54ca` (`docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md`) | — |
 | 2.1 | 15/11/2026 | Termes whitelist et blacklist | `70bd202` (`docs/02-ANALYSE/01-MODELISATION-METIER/07-DIAGRAMMES-ACTIVITE.md`) | — |
@@ -295,7 +298,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.md](../doc
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 3.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 2.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 2.0 | 16/11/2026 | Utilisateur de RIGEL ajouté ; installation et garantie ouvertes aux administrateurs | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md`) | — |
 | 1.5 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; DCU complété d’après l’application | `36f4195` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md`) | — |
 | 1.4 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | `186f904` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DCU-GESTION-PARC.md`) | — |
@@ -318,7 +322,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.m
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 4.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 3.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 3.0 | 15/11/2026 | Vue des postes ; catalogue des applications en V2 | `70bd202` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md`) | — |
 | 2.0 | 15/11/2026 | DCU complété d’après l’application | `36f4195` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md`) | — |
 | 1.6 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | `69eaf4e` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DCU-ADMINISTRATION-POSTES.md`) | — |
@@ -343,7 +348,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.md](
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 3.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 2.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 2.0 | 15/11/2026 | DCU complété d’après l’application | `36f4195` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md`) | — |
 | 1.5 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | `69eaf4e` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DCU-SUPERVISION-POSTES.md`) | — |
 | 1.4 | 12/11/2026 | Renommer le projet en ORION dans tout le dépôt | `e072d65` (`docs/10-DCU-SUPERVISION-POSTES.md`) | — |
@@ -394,7 +400,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.m
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 5.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 4.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 4.0 | 16/11/2026 | Traitement des remontées confié au responsable des remontées | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md`) | — |
 | 3.1 | 14/11/2026 | Déplacer dans docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/ | `69eaf4e` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-DCU-REMONTEES-UTILISATEUR.md`) | — |
 | 3.0 | 13/11/2026 | Traitement des remontées réservé au gestionnaire, prise en charge obligatoire ; règles RG-13, 15, 21, 39, 40, 64, 66, 72 mises à jour et RG-87 à RG-91 ajoutées | `d3c3785` (`docs/11-DCU-REMONTEES-UTILISATEUR.md`) | — |
@@ -418,7 +425,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.md](.
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 3.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 2.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 2.0 | 15/11/2026 | Désignation du premier super administrateur par l’exploitant | `87813f4` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/22-DCU-ADMINISTRER-ORION.md`) | — |
 | 1.0 | 15/11/2026 | Administrer ORION et personnaliser son espace | `36f4195` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/22-DCU-ADMINISTRER-ORION.md`) | — |
 
@@ -437,7 +445,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTI
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 3.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 2.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 2.0 | 16/11/2026 | Installation, recensement et traitement ouverts aux administrateurs | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/23-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md`) | — |
 | 1.0 | 15/11/2026 | Diagrammes d’activité des cas d’utilisation, d’après l’application | `36f4195` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/23-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md`) | — |
 
@@ -455,7 +464,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.md
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 3.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 2.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 2.0 | 15/11/2026 | Déplacement, opération, système d’exploitation et paquet, comme le MCD | `26885dc` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/24-DIAGRAMME-CLASSES-METIER.md`) | — |
 | 1.0 | 15/11/2026 | Diagramme de classes métier en cinq vues | `36f4195` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/24-DIAGRAMME-CLASSES-METIER.md`) | — |
 
@@ -474,7 +484,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 3.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 2.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 2.0 | 16/11/2026 | Traitement, confirmation et RIGEL ouverts aux administrateurs | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/25-DIAGRAMMES-SEQUENCE-SYSTEME.md`) | — |
 | 1.0 | 15/11/2026 | Diagrammes de séquence système | `36f4195` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/25-DIAGRAMMES-SEQUENCE-SYSTEME.md`) | — |
 
@@ -607,7 +618,8 @@ Fichier : [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 6.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.0 | 16/11/2026 | Traitement et confirmation ouverts aux administrateurs | `ddcfea7` (`docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md`) | — |
 | 4.2 | 15/11/2026 | Termes whitelist et blacklist | `70bd202` (`docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md`) | — |
 | 4.1 | 14/11/2026 | Intervention : état « En cours » de la demande et des postes ; Machines à états du matériel et du processus | `36f4195` (`docs/02-ANALYSE/03-ANALYSE/17-DIAGRAMMES-ETATS.md`) | — |
@@ -631,7 +643,8 @@ Fichier : [docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md](../docs/0
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 4.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 3.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 3.0 | 16/11/2026 | Responsable des remontées et utilisateur de RIGEL | `ddcfea7` (`docs/02-ANALYSE/03-ANALYSE/26-DIAGRAMME-CLASSES-ANALYSE.md`) | — |
 | 2.0 | 15/11/2026 | API de RIGEL à la place du connecteur | `04c54ca` (`docs/02-ANALYSE/03-ANALYSE/26-DIAGRAMME-CLASSES-ANALYSE.md`) | — |
 | 1.1 | 15/11/2026 | Déplacement et opération, comme le MCD | `26885dc` (`docs/02-ANALYSE/03-ANALYSE/26-DIAGRAMME-CLASSES-ANALYSE.md`) | — |
@@ -651,7 +664,8 @@ Fichier : [docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.0 | 16/11/2026 | Représenter les classes majeures avec attributs, méthodes et associations | en vigueur | — |
+| 4.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 3.0 | 16/11/2026 | Représenter les classes majeures avec attributs, méthodes et associations | `2eeab80` | — |
 | 2.2 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 2.1 | 15/11/2026 | Routes et règle des opérations RIGEL renommées | `0867182` (`docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md`) | — |
 | 2.0 | 15/11/2026 | RIGEL selon la cible : API d’Express, sans relais ni connecteur ; RIGEL selon la cible : API d’Express, sans relais ni connecteur | `04c54ca` (`docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md`) | — |
@@ -672,7 +686,8 @@ Fichier : [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md](..
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 4.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 3.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 3.0 | 16/11/2026 | Traitement et RIGEL ouverts aux administrateurs | `ddcfea7` (`docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md`) | — |
 | 2.1 | 15/11/2026 | Tables sans préfixe ; collections interventions et operations | `0867182` (`docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md`) | — |
 | 2.0 | 15/11/2026 | Constat RIGEL transmis directement à Express ; Constat RIGEL transmis directement à Express | `04c54ca` (`docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md`) | — |
@@ -692,7 +707,8 @@ Fichier : [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md](../docs/
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 4.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 3.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 3.0 | 15/11/2026 | Tables sans préfixe orion_ ; Intervention, Operation et Deplacement | `0867182` (`docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md`) | — |
 | 2.0 | 15/11/2026 | Base du relais RIGEL retirée de la cible | `04c54ca` (`docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md`) | — |
 | 1.0 | 15/11/2026 | Modèle physique des données en UML (profil d’Ambler) | `36f4195` (`docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md`) | — |

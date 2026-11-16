@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [5 versions](../../../archive/README.md#02-diagrammes-sequence-detailles) |
+| 4.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [6 versions](../../../archive/README.md#02-diagrammes-sequence-detailles) |
 <!-- version:fin -->
 
 ## Écriture concurrente fusionnée
@@ -25,7 +25,7 @@ sequenceDiagram
     V->>S: update('data', mutator)
     S->>S: appliquer mutator à l'état local, emit('data'), pending++
     S->>R: PUT /api/workspace {baseRevision: n, state}
-    R->>R: sessionActor(req), contrôle de l'origine
+    R->>R: contrôle de l'origine, sessionActor(req)
     R->>E: update(state, n, actor)
     E->>P: write(change)
     P->>DB: BEGIN
@@ -37,14 +37,16 @@ sequenceDiagram
         P->>P: loadState() → état courant
     end
     P->>E: change(état courant, since)
-    E->>DB: SELECT revision, cles FROM journal WHERE revision > n
-    DB-->>E: entrées n + 1 … n + k
+    E->>P: since(n)
+    P->>DB: SELECT revision, cles FROM journal WHERE revision > n
+    DB-->>P: entrées n + 1 … n + k
+    P-->>E: entrées
     E->>F: rebase(état, saisie, n, journal, actor)
-    alt même élément modifié par le navigateur et par une autre écriture
+    alt journal incomplet depuis n, ou même élément modifié par le navigateur et par une autre écriture
         F-->>E: erreur 409
         E-->>P: exception
         P->>DB: ROLLBACK
-        R-->>S: 409 « Cet élément a été modifié entre-temps »
+        R-->>S: 409 « Les données ont changé » ou « Cet élément a été modifié entre-temps »
         S->>S: adopt(committed, 'all'), generation++
         S-->>V: événement orion:save-error
     else éléments distincts
@@ -72,7 +74,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     autonumber
-    actor A as Formateur ou administrateur
+    actor A as Formateur, administrateur<br/>ou super administrateur
     actor G as Gestionnaire, administrateur<br/>ou super administrateur
     participant C as Création (remontees-create.tsx)
     participant L as Remontées (remontees.tsx)
@@ -121,7 +123,8 @@ sequenceDiagram
     L->>S: update('data', statut final)
     S->>R: PUT /api/workspace
     R->>E: update
-    E->>RR: transition encours → remplace ou corrige
+    E->>M: mergeState
+    M->>RR: regleRemontee : transition encours → remplace ou corrige
     E->>DB: UPDATE remontee, COMMIT
     R-->>S: 200
 ```
@@ -131,7 +134,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     autonumber
-    actor A as Administrateur
+    actor A as Administrateur<br/>ou super administrateur
     participant V as Formulaire d'intervention
     participant S as store
     participant R as WorkspaceRouter
@@ -167,7 +170,7 @@ sequenceDiagram
     AR->>E: agent.resultats(resultats)
     E->>PO: applyResults(état, resultats)
     PO->>PO: résultat du poste, installation ajoutée si réussie
-    alt tous les postes ont répondu
+    opt tous les postes ont répondu
         PO->>PO: statut « terminee » ou « echec », date de fin
     end
     E->>DB: écriture système, COMMIT
@@ -197,9 +200,9 @@ sequenceDiagram
     S->>R: POST /api/workspace/salles/:id/installation
     R->>E: rigel.installation(actor, salleId, config)
     E->>RC: lancerInstallation(état, actor, salleId)
-    E->>DB: INSERT donnee (collection operations), COMMIT
     E->>RC: appairage(état, actor, id, config)
     RC-->>E: adresse avec opération et jeton dérivé du secret
+    E->>DB: INSERT donnee (collection operations), COMMIT
     R-->>S: {url, expireLe, state}
     S-->>V: code QR d'appairage
     G->>T: lire le code QR
@@ -302,24 +305,29 @@ sequenceDiagram
         X-->>N: 302 /?error=session
     else tentative valide
         X->>IDP: authorizationCodeGrant (code, vérificateur PKCE)
-        IDP-->>X: jeton d'identité et jeton d'accès
+        IDP-->>X: jeton d'identité et jeton d'accès, ou refus
         X->>X: contrôle du state et du nonce, revendications
-        X->>E: findAccount({sub, email})
-        E-->>X: compte ORION rapproché
-        alt compte inconnu ou désactivé
+        alt échange refusé ou jeton invalide
             X->>SS: destroy()
-            X-->>N: 302 /?error=compte
-        else compte actif
-            X->>E: connexion(compte, sub)
-            E->>DB: sujet et dernière connexion, COMMIT
-            X->>SS: regenerate() puis accountId, idToken, expiresAt
-            SS->>DB: INSERT session
-            X-->>N: 302 / (cookie orion.sid)
-            N->>X: GET /api/me
-            X->>X: sessionActor(req)
-            X-->>N: profil, école
-            N->>X: GET /api/workspace
-            X-->>N: vue du compte
+            X-->>N: 302 /?error=connexion
+        else jeton valide
+            X->>E: findAccount({sub, email})
+            E-->>X: compte ORION rapproché
+            alt compte inconnu ou désactivé
+                X->>SS: destroy()
+                X-->>N: 302 /?error=compte
+            else compte actif
+                X->>E: connexion(compte, sub)
+                E->>DB: sujet et dernière connexion, COMMIT
+                X->>SS: regenerate() puis accountId, idToken, ouverteLe, activeLe
+                SS->>DB: INSERT session
+                X-->>N: 302 / (cookie orion.sid)
+                N->>X: GET /api/me
+                X->>X: sessionActor(req)
+                X-->>N: profil, école
+                N->>X: GET /api/workspace
+                X-->>N: vue du compte
+            end
         end
     end
 ```

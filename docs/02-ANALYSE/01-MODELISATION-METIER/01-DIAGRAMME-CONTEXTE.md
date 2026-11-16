@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [9 versions](../../../archive/README.md#01-diagramme-contexte) |
+| 6.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [10 versions](../../../archive/README.md#01-diagramme-contexte) |
 <!-- version:fin -->
 
 ```mermaid
@@ -23,7 +23,7 @@ flowchart LR
 
     gestionnaire <-->|"Vers ORION : matériels, stocks, affectations, import JSON ;<br/>prise en charge et traitement des remontées ;<br/>confirmation des installations, recensements<br/>Vers le gestionnaire : tableaux de bord du parc et des remontées ;<br/>notifications des nouvelles remontées, des garanties<br/>et des matériels à déplacer ; PDF d'état des lieux<br/>produit à la demande ; QR code de liaison RIGEL"| orion
     formateur <-->|"Vers ORION : consultation des salles ; supervision d'une salle,<br/>arrêt d'un processus utilisateur ; création d'une remontée<br/>Vers le formateur : postes, processus utilisateur et alertes<br/>de la salle ; suivi et PDF de ses remontées ;<br/>notifications de leur évolution"| orion
-    administrateur <-->|"Vers ORION : parc, salles, postes, applications,<br/>règles de processus et comptes de son école ;<br/>interventions sur les postes ; création, prise en charge<br/>et traitement des remontées ; confirmation des installations,<br/>recensements<br/>Vers l'administrateur : tableaux de bord, supervision,<br/>statistiques, PDF d'état des lieux, résultats des interventions ;<br/>notifications des interventions, des processus interdits,<br/>des garanties et de ses remontées ; QR code de liaison RIGEL"| orion
+    administrateur <-->|"Vers ORION : parc, salles, postes, applications,<br/>règles de processus et comptes de son école ;<br/>interventions sur les postes ; création, prise en charge<br/>et traitement des remontées ; confirmation des installations,<br/>recensements<br/>Vers l'administrateur : tableaux de bord, supervision,<br/>statistiques, PDF d'état des lieux, résultats des interventions ;<br/>notifications des interventions, des processus interdits,<br/>des garanties, des matériels à déplacer et de ses remontées ;<br/>QR code de liaison RIGEL"| orion
     superadmin <-->|"Vers ORION : actions de l'administrateur sur toutes les écoles,<br/>sauf RIGEL ;<br/>écoles, règles globales, comptes de super administrateur<br/>Vers le super administrateur : données de l'école choisie<br/>ou de toutes les écoles ; notifications de l'administrateur"| orion
 
     orion <-->|"Vers MindefConnect : redirection des utilisateurs<br/>pour authentification<br/>Vers ORION : identité authentifiée"| mindefconnect

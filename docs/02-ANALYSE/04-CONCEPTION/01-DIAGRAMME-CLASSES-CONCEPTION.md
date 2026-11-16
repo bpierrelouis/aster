@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.0 | 16/11/2026 | Production destinée à la remise | Représenter les classes majeures avec attributs, méthodes et associations | [5 versions](../../../archive/README.md#01-diagramme-classes-conception) |
+| 4.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [6 versions](../../../archive/README.md#01-diagramme-classes-conception) |
 <!-- version:fin -->
 
 ## Classes de conception d'ORION
@@ -19,6 +19,7 @@ classDiagram
         -actif : Boolean
         -derniereConnexion : Date
         -dateDesactivation : Date
+        -sujet : String
         +ouvrirSession(sujet : String) void
         +changerProfil(profil : Profil) void
         +desactiver() void
@@ -36,12 +37,12 @@ classDiagram
         -batiment : String
         -etage : Integer
         +equiper(materiel : Materiel) void
-        +lancerInstallation(gestionnaire : Compte) OperationRigel
+        +lancerInstallation(lanceur : Compte) OperationRigel
     }
     class Materiel {
         -id : String
         -idOrion : String
-        -type : String
+        -type : TypeMateriel
         -modele : String
         -marque : String
         -numeroSerie : String
@@ -56,14 +57,13 @@ classDiagram
     }
     class Remontee {
         -id : String
-        -numero : String
         -typeProbleme : String
         -description : String
         -statut : StatutRemontee
         -dateCreation : Date
-        +prendreEnCharge(gestionnaire : Compte) void
+        +prendreEnCharge(responsable : Compte) void
         +terminer(statut : StatutRemontee) void
-        +produireEtatDesLieux() PDF
+        +produireEtatDesLieux() Byte[]
     }
     class EtapeRemontee {
         -statut : StatutRemontee
@@ -78,7 +78,7 @@ classDiagram
         -allume : Boolean
         -session : String
         -dernierRapport : Date
-        +recevoirRapport(rapport : Rapport) void
+        +recevoirRapport(processus : Processus[], applications : Application[]) void
         +commandesEnAttente() Intervention[]
         +marquerDeconnecte() void
     }
@@ -110,8 +110,9 @@ classDiagram
         -image : String
         -date : Date
         -dateFin : Date
+        -resultats : Map~Poste, ResultatPoste~
         +transmettre(poste : Poste) void
-        +enregistrerResultat(poste : Poste, reussie : Boolean) void
+        +enregistrerResultat(poste : Poste, resultat : ResultatPoste) void
         +clore() void
     }
     class OperationRigel {
@@ -120,8 +121,8 @@ classDiagram
         -mode : ModeOperation
         -date : Date
         -dateExpiration : Date
-        +appairer() Appairage
-        +appliquerEvenements(evenements : Evenement[]) void
+        +appairer() String
+        +integrerConstats(constats : Constat[]) void
         +clore() void
     }
     class Constat {
@@ -129,28 +130,99 @@ classDiagram
         -type : TypeConstat
         -code : String
         -dateObservation : Date
+        -resultat : ResultatConstat
         +traiter(action : ActionConstat) void
     }
     class Profil {
         <<enumeration>>
-        FORMATEUR
-        GESTIONNAIRE
-        ADMINISTRATEUR
-        SUPER_ADMINISTRATEUR
+        formateur
+        gestionnaire
+        admin
+        superadmin
     }
     class StatutRemontee {
         <<enumeration>>
-        EN_ATTENTE
-        EN_COURS
-        REMPLACE
-        CORRIGE
+        attente
+        encours
+        remplace
+        corrige
     }
     class TypeIntervention {
         <<enumeration>>
-        INSTALLATION
-        DESINSTALLATION
-        REINITIALISATION
-        ARRET_PROCESSUS
+        installation
+        desinstallation
+        reinstallation
+        arret
+    }
+    class StatutIntervention {
+        <<enumeration>>
+        enregistree
+        terminee
+        echec
+    }
+    class ResultatPoste {
+        <<enumeration>>
+        en_attente
+        reussie
+        echec
+    }
+    class Classement {
+        <<enumeration>>
+        blacklist
+        nonref
+        whitelist
+    }
+    class Portee {
+        <<enumeration>>
+        global
+        ecole
+        batiment
+        salle
+    }
+    class ModeOperation {
+        <<enumeration>>
+        installation
+        recensement
+    }
+    class TypeConstat {
+        <<enumeration>>
+        vu
+        releve
+        retour
+        stock
+        inconnu
+    }
+    class ResultatConstat {
+        <<enumeration>>
+        confirme
+        present
+        ecart
+        deplace
+        range
+        retour
+        stock
+        ajoute
+        inconnu
+        refuse
+    }
+    class ActionConstat {
+        <<enumeration>>
+        stock
+        affectation
+        constat
+        ajoute
+        ecarte
+    }
+    class TypeMateriel {
+        <<enumeration>>
+        uc
+        videoprojecteur
+        reseau
+        peripherique
+        ecran
+        audio
+        imprimante
+        autre
     }
 
     Ecole "0..1" -- "*" Compte : rattache
@@ -158,7 +230,7 @@ classDiagram
     Ecole "1" -- "*" Materiel : possède
     Ecole "1" -- "*" Remontee : reçoit
     Salle "0..1" o-- "*" Materiel : contient
-    Salle "1" *-- "*" Poste : accueille
+    Salle "1" o-- "*" Poste : accueille
     Poste "0..1" -- "0..1" Materiel : unité centrale
     Poste "1" *-- "*" Processus : exécute
     Poste "*" -- "*" Application : installée
@@ -166,14 +238,14 @@ classDiagram
     Compte "0..1" <-- "*" Remontee : auteur
     Remontee "*" --> "1..*" Materiel : concerne
     Remontee "1" *-- "1..*" EtapeRemontee : historique
-    Compte "1" <-- "*" Intervention : demandeur
+    Compte "0..1" <-- "*" Intervention : demandeur
     Intervention "*" --> "1..*" Poste : cibles
     Intervention "*" --> "0..1" Application
+    Intervention "*" --> "0..1" Processus : arrêt de
     Compte "1" <-- "*" OperationRigel : lanceur
-    OperationRigel "*" --> "1..*" Salle : couvre
+    Ecole "1" -- "*" OperationRigel
+    OperationRigel "*" --> "0..*" Salle : couvre
     OperationRigel "1" *-- "*" Constat : remonte
     Constat "*" --> "0..1" Materiel : identifie
-    Compte ..> Profil
-    Remontee ..> StatutRemontee
-    Intervention ..> TypeIntervention
+    Constat "*" --> "0..1" Salle : lieu constaté
 ```

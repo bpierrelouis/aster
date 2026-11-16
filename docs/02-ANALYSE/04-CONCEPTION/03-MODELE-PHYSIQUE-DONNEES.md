@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [4 versions](../../../archive/README.md#03-modele-physique-donnees) |
+| 4.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [5 versions](../../../archive/README.md#03-modele-physique-donnees) |
 <!-- version:fin -->
 
 ## Base ORION : tables relationnelles
@@ -33,7 +33,7 @@ classDiagram
         <<Table>>
         «PK» sid : varchar
         sess : json NOT NULL
-        expire : timestamp NOT NULL
+        expire : timestamp#40;6#41; NOT NULL
     }
     class ecole {
         <<Table>>
@@ -167,6 +167,7 @@ classDiagram
         «PK» id : text
         ecole_id : text
         data : jsonb NOT NULL
+        rang : bigint GENERATED ALWAYS AS IDENTITY
     }
     class Poste {
         <<JSON>>
@@ -175,17 +176,17 @@ classDiagram
         nomReseau : string, unique, capitales
         materielId : Id ou null
         allume : boolean
-        session : string ou null
-        vuLe : horodatage ou null
-        adresseIp : string
-        os : string
+        session? : string ou null
+        vuLe? : horodatage ou null
+        adresseIp? : string
+        os? : string
     }
     class Processus {
         <<JSON>>
         id : Id
         posteId : Id
         salleId : Id
-        ecoleId : Id
+        ecoleId? : Id
         nom : string
         compte : string
         startedAt : horodatage
@@ -197,7 +198,7 @@ classDiagram
         at : horodatage
         posteId : Id
         salleId : Id
-        ecoleId : Id
+        ecoleId? : Id
         processus : string
         compte : string
         classement : blacklist nonref whitelist
@@ -210,8 +211,8 @@ classDiagram
         classement : blacklist whitelist
         portee : global ecole batiment salle
         ecoleId : Id ou null
-        batiment : string
-        salleId : Id
+        batiment? : string
+        salleId? : Id
     }
     class Application {
         <<JSON>>
@@ -225,7 +226,7 @@ classDiagram
         id : posteId-applicationId
         posteId : Id
         salleId : Id
-        ecoleId : Id
+        ecoleId? : Id
         applicationId : Id
     }
     class Intervention {
@@ -233,19 +234,19 @@ classDiagram
         id : Id
         type : installation desinstallation reinstallation arret
         cibles : Id[]
-        salleId : Id
+        salleId? : Id
         ecoleId : Id
         at : horodatage
         par : string
         parId : Id ou null
         statut : enregistree terminee echec
         resultats : posteId vers en_attente reussie echec
-        applicationId : Id
-        image : string
-        processusId : Id
-        detectionId : Id
-        auto : boolean
-        termineLe : horodatage
+        applicationId? : Id
+        image? : string
+        processusId? : Id
+        detectionId? : Id
+        auto? : boolean
+        termineLe? : horodatage
     }
     class Operation {
         <<JSON>>
@@ -258,7 +259,7 @@ classDiagram
         par : string
         parId : Id ou null
         expireLe : horodatage
-        close : Trace
+        close? : Trace
     }
     class Constat {
         <<JSON>>
@@ -271,10 +272,10 @@ classDiagram
         materielId : Id ou null
         observeLe : horodatage
         at : horodatage
-        resultat : ConstatResultat
-        message : string
-        saisie : type modele marque serie garantieFin
-        traite : Trace et action
+        resultat : confirme present ecart deplace range retour stock ajoute inconnu refuse
+        message? : string
+        saisie? : type modele marque serie garantieFin?
+        traite? : Trace et action
     }
     class Deplacement {
         <<JSON>>
@@ -313,8 +314,12 @@ classDiagram
     remontee *-- "1..*" EtapeRemontee : historique
     Processus ..> Poste : posteId
     Detection ..> Poste : posteId
+    Installation ..> Poste : posteId
     Installation ..> Application : applicationId
     Intervention ..> Poste : cibles
+    Intervention ..> Application : applicationId
     Intervention ..> Processus : processusId
+    Intervention ..> Detection : detectionId
     Constat ..> Operation : operationId
+    Constat ..> materiel : materielId
 ```

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [3 versions](../../../archive/README.md#08-diagrammes-activite-cas-utilisation) |
+| 3.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [4 versions](../../../archive/README.md#08-diagrammes-activite-cas-utilisation) |
 <!-- version:fin -->
 
 ## 1. Se connecter par MindefConnect
@@ -30,7 +30,7 @@ flowchart TD
         actif{"Compte ORION actif ?"}
         refuser["Refuser l’accès sans ouvrir de session"]
         session["Ouvrir la session, enregistrer la date de connexion"]
-        afficher["Afficher le tableau de bord personnel du profil<br/>et le résumé des notifications"]
+        afficher["Afficher le tableau de bord<br/>personnel du profil<br/>et le résumé des notifications"]
     end
 
     debut --> acceder --> rediriger --> authentifier --> verifier --> transmettre --> rapprocher --> actif
@@ -48,26 +48,28 @@ flowchart TD
 
     subgraph ACTEUR["Gestionnaire, administrateur ou super administrateur"]
         choisir["Créer un matériel ou ouvrir la fiche d’un matériel"]
+        fusionSaisir{" "}
         saisir["Renseigner le type, le modèle, la date de réception, l’état hors service<br/>et, si besoin, la marque, le numéro de série, l’adresse MAC,<br/>la fin de garantie et la salle"]
         corriger["Corriger les informations signalées"]
     end
 
     subgraph SYSTEME["ORION"]
-        controleDroit{"Matériel de son école<br/>et droit de gestion ?"}
+        controleDroit{"Matériel de son périmètre<br/>et droit de gestion ?"}
         controleDonnees{"Données obligatoires renseignées<br/>et salle de l’école du matériel ?"}
         controleHs{"Matériel hors service<br/>déplacé vers une salle ?"}
+        fusionSignaler{" "}
         signaler["Signaler les informations à corriger"]
         refuser["Refuser l’opération sans modifier le parc"]
         enregistrer["Enregistrer le matériel ; à la création, attribuer l’identifiant ORION"]
         deplacement["Lancer le déplacement si la salle change"]
     end
 
-    debut --> choisir --> saisir --> controleDroit
+    debut --> choisir --> fusionSaisir --> saisir --> controleDroit
     controleDroit -->|"[non]"| refuser --> finRefus
     controleDroit -->|"[oui]"| controleDonnees
-    controleDonnees -->|"[non]"| signaler --> corriger --> saisir
+    controleDonnees -->|"[non]"| fusionSignaler --> signaler --> corriger --> fusionSaisir
     controleDonnees -->|"[oui]"| controleHs
-    controleHs -->|"[oui]"| signaler
+    controleHs -->|"[oui]"| fusionSignaler
     controleHs -->|"[non]"| enregistrer --> deplacement --> fin
 ```
 
@@ -81,35 +83,39 @@ flowchart TD
 
     subgraph ACTEUR["Gestionnaire, administrateur ou super administrateur"]
         selectionner["Choisir l’école de destination et sélectionner le fichier JSON"]
-        valider["Valider ou non le transfert de chaque matériel<br/>déjà enregistré dans une autre école"]
+        valider["Valider ou non le transfert<br/>de chaque matériel déjà enregistré<br/>dans une autre école"]
         confirmer["Confirmer l’import"]
     end
 
     subgraph SYSTEME["ORION"]
         lire{"Fichier lisible, non vide,<br/>de taille admise ?"}
-        rapprocher["Rapprocher les numéros de série du fichier<br/>de ceux de tout le parc, toutes écoles comprises"]
+        rapprocher["Rapprocher les numéros de série du fichier<br/>de ceux de tout le parc,<br/>toutes écoles comprises"]
         presenter["Présenter les correspondances :<br/>matériels déjà connus et transferts possibles"]
-        ligne{"Reste-t-il une ligne à traiter ?"}
+        fusionLigne{" "}
+        ligne{"Reste-t-il une ligne<br/>à traiter ?"}
         connu{"Numéro de série<br/>déjà connu ?"}
-        controleLigne{"Matériel complet et valide,<br/>salle de l’école de destination ?"}
+        controleLigne{"Matériel complet et valide,<br/>salle de l’école<br/>de destination ?"}
         creer["Créer le matériel et lui attribuer un identifiant ORION"]
-        autreEcole{"Matériel d’une autre école, transfert validé,<br/>non cité par une remontée en cours<br/>et non placé hors service dans une salle ?"}
-        transferer["Transférer le matériel dans l’école de destination,<br/>identifiant ORION conservé"]
-        ignorer["Ignorer la ligne : déjà présente dans l’école,<br/>répétée dans le fichier ou transfert non retenu"]
+        autreEcole{"Matériel d’une autre école,<br/>transfert validé, non cité par<br/>une remontée en cours et non placé<br/>hors service dans une salle ?"}
+        transferer["Transférer le matériel<br/>dans l’école de destination,<br/>identifiant ORION conservé"]
+        ignorer["Ignorer la ligne :<br/>déjà présente dans l’école,<br/>répétée dans le fichier<br/>ou transfert non retenu"]
+        fusionTraitee{" "}
+        fusionRefuser{" "}
         refuser["Refuser l’import sans modifier le parc"]
-        bilan["Appliquer immédiatement l’import<br/>et présenter le bilan : ajoutés, transférés, ignorés"]
+        bilan["Appliquer immédiatement l’import<br/>et présenter le bilan :<br/>ajoutés, transférés, ignorés"]
     end
 
     debut --> selectionner --> lire
-    lire -->|"[non]"| refuser --> finRefus
-    lire -->|"[oui]"| rapprocher --> presenter --> valider --> confirmer --> ligne
+    lire -->|"[non]"| fusionRefuser --> refuser --> finRefus
+    lire -->|"[oui]"| rapprocher --> presenter --> valider --> confirmer --> fusionLigne --> ligne
     ligne -->|"[oui]"| connu
     connu -->|"[non]"| controleLigne
-    controleLigne -->|"[non]"| refuser
-    controleLigne -->|"[oui]"| creer --> ligne
+    controleLigne -->|"[non]"| fusionRefuser
+    controleLigne -->|"[oui]"| creer --> fusionTraitee
     connu -->|"[oui]"| autreEcole
-    autreEcole -->|"[oui]"| transferer --> ligne
-    autreEcole -->|"[non]"| ignorer --> ligne
+    autreEcole -->|"[oui]"| transferer --> fusionTraitee
+    autreEcole -->|"[non]"| ignorer --> fusionTraitee
+    fusionTraitee --> fusionLigne
     ligne -->|"[non]"| bilan --> fin
 ```
 
@@ -122,13 +128,14 @@ flowchart TD
     finRefus(["Fin — affectation refusée"])
 
     subgraph ACTEUR["Gestionnaire, administrateur ou super administrateur"]
-        rechercher["Rechercher et sélectionner un ou plusieurs matériels de l’école"]
+        rechercher["Rechercher et sélectionner un ou plusieurs matériels de son périmètre"]
         destination["Choisir la salle de destination ou le stock"]
     end
 
     subgraph SYSTEME["ORION"]
         controle{"Matériels et salle<br/>de la même école ?"}
         hs{"Un matériel hors service<br/>vers une salle ?"}
+        fusionRefuser{" "}
         refuser["Refuser l’affectation"]
         affecter["Affecter immédiatement les matériels à leur destination"]
         physique{"Destination différente de<br/>l’emplacement physique ?"}
@@ -137,9 +144,9 @@ flowchart TD
     end
 
     debut --> rechercher --> destination --> controle
-    controle -->|"[non]"| refuser --> finRefus
+    controle -->|"[non]"| fusionRefuser --> refuser --> finRefus
     controle -->|"[oui]"| hs
-    hs -->|"[oui]"| refuser
+    hs -->|"[oui]"| fusionRefuser
     hs -->|"[non]"| affecter --> physique
     physique -->|"[oui]"| lancer --> fin
     physique -->|"[non]"| retour --> fin
@@ -173,11 +180,12 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    debut(["Début — matériels affectés à la salle ou retirés vers le stock"])
+    debut(["Début — matériels affectés à la salle<br/>ou retirés vers le stock"])
     fin(["Fin — installation de la salle terminée"])
 
     subgraph GESTIONNAIRE["Gestionnaire, administrateur ou super administrateur"]
-        mode{"Confirmer avec RIGEL ?<br/>(gestionnaire ou administrateur)"}
+        fusionMode{" "}
+        mode{"Confirmer avec RIGEL ?<br/>(gestionnaire<br/>ou administrateur)"}
         confirmerOrion["Confirmer dans ORION le déplacement<br/>de chaque matériel installé ou rangé"]
         lier["Lancer l’installation RIGEL de la salle<br/>et lier son téléphone par le QR code"]
         scanner["Ouvrir la salle sur le téléphone<br/>et scanner chaque matériel"]
@@ -189,17 +197,18 @@ flowchart TD
     end
 
     subgraph SYSTEME["ORION"]
-        enCours["Présenter la salle « en cours d’installation »<br/>et les matériels à déplacer"]
-        integrer["Intégrer les constats : déplacement confirmé,<br/>auteur et date conservés"]
+        enCours["Présenter la salle<br/>« en cours d’installation »<br/>et les matériels à déplacer"]
+        integrer["Intégrer les constats :<br/>déplacement confirmé,<br/>auteur et date conservés"]
         enregistrer["Enregistrer la confirmation, son auteur et sa date"]
+        fusionReste{" "}
         reste{"Reste-t-il des déplacements<br/>vers la salle ou depuis elle ?"}
-        terminer["Terminer l’installation au nom de l’utilisateur<br/>qui a confirmé le dernier déplacement"]
+        terminer["Terminer l’installation<br/>au nom de l’utilisateur qui a confirmé<br/>le dernier déplacement"]
     end
 
-    debut --> enCours --> mode
-    mode -->|"[non]"| confirmerOrion --> enregistrer --> reste
-    mode -->|"[oui]"| lier --> scanner --> constater --> transmettre --> integrer --> reste
-    reste -->|"[oui]"| mode
+    debut --> enCours --> fusionMode --> mode
+    mode -->|"[non]"| confirmerOrion --> enregistrer --> fusionReste --> reste
+    mode -->|"[oui]"| lier --> scanner --> constater --> transmettre --> integrer --> fusionReste
+    reste -->|"[oui]"| fusionMode
     reste -->|"[non]"| terminer --> fin
 ```
 
@@ -213,18 +222,21 @@ flowchart TD
     subgraph GESTIONNAIRE["Gestionnaire ou administrateur"]
         lancer["Lancer un nouveau recensement :<br/>nom, école entière ou salles choisies"]
         lier["Lier son téléphone par le QR code affiché"]
+        fusionOuvrir{" "}
         ouvrir["Ouvrir un lieu sur le téléphone : s’y déclarer présent"]
+        fusionScanner{" "}
         scanner["Scanner un matériel"]
         inconnuSaisie["Confirmer l’ajout et saisir<br/>les informations du matériel"]
         ailleurs["Accepter le matériel sur place,<br/>le ramener à son lieu d’affectation<br/>ou le mettre au stock"]
         suite{"Autre matériel,<br/>autre lieu ou fin ?"}
-        poursuivre{"Poursuivre le recensement ?"}
+        poursuivre{"Poursuivre<br/>le recensement ?"}
         clore["Clore le recensement"]
     end
 
     subgraph RIGEL["RIGEL"]
         connu{"Code connu ?"}
         place{"Matériel affecté<br/>au lieu ouvert ?"}
+        fusionConstat{" "}
         constat["Enregistrer le constat daté, même sans réseau"]
         transmettre["Transmettre les constats dès que le réseau le permet"]
     end
@@ -234,25 +246,28 @@ flowchart TD
         recent{"Scan plus récent que la dernière<br/>information connue du matériel ?"}
         refuser["Refuser le constat"]
         integrer["Intégrer le constat : présence confirmée,<br/>matériel réaffecté, déplacement lancé<br/>ou matériel créé dans le lieu du scan"]
+        fusionEcheance{" "}
         echeance{"Quatorze jours écoulés ?"}
+        fusionCloture{" "}
         cloture["Clore le recensement, sans réouverture possible"]
     end
 
-    debut --> lancer --> ouvrirRecensement --> lier --> ouvrir --> scanner --> connu
-    connu -->|"[non]"| inconnuSaisie --> constat
+    debut --> lancer --> ouvrirRecensement --> lier --> fusionOuvrir --> ouvrir --> fusionScanner --> scanner --> connu
+    connu -->|"[non]"| inconnuSaisie --> fusionConstat
     connu -->|"[oui]"| place
-    place -->|"[oui]"| constat
-    place -->|"[non]"| ailleurs --> constat
-    constat --> suite
-    suite -->|"[autre matériel]"| scanner
-    suite -->|"[autre lieu]"| ouvrir
+    place -->|"[oui]"| fusionConstat
+    place -->|"[non]"| ailleurs --> fusionConstat
+    fusionConstat --> constat --> suite
+    suite -->|"[autre matériel]"| fusionScanner
+    suite -->|"[autre lieu]"| fusionOuvrir
     suite -->|"[fin]"| transmettre --> recent
-    recent -->|"[non]"| refuser --> echeance
-    recent -->|"[oui]"| integrer --> echeance
+    recent -->|"[non]"| refuser --> fusionEcheance
+    recent -->|"[oui]"| integrer --> fusionEcheance
+    fusionEcheance --> echeance
     echeance -->|"[non]"| poursuivre
-    poursuivre -->|"[oui]"| ouvrir
-    poursuivre -->|"[non]"| clore --> cloture
-    echeance -->|"[oui]"| cloture --> fin
+    poursuivre -->|"[oui]"| fusionOuvrir
+    poursuivre -->|"[non]"| clore --> fusionCloture
+    echeance -->|"[oui]"| fusionCloture --> cloture --> fin
 ```
 
 ## 8. Créer une remontée
@@ -264,25 +279,26 @@ flowchart TD
     finRefus(["Fin — création refusée"])
 
     subgraph ACTEUR["Formateur, administrateur ou super administrateur"]
-        selection["Sélectionner un ou plusieurs matériels de l’école"]
-        saisie["Choisir le type de problème, décrire le problème<br/>et transmettre la remontée"]
+        selection["Sélectionner un ou plusieurs matériels de son périmètre"]
+        fusionSaisie{" "}
+        saisie["Choisir le type de problème,<br/>décrire le problème<br/>et transmettre la remontée"]
         correction["Compléter les informations signalées"]
     end
 
     subgraph SYSTEME["ORION"]
         localisation["Présenter la localisation de chaque matériel lorsqu’elle est renseignée"]
-        controleAcces{"Matériels de l’école de la remontée ;<br/>pour le formateur, matériels affectés à une salle ?"}
-        controleDonnees{"Type de problème et description renseignés ?"}
+        controleAcces{"Matériels de l’école<br/>de la remontée ; pour le formateur,<br/>matériels affectés à une salle ?"}
+        controleDonnees{"Type de problème<br/>et description renseignés ?"}
         erreurs["Signaler les informations manquantes"]
         refus["Refuser la création"]
         enregistrer["Numéroter la remontée, fixer son auteur et sa date,<br/>l’enregistrer « en attente »"]
         notification["Notifier le gestionnaire de l’école"]
     end
 
-    debut --> selection --> localisation --> saisie --> controleAcces
+    debut --> selection --> localisation --> fusionSaisie --> saisie --> controleAcces
     controleAcces -->|"[non]"| refus --> finRefus
     controleAcces -->|"[oui]"| controleDonnees
-    controleDonnees -->|"[non]"| erreurs --> correction --> saisie
+    controleDonnees -->|"[non]"| erreurs --> correction --> fusionSaisie
     controleDonnees -->|"[oui]"| enregistrer --> notification --> fin
 ```
 
@@ -290,13 +306,14 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    debut(["Début — remontée de son périmètre notifiée ou repérée"])
+    debut(["Début — remontée de son périmètre<br/>notifiée ou repérée"])
     fin(["Fin — remontée terminée, statut définitif"])
-    finRefus(["Fin — remontée déjà terminée, aucun changement"])
+    finRefus(["Fin — remontée déjà terminée,<br/>aucun changement"])
 
     subgraph GESTIONNAIRE["Gestionnaire, administrateur ou super administrateur"]
         ouvrir["Ouvrir la remontée et consulter son suivi"]
         prendre["Prendre en charge la remontée"]
+        fusionIntervenir{" "}
         intervenir["Remplacer ou corriger le ou les matériels"]
         issue{"Issue ?"}
         remplace["Terminer la remontée « remplacé »"]
@@ -307,18 +324,19 @@ flowchart TD
         statut{"Statut actuel ?"}
         enCours["Passer la remontée « en cours »,<br/>conserver la date et l’auteur de l’étape"]
         notifierPrise["Notifier l’auteur de la remontée"]
+        fusionTerminer{" "}
         terminer["Enregistrer le statut final,<br/>conserver la date et l’auteur de l’étape"]
         notifierFin["Notifier l’auteur de la remontée"]
     end
 
     debut --> ouvrir --> statut
-    statut -->|"[en attente]"| prendre --> enCours --> notifierPrise --> intervenir
-    statut -->|"[en cours]"| intervenir
+    statut -->|"[en attente]"| prendre --> enCours --> notifierPrise --> fusionIntervenir
+    statut -->|"[en cours]"| fusionIntervenir
     statut -->|"[remplacé ou corrigé]"| finRefus
-    intervenir --> issue
-    issue -->|"[remplacement]"| remplace --> terminer
-    issue -->|"[correction]"| corrige --> terminer
-    terminer --> notifierFin --> fin
+    fusionIntervenir --> intervenir --> issue
+    issue -->|"[remplacement]"| remplace --> fusionTerminer
+    issue -->|"[correction]"| corrige --> fusionTerminer
+    fusionTerminer --> terminer --> notifierFin --> fin
 ```
 
 ## 10. Consulter ou télécharger le PDF d’état des lieux
@@ -335,8 +353,8 @@ flowchart TD
     end
 
     subgraph SYSTEME["ORION"]
-        droit{"Gestionnaire ou administrateur de l’école,<br/>super administrateur ou auteur de la remontée ?"}
-        produire["Produire le PDF avec les informations actuelles :<br/>numéro, auteur, date, matériels, type de problème,<br/>description, localisation, statut et suivi"]
+        droit{"Gestionnaire ou administrateur<br/>de l’école, super administrateur<br/>ou auteur de la remontée ?"}
+        produire["Produire le PDF<br/>avec les informations actuelles :<br/>numéro, auteur, date, matériels,<br/>type de problème, description,<br/>localisation, statut et suivi"]
         refuser["Refuser la demande"]
     end
 
@@ -353,14 +371,15 @@ flowchart TD
     fin(["Fin de la supervision"])
 
     subgraph ACTEUR["Formateur, administrateur ou super administrateur"]
-        choisir["Choisir une salle de son école"]
+        choisir["Choisir une salle de son périmètre"]
         decider{"Arrêter un processus ?"}
         selectionner["Sélectionner un processus utilisateur en cours"]
     end
 
     subgraph SYSTEME["ORION"]
-        presenter["Présenter les postes : état, session, adresse IP,<br/>système d’exploitation, processus utilisateur,<br/>classement et alertes de la salle"]
-        attente{"Processus en cours, sans arrêt<br/>déjà en attente ?"}
+        fusionPresenter{" "}
+        presenter["Présenter les postes : état, session,<br/>adresse IP, système d’exploitation,<br/>processus utilisateur, classement<br/>et alertes de la salle"]
+        attente{"Processus en cours,<br/>sans arrêt<br/>déjà en attente ?"}
         enregistrer["Enregistrer la demande d’arrêt"]
         afficher["Afficher le résultat : réussi ou en échec"]
     end
@@ -369,22 +388,22 @@ flowchart TD
         arreter["Arrêter le processus sur le poste et renvoyer le résultat"]
     end
 
-    debut --> choisir --> presenter --> decider
+    debut --> choisir --> fusionPresenter --> presenter --> decider
     decider -->|"[non]"| fin
     decider -->|"[oui]"| selectionner --> attente
-    attente -->|"[non]"| presenter
-    attente -->|"[oui]"| enregistrer --> arreter --> afficher --> presenter
+    attente -->|"[non]"| fusionPresenter
+    attente -->|"[oui]"| enregistrer --> arreter --> afficher --> fusionPresenter
 ```
 
 ## 12. Classer les processus et appliquer les règles
 
 ```mermaid
 flowchart TD
-    debut(["Début — remontée de l’état d’un poste, toutes les cinq secondes"])
+    debut(["Début — remontée de l’état<br/>d’un poste, toutes<br/>les cinq secondes"])
     fin(["Fin — poste à jour"])
 
     subgraph POSTES["Solution d’administration à distance des postes"]
-        remonter["Remonter l’état du poste : session, adresse IP,<br/>système d’exploitation, processus utilisateur,<br/>applications installées"]
+        remonter["Remonter l’état du poste :<br/>session, adresse IP,<br/>système d’exploitation,<br/>processus utilisateur,<br/>applications installées"]
         arreter["Arrêter le processus et renvoyer le résultat"]
     end
 
@@ -392,24 +411,30 @@ flowchart TD
         hs{"Unité centrale<br/>hors service ?"}
         ignorer["Ignorer l’état : poste éteint"]
         mettreAJour["Mettre à jour le poste ;<br/>clore les processus qui ne sont plus remontés"]
-        nouveau{"Nouveau processus remonté<br/>(pour chacun) ?"}
-        classer{"Classement selon les règles cumulées<br/>de la portée globale à la salle"}
-        afficher["Afficher le processus en temps réel"]
+        fusionProcessus{" "}
+        nouveau{"Reste-t-il<br/>un nouveau processus<br/>remonté à traiter ?"}
+        classer{"Classement<br/>selon les règles cumulées<br/>de la portée globale<br/>à la salle"}
         detection["Enregistrer une détection"]
+        fusionAfficher{" "}
+        afficher["Afficher le processus en temps réel"]
         detectionInterdite["Enregistrer une détection"]
         demander["Demander l’arrêt automatique, sans confirmation"]
-        notifier["Notifier l’administrateur et le super administrateur ;<br/>afficher l’alerte dans la salle"]
+        notifier["Notifier l’administrateur<br/>et le super administrateur ;<br/>afficher l’alerte dans la salle"]
+        arret{"Arrêt automatique demandé ?"}
         conserver["Conserver le résultat de l’arrêt dans la détection"]
     end
 
     debut --> remonter --> hs
     hs -->|"[oui]"| ignorer --> fin
-    hs -->|"[non]"| mettreAJour --> nouveau
-    nouveau -->|"[non]"| fin
+    hs -->|"[non]"| mettreAJour --> fusionProcessus --> nouveau
     nouveau -->|"[oui]"| classer
-    classer -->|"[whitelist]"| afficher --> fin
-    classer -->|"[non référencé]"| detection --> afficher
-    classer -->|"[blacklist]"| detectionInterdite --> demander --> notifier --> arreter --> conserver --> fin
+    classer -->|"[whitelist]"| fusionAfficher
+    classer -->|"[non référencé]"| detection --> fusionAfficher
+    fusionAfficher --> afficher --> fusionProcessus
+    classer -->|"[blacklist]"| detectionInterdite --> demander --> notifier --> fusionProcessus
+    nouveau -->|"[non]"| arret
+    arret -->|"[non]"| fin
+    arret -->|"[oui]"| arreter --> conserver --> fin
 ```
 
 ## 13. Gérer la whitelist et la blacklist
@@ -427,7 +452,7 @@ flowchart TD
     end
 
     subgraph SYSTEME["ORION"]
-        controle{"Portée accessible ?<br/>Globale : super administrateur seul ;<br/>sinon dans son école"}
+        controle{"Portée accessible ?<br/>Globale : super administrateur seul ;<br/>sinon dans son périmètre"}
         enregistrer["Enregistrer le programme, le classement et la portée"]
         appliquer["Appliquer la règle aux processus remontés ensuite"]
     end
@@ -446,35 +471,37 @@ flowchart TD
     finRefus(["Fin — demande refusée"])
 
     subgraph ACTEUR["Administrateur ou super administrateur"]
-        type["Choisir l’intervention : installation ou désinstallation<br/>d’une application du catalogue, réinitialisation"]
-        cible["Choisir un ou plusieurs postes d’une salle,<br/>ou la salle entière"]
+        type["Choisir l’intervention :<br/>installation ou désinstallation<br/>d’une application du catalogue,<br/>réinitialisation"]
+        cible["Choisir un ou plusieurs postes<br/>d’une salle, ou la salle entière"]
         suivre["Suivre l’intervention poste par poste"]
     end
 
     subgraph SYSTEME["ORION"]
-        controle{"Postes de son périmètre,<br/>d’une seule salle, un à cinq cents ?"}
+        controle{"Postes de son périmètre,<br/>d’une seule salle,<br/>un à cinq cents ?"}
         refuser["Refuser la demande"]
-        enregistrer["Enregistrer l’intervention, son auteur et sa date ;<br/>chaque poste « en attente »"]
+        enregistrer["Enregistrer l’intervention,<br/>son auteur et sa date ;<br/>chaque poste « en attente »"]
         resultat["Mettre à jour le suivi du poste"]
         reponses{"Tous les postes<br/>ont répondu ?"}
         etat{"Tous ont réussi ?"}
         terminee["Intervention « terminée »"]
         echec["Intervention « en échec »"]
+        fusionNotifier{" "}
         notifier["Notifier l’auteur de l’intervention"]
     end
 
     subgraph POSTES["Solution d’administration et de déploiement des postes"]
+        fusionExecuter{" "}
         executer["Exécuter l’intervention sur chaque poste<br/>et renvoyer son résultat"]
     end
 
     debut --> type --> cible --> controle
     controle -->|"[non]"| refuser --> finRefus
-    controle -->|"[oui]"| enregistrer --> executer --> resultat --> suivre --> reponses
-    reponses -->|"[non]"| executer
+    controle -->|"[oui]"| enregistrer --> fusionExecuter --> executer --> resultat --> suivre --> reponses
+    reponses -->|"[non]"| fusionExecuter
     reponses -->|"[oui]"| etat
-    etat -->|"[oui]"| terminee --> notifier
-    etat -->|"[non]"| echec --> notifier
-    notifier --> fin
+    etat -->|"[oui]"| terminee --> fusionNotifier
+    etat -->|"[non]"| echec --> fusionNotifier
+    fusionNotifier --> notifier --> fin
 ```
 
 ## 15. Gérer les salles et les étages
@@ -482,12 +509,14 @@ flowchart TD
 ```mermaid
 flowchart TD
     debut(["Début"])
-    fin(["Fin — salle enregistrée ou supprimée"])
+    fin(["Fin — salle enregistrée"])
+    finSuppression(["Fin — salle supprimée"])
     finRefus(["Fin — opération refusée"])
 
     subgraph ACTEUR["Administrateur ou super administrateur"]
         action{"Action ?"}
-        saisie["Renseigner le nom, le bâtiment et l’étage de la salle ;<br/>le super administrateur choisit aussi l’école"]
+        fusionSaisie{" "}
+        saisie["Renseigner le nom, le bâtiment<br/>et l’étage de la salle ;<br/>le super administrateur<br/>choisit aussi l’école"]
         supprimer["Demander la suppression d’une salle"]
         correction["Compléter les informations signalées"]
     end
@@ -498,19 +527,20 @@ flowchart TD
         signaler["Signaler les informations à corriger"]
         enregistrer["Enregistrer la salle à l’étage de son bâtiment"]
         postes{"La salle accueille<br/>des postes supervisés ?"}
+        fusionRefuser{" "}
         refuser["Refuser l’opération"]
         stock["Supprimer la salle et passer ses matériels en stock"]
     end
 
     debut --> action
-    action -->|"[créer ou modifier]"| saisie --> controleEcole
-    controleEcole -->|"[non]"| refuser --> finRefus
+    action -->|"[créer ou modifier]"| fusionSaisie --> saisie --> controleEcole
+    controleEcole -->|"[non]"| fusionRefuser --> refuser --> finRefus
     controleEcole -->|"[oui]"| controleNom
-    controleNom -->|"[non]"| signaler --> correction --> saisie
+    controleNom -->|"[non]"| signaler --> correction --> fusionSaisie
     controleNom -->|"[oui]"| enregistrer --> fin
     action -->|"[supprimer]"| supprimer --> postes
-    postes -->|"[oui]"| refuser
-    postes -->|"[non]"| stock --> fin
+    postes -->|"[oui]"| fusionRefuser
+    postes -->|"[non]"| stock --> finSuppression
 ```
 
 ## 16. Créer ou modifier un compte ORION
@@ -523,7 +553,8 @@ flowchart TD
 
     subgraph ACTEUR["Administrateur ou super administrateur"]
         choisir["Créer un compte ou ouvrir un compte existant"]
-        saisir["Renseigner le nom, l’adresse électronique,<br/>le profil et l’école de rattachement"]
+        fusionSaisir{" "}
+        saisir["Renseigner le nom,<br/>l’adresse électronique, le profil<br/>et l’école de rattachement"]
         corriger["Corriger les informations signalées"]
     end
 
@@ -531,19 +562,19 @@ flowchart TD
         propre{"Changement de son propre profil<br/>ou de sa propre école ?"}
         superAdmin{"Profil super administrateur<br/>attribué par un administrateur ?"}
         ecole{"École de rattachement cohérente ?<br/>Administrateur : sa propre école ;<br/>super administrateur : aucune école"}
-        adresse{"Adresse électronique valide<br/>et non utilisée par un autre compte ?"}
+        adresse{"Adresse électronique valide<br/>et non utilisée<br/>par un autre compte ?"}
         signaler["Signaler les informations à corriger"]
         enregistrer["Enregistrer le compte avec un profil unique"]
     end
 
-    debut --> choisir --> saisir --> propre
+    debut --> choisir --> fusionSaisir --> saisir --> propre
     propre -->|"[oui]"| finRefus
     propre -->|"[non]"| superAdmin
     superAdmin -->|"[oui]"| finRefus
     superAdmin -->|"[non]"| ecole
     ecole -->|"[non]"| finRefus
     ecole -->|"[oui]"| adresse
-    adresse -->|"[non]"| signaler --> corriger --> saisir
+    adresse -->|"[non]"| signaler --> corriger --> fusionSaisir
     adresse -->|"[oui]"| enregistrer --> fin
 ```
 
@@ -563,7 +594,7 @@ flowchart TD
     subgraph SYSTEME["ORION"]
         propre{"Son propre compte ?"}
         etat{"Compte actif ?"}
-        desactiver["Désactiver le compte, enregistrer la date de désactivation ;<br/>l’accès est refusé immédiatement"]
+        desactiver["Désactiver le compte,<br/>enregistrer la date de désactivation ;<br/>l’accès est refusé immédiatement"]
         reactiver["Réactiver le compte et retirer la date de désactivation"]
     end
 
@@ -582,6 +613,7 @@ flowchart TD
     fin(["Fin — école enregistrée"])
 
     subgraph ACTEUR["Super administrateur"]
+        fusionSaisie{" "}
         saisie["Renseigner le nom de l’école et demander l’enregistrement"]
         correction["Renseigner le nom manquant"]
     end
@@ -592,8 +624,8 @@ flowchart TD
         enregistrer["Enregistrer l’école"]
     end
 
-    debut --> saisie --> nomPresent
-    nomPresent -->|"[non]"| erreurs --> correction --> saisie
+    debut --> fusionSaisie --> saisie --> nomPresent
+    nomPresent -->|"[non]"| erreurs --> correction --> fusionSaisie
     nomPresent -->|"[oui]"| enregistrer --> fin
 ```
 
@@ -606,6 +638,7 @@ flowchart TD
 
     subgraph UTILISATEUR["Utilisateur ORION"]
         ouvrir["Ouvrir un tableau de bord et passer en personnalisation"]
+        fusionAction{" "}
         action{"Action ?"}
         ajouterTableau["Créer, renommer ou supprimer<br/>un tableau de bord personnel"]
         widget["Ajouter, déplacer, redimensionner<br/>ou retirer un widget"]
@@ -617,8 +650,8 @@ flowchart TD
         enregistrer["Enregistrer la disposition pour son compte"]
     end
 
-    debut --> ouvrir --> presenter --> action
-    action -->|"[tableau]"| ajouterTableau --> action
-    action -->|"[widget]"| widget --> action
+    debut --> ouvrir --> presenter --> fusionAction --> action
+    action -->|"[tableau]"| ajouterTableau --> fusionAction
+    action -->|"[widget]"| widget --> fusionAction
     action -->|"[fin]"| terminer --> enregistrer --> fin
 ```

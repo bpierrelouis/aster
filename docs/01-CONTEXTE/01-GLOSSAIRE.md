@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 7.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [25 versions](../../archive/README.md#01-glossaire) |
+| 7.2 | 16/11/2026 | Production destinée à la remise | Ajouter les acteurs abstraits d’administration des postes, de la supervision et des comptes | [26 versions](../../archive/README.md#01-glossaire) |
 <!-- version:fin -->
 
 Ce glossaire centralise les abréviations et les termes employés dans la documentation du projet. Les définitions décrivent leur sens dans ORION. Lorsqu'un sigle n'est pas développé dans les sources, cette absence est signalée afin de ne pas inventer sa signification.
@@ -99,6 +99,9 @@ Les acteurs généraux ou abstraits des DCU regroupent des participations commun
 | Utilisateur de RIGEL | Lancement et clôture des recensements, liaison du téléphone, scan avec RIGEL et traitement des anciens constats, dans son école | Gestionnaire et administrateur |
 | Acteur d'administration du parc | Suppression de matériels et gestion des salles et des étages | Administrateur et super administrateur |
 | Acteur de supervision | Consultation de la supervision et de ses alertes, arrêt manuel des processus utilisateur ; seuls l’administrateur et le super administrateur sont notifiés d’un processus blacklisté (RG-55) | Formateur, administrateur et super administrateur |
+| Acteur d'administration de la supervision | Gestion de la whitelist et de la blacklist, statistiques d'utilisation et notification d'un processus blacklisté ; les règles globales restent au super administrateur | Administrateur et super administrateur |
+| Acteur d'administration des postes | Consultation de la vue des postes et des applications installées, demande d'interventions (installation, désinstallation, réinitialisation), suivi des interventions et notification de leur fin | Administrateur et super administrateur |
+| Acteur d'administration des comptes | Consultation, création, modification, désactivation et réactivation des comptes ORION | Administrateur et super administrateur |
 | Auteur de remontée | Création d'une remontée | Formateur, administrateur et super administrateur |
 | Responsable des remontées | Consultation et traitement (prise en charge et fin) de toutes les remontées de son périmètre, consultation de leurs PDF d'état des lieux et du tableau de bord des remontées | Gestionnaire, administrateur et super administrateur |
 | Lecteur d'une remontée autorisée | Consultation d'une remontée et de son PDF d'état des lieux, dans le périmètre permis au profil | Formateur pour ses propres remontées ; gestionnaire, administrateur et super administrateur pour les remontées de leur périmètre |

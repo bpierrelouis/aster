@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [3 versions](../../../archive/README.md#09-diagramme-classes-metier) |
+| 3.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [4 versions](../../../archive/README.md#09-diagramme-classes-metier) |
 <!-- version:fin -->
 
 ## 1. Organisation des écoles et comptes ORION
@@ -61,6 +61,7 @@ classDiagram
     }
     class Materiel["Matériel"] {
         identifiantORION
+        type : TypeMatériel
         numéroSérie
         modèle
         marque
@@ -202,14 +203,16 @@ classDiagram
     class Detection["Détection"] {
         dateDétection
         classement : Classement
+        résultatArrêt
     }
     class Regle["Règle"] {
-        classement : Classement
+        classement : ClassementRègle
         /portée
     }
     class Intervention {
         type : TypeIntervention
         dateDemande
+        dateFin
         /état
     }
     class CibleIntervention["Cible d’intervention"] {
@@ -223,6 +226,11 @@ classDiagram
         whitelist
         blacklist
         non référencé
+    }
+    class ClassementRegle["ClassementRègle"] {
+        <<enumeration>>
+        whitelist
+        blacklist
     }
     class TypeIntervention {
         <<enumeration>>
@@ -247,13 +255,14 @@ classDiagram
     Batiment "0..1" -- "0..*" Regle : limite {xor}
     Salle "0..1" -- "0..*" Regle : vise {xor}
     Intervention "0..*" -- "1..*" Poste : cible
-    CibleIntervention .. Intervention
+    Intervention .. CibleIntervention
+    CibleIntervention .. Poste
     CompteORION "0..1" -- "0..*" Intervention : demande
     Application "0..1" -- "0..*" Intervention : est déployée par
     Processus "0..1" -- "0..*" Intervention : est arrêté par
     Detection "0..1" -- "0..1" Intervention : provoque
     Detection ..> Classement
-    Regle ..> Classement
+    Regle ..> ClassementRegle
     Intervention ..> TypeIntervention
 ```
 
@@ -278,12 +287,18 @@ classDiagram
         nom
         type : TypeOpération
         dateOuverture
+        dateExpiration
         dateClôture
     }
     class Constat {
-        type
+        type : TypeConstat
         codeLu
-        résultat
+        résultat : RésultatConstat
+        typeMatérielSaisi
+        modèleSaisi
+        marqueSaisie
+        sérieSaisie
+        dateFinGarantieSaisie
         dateObservation
         dateConstat
         dateTraitement
@@ -294,6 +309,27 @@ classDiagram
         recensement
         installation
     }
+    class TypeConstat {
+        <<enumeration>>
+        vu
+        relevé
+        retour
+        stock
+        inconnu
+    }
+    class ResultatConstat["RésultatConstat"] {
+        <<enumeration>>
+        confirmé
+        présent
+        écart
+        déplacé
+        rangé
+        retour
+        stock
+        ajouté
+        inconnu
+        refusé
+    }
 
     CompteORION "1" -- "0..*" Operation : ouvre
     Operation ..> TypeOperation
@@ -303,4 +339,6 @@ classDiagram
     Constat "0..*" -- "0..1" Materiel : identifie
     Constat "0..*" -- "0..1" Salle : localise
     CompteORION "0..1" -- "0..*" Constat : traite
+    Constat ..> TypeConstat
+    Constat ..> ResultatConstat
 ```

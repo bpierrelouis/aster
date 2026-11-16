@@ -481,6 +481,13 @@
         "version": "7.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "7.2",
+        "date": "2026-11-16",
+        "modification": "Ajouter les acteurs abstraits d’administration des postes, de la supervision et des comptes",
         "archive": null
       }
     ]
@@ -911,6 +918,13 @@
         "version": "5.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "6.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -1017,6 +1031,13 @@
         "version": "3.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -1283,6 +1304,13 @@
         "version": "2.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -1374,6 +1402,13 @@
         "version": "3.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -1450,6 +1485,13 @@
         "version": "2.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -1646,6 +1688,13 @@
         "version": "4.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -1684,6 +1733,13 @@
         "version": "2.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -1729,6 +1785,13 @@
         "version": "2.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -1767,6 +1830,13 @@
         "version": "2.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -1812,6 +1882,13 @@
         "version": "2.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -2652,6 +2729,13 @@
         "version": "5.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "6.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -2706,6 +2790,13 @@
         "version": "3.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -2759,6 +2850,13 @@
         "version": "3.0",
         "date": "2026-11-16",
         "modification": "Représenter les classes majeures avec attributs, méthodes et associations",
+        "archive": null,
+        "commit": "2eeab80"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -2820,6 +2918,13 @@
         "version": "3.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]
@@ -2866,6 +2971,13 @@
         "version": "3.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "4.0",
+        "date": "2026-11-16",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
         "archive": null
       }
     ]

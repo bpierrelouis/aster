@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [5 versions](../../../archive/README.md#02-diagramme-classes-analyse) |
+| 4.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [6 versions](../../../archive/README.md#02-diagramme-classes-analyse) |
 <!-- version:fin -->
 
 ## Remontées utilisateur
@@ -18,6 +18,9 @@ classDiagram
         <<actor>>
     }
     class Gestionnaire {
+        <<actor>>
+    }
+    class Administrateur["Administrateur ou super administrateur"] {
         <<actor>>
     }
     class EcranRemontees["Écran des remontées"] {
@@ -74,12 +77,19 @@ classDiagram
     class CompteOrion["Compte ORION"] {
         <<entity>>
     }
+    class Intervention {
+        <<entity>>
+    }
+    class Detection["Détection"] {
+        <<entity>>
+    }
 
     AuteurRemontee -- FormulaireRemontee
     AuteurRemontee -- EcranRemontees
     ResponsableRemontees -- EcranRemontees
     Gestionnaire -- EcranNotifications
     AuteurRemontee -- EcranNotifications
+    Administrateur -- EcranNotifications
     EcranRemontees -- DocumentEtatDesLieux
     FormulaireRemontee --> CreerRemontee
     EcranRemontees --> TraiterRemontee
@@ -91,6 +101,9 @@ classDiagram
     ProduireEtatDesLieux --> Remontee
     ProduireEtatDesLieux --> Materiel
     SuivreNotifications --> Remontee
+    SuivreNotifications --> Materiel
+    SuivreNotifications --> Intervention
+    SuivreNotifications --> Detection
     Remontee "1" *-- "1..*" EtapeRemontee : historique
     Remontee "*" --> "1..*" Materiel : concerne
     Remontee "*" --> "1" Ecole : rattachée à
@@ -189,7 +202,7 @@ classDiagram
     ActeurGestionParc -- EcranSalles
     ActeurGestionParc -- EcranInventaire
     ActeurGestionParc -- EcranDeplacements
-    ActeurAdministrationParc -- EcranImport
+    ActeurGestionParc -- EcranImport
     ActeurAdministrationParc -- EcranSalles
     EcranInventaire -- FormulaireMateriel
     EcranSalles -- FormulaireMateriel
@@ -224,7 +237,7 @@ classDiagram
     class ActeurSupervision["Acteur de supervision"] {
         <<actor>>
     }
-    class Administrateur {
+    class Administrateur["Administrateur ou super administrateur"] {
         <<actor>>
     }
     class SolutionPostes["Solution d'administration des postes Windows"] {
@@ -324,6 +337,9 @@ classDiagram
     class Materiel["Matériel"] {
         <<entity>>
     }
+    class CompteOrion["Compte ORION"] {
+        <<entity>>
+    }
 
     ActeurSupervision -- EcranSupervision
     Administrateur -- EcranInterventions
@@ -356,7 +372,9 @@ classDiagram
     Intervention "1" *-- "1..500" ResultatPoste
     ResultatPoste "*" --> "1" Poste : cible
     Intervention "*" --> "0..1" Application
-    Intervention "0..1" --> "0..1" Processus : arrêt de
+    Intervention "*" --> "0..1" Processus : arrêt de
+    Intervention "0..1" --> "0..1" Detection : déclenchée par
+    Intervention "*" --> "0..1" CompteOrion : demandeur
     Installation "*" --> "1" Poste
     Installation "*" --> "1" Application
     RegleProcessus "*" --> "0..1" Salle : portée
@@ -370,7 +388,7 @@ classDiagram
     class UtilisateurOrion["Utilisateur ORION"] {
         <<actor>>
     }
-    class Administrateur {
+    class Administrateur["Administrateur ou super administrateur"] {
         <<actor>>
     }
     class MindefConnect {

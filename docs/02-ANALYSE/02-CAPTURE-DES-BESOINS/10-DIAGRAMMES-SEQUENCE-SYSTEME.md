@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.1 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [3 versions](../../../archive/README.md#10-diagrammes-sequence-systeme) |
+| 3.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [4 versions](../../../archive/README.md#10-diagrammes-sequence-systeme) |
 <!-- version:fin -->
 
 ## 1. Se connecter par MindefConnect
@@ -17,6 +17,9 @@ sequenceDiagram
     U->>O: accéderÀOrion()
     O-->>U: redirection vers MindefConnect
     U->>M: s'authentifier()
+    M-->>U: redirection vers ORION, code d'autorisation
+    U->>O: transmettreCode(code d'autorisation)
+    O->>M: échangerCode(code d'autorisation)
     M-->>O: identité authentifiée
     alt compte ORION actif pour cette identité
         O-->>U: tableau de bord personnel, résumé des notifications
@@ -55,11 +58,19 @@ sequenceDiagram
     G->>O: consulterRemontée(numéro)
     O-->>G: remontée, matériels, localisation et suivi
     G->>O: prendreEnCharge(numéro)
-    O-->>G: statut « en cours », étape datée
-    O-)A: notification de prise en charge
+    alt remontée « en attente »
+        O-->>G: statut « en cours », étape datée
+        O-)A: notification de prise en charge
+    else transition interdite ou compte non autorisé (formateur)
+        O-->>G: prise en charge refusée
+    end
     G->>O: terminerRemontée(numéro, remplacé ou corrigé)
-    O-->>G: statut final, étape datée
-    O-)A: notification de fin de traitement
+    alt remontée « en cours »
+        O-->>G: statut final, étape datée
+        O-)A: notification de fin de traitement
+    else transition interdite ou compte non autorisé (formateur)
+        O-->>G: traitement refusé
+    end
     opt consultation de l'état des lieux
         A->>O: demanderÉtatDesLieux(numéro)
         O-->>A: PDF produit avec les informations actuelles
@@ -122,7 +133,7 @@ sequenceDiagram
     O->>S: commande d'intervention pour chaque poste
     loop pour chaque poste
         S->>O: résultatIntervention(poste, réussie ou échec)
-        O-->>A: suivi mis à jour poste par poste
+        O-)A: suivi mis à jour poste par poste
     end
     O-)A: notification de fin : terminée ou en échec
 ```
@@ -151,7 +162,7 @@ sequenceDiagram
         O-->>F: arrêt demandé
         O->>S: commande d'arrêt
         S->>O: résultatArrêt(processus, réussi ou échec)
-        O-->>F: résultat de l'arrêt
+        O-)F: résultat de l'arrêt
     else arrêt impossible
         O-->>F: arrêt refusé
     end
@@ -178,7 +189,7 @@ sequenceDiagram
     end
     R->>O: transmettreConstats(constats datés)
     O-->>R: résultat de chaque constat
-    O-->>G: déplacements confirmés, installation terminée s'il n'en reste aucun
+    O-)G: déplacements confirmés, installation terminée s'il n'en reste aucun
 ```
 
 ## 9. Recenser le parc avec RIGEL
