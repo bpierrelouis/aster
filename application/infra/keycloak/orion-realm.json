@@ -176,7 +176,7 @@
       "alias": "orion-comptes-presentation",
       "config": {
         "attribute_name": "email",
-        "attribute_expected_value": "^(julien\\.mercier@outlook\\.fr|sophie\\.garnier@yahoo\\.fr|thomas\\.lefebvre@hotmail\\.fr)$",
+        "attribute_expected_value": "^(camille\\.rousseau@gmail\\.com|julien\\.mercier@outlook\\.fr|sophie\\.garnier@yahoo\\.fr|thomas\\.lefebvre@hotmail\\.fr)$",
         "regex": "true",
         "not": "true",
         "include_group_attributes": "false"

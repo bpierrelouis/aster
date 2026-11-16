@@ -42,13 +42,16 @@ dialog::backdrop { background: #0006; }
 /* Présentation au client : accès séparés du formulaire, dans le style des jetons de thèmes. */
 .demo-access { width: min(546px, calc(100% - 31px)); margin: 0 auto; padding: 20px 24px 24px; border: 1px solid #ddd; border-radius: 20px; background: #f6f6f6; text-align: center; }
 .demo-access-title { margin: 0 0 20px; color: #666; font-size: 14px; line-height: 1.5; font-weight: 600; }
-.demo-access-tokens { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.demo-access-tokens { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .demo-token { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; padding: 4px 0; border: 0; background: transparent; color: #3a3a3a; font-size: 14px; line-height: 1.5; font-weight: 600; border-radius: 8px; }
 .demo-token-badge { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #e3e3fd; color: #000091; box-shadow: inset 0 0 0 1px rgb(0 0 145 / .1), 0 3px 8px rgb(0 0 18 / .12); transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease; }
 .demo-token-badge svg { width: 24px; height: 24px; }
 .demo-token:hover .demo-token-badge { transform: scale(1.05); background: #d6d6f0; box-shadow: inset 0 0 0 1px rgb(0 0 145 / .16), 0 4px 12px rgb(0 0 18 / .16); }
 .demo-token:active .demo-token-badge { transform: scale(.97); }
-@media (max-width: 600px) { .demo-access { width: calc(100% - 24px); padding-inline: 12px; } }
+@media (max-width: 600px) {
+  .demo-access { width: calc(100% - 24px); padding-inline: 12px; }
+  .demo-access-tokens { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 @media (max-width: 360px) {
   .demo-access-tokens { grid-template-columns: 1fr; gap: 12px; }
   .demo-token { flex-direction: row; gap: 14px; padding-inline: 12px; }

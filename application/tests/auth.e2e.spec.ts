@@ -69,7 +69,7 @@ for (const { username, profile, role, nom, modules } of PROFILES) {
     await expectPublicPresentation(page);
     await expect(page.getByRole('list')).toHaveCount(0);
     // Présentation au client : jetons « Accès de présentation » sous le formulaire (ORION_COMPTES_PRESENTATION)
-    await expect(page.getByRole('region', { name: 'Accès de présentation' }).getByRole('button')).toHaveText(['Administrateur', 'Gestionnaire', 'Formateur']);
+    await expect(page.getByRole('region', { name: 'Accès de présentation' }).getByRole('button')).toHaveText(['Super administrateur', 'Administrateur', 'Gestionnaire', 'Formateur']);
     if (username === 'superadmin') {
       await page.setViewportSize({ width: 2048, height: 1118 });
       await page.waitForLoadState('networkidle');
@@ -271,16 +271,16 @@ test('formateur : un arrêt de processus est exécuté par le poste', async ({ p
 test('accès de présentation : un jeton connecte directement avec son compte', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
-  await page.getByRole('region', { name: 'Accès de présentation' }).getByRole('button', { name: 'Gestionnaire' }).click();
+  await page.getByRole('region', { name: 'Accès de présentation' }).getByRole('button', { name: 'Super administrateur' }).click();
   await expect(page).toHaveURL(/\/accueil$/);
   const workspace = await (await page.request.get('/api/workspace')).json();
-  expect(workspace.moi).toMatchObject({ email: EMAILS.gestionnaire, role: 'gestionnaire', ecoleId: 'e-num' });
+  expect(workspace.moi).toMatchObject({ email: EMAILS.superadmin, role: 'superadmin', ecoleId: null });
   await logout(page);
 });
 
 // Page de connexion déjà utilisée (retour arrière, autre onglet) : la session Keycloak est ouverte avec un autre compte.
 // La page d'erreur ferme cette session et la connexion reprend avec le compte choisi.
-const JETONS: Partial<Record<Profil, string>> = { admin: 'Administrateur', gestionnaire: 'Gestionnaire', formateur: 'Formateur' };
+const JETONS: Record<Profil, string> = { superadmin: 'Super administrateur', admin: 'Administrateur', gestionnaire: 'Gestionnaire', formateur: 'Formateur' };
 const choisir = (page: Page, email: string) => {
   const profil = (Object.keys(EMAILS) as Profil[]).find((k) => EMAILS[k] === email)!;
   return page.getByRole('region', { name: 'Accès de présentation' }).getByRole('button', { name: JETONS[profil]! }).click();

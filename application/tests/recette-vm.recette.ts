@@ -98,7 +98,7 @@ for (const compte of ['superadmin', 'admin', 'gestionnaire', 'formateur'] as con
 }
 
 test('#116 · jetons « Accès de présentation » : chaque jeton connecte son compte', async ({ page }) => {
-  for (const [jeton, role] of [['Administrateur', 'admin'], ['Gestionnaire', 'gestionnaire'], ['Formateur', 'formateur']] as const) {
+  for (const [jeton, role] of [['Super administrateur', 'superadmin'], ['Administrateur', 'admin'], ['Gestionnaire', 'gestionnaire'], ['Formateur', 'formateur']] as const) {
     await page.goto('/');
     await page.getByRole('link', { name: "S'identifier avec MinDefConnect" }).click();
     await page.getByRole('region', { name: 'Accès de présentation' }).getByRole('button', { name: jeton }).click();
