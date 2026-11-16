@@ -48,6 +48,7 @@ Les productions remises aux cadres évaluateurs décrivent l’application cible
 | Pilotage interne | Backlog technique et feuille de route `docs/04-ORGANISATION/02-*` | Travail technique restant et évolutions envisagées ; cite des éléments du démonstrateur, jamais remis comme livrable |
 | Brouillons et ressources de préparation | Fichiers `*-BROUILLON-Vn` rangés dans leur partie de `docs/`, `design/` et sources éditables des modèles | Travaux et ressources à sélectionner avant inclusion dans un livrable |
 | Archives | `archive/` | Compte rendu des évolutions des documents suivis, avec le commit de chaque version remplacée, et copies des anciennes versions du design ; historique à conserver tel quel, jamais remis comme livrable |
+| Livrables mis en forme | `livrables/` (DSE en Word, DAT en PDF) | Produits à partir des documents de `docs/`, selon les [règles de rédaction et de mise en forme](livrables/README.md) |
 | Supports datés | `presentations/` | Conserver le contexte historique ; sélectionner et adapter le support destiné à chaque nouvelle remise |
 
 Aucune validation documentaire par le client n’est prévue : les productions font référence dès qu’elles sont à jour, et les questions réellement ouvertes ne deviennent pas des décisions. Avant une remise, sélectionner les documents et leurs ressources ; ne pas remettre indistinctement l’ensemble du dépôt ou du dossier `docs/`.
