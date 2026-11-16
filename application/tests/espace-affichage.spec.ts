@@ -18,6 +18,8 @@ const routes = [
 // Police embarquée (Marianne) pour tous les tests : la police système (Segoe UI sous Windows, plus large sous la
 
 test('tous les écrans se chargent sans erreur JavaScript', async ({ page }) => {
+  // 25 écrans, dont la première compilation de Vite à froid sur la CI : délai proportionné au parcours
+  test.setTimeout(120_000);
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   for (const route of routes) {
