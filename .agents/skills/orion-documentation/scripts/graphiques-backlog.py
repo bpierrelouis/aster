@@ -18,8 +18,8 @@ ROOT = Path(subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_outp
 SORTIE = ROOT / "docs" / "04-ORGANISATION" / "assets"
 DEBUT, FIN, BASCULE = dt.date(2026, 10, 19), dt.date(2026, 11, 19), dt.date(2026, 11, 9)
 RENDU = dt.date(2026, 11, 17)  # rendu de l’application ; présentation le 19 (FIN)
-MEMBRES = {"bpierrelouis": "BAELDE", "AlexV2204": "VILBERT-TAHON", "bbrandon971": "BONNEY",
-           "WhiteYorozuya": "PHOMMAVONGSA", "louloubreizh": "LE MAÎTRE"}
+MEMBRES = {"bpierrelouis": "BAELDE", "AlexV2204": "VILBERT-TAHON", "bbrandon971": "BONEY",
+           "WhiteYorozuya": "PHOMMAVONGSA", "louloubreizh": "LE MAITRE"}
 FOND, CARTE, ENCRE, DOUX, ACCENT, CHAUD, TRAIT = "#F4F7FA", "#FFFFFF", "#163246", "#617786", "#087E8B", "#D78435", "#D9E2E8"
 FINIS = {"Done", "Archive"}
 

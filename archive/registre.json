@@ -3213,6 +3213,13 @@
         "version": "5.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "5.2",
+        "date": "2026-11-16",
+        "modification": "Harmoniser l’orthographe des noms BONEY et LE MAITRE",
         "archive": null
       }
     ]
@@ -3727,6 +3734,13 @@
         "version": "9.1",
         "date": "2026-11-16",
         "modification": "Ajouter les tâches de mise en page du DSE et du DAT",
+        "archive": null,
+        "commit": "1226f68"
+      },
+      {
+        "version": "9.2",
+        "date": "2026-11-16",
+        "modification": "Clore l’harmonisation des noms de l’équipe",
         "archive": null
       }
     ]
@@ -3738,6 +3752,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Créer le journal simulé des cérémonies et entretiens ; Corriger la fin du document ; Présenter les échanges comme journal de bord ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Harmoniser l’orthographe des noms BONEY et LE MAITRE",
         "archive": null
       }
     ]

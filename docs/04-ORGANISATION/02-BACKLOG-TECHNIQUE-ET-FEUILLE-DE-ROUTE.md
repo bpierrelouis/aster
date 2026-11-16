@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 9.1 | 16/11/2026 | Pilotage interne | Ajouter les tâches de mise en page du DSE et du DAT | [64 versions](../../archive/README.md#02-backlog-technique-et-feuille-de-route) |
+| 9.2 | 16/11/2026 | Pilotage interne | Clore l’harmonisation des noms de l’équipe | [65 versions](../../archive/README.md#02-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](01-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/03-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -209,7 +209,7 @@ Le DAT en PDF (`livrables/DAT-ORION/`) reprend la charte du DSE, sans les bandea
 - [ ] **Basse** — DSE, listes à puces : les puces débordent dans la marge, à gauche du texte (§§ 2.2 et 2.7) ; aligner le retrait sur les paragraphes.
 - [ ] **Basse** — DSE, tableau 3 « Périmètre fonctionnel » : éléments enchaînés sans puce ni séparation ; une puce par élément.
 - [ ] **Basse** — DSE, styles Word : les styles de titre et le thème gardent les valeurs d’Office (Calibri, `#2F5496`) ; les aligner sur la charte (Segoe UI, `#17243B`, Bleu Orion) pour les ajouts futurs.
-- [ ] **Moyenne** — Noms de l’équipe : la page de garde du DAT écrit VILBERT, BONEY et LE MAITRE (indication de l’utilisateur du 16 novembre), le [backlog](01-BACKLOG-ET-SUIVI-PROJET.md) VILBERT-TAHON, BONNEY et LE MAÎTRE ; arrêter une orthographe et l’appliquer à tous les livrables.
+- [x] **Moyenne** — Noms de l’équipe : orthographe arrêtée par l’utilisateur le 16 novembre (VILBERT-TAHON, BONEY, LE MAITRE) ; DAT, [backlog](01-BACKLOG-ET-SUIVI-PROJET.md) et journal de bord alignés.
 - [ ] **Moyenne** — DAT **[DAT]** : titrer et numéroter les tableaux (« Tableau n – … ») et ajouter une table des tableaux, comme le DSE ; intitulés à rédiger par le titulaire du dossier.
 
 ### Suites de l’audit du 16 novembre
