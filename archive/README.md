@@ -56,7 +56,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [6.0](#01-dossier-architecture-technique) | 16/11/2026 |
 | [docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [3.0](#02-diagrammes-architecture) | 16/11/2026 |
 | [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.1](#01-backlog-et-suivi-projet) | 16/11/2026 |
-| [docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [9.0](#02-backlog-technique-et-feuille-de-route) | 16/11/2026 |
+| [docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [9.1](#02-backlog-technique-et-feuille-de-route) | 16/11/2026 |
 | [docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md](../docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md) | Production destinée à la remise | [1.0](#03-journal-de-bord-projet) | 16/11/2026 |
 
 ## Fichiers en vigueur
@@ -764,7 +764,8 @@ Fichier : [docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 9.0 | 16/11/2026 | Retirer la synthèse de l’audit du 16 novembre ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 9.1 | 16/11/2026 | Ajouter les tâches de mise en page du DSE et du DAT | en vigueur | — |
+| 9.0 | 16/11/2026 | Retirer la synthèse de l’audit du 16 novembre ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 8.0 | 16/11/2026 | Décision du 16 novembre sur les droits des administrateurs consignée | `ddcfea7` (`docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md`) | — |
 | 7.6 | 16/11/2026 | Mot de passe jamais conservé ; données du téléphone effacées | `49e01c4` (`docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md`) | — |
 | 7.5 | 16/11/2026 | Risques de sécurité résiduels arbitrés | `07bb8ce` (`docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md`) | — |

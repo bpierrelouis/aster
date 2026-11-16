@@ -3720,6 +3720,13 @@
         "version": "9.0",
         "date": "2026-11-16",
         "modification": "Retirer la synthèse de l’audit du 16 novembre ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "9.1",
+        "date": "2026-11-16",
+        "modification": "Ajouter les tâches de mise en page du DSE et du DAT",
         "archive": null
       }
     ]
