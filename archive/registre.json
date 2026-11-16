@@ -936,6 +936,13 @@
         "version": "1.2",
         "date": "2026-11-16",
         "modification": "Réorganiser la remontée de l'état d'un poste pour dégager flèches et libellés",
+        "archive": null,
+        "commit": "9cecc54"
+      },
+      {
+        "version": "1.3",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
@@ -1211,6 +1218,17 @@
       }
     ]
   },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/02-MCD-MERISE.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
+        "archive": null
+      }
+    ]
+  },
   "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio": {
     "destination": "Production destinée à la remise",
     "versions": [
@@ -1218,6 +1236,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Crée la source draw.io du diagramme",
+        "archive": null,
+        "commit": "e57b695"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
@@ -1294,6 +1319,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Crée la source draw.io du diagramme",
+        "archive": null,
+        "commit": "e57b695"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
@@ -1385,6 +1417,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Crée la source draw.io du diagramme",
+        "archive": null,
+        "commit": "e57b695"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
@@ -1574,6 +1613,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Crée la source draw.io du diagramme",
+        "archive": null,
+        "commit": "e57b695"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
@@ -1657,6 +1703,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Crée la source draw.io du diagramme",
+        "archive": null,
+        "commit": "e57b695"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
@@ -1702,6 +1755,13 @@
         "version": "1.1",
         "date": "2026-11-16",
         "modification": "Améliore le placement des fins et des boucles retour",
+        "archive": null,
+        "commit": "ee30282"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
@@ -1740,6 +1800,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Crée la source draw.io du diagramme",
+        "archive": null,
+        "commit": "e57b695"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
@@ -1785,6 +1852,13 @@
         "version": "1.1",
         "date": "2026-11-16",
         "modification": "Représenter les lignes de vie avec les stéréotypes de Jacobson",
+        "archive": null,
+        "commit": "56acce7"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
@@ -2571,6 +2645,13 @@
         "version": "1.1",
         "date": "2026-11-16",
         "modification": "Réorganiser le diagramme d'intervention pour dégager flèches et libellés",
+        "archive": null,
+        "commit": "9cecc54"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
@@ -2656,6 +2737,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Crée la source draw.io du diagramme",
+        "archive": null,
+        "commit": "e57b695"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
@@ -2763,6 +2851,13 @@
         "version": "1.1",
         "date": "2026-11-16",
         "modification": "Représenter les lignes de vie avec les stéréotypes de Jacobson",
+        "archive": null,
+        "commit": "56acce7"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
@@ -2817,6 +2912,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Crée la source draw.io du diagramme",
+        "archive": null,
+        "commit": "e57b695"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null
       }
     ]
