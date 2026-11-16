@@ -1,8 +1,8 @@
 /* ==========================================================================
    Installation physique : point d'un matériel (orange en cours, vert
    installé) et confirmation du déplacement. Le point orange n'est cliquable
-   que pour le gestionnaire, seul à confirmer une installation (ici ou avec
-   RIGEL) ; les administrateurs la suivent (décision du 14 novembre).
+   que pour qui confirme une installation (ici ou avec RIGEL) : gestionnaire
+   et administrateurs (RG-92).
    ========================================================================== */
 
 import { notify } from '../../ui/overlays.tsx';

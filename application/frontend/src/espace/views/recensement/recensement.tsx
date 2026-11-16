@@ -4,9 +4,9 @@
    téléphone par un QR code, scannent salles et matériels ; les constats
    reviennent ici (confirmations, relocalisations, codes à traiter).
    /materiels/recensement : recensements ; /materiels/recensement/:id : bilan.
-   RIGEL est réservé au gestionnaire (ticket #156) : les administrateurs
-   suivent recensements et bilans en lecture ; « Nouveau recensement » leur
-   est désactivé, avec son motif.
+   RIGEL est réservé au gestionnaire et à l'administrateur de l'école (RG-93) :
+   le super administrateur suit recensements et bilans en lecture ;
+   « Nouveau recensement » lui est désactivé, avec son motif.
    ========================================================================== */
 
 import { Link, Navigate, useParams } from 'react-router';
@@ -52,6 +52,6 @@ export function Recensement() {
       ? <div className="ops-grid rec-grid">{list.map((r) => <RecensementCard key={r.id} r={r} />)}</div>
       : <OpsEmpty icon="clipboardCheck" title="Aucun recensement" text={can('materiel.recensement')
         ? 'Lancez un recensement, puis appairez les téléphones des agents : ils scannent les salles et les matériels, et leurs constats arrivent ici.'
-        : 'Les recensements lancés par le gestionnaire et leurs constats apparaîtront ici.'} />}
+        : 'Les recensements lancés dans l’école et leurs constats apparaîtront ici.'} />}
   </div>;
 }

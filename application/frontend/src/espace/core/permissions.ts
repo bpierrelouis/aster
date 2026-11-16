@@ -1,10 +1,9 @@
 /* ==========================================================================
    Droits par profil, d'après docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-MATRICE-DROITS.md
-   - Administrateur : tous les droits dans son école (RG-15), sauf la prise en
-     charge et le traitement des remontées (décision de l'utilisateur du
-     13 novembre), la confirmation d'une installation et le recensement RIGEL,
-     réservés au gestionnaire, qu'il suit en lecture (décisions du 14 novembre)
-   - Super administrateur : mêmes droits, toutes les écoles (RG-15, RG-69)
+   - Administrateur : tous les droits dans son école, dont ceux du
+     gestionnaire (RG-15, décision de l'utilisateur du 16 novembre)
+   - Super administrateur : mêmes droits, toutes les écoles (RG-15, RG-69),
+     sauf RIGEL, propre à une école (RG-93), qu'il suit en lecture
    - Gestionnaire : parc et remontées, sans suppression (RG-16 à RG-18)
    - Formateur : salles, supervision, création et suivi de ses remontées (RG-19, RG-21)
    L'interface ne masque pas une action d'un écran : elle la désactive et
@@ -24,12 +23,9 @@ const ALL = [
 /** Droit d'une action ou d'un module */
 export type Capability = (typeof ALL)[number];
 
-/** Droits du seul gestionnaire : traitement des remontées, confirmation des installations, recensement RIGEL */
-const GESTIONNAIRE: readonly Capability[] = ['remontee.treat', 'installation.confirm', 'materiel.recensement'];
-
 const CAPS: Record<RoleId, Set<Capability>> = {
-  admin: new Set(ALL.filter((c) => !['ecole.switch', ...GESTIONNAIRE].includes(c))),
-  superadmin: new Set(ALL.filter((c) => !GESTIONNAIRE.includes(c))),
+  admin: new Set(ALL.filter((c) => c !== 'ecole.switch')),
+  superadmin: new Set(ALL.filter((c) => c !== 'materiel.recensement')),
   gestionnaire: new Set([
     'dashboard.perso', 'dashboard.parc', 'dashboard.remontees', 'dashboard.customize',
     'salle.view', 'materiel.view', 'materiel.create', 'materiel.edit', 'materiel.move', 'materiel.import', 'materiel.recensement', 'recensement.view', 'installation.confirm',
@@ -49,9 +45,9 @@ export function why(cap: Capability) {
   if (cap === 'materiel.delete' || cap === 'salle.delete') return 'Suppression réservée aux administrateurs';
   if (cap === 'salle.manage') return 'Gestion des salles réservée aux administrateurs';
   if (cap === 'remontee.create') return 'Création réservée aux formateurs et administrateurs';
-  if (cap === 'remontee.treat') return 'Prise en charge et traitement réservés au gestionnaire';
-  if (cap === 'installation.confirm') return 'Confirmation par le gestionnaire';
-  if (cap === 'materiel.recensement') return 'Recensement réservé au gestionnaire';
+  if (cap === 'remontee.treat') return 'Prise en charge et traitement réservés au gestionnaire et aux administrateurs';
+  if (cap === 'installation.confirm') return 'Confirmation réservée au gestionnaire et aux administrateurs';
+  if (cap === 'materiel.recensement') return 'Recensement réservé au gestionnaire et à l’administrateur de l’école';
   if (cap === 'supervision.view') return 'Supervision réservée aux formateurs et administrateurs';
   if (cap === 'administration.view') return 'Administration réservée aux administrateurs';
   if (cap === 'ecole.switch') return 'Changement d’école réservé au super administrateur';

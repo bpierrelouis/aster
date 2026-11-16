@@ -84,8 +84,8 @@ export function suiviRemontee(r: Pick<Remontee, 'historique' | 'createdAt' | 'au
   return [
     ...historique.map((h, i) => ({ statut: h.statut, label: i === 0 ? 'Transmise, en attente' : statut(h.statut).label, icon: i === 0 ? 'documents' : statut(h.statut).icon, at: h.at, par: h.par })),
     ...[
-      phase === 'attente' && { statut: 'encours' as const, label: 'En cours', icon: 'refresh', sub: 'Prise en charge par le gestionnaire' },
-      phase !== 'terminee' && { statut: 'terminee' as const, label: 'Remplacé ou corrigé', icon: 'checkCircle', sub: 'Traitement par le gestionnaire' },
+      phase === 'attente' && { statut: 'encours' as const, label: 'En cours', icon: 'refresh', sub: 'Prise en charge de la remontée' },
+      phase !== 'terminee' && { statut: 'terminee' as const, label: 'Remplacé ou corrigé', icon: 'checkCircle', sub: 'Fin du traitement' },
     ].filter((s) => s !== false).map((s) => ({ ...s, todo: true })),
   ];
 }

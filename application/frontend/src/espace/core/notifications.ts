@@ -2,8 +2,9 @@
    Notifications (RG-37, RG-55, RG-66, RG-67), regroupées par nature : le
    menu de la barre haute présente un résumé par groupe (« 12 matériels dont
    la garantie est échue »…), l'espace Notifications le détail de chacune.
-   - Gestionnaire : nouvelles remontées de la semaine, garanties échues ou
-     arrivant à échéance (état du parc), matériels à déplacer (installation).
+   - Gestionnaire : nouvelles remontées de la semaine, matériels à déplacer
+     (installation) ; garanties échues ou arrivant à échéance (état du parc),
+     comme les administrateurs (RG-86).
    - Auteur d'une remontée (formateur, administrateurs) : évolution de ses
      remontées cette semaine, prises en charge par d'autres ou terminées
      (remplacées ou corrigées).
@@ -60,6 +61,9 @@ export function notificationGroups(now = Date.now()): NotificationGroup[] {
       title: (n) => `${plural(n, 'matériel', 'matériels')} à déplacer`,
       items: parc().deplacements.map((m) => ({ kind: 'deplacement', at: m.deplacement.at, m })),
     });
+  }
+
+  if (role !== 'formateur') {
     const { echues, proches } = parc().garanties;
     add({
       id: 'garanties-echues', icon: 'calendarWarn', color: 'var(--crit)', href: garantiePath('Hors garantie'), period: 'État du parc',

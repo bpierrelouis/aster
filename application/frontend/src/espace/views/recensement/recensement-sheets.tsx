@@ -179,7 +179,7 @@ function EtiquettesSheet({ r }: { r: Operation }) {
 
 /* ---------- Installation d'une salle ---------- */
 
-/** Installation d'une salle avec un téléphone : lancée (ou reprise) par le serveur à l'ouverture, gestionnaire seul */
+/** Installation d'une salle avec un téléphone : lancée (ou reprise) par le serveur à l'ouverture, gestionnaire ou administrateur de l'école */
 export function openInstallation(salle: Salle) {
   openSheet(<InstallationSheet salle={salle} />);
 }

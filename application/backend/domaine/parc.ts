@@ -26,7 +26,7 @@ export function regleMateriel(x: LooseItem, old: LooseItem | undefined, { actor,
   else x.idOrion = numeroMateriel(++numeros.materiel);
   // Installation physique : toute nouvelle affectation reste en cours (deplacement) jusqu'à la confirmation du
   // déplacement physique, qui devient le dernier déplacement confirmé (installation). Les deux sont tenus ici ;
-  // le navigateur peut seulement retirer deplacement (confirmation, réservée au gestionnaire) et sa valeur d'installation est ignorée.
+  // le navigateur peut seulement retirer deplacement (confirmation) et sa valeur d'installation est ignorée.
   // de : emplacement physique d'origine (null pour le stock), conservé si le matériel n'a pas encore bougé.
   const keepInstallation = () => { if (old?.installation) x.installation = old.installation; else delete x.installation; };
   if (!old) { delete x.deplacement; delete x.installation; } // un matériel déclaré ou importé est là où il est déclaré
@@ -36,8 +36,7 @@ export function regleMateriel(x: LooseItem, old: LooseItem | undefined, { actor,
     else { x.deplacement = { de, at: now, par: actor.nom, parId: actor.id }; delete x.installation; }
   } else if (x.deplacement && !same(x.deplacement, old.deplacement)) fail(400, 'Le suivi du déplacement est tenu par le serveur.');
   else if (old.deplacement && !x.deplacement) {
-    // Confirmation de l'installation : gestionnaire seul, dans ORION ou avec RIGEL ; les administrateurs initient et suivent (décision de l'utilisateur du 14 novembre)
-    if (actor.role !== 'gestionnaire') fail(403, 'Confirmation de l’installation réservée au gestionnaire.');
+    // Confirmation de l'installation, dans ORION ou avec RIGEL : gestionnaire et administrateurs (RG-92) ; le formateur ne modifie pas le parc
     x.installation = { de: old.deplacement.de, at: now, par: actor.nom, parId: actor.id };
   }
   else keepInstallation();

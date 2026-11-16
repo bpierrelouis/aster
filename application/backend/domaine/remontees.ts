@@ -20,10 +20,10 @@ export function regleRemontee(x: LooseItem, old: LooseItem | undefined, { actor,
     for (const k of Object.keys(x)) if (!SAISIE_REMONTEE.includes(k)) delete (x as Record<string, unknown>)[k]; // ni salle ni autre valeur hors saisie
     Object.assign(x, { auteur: actor.nom, auteurId: actor.id, createdAt: now, statut: 'attente', historique: [{ statut: 'attente', at: now, par: actor.nom, parId: actor.id }] });
   } else {
-    // Cycle : en attente → en cours (prise en charge) → remplacé ou corrigé : terminée. Le gestionnaire seul
-    // prend en charge et termine ; la prise en charge précède toujours la fin (décisions de l'utilisateur du 13 novembre)
+    // Cycle : en attente → en cours (prise en charge) → remplacé ou corrigé : terminée. Le gestionnaire et les
+    // administrateurs prennent en charge et terminent (RG-64) ; la prise en charge précède toujours la fin
     const possibles = ({ attente: ['encours'], encours: ['remplace', 'corrige'] } as Partial<Record<string, string[]>>)[old.statut!] ?? [];
-    if (actor.role !== 'gestionnaire') fail(403, 'Prise en charge et traitement réservés au gestionnaire.');
+    if (actor.role === 'formateur') fail(403, 'Prise en charge et traitement réservés au gestionnaire et aux administrateurs.');
     if (old.statut === 'attente' && ['remplace', 'corrige'].includes(x.statut!)) fail(400, 'Prenez d’abord la remontée en charge avant de la terminer.');
     assert(possibles.includes(x.statut!), 'Transition de statut indisponible.');
     seulsModifies(old, x, ['statut', 'historique'], 'Seul le traitement peut être modifié.');

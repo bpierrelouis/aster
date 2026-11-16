@@ -1,9 +1,9 @@
 /* ==========================================================================
    Domaine · recensement mobile (RIGEL)
    - Opérations RIGEL (collection operations) : recensement ou installation
-     d'une salle, lancés
-     par un gestionnaire ; RIGEL lui est réservé (ticket #156) : les
-     administrateurs suivent en lecture.
+     d'une salle, lancés par le gestionnaire ou l'administrateur de l'école
+     (RG-15, décision de l'utilisateur du 16 novembre) ; le super
+     administrateur, sans école, suit en lecture.
    - Constats : produits par les téléphones, transmis chiffrés par le relais
      et le connecteur, intégrés ici (valeurs d'autorité fixées par le serveur).
    - Deux opérations, indépendantes même sur une même salle (décisions de
@@ -42,15 +42,16 @@ export const sallesDe = (state: Pick<WorkspaceState, 'salles'>, r: Pick<Operatio
 
 /* ---------- Écritures des utilisateurs (appelées par mergeState) ---------- */
 
-/** RIGEL réservé au gestionnaire (ticket #156, décision de l'utilisateur du 14 novembre) : opérations, constats et appairage */
-const reserve = (actor: Actor) => { if (actor.role !== 'gestionnaire') fail(403, 'Recensement réservé au gestionnaire.'); };
+/** Profils qui utilisent RIGEL dans leur école : opérations, constats et appairage (RG-93, RG-94) */
+const RIGEL: readonly Actor['role'][] = ['gestionnaire', 'admin'];
+const reserve = (actor: Actor) => { if (!RIGEL.includes(actor.role)) fail(403, 'Recensement réservé au gestionnaire et à l’administrateur de l’école.'); };
 
 /**
- * Lanceur encore gestionnaire actif de l'école de l'opération : sinon l'opération n'est plus publiée aux téléphones et ses
+ * Lanceur encore gestionnaire ou administrateur actif de l'école de l'opération : sinon l'opération n'est plus publiée aux téléphones et ses
  * constats sont refusés (RG-85, la désactivation prend effet immédiatement) ; un autre gestionnaire la clôt ou la relance.
  */
 export const lanceurActif = (s: Pick<WorkspaceState, 'comptes'>, r: Pick<Operation, 'parId' | 'ecoleId'>) =>
-  s.comptes.some((c) => c.id === r.parId && c.actif && c.role === 'gestionnaire' && c.ecoleId === r.ecoleId);
+  s.comptes.some((c) => c.id === r.parId && c.actif && RIGEL.includes(c.role) && c.ecoleId === r.ecoleId);
 
 /** Lancement ou clôture d'un recensement ; x : élément proposé, old : élément enregistré */
 export function regleOperation(x: LooseItem, old: LooseItem | undefined, state: WorkspaceState, actor: Actor, now: number) {
@@ -120,7 +121,7 @@ export function traiterConstat(s: WorkspaceState, id: Id, action: ActionConstat,
 /* ---------- Installation d'une salle ---------- */
 
 /**
- * Installation en cours de la salle, sinon lancée : gestionnaire seul, salle de son école concernée par un déplacement.
+ * Installation en cours de la salle, sinon lancée : gestionnaire ou administrateur, salle de son école concernée par un déplacement.
  * Celle d'un gestionnaire qui n'est plus actif est close et relancée au nom du compte connecté.
  */
 export function lancerInstallation(s: WorkspaceState, actor: Actor, salleId: Id, now = Date.now()) {
@@ -250,8 +251,8 @@ function appliquer(s: WorkspaceState, r: Operation | undefined, e: EvenementRige
   if (s.constats.some((c) => c.id === cid)) return { id, statut: 'doublon' };
   if ('illisible' in e) return { id, statut: 'refuse', message: 'Événement illisible.' };
   if (!r || !ouverte(r, now)) return { id, statut: 'refuse', message: 'Opération close.' };
-  // Les constats confirment des installations au nom de son lanceur : il doit rester gestionnaire actif de l'école
-  if (!lanceurActif(s, r)) return { id, statut: 'refuse', message: 'Opération suspendue : son gestionnaire n’est plus actif.' };
+  // Les constats confirment des installations au nom de son lanceur : il doit rester actif dans l'école, avec un profil RIGEL
+  if (!lanceurActif(s, r)) return { id, statut: 'refuse', message: 'Opération suspendue : son lanceur n’est plus actif.' };
   if (!['vu', 'releve', 'retour', 'stock', 'inconnu'].includes(e.type)) return { id, statut: 'refuse', message: 'Constat inconnu.' };
   const salleId = e.salleId ?? null;
   if (salleId !== null && !sallesDe(s, r).some((x) => x.id === salleId)) return { id, statut: 'refuse', message: 'Salle hors de l’opération.' };

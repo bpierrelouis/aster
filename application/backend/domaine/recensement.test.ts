@@ -105,17 +105,15 @@ test('recensement : lancé par un gestionnaire, valeurs fixées par le serveur, 
   parFormateur.operations.push({ ...operation, id: 'x' });
   assert.throws(() => mergeState(next, parFormateur, teacher), (e: HttpError) => e.status === 403);
 
-  // RIGEL réservé au gestionnaire (ticket #156) : les administrateurs suivent l’opération sans l'ouvrir ni la clore
-  for (const accountId of [ADMIN, 'cpt-superadmin']) {
-    const admin = as(next, accountId);
-    assert.equal(scopedState(next, admin).operations.length, 1, `${accountId} : operation visible en lecture`);
-    const ouverture: Ecriture = scopedState(next, admin);
-    ouverture.operations.push({ ...operation, id: 'z' });
-    assert.throws(() => mergeState(next, ouverture, admin), (e: HttpError) => e.status === 403 && /réservé au gestionnaire/.test(e.message));
-    const cloture: Ecriture = scopedState(next, admin);
-    cloture.operations[0].close = { at: 1, par: '', parId: null };
-    assert.throws(() => mergeState(next, cloture, admin), (e: HttpError) => e.status === 403);
-  }
+  // RIGEL : gestionnaire et administrateur de l'école (RG-93) ; le super administrateur, sans école, suit en lecture
+  const sup = as(next, 'cpt-superadmin');
+  assert.equal(scopedState(next, sup).operations.length, 1, 'opération visible en lecture');
+  const ouverture: Ecriture = scopedState(next, sup);
+  ouverture.operations.push({ ...operation, id: 'z' });
+  assert.throws(() => mergeState(next, ouverture, sup), (e: HttpError) => e.status === 403 && /Recensement réservé/.test(e.message));
+  const parAdmin: Ecriture = scopedState(next, as(next, ADMIN));
+  parAdmin.operations.push({ ...operation, id: 'z' });
+  assert.equal(mergeState(next, parAdmin, as(next, ADMIN)).operations.at(-1)!.parId, ADMIN, 'lancé par l’administrateur');
 
   const manager = as(next, MANAGER);
   const horsEcole: Ecriture = scopedState(next, manager);
@@ -140,13 +138,13 @@ test('recensement : lancé par un gestionnaire, valeurs fixées par le serveur, 
   assert.throws(() => mergeState(closed, rouvre, manager), /rouvert/);
 });
 
-test('constats : une opération qui n’a pas été lancée par un gestionnaire n’est pas appliquée', () => {
+test('constats : une opération dont le lanceur n’a pas de profil RIGEL dans l’école n’est pas appliquée', () => {
   const s = etatDemonstration();
-  const admin = s.comptes.find((c) => c.id === ADMIN)!;
-  s.operations.push({ id: 'rec-admin', ecoleId: 'e-num', nom: 'Ancienne', mode: 'recensement', salleIds: [], at: Date.now(), par: admin.nom, parId: admin.id, expireLe: Date.now() + 86400e3 });
+  const formateur = s.comptes.find((c) => c.id === TEACHER)!;
+  s.operations.push({ id: 'rec-formateur', ecoleId: 'e-num', nom: 'Ancienne', mode: 'recensement', salleIds: [], at: Date.now(), par: formateur.nom, parId: formateur.id, expireLe: Date.now() + 86400e3 });
   const enCours = s.materiels.find((m) => m.ecoleId === 'e-num' && m.deplacement && m.salleId)!;
-  const [r] = appliquerEvenements(s, 'rec-admin', [evt({ type: 'vu', materielId: enCours.id, salleId: enCours.salleId })]);
-  assert.deepEqual(r, { id: r.id, statut: 'refuse', message: 'Opération suspendue : son gestionnaire n’est plus actif.' });
+  const [r] = appliquerEvenements(s, 'rec-formateur', [evt({ type: 'vu', materielId: enCours.id, salleId: enCours.salleId })]);
+  assert.deepEqual(r, { id: r.id, statut: 'refuse', message: 'Opération suspendue : son lanceur n’est plus actif.' });
   assert(enCours.deplacement, 'déplacement toujours en cours');
 });
 
@@ -279,13 +277,13 @@ test('constats : présence refusée, retour lancé vers l’affectation, confirm
   const [ancien] = appliquerEvenements(s, operation.id, [evt({ type: 'releve', materielId: installe.id, salleId: ici.id, observeLe: Date.now() - 60_000 })]);
   assert.equal(ancien.message, 'Constat dépassé : ce matériel a été vu ou déplacé depuis.');
 
-  // Confirmation dans ORION, une fois le matériel rapporté : réservée au gestionnaire
+  // Confirmation dans ORION, une fois le matériel rapporté : gestionnaire et administrateurs, pas le formateur
   const confirmer = (compte: Id) => {
     const input: Ecriture = scopedState(s, as(s, compte));
     delete input.materiels.find((x) => x.id === installe.id)!.deplacement;
     return mergeState(s, input, as(s, compte));
   };
-  assert.throws(() => confirmer(ADMIN), (e: HttpError) => e.status === 403);
+  assert.throws(() => confirmer(TEACHER), (e: HttpError) => e.status === 403);
   const confirme = confirmer(MANAGER).materiels.find((x) => x.id === installe.id)!;
   assert.equal(confirme.salleId, affectation);
   assert.equal(confirme.deplacement, undefined);
@@ -362,7 +360,7 @@ test('ancien écart : remettre au stock ou ramener à l’affectation lance un d
   assert.throws(() => traiterConstat(s, eh.c.id, 'constat', gestionnaire), /hors service/);
   traiterConstat(s, eh.c.id, 'stock', gestionnaire);
   assert.equal(hs.salleId, null);
-  assert.throws(() => traiterConstat(s, ea.c.id, 'stock', as(s, ADMIN)), (e: HttpError) => e.status === 403);
+  assert.throws(() => traiterConstat(s, ea.c.id, 'stock', as(s, 'cpt-superadmin')), (e: HttpError) => e.status === 403);
 });
 
 test('mise au stock depuis une salle : affecté au stock, déplacement à confirmer ; refusée au stock', () => {
@@ -388,7 +386,7 @@ test('installation d’une salle : lancée par le gestionnaire, salle et stock, 
   const enCours = s.materiels.find((x) => x.ecoleId === 'e-num' && x.deplacement && x.salleId)!;
   const salle = enCours.salleId!;
   const sansDeplacement = s.salles.find((x) => x.ecoleId === 'e-num' && !s.materiels.some((m) => m.deplacement && (m.salleId === x.id || m.deplacement.de === x.id)))!;
-  assert.throws(() => lancerInstallation(s, as(s, ADMIN), salle), (e: HttpError) => e.status === 403, 'gestionnaire seul');
+  assert.throws(() => lancerInstallation(s, as(s, 'cpt-superadmin'), salle), (e: HttpError) => e.status === 403, 'pas le super administrateur');
   assert.throws(() => lancerInstallation(s, gestionnaire, sansDeplacement.id), /Aucun déplacement/);
   const ins = lancerInstallation(s, gestionnaire, salle);
   assert.equal(lancerInstallation(s, gestionnaire, salle).id, ins.id, 'reprise, pas de doublon');
@@ -455,7 +453,7 @@ test('API : appairage par un gestionnaire, connecteur authentifié, blocs chiffr
     const acces = lireAppairage(lien)!;
     assert(lien.startsWith('https://rigel.test/#c='));
     assert.equal(acces.cle, cleOperation(secret, operation.id));
-    for (accountId of [TEACHER, ADMIN]) assert.equal((await fetch(`${url}/api/workspace/operations/${operation.id}/appairage`)).status, 403);
+    for (accountId of [TEACHER, 'cpt-superadmin']) assert.equal((await fetch(`${url}/api/workspace/operations/${operation.id}/appairage`)).status, 403);
 
     assert.equal((await fetch(`${url}/api/rigel/operations`)).status, 401);
     const auth = { Authorization: `Bearer ${secret}`, 'Content-Type': 'application/json' };
@@ -478,7 +476,7 @@ test('API : appairage par un gestionnaire, connecteur authentifié, blocs chiffr
     // Installation d'une salle : lancée puis reprise par le gestionnaire, refusée aux autres profils ; publiée à part de l’opération
     const salle = (await repository.snapshot()).materiels.find((x) => x.ecoleId === 'e-num' && x.deplacement && x.salleId)!.salleId!;
     const installer = () => fetch(`${url}/api/workspace/salles/${salle}/installation`, { method: 'POST' });
-    for (accountId of [TEACHER, ADMIN]) assert.equal((await installer()).status, 403);
+    for (accountId of [TEACHER, 'cpt-superadmin']) assert.equal((await installer()).status, 403);
     accountId = MANAGER;
     const premiere = await (await installer()).json();
     const reprise = await (await installer()).json();

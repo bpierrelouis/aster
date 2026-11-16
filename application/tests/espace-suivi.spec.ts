@@ -194,13 +194,14 @@ test('le gestionnaire suit son travail dans le backlog : en attente, en cours, t
 });
 
 
-test('les administrateurs suivent les remontées sans les prendre en charge ni les traiter', async ({ page, request }) => {
+test('les administrateurs prennent en charge et traitent les remontées, comme le gestionnaire (RG-64)', async ({ page, request }) => {
   const data = await state(request);
+  const actions = { attente: ['État des lieux', 'Prendre en charge'], encours: ['État des lieux', 'Remplacé', 'Corrigé'] };
   for (const phase of ['attente', 'encours'] as const) {
     const r = data.remontees.find((x) => x.statut === phase)!;
     await open(page, `/remontees/${phase}/${r.id}`);
     await expect(page.locator('.rm-detail .insp-title h2')).toHaveText(r.id);
-    await expect(page.locator('.insp-foot').getByRole('button')).toHaveText(['État des lieux']); // seule action possible
+    for (const nom of actions[phase]) await expect(page.locator('.insp-foot').getByRole('button', { name: nom, exact: true })).toBeVisible();
   }
 });
 

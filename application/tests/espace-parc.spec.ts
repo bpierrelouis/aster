@@ -199,15 +199,8 @@ test('installation : un point orange passe au vert, la salle est équipée une f
   const atelier = data.salles.find((s) => s.nom === 'Atelier 2')!;
   const pending = data.materiels.filter((m) => m.salleId === atelier.id && m.deplacement?.de === null);
   expect(pending.length).toBeGreaterThan(1);
-  const admin = data.comptes.find((c) => c.actif && c.role === 'admin')!;
-  const manager = data.comptes.find((c) => c.actif && c.role === 'gestionnaire' && c.ecoleId === admin.ecoleId)!;
-  // L'administrateur suit l'installation sans la confirmer : points non cliquables, qui confirme en infobulle (décision du 14 novembre)
-  await open(page, `/salles/deplacements?salle=${atelier.id}`);
-  const suivi = page.getByRole('region', { name: 'Stock vers Atelier 2' });
-  await expect(suivi.locator('span.inst-dot--wait[data-tip="Confirmation par le gestionnaire"]')).toHaveCount(pending.length);
-  await expect(suivi.locator('button.inst-dot')).toHaveCount(0);
-  await asAccount(request, manager.id);
-  try { await installer(); } finally { await asAccount(request, admin.id); }
+  // L'administrateur confirme l'installation comme le gestionnaire (RG-92)
+  await installer();
   async function installer() {
     await open(page, `/salles/salle/${atelier.id}`);
     const block = page.locator('.inst-block');
@@ -345,16 +338,22 @@ test('recensement : ouverture, appairage par QR code, code inconnu ajouté au pa
   const comptes = (await state(request)).comptes.filter((c) => c.actif);
   const admin = comptes.find((c) => c.role === 'admin')!;
   const manager = comptes.find((c) => c.role === 'gestionnaire' && c.ecoleId === admin.ecoleId)!;
-  // RIGEL réservé au gestionnaire (ticket #156)
+  // RIGEL : gestionnaire et administrateur de l'école (RG-93) ; parcours du gestionnaire ici
   await asAccount(request, manager.id);
   try { await recenser(); } finally { await asAccount(request, admin.id); }
-  // L'administrateur suit le recensement en lecture seule : action désactivée, avec son motif
+  // Le super administrateur, sans école, suit le recensement en lecture seule : action désactivée, avec son motif
+  await asAccount(request, 'cpt-superadmin');
+  try {
+    await open(page, '/materiels/recensement');
+    await expect(page.getByRole('button', { name: 'Nouveau recensement' })).toHaveAttribute('aria-disabled', 'true');
+    await expect(page.getByRole('button', { name: 'Nouveau recensement' })).toHaveAttribute('data-tip', 'Recensement réservé au gestionnaire et à l’administrateur de l’école');
+    await page.locator('.rec-card', { hasText: 'Recensement de test' }).click();
+    await expect(page.locator('.group-lead')).toContainText('Recensement de test');
+    await expect(page.locator('#view').getByRole('button')).toHaveCount(0);
+  } finally { await asAccount(request, admin.id); }
+  // L'administrateur de l'école peut lancer un recensement
   await open(page, '/materiels/recensement');
-  await expect(page.getByRole('button', { name: 'Nouveau recensement' })).toHaveAttribute('aria-disabled', 'true');
-  await expect(page.getByRole('button', { name: 'Nouveau recensement' })).toHaveAttribute('data-tip', 'Recensement réservé au gestionnaire');
-  await page.locator('.rec-card', { hasText: 'Recensement de test' }).click();
-  await expect(page.locator('.group-lead')).toContainText('Recensement de test');
-  await expect(page.locator('#view').getByRole('button')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Nouveau recensement' })).not.toHaveAttribute('aria-disabled', 'true');
   await page.setViewportSize({ width: 390, height: 844 });
   await open(page, '/materiels/recensement');
   await page.waitForTimeout(800);
@@ -471,10 +470,14 @@ test('installation et recensement simultanés d’une salle : deux boutons, QR c
   const manager = data.comptes.find((c) => c.actif && c.role === 'gestionnaire' && c.ecoleId === admin.ecoleId)!;
   const prevu = data.materiels.find((m) => m.ecoleId === admin.ecoleId && m.deplacement && m.salleId)!;
   const salle = data.salles.find((s) => s.id === prevu.salleId)!;
-  // L'administrateur suit : ni installation avec un téléphone, ni restockage groupé
+  // L'administrateur a les actions du gestionnaire (RG-92) ; le super administrateur, sans école, n'a pas RIGEL
   await open(page, '/salles/deplacements');
-  await expect(page.getByRole('button', { name: /avec un téléphone$/ })).toHaveCount(0);
-  await expect(page.getByRole('button', { name: 'Terminer le restockage' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /avec un téléphone$/ }).first()).toBeVisible();
+  await asAccount(request, 'cpt-superadmin');
+  try {
+    await open(page, '/salles/deplacements');
+    await expect(page.getByRole('button', { name: /avec un téléphone$/ })).toHaveCount(0);
+  } finally { await asAccount(request, admin.id); }
   await asAccount(request, manager.id);
   try {
     // Recensement de toute l'école, en même temps que l'installation de la salle

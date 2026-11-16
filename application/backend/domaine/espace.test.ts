@@ -96,14 +96,13 @@ test('remontée : prise en charge puis traitement, qui la termine', () => {
     return mergeState(state, view, actor);
   };
   assert.throws(() => move(TEACHER, 'encours'), { status: 403 });   // le formateur ne traite pas
-  for (const admin of [ADMIN, SUPER]) assert.throws(() => move(admin, 'encours'), { status: 403, message: /réservés au gestionnaire/ }); // les administrateurs non plus
   for (const fin of ['remplace', 'corrige'] as const) assert.throws(() => move(MANAGER, fin), { status: 400, message: /d’abord la remontée en charge/ }); // prise en charge obligatoire
-  state = move(MANAGER, 'encours');
-  for (const admin of [ADMIN, SUPER]) assert.throws(() => move(admin, 'corrige'), { status: 403 });
+  // Les administrateurs ont les droits du gestionnaire (RG-15, RG-64)
+  state = move(ADMIN, 'encours');
   assert.throws(() => move(MANAGER, 'attente'), { status: 400 });   // pas de retour en arrière
-  state = move(MANAGER, 'remplace');
+  state = move(SUPER, 'remplace');
   const done = state.remontees.find((r) => r.id === id)!;
-  assert.deepEqual(done.historique.map((h) => [h.statut, h.parId]), [['attente', TEACHER], ['encours', MANAGER], ['remplace', MANAGER]]);
+  assert.deepEqual(done.historique.map((h) => [h.statut, h.parId]), [['attente', TEACHER], ['encours', ADMIN], ['remplace', SUPER]]);
   assert.throws(() => move(MANAGER, 'corrige'), { status: 400 });   // une remontée terminée ne change plus
   assert.throws(() => move(TEACHER, 'validee' as RemonteeStatut), { status: 403 }); // valeur invalide volontaire
 });
@@ -142,8 +141,7 @@ test('installation : une affectation reste en cours jusqu’à la confirmation, 
   assert.equal(mat(state).deplacement!.de, null);
   assert.throws(() => move(MANAGER, (v) => { mat(v).deplacement!.de = a.id; }), { status: 400 }); // tenu par le serveur
   assert.throws(() => move(TEACHER, (v) => { delete mat(v).deplacement; }), { status: 403 });
-  // Confirmation réservée au gestionnaire : les administrateurs initient et suivent (décision de l'utilisateur du 14 novembre)
-  for (const accountId of [ADMIN, SUPER]) assert.throws(() => move(accountId, (v) => { delete mat(v).deplacement; }), { status: 403, message: 'Confirmation de l’installation réservée au gestionnaire.' });
+  // Confirmation : gestionnaire et administrateurs (RG-92) ; vérifiée ici pour le gestionnaire
   state = move(MANAGER, (v) => { delete mat(v).deplacement; mat(v).installation = { de: a.id, at: 0, par: 'X' } as Deplacement; }); // confirmé ; valeur incomplète volontaire
   assert.equal(mat(state).deplacement, undefined);
   assert.deepEqual(mat(state).installation, { de: null, at: 1_800_000_000_000, par: 'Sophie Garnier', parId: MANAGER }); // valeur du serveur

@@ -6,10 +6,10 @@
    tous les matériels à ramener au stock, quelle que soit leur salle d'origine
    (décision de l'utilisateur du 14 novembre). Le point orange d'un matériel
    confirme son déplacement ; « Terminer le restockage » les confirme tous en
-   une écriture (gestionnaire seul ; les administrateurs suivent).
+   une écriture (gestionnaire et administrateurs, RG-92).
    L'installation d'une salle avec un téléphone (RIGEL) se lance sur le
    premier trajet qui y arrive : QR codes d'appairage, de la salle et du stock
-   (gestionnaire seul). ?salle= limite l'écran à une salle.
+   (gestionnaire et administrateur de l'école). ?salle= limite l'écran à une salle.
    ========================================================================== */
 
 import { Link, Navigate, useSearchParams } from 'react-router';
@@ -77,7 +77,7 @@ export function Deplacements() {
   const versSalles = routes.filter((t) => t.vers);
   const versStock = routes.filter((t) => !t.vers);
   const n = routes.reduce((sum, t) => sum + t.enCours.length, 0);
-  // Installation avec un téléphone : une seule action par salle, sur son premier trajet à l'arrivée (gestionnaire seul)
+  // Installation avec un téléphone : une seule action par salle, sur son premier trajet à l'arrivée (gestionnaire ou administrateur de l'école)
   const premiers = new Set(can('materiel.recensement') ? versSalles.filter((t, i) => versSalles.findIndex((x) => x.vers === t.vers) === i) : []);
   const cartes: (Trajet | 'stock')[] = [...versSalles, ...(versStock.length ? ['stock' as const] : [])];
   const poids = (t: Trajet) => t.enCours.length + t.faits.length;
