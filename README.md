@@ -95,7 +95,7 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 
 ##### 02.04 — Conception
 
-- [Diagramme de classes de conception](docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md) : modules du serveur (API, moteur d’écriture, fusion, persistance, règles du domaine, PDF, API de RIGEL) et du navigateur (magasin, vues principales, application RIGEL), avec opérations clés et dépendances.
+- [Diagramme de classes de conception](docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md) : classes majeures d’ORION (comptes, écoles, salles, matériels, remontées, postes, processus, interventions, opérations RIGEL) avec leurs attributs typés, leurs méthodes et leurs associations, avec sa [source draw.io éditable](docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.drawio).
 - [Diagrammes de séquence détaillés](docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md) : écriture concurrente fusionnée, création et traitement d’une remontée, intervention sur un poste, constat RIGEL intégré, état des lieux PDF à la demande et connexion OIDC.
 - [Modèle physique des données](docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md) : tables PostgreSQL d’ORION avec clés, contraintes et index, documents JSONB, en notation UML de modélisation des données.
 

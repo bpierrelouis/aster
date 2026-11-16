@@ -48,7 +48,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio](../docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio) | Production destinée à la remise | [1.0](#02-diagramme-classes-analyse) | 16/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md](../docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md) | Production destinée à la remise | [3.1](#02-diagramme-classes-analyse) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.drawio](../docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.drawio) | Production destinée à la remise | [1.0](#01-diagramme-classes-conception) | 16/11/2026 |
-| [docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md](../docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md) | Production destinée à la remise | [2.2](#01-diagramme-classes-conception) | 16/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md](../docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md) | Production destinée à la remise | [3.0](#01-diagramme-classes-conception) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.drawio](../docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.drawio) | Production destinée à la remise | [1.1](#02-diagrammes-sequence-detailles) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md](../docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md) | Production destinée à la remise | [3.1](#02-diagrammes-sequence-detailles) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio) | Production destinée à la remise | [1.0](#03-modele-physique-donnees) | 16/11/2026 |
@@ -648,7 +648,8 @@ Fichier : [docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.2 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 3.0 | 16/11/2026 | Représenter les classes majeures avec attributs, méthodes et associations | en vigueur | — |
+| 2.2 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 2.1 | 15/11/2026 | Routes et règle des opérations RIGEL renommées | `0867182` (`docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md`) | — |
 | 2.0 | 15/11/2026 | RIGEL selon la cible : API d’Express, sans relais ni connecteur ; RIGEL selon la cible : API d’Express, sans relais ni connecteur | `04c54ca` (`docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md`) | — |
 | 1.0 | 15/11/2026 | Classes de conception du serveur et du navigateur | `36f4195` (`docs/02-ANALYSE/04-CONCEPTION/27-DIAGRAMME-CLASSES-CONCEPTION.md`) | — |

@@ -2731,6 +2731,13 @@
         "version": "2.2",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-16",
+        "modification": "Représenter les classes majeures avec attributs, méthodes et associations",
         "archive": null
       }
     ]
