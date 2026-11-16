@@ -8,7 +8,7 @@ import type { AddressInfo } from 'node:net';
 import { initialState, scopedState, mergeState } from './espace.ts';
 import { actorOf, accountForIdentity } from './comptes.ts';
 import { rebase } from '../persistance/fusion.ts';
-import { applyReports, pendingCommands, applyResults, markDisconnected, DISCONNECT_AFTER } from './postes.ts';
+import { applyReports, pendingCommands, applyResults, markDisconnected, ARRETES_PAR_POSTE, DISCONNECT_AFTER } from './postes.ts';
 import { createWorkspaceRepository } from '../persistance/engine.ts';
 import { analyseImport, importMateriels } from './import.ts';
 import { createWorkspaceRouter, createAgentRouter, jetonPoste } from '../api/routes.ts';
@@ -807,4 +807,45 @@ test('espace neuf : le premier super administrateur est créé une seule fois, j
   assert.equal((await repo.findAccount({ sub: 'sujet-1', email: 'CHEF@exemple.fr' }))?.role, 'superadmin');
   const demo = await createWorkspaceRepository({ initialState: etatDemonstration() });
   assert.equal(await demo.amorcer('chef@exemple.fr'), false);
+});
+
+test('règles : nom, classement et portée contrôlés par le serveur ; seuls les rattachements de la portée sont gardés (RG-47, #163)', () => {
+  const state = etatDemonstration();
+  const admin = as(state, ADMIN);
+  const salle = state.salles.find((s) => s.ecoleId === 'e-num')!;
+  const essai = (regle: Record<string, unknown>) => {
+    const input: Ecriture = scopedState(state, admin);
+    input.regles.push({ id: 'rule-essai', ...regle } as unknown as LooseItem);
+    return mergeState(state, input, admin);
+  };
+  const valide = { nom: 'jeu.exe', classement: 'blacklist', portee: 'ecole', ecoleId: 'e-num' };
+  for (const invalide of [{ nom: '  ' }, { nom: undefined }, { classement: 'grise' }, { portee: 'region' }, { portee: 'batiment', batiment: 'Inconnu' }, { portee: 'salle', salleId: 'salle-inconnue' }]) {
+    assert.throws(() => essai({ ...valide, ...invalide }), (e: HttpError) => e.status === 400, JSON.stringify(invalide));
+  }
+  const next = essai({ ...valide, nom: ' jeu.exe ', portee: 'salle', salleId: salle.id, batiment: salle.batiment });
+  const r = next.regles.find((x) => x.id === 'rule-essai')!;
+  assert.deepEqual([r.nom, r.salleId, 'batiment' in r], ['jeu.exe', salle.id, false]);
+  applyReports(next, next.postes.filter((p) => p.salleId === salle.id).map((p) => ({ poste: p.nomReseau, processus: [{ nom: 'jeu.exe', compte: 'stagiaire.01' }] })));
+});
+
+test('écritures : au-delà de 20 000 processus, le navigateur écrit sans renvoyer les données des postes, qu’il ne modifie jamais (#167)', () => {
+  const state = online(etatDemonstration());
+  const modele = state.processus[0];
+  for (let i = 0; i <= 20_000; i++) state.processus.push({ ...modele, id: `exec-volume-${i}`, stoppedAt: 1 });
+  const admin = as(state, ADMIN);
+  const { processus: _p, detections: _d, installations: _i, ...input } = scopedState(state, admin);
+  const next = mergeState(state, input, admin); // préférences et données modifiables, comme le navigateur les envoie
+  assert.equal(next.processus.length, state.processus.length);
+  assert.throws(() => mergeState(state, { ...input, processus: [] }, admin), (e: HttpError) => e.status === 403);
+});
+
+test('postes : processus arrêtés conservés en nombre borné par poste ; identifiants du serveur sans troncature (#164)', () => {
+  const state = etatDemonstration();
+  const hs = new Set<Id | null>(state.materiels.filter((m) => m.hs).map((m) => m.id));
+  const poste = state.postes.find((p) => !hs.has(p.materielId))!;
+  for (let i = 0; i < ARRETES_PAR_POSTE + 10; i++) applyReports(state, [{ poste: poste.nomReseau, processus: [{ nom: `outil-${i}.exe`, compte: 'stagiaire.01' }] }], 1_800_000_000_000 + i);
+  const arretes = state.processus.filter((x) => x.posteId === poste.id && x.stoppedAt);
+  assert.equal(arretes.length, ARRETES_PAR_POSTE);
+  assert(arretes.every((x) => Number(x.nom.match(/\d+/)![0]) >= 9), 'les plus récents sont gardés');
+  assert.match(state.processus.at(-1)!.id, /^exec-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
 });

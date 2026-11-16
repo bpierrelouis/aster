@@ -44,7 +44,8 @@ export const same = (a: unknown, b: unknown) => canonical(a) === canonical(b);
 export const fail: (status: number, message: string) => never = (status, message) => { throw Object.assign(new Error(message), { status }); };
 export const assert: (condition: unknown, message?: string) => asserts condition = (condition, message = 'Données invalides.') => { if (!condition) fail(400, message); };
 export const isAdmin = (actor: Actor) => ['admin', 'superadmin'].includes(actor.role);
-export const id = (prefix: string) => `${prefix}-${randomUUID().slice(0, 8)}`;
+/** Identifiant attribué par le serveur : UUID complet, sans risque de collision */
+export const id = (prefix: string) => `${prefix}-${randomUUID()}`;
 /** Contrôle qu'entre old et x seuls les champs cités ont changé */
 export const seulsModifies = (old: LooseItem, x: LooseItem, champs: readonly string[], message: string) => {
   const reste = (r: LooseItem) => Object.fromEntries(Object.entries(r).filter(([k]) => !champs.includes(k)));

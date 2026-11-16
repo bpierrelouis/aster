@@ -74,10 +74,11 @@ export const store = {
     const before = structuredClone(state);
     try { mutator(state); } catch (error) { state = before; throw error; }
     if (['data', 'ecole'].includes(topic)) state.rev++;
-    // Les choix d'apparence ne renvoient pas les rapports des postes.
+    // Les données remontées par les postes ne sont jamais renvoyées (le serveur les refuse) ; les choix d'apparence n'envoient qu'eux-mêmes.
+    const { processus: _p, detections: _d, installations: _i, ...modifiable } = state;
     const snapshot = topic === 'prefs'
       ? { role: state.role, prefs: structuredClone(state.prefs) }
-      : structuredClone(state);
+      : structuredClone(modifiable);
     const batch = generation;
     lastError = null;
     emit(topic);

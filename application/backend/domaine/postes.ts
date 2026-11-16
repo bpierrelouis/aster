@@ -13,6 +13,8 @@ import type { Id, TypeIntervention, Processus, ResultatPoste, WorkspaceState } f
 import type { Contexte, LooseItem } from './commun.ts';
 
 export const DISCONNECT_AFTER = 30_000; // poste sans rapport depuis ce délai : poste déconnecté
+/** Processus arrêtés conservés par poste : borne le volume quel que soit le rythme des rapports */
+export const ARRETES_PAR_POSTE = 50;
 /** Adresse IPv4 en notation décimale pointée (quatre octets de 0 à 255, sans zéro initial) */
 const IPV4 = /^(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$/;
 export const isIpv4 = (value: unknown): value is string => typeof value === 'string' && IPV4.test(value);
@@ -84,8 +86,14 @@ export function applyReports(s: WorkspaceState, rapports: Rapport[], now = Date.
     }
   }
   markDisconnected(s, now);
-  // Historique borné : processus arrêtés une heure, détections trente jours (RG-56)
-  s.processus = s.processus.filter((x) => !x.stoppedAt || now - x.stoppedAt < HOUR);
+  // Historique borné : processus arrêtés une heure et au plus ARRETES_PAR_POSTE par poste (les plus récents), détections trente jours (RG-56)
+  const gardes = new Map<Id, number>();
+  s.processus = s.processus.reverse().filter((x) => {
+    if (!x.stoppedAt) return true;
+    if (now - x.stoppedAt >= HOUR) return false;
+    gardes.set(x.posteId, (gardes.get(x.posteId) ?? 0) + 1);
+    return gardes.get(x.posteId)! <= ARRETES_PAR_POSTE;
+  }).reverse();
   s.detections = s.detections.filter((d) => now - d.at < 30 * DAY);
   return unknown;
 }

@@ -23,6 +23,7 @@ import { regleLieu, regleMateriel } from './parc.ts';
 import { regleRemontee } from './remontees.ts';
 import { eteindreHorsService, regleIntervention, reglePoste } from './postes.ts';
 import { regleConstat, regleOperation } from './recensement.ts';
+import { regleRegle } from './regles.ts';
 import type { Actor, CollectionName, Collections, Id, Item, PreferencesCompte, WorkspaceState, WorkspaceView } from '#shared/types.ts';
 import type { Contexte, LooseItem, Lists, WorkspaceInput } from './commun.ts';
 
@@ -118,7 +119,9 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
   const materiels: LooseItem[] = Array.isArray(input.materiels) ? input.materiels : visible.materiels;
 
   for (const c of collections) {
-    const sent: LooseItem[] = input[c] ?? visible[c].map((x) => strip(c, x));
+    // Collection non envoyée : inchangée, sans contrôle de volume (les données des postes ne sont jamais renvoyées par le navigateur)
+    if (input[c] == null) continue;
+    const sent: LooseItem[] = input[c];
     assert(Array.isArray(sent) && sent.length <= 20000);
     const ids = new Set<unknown>();
     for (const x of sent) { assert(x && typeof x.id === 'string' && x.id.length < 150 && !ids.has(x.id)); ids.add(x.id); }
@@ -175,6 +178,7 @@ export function mergeState(state: WorkspaceState, input: WorkspaceInput, actor: 
       if (c === 'constats') regleConstat(x, old, actor, now);
       if (c === 'materiels') regleMateriel(x, old, ctx);
       if (c === 'postes') reglePoste(x, ctx);
+      if (c === 'regles') regleRegle(x, ctx);
       regleLieu(c, x);
     }
     // Éléments conservés repris de la copie next : eteindreHorsService les modifie ensuite sans toucher à state
