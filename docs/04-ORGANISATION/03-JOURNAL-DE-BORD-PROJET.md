@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.1 | 16/11/2026 | Production destinée à la remise | Corriger l’orthographe du nom BONEY | [2 versions](../../archive/README.md#03-journal-de-bord-projet) |
+| 1.1 | 16/11/2026 | Production destinée à la remise | Harmoniser l’orthographe des noms BONEY et LE MAITRE | [2 versions](../../archive/README.md#03-journal-de-bord-projet) |
 <!-- version:fin -->
 
 Ce journal retrace les échanges de l’équipe entre le 20 octobre et le 19 novembre 2026 à partir du backlog, des jalons et des sources du projet.
@@ -15,9 +15,9 @@ Les décisions attribuées au client reprennent uniquement les [entretiens de ca
 | Élément | Modalité retenue |
 | --- | --- |
 | Période | Deux sprints : 19 octobre–8 novembre et 9–19 novembre 2026. |
-| Équipe | BAELDE, VILBERT-TAHON, BONEY, PHOMMAVONGSA et LE MAÎTRE. |
+| Équipe | BAELDE, VILBERT-TAHON, BONEY, PHOMMAVONGSA et LE MAITRE. |
 | Product Owner | BAELDE. |
-| Scrum Master | LE MAÎTRE. |
+| Scrum Master | LE MAITRE. |
 | Daily Scrum | 15 minutes à 9 h ; avancement, objectif du jour, obstacle et adaptation. |
 | Point hebdomadaire | Coordination élargie de 30 minutes ; ce « Weekly Scrum » complète le cadre retenu mais n’est pas un événement officiel de Scrum. |
 | Entretien client | Questions préparées, réponses datées, décisions reportées dans le cadrage et conséquences ajoutées au backlog. |
@@ -55,7 +55,7 @@ Les décisions attribuées au client reprennent uniquement les [entretiens de ca
 | VILBERT-TAHON | Parcours principaux esquissés. | Préparer une navigation par profil. | Droits du formateur à préciser. |
 | BONEY | Entités principales repérées. | Relier matériels, salles et affectations. | Sens de certains termes à confirmer. |
 | PHOMMAVONGSA | Premiers états des remontées recensés. | Identifier les transitions certaines. | Statuts incomplets dans les échanges. |
-| LE MAÎTRE | Contraintes d’architecture inventoriées. | Distinguer cible et démonstrateur. | Solution d’administration Windows encore ouverte. |
+| LE MAITRE | Contraintes d’architecture inventoriées. | Distinguer cible et démonstrateur. | Solution d’administration Windows encore ouverte. |
 
 **Adaptation :** BAELDE et BONEY harmonisent le vocabulaire avant d’étendre les modèles ; les incertitudes restent dans le cadrage et ne deviennent pas des règles.
 
@@ -67,7 +67,7 @@ Les décisions attribuées au client reprennent uniquement les [entretiens de ca
 | VILBERT-TAHON | Navigation et vues de salles préparées. | Rendre les salles repérables par bâtiment. | Données d’exemple à stabiliser. |
 | BONEY | Modèle de données confronté aux parcours. | Corriger les écarts de vocabulaire. | Dépendance aux décisions encore ouvertes. |
 | PHOMMAVONGSA | Cycles de remontée et d’intervention esquissés. | Préparer les scénarios de vérification. | Résultat d’une intervention à distinguer de sa demande. |
-| LE MAÎTRE | Architecture réelle et cible séparées. | Vérifier les technologies autorisées. | Solution d’administration des postes non choisie. |
+| LE MAITRE | Architecture réelle et cible séparées. | Vérifier les technologies autorisées. | Solution d’administration des postes non choisie. |
 
 **Adaptation :** l’équipe conserve Keycloak comme substitut local de MindefConnect pour le démonstrateur, sans le présenter comme l’identité cible.
 
@@ -79,7 +79,7 @@ Les décisions attribuées au client reprennent uniquement les [entretiens de ca
 | VILBERT-TAHON | Parcours salles, stock et tableaux de bord intégrés. | Harmoniser libellés et actions. | Lisibilité des salles à contrôler sur petits écrans. |
 | BONEY | Classes et séquences confrontées aux usages. | Vérifier inventaire et affectations. | Import JSON différent de la demande initiale. |
 | PHOMMAVONGSA | Scénarios de supervision préparés. | Vérifier remontées et interventions par profil. | Certains indicateurs restent à définir. |
-| LE MAÎTRE | Schémas et flux relus. | Préparer le dossier de remise. | Hypothèses de capacité non mesurées. |
+| LE MAITRE | Schémas et flux relus. | Préparer le dossier de remise. | Hypothèses de capacité non mesurées. |
 
 **Adaptation :** chaque parcours est relu par un membre qui n’en est pas l’auteur ; les écarts non arbitrés restent visibles dans le backlog.
 
@@ -90,7 +90,7 @@ Les décisions attribuées au client reprennent uniquement les [entretiens de ca
 | Sécurité et droits | Corrections prioritaires intégrées ; contrôles à rejouer. | Exécuter les tests serveur et la recette par profil. | BAELDE, PHOMMAVONGSA |
 | Interface | Parcours essentiels disponibles ; captures à contrôler. | Vérifier salles, tableaux de bord et cohérence visuelle. | VILBERT-TAHON |
 | Modèles | Livrables produits ; cohérence finale à confirmer. | Croiser classes, séquences, données et vocabulaire. | BONEY |
-| Architecture | Dossier et schémas disponibles. | Relire les flux, versions et ressources remises. | LE MAÎTRE |
+| Architecture | Dossier et schémas disponibles. | Relire les flux, versions et ressources remises. | LE MAITRE |
 | Rendu | Dépend de la réunion des contributions. | Réserver le 17 novembre au contrôle collectif et au dépôt. | Toute l’équipe |
 
 **Obstacle :** le volume de vérifications restantes impose de ne plus ouvrir de fonctionnalité non indispensable au rendu.
@@ -151,7 +151,7 @@ Les décisions attribuées au client reprennent uniquement les [entretiens de ca
 
 ### 5.1. Entretien des 22 et 23 octobre — découverte du besoin
 
-**Préparation :** BAELDE présente les objectifs ; VILBERT-TAHON questionne les usages ; BONEY les données ; PHOMMAVONGSA les cycles de vie ; LE MAÎTRE l’environnement et les livrables.
+**Préparation :** BAELDE présente les objectifs ; VILBERT-TAHON questionne les usages ; BONEY les données ; PHOMMAVONGSA les cycles de vie ; LE MAITRE l’environnement et les livrables.
 
 | Question posée | Réponse consignée dans les entretiens | Conséquence de travail |
 | --- | --- | --- |
@@ -174,7 +174,7 @@ Les décisions attribuées au client reprennent uniquement les [entretiens de ca
 | Identité | Simuler MindefConnect dans le démonstrateur. | Employer un substitut local sans le présenter comme la cible. |
 | Administration Windows | Vérifier l’existant et préparer une proposition. | Maintenir le choix ouvert tant qu’il n’est pas arbitré. |
 
-**Clôture :** BAELDE reporte les réponses dans le cadrage, l’équipe réordonne le backlog et LE MAÎTRE prépare les points techniques du rendez-vous suivant.
+**Clôture :** BAELDE reporte les réponses dans le cadrage, l’équipe réordonne le backlog et LE MAITRE prépare les points techniques du rendez-vous suivant.
 
 ### 5.3. Entretien du 12 novembre — arbitrages avant clôture
 

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 9.0 | 16/11/2026 | Pilotage interne | Retirer la synthèse de l’audit du 16 novembre ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [63 versions](../../archive/README.md#02-backlog-technique-et-feuille-de-route) |
+| 9.3 | 16/11/2026 | Pilotage interne | Clore la mise en page du DSE, produit en PDF | [66 versions](../../archive/README.md#02-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](01-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/03-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
@@ -195,6 +195,23 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 - [x] RIGEL dans le cadrage : § 23 (application de scan réalisée par RIGEL, RG-92 à RG-96) et § 19 (décision du 15 novembre, fonctionnement hors connexion) mis à jour le 15 novembre ; livrables relus (#158).
 - [x] Captures des fiches Gestionnaire, Administrateur et Super administrateur : les anciennes maquettes IHM sont supprimées ; les fiches reprennent les captures de l’application (`design/maquettes/captures/`, 14 novembre).
 - [x] Cadrage § 23 (#60, phrase introductive remplacée le 16 novembre avec l’accord de l’utilisateur) : sa phrase introductive affirme encore que les productions cible suivent la décision du client (`03:391`, `:405`, `:406`), contrairement à la règle en vigueur (la documentation suit l’état actuel, l’écart est inscrit au § 23). RG-36, RG-37, matrice et fiche Gestionnaire ont été alignées ; seule la contradiction introductive reste à corriger, sans nouvelle modification des règles.
+
+### Mise en page des livrables (comparaison du DSE et du DAT, 16 novembre)
+
+Le DAT en PDF (`livrables/DAT-ORION/`) reprend la charte du DSE, sans les bandeaux de chapitre. Le DSE est désormais produit en PDF depuis `docs/` (16 novembre), avec la même charte que le DAT.
+
+- [x] **Haute** — DSE, page de garde : ajouter l’équipe ASTER nominative (grade abrégé, NOM Prénom ; par grade puis par ordre alphabétique des noms), comme le DAT.
+- [x] **Haute** — DSE, page de garde et quatrième de couverture : chacune est une image unique, texte compris (titre, version, date, rédaction) ; la remplacer par un fond et du texte Word, pour que la version et la date se mettent à jour et que le texte soit sélectionnable.
+- [x] **Moyenne** — DSE : remplacer le logotype « O R I O N » en lettres fines (garde, quatrième de couverture) par le logo officiel `design/assets/logos/orion-horizontal-inverse.svg`.
+- [x] **Moyenne** — DSE, titres de chapitre : retirer l’aplat sombre des bandeaux ; garder le surtitre « ✦ CHAPITRE 0n » et le titre souligné de Bleu Orion, comme le DAT.
+- [x] **Moyenne** — DSE, pages presque vides : un schéma qui ne tient pas sous son introduction laisse une page presque blanche (p. 9 « 2.4 Diagramme de contexte », p. 24 « 4.1 Gestion du parc », p. 76 « 9.1 Diagrammes d’états ») ; déplacer ou regrouper les schémas.
+- [x] **Moyenne** — DSE, schémas : images matricielles peu lisibles à l’impression (textes très petits) et pages paysage où le schéma n’occupe qu’une partie de la page ; les insérer en vectoriel ou à meilleure résolution, à la taille de la page. Vérifier les étiquettes superposées en haut de « Remontée de l’état d’un poste » (figure 7) dans le diagramme source.
+- [x] **Basse** — DSE, listes à puces : les puces débordent dans la marge, à gauche du texte (§§ 2.2 et 2.7) ; aligner le retrait sur les paragraphes.
+- [x] **Basse** — DSE, tableau 3 « Périmètre fonctionnel » : éléments enchaînés sans puce ni séparation ; une puce par élément.
+- [x] **Basse** — DSE, styles Word : les styles de titre et le thème gardent les valeurs d’Office (Calibri, `#2F5496`) ; les aligner sur la charte (Segoe UI, `#17243B`, Bleu Orion) pour les ajouts futurs.
+- [x] DSE produit en PDF par `dse-pdf.mts` (16 novembre) : garde en texte avec logo officiel et équipe, titres de chapitre sans bandeau, schémas vectoriels rendus depuis draw.io à pleine page et regroupés en fin de chapitre, puces et tableaux de la charte, annexes A à G intégrées ; fiches descriptives réécrites au format formel des cas d’utilisation. Pas de quatrième de couverture, comme le DAT.
+- [x] **Moyenne** — Noms de l’équipe : orthographe arrêtée par l’utilisateur le 16 novembre (VILBERT-TAHON, BONEY, LE MAITRE) ; DAT, [backlog](01-BACKLOG-ET-SUIVI-PROJET.md) et journal de bord alignés.
+- [ ] **Moyenne** — DAT **[DAT]** : titrer et numéroter les tableaux (« Tableau n – … ») et ajouter une table des tableaux, comme le DSE ; intitulés à rédiger par le titulaire du dossier.
 
 ### Suites de l’audit du 16 novembre
 

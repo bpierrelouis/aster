@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.2 | 16/11/2026 | Production destinée à la remise | Corriger l’orthographe du nom BONEY | [13 versions](../../archive/README.md#01-backlog-et-suivi-projet) |
+| 5.2 | 16/11/2026 | Production destinée à la remise | Harmoniser l’orthographe des noms BONEY et LE MAITRE | [13 versions](../../archive/README.md#01-backlog-et-suivi-projet) |
 <!-- version:fin -->
 
 **Période : du 20 octobre au 19 novembre 2026.**
@@ -29,8 +29,8 @@ L’organisation proposée repose sur une équipe unique de cinq membres, avec u
 | Responsabilité | Membre | Mission dans le projet |
 | --- | --- | --- |
 | Product Owner | BAELDE | Tenir le Product Backlog, ordonner les besoins et préparer les échanges avec le client en respectant ses décisions. |
-| Scrum Master | LE MAÎTRE | Faciliter les événements, rendre les obstacles visibles et suivre les actions d’amélioration. |
-| Developers | BAELDE, VILBERT-TAHON, BONEY, PHOMMAVONGSA, LE MAÎTRE | Concevoir, réaliser, vérifier et documenter ensemble les incréments. Les responsabilités de Product Owner et de Scrum Master ne dispensent pas de contribuer à ces travaux. |
+| Scrum Master | LE MAITRE | Faciliter les événements, rendre les obstacles visibles et suivre les actions d’amélioration. |
+| Developers | BAELDE, VILBERT-TAHON, BONEY, PHOMMAVONGSA, LE MAITRE | Concevoir, réaliser, vérifier et documenter ensemble les incréments. Les responsabilités de Product Owner et de Scrum Master ne dispensent pas de contribuer à ces travaux. |
 | Parties prenantes | Client et cadres évaluateurs | Le client apporte les décisions métier ; les cadres évaluateurs apprécient les productions suivant les consignes. |
 
 Le Product Owner ordonne le backlog ; les Developers choisissent collectivement le travail réalisable pendant le sprint et son organisation. Le Scrum Master facilite cette coopération. Une modification du besoin reste reliée à sa source ; une cérémonie ne vaut pas décision client ni validation documentaire.
@@ -43,7 +43,7 @@ Le Product Owner ordonne le backlog ; les Developers choisissent collectivement 
 | VILBERT-TAHON | Interface et parcours utilisateurs | BL-05 à BL-08 | Navigation, tableaux de bord, salles et cohérence visuelle |
 | BONEY | Modélisation et gestion du parc | BL-09 à BL-12 | Séquences, classes, inventaire et vérification des affectations |
 | PHOMMAVONGSA | Cycles de vie et supervision | BL-13 à BL-16 | États, règles de supervision, interventions et recette des profils |
-| LE MAÎTRE | Architecture et préparation de la remise | BL-17 à BL-20 | Architecture, flux, dossier technique et assemblage des livrables |
+| LE MAITRE | Architecture et préparation de la remise | BL-17 à BL-20 | Architecture, flux, dossier technique et assemblage des livrables |
 
 Les tâches n’ont pas toutes la même taille. Leur nombre décrit la répartition des responsabilités ; il ne mesure ni le temps consacré ni la contribution individuelle totale.
 
@@ -78,23 +78,23 @@ Les priorités organisent la préparation de l’échéance : **P1** pour les pa
 | BL-01 | Structurer le besoin et les profils | BAELDE | BONEY | P1 | 20/10–03/11 | Périmètre et responsabilités présentés sans confondre décisions et questions ouvertes. |
 | BL-02 | Consolider le modèle de données | BAELDE | BONEY | P1 | 02/11–09/11 | MCD, vocabulaire et règles relus ensemble ; écarts identifiés. |
 | BL-03 | Intégrer la connexion et les droits | BAELDE | PHOMMAVONGSA | P1 | 06/11–16/11 | Parcours de connexion et accès par profil couverts par les vérifications prévues. |
-| BL-04 | Préparer la livraison d’ensemble | BAELDE | LE MAÎTRE | P1 | 11/11–17/11 | Version de remise identifiée, contrôle collectif et réserves consignés. |
+| BL-04 | Préparer la livraison d’ensemble | BAELDE | LE MAITRE | P1 | 11/11–17/11 | Version de remise identifiée, contrôle collectif et réserves consignés. |
 | BL-05 | Organiser la navigation des écrans | VILBERT-TAHON | BAELDE | P1 | 06/11–10/11 | Écrans accessibles par leur parcours et leur adresse ; navigation cohérente. |
 | BL-06 | Construire les tableaux de bord | VILBERT-TAHON | PHOMMAVONGSA | P2 | 09/11–16/11 | Informations utiles au profil, tableaux et graphiques lisibles. |
 | BL-07 | Finaliser les vues salles et stock | VILBERT-TAHON | BONEY | P1 | 09/11–16/11 | Salles lisibles et ordonnées ; stock et affectations compréhensibles. |
-| BL-08 | Harmoniser l’interface et les captures | VILBERT-TAHON | LE MAÎTRE | P2 | 10/11–17/11 | Libellés, tableaux et captures cohérents avec le parcours cible. |
+| BL-08 | Harmoniser l’interface et les captures | VILBERT-TAHON | LE MAITRE | P2 | 10/11–17/11 | Libellés, tableaux et captures cohérents avec le parcours cible. |
 | BL-09 | Décrire les échanges en séquences | BONEY | BAELDE | P1 | 03/11–13/11 | Échanges des principaux parcours représentés et reliés aux cas concernés. |
-| BL-10 | Consolider les classes métier | BONEY | LE MAÎTRE | P1 | 05/11–16/11 | Responsabilités des classes et relations cohérentes avec les données décrites. |
+| BL-10 | Consolider les classes métier | BONEY | LE MAITRE | P1 | 05/11–16/11 | Responsabilités des classes et relations cohérentes avec les données décrites. |
 | BL-11 | Vérifier la gestion de l’inventaire | BONEY | VILBERT-TAHON | P1 | 10/11–17/11 | Création, consultation et affectation couvertes ; écart sur l’import distingué de la demande client. |
 | BL-12 | Relire le dossier de conception | BONEY | PHOMMAVONGSA | P2 | 13/11–17/11 | Modèles, droits et fiches cohérents ; ressources de remise sélectionnées. |
 | BL-13 | Formaliser les cycles de vie | PHOMMAVONGSA | BONEY | P1 | 05/11–13/11 | États des remontées et interventions représentés, transitions relues. |
 | BL-14 | Vérifier la supervision des postes | PHOMMAVONGSA | VILBERT-TAHON | P1 | 10/11–16/11 | Consultation des processus et règles examinées avec les droits attendus. |
 | BL-15 | Vérifier interventions et remontées | PHOMMAVONGSA | BAELDE | P1 | 12/11–17/11 | Demande, retour du poste, suivi et consultation du PDF couverts par les scénarios. |
-| BL-16 | Coordonner la recette par profil | PHOMMAVONGSA | LE MAÎTRE | P1 | 13/11–17/11 | Scénarios par profil, résultats et réserves rassemblés. |
-| BL-17 | Décrire l’architecture et les flux | LE MAÎTRE | BAELDE | P1 | 03/11–13/11 | Architecture réelle et cible distinguées, flux et composants décrits. |
-| BL-18 | Relire le dossier technique | LE MAÎTRE | BONEY | P1 | 12/11–17/11 | Texte, schémas et contraintes concordants ; hypothèses de capacité explicites. |
-| BL-19 | Préparer le support et la présentation | LE MAÎTRE | VILBERT-TAHON | P2 | 13/11–18/11 | Support cohérent avec le dossier et passages répartis entre les cinq membres. |
-| BL-20 | Assembler le dossier de remise | LE MAÎTRE | PHOMMAVONGSA | P1 | 16/11–17/11 | Livrables et ressources nécessaires réunis, liens contrôlés et réserves explicites. |
+| BL-16 | Coordonner la recette par profil | PHOMMAVONGSA | LE MAITRE | P1 | 13/11–17/11 | Scénarios par profil, résultats et réserves rassemblés. |
+| BL-17 | Décrire l’architecture et les flux | LE MAITRE | BAELDE | P1 | 03/11–13/11 | Architecture réelle et cible distinguées, flux et composants décrits. |
+| BL-18 | Relire le dossier technique | LE MAITRE | BONEY | P1 | 12/11–17/11 | Texte, schémas et contraintes concordants ; hypothèses de capacité explicites. |
+| BL-19 | Préparer le support et la présentation | LE MAITRE | VILBERT-TAHON | P2 | 13/11–18/11 | Support cohérent avec le dossier et passages répartis entre les cinq membres. |
+| BL-20 | Assembler le dossier de remise | LE MAITRE | PHOMMAVONGSA | P1 | 16/11–17/11 | Livrables et ressources nécessaires réunis, liens contrôlés et réserves explicites. |
 
 ## 4. Sprints et cérémonies Scrum
 
@@ -115,11 +115,11 @@ Les durées ci-dessous sont choisies pour ce projet court. Le refinement est une
 
 | Événement ou activité | Cadence et durée | Participants et facilitation | Déroulement | Trace attendue |
 | --- | --- | --- | --- | --- |
-| Sprint Planning | Début de sprint ; 45 minutes | Toute l’équipe ; facilitation LE MAÎTRE | BAELDE rappelle les priorités ; les Developers définissent l’objectif, choisissent les éléments et découpent le travail. | Objectif de sprint, sélection PB/BL, répartition initiale et dépendances. |
-| Daily Scrum | Chaque jour travaillé du sprint ; 15 minutes à 9 h | Developers ; facilitation initiale LE MAÎTRE | Examiner la progression vers l’objectif, les blocages et les adaptations du plan. Les discussions détaillées suivent avec les seuls intéressés. | Tableau actualisé et action datée pour chaque obstacle. |
+| Sprint Planning | Début de sprint ; 45 minutes | Toute l’équipe ; facilitation LE MAITRE | BAELDE rappelle les priorités ; les Developers définissent l’objectif, choisissent les éléments et découpent le travail. | Objectif de sprint, sélection PB/BL, répartition initiale et dépendances. |
+| Daily Scrum | Chaque jour travaillé du sprint ; 15 minutes à 9 h | Developers ; facilitation initiale LE MAITRE | Examiner la progression vers l’objectif, les blocages et les adaptations du plan. Les discussions détaillées suivent avec les seuls intéressés. | Tableau actualisé et action datée pour chaque obstacle. |
 | Refinement | Milieu de sprint ; 30 minutes | BAELDE et Developers concernés | Clarifier les besoins, critères, dépendances et taille des éléments ; préparer la prochaine sélection. | Backlog ordonné et éléments suffisamment précis pour être sélectionnés. |
 | Sprint Review | Fin de sprint ; 45 minutes | Équipe ; client invité selon sa disponibilité | Montrer le résultat utilisable, examiner les écarts et adapter les priorités. Une remise documentaire n’attend pas une validation client. | Résultats montrés, retours recueillis et suites reliées au backlog. |
-| Sprint Retrospective | Après la Review ; 30 minutes | Toute l’équipe ; facilitation LE MAÎTRE | Examiner ce qui aide ou freine le groupe ; retenir une amélioration concrète et son responsable. | Action d’amélioration, responsable, échéance et vérification au point suivant. |
+| Sprint Retrospective | Après la Review ; 30 minutes | Toute l’équipe ; facilitation LE MAITRE | Examiner ce qui aide ou freine le groupe ; retenir une amélioration concrète et son responsable. | Action d’amélioration, responsable, échéance et vérification au point suivant. |
 
 ### 4.3. Calendrier de référence
 
@@ -182,7 +182,7 @@ Les taux ci-dessous sont des estimations de progression du lot de chaque membre.
 | VILBERT-TAHON | 10 % | 30 % | 65 % | 80 % | 90 % | 100 % | 100 % |
 | BONEY | 15 % | 40 % | 60 % | 75 % | 85 % | 100 % | 100 % |
 | PHOMMAVONGSA | 10 % | 30 % | 60 % | 75 % | 85 % | 100 % | 100 % |
-| LE MAÎTRE | 10 % | 35 % | 55 % | 75 % | 85 % | 95 % | 100 % |
+| LE MAITRE | 10 % | 35 % | 55 % | 75 % | 85 % | 95 % | 100 % |
 
 ### BAELDE — du cadrage à l’intégration
 
@@ -200,13 +200,13 @@ La conception des séquences et des classes structure la première partie du lot
 
 Les cycles de vie donnent d’abord une vue des étapes d’une remontée et d’une intervention. La supervision et le suivi des opérations permettent ensuite de construire des scénarios de vérification complets. La fin du lot est consacrée à la recette par profil : examiner les actions permises, les changements d’état et les résultats visibles. L’objectif du 18 novembre est de disposer d’une synthèse des vérifications et des réserves.
 
-### LE MAÎTRE — de l’architecture à la remise
+### LE MAITRE — de l’architecture à la remise
 
 Le lot commence par la description des composants et des échanges, puis précise la distinction entre architecture réelle et architecture cible. La progression se poursuit avec la relecture des schémas et du dossier technique. Entre le 13 et le 19 novembre, l’effort se déplace vers le support de présentation, les liens et la sélection des productions. La clôture dépend de la disponibilité des contributions et résultats des quatre autres lots.
 
 ## 7. Plan de clôture du 14 au 19 novembre
 
-| Date prévue | BAELDE | VILBERT-TAHON | BONEY | PHOMMAVONGSA | LE MAÎTRE |
+| Date prévue | BAELDE | VILBERT-TAHON | BONEY | PHOMMAVONGSA | LE MAITRE |
 | --- | --- | --- | --- | --- | --- |
 | 14/11 | Revoir connexion et droits | Revoir tableaux de bord | Relire classes et séquences | Préparer les scénarios par profil | Relire composants et flux |
 | 15/11 | Examiner les points d’intégration | Ajuster salles et stock | Vérifier les parcours d’inventaire | Examiner les règles de supervision | Vérifier les schémas et références |
@@ -223,7 +223,7 @@ Le contrôle final et la présentation mobilisent les cinq membres. Une tâche n
 | --- | --- | --- |
 | Cohérence données, classes et règles | Une évolution peut affecter plusieurs représentations. | Relecture croisée BAELDE–BONEY avant clôture de la conception. |
 | États et affichage des interventions | Un écran seul ne suffit pas à décrire le résultat d’une opération. | Croisement des parcours VILBERT-TAHON–PHOMMAVONGSA avec les règles et retours des postes. |
-| Architecture et dossier de remise | Les schémas doivent correspondre au périmètre qu’ils décrivent. | Relecture LE MAÎTRE–BAELDE et distinction explicite entre réel et cible. |
+| Architecture et dossier de remise | Les schémas doivent correspondre au périmètre qu’ils décrivent. | Relecture LE MAITRE–BAELDE et distinction explicite entre réel et cible. |
 | Import JSON et notifications | Des écarts entre demande client et application sont consignés au cadrage. | Conserver ces écarts comme réserves tant qu’une réponse n’est pas recueillie. |
 | Volumétrie et hébergement cible | Les hypothèses ne constituent pas des capacités mesurées. | Ne pas annoncer de dimensionnement confirmé dans la clôture du projet. |
 | Dépendances entre les lots | La remise dépend de la disponibilité des modèles, captures et vérifications. | Regrouper les contributions le 16 novembre, réserver le 17 au contrôle final et au rendu, puis le 18 aux supports de présentation. |

@@ -15,48 +15,50 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/01-CONTEXTE/02-CONSIGNES.md](../docs/01-CONTEXTE/02-CONSIGNES.md) | Source fournie par l’encadrement | [1.5](#02-consignes) | 16/11/2026 |
 | [docs/01-CONTEXTE/03-CADRAGE.md](../docs/01-CONTEXTE/03-CADRAGE.md) | Source de travail interne | [8.1](#03-cadrage) | 16/11/2026 |
 | [docs/01-CONTEXTE/04-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/04-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.2](#04-compte-rendu-entretiens) | 16/11/2026 |
-| [docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.drawio](../docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.drawio) | Production destinée à la remise | [1.0](#01-diagramme-contexte) | 16/11/2026 |
+| [docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.drawio](../docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.drawio) | Production destinée à la remise | [2.0](#01-diagramme-contexte) | 16/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [6.0](#01-diagramme-contexte) | 16/11/2026 |
-| [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio](../docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio) | Production destinée à la remise | [1.1](#02-diagrammes-activite) | 16/11/2026 |
+| [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio](../docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio) | Production destinée à la remise | [2.0](#02-diagrammes-activite) | 16/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [4.0](#02-diagrammes-activite) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION.md) | Production destinée à la remise | [14.0](#01-regles-de-gestion) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio) | Production destinée à la remise | [1.0](#03-dcu-gestion-parc) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/02-MCD-MERISE.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/02-MCD-MERISE.drawio) | Production destinée à la remise | [2.0](#02-mcd-merise) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio) | Production destinée à la remise | [2.0](#03-dcu-gestion-parc) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.md) | Production destinée à la remise | [3.0](#03-dcu-gestion-parc) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.drawio) | Production destinée à la remise | [1.0](#04-dcu-administration-postes) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.drawio) | Production destinée à la remise | [2.0](#04-dcu-administration-postes) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.md) | Production destinée à la remise | [4.0](#04-dcu-administration-postes) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.drawio) | Production destinée à la remise | [1.0](#05-dcu-supervision-postes) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.drawio) | Production destinée à la remise | [2.0](#05-dcu-supervision-postes) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.md) | Production destinée à la remise | [3.0](#05-dcu-supervision-postes) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.drawio) | Production destinée à la remise | [3.0](#05-mcd-merise) | 15/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-MCD-MERISE.svg) | Production destinée à la remise | [4.0](#05-mcd-merise) | 15/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.drawio) | Production destinée à la remise | [1.0](#06-dcu-remontees-utilisateur) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.drawio) | Production destinée à la remise | [2.0](#06-dcu-remontees-utilisateur) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.md) | Production destinée à la remise | [5.0](#06-dcu-remontees-utilisateur) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.drawio) | Production destinée à la remise | [1.0](#07-dcu-administrer-orion) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.drawio) | Production destinée à la remise | [2.0](#07-dcu-administrer-orion) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.md) | Production destinée à la remise | [3.0](#07-dcu-administrer-orion) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.drawio) | Production destinée à la remise | [1.1](#08-diagrammes-activite-cas-utilisation) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.drawio) | Production destinée à la remise | [2.0](#08-diagrammes-activite-cas-utilisation) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION.md) | Production destinée à la remise | [3.0](#08-diagrammes-activite-cas-utilisation) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.drawio) | Production destinée à la remise | [1.0](#09-diagramme-classes-metier) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.drawio) | Production destinée à la remise | [2.0](#09-diagramme-classes-metier) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.md) | Production destinée à la remise | [3.0](#09-diagramme-classes-metier) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.drawio) | Production destinée à la remise | [1.1](#10-diagrammes-sequence-systeme) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.drawio) | Production destinée à la remise | [2.0](#10-diagrammes-sequence-systeme) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.md) | Production destinée à la remise | [3.0](#10-diagrammes-sequence-systeme) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-MATRICE-DROITS.md) | Production destinée à la remise | [9.1](#11-matrice-droits) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [5.1](#12-fiche-descriptive-gestionnaire) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [3.4](#13-fiche-descriptive-formateur) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [6.0](#14-fiche-descriptive-administrateur) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [6.0](#15-fiche-descriptive-super-administrateur) | 16/11/2026 |
-| [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio](../docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio) | Production destinée à la remise | [1.0](#01-diagrammes-etats) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [6.0](#12-fiche-descriptive-gestionnaire) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [4.0](#13-fiche-descriptive-formateur) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [6.1](#14-fiche-descriptive-administrateur) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [6.1](#15-fiche-descriptive-super-administrateur) | 16/11/2026 |
+| [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio](../docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio) | Production destinée à la remise | [2.0](#01-diagrammes-etats) | 16/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [6.0](#01-diagrammes-etats) | 16/11/2026 |
-| [docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio](../docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio) | Production destinée à la remise | [1.0](#02-diagramme-classes-analyse) | 16/11/2026 |
+| [docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio](../docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio) | Production destinée à la remise | [2.0](#02-diagramme-classes-analyse) | 16/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md](../docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md) | Production destinée à la remise | [4.0](#02-diagramme-classes-analyse) | 16/11/2026 |
-| [docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.drawio](../docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.drawio) | Production destinée à la remise | [1.0](#01-diagramme-classes-conception) | 16/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.drawio](../docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.drawio) | Production destinée à la remise | [2.0](#01-diagramme-classes-conception) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md](../docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md) | Production destinée à la remise | [4.0](#01-diagramme-classes-conception) | 16/11/2026 |
-| [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.drawio](../docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.drawio) | Production destinée à la remise | [1.1](#02-diagrammes-sequence-detailles) | 16/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.drawio](../docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.drawio) | Production destinée à la remise | [2.0](#02-diagrammes-sequence-detailles) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md](../docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md) | Production destinée à la remise | [4.0](#02-diagrammes-sequence-detailles) | 16/11/2026 |
-| [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio) | Production destinée à la remise | [1.0](#03-modele-physique-donnees) | 16/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio) | Production destinée à la remise | [2.0](#03-modele-physique-donnees) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [4.0](#03-modele-physique-donnees) | 16/11/2026 |
+| [docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md](../docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md) | Production destinée à la remise | [1.0](#05-dossier-specifications-exigences) | 16/11/2026 |
 | [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [6.0](#01-dossier-architecture-technique) | 16/11/2026 |
 | [docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [3.0](#02-diagrammes-architecture) | 16/11/2026 |
 | [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.2](#01-backlog-et-suivi-projet) | 16/11/2026 |
-| [docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [9.0](#02-backlog-technique-et-feuille-de-route) | 16/11/2026 |
+| [docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [9.3](#02-backlog-technique-et-feuille-de-route) | 16/11/2026 |
 | [docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md](../docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md) | Production destinée à la remise | [1.1](#03-journal-de-bord-projet) | 16/11/2026 |
 
 ## Fichiers en vigueur
@@ -206,7 +208,8 @@ Fichier : [docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.drawio](
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `4e2bdcc` | — |
 
 ### 01-DIAGRAMME-CONTEXTE
 
@@ -231,7 +234,10 @@ Fichier : [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio]
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 16/11/2026 | Améliore le placement des fins et des boucles retour | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.3 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.2 | 16/11/2026 | Réorganiser la remontée de l'état d'un poste pour dégager flèches et libellés | `9cecc54` | — |
+| 1.1 | 16/11/2026 | Améliore le placement des fins et des boucles retour | `ee30282` | — |
 | 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 02-DIAGRAMMES-ACTIVITE
@@ -284,13 +290,24 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION.md](../do
 | 1.1 | 03/11/2026 | Harmoniser le compte Windows dans le modèle ; Préciser l’administration Windows sans agent ; Formaliser les profils et leurs autorisations | `f7310c1` (`docs/04-REGLES-DE-GESTION.md`) | — |
 | 1.0 | 02/11/2026 | Consolider le cadrage et les modèles ; Mcd ; Consolider le cadrage et épurer les diagrammes ; Préciser les remontées et les comptes Windows | `a9aa9cd` (`docs/04-REGLES-DE-GESTION.md`) | — |
 
+### 02-MCD-MERISE
+
+Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/02-MCD-MERISE.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/02-MCD-MERISE.drawio) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.0 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+
 ### 03-DCU-GESTION-PARC
 
 Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.1 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 03-DCU-GESTION-PARC
 
@@ -314,7 +331,9 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-DCU-ADMINISTRATION-POSTES.d
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.1 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 04-DCU-ADMINISTRATION-POSTES
 
@@ -340,7 +359,9 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/05-DCU-SUPERVISION-POSTES.draw
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.1 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 05-DCU-SUPERVISION-POSTES
 
@@ -392,7 +413,9 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/06-DCU-REMONTEES-UTILISATEUR.d
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.1 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 06-DCU-REMONTEES-UTILISATEUR
 
@@ -417,7 +440,9 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/07-DCU-ADMINISTRER-ORION.drawi
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.1 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 07-DCU-ADMINISTRER-ORION
 
@@ -436,7 +461,9 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/08-DIAGRAMMES-ACTIVITE-CAS-UTI
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 16/11/2026 | Améliore le placement des fins et des boucles retour | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.2 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.1 | 16/11/2026 | Améliore le placement des fins et des boucles retour | `ee30282` | — |
 | 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 08-DIAGRAMMES-ACTIVITE-CAS-UTILISATION
@@ -456,7 +483,9 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.dr
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.1 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 09-DIAGRAMME-CLASSES-METIER
 
@@ -475,7 +504,9 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 16/11/2026 | Représenter les lignes de vie avec les stéréotypes de Jacobson | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.2 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.1 | 16/11/2026 | Représenter les lignes de vie avec les stéréotypes de Jacobson | `56acce7` | — |
 | 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 10-DIAGRAMMES-SEQUENCE-SYSTEME
@@ -523,7 +554,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNA
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 6.0 | 16/11/2026 | Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) | en vigueur | — |
+| 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.0 | 16/11/2026 | Droits partagés avec les administrateurs | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
 | 4.3 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Toutes les actions du gestionnaire : import JSON, RIGEL détaillé, activité ; écrans RIGEL | `2ce55f7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
 | 4.2 | 14/11/2026 | RIGEL : accepter sur place ou ramener (RG-96) | `186f904` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
@@ -544,7 +576,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.4 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 4.0 | 16/11/2026 | Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) | en vigueur | — |
+| 3.4 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 3.3 | 16/11/2026 | Traitement par le gestionnaire ou un administrateur | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
 | 3.2 | 15/11/2026 | Termes whitelist et blacklist | `70bd202` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
 | 3.1 | 14/11/2026 | Formateur : remontées sur les matériels d’une salle seulement ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | `2ce55f7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
@@ -563,7 +596,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTR
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.0 | 16/11/2026 | Notifier aussi les matériels à déplacer | en vigueur | — |
+| 6.1 | 16/11/2026 | Notifier aussi les matériels à déplacer | en vigueur | — |
+| 6.0 | 16/11/2026 | Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) | `d6746e9` | — |
 | 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.0 | 16/11/2026 | L’administrateur hérite des droits du gestionnaire | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
 | 4.5 | 16/11/2026 | Liste des règles paginée, avec recherche et filtre par classement | `9bb9802` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
@@ -588,7 +622,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADM
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.0 | 16/11/2026 | Notifier aussi les matériels à déplacer | en vigueur | — |
+| 6.1 | 16/11/2026 | Notifier aussi les matériels à déplacer | en vigueur | — |
+| 6.0 | 16/11/2026 | Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) | `d6746e9` | — |
 | 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.0 | 16/11/2026 | Droits du gestionnaire sur toutes les écoles, sauf RIGEL | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
 | 4.2 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Actions complétées : recherche, préférences, déconnexion, tableaux, détails des écrans | `2ce55f7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
@@ -610,7 +645,10 @@ Fichier : [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio](../docs/02-ANA
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.2 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.1 | 16/11/2026 | Réorganiser le diagramme d'intervention pour dégager flèches et libellés | `9cecc54` | — |
+| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 01-DIAGRAMMES-ETATS
 
@@ -635,7 +673,10 @@ Fichier : [docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio](../do
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.2 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.1 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `cb9873f` | — |
+| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 02-DIAGRAMME-CLASSES-ANALYSE
 
@@ -656,7 +697,9 @@ Fichier : [docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.drawio]
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.1 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 01-DIAGRAMME-CLASSES-CONCEPTION
 
@@ -677,7 +720,9 @@ Fichier : [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.drawio
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 16/11/2026 | Représenter les lignes de vie avec les stéréotypes de Jacobson | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.2 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.1 | 16/11/2026 | Représenter les lignes de vie avec les stéréotypes de Jacobson | `56acce7` | — |
 | 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 02-DIAGRAMMES-SEQUENCE-DETAILLES
@@ -699,7 +744,9 @@ Fichier : [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio](../d
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | en vigueur | — |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
+| 1.1 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
+| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
 
 ### 03-MODELE-PHYSIQUE-DONNEES
 
@@ -712,6 +759,14 @@ Fichier : [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md](../docs/
 | 3.0 | 15/11/2026 | Tables sans préfixe orion_ ; Intervention, Operation et Deplacement | `0867182` (`docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md`) | — |
 | 2.0 | 15/11/2026 | Base du relais RIGEL retirée de la cible | `04c54ca` (`docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md`) | — |
 | 1.0 | 15/11/2026 | Modèle physique des données en UML (profil d’Ambler) | `36f4195` (`docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md`) | — |
+
+### 05-DOSSIER-SPECIFICATIONS-EXIGENCES
+
+Fichier : [docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md](../docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.0 | 16/11/2026 | Créer la source du DSE remis en PDF ; Créer la source du DSE remis en PDF | en vigueur | — |
 
 ### 01-DOSSIER-ARCHITECTURE-TECHNIQUE
 
@@ -765,7 +820,7 @@ Fichier : [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANI
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.2 | 16/11/2026 | Corriger l’orthographe du nom BONEY | en vigueur | — |
+| 5.2 | 16/11/2026 | Harmoniser l’orthographe des noms BONEY et LE MAITRE | en vigueur | — |
 | 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.0 | 15/11/2026 | Actualise les clôtures après confirmation de la recette | `cdeea37` (`docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md`) | — |
 | 4.0 | 15/11/2026 | Inclut RIGEL dans la clôture et actualise le suivi après audit | `067e0b5` (`docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md`) | — |
@@ -785,7 +840,10 @@ Fichier : [docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 9.0 | 16/11/2026 | Retirer la synthèse de l’audit du 16 novembre ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 9.3 | 16/11/2026 | Clore la mise en page du DSE, produit en PDF | en vigueur | — |
+| 9.2 | 16/11/2026 | Clore l’harmonisation des noms de l’équipe | `45c7511` | — |
+| 9.1 | 16/11/2026 | Ajouter les tâches de mise en page du DSE et du DAT | `1226f68` | — |
+| 9.0 | 16/11/2026 | Retirer la synthèse de l’audit du 16 novembre ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 8.0 | 16/11/2026 | Décision du 16 novembre sur les droits des administrateurs consignée | `ddcfea7` (`docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md`) | — |
 | 7.6 | 16/11/2026 | Mot de passe jamais conservé ; données du téléphone effacées | `49e01c4` (`docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md`) | — |
 | 7.5 | 16/11/2026 | Risques de sécurité résiduels arbitrés | `07bb8ce` (`docs/04-ORGANISATION/21-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md`) | — |
@@ -855,7 +913,7 @@ Fichier : [docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md](../docs/04-ORGANIS
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 16/11/2026 | Corriger l’orthographe du nom BONEY | en vigueur | — |
+| 1.1 | 16/11/2026 | Harmoniser l’orthographe des noms BONEY et LE MAITRE | en vigueur | — |
 | 1.0 | 16/11/2026 | Créer le journal simulé des cérémonies et entretiens ; Corriger la fin du document ; Présenter les échanges comme journal de bord ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 
 ## Fichiers retirés
