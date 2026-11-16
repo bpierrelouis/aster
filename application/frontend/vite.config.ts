@@ -15,6 +15,8 @@ export default defineConfig(async ({ command, mode, isPreview }) => {
     plugins,
     server: {
       host: '127.0.0.1', port: 5173, strictPort: true,
+      // Écrans compilés dès le démarrage : le premier écran ouvert (tests compris) n'attend pas la compilation à froid
+      warmup: { clientFiles: ['./src/main.tsx', './src/connexion/**/*.tsx', './src/espace/**/*.tsx'] },
       ...(local ? { cors: false } : { proxy: { '/api': 'http://127.0.0.1:3001', '/auth': 'http://127.0.0.1:3001' } }),
     },
   };
