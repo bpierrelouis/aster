@@ -1771,6 +1771,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Crée la source draw.io du diagramme",
+        "archive": null,
+        "commit": "e57b695"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Représenter les lignes de vie avec les stéréotypes de Jacobson",
         "archive": null
       }
     ]
@@ -2735,6 +2742,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Crée la source draw.io du diagramme",
+        "archive": null,
+        "commit": "e57b695"
+      },
+      {
+        "version": "1.1",
+        "date": "2026-11-16",
+        "modification": "Représenter les lignes de vie avec les stéréotypes de Jacobson",
         "archive": null
       }
     ]
