@@ -3,14 +3,14 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 7.2 | 15/11/2026 | Pilotage interne | Renvoi vers le § 3.1 de l’audit | [57 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
+| 7.3 | 16/11/2026 | Pilotage interne | Corrections et décisions du 16 novembre consignées ; Corrections et décisions du 16 novembre consignées | [58 versions](../../archive/README.md#21-backlog-technique-et-feuille-de-route) |
 <!-- version:fin -->
 
 Document de pilotage interne, tenu à chaque itération. Il complète le [backlog et suivi du projet](20-BACKLOG-ET-SUIVI-PROJET.md), qui organise les tâches de l’équipe et leurs cérémonies Scrum : il recense le travail technique restant (corrections, dette, sécurité, documentation, écarts à soumettre), classé par échéance et par domaine, puis la feuille de route des évolutions du projet. Les décisions et questions ouvertes font foi dans le [cadrage](../01-CONTEXTE/02-CADRAGE.md) ; ce document n’en suit que la réalisation. Il n’est pas remis comme livrable : il cite des éléments propres au démonstrateur.
 
 Repères : priorité **haute**, **moyenne** ou **basse** ; **[RG]** la correction crée ou modifie une règle de gestion et exige l’accord préalable de l’utilisateur ; **[PROT]** document protégé, modifié seulement sur demande ; **[DAT]** le dossier d’architecture fait foi et n’est modifié que par le collègue qui le tient.
 
-Audit du 15 novembre : [rapport avant rendu](31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md), aucun bloquant pour le rendu établi, 7 écarts majeurs et 12 mineurs (dont deux corrigés). Dix tickets validés ; cinq en cours ; anomalies #163 à #167 en Ready/P1. Précision de l’utilisateur du 15 novembre : les VM sont sur un réseau fermé et son collègue a vérifié le bon fonctionnement du déploiement. La recette VM est retenue ; les anomalies reproduites localement restent distinctes.
+Audit du 15 novembre : [rapport avant rendu](31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md), aucun bloquant pour le rendu établi, 7 écarts majeurs et 12 mineurs (dont deux corrigés). Dix tickets validés ; cinq en cours ; anomalies #163, #164, #165 et #167 corrigées le 16 novembre, #166 abandonné. Précision de l’utilisateur du 15 novembre : les VM sont sur un réseau fermé et son collègue a vérifié le bon fonctionnement du déploiement. La recette VM est retenue ; les anomalies reproduites localement restent distinctes.
 
 ## 1. Échéances
 
@@ -50,8 +50,8 @@ Audit du 15 novembre : [rapport avant rendu](31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md
 
 ### Corrections relevées par l’audit du 13 novembre
 
-- [ ] **Haute** — CODE-04 (#167) : contrôle de taille réservé aux collections modifiables ; le navigateur ne renvoie plus `processus`, `detections` ni `installations` (charge utile sous 8 Mo) ; processus conservés par poste bornés, un seul simulateur par espace ; détail au § 3.1 de l’[audit](31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md).
-- [ ] **Moyenne** — Supervision › Listes : règles sur `DataPanel` (recherche, filtre par classement, 25 par page) ; fiche 15 et capture à mettre à jour. Vérifier d’abord si les règles « non modifiables » observées étaient globales (réservées au super administrateur, RG-50) ou bloquées par CODE-04.
+- [x] **Haute** — CODE-04 (#167, 16 novembre) : une collection absente d’une écriture n’est plus contrôlée ; le navigateur ne renvoie plus `processus`, `detections` ni `installations` ; 50 processus arrêtés au plus par poste (`ARRETES_PAR_POSTE`) ; un seul simulateur par espace (guide de l’application).
+- [x] **Moyenne** — Supervision › Listes sur `DataPanel` (recherche, filtre par classement, ordre alphabétique, 25 par page ; décision de l’utilisateur du 16 novembre : V1) ; fiche 15 et capture `42-supervision-listes` à jour.
 - [x] **Haute** — Jeton du relais RIGEL : une seule source, le secret `RELAIS_TOKEN` du dépôt, transmis à chaque déploiement ; secret Swarm nommé par son empreinte, connecteur redéployé si le jeton change, anciens secrets retirés ; le job Hidora échoue si le relais refuse le jeton (constat du 15 novembre). `installer.sh --commande` réinstalle la commande `orion-deploiement` d’orion-1, à lancer avant le prochain déploiement.
 - [x] **Moyenne** — Détections : conservées trente jours sans la limite des 2 000 plus récentes (RG-56) ([52c3add](https://github.com/bpierrelouis/aster/commit/52c3add)).
 - [x] **Moyenne** — Étage d’une salle obligatoire côté serveur (RG-61) ([52c3add](https://github.com/bpierrelouis/aster/commit/52c3add)).
@@ -68,9 +68,9 @@ Audit du 15 novembre : [rapport avant rendu](31-AUDIT-AVANT-RENDU-16-NOVEMBRE.md
 
 ### Écarts confirmés par l’audit avant rendu du 16 novembre
 
-- [ ] **Haute — risque conditionnel de volume local, P1** — #167 : plus de 20 000 processus visibles bloquent toutes les écritures, même les préférences ; reproduction isolée 20 000/20 001. Le volume local a été accéléré par deux simulateurs pendant l’audit ; celui ajouté a été arrêté, celui de l’utilisateur conservé. Corriger le contrôle serveur, puis rejouer ce scénario local sans purger l’historique pour masquer le défaut. Aucun blocage nominal sur les VM n’est établi ; la recette VM confirmée reste validée.
-- [ ] **Haute** — #163 : valider nom, classement, portée et rattachements des règles whitelist/blacklist ; une règle sans nom peut faire échouer les rapports des postes.
-- [ ] **Haute** — #164 : conserver des identifiants sans troncature à 32 bits ; collision et écrasement PostgreSQL reproduits.
+- [x] **Haute** — #167 : corrigé (voir CODE-04 ci-dessus) ; test serveur à 20 001 processus.
+- [x] **Haute** — #163 : nom, classement, portée et rattachements des règles contrôlés par le serveur (`backend/domaine/regles.ts`) ; seuls les rattachements de la portée sont conservés.
+- [x] **Haute** — #164 : identifiants du serveur en UUID complet.
 - [ ] **Basse** — #162 : résidus « campagne » dans commentaires/sélecteur CSS ; préserver les anciens noms nécessaires aux migrations et à IndexedDB.
 
 ### Évolutions
@@ -165,12 +165,12 @@ Audit du 15 novembre : revue du code (droits de chaque route et de chaque règle
 
 Audit du 15 novembre, #109 refusé :
 
-- [ ] **Haute** — #165 : une opération RIGEL reste publiée et applicable après désactivation du gestionnaire ; révoquer les droits effectifs.
-- [ ] **Basse** — Quota relais non atomique en concurrence (#120 existant, suivi #109) ; dépassement déterministe du seuil, pas de remplissage illimité prouvé.
-- [ ] **Basse** — JSON invalide : extrait de corps journalisé et renvoyé ; remplacer par une erreur générique (#109).
-- [ ] **Basse** — Mot de passe du thème Keycloak conservé dans sessionStorage au-delà d’une minute si le parcours est abandonné (#109).
+- [x] **Haute** — #165 : une opération dont le lanceur n’est plus gestionnaire actif de l’école n’est plus publiée et ses constats sont refusés (RG-85) ; un autre gestionnaire clôt le recensement ou relance l’installation, qui clôt l’ancienne. La copie déjà sur le téléphone ne s’efface pas à distance.
+- [x] **Basse** — Quota du relais atomique : contrôle et ajout dans une transaction, sous verrou de l’opération (#120, #109).
+- [x] **Basse** — JSON invalide : « JSON invalide. », sans extrait du corps, dans la réponse et le journal (API et relais).
+- [x] **Basse** — Mot de passe du thème Keycloak effacé par toute autre page du thème. Réserve : conservé jusqu’à la fermeture de l’onglet si l’utilisateur quitte Keycloak entre les deux pages.
 
-Restent ouverts :
+Restent ouverts (vérifiés le 16 novembre dans la configuration et le code : aucun n’est corrigé) :
 
 | Sujet | Constat | Proposition | Portée |
 | --- | --- | --- | --- |
@@ -194,7 +194,13 @@ Décidé de ne pas faire (utilisateur, 13 novembre) : filtrage réseau de la con
 
 - [x] RIGEL dans le cadrage : § 23 (application de scan réalisée par RIGEL, RG-92 à RG-96) et § 19 (décision du 15 novembre, fonctionnement hors connexion) mis à jour le 15 novembre ; livrables relus (#158).
 - [x] Captures des fiches 13, 15 et 16 : les anciennes maquettes IHM sont supprimées ; les fiches reprennent les captures de l’application (`design/maquettes/captures/`, 14 novembre).
-- [ ] Cadrage § 23 (#60 refusé à l’audit) : sa phrase introductive affirme encore que les productions cible suivent la décision du client (`02:391`, `:405`, `:406`), contrairement à la règle en vigueur (la documentation suit l’état actuel, l’écart est inscrit au § 23). RG-36, RG-37, matrice et fiche 13 ont été alignées ; seule la contradiction introductive reste à corriger, sans nouvelle modification des règles.
+- [x] Cadrage § 23 (#60, phrase introductive remplacée le 16 novembre avec l’accord de l’utilisateur) : sa phrase introductive affirme encore que les productions cible suivent la décision du client (`02:391`, `:405`, `:406`), contrairement à la règle en vigueur (la documentation suit l’état actuel, l’écart est inscrit au § 23). RG-36, RG-37, matrice et fiche 13 ont été alignées ; seule la contradiction introductive reste à corriger, sans nouvelle modification des règles.
+
+### Suites de l’audit du 16 novembre
+
+- [x] **Haute** — RG-15 et définition « Administrateur » du glossaire : confirmation des installations et actions RIGEL réservées au gestionnaire (accord de l’utilisateur du 16 novembre).
+- [x] DOC-06 (#166) abandonné (décision de l’utilisateur du 16 novembre) : un poste est toujours dans une salle, le lieu historique d’une détection n’est pas ajouté au MCD ni aux classes métier. Le code et le MPD gardent la salle de la détection.
+- Réserves de la V1 (décision de l’utilisateur du 16 novembre), non corrigées : DOC-03 (appairage RIGEL en inclusion dans le DCU 08), DOC-04 (points d’extension non nommés), DOC-05 (propriétaire du paquet).
 
 ### Contradictions à corriger
 
@@ -260,8 +266,8 @@ Le DAT, tenu par l’utilisateur, fait foi ; ces écarts entre lui, la configura
 
 ### Propositions de l’audit à soumettre au détenteur
 
-- [ ] **Haute [DAT]** — #70 : distinguer la contrainte de réseau réelle (relais/connecteur) de la cible qui les supprime ; DAT:31 contre :404, rédaction au rapport31§6.
-- [ ] **Basse [DAT]** — #70 : corriger l’affirmation de stockage hors ligne chiffré ; le mobile conserve instantané et constats dans IndexedDB, chiffrés à l’envoi au relais. DAT:106 et code mobile, rédaction au rapport31§6.
+- [x] **Haute [DAT]** — #70 : contrainte réseau distinguée entre architecture réelle (relais et connecteur) et cible (entrée publique de RIGEL) (accord de l’utilisateur du 16 novembre).
+- [x] **Basse [DAT]** — #70 : stockage hors ligne dans IndexedDB distingué du chiffrement des échanges avec le relais (16 novembre).
 
 ### DAT et configuration réelle
 

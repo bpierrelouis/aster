@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.6 | 15/11/2026 | Source de travail interne | Limitation de débit en place | [26 versions](../../archive/README.md#02-cadrage) |
+| 7.0 | 16/11/2026 | Source de travail interne | Les productions suivent l’état actuel ; écarts présentés au client | [27 versions](../../archive/README.md#02-cadrage) |
 <!-- version:fin -->
 
 **Document de travail interne, non destiné à la remise aux cadres évaluateurs.** Il conserve les réponses et leurs périmètres pour préparer les productions. Les documents remis décrivent la cible en production ; les modalités de réalisation et les comptes du démonstrateur sont réservés au [guide interne de développement](../../application/README.md). Cette distinction a été fixée par l’utilisateur le 6 novembre.
@@ -388,7 +388,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 ## 23. Points à soumettre au client au prochain rendez-vous
 
-Ces points opposent une demande du client à l’application ou à une orientation de l’équipe. En attendant la réponse du client, les productions décrivant la cible suivent sa décision ; l’écart de l’application reste explicite pour préparer le rendez-vous. Les retours du client du 12 novembre transmis par l’utilisateur sont reportés sur les points qu’ils tranchent ; les autres points restent ouverts.
+Ces points opposent une demande du client à l’application ou à une orientation de l’équipe. Les productions suivent l’état actuel de l’application et de l’architecture cible ; les écarts avec les demandes du client sont présentés au prochain rendez-vous. Les retours du client du 12 novembre transmis par l’utilisateur sont reportés sur les points qu’ils tranchent ; les autres points restent ouverts.
 
 - [ ] Qui peut créer une remontée ? — **Client :** « seul le formateur peut créer des remontées », alors que « l’administrateur peut réaliser toutes les actions » (22 octobre, § 2.3). **Application :** le formateur, l’administrateur et le super administrateur. **Décision de l’utilisateur du 13 novembre, pour le produit final au-delà de la V1 demandée par le client :** le formateur et l’administrateur, donc aussi le super administrateur, peuvent créer une remontée ; le type de problème est obligatoire (libellé à saisir pour « autre »). RG-21 est mise à jour avec l’accord de l’utilisateur.
 - [ ] Le statut « corrigé » est-il retenu ? — **Client :** statuts « en attente » et « remplacé » (22 octobre, § 2.5) ; les retours du 12 novembre transmis par l’utilisateur n’écartent que la validation par l’auteur et ne se prononcent pas sur « corrigé ». **Orientation de l’utilisateur du 13 novembre, pour le produit final au-delà de la V1 demandée par le client, qui remplace la répartition précédente du traitement entre gestionnaire, administrateur et super administrateur :** seul le gestionnaire termine une remontée en cours, en « corrigé » ou « remplacé » ; l’administrateur et le super administrateur ne la traitent pas (RG-13 et RG-64 mises à jour avec l’accord de l’utilisateur). **Application :** même répartition.

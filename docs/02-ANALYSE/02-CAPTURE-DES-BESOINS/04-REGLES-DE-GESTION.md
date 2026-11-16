@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 11.0 | 15/11/2026 | Production destinée à la remise | RG-79 : la remontée reste rattachée à l’école de sa création | [20 versions](../../../archive/README.md#04-regles-de-gestion) |
+| 12.0 | 16/11/2026 | Production destinée à la remise | RG-15 réserve au gestionnaire la confirmation des installations et RIGEL | [21 versions](../../../archive/README.md#04-regles-de-gestion) |
 <!-- version:fin -->
 
 Ce document formalise uniquement les règles confirmées qui imposent une contrainte sur les données, les droits des utilisateurs ou les traitements réalisés par ORION. Il s'appuie sur les [consignes du projet](../../01-CONTEXTE/01-CONSIGNES.md), les [entretiens des 22 et 23 octobre et du 4 novembre](../../01-CONTEXTE/03-COMPTE-RENDU-ENTRETIENS.md), le fonctionnement de l'application ORION et le [cadrage consolidé](../../01-CONTEXTE/02-CADRAGE.md).
@@ -29,7 +29,7 @@ Les limites du périmètre, les questions ouvertes et les réponses historiques 
 
 ## 2. Règles relatives aux droits
 
-- **RG-15 — Droits des administrateurs.** L'administrateur peut réaliser toutes les actions proposées par ORION dans son école de rattachement, à l'exception du traitement des remontées, réservé au gestionnaire (RG-64). Le super administrateur dispose des mêmes droits sur l'ensemble des écoles ; il est seul à gérer les écoles, les entrées de whitelist et de blacklist de portée globale et les comptes de super administrateur (application, 9 novembre).
+- **RG-15 — Droits des administrateurs.** L'administrateur peut réaliser toutes les actions proposées par ORION dans son école de rattachement, à l'exception du traitement des remontées (RG-64), de la confirmation des installations et des actions RIGEL, réservés au gestionnaire (RG-92 à RG-96). Le super administrateur dispose des mêmes droits sur l'ensemble des écoles ; il est seul à gérer les écoles, les entrées de whitelist et de blacklist de portée globale et les comptes de super administrateur (application, 9 novembre).
 - **RG-16 — Périmètre du gestionnaire.** Le gestionnaire intervient sur l'ensemble du parc de son école de rattachement, sans restriction à un bâtiment (décision de l’utilisateur du 3 novembre).
 - **RG-17 — Gestion des matériels.** Le gestionnaire peut créer, consulter et modifier les matériels, mais ne peut pas les supprimer.
 - **RG-18 — Stocks et affectations.** Le gestionnaire peut gérer les stocks, affecter les matériels et les déplacer.

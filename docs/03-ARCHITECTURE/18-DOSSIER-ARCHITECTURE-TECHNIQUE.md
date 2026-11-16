@@ -28,7 +28,7 @@ Les contraintes structurantes sont les suivantes :
 - les PDF d’état des lieux sont produits à la demande par le serveur back et ne sont pas conservés ;
 - les postes administrés utilisent Windows et le navigateur attendu est Firefox ;
 - la solution d’administration des postes Windows reste à déterminer.
-- les téléphones de recensement ne joignent jamais directement le réseau d’ORION : ils passent par un relais public et un connecteur sortant.
+- dans l’architecture réelle, les téléphones de recensement passent par un relais public et un connecteur sortant ; dans la cible, ils joignent l’entrée publique de RIGEL.
 
 ## 3. Justification des briques
 
@@ -104,7 +104,7 @@ Le point d’accès `/api/health` vérifie la base ORION et les métadonnées du
 - Express renvoie dans cette réponse les interventions à exécuter.
 - Le simulateur exécute les arrêts, installations, désinstallations et réinstallations sur l’état simulé, puis publie leur résultat sur `/api/agent/resultats`.
 - Le téléphone charge la PWA et échange avec le relais Hidora en HTTPS. Le recensement ou l’installation en cours, le jeton et la clé sont portés par le fragment du QR code, qui n’est pas envoyé au relais.
-- Le téléphone chiffre les instantanés et événements en AES-256-GCM et les conserve hors ligne dans IndexedDB jusqu’à leur synchronisation.
+- Le téléphone conserve l’instantané et ses constats hors ligne dans IndexedDB ; ses échanges avec le relais sont chiffrés en AES-256-GCM.
 - Le connecteur interroge le relais en HTTPS par le proxy du réseau, transmet les événements à Express sur le réseau overlay, puis acquitte au relais ceux qu’ORION a intégrés.
 
 ### 4.5. Architecture réelle sur VM

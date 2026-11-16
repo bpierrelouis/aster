@@ -439,6 +439,13 @@
         "version": "5.3",
         "date": "2026-11-15",
         "modification": "Termes ajoutés : intervention, compte ORION, étape de remontée, type de problème, C1NP, CCT ; API précisée",
+        "archive": null,
+        "commit": "60a0e11"
+      },
+      {
+        "version": "6.0",
+        "date": "2026-11-16",
+        "modification": "Administrateur sans confirmation des installations ni RIGEL",
         "archive": null
       }
     ]
@@ -671,6 +678,13 @@
         "version": "6.6",
         "date": "2026-11-15",
         "modification": "Limitation de débit en place",
+        "archive": null,
+        "commit": "75615df"
+      },
+      {
+        "version": "7.0",
+        "date": "2026-11-16",
+        "modification": "Les productions suivent l’état actuel ; écarts présentés au client",
         "archive": null
       }
     ]
@@ -998,6 +1012,13 @@
         "version": "11.0",
         "date": "2026-11-15",
         "modification": "RG-79 : la remontée reste rattachée à l’école de sa création",
+        "archive": null,
+        "commit": "8be49e9"
+      },
+      {
+        "version": "12.0",
+        "date": "2026-11-16",
+        "modification": "RG-15 réserve au gestionnaire la confirmation des installations et RIGEL",
         "archive": null
       }
     ]
@@ -1823,6 +1844,13 @@
         "version": "4.4",
         "date": "2026-11-15",
         "modification": "Question ouverte sur le journal applicatif précisée",
+        "archive": null,
+        "commit": "60a0e11"
+      },
+      {
+        "version": "4.5",
+        "date": "2026-11-16",
+        "modification": "Liste des règles paginée, avec recherche et filtre par classement",
         "archive": null
       }
     ]
@@ -2339,6 +2367,13 @@
         "version": "5.1",
         "date": "2026-11-15",
         "modification": "Jeton du relais fourni par l’intégration continue à chaque déploiement",
+        "archive": null,
+        "commit": "3fbaa9a"
+      },
+      {
+        "version": "5.2",
+        "date": "2026-11-16",
+        "modification": "Contrainte RIGEL réelle et cible distinguées ; stockage mobile précisé",
         "archive": null
       }
     ],
@@ -2991,6 +3026,13 @@
         "version": "7.2",
         "date": "2026-11-15",
         "modification": "Renvoi vers le § 3.1 de l’audit",
+        "archive": null,
+        "commit": "be52f06"
+      },
+      {
+        "version": "7.3",
+        "date": "2026-11-16",
+        "modification": "Corrections et décisions du 16 novembre consignées ; Corrections et décisions du 16 novembre consignées",
         "archive": null
       }
     ]

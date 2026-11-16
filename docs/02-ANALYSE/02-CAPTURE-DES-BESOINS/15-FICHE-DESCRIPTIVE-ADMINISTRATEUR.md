@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.4 | 15/11/2026 | Production destinée à la remise | Question ouverte sur le journal applicatif précisée | [14 versions](../../../archive/README.md#15-fiche-descriptive-administrateur) |
+| 4.5 | 16/11/2026 | Production destinée à la remise | Liste des règles paginée, avec recherche et filtre par classement | [15 versions](../../../archive/README.md#15-fiche-descriptive-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -132,7 +132,7 @@ RG-15, RG-22, RG-25, RG-30, RG-39, RG-69 et RG-81.
 
 1. **Alertes** liste les détections de toutes les salles de l’école, des plus récentes aux plus anciennes : processus et classement, poste et salle, adresse IP, compte Windows, date et résultat de l’arrêt automatique ; une salle peut être choisie et une recherche (processus, poste, adresse IP, compte) appliquée pour restreindre la liste.
 2. **Salles** présente, pour la salle choisie, l’état de chaque poste (« Connecté », « Allumé », « Poste déconnecté », « Matériel hors service ») et ses processus utilisateur, actualisés toutes les cinq secondes ; le bouton d’arrêt demande l’arrêt d’un processus (« Arrêt demandé au poste »).
-3. **Listes de processus** présente les règles applicables (processus, classement, portée) ; **Ajouter une règle** ouvre le formulaire : nom du processus, classement « Autorisé (whitelist) » ou « Interdit (blacklist) », portée école, bâtiment ou salle. ORION confirme « Règle enregistrée ». Le crayon d’une règle la modifie ; sa corbeille la supprime, après confirmation.
+3. **Listes de processus** présente les règles applicables (processus, classement, portée) par ordre alphabétique, 25 par page, avec une recherche et un filtre par classement ; **Ajouter une règle** ouvre le formulaire : nom du processus, classement « Autorisé (whitelist) » ou « Interdit (blacklist) », portée école, bâtiment ou salle. ORION confirme « Règle enregistrée ». Le crayon d’une règle la modifie ; sa corbeille la supprime, après confirmation.
 4. ORION applique les règles cumulées et arrête automatiquement un processus de la blacklist ; la détection est historisée.
 5. L’administrateur reçoit une notification pour chaque processus interdit lancé.
 6. **Statistiques** présente les postes allumés, les processus utilisateur actifs, les détections conservées et les processus les plus détectés.
