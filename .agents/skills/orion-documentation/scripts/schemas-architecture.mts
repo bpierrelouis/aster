@@ -22,6 +22,7 @@ const C = {
   ink: '#142a40', sub: '#425a72', blue: '#0f6cbd', line: '#0f6cbd',
   zone: '#f3f8fd', zoneStroke: '#9cc0e4', vm: '#ffffff', vmStroke: '#b9c7d6',
   green: '#e6f4ec', greenStroke: '#8fc4a3', amber: '#fff6e5', amberStroke: '#e3bd6d', ext: '#eef3f8', extStroke: '#b3c3d3',
+  hors: '#eceff2', horsStroke: '#a9b4bf', horsInk: '#66788a',
 };
 const used = new Set<string>();
 const parts: string[] = [];
@@ -55,11 +56,13 @@ const card = (x: number, y: number, ic: string, name: string, role: string, vm: 
 };
 const zone = (x: number, y: number, w: number, h: number, name: string) => { rect(x, y, w, h, C.zone, C.zoneStroke, { rx: 6 }); text(x + 14, y + 24, name, 'zname'); };
 
-const svc = (x: number, y: number, w: number, h: number, ic: string, name: string, lines: string[], host = false, showTag = true) => {
-  rect(x, y, w, h, host ? C.amber : '#f2f7fd', host ? C.amberStroke : '#aac6e3', { rx: 8 });
-  icon(ic, x + 10, y + 10, 20, host ? '#a06a00' : C.blue);
+// Vue détaillée du démonstrateur : bordure bleue pour les services du système ORION
+let systeme = false;
+const svc = (x: number, y: number, w: number, h: number, ic: string, name: string, lines: string[], host = false, showTag = true, hors = false) => {
+  rect(x, y, w, h, hors ? C.hors : host ? C.amber : '#f2f7fd', hors ? C.horsStroke : systeme ? C.blue : host ? C.amberStroke : '#aac6e3', { rx: 8, sw: systeme && !hors ? 2.5 : undefined });
+  icon(ic, x + 10, y + 10, 20, hors ? C.horsInk : host ? '#a06a00' : C.blue);
   text(x + 38, y + 25, name, 'service');
-  if (showTag) text(x + w - 10, y + 24, host ? 'service hôte' : 'conteneur', host ? 'tag host' : 'tag', 'end');
+  if (showTag) text(x + w - 10, y + 24, host ? 'service hôte' : 'conteneur', hors ? 'tag hors' : host ? 'tag host' : 'tag', 'end');
   lines.forEach((l, i) => text(x + 38, y + 43 + i * 16, l, 'caption'));
 };
 const vol = (x: number, y: number, w: number, name: string, lines: string[]) => {
@@ -101,7 +104,7 @@ if (kind === 'cible-simple') {
   title = 'ORION — architecture cible';
   desc = 'Vue simplifiée des quatre VM ORION, de MindefConnect, du téléphone RIGEL et des principaux échanges.';
 
-  heading(title, 'Vue simplifiée · 1 000 postes actifs');
+  heading(title, 'Vue simplifiée');
   enclosure(245, 102, 1185, 440, 'network', 'C1NP');
   enclosure(268, 257, 1139, 260, 'server', 'VM ORION');
   zone(280, 299, 215, 164, 'Entrée');
@@ -142,22 +145,21 @@ if (kind === 'cible-simple') {
   W = 2180; H = 770;
   title = 'ORION — architecture cible';
   desc = 'Quatre VM et les principaux flux applicatifs et de collecte. Les flux d’exploitation sont détaillés dans le DAT.';
-  const frame = (x: number, y: number, w: number, h: number, name: string, sizing: string) => {
+  const frame = (x: number, y: number, w: number, h: number, name: string) => {
     rect(x, y, w, h, C.vm, C.vmStroke);
     icon('server', x + 12, y + 11, 16, '#5b7690');
     text(x + 34, y + 24, name, 'vm');
-    text(x + 34, y + 45, sizing, 'caption');
   };
-  heading(title, 'Vue détaillée · 1 000 postes actifs');
+  heading(title, 'Vue détaillée');
 
   enclosure(250, 94, 1890, 640, 'network', 'C1NP');
   rect(275, 201, 1855, 460, '#fff', C.zoneStroke, { rx: 12 });
   text(300, 228, 'VM ORION', 'frame');
 
-  frame(300, 245, 490, 395, 'VM 1 . Entrée', '2 vCPU · 8 Go RAM · 50 Go système');
-  frame(940, 245, 355, 395, 'VM 2 . Application', '8 vCPU · 32 Go RAM · 50 Go système');
-  frame(1390, 245, 295, 395, 'VM 3 . Base et collecte', '4 vCPU · 16 Go RAM · 50 Go système');
-  frame(1820, 245, 290, 395, 'VM 4 . Stockage', '2 vCPU · 8 Go RAM · 50 Go système');
+  frame(300, 245, 490, 395, 'VM 1 . Entrée');
+  frame(940, 245, 355, 395, 'VM 2 . Application');
+  frame(1390, 245, 295, 395, 'VM 3 . Base et collecte');
+  frame(1820, 245, 290, 395, 'VM 4 . Stockage');
   ext(40, 318, 135, 70, 'users', 'Firefox', []);
   ext(40, 395, 175, 70, 'smartphone', 'Téléphone', ['PWA RIGEL hors ligne']);
   ext(40, 510, 175, 70, 'monitor', 'Postes Windows', []);
@@ -203,80 +205,77 @@ if (kind === 'cible-simple') {
   arrow([[215, 545], [260, 545], [260, 435], [318, 435]]);
   label(252, 488, '10B · HTTPS 443', 'end');
 } else if (kind === 'simple') {
-  W = 1680; H = 1250;
+  W = 1720; H = 1160;
   title = 'ORION — architecture du démonstrateur';
-  desc = 'Rôles du démonstrateur, regroupés par zone, et principaux échanges numérotés.';
+  desc = 'Système ORION encadré, substituts et pilotage du démonstrateur à l’extérieur, principaux échanges numérotés.';
   // Carte façon Azure : icône au-dessus, nom, rôle, VM
   const step = (x: number, y: number, n: string | number) => { add(`<circle cx="${x}" cy="${y}" r="11" fill="${C.blue}"/>`); text(x, y + 4.5, n, 'step', 'middle'); };
 
   heading(title, 'Vue simplifiée · dix VM');
 
   card(20, 240, 'users', 'Firefox', '', '', { stroke: C.extStroke, w: 150 });
-  card(1500, 638, 'user-cog', 'Opérateur', 'SSH, client Docker', 'son propre poste', { stroke: C.extStroke, w: 150 });
-  card(1500, 820, 'github', 'GitHub', 'intégration continue', 'Internet, par proxy', { stroke: C.extStroke, w: 150 });
+  card(20, 860, 'smartphone', 'Téléphone', 'PWA RIGEL hors ligne', '', { stroke: C.extStroke, w: 150 });
+  card(1500, 672, 'user-cog', 'Opérateur', 'SSH, client Docker', 'son propre poste', { stroke: C.extStroke, w: 150 });
 
-  enclosure(230, 105, 1240, 695, 'network', 'Réseau privé du démonstrateur · 10 VM · accès par https://172.16.131.188');
+  // Système ORION : entrée, interface, API, base, logs, stockage et RIGEL
+  enclosure(210, 105, 990, 795, 'package', 'Système ORION');
+  zone(235, 172, 210, 388, 'Entrée');
+  zone(470, 172, 220, 388, 'Application');
+  zone(715, 172, 220, 388, 'Données');
+  zone(960, 372, 220, 188, 'Collecte des logs');
+  card(255, 212, 'split', 'HAProxy', 'entrée', 'orion-1');
+  card(490, 212, 'app-window', 'Apache', 'Interface React', 'orion-4 et orion-5');
+  card(490, 400, 'server', 'API Express', 'Application ORION', 'orion-4 et orion-5');
+  card(735, 212, 'hard-drive', 'Stockage', 'NFS', 'orion-10');
+  card(735, 400, 'database', 'PostgreSQL', 'données', 'orion-6 · secours 9');
+  card(985, 400, 'scroll-text', 'Logstash', 'Collecte des logs', 'orion-8 · secours 9');
+  rigelEnclosure(420, 620, 760, 260);
+  zone(700, 667, 465, 195, 'Hidora');
+  card(450, 700, 'refresh-cw', 'Connecteur RIGEL', 'Conteneur versionné', 'orion-4 ou orion-5');
+  card(720, 700, 'cloud', 'Relais RIGEL', 'rigel.sh1.hidora.net', 'Conteneur versionné');
+  card(965, 700, 'database', 'PostgreSQL RIGEL', 'Données chiffrées', 'TCP 5432');
 
-  zone(255, 172, 210, 388, 'Entrée');
-  zone(490, 172, 220, 388, 'Application');
-  zone(735, 172, 220, 388, 'Données');
-  zone(980, 172, 470, 180, 'Identité');
-  zone(980, 372, 220, 188, 'Services simulés');
-  zone(1230, 372, 220, 188, 'Collecte des logs');
-  zone(490, 600, 220, 178, 'RIGEL');
-  zone(980, 600, 470, 178, 'Pilotage');
+  // Hors du système : substituts de MindefConnect, simulateur et pilotage du démonstrateur
+  zone(1230, 172, 470, 180, 'Identité');
+  zone(1230, 372, 220, 188, 'Services simulés');
+  zone(1230, 640, 220, 188, 'Pilotage');
+  card(1250, 212, 'key-round', 'Keycloak', 'connexion', 'orion-7 · secours 9');
+  card(1500, 212, 'book-user', 'OpenLDAP', 'annuaire', 'orion-7 · secours 9');
+  card(1250, 400, 'monitor', 'Simulateur', 'Postes Windows et M42', 'orion-4 ou orion-5');
+  card(1250, 672, 'boxes', 'Swarm', 'managers', 'orion-1, 2 et 3');
 
-  card(275, 212, 'split', 'HAProxy', 'entrée', 'orion-1');
-  card(515, 212, 'app-window', 'Apache', 'Interface React', 'orion-4 et orion-5');
-  card(515, 400, 'server', 'API Express', 'Application ORION', 'orion-4 et orion-5');
-  card(760, 212, 'hard-drive', 'Stockage', 'NFS', 'orion-10');
-  card(760, 400, 'database', 'PostgreSQL', 'données', 'orion-6 · secours 9');
-  card(1005, 212, 'key-round', 'Keycloak', 'connexion', 'orion-7 · secours 9');
-  card(1255, 212, 'book-user', 'OpenLDAP', 'annuaire', 'orion-7 · secours 9');
-  card(1005, 400, 'monitor', 'Simulateur', 'Postes Windows et M42', 'orion-4 ou orion-5');
-  card(1255, 400, 'scroll-text', 'Logstash', 'Collecte des logs', 'orion-8 · secours 9');
-  card(515, 638, 'refresh-cw', 'Connecteur RIGEL', 'Conteneur versionné', 'orion-4 ou orion-5');
-  card(1005, 638, 'rocket', 'Runner GitHub', 'déploiement', 'orion-3');
-  card(1255, 638, 'boxes', 'Swarm', 'managers', 'orion-1, 2 et 3');
-
-  card(275, 970, 'smartphone', 'Téléphone', 'PWA RIGEL hors ligne', '', { stroke: C.extStroke });
-  rigelEnclosure(485, 910, 700, 200, 'Hidora');
-  card(515, 970, 'cloud', 'Relais RIGEL', 'rigel.sh1.hidora.net', 'Conteneur versionné', { stroke: C.extStroke });
-  card(755, 970, 'database', 'PostgreSQL RIGEL', 'Données chiffrées', 'TCP 5432', { stroke: C.extStroke });
   // Adresses des VM
-  rect(255, 1120, 1195, 100, C.zone, C.zoneStroke, { rx: 6 });
-  ips.forEach((ip, i) => text(270 + (i % 4) * 295, 1148 + Math.floor(i / 4) * 27, `orion-${i + 1} · ${ip}`, 'caption'));
+  rect(210, 1010, 1490, 125, C.zone, C.zoneStroke, { rx: 6 });
+  text(225, 1036, 'Réseau privé du démonstrateur · 10 VM · accès par https://172.16.131.188', 'zname');
+  ips.forEach((ip, i) => text(225 + (i % 4) * 295, 1064 + Math.floor(i / 4) * 25, `orion-${i + 1} · ${ip}`, 'caption'));
   // ① navigateur → entrée, par son adresse
-  arrow([[170, 276], [273, 276]]); step(210, 276, '1');
+  arrow([[170, 276], [253, 276]]); step(190, 276, '1');
   // ② entrée → interface et API
-  arrow([[445, 276], [513, 276]]); step(479, 276, '2');
-  arrow([[445, 320], [480, 320], [480, 464], [513, 464]]); step(480, 392, '2');
+  arrow([[425, 276], [488, 276]]); step(456, 276, '2');
+  arrow([[425, 320], [458, 320], [458, 464], [488, 464]]); step(458, 392, '2');
   // ③ API → base
-  arrow([[685, 464], [758, 464]]); step(722, 464, '3');
+  arrow([[660, 464], [733, 464]]); step(697, 464, '3');
   // ④ base, annuaire et collecteur → stockage
-  arrow([[845, 400], [845, 342]]); step(845, 371, '4');
-  arrow([[1340, 340], [1340, 362], [900, 362], [900, 342]]);
-  arrow([[1405, 400], [1405, 362], [900, 362], [900, 342]]); step(1120, 362, '4');
+  arrow([[820, 400], [820, 342]]); step(820, 371, '4');
+  arrow([[1130, 400], [1130, 362], [880, 362], [880, 342]]);
+  arrow([[1585, 340], [1585, 362], [880, 362], [880, 342]]); step(1010, 362, '4');
   // ⑤ entrée → connexion (Keycloak), qui lit l'annuaire
-  arrow([[340, 212], [340, 150], [1150, 150], [1150, 210]]); step(940, 150, '5');
-  arrow([[1175, 276], [1253, 276]]);
+  arrow([[340, 212], [340, 150], [1335, 150], [1335, 210]]); step(940, 150, '5');
+  arrow([[1420, 276], [1498, 276]]);
   // ⑥ postes simulés → API
-  arrow([[1090, 528], [1090, 572], [680, 572], [680, 530]]); step(880, 572, '6');
+  arrow([[1335, 528], [1335, 610], [580, 610], [580, 530]]); step(1130, 610, '6');
   // ⑦ conteneurs → logs
-  arrow([[640, 530], [640, 588], [1340, 588], [1340, 530]]); step(1180, 588, '7');
+  arrow([[630, 528], [630, 585], [1070, 585], [1070, 530]]); step(850, 585, '7');
   // ⑧ opérateur → managers, depuis son poste
-  arrow([[1500, 702], [1427, 702]]); step(1463, 702, '8');
-  // ⑨ runner → GitHub (versions publiées), puis déploiement par un manager
-  arrow([[1090, 766], [1090, 884], [1498, 884]]); step(1300, 884, '9');
-  arrow([[1175, 702], [1253, 702]]); step(1214, 702, '9');
-  // ⑩ téléphone → relais Hidora
-  arrow([[445, 1034], [513, 1034]]); step(479, 1034, '10');
-  arrow([[685, 1034], [753, 1034]]);
-  // ⑪ connecteur → API et relais
-  arrow([[575, 638], [575, 530]]); step(575, 580, '11');
-  arrow([[670, 766], [670, 968]]); step(670, 860, '11');
+  arrow([[1500, 736], [1422, 736]]); step(1461, 736, '8');
+  // ⑨ téléphone → relais Hidora, qui enregistre dans sa base
+  arrow([[170, 924], [805, 924], [805, 830]]); step(500, 924, '9');
+  arrow([[890, 764], [963, 764]]);
+  // ⑩ connecteur → API et relais
+  arrow([[535, 700], [535, 530]]); step(535, 592, '10');
+  arrow([[620, 764], [718, 764]]); step(669, 764, '10');
 } else {
-  W = 2370; H = 1500;
+  W = 2240; H = 1500;
   title = 'ORION — architecture du démonstrateur';
   desc = 'Placement des services par VM ou groupe de VM, conteneurs ou services de l’hôte, rôles Swarm, versions, ports, volumes et flux.';
   // VM ou groupe de VM : rôle en titre, puis une ligne par VM (nom d'hôte et IPv4)
@@ -289,6 +288,12 @@ if (kind === 'cible-simple') {
   };
 
   heading(title, 'Vue détaillée · dix VM');
+  // Légende : système ORION ou démonstrateur
+  systeme = true;
+  rect(1640, 30, 22, 16, '#f2f7fd', C.blue, { rx: 4, sw: 2.5 });
+  text(1672, 43, 'Système ORION : entrée, interface, API, base, logs, stockage et RIGEL', 'caption');
+  rect(1640, 58, 22, 16, C.hors, C.horsStroke, { rx: 4 });
+  text(1672, 71, 'Hors système : substituts de MindefConnect, simulation, horloge', 'caption');
   // Contenu décalé sous le titre
   add('<g transform="translate(0 -10)">');
   ext(20, 150, 160, 90, 'users', 'Firefox', ['172.16.131.188']);
@@ -299,21 +304,20 @@ if (kind === 'cible-simple') {
   // Colonne A : managers et entrée, secours
   groupe(305, 195, 275, 565, 'Managers et entrée', [1, 2], 'manager');
   svc(318, 367, 249, 250, 'split', 'HAProxy 3.2.16', ['image officielle', 'ports publiés sur l’hôte', 'HTTPS 443 · ORION, connexion', 'HTTPS 8444 · console Keycloak', '1 instance · orion-1']);
-  svc(318, 632, 249, 72, 'clock', 'chrony', ['paquet Debian · orion-1', 'NTP 123/UDP'], true);
+  svc(318, 632, 249, 72, 'clock', 'chrony', ['paquet Debian · orion-1', 'NTP 123/UDP'], true, true, true);
   groupe(305, 900, 275, 120, 'Secours', [9], 'worker');
   ['étiquettes pg, identite, logs', 'reprend PostgreSQL, l’identité', 'ou Logstash'].forEach((l, i) => text(339, 958 + i * 16, l, 'caption'));
 
-  // Colonnes B et C : administration, application (services joints par HAProxy), rôles isolés
-  groupe(650, 195, 780, 100, 'Manager et administration', [3], 'manager');
-  svc(1040, 226, 290, 60, 'rocket', 'Runner GitHub Actions', ['2.338.2 · systemd · sans port d’écoute'], true);
+  // Colonnes B et C : manager, application (services joints par HAProxy), rôles isolés
+  groupe(650, 195, 780, 100, 'Manager', [3], 'manager');
   groupe(650, 305, 780, 345, 'Application', [4, 5], 'worker');
   svc(663, 375, 260, 86, 'app-window', 'Apache 2.4.69', ['image orion-web:<SHA Git>', 'httpd 2.4.69 · HTTP 8080', 'build React 19.3.1 · 2 instances']);
   svc(663, 505, 260, 130, 'server', 'Express 5.3.0', ['image orion-api:<SHA Git>', 'Node.js 22.22.3 · HTTP 3001', '2 instances · une par VM']);
-  svc(1123, 470, 294, 72, 'monitor', 'Simulateur des postes', ['image orion-postes:<SHA Git>', 'Node.js 22.22.3 · 1 instance']);
+  svc(1123, 470, 294, 72, 'monitor', 'Simulateur des postes', ['image orion-postes:<SHA Git>', 'Node.js 22.22.3 · 1 instance'], false, true, true);
   svc(1123, 558, 294, 72, 'refresh-cw', 'Connecteur RIGEL', ['image orion-connecteur:<SHA Git>', 'pile orion-rigel · 1 instance']);
   groupe(650, 690, 290, 330, 'Identité', [7], 'worker');
-  svc(663, 750, 260, 72, 'key-round', 'Keycloak 26.7.4', ['image officielle · HTTP 8080', '1 instance · secours orion-9']);
-  svc(663, 870, 260, 72, 'book-user', 'OpenLDAP 1.5.0', ['image osixia/openldap · LDAP 389', '1 instance · secours orion-9']);
+  svc(663, 750, 260, 72, 'key-round', 'Keycloak 26.7.4', ['image officielle · HTTP 8080', '1 instance · secours orion-9'], false, true, true);
+  svc(663, 870, 260, 72, 'book-user', 'OpenLDAP 1.5.0', ['image osixia/openldap · LDAP 389', '1 instance · secours orion-9'], false, true, true);
   vol(663, 955, 260, 'Volumes NFS', ['ldap-data-nfs → /var/lib/ldap', 'ldap-config-nfs → /etc/ldap/slapd.d']);
   groupe(1110, 690, 320, 195, 'Logs', [8], 'worker');
   svc(1123, 750, 294, 72, 'scroll-text', 'Logstash 8.19.14', ['image officielle · TCP TLS 6514', '1 instance · secours orion-9']);
@@ -337,14 +341,13 @@ if (kind === 'cible-simple') {
   text(250, 1449, 'orion-1 à orion-10 · Debian 13 · OpenSSH 22 · systemd-timesyncd · résolveur DNS · apt', 'caption');
   text(250, 1466, 'orion-1 à orion-9 · Docker · pilote syslog → 127.0.0.1:6514 · téléchargement des images', 'caption');
 
-  // Extérieur : proxy du réseau, DNS, GitHub, registres, RIGEL sur Hidora, téléphone
+  // Extérieur : proxy du réseau, DNS, registres, RIGEL sur Hidora, téléphone
   ext(1640, 520, 240, 100, 'network', 'Proxy du réseau', ['172.16.0.1:8080']);
   ext(1680, 1400, 200, 80, 'globe', 'DNS du réseau', ['172.16.143.251']);
-  ext(1960, 360, 240, 80, 'github', 'GitHub', ['dépôt et GitHub Actions']);
   ext(1960, 520, 240, 100, 'package', 'Registres et dépôts', ['Docker Hub · docker.elastic.co', 'dépôts Debian']);
   rigelEnclosure(1940, 700, 280, 360, 'Hidora');
-  ext(1965, 780, 230, 95, 'cloud', 'Relais RIGEL', ['rigel.sh1.hidora.net', 'image rigel:<SHA Git>', 'HTTPS 443 · HTTP interne 3000'], 'conteneur');
-  ext(1965, 945, 230, 80, 'database', 'PostgreSQL RIGEL', ['données chiffrées', 'TCP 5432']);
+  svc(1965, 780, 230, 95, 'cloud', 'Relais RIGEL', ['rigel.sh1.hidora.net', 'image rigel:<SHA Git>', 'HTTPS 443 · HTTP interne 3000']);
+  svc(1965, 945, 230, 80, 'database', 'PostgreSQL RIGEL', ['données chiffrées', 'TCP 5432'], false, false);
   ext(1640, 850, 240, 80, 'smartphone', 'Téléphone', ['PWA RIGEL hors ligne']);
 
   // Navigateur → HAProxy d'orion-1, par son adresse (interface, API, connexion et console Keycloak)
@@ -377,17 +380,12 @@ if (kind === 'cible-simple') {
   arrow([[1500, 1400], [1500, 786], [1419, 786]]); label(1459, 779, 'TLS 6514', 'middle');
   arrow([[1580, 1400], [1580, 600], [1638, 600]]); label(1588, 1200, 'TCP 8080');
   arrow([[1595, 1440], [1678, 1440]]); label(1636, 1433, 'DNS 53', 'middle');
-  // Runner → orion-1 (déploiement de la pile) et → proxy ; connecteur → proxy
-  arrow([[1040, 258], [582, 258]]); label(670, 281, 'SSH 22 · orion-1');
-  arrow([[1330, 256], [1520, 256], [1520, 540], [1638, 540]]); label(1380, 248, 'TCP 8080', 'middle');
+  // Connecteur → proxy
   arrow([[1417, 570], [1638, 570]]); label(1560, 563, 'TCP 8080', 'middle');
-  // Proxy → GitHub, registres et relais ; GitHub → registres et Hidora ; Hidora → registres
-  arrow([[1760, 520], [1760, 400], [1958, 400]]); label(1860, 393, 'HTTPS 443', 'middle');
+  // Proxy → registres et relais ; Hidora → registres
   arrow([[1880, 570], [1958, 570]]); label(1919, 563, 'HTTPS 443', 'middle');
   arrow([[1760, 620], [1760, 805], [1963, 805]]); label(1768, 700, 'HTTPS 443');
-  arrow([[2080, 440], [2080, 518]]); label(2088, 484, 'HTTPS 443');
   arrow([[2080, 700], [2080, 622]]); label(2088, 666, 'HTTPS 443');
-  arrow([[2200, 400], [2270, 400], [2270, 1110], [2120, 1110], [2120, 1062]]); label(2278, 760, 'HTTPS 443');
   // Téléphone → relais ; relais → base
   arrow([[1880, 860], [1963, 860]]); label(1921, 853, 'HTTPS 443', 'middle');
   arrow([[2080, 875], [2080, 943]]); label(2088, 914, 'TCP 5432');
@@ -416,6 +414,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:${C.ink}}
 .vol{font-size:12.5px;font-weight:bold;fill:#24603d}
 .tag{font-size:10.5px;font-weight:bold;fill:${C.blue};letter-spacing:.3px}
 .tag.host{fill:#a06a00}
+.tag.hors{fill:#66788a}
 .badge{font-size:10.5px;font-weight:bold;fill:#254e78;letter-spacing:.5px}
 .step{font-size:13px;font-weight:bold;fill:#fff}
 .route{font-size:11.5px;font-weight:bold;fill:#0b4f8a;paint-order:stroke;stroke:#fff;stroke-width:4;stroke-linejoin:round}

@@ -28,6 +28,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 .vol{font-size:12.5px;font-weight:bold;fill:#24603d}
 .tag{font-size:10.5px;font-weight:bold;fill:#0f6cbd;letter-spacing:.3px}
 .tag.host{fill:#a06a00}
+.tag.hors{fill:#66788a}
 .badge{font-size:10.5px;font-weight:bold;fill:#254e78;letter-spacing:.5px}
 .step{font-size:13px;font-weight:bold;fill:#fff}
 .route{font-size:11.5px;font-weight:bold;fill:#0b4f8a;paint-order:stroke;stroke:#fff;stroke-width:4;stroke-linejoin:round}
@@ -36,7 +37,7 @@ text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#142a40}
 </style>
 <rect width="1470" height="780" fill="#fff"/>
 <text x="40" y="46" class="title" text-anchor="start">ORION — architecture cible</text>
-<text x="40" y="74" class="body" text-anchor="start">Vue simplifiée · 1 000 postes actifs</text>
+<text x="40" y="74" class="body" text-anchor="start">Vue simplifiée</text>
 <rect x="245" y="102" width="1185" height="440" rx="12" fill="#f7fafd" stroke="#7aa7d6" stroke-width="1.5"/>
 <use href="#i-network" x="261" y="114" width="22" height="22" style="color:#0f6cbd"/>
 <text x="291" y="131" class="frame" text-anchor="start">C1NP</text>

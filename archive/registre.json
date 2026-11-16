@@ -3018,6 +3018,13 @@
         "version": "5.3",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "6.0",
+        "date": "2026-11-16",
+        "modification": "Encadrer le système ORION dans la vue simplifiée et exprimer la charge en jours-hommes ; Distinguer le système ORION dans les vues de l’architecture réelle et exprimer la charge en jours-hommes ; Retirer le déploiement continu des échanges de la vue simplifiée",
         "archive": null
       }
     ],
@@ -3100,6 +3107,13 @@
         "version": "2.4",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-16",
+        "modification": "Distinguer le système ORION des substituts, de la simulation et du pilotage ; Retirer de la cible le nombre de postes et les capacités des VM ; Retirer GitHub et le runner des vues de l’architecture réelle",
         "archive": null
       }
     ]

@@ -53,8 +53,8 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md](../docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md) | Production destinée à la remise | [3.1](#02-diagrammes-sequence-detailles) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio) | Production destinée à la remise | [1.0](#03-modele-physique-donnees) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [3.1](#03-modele-physique-donnees) | 16/11/2026 |
-| [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [5.3](#01-dossier-architecture-technique) | 16/11/2026 |
-| [docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [2.4](#02-diagrammes-architecture) | 16/11/2026 |
+| [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [6.0](#01-dossier-architecture-technique) | 16/11/2026 |
+| [docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [3.0](#02-diagrammes-architecture) | 16/11/2026 |
 | [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.1](#01-backlog-et-suivi-projet) | 16/11/2026 |
 | [docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [9.0](#02-backlog-technique-et-feuille-de-route) | 16/11/2026 |
 | [docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md](../docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md) | Production destinée à la remise | [1.0](#03-journal-de-bord-projet) | 16/11/2026 |
@@ -699,7 +699,8 @@ Fichier : [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.3 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 6.0 | 16/11/2026 | Encadrer le système ORION dans la vue simplifiée et exprimer la charge en jours-hommes ; Distinguer le système ORION dans les vues de l’architecture réelle et exprimer la charge en jours-hommes ; Retirer le déploiement continu des échanges de la vue simplifiée | en vigueur | — |
+| 5.3 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.2 | 16/11/2026 | Contrainte RIGEL réelle et cible distinguées ; stockage mobile précisé | `9bb9802` (`docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
 | 5.1 | 15/11/2026 | Jeton du relais fourni par l’intégration continue à chaque déploiement | `3fbaa9a` (`docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
 | 5.0 | 15/11/2026 | Durcissement du 15 novembre : entrée, Keycloak, collecteur, NFS, PostgreSQL, conteneurs, déploiement | `75615df` (`docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
@@ -726,7 +727,8 @@ Fichier : [docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHIT
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.4 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 3.0 | 16/11/2026 | Distinguer le système ORION des substituts, de la simulation et du pilotage ; Retirer de la cible le nombre de postes et les capacités des VM ; Retirer GitHub et le runner des vues de l’architecture réelle | en vigueur | — |
+| 2.4 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 2.3 | 15/11/2026 | Trace tous les flux réels de la vue complète du démonstrateur ; Trace tous les flux réels de la vue complète et nomme le stockage NFS de la cible ; Trace tous les flux de la vue complète ; cible avec stockage NFS et RIGEL servi par l’entrée d’ORION | `e6b9ffd` (`docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md`) | — |
 | 2.2 | 14/11/2026 | Redessiner les quatre vues sans croisement et compléter les flux réels | `e1c2f59` (`docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md`) | — |
 | 2.1 | 14/11/2026 | Renuméroter après l’ajout des diagrammes d’états (17) | `e99107c` (`docs/03-ARCHITECTURE/19-DIAGRAMMES-ARCHITECTURE.md`) | — |

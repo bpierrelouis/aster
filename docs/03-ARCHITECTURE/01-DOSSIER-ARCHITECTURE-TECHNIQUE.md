@@ -109,7 +109,7 @@ Le point d’accès `/api/health` vérifie la base ORION et les métadonnées du
 
 ### 4.5. Architecture réelle sur VM
 
-Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée](02-DIAGRAMMES-ARCHITECTURE.md#vue-simplifiée) présente les rôles et les échanges principaux ; la [vue complète](02-DIAGRAMMES-ARCHITECTURE.md#architecture-réelle-sur-vm) détaille chaque VM, ses services, conteneurs, ports, volumes et flux. Une flèche indique la destination d’un flux. Les versions et leur statut au CCT figurent au § 5.3.
+Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée](02-DIAGRAMMES-ARCHITECTURE.md#vue-simplifiée) présente les rôles et les échanges principaux ; la [vue complète](02-DIAGRAMMES-ARCHITECTURE.md#architecture-réelle-sur-vm) détaille chaque VM, ses services, conteneurs, ports, volumes et flux. Dans la vue simplifiée, le cadre « Système ORION » regroupe les composants du produit : HAProxy, Apache et l’interface, Express, PostgreSQL, Logstash, le stockage et l’ensemble de RIGEL (connecteur, relais et sa base). Les substituts de MindefConnect (Keycloak et OpenLDAP), le simulateur des postes et de M42 et les managers Swarm servent au démonstrateur et sont placés hors de ce cadre. Dans la vue complète, organisée par VM, les services du système ORION ont une bordure bleue et les autres services sont en gris. Une flèche indique la destination d’un flux. Les versions et leur statut au CCT figurent au § 5.3.
 
 **Principes retenus.**
 
@@ -144,9 +144,8 @@ Deux schémas décrivent le déploiement du démonstrateur : la [vue simplifiée
 6. Les postes simulés envoient leurs rapports à Express et reçoivent les interventions à exécuter.
 7. Les conteneurs envoient leurs logs au collecteur Logstash.
 8. L’opérateur administre les VM par SSH et pilote le cluster par un manager, depuis son poste.
-9. Le runner d’orion-3 reçoit de GitHub chaque version publiée par l’intégration continue et la déploie sur la pile par le manager orion-1.
-10. Le téléphone charge la PWA RIGEL et synchronise ses blocs chiffrés avec le relais RIGEL sur Hidora, en HTTPS.
-11. Le connecteur RIGEL joint le relais en HTTPS par le proxy du réseau et Express en HTTP `3001` sur l’overlay chiffré ; aucun flux entrant n’est ouvert vers ORION.
+9. Le téléphone charge la PWA RIGEL et synchronise ses blocs chiffrés avec le relais RIGEL sur Hidora, en HTTPS.
+10. Le connecteur RIGEL joint le relais en HTTPS par le proxy du réseau et Express en HTTP `3001` sur l’overlay chiffré ; aucun flux entrant n’est ouvert vers ORION.
 
 #### Réseau, adresses et ports
 
@@ -481,15 +480,15 @@ Pour une réinstallation complète, l’agent transmet la demande à un mécanis
 
 | Lot de travail | Charge estimée |
 | --- | ---: |
-| Analyse et prototype Windows : versions, sessions, droits, réseau, réimagerie | 8 à 12 j-p |
-| Développement de l’agent : inventaire, processus, rapports et reprise réseau | 15 à 22 j-p |
-| Développement des interventions : arrêt, installation, désinstallation, résultats | 12 à 18 j-p |
-| Intégration ORION et raccordement au mécanisme de réimagerie | 10 à 15 j-p |
-| Empaquetage, signature, enrôlement et mise à jour de l’agent | 8 à 12 j-p |
-| Recette, pilote en salle, essais de charge à 1 000 et 5 000 postes, documentation d’exploitation | 12 à 18 j-p |
-| **Total de réalisation estimé** | **65 à 97 j-p** |
+| Analyse et prototype Windows : versions, sessions, droits, réseau, réimagerie | 8 à 12 jours-hommes |
+| Développement de l’agent : inventaire, processus, rapports et reprise réseau | 15 à 22 jours-hommes |
+| Développement des interventions : arrêt, installation, désinstallation, résultats | 12 à 18 jours-hommes |
+| Intégration ORION et raccordement au mécanisme de réimagerie | 10 à 15 jours-hommes |
+| Empaquetage, signature, enrôlement et mise à jour de l’agent | 8 à 12 jours-hommes |
+| Recette, pilote en salle, essais de charge à 1 000 et 5 000 postes, documentation d’exploitation | 12 à 18 jours-hommes |
+| **Total de réalisation estimé** | **65 à 97 jours-hommes** |
 
-Les jours-personnes mesurent la charge de l’équipe. Ils excluent les délais d’accès au réseau et d’autorisation, la maintenance récurrente et une éventuelle refonte du moteur ORION pour tenir la charge (§ 6.3). La prise en main graphique et un catalogue de correctifs généraliste sont hors de ce périmètre. Le pilote vérifie la fraîcheur à l’écran, les opérations sur plusieurs sessions Windows, les reprises après coupure et le résultat de la réinstallation. Une mesure sur un parc réel est nécessaire avant d’annoncer la capacité à 1 000 ou 5 000 postes.
+Les jours-hommes mesurent la charge de l’équipe. Ils excluent les délais d’accès au réseau et d’autorisation, la maintenance récurrente et une éventuelle refonte du moteur ORION pour tenir la charge (§ 6.3). La prise en main graphique et un catalogue de correctifs généraliste sont hors de ce périmètre. Le pilote vérifie la fraîcheur à l’écran, les opérations sur plusieurs sessions Windows, les reprises après coupure et le résultat de la réinstallation. Une mesure sur un parc réel est nécessaire avant d’annoncer la capacité à 1 000 ou 5 000 postes.
 
 ## 7. Trajectoire vers la cible
 

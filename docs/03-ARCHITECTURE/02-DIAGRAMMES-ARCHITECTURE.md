@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.4 | 16/11/2026 | Production destinée à la remise | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | [10 versions](../../archive/README.md#02-diagrammes-architecture) |
+| 3.0 | 16/11/2026 | Production destinée à la remise | Distinguer le système ORION des substituts, de la simulation et du pilotage ; Retirer de la cible le nombre de postes et les capacités des VM ; Retirer GitHub et le runner des vues de l’architecture réelle | [11 versions](../../archive/README.md#02-diagrammes-architecture) |
 <!-- version:fin -->
 
 ## Vue simplifiée
