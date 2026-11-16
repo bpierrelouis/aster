@@ -685,6 +685,13 @@
         "version": "7.0",
         "date": "2026-11-16",
         "modification": "Les productions suivent l’état actuel ; écarts présentés au client",
+        "archive": null,
+        "commit": "9bb9802"
+      },
+      {
+        "version": "7.1",
+        "date": "2026-11-16",
+        "modification": "Réponses actuelles reportées : unité centrale du poste, filtres",
         "archive": null
       }
     ]
@@ -3033,6 +3040,13 @@
         "version": "7.3",
         "date": "2026-11-16",
         "modification": "Corrections et décisions du 16 novembre consignées ; Corrections et décisions du 16 novembre consignées",
+        "archive": null,
+        "commit": "9bb9802"
+      },
+      {
+        "version": "7.4",
+        "date": "2026-11-16",
+        "modification": "#143 et #162 traités",
         "archive": null
       }
     ]

@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 7.0 | 16/11/2026 | Source de travail interne | Les productions suivent l’état actuel ; écarts présentés au client | [27 versions](../../archive/README.md#02-cadrage) |
+| 7.1 | 16/11/2026 | Source de travail interne | Réponses actuelles reportées : unité centrale du poste, filtres | [28 versions](../../archive/README.md#02-cadrage) |
 <!-- version:fin -->
 
 **Document de travail interne, non destiné à la remise aux cadres évaluateurs.** Il conserve les réponses et leurs périmètres pour préparer les productions. Les documents remis décrivent la cible en production ; les modalités de réalisation et les comptes du démonstrateur sont réservés au [guide interne de développement](../../application/README.md). Cette distinction a été fixée par l’utilisateur le 6 novembre.
@@ -65,7 +65,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 
 - [x] **P0** Qu’est-ce qu’un « matériel » dans ORION ? — Précision de l’utilisateur du 24 octobre : tout équipement informatique. Il n’existe pas de liste exhaustive des types à ce jour.
 - [x] **P0** Quelle différence faut-il faire entre matériel, machine, unité centrale et poste ? — **Réponse en vigueur de l'utilisateur du 2 novembre :** dans le modèle conceptuel d'ORION, le poste est une entité autonome de supervision des processus. Il est distinct du matériel d'inventaire et ne le spécialise pas. Cette réponse remplace la qualification précédente du poste comme matériel de type PC.
-- [ ] Un poste correspond-il à une unité centrale seule ou à un ensemble comprenant écran et périphériques ? — **Réponse partielle de l'utilisateur du 2 novembre :** cette composition n'intervient pas dans la supervision des processus et ne crée aucun lien conceptuel entre `POSTE` et `MATERIEL`. La granularité propre à l'inventaire reste à préciser.
+- [x] Un poste correspond-il à une unité centrale seule ou à un ensemble comprenant écran et périphériques ? — **Réponse partielle de l'utilisateur du 2 novembre :** cette composition n'intervient pas dans la supervision des processus et ne crée aucun lien conceptuel entre `POSTE` et `MATERIEL`. La granularité propre à l'inventaire reste à préciser. **Réponse en vigueur (orientation de l’utilisateur du 13 novembre et application) :** un poste correspond au plus à son unité centrale (RG-90) ; écrans et périphériques sont des matériels distincts, affectés à la salle. Elle remplace l’absence de lien du 2 novembre (voir § 10).
 - [x] Quels types de matériels doivent être gérés dans la première version ? — Précision de l’utilisateur du 24 octobre : tous les équipements informatiques ; aucune liste exhaustive n’existe à ce jour. Les exemples cités lors des entretiens ne limitent pas le périmètre.
 - [x] Faut-il gérer les écrans, imprimantes, vidéoprojecteurs, commutateurs, bornes Wi-Fi et périphériques ? — Précision de l’utilisateur du 24 octobre : tous les équipements informatiques sont concernés, sans exclusion de type ; aucune liste exhaustive n’existe à ce jour.
 - [ ] Les équipements réseau font-ils partie de l’inventaire ou de la topologie technique ?
@@ -250,7 +250,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 - [ ] Quels indicateurs sont attendus par les formateurs ? — Aucun tableau de bord formateur n'est défini à ce stade ; ses éventuels indicateurs restent à préciser.
 - [ ] Quels indicateurs sont attendus au niveau central ?
 - [ ] Les données doivent-elles être instantanées, quotidiennes, hebdomadaires ou mensuelles ?
-- [ ] Quels filtres doivent être disponibles ? — **Réponse partielle :** le tableau de bord du parc propose une vue globale filtrable par salle (22 octobre, § 2.6). Les filtres des autres tableaux de bord spécialisés restent à préciser.
+- [ ] Quels filtres doivent être disponibles ? — **Réponse partielle :** le tableau de bord du parc propose une vue globale filtrable par salle (22 octobre, § 2.6). Les filtres des autres tableaux de bord spécialisés restent à préciser. **Application :** pas de filtre par salle ; part hors service par bâtiment, salles à surveiller et détail par salle dans la vue des salles (RG-36 adaptée le 15 novembre) ; écart à présenter au client (§ 23).
 - [ ] Faut-il comparer des périodes, des écoles ou des salles ?
 - [ ] Faut-il afficher des tendances et des historiques ?
 - [ ] Les utilisateurs peuvent-ils personnaliser leur tableau de bord ? — **Application :** oui, chaque profil dispose d’un tableau de bord personnel qu’il personnalise (RG-84).
@@ -278,7 +278,7 @@ Les dates et numéros de section des annotations renvoient au compte rendu des e
 ## 16. Recherche, consultation et ergonomie
 
 - [ ] Quelles informations les utilisateurs rechercheront-ils le plus souvent ? — **Réponse partielle :** 22 octobre, § 2.1 : recherche, consultation et visualisation du matériel. Le 4 novembre (§ 3.2), le client a précisé le parcours attendu : repérer rapidement les salles par bâtiment, puis consulter le matériel présent dans une salle. Un plan de salle n’est pas nécessaire.
-- [ ] Quels critères de recherche et filtres sont nécessaires ? — **Réponse partielle :** 22 octobre, § 2.6 : filtre par salle pour le tableau de bord ; critères de recherche des matériels non détaillés.
+- [ ] Quels critères de recherche et filtres sont nécessaires ? — **Réponse partielle :** 22 octobre, § 2.6 : filtre par salle pour le tableau de bord ; critères de recherche des matériels non détaillés. **Application :** tableau de bord sans filtre par salle (écart au § 23) ; l’inventaire se filtre par recherche, type, état, localisation et garantie.
 - [ ] Faut-il permettre une recherche globale dans toute l’application ?
 - [ ] Quels volumes de résultats doivent être affichés ou exportés ?
 - [x] Quelles actions groupées sont nécessaires ? — 22 octobre, § 2.4 : affectation et gestion de plusieurs matériels à la fois. Le gestionnaire ne peut pas supprimer de matériel (§ 2.3).
