@@ -57,10 +57,11 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md](../docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md) | Production destinée à la remise | [1.0](#05-dossier-specifications-exigences) | 16/11/2026 |
 | [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [6.0](#01-dossier-architecture-technique) | 16/11/2026 |
 | [docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [3.0](#02-diagrammes-architecture) | 16/11/2026 |
-| [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.2](#01-backlog-et-suivi-projet) | 16/11/2026 |
+| [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.3](#01-backlog-et-suivi-projet) | 17/11/2026 |
 | [docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [9.3](#02-backlog-technique-et-feuille-de-route) | 16/11/2026 |
-| [docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md](../docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md) | Production destinée à la remise | [1.1](#03-journal-de-bord-projet) | 16/11/2026 |
+| [docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md](../docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md) | Production destinée à la remise | [1.2](#03-journal-de-bord-projet) | 17/11/2026 |
 | [docs/04-ORGANISATION/04-AUDIT-FINAL-AVANT-REMISE.md](../docs/04-ORGANISATION/04-AUDIT-FINAL-AVANT-REMISE.md) | Pilotage interne | [1.0](#04-audit-final-avant-remise) | 16/11/2026 |
+| [docs/04-ORGANISATION/05-DOSSIER-ORGANISATION.md](../docs/04-ORGANISATION/05-DOSSIER-ORGANISATION.md) | Production destinée à la remise | [1.0](#05-dossier-organisation) | 17/11/2026 |
 
 ## Fichiers en vigueur
 
@@ -821,7 +822,8 @@ Fichier : [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANI
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 5.2 | 16/11/2026 | Harmoniser l’orthographe des noms BONEY et LE MAITRE | en vigueur | — |
+| 5.3 | 17/11/2026 | Dater la version du 17 novembre et acter le jalon du 16 | en vigueur | — |
+| 5.2 | 16/11/2026 | Harmoniser l’orthographe des noms BONEY et LE MAITRE | `45c7511` | — |
 | 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.0 | 15/11/2026 | Actualise les clôtures après confirmation de la recette | `cdeea37` (`docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md`) | — |
 | 4.0 | 15/11/2026 | Inclut RIGEL dans la clôture et actualise le suivi après audit | `067e0b5` (`docs/04-ORGANISATION/20-BACKLOG-ET-SUIVI-PROJET.md`) | — |
@@ -914,7 +916,8 @@ Fichier : [docs/04-ORGANISATION/03-JOURNAL-DE-BORD-PROJET.md](../docs/04-ORGANIS
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.1 | 16/11/2026 | Harmoniser l’orthographe des noms BONEY et LE MAITRE | en vigueur | — |
+| 1.2 | 17/11/2026 | Mettre au futur les entrées des 17, 18 et 19 novembre ; Consigner la Sprint Review du sprint 1 tenue le 4 novembre ; Consigner la Sprint Review du sprint 1 tenue le 4 novembre ; Consigner la Sprint Review du sprint 1 tenue le 4 novembre ; Consigner la Sprint Review du sprint 1 tenue le 4 novembre | en vigueur | — |
+| 1.1 | 16/11/2026 | Harmoniser l’orthographe des noms BONEY et LE MAITRE | `45c7511` | — |
 | 1.0 | 16/11/2026 | Créer le journal simulé des cérémonies et entretiens ; Corriger la fin du document ; Présenter les échanges comme journal de bord ; Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 
 ### 04-AUDIT-FINAL-AVANT-REMISE
@@ -924,6 +927,14 @@ Fichier : [docs/04-ORGANISATION/04-AUDIT-FINAL-AVANT-REMISE.md](../docs/04-ORGAN
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
 | 1.0 | 16/11/2026 | Consigner l’audit final avant remise et sa notation | en vigueur | — |
+
+### 05-DOSSIER-ORGANISATION
+
+Fichier : [docs/04-ORGANISATION/05-DOSSIER-ORGANISATION.md](../docs/04-ORGANISATION/05-DOSSIER-ORGANISATION.md) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.0 | 17/11/2026 | Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF | en vigueur | — |
 
 ## Fichiers retirés
 

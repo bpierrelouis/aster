@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.1 | 16/11/2026 | Production destinée à la remise | Harmoniser l’orthographe des noms BONEY et LE MAITRE | [2 versions](../../archive/README.md#03-journal-de-bord-projet) |
+| 1.2 | 17/11/2026 | Production destinée à la remise | Mettre au futur les entrées des 17, 18 et 19 novembre ; Consigner la Sprint Review du sprint 1 tenue le 4 novembre ; Consigner la Sprint Review du sprint 1 tenue le 4 novembre ; Consigner la Sprint Review du sprint 1 tenue le 4 novembre ; Consigner la Sprint Review du sprint 1 tenue le 4 novembre | [3 versions](../../archive/README.md#03-journal-de-bord-projet) |
 <!-- version:fin -->
 
 Ce journal retrace les échanges de l’équipe entre le 20 octobre et le 19 novembre 2026 à partir du backlog, des jalons et des sources du projet.
@@ -30,24 +30,26 @@ Les décisions attribuées au client reprennent uniquement les [entretiens de ca
 | 20/10 | Point hebdomadaire | Lancement du sprint 1 | Objectif commun défini ; répartition initiale BL-01, BL-02 et BL-17. |
 | 22/10 | Entretien client | Périmètre et priorités | Gestion des périphériques prioritaire, puis supervision des processus ; profils et premières contraintes précisés. |
 | 23/10 | Entretien client | Droits, remontées et livrables | Droits complétés, PDF d’état des lieux demandé et DAT ajouté aux livrables. |
-| 26/10 | Daily Scrum | Structuration du besoin | Acteurs et vocabulaire consolidés ; ambiguïtés regroupées pour le cadrage. |
+| 26/10 | Échange par messagerie | Structuration du besoin | Acteurs et vocabulaire consolidés ; ambiguïtés regroupées pour le cadrage. |
 | 27/10 | Point hebdomadaire | Dépendances entre besoin et données | Relecture croisée du cadrage, des droits et du premier modèle de données. |
-| 02/11 | Daily Scrum | Passage à la conception | Parcours prioritaires reliés aux données ; préparation du point d’étape client. |
+| 02/11 | Échange par messagerie | Passage à la conception | Parcours prioritaires reliés aux données ; préparation du point d’étape client. |
 | 03/11 | Point hebdomadaire | Préparation de la démonstration | Répartition des prises de parole et sélection d’un parcours centré sur les usages. |
-| 04/11 | Entretien client | Retour sur le point d’étape | Présentation recentrée sur les bénéfices, maquette montrée directement et simulation d’une salle de 40 postes retenue. |
-| 06/11 | Daily Scrum | Connexion, salles et interface | Dépendances entre identité, profils, navigation et données rendues visibles. |
+| 04/11 | Entretien client (Sprint Review 1) | Retour sur le point d’étape | MVP de la gestion du parc, maquettes et DA appréciés ; davantage de choix de DA demandés ; présentation recentrée sur les bénéfices, maquette montrée directement et simulation d’une salle de 40 postes retenue. |
+| 06/11 | Échange par messagerie | Connexion, salles et interface | Dépendances entre identité, profils, navigation et données rendues visibles. |
 | 09/11 | Point hebdomadaire | Lancement du sprint 2 | Priorité donnée aux parcours intégrés, à la recette par profil et à la cohérence documentaire. |
 | 10/11 | Daily Scrum | Parcours intégrés | Salles, stock, remontées et supervision soumis à relecture croisée. |
 | 12/11 | Entretien client | PDF et remontées | PDF produit à la demande sans conservation ; clôture par l’auteur non retenue. |
 | 13/11 | Point hebdomadaire | Préparation de la clôture | Tâches de recette, d’architecture, de documentation et de remise redistribuées. |
 | 16/11 | Daily Scrum | Stabilisation avant rendu | Anomalies prioritaires traitées ou consignées ; contrôles finaux répartis. |
-| 17/11 | Daily Scrum | Rendu | Version à remettre identifiée ; livrables, liens et réserves contrôlés. |
-| 18/11 | Point hebdomadaire | Préparation de la présentation | Support final relu, démonstration répétée et temps de parole répartis. |
-| 19/11 | Daily Scrum | Présentation | Dernier contrôle du parcours, des rôles et des réponses aux questions. |
+| 17/11 | Daily Scrum (prévu) | Rendu | Identifier la version à remettre ; contrôler les livrables, les liens et les réserves. |
+| 18/11 | Review et Retrospective (prévues, après le rendu) | Préparation de la présentation | Choisir l’outil de projection, préparer le dialogue avec le public et les réponses aux questions techniques ; répéter la démonstration. |
+| 19/11 | Daily Scrum (prévu) | Présentation | Contrôler une dernière fois le parcours, les rôles et les réponses aux questions. |
 
-## 3. Daily scrums
+## 3. Daily scrums et échanges
 
-### 3.1. Daily du 26 octobre — cadrage du besoin
+Au sprint 1, interrompu par une semaine de vacances, les Daily Scrums n’ont pas été tenus : la coordination s’est faite par la messagerie de l’équipe. Les Daily Scrums réguliers commencent avec le sprint 2.
+
+### 3.1. Échange du 26 octobre — cadrage du besoin (messagerie, sprint 1)
 
 | Membre | Réalisé ou constaté | Objectif du jour | Obstacle ou besoin d’aide |
 | --- | --- | --- | --- |
@@ -59,7 +61,7 @@ Les décisions attribuées au client reprennent uniquement les [entretiens de ca
 
 **Adaptation :** BAELDE et BONEY harmonisent le vocabulaire avant d’étendre les modèles ; les incertitudes restent dans le cadrage et ne deviennent pas des règles.
 
-### 3.2. Daily du 6 novembre — première traversée fonctionnelle
+### 3.2. Échange du 6 novembre — première traversée fonctionnelle (messagerie, sprint 1)
 
 | Membre | Réalisé ou constaté | Objectif du jour | Obstacle ou besoin d’aide |
 | --- | --- | --- | --- |
@@ -95,14 +97,14 @@ Les décisions attribuées au client reprennent uniquement les [entretiens de ca
 
 **Obstacle :** le volume de vérifications restantes impose de ne plus ouvrir de fonctionnalité non indispensable au rendu.
 
-### 3.5. Daily du 17 novembre — contrôle du rendu
+### 3.5. Daily du 17 novembre — contrôle du rendu (prévu)
 
-| Question | Réponse |
+| Question à traiter | Réponse attendue avant le rendu |
 | --- | --- |
-| La version à rendre est-elle identifiée ? | Oui, après réussite des contrôles convenus et consignation des réserves restantes. |
-| Les livrables nécessaires sont-ils sélectionnés ? | Oui ; les documents internes, secrets et données propres au démonstrateur sont exclus. |
-| Les parcours essentiels sont-ils contrôlés ? | Oui pour la connexion, le parc, les salles, les remontées, la supervision et les interventions selon les traces disponibles. |
-| Reste-t-il un blocage ? | Aucun blocage empêchant le rendu ; toute limite non levée est déclarée comme réserve. |
+| La version à rendre est-elle identifiée ? | Elle le sera après réussite des contrôles convenus et consignation des réserves restantes. |
+| Les livrables nécessaires sont-ils sélectionnés ? | Les documents internes, secrets et données propres au démonstrateur seront exclus. |
+| Les parcours essentiels sont-ils contrôlés ? | Connexion, parc, salles, remontées, supervision et interventions seront contrôlés selon les traces disponibles. |
+| Reste-t-il un blocage ? | Toute limite non levée sera déclarée comme réserve. |
 | Action immédiate | Vérifier une dernière fois les liens, le contenu du dépôt remis et l’identifiant de version. |
 
 ## 4. Points hebdomadaires
@@ -120,6 +122,7 @@ Les décisions attribuées au client reprennent uniquement les [entretiens de ca
 - **Objectif :** relier acteurs, droits, matériels, salles et remontées.
 - **Résultat :** vocabulaire partagé, premières dépendances visibles et questions regroupées.
 - **Arbitrage :** privilégier la gestion des périphériques avant la supervision des processus, conformément au retour du 22 octobre.
+- **Retrospective du sprint 1 :** retours sur les idées de chacun, les propositions de direction artistique et les maquettes ; le MVP de la gestion du parc est construit à la suite, pour le point d’étape du 4 novembre.
 - **Risque :** divergence entre les représentations si les termes changent sans synchronisation.
 - **Action suivante :** préparer les modèles et le point d’étape du 4 novembre.
 
@@ -139,13 +142,13 @@ Les décisions attribuées au client reprennent uniquement les [entretiens de ca
 - **Risque :** charge de synchronisation entre application, modèles, documentation et support de présentation.
 - **Action suivante :** geler les ajouts non essentiels et répartir les contrôles de clôture.
 
-### 4.5. Semaine du 16 au 19 novembre — remise et présentation
+### 4.5. Semaine du 16 au 19 novembre — remise et présentation (en cours)
 
 - **Objectif :** stabiliser, rendre puis présenter un résultat cohérent.
-- **Résultat :** contrôles répartis par domaine, version de remise identifiée et réserves consignées.
+- **Résultat attendu :** contrôles répartis par domaine, version de remise à identifier et réserves à consigner.
 - **Organisation :** le 17 est réservé au rendu ; le 18 au support et à la répétition ; le 19 à la présentation.
 - **Amélioration retenue :** conserver une trace datée des contrôles et décisions.
-- **Clôture :** les éléments inachevés restent dans le backlog au lieu d’être déclarés terminés par effet de l’échéance.
+- **Clôture :** les éléments inachevés resteront dans le backlog au lieu d’être déclarés terminés par effet de l’échéance.
 
 ## 5. Entretiens avec le client
 
@@ -163,10 +166,13 @@ Les décisions attribuées au client reprennent uniquement les [entretiens de ca
 
 **Compte rendu :** les réponses sont classées par date ; les inconnues restent dans le cadrage. Aucune règle de gestion nouvelle n’est créée par le journal.
 
-### 5.2. Entretien du 4 novembre — retour sur le point d’étape
+### 5.2. Entretien du 4 novembre — retour sur le point d’étape (Sprint Review du sprint 1)
+
+**Résultat montré :** le MVP de la gestion du parc (matériels, salles, affectations et stock), les maquettes et la direction artistique. Le client s’est déclaré très satisfait de ce premier rendu ; il a apprécié les maquettes et la direction artistique, et a demandé davantage de choix pour cette dernière.
 
 | Sujet présenté | Retour client consigné | Action de l’équipe |
 | --- | --- | --- |
+| Direction artistique | Appréciée ; proposer davantage de choix. | Préparer des variantes de charte et d’ambiance à soumettre. |
 | Support de présentation | Mettre en avant usages et bénéfices ; éviter de perdre le public dans la technique. | Recentrer le récit sur les parcours des écoles. |
 | Participation | Chaque membre doit prendre la parole. | Répartir les séquences de présentation. |
 | Maquette | La montrer directement, sans captures dans le support. | Préparer une démonstration courte et fiable. |

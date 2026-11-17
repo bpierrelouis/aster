@@ -3,12 +3,12 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.2 | 16/11/2026 | Production destinée à la remise | Harmoniser l’orthographe des noms BONEY et LE MAITRE | [13 versions](../../archive/README.md#01-backlog-et-suivi-projet) |
+| 5.3 | 17/11/2026 | Production destinée à la remise | Dater la version du 17 novembre et acter le jalon du 16 | [14 versions](../../archive/README.md#01-backlog-et-suivi-projet) |
 <!-- version:fin -->
 
 **Période : du 20 octobre au 19 novembre 2026.**
 
-**Version préparée le 14 novembre 2026 — rendu de l’application : mardi 17 novembre 2026 ; supports de présentation prêts le mercredi 18 novembre ; présentation : jeudi 19 novembre 2026, horaire non fixé.**
+**Version mise à jour le 17 novembre 2026 — rendu de l’application : mardi 17 novembre 2026 ; supports de présentation prêts le mercredi 18 novembre ; présentation : jeudi 19 novembre 2026, horaire non fixé.**
 
 Ce livrable présente l’organisation Agile de l’équipe, le backlog et le dispositif des cérémonies Scrum-XP pour préparer le rendu du 17 novembre et la présentation du 19 novembre. Il répond au § 7.1 des [consignes du projet](../01-CONTEXTE/02-CONSIGNES.md) : capture du besoin, dossier d’analyse, organisation collective, présentation et suivi du backlog, mise en place et traçabilité des cérémonies. Il constitue un support de gestion de projet, distinct des consignes de développement.
 
@@ -167,7 +167,7 @@ Le backlog est tenu dans le projet GitHub [« ORION development »](https://gith
 | 5 novembre | Détailler la conception | Préciser les données, droits, profils et échanges ; préparer la présentation du projet. | Ensemble de conception utilisable pour organiser les parcours. |
 | 10 novembre | Relier conception et parcours | Approfondir les écrans, tableaux, salles, remontées et cycles de vie. | Parcours cohérents et premières relectures croisées. |
 | 13 novembre | Consolider | Répartir les dernières vérifications et préparer l’assemblage des productions. | Liste des points restant à traiter et responsabilités de clôture. |
-| 16 novembre — prévision | Stabiliser les parcours essentiels | Terminer la revue de la connexion, des salles, des tableaux de bord et de la supervision. | Résultats des premières vérifications regroupés. |
+| 16 novembre | Stabiliser les parcours essentiels | Terminer la revue de la connexion, des salles, des tableaux de bord et de la supervision. | Résultats des premières vérifications regroupés. |
 | 17 novembre — échéance | Rendre l’application | Achever les relectures, contrôler le contenu retenu et identifier la version rendue. | Application et dossier rendus, réserves identifiées. |
 | 18 novembre — échéance | Préparer la présentation | Finaliser le support, réunir les captures et répéter. | Support prêt et passages répartis. |
 | 19 novembre | Présenter | Présentation collective, horaire non fixé. | Résultat et démarche présentés. |
@@ -176,7 +176,7 @@ Le backlog est tenu dans le projet GitHub [« ORION development »](https://gith
 
 Les taux ci-dessous sont des estimations de progression du lot de chaque membre. Les colonnes datées après le 13 novembre indiquent les objectifs d’avancement. Une valeur de 100 % correspond à la clôture visée du lot de remise, avec ses réserves éventuelles.
 
-| Membre | 24/10 | 05/11 | 10/11 | 13/11 | 16/11 prévu | 17/11 prévu | 19/11 prévu |
+| Membre | 24/10 | 05/11 | 10/11 | 13/11 | 16/11 | 17/11 prévu | 19/11 prévu |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | BAELDE | 15 % | 40 % | 65 % | 80 % | 90 % | 95 % | 100 % |
 | VILBERT-TAHON | 10 % | 30 % | 65 % | 80 % | 90 % | 100 % | 100 % |

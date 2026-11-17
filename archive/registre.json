@@ -3641,6 +3641,13 @@
         "version": "5.2",
         "date": "2026-11-16",
         "modification": "Harmoniser l’orthographe des noms BONEY et LE MAITRE",
+        "archive": null,
+        "commit": "45c7511"
+      },
+      {
+        "version": "5.3",
+        "date": "2026-11-17",
+        "modification": "Dater la version du 17 novembre et acter le jalon du 16",
         "archive": null
       }
     ]
@@ -4187,6 +4194,13 @@
         "version": "1.1",
         "date": "2026-11-16",
         "modification": "Harmoniser l’orthographe des noms BONEY et LE MAITRE",
+        "archive": null,
+        "commit": "45c7511"
+      },
+      {
+        "version": "1.2",
+        "date": "2026-11-17",
+        "modification": "Mettre au futur les entrées des 17, 18 et 19 novembre ; Consigner la Sprint Review du sprint 1 tenue le 4 novembre ; Consigner la Sprint Review du sprint 1 tenue le 4 novembre ; Consigner la Sprint Review du sprint 1 tenue le 4 novembre ; Consigner la Sprint Review du sprint 1 tenue le 4 novembre",
         "archive": null
       }
     ]
@@ -4198,6 +4212,17 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Consigner l’audit final avant remise et sa notation",
+        "archive": null
+      }
+    ]
+  },
+  "docs/04-ORGANISATION/05-DOSSIER-ORGANISATION.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-17",
+        "modification": "Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF ; Créer la source du dossier d’organisation remis en PDF",
         "archive": null
       }
     ]
