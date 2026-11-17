@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.2 | 17/11/2026 | Production destinée à la remise | Citer l’équipe et le client comme sources, sans renvoi interne | [20 versions](../../../archive/README.md#14-fiche-descriptive-administrateur) |
+| 6.3 | 17/11/2026 | Production destinée à la remise | Présenter l’administrateur comme acteur du traitement des remontées | [21 versions](../../../archive/README.md#14-fiche-descriptive-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -390,10 +390,10 @@ RG-15, RG-31 à RG-58, RG-68, RG-69 et RG-88.
 
 ## UC-ADMIN-05 — Créer, consulter et suivre les remontées
 
-**En tant qu’**administrateur, **je souhaite** déclarer un problème, consulter les remontées de l’école et suivre leur traitement **afin de** signaler un problème et suivre le traitement réalisé par le gestionnaire.
+**En tant qu’**administrateur, **je souhaite** déclarer un problème, consulter les remontées de l’école, les traiter et suivre leur avancement **afin de** signaler un problème et faire aboutir son traitement.
 
 - **Déclencheur :** l’administrateur clique sur **Signaler un problème** ou ouvre **Remontées**.
-- **Acteurs secondaires :** gestionnaire, notifié des nouvelles remontées, qui les prend en charge et les termine.
+- **Acteurs secondaires :** gestionnaire, notifié des nouvelles remontées, qui les traite comme l’administrateur ; auteur de la remontée, notifié de chaque changement de statut.
 
 ### Critères d’acceptation
 

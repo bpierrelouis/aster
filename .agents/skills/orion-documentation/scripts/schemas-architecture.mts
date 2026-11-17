@@ -105,8 +105,7 @@ if (kind === 'cible-simple') {
   desc = 'Vue simplifiée des quatre VM ORION, de MindefConnect, du téléphone RIGEL et des principaux échanges.';
 
   heading(title, 'Vue simplifiée');
-  enclosure(245, 102, 1185, 440, 'network', 'C1NP');
-  enclosure(268, 257, 1139, 260, 'server', 'VM ORION');
+  enclosure(245, 240, 1185, 302, 'network', 'C1NP · VM ORION');
   zone(280, 299, 215, 164, 'Entrée');
   zone(576, 299, 215, 164, 'Application');
   zone(872, 299, 215, 164, 'Base et collecte');
@@ -115,7 +114,7 @@ if (kind === 'cible-simple') {
   card(32, 320, 'users', 'Firefox', '', '', { w: 145, stroke: C.extStroke });
   card(32, 466, 'monitor', 'Postes Windows', '', '', { w: 145, stroke: C.extStroke });
   card(32, 612, 'smartphone', 'Téléphone', 'PWA RIGEL hors ligne', '', { w: 145, stroke: C.extStroke });
-  card(520, 117, 'key-round', 'MindefConnect', 'Service d’identité', '', { w: 200, stroke: C.extStroke });
+  card(32, 117, 'key-round', 'MindefConnect', 'Service d’identité', 'Internet', { w: 145, stroke: C.extStroke });
   card(290, 329, 'split', 'HAProxy et Apache', 'Interfaces ORION et RIGEL', 'VM 1 . Entrée', { w: 195 });
   card(586, 329, 'server', 'API Express', 'Administration des postes', 'VM 2 . Application', { w: 195 });
   card(882, 329, 'database', 'PostgreSQL et Logstash', 'Base et collecte des logs', 'VM 3 . Base et collecte', { w: 195 });
@@ -130,10 +129,10 @@ if (kind === 'cible-simple') {
   arrow([[1077, 385], [1180, 385]]);
   label(1128, 373, 'Stockage', 'middle');
 
-  arrow([[105, 320], [105, 181], [520, 181]]);
-  label(312, 170, 'Connexion', 'middle');
-  arrow([[700, 329], [700, 247]]);
-  label(708, 285, 'Identité');
+  arrow([[105, 320], [105, 249]]);
+  label(113, 292, 'Connexion');
+  arrow([[700, 329], [700, 182], [179, 182]]);
+  label(440, 171, 'Identité', 'middle');
 
   arrow([[177, 526], [340, 526], [340, 459]]);
   label(258, 516, 'Rapports et résultats', 'middle');
@@ -152,9 +151,7 @@ if (kind === 'cible-simple') {
   };
   heading(title, 'Vue détaillée');
 
-  enclosure(250, 94, 1890, 640, 'network', 'C1NP');
-  rect(275, 201, 1855, 460, '#fff', C.zoneStroke, { rx: 12 });
-  text(300, 228, 'VM ORION', 'frame');
+  enclosure(275, 196, 1855, 465, 'network', 'C1NP · VM ORION');
 
   frame(300, 245, 490, 395, 'VM 1 . Entrée');
   frame(940, 245, 355, 395, 'VM 2 . Application');
@@ -164,7 +161,7 @@ if (kind === 'cible-simple') {
   ext(40, 395, 175, 70, 'smartphone', 'Téléphone', ['PWA RIGEL hors ligne']);
   ext(40, 510, 175, 70, 'monitor', 'Postes Windows', []);
   ext(35, 655, 215, 70, 'server', 'Configuration Manager', ['Option A']);
-  ext(420, 115, 265, 70, 'key-round', 'MindefConnect', ['Service d’identité']);
+  ext(20, 150, 215, 70, 'key-round', 'MindefConnect', ['Service d’identité sur Internet']);
   svc(320, 318, 460, 130, 'split', 'HAProxy 3.2.16', ['HTTPS · TCP 443'], true);
   svc(320, 500, 220, 70, 'app-window', 'Apache 2.4.69', ['HTTP 8080 · boucle locale', 'Interface React 19.3.1'], true);
   svc(560, 500, 220, 70, 'scan-line', 'Apache 2.4.69', ['HTTP 8081 · boucle locale', 'PWA RIGEL'], true);
@@ -188,10 +185,10 @@ if (kind === 'cible-simple') {
   label(869, 339, '3 · HTTPS 3001', 'middle');
   arrow([[1200, 350], [1408, 350]]);
   label(1304, 339, '4 · TLS 5432', 'middle');
-  arrow([[105, 318], [105, 151], [418, 151]]);
-  label(258, 140, '5 · HTTPS 443', 'middle');
-  arrow([[1200, 327], [1340, 327], [1340, 151], [687, 151]]);
-  label(1013, 140, '6 · HTTPS 443', 'middle');
+  arrow([[105, 318], [105, 222]]);
+  label(113, 275, '5 · HTTPS 443');
+  arrow([[1200, 327], [1340, 327], [1340, 180], [237, 180]]);
+  label(800, 169, '6 · HTTPS 443', 'middle');
   arrow([[1295, 600], [1408, 600]]);
   label(1350, 590, '7 · TLS 6514', 'middle');
   arrow([[1665, 583], [1838, 583]]);
@@ -296,7 +293,7 @@ if (kind === 'cible-simple') {
   text(1672, 71, 'Hors système : substituts de MindefConnect, simulation, horloge', 'caption');
   // Contenu décalé sous le titre
   add('<g transform="translate(0 -10)">');
-  ext(20, 150, 160, 90, 'users', 'Firefox', ['172.16.131.188']);
+  ext(20, 150, 160, 90, 'users', 'Firefox', []);
 
   // Cluster Swarm
   enclosure(215, 140, 1265, 980, 'boxes', 'Cluster Docker Swarm « orion » · orion-1 à orion-9 · réseau overlay chiffré « orion » · VXLAN 4789/UDP · ESP');

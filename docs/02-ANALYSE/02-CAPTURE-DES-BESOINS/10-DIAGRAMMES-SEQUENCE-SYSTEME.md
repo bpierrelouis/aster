@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.1 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [5 versions](../../../archive/README.md#10-diagrammes-sequence-systeme) |
+| 3.2 | 17/11/2026 | Production destinée à la remise | Notifier les matériels à déplacer aux gestionnaires et administrateurs | [6 versions](../../../archive/README.md#10-diagrammes-sequence-systeme) |
 <!-- version:fin -->
 
 ## 1. Se connecter par MindefConnect
@@ -84,17 +84,17 @@ sequenceDiagram
     autonumber
     actor A as Gestionnaire, administrateur<br/>ou super administrateur
     participant O as :ORION
-    actor G as Gestionnaire
+    actor G as Gestionnaire, administrateur<br/>ou super administrateur notifié
     A->>O: rechercherMatériels(critères)
     O-->>A: matériels de l’école
     A->>O: affecter(matériels, salle ou stock)
     alt même école et aucun matériel hors service vers une salle
         O-->>A: affectation enregistrée, matériels « en cours de déplacement »
         O-)G: notification de matériels à déplacer
-        alt confirmation par le gestionnaire
+        alt confirmation par un utilisateur notifié
             G->>O: confirmerInstallation(matériel)
             O-->>G: matériel installé, date et auteur conservés
-        else confirmation par l’administrateur ou le super administrateur
+        else confirmation par l’auteur de l’affectation
             A->>O: confirmerInstallation(matériel)
             O-->>A: matériel installé, date et auteur conservés
         end

@@ -488,6 +488,13 @@
         "version": "7.2",
         "date": "2026-11-16",
         "modification": "Ajouter les acteurs abstraits d’administration des postes, de la supervision et des comptes",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "7.3",
+        "date": "2026-11-17",
+        "modification": "Définir alerte, catalogue, garantie, notification et tableau de bord ; préciser le super administrateur",
         "archive": null
       }
     ]
@@ -2117,6 +2124,13 @@
         "version": "3.1",
         "date": "2026-11-17",
         "modification": "Employer l’apostrophe typographique",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "3.2",
+        "date": "2026-11-17",
+        "modification": "Notifier les matériels à déplacer aux gestionnaires et administrateurs",
         "archive": null
       }
     ]
@@ -2695,6 +2709,13 @@
         "version": "6.2",
         "date": "2026-11-17",
         "modification": "Citer l’équipe et le client comme sources, sans renvoi interne",
+        "archive": null,
+        "commit": "382c13d"
+      },
+      {
+        "version": "6.3",
+        "date": "2026-11-17",
+        "modification": "Présenter l’administrateur comme acteur du traitement des remontées",
         "archive": null
       }
     ]
@@ -3459,6 +3480,13 @@
         "version": "3.0",
         "date": "2026-11-17",
         "modification": "Déclarer les écarts avec le client, les interfaces externes et les priorités",
+        "archive": null,
+        "commit": "382c13d"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-17",
+        "modification": "Nommer M42 dans le point ouvert sur l’administration des postes",
         "archive": null
       }
     ]
@@ -3633,6 +3661,13 @@
         "version": "6.1",
         "date": "2026-11-17",
         "modification": "Joint les configurations sous leur seul nom de fichier",
+        "archive": null,
+        "commit": "a70b18f"
+      },
+      {
+        "version": "7.0",
+        "date": "2026-11-17",
+        "modification": "Placer MindefConnect sur Internet, ajouter la sécurité et la qualité du code, compléter les secrets",
         "archive": null
       }
     ],

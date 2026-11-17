@@ -11,7 +11,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [design/README.md](../design/README.md) | Ressource de préparation | [2.5](#design-readme) | 14/11/2026 |
 | [design/charte-graphique/index.html](../design/charte-graphique/index.html) | Ressource de préparation | [2.2](#design-charte-graphique-index) | 14/11/2026 |
 | [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [3.1](#design-maquettes-index) | 16/11/2026 |
-| [docs/01-CONTEXTE/01-GLOSSAIRE.md](../docs/01-CONTEXTE/01-GLOSSAIRE.md) | Production destinée à la remise | [7.2](#01-glossaire) | 16/11/2026 |
+| [docs/01-CONTEXTE/01-GLOSSAIRE.md](../docs/01-CONTEXTE/01-GLOSSAIRE.md) | Production destinée à la remise | [7.3](#01-glossaire) | 17/11/2026 |
 | [docs/01-CONTEXTE/02-CONSIGNES.md](../docs/01-CONTEXTE/02-CONSIGNES.md) | Source fournie par l’encadrement | [1.5](#02-consignes) | 16/11/2026 |
 | [docs/01-CONTEXTE/03-CADRAGE.md](../docs/01-CONTEXTE/03-CADRAGE.md) | Source de travail interne | [9.0](#03-cadrage) | 17/11/2026 |
 | [docs/01-CONTEXTE/04-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/04-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.2](#04-compte-rendu-entretiens) | 16/11/2026 |
@@ -38,11 +38,11 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.drawio) | Production destinée à la remise | [2.0](#09-diagramme-classes-metier) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/09-DIAGRAMME-CLASSES-METIER.md) | Production destinée à la remise | [3.0](#09-diagramme-classes-metier) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.drawio) | Production destinée à la remise | [2.0](#10-diagrammes-sequence-systeme) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.md) | Production destinée à la remise | [3.1](#10-diagrammes-sequence-systeme) | 17/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.md) | Production destinée à la remise | [3.2](#10-diagrammes-sequence-systeme) | 17/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-MATRICE-DROITS.md) | Production destinée à la remise | [9.1](#11-matrice-droits) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [6.1](#12-fiche-descriptive-gestionnaire) | 17/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [4.1](#13-fiche-descriptive-formateur) | 17/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [6.2](#14-fiche-descriptive-administrateur) | 17/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [6.3](#14-fiche-descriptive-administrateur) | 17/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [6.2](#15-fiche-descriptive-super-administrateur) | 17/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio](../docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio) | Production destinée à la remise | [2.0](#01-diagrammes-etats) | 16/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [6.1](#01-diagrammes-etats) | 17/11/2026 |
@@ -56,8 +56,8 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.md) | Production destinée à la remise | [1.0](#03-modele-logique-donnees) | 17/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.drawio) | Production destinée à la remise | [2.1](#04-modele-physique-donnees) | 17/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [4.2](#04-modele-physique-donnees) | 17/11/2026 |
-| [docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md](../docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md) | Production destinée à la remise | [3.0](#05-dossier-specifications-exigences) | 17/11/2026 |
-| [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [6.1](#01-dossier-architecture-technique) | 17/11/2026 |
+| [docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md](../docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md) | Production destinée à la remise | [3.1](#05-dossier-specifications-exigences) | 17/11/2026 |
+| [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [7.0](#01-dossier-architecture-technique) | 17/11/2026 |
 | [docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [3.0](#02-diagrammes-architecture) | 16/11/2026 |
 | [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.3](#01-backlog-et-suivi-projet) | 17/11/2026 |
 | [docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [9.3](#02-backlog-technique-et-feuille-de-route) | 16/11/2026 |
@@ -114,7 +114,8 @@ Fichier : [docs/01-CONTEXTE/01-GLOSSAIRE.md](../docs/01-CONTEXTE/01-GLOSSAIRE.md
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 7.2 | 16/11/2026 | Ajouter les acteurs abstraits d’administration des postes, de la supervision et des comptes | en vigueur | — |
+| 7.3 | 17/11/2026 | Définir alerte, catalogue, garantie, notification et tableau de bord ; préciser le super administrateur | en vigueur | — |
+| 7.2 | 16/11/2026 | Ajouter les acteurs abstraits d’administration des postes, de la supervision et des comptes | `c12ea81` | — |
 | 7.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 7.0 | 16/11/2026 | L’administrateur hérite des droits du gestionnaire ; acteurs abstraits ajustés | `ddcfea7` (`docs/01-CONTEXTE/00-GLOSSAIRE.md`) | — |
 | 6.0 | 16/11/2026 | Administrateur sans confirmation des installations ni RIGEL | `9bb9802` (`docs/01-CONTEXTE/00-GLOSSAIRE.md`) | — |
@@ -528,7 +529,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.1 | 17/11/2026 | Employer l’apostrophe typographique | en vigueur | — |
+| 3.2 | 17/11/2026 | Notifier les matériels à déplacer aux gestionnaires et administrateurs | en vigueur | — |
+| 3.1 | 17/11/2026 | Employer l’apostrophe typographique | `c12ea81` | — |
 | 3.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | `4e2bdcc` | — |
 | 2.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 2.0 | 16/11/2026 | Traitement, confirmation et RIGEL ouverts aux administrateurs | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/25-DIAGRAMMES-SEQUENCE-SYSTEME.md`) | — |
@@ -612,7 +614,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTR
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.2 | 17/11/2026 | Citer l’équipe et le client comme sources, sans renvoi interne | en vigueur | — |
+| 6.3 | 17/11/2026 | Présenter l’administrateur comme acteur du traitement des remontées | en vigueur | — |
+| 6.2 | 17/11/2026 | Citer l’équipe et le client comme sources, sans renvoi interne | `382c13d` | — |
 | 6.1 | 16/11/2026 | Notifier aussi les matériels à déplacer | `c12ea81` | — |
 | 6.0 | 16/11/2026 | Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) | `d6746e9` | — |
 | 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
@@ -806,7 +809,8 @@ Fichier : [docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md](../docs/02-AN
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 3.0 | 17/11/2026 | Déclarer les écarts avec le client, les interfaces externes et les priorités | en vigueur | — |
+| 3.1 | 17/11/2026 | Nommer M42 dans le point ouvert sur l’administration des postes | en vigueur | — |
+| 3.0 | 17/11/2026 | Déclarer les écarts avec le client, les interfaces externes et les priorités | `382c13d` | — |
 | 2.0 | 17/11/2026 | Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 | `f9abde1` | — |
 | 1.0 | 16/11/2026 | Créer la source du DSE remis en PDF ; Créer la source du DSE remis en PDF | `21bb429` | — |
 
@@ -816,7 +820,8 @@ Fichier : [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.1 | 17/11/2026 | Joint les configurations sous leur seul nom de fichier | en vigueur | — |
+| 7.0 | 17/11/2026 | Placer MindefConnect sur Internet, ajouter la sécurité et la qualité du code, compléter les secrets | en vigueur | — |
+| 6.1 | 17/11/2026 | Joint les configurations sous leur seul nom de fichier | `a70b18f` | — |
 | 6.0 | 16/11/2026 | Encadrer le système ORION dans la vue simplifiée et exprimer la charge en jours-hommes ; Distinguer le système ORION dans les vues de l’architecture réelle et exprimer la charge en jours-hommes ; Retirer le déploiement continu des échanges de la vue simplifiée | `20c212d` | — |
 | 5.3 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.2 | 16/11/2026 | Contrainte RIGEL réelle et cible distinguées ; stockage mobile précisé | `9bb9802` (`docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |

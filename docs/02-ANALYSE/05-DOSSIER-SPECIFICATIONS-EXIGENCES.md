@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.0 | 17/11/2026 | Production destinée à la remise | Déclarer les écarts avec le client, les interfaces externes et les priorités | [3 versions](../../archive/README.md#05-dossier-specifications-exigences) |
+| 3.1 | 17/11/2026 | Production destinée à la remise | Nommer M42 dans le point ouvert sur l’administration des postes | [4 versions](../../archive/README.md#05-dossier-specifications-exigences) |
 <!-- version:fin -->
 
 Ce document est la source du livrable PDF du DSE. Les schémas sont repris des diagrammes cités, les tableaux de cas d’utilisation et de règles sont établis à partir des fiches descriptives et des règles de gestion, et les annexes reprennent les documents listés au dernier chapitre.
@@ -441,7 +441,7 @@ Les points suivants restent à arbitrer. Ils ne remettent pas en cause les exige
 
 | N° | Sujet | État |
 | --- | --- | --- |
-| PO-01 | Solution d’administration des postes Windows | Deux options étudiées : Microsoft Configuration Manager, déjà présent au ministère, ou un agent dédié développé par l’équipe. Dans les deux cas, le poste reste la source de vérité et ORION pilote les demandes. |
+| PO-01 | Solution d’administration des postes Windows | Deux options étudiées : Microsoft Configuration Manager, déjà présent au ministère, ou M42, agent Windows dédié développé par l’équipe. Dans les deux cas, le poste reste la source de vérité et ORION pilote les demandes. |
 | PO-02 | Intégration de MindefConnect | Le service est retenu ; les accès, le contrat d’intégration et les attributs transmis restent à obtenir. |
 | PO-03 | Indicateurs des statistiques d’utilisation | L’administrateur consulte des statistiques d’utilisation des postes et des processus ; les indicateurs proposés (postes allumés, processus utilisateur actifs, détections conservées et détections par processus) restent à valider (RG-68). |
 | PO-04 | Volumétrie et performances | Nombre d’utilisateurs simultanés, temps de réponse et disponibilité attendus à confirmer par des essais de charge. |
