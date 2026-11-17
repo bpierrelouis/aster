@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [5 versions](../../../archive/README.md#03-modele-physique-donnees) |
+| 4.1 | 17/11/2026 | Production destinée à la remise | Renuméroter après l’ajout du modèle logique | [6 versions](../../../archive/README.md#04-modele-physique-donnees) |
 <!-- version:fin -->
 
 ## Base ORION : tables relationnelles

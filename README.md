@@ -98,7 +98,8 @@ Aucune validation documentaire par le client n’est prévue : les productions f
 
 - [Diagramme de classes de conception](docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md) : classes majeures d’ORION (comptes, écoles, salles, matériels, remontées, postes, processus, interventions, opérations RIGEL) avec leurs attributs typés, leurs méthodes et leurs associations, avec sa [source draw.io éditable](docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.drawio).
 - [Diagrammes de séquence détaillés](docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md) : écriture concurrente fusionnée, création et traitement d’une remontée, intervention sur un poste, constat RIGEL intégré, état des lieux PDF à la demande et connexion OIDC.
-- [Modèle physique des données](docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md) : tables PostgreSQL d’ORION avec clés, contraintes et index, documents JSONB, en notation UML de modélisation des données.
+- [Modèle logique de données](docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.md) : schéma relationnel dérivé du MCD en quatre vues (organisation et parc, remontées et déplacements, postes et supervision, interventions et RIGEL), avec clés primaires, clés étrangères et associations d’origine ; la correspondance avec le modèle physique est au § 10.3 du DSE.
+- [Modèle physique des données](docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md) : tables PostgreSQL d’ORION avec clés, contraintes et index, documents JSONB, en notation UML de modélisation des données.
 
 ##### 02.05 — Dossier de spécifications des exigences
 

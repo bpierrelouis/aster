@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Production destinée à la remise | Créer la source du DSE remis en PDF ; Créer la source du DSE remis en PDF | [1 version](../../archive/README.md#05-dossier-specifications-exigences) |
+| 2.0 | 17/11/2026 | Production destinée à la remise | Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 | [2 versions](../../archive/README.md#05-dossier-specifications-exigences) |
 <!-- version:fin -->
 
 Ce document est la source du livrable PDF du DSE. Les schémas sont repris des diagrammes cités, les tableaux de cas d’utilisation et de règles sont établis à partir des fiches descriptives et des règles de gestion, et les annexes reprennent les documents listés au dernier chapitre.
@@ -73,7 +73,7 @@ Les termes et abréviations sont définis dans le glossaire (annexe A). Les plus
 | 5 | Exigences sur les données : MCD et diagramme de classes métier. |
 | 6 et 7 | Règles de gestion et droits d’accès (détail en annexes B et C). |
 | 8 | Exigences non fonctionnelles. |
-| 9 et 10 | Modèles d’analyse et de conception. |
+| 9 et 10 | Modèles d’analyse et de conception, dont le modèle logique et le modèle physique de données. |
 | 11 | Traçabilité du besoin vers les cas d’utilisation et les règles de gestion. |
 | 12 | Points ouverts. |
 | A à G | Annexes : glossaire, règles de gestion, matrice des droits et fiches descriptives des quatre profils. |
@@ -313,15 +313,52 @@ Le [diagramme de classes d’analyse](03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md
 
 ### 10.1 Diagramme de classes de conception
 
-Le [diagramme de classes de conception](04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md) présente les modules du serveur et du navigateur, leurs opérations clés et leurs dépendances.
+Le [diagramme de classes de conception](04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md) présente les classes majeures d’ORION avec leurs attributs, leurs méthodes et leurs associations, ainsi que les énumérations des statuts et des profils.
 
 ### 10.2 Diagrammes de séquence détaillés
 
 Les [diagrammes de séquence détaillés](04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md) décrivent les échanges entre les composants d’ORION pour les parcours les plus structurants.
 
-### 10.3 Modèle physique de données
+### 10.3 Modèle logique de données
 
-Le [modèle physique des données](04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md) décrit les tables PostgreSQL d’ORION, leurs clés, contraintes et index, ainsi que les documents JSONB.
+Le [modèle logique de données](04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.md) traduit le MCD en relations selon les règles de passage Merise : une entité devient une relation portant sa clé ; une association 1,1 – 0,N ou 1,1 – 1,N devient une clé étrangère du côté 1,1 ; une association 0,1 – 0,N devient une clé étrangère facultative ; une association N – N, ou porteuse d’attributs, devient une relation à clé composée. Chaque clé étrangère porte le nom de l’association d’origine ; les contraintes d’exclusion X (portée d’une règle) et XT (paquet) sont rappelées sur les relations concernées.
+
+Le modèle physique conserve en tables relationnelles les données de référence et les remontées, et range en documents JSONB (table `donnee`, une collection par type) les données alimentées par les postes et par RIGEL : elles sont volumineuses, évoluent avec les rapports des postes et sont fusionnées élément par élément lors des écritures concurrentes, ce qu’un document par élément rend simple. Les relations sont celles du schéma relationnel ci-dessus.
+
+*Tableau – Relations du MLD et implantation physique*
+
+| Relation du MLD | Implantation physique | Écart et justification |
+| --- | --- | --- |
+| ÉCOLE | Table `ecole` (`id`, `nom`, `extra`). | Identique. |
+| BÂTIMENT | Colonne `batiment` (texte) de `salle` et d’`etage`. | Pas de table : un bâtiment n’a pas d’attribut propre ; son nom suffit, unique par école. |
+| ÉTAGE | Table `etage` (`ecole_id`, `batiment`, `niveau`, clé alternative sur les trois). | La clé étrangère vers le bâtiment devient le couple école + bâtiment. |
+| SALLE | Table `salle` (`ecole_id`, `batiment`, `nom`, `etage`). | L’étage est porté par un numéro de niveau, pas par une clé vers `etage`. |
+| COMPTE_ORION | Table `compte` (`email`, `role`, `ecole_id` nul si et seulement si super administrateur, `sujet`, `actif`, dates). | Identique ; `date_consultation_notifications` est dans `preference.consultation`. |
+| MATÉRIEL | Table `materiel` (`id_orion`, `ecole_id`, `salle_id` nul en stock, `serie`, `mac`, garantie, hors service). | Identique. |
+| DÉPLACEMENT | Documents `extra.deplacement` (en cours) et `extra.installation` (dernière installation) de `materiel`, avec origine `de`, date et auteur. | Seuls le déplacement en cours et la dernière installation sont conservés, sans historique ; la destination est la salle courante du matériel, et la confirmation remplace la demande. |
+| REMONTÉE | Table `remontee` (`ecole_id`, `auteur_id`, `probleme`, `description`, `statut`). | Identique ; l’identifiant est le numéro de remontée. |
+| ÉTAPE_REMONTÉE | Colonne `historique` (JSONB) de `remontee` : statut, date, auteur. | Document imbriqué : les étapes ne sont lues qu’avec leur remontée. |
+| CONCERNER | Table `remontee_materiel` (`remontee_id`, `rang`, `materiel_id`). | Identique, avec l’ordre des matériels. |
+| SYSTÈME_EXPLOITATION | Champ `os` (texte) du document `Poste`. | Pas de référentiel : le système est remonté tel quel par le poste. |
+| APPLICATION | Documents de la collection `applications` (`nom`, `version`, `editeur`). | Identique, en JSONB. |
+| PAQUET | Non implanté. | Déploiement des paquets prévu en V2 ; la contrainte XT n’a donc pas d’équivalent. |
+| POSTE | Documents `postes` (`nomReseau`, `adresseIp`, `salleId`, `materielId`, `os`). | Identique ; l’unicité de l’unité centrale est contrôlée par le serveur. |
+| ÉQUIPER | Documents `installations` (`posteId`, `applicationId`), identifiant `posteId-applicationId`. | Identique. |
+| COMPTE_WINDOWS | Champ `compte` (texte) des documents `Processus` et `Detection`. | Pas de référentiel : le compte Windows est un nom remonté par le poste. |
+| PROCESSUS (programme) | Champ `nom` des documents `Processus`, `Detection` et `Regle`. | Pas de référentiel : le document `Processus` du MPD est une exécution (poste, compte, début, fin) ; le programme n’est connu que par son nom. |
+| RÈGLE | Documents `regles` (`nom`, `classement`, `portee`, `ecoleId`, `batiment`, `salleId`). | La contrainte X est portée par le champ `portee` (global, école, bâtiment, salle) ; `classement` exclut « non référencé ». |
+| DÉTECTION | Documents `detections` (`posteId`, `compte`, `processus`, `classement`, `arret`). | Identique, avec les références textuelles ci-dessus. |
+| INTERVENTION | Documents `interventions` (`type`, `par`, `parId`, `applicationId`, `image`, `processusId`, `detectionId`, `at`, `termineLe`, `statut`). | Identique ; le système d’exploitation à restaurer est le champ `image` (texte). |
+| CIBLER | Champs `cibles` (liste de postes) et `resultats` (résultat par poste) du document `Intervention`. | La relation porteuse d’attribut devient un dictionnaire poste → résultat dans l’intervention. |
+| OPÉRATION | Documents `operations` (`nom`, `mode`, `ecoleId`, `par`, `parId`, `at`, `expireLe`, `close`). | Identique. |
+| INCLURE | Champ `salleIds` (liste) du document `Operation` ; liste vide : toute l’école. | Identique. |
+| CONSTAT | Documents `constats` (`operationId`, `type`, `code`, `salleId`, `materielId`, `resultat`, `saisie`, `traite`). | Identique ; la saisie d’un code inconnu est un sous-document `saisie`. |
+
+Les tables techniques du modèle physique (`espace`, `journal`, `migration`, `session`, `preference`) n’ont pas d’entité conceptuelle : elles portent la révision de l’espace de travail, le journal de fusion, les migrations appliquées, les sessions et les préférences d’affichage.
+
+### 10.4 Modèle physique de données
+
+Le [modèle physique des données](04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md) décrit les tables PostgreSQL d’ORION, leurs clés, contraintes et index, ainsi que les documents JSONB.
 
 ## 11. Traçabilité
 

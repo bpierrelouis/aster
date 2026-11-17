@@ -3185,7 +3185,29 @@
       }
     ]
   },
-  "docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio": {
+  "docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.drawio": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-17",
+        "modification": "Créer la source draw.io du modèle logique",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.md": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-17",
+        "modification": "Créer le modèle logique de données et sa correspondance avec le modèle physique ; Créer le modèle logique de données et sa correspondance avec le modèle physique ; Créer le modèle logique de données en quatre vues",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.drawio": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -3193,24 +3215,26 @@
         "date": "2026-11-16",
         "modification": "Crée la source draw.io du diagramme",
         "archive": null,
-        "commit": "e57b695"
+        "commit": "e57b695",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio"
       },
       {
         "version": "1.1",
         "date": "2026-11-16",
         "modification": "Dégager flèches, libellés et éléments de tout chevauchement",
         "archive": null,
-        "commit": "4e2bdcc"
+        "commit": "4e2bdcc",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio"
       },
       {
         "version": "2.0",
         "date": "2026-11-16",
-        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Renuméroter après l’ajout du modèle logique",
         "archive": null
       }
     ]
   },
-  "docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md": {
+  "docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md": {
     "destination": "Production destinée à la remise",
     "versions": [
       {
@@ -3242,12 +3266,21 @@
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
         "archive": null,
-        "commit": "a0e2002"
+        "commit": "a0e2002",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md"
       },
       {
         "version": "4.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc",
+        "chemin": "docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-17",
+        "modification": "Renuméroter après l’ajout du modèle logique",
         "archive": null
       }
     ]
@@ -3279,6 +3312,13 @@
         "version": "1.0",
         "date": "2026-11-16",
         "modification": "Créer la source du DSE remis en PDF ; Créer la source du DSE remis en PDF",
+        "archive": null,
+        "commit": "21bb429"
+      },
+      {
+        "version": "2.0",
+        "date": "2026-11-17",
+        "modification": "Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3",
         "archive": null
       }
     ]

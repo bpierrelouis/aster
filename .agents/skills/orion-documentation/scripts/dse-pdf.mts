@@ -32,7 +32,7 @@ const PREFIXES: Record<string, string> = {
   '09-DIAGRAMME-CLASSES-METIER': 'Classes métier – ', '10-DIAGRAMMES-SEQUENCE-SYSTEME': 'Séquence système – ',
   '01-DIAGRAMMES-ETATS': 'États – ', '02-DIAGRAMME-CLASSES-ANALYSE': 'Classes d’analyse – ',
   '01-DIAGRAMME-CLASSES-CONCEPTION': 'Classes de conception – ', '02-DIAGRAMMES-SEQUENCE-DETAILLES': 'Séquence détaillée – ',
-  '03-MODELE-PHYSIQUE-DONNEES': 'MPD – ',
+  '04-MODELE-PHYSIQUE-DONNEES': 'MPD – ',
 };
 
 // --- Rendu des diagrammes draw.io ------------------------------------------------------
@@ -251,7 +251,7 @@ function directive(nom: string, args: string[]): string {
   throw new Error(`Directive inconnue : ${nom}`);
 }
 
-type Options = { fichier: string; decalage: number; annexe?: string; html: string[] };
+type Options = { fichier: string; decalage: number; annexe?: string; inclus?: boolean; html: string[] };
 /** Convertit des lignes Markdown ; `decalage` abaisse les titres (annexes), `annexe` préfixe leur numéro */
 function convertir(lignes: string[], o: Options) {
   const inline = inlineDe(o.fichier);
@@ -276,18 +276,30 @@ function convertir(lignes: string[], o: Options) {
       const code = /^(UC-[A-Z]+-\d+) — /.exec(texte)?.[1];
       let id: string;
       let affiche = inline(texte);
-      if (o.annexe && niveau === 3 && num) { id = `annexe-${o.annexe.toLowerCase()}-${num}`; affiche = `<span class="num">${o.annexe}.${num}</span> ${inline(texte.slice(num.length).replace(/^\.?\s*/, ''))}`; }
+      if (o.inclus) { id = `${parent || 's'}-${++n}`; affiche = inline(texte.replace(/^\d+(?:\.\d+)?\.?\s*/, '')); }
+      else if (o.annexe && niveau === 3 && num) { id = `annexe-${o.annexe.toLowerCase()}-${num}`; affiche = `<span class="num">${o.annexe}.${num}</span> ${inline(texte.slice(num.length).replace(/^\.?\s*/, ''))}`; }
       else if (!o.annexe && num) { id = `s-${num.replace('.', '-')}`; affiche = `<span class="num">${numero(num)}</span> ${inline(texte.slice(num.length).replace(/^\.?\s*/, ''))}`; }
       else if (code) { id = code.toLowerCase(); affiche = `<span class="num">${code}</span> ${inline(texte.slice(code.length + 3))}`; }
       else id = `${parent || o.annexe?.toLowerCase() || 's'}-${++n}`;
-      if (niveau <= 3) parent = id;
+      if (niveau <= 3 && !o.inclus) parent = id;
       if (ids.has(id)) id = `${id}-${++n}`;
       ids.add(id);
-      if (niveau <= (o.annexe ? 3 : 4)) titres.push({ niveau, id, html: affiche });
+      if (niveau <= (o.annexe || o.inclus ? 3 : 4)) titres.push({ niveau, id, html: affiche });
       const classe = code ? ' class="cas"' : '';
       sortie(niveau === 2 ? `<div class="chapitre"><h2 id="${id}">${affiche}</h2></div>` : `<h${niveau} id="${id}"${classe}>${affiche}</h${niveau}>`);
       i++;
       continue;
+    }
+    const inc = /^<!-- dse:inclure (\S+) -->$/.exec(l.trim());
+    if (inc) { // document inclus dans la section courante, titres abaissés de deux niveaux, hors sommaire
+      const f = relative('.', resolve(dirname(o.fichier), inc[1])).replace(/\\/g, '/');
+      convertir(lireMarkdown(f).lignes, { fichier: f, decalage: o.decalage + 2, inclus: true, html: o.html });
+      i++; continue;
+    }
+    if (l.startsWith('```')) {
+      const code: string[] = []; i++;
+      while (i < lignes.length && !lignes[i].startsWith('```')) code.push(lignes[i++]);
+      i++; sortie(`<pre>${esc(code.join('\n'))}</pre>`); continue;
     }
     const d = /^<!-- dse:([a-z-]+)((?: [A-Z0-9-]+)*) -->$/.exec(l.trim());
     if (d) { sortie((legende ? legendeTableau(legende) : '') + directive(d[1], d[2].trim().split(/\s+/).filter(Boolean))); legende = ''; i++; continue; }
@@ -295,7 +307,7 @@ function convertir(lignes: string[], o: Options) {
     if (l.startsWith('|')) {
       const bloc: string[] = [];
       while (i < lignes.length && lignes[i].startsWith('|')) bloc.push(lignes[i++]);
-      sortie((legende ? legendeTableau(legende) : '') + tableau(bloc, inline));
+      sortie((legende ? legendeTableau(legende) : '') + tableau(bloc, inline, bloc.length > 14 ? 'long' : '')); // un long tableau peut se couper
       legende = '';
       continue;
     }
@@ -320,7 +332,7 @@ function convertir(lignes: string[], o: Options) {
       continue;
     }
     const para: string[] = [];
-    while (i < lignes.length && lignes[i].trim() && !/^(#|\||- |\d+\. |!\[|<!--)/.test(lignes[i])) para.push(lignes[i++]);
+    while (i < lignes.length && lignes[i].trim() && !/^(#|\||- |\d+\. |!\[|<!--|```)/.test(lignes[i])) para.push(lignes[i++]);
     const texte = para.join(' ');
     const t = /^\*Tableau – (.+)\*$/.exec(texte);
     if (t) { legende = t[1]; continue; }
@@ -359,6 +371,8 @@ h3.cas { break-before: page; }
 h3 .num, h4 .num { white-space: nowrap; }
 table.cas td:first-child { white-space: nowrap; }
 .regles li { margin-bottom: 5pt; }
+table.long { break-inside: auto; }
+pre { font: 7.6pt/1.4 Consolas, "SF Mono", ui-monospace, monospace; color: #1e3a8a; background: var(--teinte); padding: 6pt 8pt; border-radius: 3pt; white-space: pre-wrap; overflow-wrap: anywhere; margin: 0 0 8pt; break-inside: avoid; }
 `;
 const page = (pages: Map<string, number>) => documentHtml(TITRE, style, `${garde({
   titre: 'Dossier de spécifications<br>des exigences',

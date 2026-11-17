@@ -52,9 +52,11 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md](../docs/02-ANALYSE/04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md) | Production destinée à la remise | [4.0](#01-diagramme-classes-conception) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.drawio](../docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.drawio) | Production destinée à la remise | [2.0](#02-diagrammes-sequence-detailles) | 16/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md](../docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md) | Production destinée à la remise | [4.0](#02-diagrammes-sequence-detailles) | 16/11/2026 |
-| [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio) | Production destinée à la remise | [2.0](#03-modele-physique-donnees) | 16/11/2026 |
-| [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [4.0](#03-modele-physique-donnees) | 16/11/2026 |
-| [docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md](../docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md) | Production destinée à la remise | [1.0](#05-dossier-specifications-exigences) | 16/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.drawio) | Production destinée à la remise | [1.0](#03-modele-logique-donnees) | 17/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.md) | Production destinée à la remise | [1.0](#03-modele-logique-donnees) | 17/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.drawio) | Production destinée à la remise | [2.0](#04-modele-physique-donnees) | 16/11/2026 |
+| [docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [4.1](#04-modele-physique-donnees) | 17/11/2026 |
+| [docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md](../docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md) | Production destinée à la remise | [2.0](#05-dossier-specifications-exigences) | 17/11/2026 |
 | [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [6.0](#01-dossier-architecture-technique) | 16/11/2026 |
 | [docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [3.0](#02-diagrammes-architecture) | 16/11/2026 |
 | [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.3](#01-backlog-et-suivi-projet) | 17/11/2026 |
@@ -740,24 +742,41 @@ Fichier : [docs/02-ANALYSE/04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md](..
 | 2.0 | 15/11/2026 | Constat RIGEL transmis directement à Express ; Constat RIGEL transmis directement à Express | `04c54ca` (`docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md`) | — |
 | 1.0 | 15/11/2026 | Séquences détaillées sur les objets réels | `36f4195` (`docs/02-ANALYSE/04-CONCEPTION/28-DIAGRAMMES-SEQUENCE-DETAILLES.md`) | — |
 
-### 03-MODELE-PHYSIQUE-DONNEES
+### 03-MODELE-LOGIQUE-DONNEES
 
-Fichier : [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio) · Production destinée à la remise
-
-| Version | Date | Modification | Commit | Copie |
-| --- | --- | --- | --- | --- |
-| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
-| 1.1 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` | — |
-| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` | — |
-
-### 03-MODELE-PHYSIQUE-DONNEES
-
-Fichier : [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md) · Production destinée à la remise
+Fichier : [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.drawio) · Production destinée à la remise
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | en vigueur | — |
-| 3.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
+| 1.0 | 17/11/2026 | Créer la source draw.io du modèle logique | en vigueur | — |
+
+### 03-MODELE-LOGIQUE-DONNEES
+
+Fichier : [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.md) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 1.0 | 17/11/2026 | Créer le modèle logique de données et sa correspondance avec le modèle physique ; Créer le modèle logique de données et sa correspondance avec le modèle physique ; Créer le modèle logique de données en quatre vues | en vigueur | — |
+
+### 04-MODELE-PHYSIQUE-DONNEES
+
+Fichier : [docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.drawio) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 2.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Renuméroter après l’ajout du modèle logique | en vigueur | — |
+| 1.1 | 16/11/2026 | Dégager flèches, libellés et éléments de tout chevauchement | `4e2bdcc` (`docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio`) | — |
+| 1.0 | 16/11/2026 | Crée la source draw.io du diagramme | `e57b695` (`docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.drawio`) | — |
+
+### 04-MODELE-PHYSIQUE-DONNEES
+
+Fichier : [docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md) · Production destinée à la remise
+
+| Version | Date | Modification | Commit | Copie |
+| --- | --- | --- | --- | --- |
+| 4.1 | 17/11/2026 | Renuméroter après l’ajout du modèle logique | en vigueur | — |
+| 4.0 | 16/11/2026 | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | `4e2bdcc` (`docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md`) | — |
+| 3.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` (`docs/02-ANALYSE/04-CONCEPTION/03-MODELE-PHYSIQUE-DONNEES.md`) | — |
 | 3.0 | 15/11/2026 | Tables sans préfixe orion_ ; Intervention, Operation et Deplacement | `0867182` (`docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md`) | — |
 | 2.0 | 15/11/2026 | Base du relais RIGEL retirée de la cible | `04c54ca` (`docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md`) | — |
 | 1.0 | 15/11/2026 | Modèle physique des données en UML (profil d’Ambler) | `36f4195` (`docs/02-ANALYSE/04-CONCEPTION/29-MODELE-PHYSIQUE-DONNEES.md`) | — |
@@ -768,7 +787,8 @@ Fichier : [docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md](../docs/02-AN
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 1.0 | 16/11/2026 | Créer la source du DSE remis en PDF ; Créer la source du DSE remis en PDF | en vigueur | — |
+| 2.0 | 17/11/2026 | Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 | en vigueur | — |
+| 1.0 | 16/11/2026 | Créer la source du DSE remis en PDF ; Créer la source du DSE remis en PDF | `21bb429` | — |
 
 ### 01-DOSSIER-ARCHITECTURE-TECHNIQUE
 
