@@ -17,46 +17,59 @@ Touches : `→` ou `Espace` révèle le bloc suivant, puis passe à la diapositi
 | VILBERT-TAHON | Évolutions, conclusion | 16, 17 | 22:00 → 24:00 | 2 min |
 | — | Marge | | 24:00 → 25:00 | 1 min |
 
-Transitions : chaque orateur termine par une phrase qui annonce le suivant et son sujet (en italique). Les crochets sont des gestes, pas des paroles. Le texte n’est pas sur les diapositives : le public écoute l’orateur et regarde un visuel.
+Transitions : chaque orateur termine par une phrase qui annonce le suivant et son sujet (en italique). Les crochets sont des gestes, pas des paroles. Le texte n’est pas sur les diapositives : elles ne portent que des mots-clés, révélés le long d’une ligne guide ; le public écoute l’orateur. Les étapes de démonstration ci-dessous sont dites, pas affichées.
 
 ## Préparation (la veille et une heure avant)
 
-- Application déployée sur les VM, données de démonstration rechargées (`npm run donnees:demo -- --reinitialiser` sur la pile) : salle A112 avec ses étiquettes réelles, stock de l’École du numérique garni.
+La démonstration se joue dans la salle de la présentation, **salle 119 du bâtiment 201** (École du numérique), créée par le jeu de démonstration (version 24, `DEMONSTRATION` dans `application/outils/donnees-demonstration/jeu.ts`) :
+
+| Élément | Valeur |
+| --- | --- |
+| Bâtiment 201 | Rez-de-chaussée : amphithéâtre et salles 001 à 010 ; 1er étage : 101 à 120 ; 2e étage : 201 à 220 |
+| Salle | 1er étage, salle 119 ; 14 postes `119-PC01` à `119-PC14`, tous allumés, session ouverte |
+| Matériels | 40, tous en service, aucune remontée ; postes 7, 8 et 12 : unités centrales aux étiquettes réelles (`SS4SG0457`, `SS4SG0495`, `SS4SG0589`) |
+| Écran en panne (Thomas) | `MAT-0001`, Philips 242V8A, n° de série `UHB2039018980` |
+| Logiciel interdit, déjà arrêté | Steam sur `119-PC05`, arrêté par ORION dès le premier rapport |
+| Logiciel non référencé | Discord sur `119-PC03`, tourne tant qu’aucune règle ne l’interdit |
+| Écran de remplacement (Sophie) | `MAT-2303`, Philips 242V8A, n° de série `UHB2032009637`, en stock |
+| Application de la formation (Julien) | IntelliJ IDEA, absente des postes de la salle (image de référence seule) |
+
+- Application déployée sur les VM, données rechargées en version 24 (le service `api` les recharge au déploiement ; sinon `npm run donnees:demo -- --reinitialiser`). Vérifier : Salles › bâtiment 201 › 119, 14 postes allumés.
+- Ne rien modifier dans la salle 119 pendant les répétitions, ou recharger les données après la dernière répétition.
 - Trois onglets connectés avant de commencer, un par compte de présentation : Thomas (formateur), Sophie (gestionnaire), Julien (administrateur). Vérifier qu’ils sont encore connectés (30 minutes d’inactivité).
-- Téléphone chargé, caméra autorisée, RIGEL déjà ouvert une fois ; étiquette `ORION:MAT` de l’écran de remplacement et QR de la salle A112 imprimés en secours.
-- Simulateur des postes actif : un poste de A112 remonte un processus interdit ; noter en répétition le délai d’une intervention.
+- Téléphone chargé, caméra autorisée, RIGEL déjà ouvert une fois.
+- Imprimer [ETIQUETTES-DEMO.html](ETIQUETTES-DEMO.html) : QR de la salle 119, du stock et de l’écran `MAT-2303`. Coller l’étiquette de l’écran sur un écran posé dans la salle, qui joue l’écran de remplacement.
+- Simulateur des postes actif : les postes de la salle 119 exécutent toujours les interventions et arrêtent les processus demandés, en quelques secondes.
 - Projection : diaporama et application sur le même écran, plein écran ; téléphone montré par la webcam ou un miroir d’écran, sinon commenté à voix haute.
 - Plan B : captures des écrans clés (`design/maquettes/captures/`) dans un onglet.
 
 ## LE MAITRE — 0:00 → 5:30
 
-### 1 — Couverture · 0:00
+### 1 — Écran d’attente
+
+Diapositive vide, affichée pendant l’installation ; on avance pour lancer l’animation du logo.
+
+### 2 — Couverture · 0:00
 
 Bonjour à toutes et à tous. Nous sommes l’équipe ASTER et nous vous présentons ORION : le parc informatique des écoles de formation, enfin dans un seul outil.
 
 Vingt-cinq minutes : d’où vient ORION, qui l’a fait et comment ; ce qu’il y a dessous ; puis trois utilisateurs qui se passent le relais dans l’application. Et pour finir, ce qui nous a résisté et la suite.
 
-### 2 — Histoire · 0:45
+### 3 — Histoire · 0:45
 
-[Révéler nom par nom.] Tout part d’une étoile. ASTER, c’est nous : une équipe, cinq branches. ORION, c’est le produit : la constellation qu’on reconnaît du premier coup d’œil et qui sert à s’orienter, exactement ce qu’on attend d’un outil de parc. Dans cette constellation, RIGEL est l’étoile la plus brillante : c’est notre module mobile, celui qui va sur le terrain, dans les salles. Et M42, la nébuleuse d’Orion, c’est l’agent qui vit dans chaque poste et qui nous parle.
+[Révéler nom par nom : la ligne guide descend jusqu’à chaque nom.] Tout part d’une étoile. ASTER, c’est nous : une équipe, cinq branches. ORION, c’est le produit : la constellation qu’on reconnaît du premier coup d’œil et qui sert à s’orienter, exactement ce qu’on attend d’un outil de parc. Dans cette constellation, RIGEL est l’étoile la plus brillante : c’est notre module mobile, celui qui va sur le terrain, dans les salles. Et M42, la nébuleuse d’Orion, c’est l’agent qui vit dans chaque poste et qui nous parle. Une marque, une étoile, un seul bleu : vous verrez la même identité de l’écran de connexion au téléphone. C’est un produit, pas un prototype.
 
-[Révéler la note.] Une marque, une étoile à quatre branches, un seul bleu : vous verrez la même identité de l’écran de connexion au téléphone et aux dossiers. C’est un produit, pas un prototype.
+### 4 — Équipe · 1:45
 
-### 3 — Équipe · 1:45
+[Révéler carte par carte.] Pierre-Louis, Product Owner : backlog, architecture, déploiement. Alexandre : l’interface, les parcours utilisateurs et cette identité visuelle. Brandon : la modélisation, la gestion du parc, le dossier de spécifications. Moi-même, Scrum Master, la remise et cette présentation. Sacha : les cycles de vie, la supervision, la recette par profil.
 
-[Révéler carte par carte.] Pierre-Louis, Product Owner : backlog, architecture, déploiement. Alexandre : l’interface, les parcours utilisateurs et cette identité visuelle. Brandon : la modélisation, la gestion du parc, le dossier de spécifications. Moi-même, Scrum Master, la remise et cette présentation. Sacha : les cycles de vie, la supervision, la recette par profil. [Chiffres.] Quatre semaines, deux sprints, trois cent quatre-vingt-un commits, soixante-douze diagrammes.
-
-### 4 — Le besoin · 2:30
+### 5 — Le besoin · 2:30
 
 [Révéler bloc par bloc.] Aujourd’hui, le parc se gère dans des fichiers Excel. ORION répond à trois besoins : gérer le parc ; administrer les postes à distance ; superviser leur utilisation. Et un fil commun : les remontées des utilisateurs, suivies du signalement jusqu’à l’état des lieux PDF.
 
-### 5 — Organisation · 3:15
+### 6 — Organisation · 3:15
 
-[Révéler la frise.] Scrum avec des pratiques XP, deux sprints. Le premier, du 19 octobre au 8 novembre, coupé par une semaine de vacances, pour comprendre et montrer un MVP. Les entretiens client des 22 et 23 octobre, puis la Review du 4 novembre devant le client, sur le MVP. Le second sprint, du 9 au 19, un nouvel entretien le 12, le rendu hier, et nous voici. Un Product Owner, un Scrum Master, cinq développeurs, un Daily de quinze minutes à neuf heures.
-
-### 6 — Sprint 1, sprint 2 · 4:15
-
-[Révéler le graphique.] Voilà notre activité GitHub jour par jour. Le sprint 1 est presque plat : cadre encore mouvant, vacances, coordination par messagerie, pas de Daily. Mais ce sprint a produit la pré-analyse, les maquettes et le MVP, et le client a été très satisfait le 4 novembre, au point de demander plus de choix de direction artistique. [Révéler les quatre tuiles.] Le sprint 2, c’est une autre équipe : quarante-quatre commits puis trois cent trente-sept ; quatorze tickets terminés puis cent vingt-trois ; un Daily chaque jour avec une décision à chaque fois ; une Review le 18. Ce que nous retenons : le cadre ne suffit pas, il faut un support partagé et quelqu’un qui tient la cadence dès la première semaine.
+[Révéler la frise point par point.] Scrum avec des pratiques XP. Tout commence par l’entretien initial avec le client, les 22 et 23 octobre. [Vacances, puis sprint 1.] Au retour des vacances, le sprint 1 : l’analyse, avec la Review du 4 novembre devant le client sur le MVP ; il a été très satisfait, au point de demander plus de choix de direction artistique. [Sprint 2.] Le 9 novembre, le sprint 2 : le développement, un nouvel entretien client le 12, puis la livraison et cette présentation. Un Product Owner, un Scrum Master, cinq développeurs, un Daily de quinze minutes à neuf heures. Ce que nous retenons : le cadre ne suffit pas, il faut un support partagé et quelqu’un qui tient la cadence dès la première semaine.
 
 *Pierre-Louis, qu’est-ce qu’il y a sous le capot ?*
 
@@ -64,15 +77,15 @@ Vingt-cinq minutes : d’où vient ORION, qui l’a fait et comment ; ce qu’il
 
 ### 7 — Pile logicielle · 5:30
 
-[Révéler les logos un par un, en les nommant.] Une seule langue, TypeScript, du navigateur au serveur : les mêmes contrats de données des deux côtés. React pour l’interface. Node et Express pour l’API et toutes les règles métier. PostgreSQL pour les données. HAProxy, l’entrée unique. Apache, qui sert l’interface. Keycloak, qui tient lieu de MindefConnect pour la démonstration, même protocole. Docker Swarm pour le déploiement, Debian 13, Logstash pour les journaux, GitHub Actions pour l’intégration et le déploiement continus. Toutes ces briques sont dans le cadre de cohérence technique du ministère.
+[Révéler la ligne applicative, puis la ligne d’infrastructure.] Une seule langue, TypeScript, du navigateur au serveur : les mêmes contrats de données des deux côtés. React pour l’interface. Node et Express pour l’API et toutes les règles métier. PostgreSQL pour les données. HAProxy, l’entrée unique. Apache, qui sert l’interface. Logstash pour les journaux. Toutes ces briques sont dans le cadre de cohérence technique du ministère.
 
 ### 8 — Architecture animée · 6:45
 
-[Révéler étape par étape ; les flèches s’animent.] Tout commence dans le navigateur. Une seule porte : HAProxy, en HTTPS. Derrière, Apache sert l’interface, et Express porte l’API et toutes les règles. PostgreSQL garde les données, les sessions et le journal des écritures. L’identité, elle, reste à MindefConnect : ORION ne connaît aucun mot de passe. Les postes Windows, avec leur agent M42, se présentent toutes les cinq secondes. Et RIGEL : le téléphone ne touche jamais ORION, il dépose des blocs chiffrés sur un relais, qu’un connecteur vient relever de l’intérieur. [Dézoom.] Un front, un back, une base, trois portes bien gardées.
+[Révéler étape par étape ; les flèches s’animent.] Tout commence dans le navigateur. Une seule porte : HAProxy, en HTTPS. Derrière, Apache sert l’interface, et Express porte l’API et toutes les règles. PostgreSQL garde les données, les sessions et le journal des écritures. L’identité, elle, reste à MindefConnect : le navigateur s’y connecte, et Express échange avec lui pour ouvrir la session ; ORION ne connaît aucun mot de passe. Les postes Windows, avec leur agent M42, se présentent toutes les cinq secondes. Et RIGEL : le téléphone passe par la même porte, HAProxy, et parle au même back. [Dézoom.] Un front, un back, une base, une seule entrée.
 
 ### 9 — Fonctionnement · 8:00
 
-[Révéler les trois étapes.] Au quotidien : les postes remontent leur état ; ORION classe chaque processus, autorisé, interdit, non référencé, et arrête les interdits ; l’utilisateur demande une intervention, le poste l’exécute et renvoie son résultat. [Note.] Un principe partout : le serveur fait foi. Numéros, auteurs, dates, droits sont fixés côté serveur. Et deux écritures simultanées sont fusionnées élément par élément, personne n’est bloqué.
+[Révéler les quatre étapes.] Au quotidien : les postes remontent leur état ; ORION classe chaque processus, autorisé, interdit, non référencé, et arrête les interdits ; l’utilisateur demande une intervention, le poste l’exécute et renvoie son résultat. Un principe partout : le serveur fait foi. Numéros, auteurs, dates, droits sont fixés côté serveur. Et deux écritures simultanées sont fusionnées élément par élément, personne n’est bloqué.
 
 *Sacha, Brandon et Alexandre vous le montrent avec une histoire.*
 
@@ -80,16 +93,16 @@ Vingt-cinq minutes : d’où vient ORION, qui l’a fait et comment ; ce qu’il
 
 ### 10 — Fil rouge · 9:00
 
-[Révéler les trois personnages.] Une rentrée en salle A112. Thomas, formateur, prépare sa salle. Sophie, gestionnaire du parc. Julien, administrateur de l’école. Un signalement, une réparation confirmée sur place, une salle prête : la même information passe de l’un à l’autre.
+[Révéler les trois personnages.] Une rentrée ici même, en salle 119. Thomas, formateur, prépare sa salle. Sophie, gestionnaire du parc. Julien, administrateur de l’école. Un signalement, une réparation confirmée sur place, une salle prête : la même information passe de l’un à l’autre.
 
 ### 11 — Scénario formateur · 9:45
 
 [Révéler les étapes, puis basculer sur l’onglet de Thomas.]
 
-1. Connexion : « Thomas s’identifie avec MindefConnect, ORION ne lui demande rien d’autre. » Accueil : un tableau de bord limité à ses salles.
-2. Salles › A112 : la vue éclatée, les postes allumés et leurs sessions, les matériels en place.
-3. Supervision : les processus en temps réel sur un poste ; l’alerte sur un processus interdit, déjà arrêté.
-4. Écran du poste 7 : **Signaler un problème**, type « écran », une phrase, enregistrer. La remontée apparaît en attente, numérotée et horodatée par le serveur.
+1. Connexion : « Thomas s’identifie avec MindefConnect, ORION ne lui demande rien d’autre. » Accueil : le tableau de bord de son école.
+2. Salles › bâtiment 201 › 119 : « la salle où nous sommes ». La vue éclatée, les 14 postes allumés et leurs sessions, les matériels en place.
+3. Supervision, salle 119 : les processus en temps réel. Sur `119-PC05`, Steam, interdit, a déjà été arrêté par ORION. Sur `119-PC03`, Discord tourne : il n’est pas référencé, ORION le signale sans l’arrêter.
+4. Écran `MAT-0001` : **Signaler un problème**, type « Écran », « L’écran reste noir alors que l’unité centrale démarre. », transmettre. La remontée apparaît en attente, numérotée et horodatée par le serveur.
 
 *La remontée est partie. Brandon, c’est Sophie qui la reçoit.*
 
@@ -99,13 +112,13 @@ Vingt-cinq minutes : d’où vient ORION, qui l’a fait et comment ; ce qu’il
 
 [Révéler les étapes, puis basculer sur l’onglet de Sophie, téléphone à portée.]
 
-1. Cloche : « une nouvelle remontée ». Remontées › **Prendre en charge**. L’état des lieux PDF, produit à la demande.
-2. Matériels › stock : un écran affecté à la salle A112. Point orange : en cours de déplacement, ORION sait qu’il n’est pas encore en place.
-3. Salles › Déplacements : le trajet Stock → A112. **Installer avec un téléphone** : QR d’appairage, QR de la salle et du stock.
-4. Téléphone : scanner l’appairage, ouvrir la salle A112 par son QR, scanner l’étiquette de l’écran, **Confirmer l’installation**. Dans ORION, le point passe au vert, avec l’auteur et la date. « Le téléphone n’a jamais parlé à ORION ; il marche même sans réseau. »
+1. Cloche : « une nouvelle remontée » de Thomas sur l’écran `MAT-0001`. Remontées › **Prendre en charge**. L’état des lieux PDF, produit à la demande.
+2. Matériels › stock : l’écran `MAT-2303`, Philips comme celui en panne, affecté à la salle 119. Point orange : en cours de déplacement, ORION sait qu’il n’est pas encore en place.
+3. Salles › Déplacements : le trajet Stock → 119. **Installer avec un téléphone** : le QR d’appairage s’affiche.
+4. Téléphone : scanner l’appairage, ouvrir la salle 119 par son QR (étiquette imprimée), scanner l’étiquette de l’écran `MAT-2303`, **Confirmer l’installation**. Dans ORION, le point passe au vert, avec l’auteur et la date. « Le téléphone a travaillé ici, dans la salle ; il marche même sans réseau. »
 5. Remontées : **Remplacé**. Thomas est notifié.
 
-Si le temps le permet : Matériels › Recensement, « Nouveau recensement » sur A112, le bilan, la clôture.
+Si le temps le permet : Matériels › Recensement, « Nouveau recensement » sur la salle 119, le bilan, la clôture.
 
 *La salle a son écran. Alexandre, il manque le logiciel de la formation : c’est Julien.*
 
@@ -115,14 +128,14 @@ Si le temps le permet : Matériels › Recensement, « Nouveau recensement » su
 
 [Révéler les étapes, puis basculer sur l’onglet de Julien.]
 
-1. Cloche : les processus interdits de la semaine, les interventions terminées, la remontée de Thomas remplacée.
-2. Supervision › Règles : le logiciel repéré par Thomas en blacklist, portée salle A112. « Dès le prochain rapport, il sera arrêté partout dans la salle. »
-3. Administration › Interventions : installer l’application de la formation sur toute la salle. Les postes exécutent et renvoient leur résultat, poste par poste. [Si le simulateur tarde, montrer l’intervention de départ déjà terminée.]
+1. Cloche : Steam arrêté sur `119-PC05`, la remontée de Thomas remplacée.
+2. Supervision › Règles : Discord, repéré par Thomas, en blacklist, portée salle 119. « Au prochain rapport, il est arrêté » : en quelques secondes, Discord disparaît de `119-PC03`.
+3. Administration › Interventions : installer IntelliJ IDEA sur toute la salle 119. Les 14 postes exécutent et renvoient leur résultat, poste par poste.
 4. Administration › Comptes : créer un formateur, profil et école ; l’identité reste à MindefConnect.
 
 ### 14 — Récapitulatif · 20:00
 
-[Révéler.] Le formateur voit sa salle et signale sans rien connaître du parc. Le gestionnaire agit dans ORION et sur le terrain avec la même information. L’administrateur décide pour les postes et les règles, résultats à l’appui.
+[Révéler Signaler, Réparer, Équiper.] Le formateur voit sa salle et signale sans rien connaître du parc. Le gestionnaire agit dans ORION et sur le terrain avec la même information. L’administrateur décide pour les postes et les règles, résultats à l’appui.
 
 *Pierre-Louis, ce qui nous a résisté.*
 

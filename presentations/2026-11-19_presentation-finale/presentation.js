@@ -17,6 +17,35 @@
     dust.append(c);
   }
 
+  // Logotype : petites étoiles qui scintillent autour de l'étoile du « I » (direction, distance, taille, durée, phase).
+  for (const mark of document.querySelectorAll(".brand .mark")) {
+    for (let i = 0; i < 14; i++) {
+      const angle = alea() * 2 * Math.PI, distance = 0.75 + alea() * 0.75;
+      const tw = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      tw.setAttribute("class", "tw"); tw.setAttribute("viewBox", "0 0 40 40");
+      tw.innerHTML = '<use href="#star"/>';
+      tw.style.cssText = `--x:${(Math.cos(angle) * distance).toFixed(3)};--y:${(Math.sin(angle) * distance).toFixed(3)};`
+        + `--s:${(0.4 + alea() * 0.6).toFixed(2)};--t:${(1.8 + alea() * 2.4).toFixed(2)}s;--d:${(alea() * 1.2).toFixed(2)}s`;
+      mark.append(tw);
+    }
+  }
+
+  // Lignes guides : la ligne s'allonge jusqu'au point du dernier élément révélé.
+  function guides(slide) {
+    for (const guide of slide.querySelectorAll(".guide")) {
+      let rail = guide.querySelector(":scope > .rail");
+      if (!rail) { rail = document.createElement("span"); rail.className = "rail"; guide.prepend(rail); }
+      const vertical = guide.classList.contains("v");
+      const last = [...guide.querySelectorAll(":scope > li.on .dot")].at(-1);
+      let length = 0;
+      if (last) {
+        const g = guide.getBoundingClientRect(), d = last.getBoundingClientRect();
+        length = vertical ? d.top + d.height / 2 - g.top : d.left + d.width / 2 - g.left;
+      }
+      rail.style[vertical ? "height" : "width"] = `${Math.max(0, length)}px`;
+    }
+  }
+
   // --- Architecture animée --------------------------------------------------------------
   const archi = document.querySelector(".archi-slide");
   const viewport = $("viewport");
@@ -24,15 +53,28 @@
   const TITRES = [
     "Tout commence dans le navigateur.", "Une seule porte : HAProxy, en HTTPS.", "Apache sert l’interface.", "Express porte l’API et toutes les règles.",
     "PostgreSQL garde les données, les sessions et le journal.", "L’identité reste à MindefConnect.", "Les postes Windows se présentent toutes les cinq secondes.",
-    "RIGEL : le téléphone ne touche jamais ORION.", "Un front, un back, une base. Et trois portes bien gardées.",
+    "RIGEL : le téléphone passe par la même porte.", "Un front, un back, une base. Une seule entrée.",
   ];
-  for (const wire of archi.querySelectorAll(".wire")) {
-    const d = wire.querySelector("path").getAttribute("d");
-    for (let k = 0; k < 2; k++) {
-      const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      dot.setAttribute("class", "dot");
-      dot.style.offsetPath = `path('${d}')`;
-      wire.append(dot);
+  // Points des flux : même vitesse et même espacement sur chaque flux ; apparition et disparition en fondu aux extrémités.
+  const VITESSE = 260, ESPACE = 320; // unités du schéma par seconde, distance entre deux points
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    for (const wire of archi.querySelectorAll(".wire")) {
+      const path = wire.querySelector("path");
+      const longueur = path.getTotalLength(), points = Math.max(1, Math.ceil(longueur / ESPACE));
+      const duree = points * ESPACE / VITESSE * 1000, trajet = longueur / (points * ESPACE);
+      for (let k = 0; k < points; k++) {
+        const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        dot.setAttribute("class", "dot");
+        dot.style.offsetPath = `path('${path.getAttribute("d")}')`;
+        wire.append(dot);
+        dot.animate([
+          { offset: 0, offsetDistance: "0%", opacity: 0 },
+          { offset: trajet * .15, opacity: 1 },
+          { offset: trajet * .85, opacity: 1 },
+          { offset: trajet, offsetDistance: "100%", opacity: 0 },
+          { offset: 1, offsetDistance: "100%", opacity: 0 },
+        ], { duration: duree, iterations: Infinity, delay: -k * duree / points });
+      }
     }
   }
   function archiStep(step) {
@@ -40,7 +82,7 @@
     for (const b of boxes) b.classList.toggle("on", Number(b.dataset.step) <= step);
     for (const w of archi.querySelectorAll(".wire")) w.classList.toggle("on", step === 8 ? true : Number(w.dataset.step) === step);
     $("archi-title").textContent = TITRES[step];
-    const FOCUS = [["nav"], ["nav", "haproxy"], ["haproxy", "apache"], ["haproxy", "apache", "express"], ["express", "pg"], ["nav", "mindef"], ["haproxy", "postes"], ["express", "connecteur", "relais", "tel"]];
+    const FOCUS = [["nav"], ["nav", "haproxy"], ["haproxy", "apache"], ["haproxy", "apache", "express"], ["express", "pg"], ["nav", "mindef", "express"], ["haproxy", "postes"], ["nav", "haproxy", "tel"]];
     const visibles = step === 8 ? boxes : FOCUS[step].map((id) => $(`b-${id}`));
     const rect = (b) => ({ x: parseFloat(b.style.left), y: parseFloat(b.style.top), w: 320, h: 150 });
     const rs = visibles.map(rect);
@@ -60,7 +102,7 @@
   function reveal(slide, n) {
     current.set(slide, n);
     if (slide.dataset.steps) archiStep(n);
-    else fragments(slide).forEach((f, i) => f.classList.toggle("on", order(f, i) <= n));
+    else { fragments(slide).forEach((f, i) => f.classList.toggle("on", order(f, i) <= n)); guides(slide); }
     history.replaceState(null, "", `#${slides.indexOf(slide) + 1}${n ? `/${n}` : ""}`);
   }
 
@@ -76,6 +118,7 @@
     const slide = slides[index];
     slide.style.transform = direction < 0 ? "translateX(-6vw)" : "";
     requestAnimationFrame(() => { slide.style.transform = ""; slide.classList.add("is-active"); });
+    document.body.classList.toggle("vide", slide.classList.contains("blank"));
     $("section").textContent = slide.dataset.section;
     $("count").textContent = `${index + 1} / ${slides.length}`;
     $("fill").style.width = `${(index + 1) / slides.length * 100}%`;
@@ -114,6 +157,9 @@
     if (event.clientX < innerWidth * .15) backward(); else forward();
   });
   new ResizeObserver(() => { if (slides[index].dataset.steps) archiStep(current.get(slides[index]) ?? 0); }).observe(viewport);
+  addEventListener("resize", () => guides(slides[index]));
+  const suivi = new ResizeObserver(() => guides(slides[index]));
+  for (const guide of document.querySelectorAll(".guide")) suivi.observe(guide);
 
   if (location.search.includes("static")) document.documentElement.classList.add("static");
   const [n, k] = location.hash.slice(1).split("/").map(Number);
