@@ -1,12 +1,12 @@
 # Rédaction et mise en forme des livrables
 
-Ce dossier contient les livrables mis en forme, remis aux cadres évaluateurs et au client : le dossier de spécifications des exigences (`DSE-ORION/`, PDF, annexes comprises), le dossier d’architecture technique (`DAT-ORION/`, PDF) et le dossier d’organisation (`DO-ORION/`, PDF, annexes comprises). Les règles ci-dessous s’appliquent à tous ; elles complètent celles d’[AGENTS.md](../AGENTS.md) (contenu cible, absence d’éléments du démonstrateur hors DAT, sources qui font foi).
+Ce dossier contient les livrables mis en forme, remis aux cadres évaluateurs et au client : le dossier de spécifications des exigences (`DSE-ORION/`, PDF, annexes comprises), le dossier d’architecture technique (`DAT-ORION/`, PDF et fichiers de configuration joints) et le dossier d’organisation (`DO-ORION/`, PDF, annexes comprises). Les règles ci-dessous s’appliquent à tous ; elles complètent celles d’[AGENTS.md](../AGENTS.md) (contenu cible, absence d’éléments du démonstrateur hors DAT, sources qui font foi).
 
 ## Sources et production
 
 - Le contenu vient des documents de `docs/` : un livrable n’est jamais rédigé ou corrigé directement dans sa mise en forme. On corrige la source, puis on reproduit le livrable.
 - Un livrable est un fichier unique : schémas et diagrammes y sont intégrés, sans renvoi à un autre fichier du dépôt.
-- Le DAT est produit par `node .agents/skills/orion-documentation/scripts/dat-pdf.mts`, depuis la racine du dépôt, à partir de `docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md` et des schémas de `docs/03-ARCHITECTURE/assets/`.
+- Le DAT est produit par `node .agents/skills/orion-documentation/scripts/dat-pdf.mts`, depuis la racine du dépôt, à partir de `docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md` et des schémas de `docs/03-ARCHITECTURE/assets/` ; le même script copie dans `DAT-ORION/configurations/` les fichiers de configuration listés au § 4.8, depuis `application/`.
 - Le DSE est produit par `node .agents/skills/orion-documentation/scripts/dse-pdf.mts`, depuis la racine du dépôt, à partir de `docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md`. Ses schémas sont rendus en vectoriel depuis les sources draw.io des diagrammes cités ; ses tableaux de cas d’utilisation et de règles sont établis depuis les fiches descriptives et les règles de gestion ; ses annexes reprennent les documents listés dans sa partie « Annexes ». Le premier lancement télécharge le moteur de rendu officiel de draw.io (version épinglée, empreinte vérifiée).
 - Le DO est produit par `node .agents/skills/orion-documentation/scripts/do-pdf.mts`, depuis la racine du dépôt, à partir de `docs/04-ORGANISATION/05-DOSSIER-ORGANISATION.md` ; ses graphiques sont ceux de `docs/04-ORGANISATION/assets/` et ses annexes reprennent le backlog et le journal de bord.
 - Éléments communs aux livrables (charte, page de garde, fiche, sommaire, pagination) : `livrable-pdf.mts`.

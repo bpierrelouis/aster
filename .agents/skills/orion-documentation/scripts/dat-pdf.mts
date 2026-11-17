@@ -2,9 +2,10 @@
 //   node .agents/skills/orion-documentation/scripts/dat-pdf.mts [livrables/DAT-ORION/DAT-ORION.pdf]
 // Sources : docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md, les quatre schémas de docs/03-ARCHITECTURE/assets/,
 // le logo de design/assets/logos/ et la version du registre archive/registre.json. Éléments communs : livrable-pdf.mts.
+// Copie aussi, dans le sous-dossier configurations/ du PDF, les fichiers de configuration de l'architecture réelle joints au DAT (§ 4.8).
 // Page de garde, fiche du document, sommaire paginé et cliquable, texte en portrait A4, schémas en paysage A4 ; signets PDF générés.
-import { writeFileSync, mkdirSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { copyFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { basename, dirname, resolve } from 'node:path';
 import {
   COMMANDITAIRE, DEFINITION, DIFFUSION, css, dateCourte, dateFr, derniereVersion, documentHtml, esc, fiche, garde, imprimerPdf,
   inline as inlineMd, lireMarkdown, numero, sommaire, svgData, tableau, type Titre,
@@ -127,3 +128,14 @@ const pdf = await imprimerPdf(page, [...titres.map((t) => t.id), ...figures.map(
 mkdirSync(dirname(out), { recursive: true });
 writeFileSync(out, pdf);
 console.log(`${out} : ${titres.length} titres, ${figures.length} schémas, version ${EDITION}`);
+
+// Configurations jointes au DAT (§ 4.8), copiées dans le sous-dossier configurations/ du PDF, sous leur seul nom de fichier.
+const CONFIGURATIONS = [
+  'Dockerfile', 'infra/images/apache-orion.conf', 'infra/images/secrets.sh', 'infra/vm/vm.sh', 'infra/vm/pile.yaml',
+  'infra/vm/pile-rigel.yaml', 'infra/vm/haproxy.cfg', 'infra/vm/logstash.conf', 'infra/vm/installer.sh', 'infra/vm/deployer.sh',
+  'infra/vm/deploiement.sh', 'infra/vm/postgres-roles.sh', 'infra/vm/runner.sh', 'infra/ldap/orion-utilisateurs.ldif',
+];
+const dossierConfigurations = `${dirname(out)}/configurations`;
+mkdirSync(dossierConfigurations, { recursive: true });
+for (const f of CONFIGURATIONS) copyFileSync(`application/${f}`, `${dossierConfigurations}/${basename(f)}`);
+console.log(`${CONFIGURATIONS.length} configurations copiées dans ${dossierConfigurations}`);

@@ -3577,6 +3577,13 @@
         "version": "6.0",
         "date": "2026-11-16",
         "modification": "Encadrer le système ORION dans la vue simplifiée et exprimer la charge en jours-hommes ; Distinguer le système ORION dans les vues de l’architecture réelle et exprimer la charge en jours-hommes ; Retirer le déploiement continu des échanges de la vue simplifiée",
+        "archive": null,
+        "commit": "20c212d"
+      },
+      {
+        "version": "6.1",
+        "date": "2026-11-17",
+        "modification": "Joint les configurations sous leur seul nom de fichier",
         "archive": null
       }
     ],

@@ -57,7 +57,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.drawio) | Production destinée à la remise | [2.1](#04-modele-physique-donnees) | 17/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [4.2](#04-modele-physique-donnees) | 17/11/2026 |
 | [docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md](../docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md) | Production destinée à la remise | [2.0](#05-dossier-specifications-exigences) | 17/11/2026 |
-| [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [6.0](#01-dossier-architecture-technique) | 16/11/2026 |
+| [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [6.1](#01-dossier-architecture-technique) | 17/11/2026 |
 | [docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [3.0](#02-diagrammes-architecture) | 16/11/2026 |
 | [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.3](#01-backlog-et-suivi-projet) | 17/11/2026 |
 | [docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md](../docs/04-ORGANISATION/02-BACKLOG-TECHNIQUE-ET-FEUILLE-DE-ROUTE.md) | Pilotage interne | [9.3](#02-backlog-technique-et-feuille-de-route) | 16/11/2026 |
@@ -809,7 +809,8 @@ Fichier : [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.0 | 16/11/2026 | Encadrer le système ORION dans la vue simplifiée et exprimer la charge en jours-hommes ; Distinguer le système ORION dans les vues de l’architecture réelle et exprimer la charge en jours-hommes ; Retirer le déploiement continu des échanges de la vue simplifiée | en vigueur | — |
+| 6.1 | 17/11/2026 | Joint les configurations sous leur seul nom de fichier | en vigueur | — |
+| 6.0 | 16/11/2026 | Encadrer le système ORION dans la vue simplifiée et exprimer la charge en jours-hommes ; Distinguer le système ORION dans les vues de l’architecture réelle et exprimer la charge en jours-hommes ; Retirer le déploiement continu des échanges de la vue simplifiée | `20c212d` | — |
 | 5.3 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.2 | 16/11/2026 | Contrainte RIGEL réelle et cible distinguées ; stockage mobile précisé | `9bb9802` (`docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
 | 5.1 | 15/11/2026 | Jeton du relais fourni par l’intégration continue à chaque déploiement | `3fbaa9a` (`docs/03-ARCHITECTURE/18-DOSSIER-ARCHITECTURE-TECHNIQUE.md`) | — |
