@@ -32,10 +32,10 @@ on:
 permissions:
   contents: read
 
-# Un nouveau push annule l'exécution en cours, devenue inutile (les déploiements ont leur propre groupe, jamais annulé)
+# Un nouveau push annule l'exécution en cours, devenue inutile, sauf sur main : une exécution de main peut déployer
 concurrency:
   group: ci-cd-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 defaults:
   run:
