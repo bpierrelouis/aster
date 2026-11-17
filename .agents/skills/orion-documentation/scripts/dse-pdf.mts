@@ -3,7 +3,7 @@
 // Sources : docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md (texte), les diagrammes draw.io qu'il cite (rendus en SVG
 // par le moteur officiel draw.io, version épinglée, téléchargé une fois dans le dossier temporaire), les fiches descriptives et
 // les règles de gestion (tableaux de cas et de règles), et les documents listés sous « Annexes » (annexes A, B…).
-// Directives du Markdown : <!-- dse:cas UC-… -->, <!-- dse:catalogue -->, <!-- dse:matrice -->, <!-- dse:repartition-regles -->,
+// Directives du Markdown : <!-- dse:cas UC-…=N --> (N : priorité, 1 essentielle, 2 importante, 3 complémentaire), <!-- dse:catalogue -->, <!-- dse:matrice -->, <!-- dse:repartition-regles -->,
 // <!-- dse:regles RG-… -->. Un paragraphe « *Tableau – titre* » titre et numérote le tableau qui le suit.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -127,6 +127,18 @@ const { lignes: lignesDse } = lireMarkdown(DSE);
 const debutAnnexes = lignesDse.indexOf('## Annexes');
 const annexes = lignesDse.slice(debutAnnexes + 1).map((l) => /^- \[([^\]]+)\]\(([^)]+)\)(?: : (.+))?$/.exec(l)).filter((m) => m)
   .map((m, i) => ({ lettre: String.fromCharCode(65 + i), titre: m![1], fichier: relative('.', resolve(dirname(DSE), m![2])).replace(/\\/g, '/'), contenu: m![3] ?? '' }));
+// Priorité de chaque cas d'utilisation, portée par les directives « dse:cas » du DSE.
+const NIVEAUX: Record<string, string> = { 1: 'Essentielle', 2: 'Importante', 3: 'Complémentaire' };
+const priorites = new Map<string, string>();
+for (const l of lignesDse) {
+  const d = /^<!-- dse:cas (.+) -->$/.exec(l.trim());
+  for (const a of d ? d[1].split(/\s+/) : []) {
+    const [code, n] = a.split('=');
+    if (!cas.has(code) || !NIVEAUX[n]) throw new Error(`Cas ou priorité invalide : ${a}`);
+    priorites.set(code, NIVEAUX[n]);
+  }
+}
+const prioriteDe = (c: string) => { const p = priorites.get(c); if (!p) throw new Error(`Priorité absente : ${c}`); return p; };
 const annexeDe = (f: string) => annexes.find((a) => a.fichier === f);
 
 // --- Schémas, figures et tableaux numérotés ------------------------------------------
@@ -223,15 +235,15 @@ const legendeTableau = (titre: string) => {
 const lienCas = (c: string) => `<a href="#${c.toLowerCase()}">${c}</a>`;
 function directive(nom: string, args: string[]): string {
   const i = inlineDe(DSE);
-  if (nom === 'cas') return tableauSimple(['Cas d’utilisation', 'Intitulé', 'Acteur principal'], args.map((c) => {
-    const u = cas.get(c); if (!u) throw new Error(`Cas inconnu : ${c}`);
-    return [lienCas(c), i(u.intitule), u.profil];
+  if (nom === 'cas') return tableauSimple(['Cas d’utilisation', 'Intitulé', 'Acteur principal', 'Priorité'], args.map((a) => {
+    const c = a.split('=')[0]; const u = cas.get(c)!;
+    return [lienCas(c), i(u.intitule), u.profil, prioriteDe(c)];
   }), 'cas');
   if (nom === 'catalogue') return Object.values(PROFILS).map((p) => {
     const liste = [...cas.values()].filter((u) => u.profil === p);
     const id = `catalogue-${slug(p)}`;
     titres.push({ niveau: 4, id, html: `${p} (${liste.length} cas)` });
-    return `<h4 id="${id}">${p} (${liste.length} cas)</h4>${legendeTableau(`Cas d’utilisation – ${p}`)}${tableauSimple(['Code', 'Intitulé', 'Règles de gestion'], liste.map((u) => [lienCas(u.code), i(u.intitule), i(u.regles)]), 'cas')}`;
+    return `<h4 id="${id}">${p} (${liste.length} cas)</h4>${legendeTableau(`Cas d’utilisation – ${p}`)}${tableauSimple(['Code', 'Intitulé', 'Priorité', 'Règles de gestion'], liste.map((u) => [lienCas(u.code), i(u.intitule), prioriteDe(u.code), i(u.regles)]), 'cas')}`;
   }).join('');
   if (nom === 'matrice') {
     const citees = new Set([...cas.values()].flatMap((u) => developper(u.regles)));
@@ -301,7 +313,7 @@ function convertir(lignes: string[], o: Options) {
       while (i < lignes.length && !lignes[i].startsWith('```')) code.push(lignes[i++]);
       i++; sortie(`<pre>${esc(code.join('\n'))}</pre>`); continue;
     }
-    const d = /^<!-- dse:([a-z-]+)((?: [A-Z0-9-]+)*) -->$/.exec(l.trim());
+    const d = /^<!-- dse:([a-z-]+)((?: [A-Z0-9=-]+)*) -->$/.exec(l.trim());
     if (d) { sortie((legende ? legendeTableau(legende) : '') + directive(d[1], d[2].trim().split(/\s+/).filter(Boolean))); legende = ''; i++; continue; }
     if (l.startsWith('<!--')) { while (i < lignes.length && !lignes[i].includes('-->')) i++; i++; continue; }
     if (l.startsWith('|')) {

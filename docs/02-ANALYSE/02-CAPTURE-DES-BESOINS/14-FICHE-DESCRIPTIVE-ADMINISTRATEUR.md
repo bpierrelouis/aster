@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.1 | 16/11/2026 | Production destinée à la remise | Notifier aussi les matériels à déplacer | [19 versions](../../../archive/README.md#14-fiche-descriptive-administrateur) |
+| 6.2 | 17/11/2026 | Production destinée à la remise | Citer l’équipe et le client comme sources, sans renvoi interne | [20 versions](../../../archive/README.md#14-fiche-descriptive-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -538,9 +538,9 @@ RG-01, RG-15, RG-60, RG-62, RG-69 à RG-71, RG-82 et RG-85.
 
 ### Questions ouvertes
 
-- Modalités d’intégration à MindefConnect (cadrage § 18).
+- Modalités d’intégration à MindefConnect (DSE, point ouvert PO-02).
 - Revue des droits et désactivation des comptes quittant l’organisation.
-- Consultation dans ORION et durée de conservation du journal applicatif, qui trace les connexions et chaque enregistrement des utilisateurs (cadrage § 18).
+- Consultation dans ORION et durée de conservation du journal applicatif, qui trace les connexions et chaque enregistrement des utilisateurs.
 
 ## UC-ADMIN-07 — Gérer les salles et les étages
 
@@ -773,9 +773,9 @@ RG-24, RG-36 à RG-39, RG-55, RG-66, RG-84 et RG-86.
 
 ## Contraintes transversales
 
-- Application web utilisée avec les versions de Firefox installées sur les postes de l’équipe.
+- Application web utilisée avec les versions de Firefox installées sur les postes des écoles.
 - Réseau interne NP disposant d’un accès à Internet.
-- Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
+- Authentification via MindefConnect ; modalités d’intégration à préciser (DSE, point ouvert PO-02).
 - Un seul profil par utilisateur.
 - Notifications dans ORION ; aucun écran ne laisse penser que l’administrateur a un périmètre sur plusieurs écoles.
 
