@@ -1,0 +1,265 @@
+# Pile Docker Swarm « orion » du démonstrateur (dossier d'architecture, § 4.5) : managers orion-1 à orion-3 ; entrée (HAProxy) sur orion-1 ;
+# application orion-4 et orion-5, PostgreSQL orion-6, identité orion-7,
+# Logstash orion-8, VM de secours orion-9 ; données et logs sur le stockage NFS d'orion-10, hors Swarm.
+# Déployée par deploiement.sh (sur orion-1, appelé par deployer.sh), qui fournit ORION_IMAGES, ORION_TAG, l'adresse du relais RIGEL (ORION_RELAIS, vide s'il n'est pas publié)
+# et les empreintes des configurations. Le connecteur RIGEL est dans une pile à part (pile-rigel.yaml) : il ne bloque jamais celle-ci.
+
+# Chaque VM joint Logstash sur sa propre adresse locale, par le maillage de routage de Swarm, avec son certificat client
+# (installer.sh), exigé par Logstash
+x-logs: &logs
+  logging:
+    driver: syslog
+    options:
+      syslog-address: tcp+tls://127.0.0.1:6514
+      syslog-format: rfc5424
+      syslog-tls-ca-cert: /etc/docker/orion-ca.pem
+      syslog-tls-cert: /etc/docker/orion-syslog.crt
+      syslog-tls-key: /etc/docker/orion-syslog.key
+      tag: '{{.Name}}'
+      mode: non-blocking
+
+# Aucune capacité Linux : services exécutés sans root, ports non privilégiés (ldap, qui démarre en root, en est exclu)
+x-sans-capacite: &sans-capacite
+  cap_drop: [ALL]
+
+x-relance: &relance
+  restart_policy:
+    condition: any
+    delay: 5s
+
+# Volumes NFSv4 d'orion-10 (stockage, hors Swarm), montés par la VM qui exécute le service
+x-nfs: &nfs
+  type: nfs
+  o: addr=${ORION_STOCKAGE},nfsvers=4.2,hard
+
+services:
+  # Une instance, relancée sur orion-1 (seule VM étiquetée orion=entree), dont l'adresse est celle des utilisateurs
+  haproxy:
+    <<: [*logs, *sans-capacite]
+    image: haproxy:3.2.16-alpine@sha256:fbfce01a9280b2e87acbbd8a61724a3a82bcd0b2d5c302f0c396c3ed91f88dd3
+    read_only: true
+    ports:
+      - { target: 443, published: 443, mode: host }
+      - { target: 8444, published: 8444, mode: host }
+    configs:
+      - source: haproxy
+        target: /usr/local/etc/haproxy/haproxy.cfg
+    secrets:
+      - source: tls_entree
+        target: /usr/local/etc/haproxy/entree.pem
+    networks: [orion]
+    deploy:
+      <<: *relance
+      placement: { constraints: [node.labels.orion == entree] }
+
+  apache:
+    <<: [*logs, *sans-capacite]
+    image: ${ORION_IMAGES}/orion-web:${ORION_TAG}
+    # Système de fichiers en lecture seule ; seul le fichier PID est écrit, dans /tmp
+    read_only: true
+    volumes:
+      - { type: tmpfs, target: /tmp }
+    networks: [orion]
+    deploy:
+      <<: *relance
+      replicas: 2
+      placement:
+        constraints: [node.labels.orion == application]
+        max_replicas_per_node: 1
+
+  api:
+    <<: [*logs, *sans-capacite]
+    image: ${ORION_IMAGES}/orion-api:${ORION_TAG}
+    # Démonstrateur : jeu de démonstration chargé avant le serveur, remplacé quand sa version change
+    command: [sh, -c, 'node outils/donnees-demonstration/charger.ts --reinitialiser && exec node backend/start-production.ts']
+    environment:
+      APP_URL: https://${ORION_ENTREE}
+      OIDC_ISSUER: https://${ORION_ENTREE}/realms/orion
+      OIDC_CLIENT_ID: orion-web
+      IDENTITY_PROVISIONING: 'true'
+      KEYCLOAK_ADMIN_URL: http://keycloak:8080
+      NODE_EXTRA_CA_CERTS: /etc/ssl/orion/ca.pem
+      WEB_URL: http://apache:8080
+      LDAP_URL: ldap://ldap:389
+      SYSLOG_URL: tcp://logstash:6514
+      RIGEL_URL: ${ORION_RELAIS}
+    secrets:
+      # Rôle applicatif orion_app, sans superutilisateur (postgres-roles.sh)
+      - source: orion_app_database_url
+        target: DATABASE_URL
+      - OIDC_CLIENT_SECRET
+      - SESSION_SECRET
+      - AGENT_TOKEN
+      - PROVISIONING_CLIENT_SECRET
+      - PROVISIONING_PASSWORD_SECRET
+      - RIGEL_SECRET
+      - source: ca
+        target: /etc/ssl/orion/ca.pem
+    networks: [orion]
+    deploy:
+      <<: *relance
+      replicas: 2
+      placement:
+        constraints: [node.labels.orion == application]
+        max_replicas_per_node: 1
+
+  postes:
+    <<: [*logs, *sans-capacite]
+    image: ${ORION_IMAGES}/orion-postes:${ORION_TAG}
+    environment:
+      ORION_API: http://api:3001
+    secrets: [AGENT_TOKEN]
+    networks: [orion]
+    deploy:
+      <<: *relance
+      placement: { constraints: [node.labels.orion == application] }
+
+  postgres:
+    <<: [*logs, *sans-capacite]
+    image: postgres:17.7-alpine@sha256:bb377b7239d2774ac8cc76f481596ce96c5a6b5e9d141f6d0a0ee371a6e7c0f2
+    # Compte postgres de l'image (70) : le stockage NFS refuse root (root_squash), le dossier lui appartient (installer.sh)
+    user: '70:70'
+    environment:
+      POSTGRES_DB: orion
+      POSTGRES_USER: orion # superutilisateur, réservé à l'administration
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres
+    secrets:
+      - source: orion_postgres_password
+        target: postgres
+      - orion_app_password
+    # Rôle applicatif créé avec une base neuve ; une base existante est mise à jour par deploiement.sh
+    configs:
+      - source: postgres_roles
+        target: /docker-entrypoint-initdb.d/orion-roles.sh
+    volumes:
+      - { type: volume, source: pg-nfs, target: /var/lib/postgresql/data, volume: { nocopy: true } }
+    networks: [orion]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U orion -d orion]
+      interval: 10s
+      # Première initialisation lente sur NFS : un conteneur relancé pendant initdb laisserait une base incomplète
+      start_period: 5m
+    deploy:
+      <<: *relance
+      # orion-6, ou orion-9 (secours) si orion-6 tombe
+      placement: { constraints: [node.labels.pg == true] }
+
+  ldap:
+    <<: *logs
+    image: osixia/openldap:1.5.0@sha256:18742e9c449c9c1afe129d3f2f3ee15fb34cc43e5f940a20f3399728f41d7c28
+    command: [--copy-service]
+    environment:
+      LDAP_ORGANISATION: ORION
+      LDAP_DOMAIN: orion.demo
+      LDAP_ADMIN_PASSWORD_FILE: /run/secrets/ldap_admin
+      LDAP_TLS: 'false'
+    secrets: [ldap_admin]
+    configs:
+      - source: ldap_utilisateurs
+        target: /container/service/slapd/assets/config/bootstrap/ldif/custom/50-orion-utilisateurs.ldif
+    volumes:
+      - ldap-data-nfs:/var/lib/ldap
+      - ldap-config-nfs:/etc/ldap/slapd.d
+    networks: [orion]
+    deploy:
+      <<: *relance
+      # orion-7, ou orion-9 (secours) si orion-7 tombe
+      placement: { constraints: [node.labels.identite == true] }
+
+  keycloak:
+    <<: [*logs, *sans-capacite]
+    image: ${ORION_IMAGES}/orion-keycloak:${ORION_TAG}
+    environment:
+      APP_URL: https://${ORION_ENTREE}
+      KC_HOSTNAME: https://${ORION_ENTREE}
+      KC_HOSTNAME_ADMIN: https://${ORION_ENTREE}:8444
+      KC_BOOTSTRAP_ADMIN_USERNAME: keycloak-admin
+      ORION_COMPTES_PRESENTATION: 'true' # jetons « Accès de présentation » (présentation au client), retirés en production
+    secrets:
+      - OIDC_CLIENT_SECRET
+      - PROVISIONING_CLIENT_SECRET
+      - source: ldap_admin
+        target: LDAP_ADMIN_PASSWORD
+      - source: keycloak_admin
+        target: KC_BOOTSTRAP_ADMIN_PASSWORD
+    networks: [orion]
+    deploy:
+      <<: *relance
+      placement: { constraints: [node.labels.identite == true] }
+
+  logstash:
+    <<: *sans-capacite
+    image: docker.elastic.co/logstash/logstash:8.19.14@sha256:bf887b80e3a1d183a30f4c1ac73f86433151be078ebdf62e87e78df13d689bd8
+    environment:
+      LS_JAVA_OPTS: -Xms512m -Xmx512m
+      XPACK_MONITORING_ENABLED: 'false'
+    configs:
+      - source: logstash
+        target: /usr/share/logstash/pipeline/logstash.conf
+    secrets:
+      - source: tls_collecteur_cle
+        target: collecteur.key
+      - source: tls_collecteur_cert
+        target: collecteur.crt
+      # Autorité des certificats clients des VM
+      - source: ca
+        target: ca.pem
+    # Maillage de routage : le pilote syslog de chaque VM joint 127.0.0.1:6514, quelle que soit la VM de Logstash
+    ports:
+      - { target: 6514, published: 6514, mode: ingress }
+    volumes:
+      - { type: volume, source: logs-nfs, target: /var/log/orion, volume: { nocopy: true } }
+    networks: [orion]
+    deploy:
+      <<: *relance
+      # orion-8, ou orion-9 (secours) si orion-8 tombe
+      placement: { constraints: [node.labels.logs == true] }
+
+networks:
+  orion:
+    driver: overlay
+    driver_opts:
+      encrypted: 'true'
+
+volumes:
+  pg-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/donnees/postgres' }
+  ldap-data-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/donnees/ldap-data' }
+  ldap-config-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/donnees/ldap-config' }
+  logs-nfs:
+    driver_opts: { <<: *nfs, device: ':/srv/orion/logs/conteneurs' }
+
+configs:
+  haproxy:
+    name: orion-haproxy-${EMPREINTE_HAPROXY}
+    file: ./haproxy.cfg
+  logstash:
+    name: orion-logstash-${EMPREINTE_LOGSTASH}
+    file: ./logstash.conf
+  ldap_utilisateurs:
+    name: orion-ldap-${EMPREINTE_LDAP}
+    file: ../ldap/orion-utilisateurs.ldif
+  postgres_roles:
+    name: orion-postgres-roles-${EMPREINTE_ROLES}
+    file: ./postgres-roles.sh
+
+secrets:
+  # Créés au premier déploiement par deploiement.sh
+  orion_app_password: { external: true }
+  orion_app_database_url: { external: true }
+  OIDC_CLIENT_SECRET: { external: true }
+  SESSION_SECRET: { external: true }
+  AGENT_TOKEN: { external: true }
+  PROVISIONING_CLIENT_SECRET: { external: true }
+  PROVISIONING_PASSWORD_SECRET: { external: true }
+  RIGEL_SECRET: { external: true }
+  keycloak_admin: { external: true }
+  orion_postgres_password: { external: true }
+  ldap_admin: { external: true }
+  ca: { external: true }
+  # Certificats émis pour les adresses IP de l'entrée et du collecteur ; un secret Swarm est immuable.
+  tls_entree: { external: true, name: orion_tls_entree_ip }
+  tls_collecteur_cle: { external: true, name: orion_tls_collecteur_cle_ip }
+  tls_collecteur_cert: { external: true, name: orion_tls_collecteur_cert_ip }

@@ -1,0 +1,6 @@
+# Annuaire local : branche des identités, chargée si l'annuaire est vide.
+# Les identités des comptes ORION y sont créées par le serveur au démarrage (outils/identites-keycloak/).
+
+dn: ou=people,dc=orion,dc=demo
+objectClass: organizationalUnit
+ou: people

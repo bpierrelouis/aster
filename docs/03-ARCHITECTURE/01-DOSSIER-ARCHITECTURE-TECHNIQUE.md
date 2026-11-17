@@ -299,23 +299,23 @@ Si la préparation des rapports domine, tester un service autonome de traitement
 
 ### 4.8. Configurations remises avec le DAT
 
-Les fichiers suivants constituent la configuration de l’architecture réelle remise avec le DAT. Les chemins indiqués sont relatifs au dossier de configuration du livrable :
+Les fichiers suivants, joints au DAT, constituent la configuration de l’architecture réelle :
 
-| Fichier ou dossier | Rôle |
+| Fichier | Rôle |
 | --- | --- |
 | `Dockerfile` | Images Apache, Express, simulateur des postes, connecteur et relais RIGEL, et Keycloak |
-| `images/apache-orion.conf` et `images/secrets.sh` | Configuration Apache et chargement des secrets Swarm dans les processus concernés |
-| `vm/vm.sh` | Adresses, réseau, DNS, VM de secours et accès SSH |
-| `vm/pile.yaml` | Services Swarm, placement, instances, réseaux, secrets, configurations et volumes NFS |
-| `vm/pile-rigel.yaml` | Connecteur RIGEL, placement, reprise et accès à l’overlay de la pile principale |
-| `vm/haproxy.cfg` | Entrée TLS, routage de l’interface, de l’API et de Keycloak, filtrage des chemins et limitation de débit |
-| `vm/logstash.conf` | Réception syslog sur TLS mutuel et écriture des journaux par service et par jour |
-| `vm/installer.sh` | Préparation des VM, stockage NFS, cluster, certificats et secrets |
-| `vm/deployer.sh` | Déploiement d’une version publiée et contrôle de la version servie |
-| `vm/deploiement.sh` | Commande `orion-deploiement` d’orion-1, seule permise à la clé du runner : contrôle des arguments, secrets du premier déploiement, rôle PostgreSQL, déploiement de la pile |
-| `vm/postgres-roles.sh` | Rôle applicatif `orion_app` de PostgreSQL, sans superutilisateur |
-| `vm/runner.sh` | Installation du runner GitHub Actions sur orion-3 et de sa clé restreinte sur orion-1 |
-| `ldap/orion-utilisateurs.ldif` | Branche des identités de l’annuaire, créée à son initialisation |
+| `apache-orion.conf` et `secrets.sh` | Configuration Apache et chargement des secrets Swarm dans les processus concernés |
+| `vm.sh` | Adresses, réseau, DNS, VM de secours et accès SSH |
+| `pile.yaml` | Services Swarm, placement, instances, réseaux, secrets, configurations et volumes NFS |
+| `pile-rigel.yaml` | Connecteur RIGEL, placement, reprise et accès à l’overlay de la pile principale |
+| `haproxy.cfg` | Entrée TLS, routage de l’interface, de l’API et de Keycloak, filtrage des chemins et limitation de débit |
+| `logstash.conf` | Réception syslog sur TLS mutuel et écriture des journaux par service et par jour |
+| `installer.sh` | Préparation des VM, stockage NFS, cluster, certificats et secrets |
+| `deployer.sh` | Déploiement d’une version publiée et contrôle de la version servie |
+| `deploiement.sh` | Commande `orion-deploiement` d’orion-1, seule permise à la clé du runner : contrôle des arguments, secrets du premier déploiement, rôle PostgreSQL, déploiement de la pile |
+| `postgres-roles.sh` | Rôle applicatif `orion_app` de PostgreSQL, sans superutilisateur |
+| `runner.sh` | Installation du runner GitHub Actions sur orion-3 et de sa clé restreinte sur orion-1 |
+| `orion-utilisateurs.ldif` | Branche des identités de l’annuaire, créée à son initialisation |
 
 Les valeurs secrètes, les clés privées, les certificats générés et les données créées à l’exécution ne sont pas joints. Les fichiers du montage local de développement, les fichiers JSON de configuration, le thème de connexion et les documents du projet sont exclus de cet ensemble.
 
