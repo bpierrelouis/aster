@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#040b1e">
+  <meta name="description" content="Présentation finale du projet ORION : histoire, équipe, organisation, pile logicielle, architecture animée, démonstration par profil, bilan et perspectives.">
+  <title>ORION — Présentation finale</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/orion-etoile.svg">
+  <link rel="stylesheet" href="styles.css">
+  <script src="presentation.js" defer></script>
+</head>
+<body>
+
+<svg class="sky" viewBox="0 0 210 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <g class="dust"></g>
+</svg>
+
+<main class="deck" id="deck">
+
+  <!-- 01 Couverture -->
+  <section class="slide cover" data-section="Ouverture" data-speaker="LE MAITRE" data-time="0:00">
+    <p class="over">DRHAT / PFORM · Écoles de formation · 19 novembre 2026</p>
+    <img class="logo" src="assets/logos/orion-horizontal-inverse.svg" alt="ORION">
+    <p class="definition">Outil de Recensement, d’Intervention et d’Observation Numérique</p>
+    <h1>Le parc informatique des écoles,<br>enfin dans un seul outil.</h1>
+    <p class="sub">Présentation finale du projet · Équipe ASTER</p>
+  </section>
+
+  <!-- 02 Histoire -->
+  <section class="slide story" data-section="Histoire" data-speaker="LE MAITRE" data-time="0:45">
+    <div class="story-text">
+      <p class="kicker">Une constellation pour s’orienter</p>
+      <h2>D’ASTER à ORION.</h2>
+      <ul class="names">
+        <li class="f" data-f="1"><b>ASTER</b><span>l’équipe · une étoile, cinq branches</span></li>
+        <li class="f" data-f="2"><b>ORION</b><span>le produit · la constellation qui guide</span></li>
+        <li class="f" data-f="3"><b>RIGEL</b><span>son étoile la plus brillante · le module mobile, sur le terrain</span></li>
+        <li class="f" data-f="4"><b>M42</b><span>sa nébuleuse · l’agent qui vit dans chaque poste</span></li>
+      </ul>
+      <p class="note f" data-f="5">Une marque, une étoile à quatre branches, un seul bleu : la même identité de l’écran de connexion au téléphone et aux dossiers.</p>
+    </div>
+    <svg class="constellation" viewBox="0 0 100 120" aria-hidden="true">
+      <g class="lines">
+        <line x1="30" y1="14" x2="52" y2="4"/><line x1="52" y1="4" x2="74" y2="22"/><line x1="30" y1="14" x2="44" y2="50"/>
+        <line x1="44" y1="50" x2="52" y2="47"/><line x1="52" y1="47" x2="60" y2="43"/><line x1="74" y1="22" x2="60" y2="43"/>
+        <line x1="44" y1="50" x2="33" y2="78"/><line x1="60" y1="43" x2="76" y2="74"/>
+      </g>
+      <circle cx="30" cy="14" r="2.4" class="st orange"/><circle cx="52" cy="4" r="1.5" class="st"/><circle cx="74" cy="22" r="1.5" class="st"/>
+      <circle cx="44" cy="50" r="1.3" class="st"/><circle cx="52" cy="47" r="1.3" class="st"/><circle cx="60" cy="43" r="1.3" class="st"/>
+      <circle cx="33" cy="78" r="1.3" class="st"/>
+      <g class="f mark rigel" data-f="3"><circle cx="76" cy="74" r="3.2" class="st big"/><text x="80" y="76">RIGEL</text></g>
+      <g class="f mark m42" data-f="4"><circle cx="50" cy="60" r="2.6" class="neb"/><text x="54" y="62">M42</text></g>
+      <text class="f mark orion" data-f="2" x="20" y="100">ORION</text>
+    </svg>
+  </section>
+
+  <!-- 03 Équipe -->
+  <section class="slide" data-section="Ouverture" data-speaker="LE MAITRE" data-time="1:45">
+    <p class="kicker">L’équipe ASTER</p>
+    <h2>Cinq personnes. Un seul produit.</h2>
+    <ul class="team">
+      <li class="f"><span class="grade">SCH</span><strong>BAELDE</strong> Pierre-Louis<em>Product Owner · intégration, architecture, déploiement</em></li>
+      <li class="f"><span class="grade">SCH</span><strong>VILBERT-TAHON</strong> Alexandre<em>Interface, parcours utilisateurs, direction artistique</em></li>
+      <li class="f"><span class="grade">SGT</span><strong>BONEY</strong> Brandon<em>Modélisation, gestion du parc, dossier de spécifications</em></li>
+      <li class="f"><span class="grade">SGT</span><strong>LE MAITRE</strong> Louis<em>Scrum Master · remise et présentation</em></li>
+      <li class="f"><span class="grade">SGT</span><strong>PHOMMAVONGSA</strong> Sacha<em>Cycles de vie, supervision, recette par profil</em></li>
+    </ul>
+    <p class="figures f"><span><b>4</b> semaines</span><span><b>2</b> sprints</span><span><b>381</b> commits</span><span><b>72</b> diagrammes</span></p>
+  </section>
+
+  <!-- 04 Le besoin -->
+  <section class="slide" data-section="Le besoin" data-speaker="LE MAITRE" data-time="2:30">
+    <p class="kicker">Le besoin</p>
+    <h2>Aujourd’hui des fichiers Excel. Demain ORION.</h2>
+    <div class="cols three">
+      <div class="card f"><h3>Gérer le parc</h3><p>Matériels, salles, stock, affectations, garanties.</p></div>
+      <div class="card f"><h3>Administrer les postes</h3><p>Installer, désinstaller, réinitialiser, à distance.</p></div>
+      <div class="card f"><h3>Superviser les usages</h3><p>Processus en temps réel, interdits arrêtés automatiquement.</p></div>
+    </div>
+    <p class="note f">Et un fil commun : les <strong>remontées</strong> des utilisateurs, suivies jusqu’à l’état des lieux PDF.</p>
+  </section>
+
+  <!-- 05 Organisation -->
+  <section class="slide" data-section="Organisation" data-speaker="LE MAITRE" data-time="3:15">
+    <p class="kicker">Organisation · Scrum et XP</p>
+    <h2>Deux sprints, une Review avec le client.</h2>
+    <div class="tl">
+      <div class="tl-track">
+        <div class="tl-sprint f s1" style="left:0;width:67.5%"><span>Sprint 1 · 19 oct. → 8 nov.</span></div>
+        <div class="tl-vac f" style="left:22.5%;width:22.5%"><span>vacances</span></div>
+        <div class="tl-sprint f s2" style="left:67.5%;width:32.5%"><span>Sprint 2 · 9 → 19 nov.</span></div>
+      </div>
+      <div class="tl-events">
+        <div class="f" style="left:3%"><i></i>Planning<small>20 oct.</small></div>
+        <div class="f" style="left:12%"><i></i>Entretiens client<small>22-23 oct.</small></div>
+        <div class="f hi" style="left:51%"><i></i>Review client · MVP<small>4 nov.</small></div>
+        <div class="f" style="left:67.5%"><i></i>Planning<small>9 nov.</small></div>
+        <div class="f" style="left:77%"><i></i>Entretien client<small>12 nov.</small></div>
+        <div class="f" style="left:93%"><i></i>Rendu<small>17 nov.</small></div>
+        <div class="f hi" style="left:100%"><i></i>Présentation<small>19 nov.</small></div>
+      </div>
+    </div>
+    <p class="figures f"><span><b>PO</b> BAELDE</span><span><b>SM</b> LE MAITRE</span><span><b>5</b> Developers</span><span><b>Daily</b> 9 h · 15 min</span></p>
+  </section>
+
+  <!-- 06 Sprint 1 vs 2 -->
+  <section class="slide" data-section="Organisation" data-speaker="LE MAITRE" data-time="4:15">
+    <p class="kicker">Organisation · ce qui s’est passé</p>
+    <h2>Sprint 1, sprint 2 : l’activité GitHub parle d’elle-même.</h2>
+    <div class="f chart"><svg class="commits" viewBox="0 0 1200 300" aria-label="Commits par jour"><rect x="262" y="10" width="262" height="250" class="vac"/><text x="394" y="40" text-anchor="middle" class="vactxt">vacances</text><line x1="788" y1="10" x2="788" y2="255" class="sep"/><rect x="4" y="260" width="30" height="0" rx="4" class="s1"/><rect x="42" y="258" width="30" height="2" rx="4" class="s1"/><rect x="79" y="253" width="30" height="7" rx="4" class="s1"/><rect x="116" y="260" width="30" height="0" rx="4" class="s1"/><rect x="154" y="260" width="30" height="0" rx="4" class="s1"/><rect x="192" y="258" width="30" height="2" rx="4" class="s1"/><rect x="229" y="260" width="30" height="0" rx="4" class="s1"/><rect x="266" y="260" width="30" height="0" rx="4" class="s1"/><rect x="304" y="260" width="30" height="0" rx="4" class="s1"/><rect x="342" y="260" width="30" height="0" rx="4" class="s1"/><rect x="379" y="260" width="30" height="0" rx="4" class="s1"/><rect x="416" y="260" width="30" height="0" rx="4" class="s1"/><rect x="454" y="260" width="30" height="0" rx="4" class="s1"/><rect x="492" y="260" width="30" height="0" rx="4" class="s1"/><rect x="529" y="241" width="30" height="19" rx="4" class="s1"/><rect x="566" y="239" width="30" height="21" rx="4" class="s1"/><rect x="604" y="260" width="30" height="0" rx="4" class="s1"/><rect x="642" y="258" width="30" height="2" rx="4" class="s1"/><rect x="679" y="239" width="30" height="21" rx="4" class="s1"/><rect x="716" y="260" width="30" height="0" rx="4" class="s1"/><rect x="754" y="232" width="30" height="28" rx="4" class="s1"/><rect x="792" y="207" width="30" height="53" rx="4" class="s2"/><rect x="829" y="227" width="30" height="33" rx="4" class="s2"/><rect x="866" y="239" width="30" height="21" rx="4" class="s2"/><rect x="904" y="200" width="30" height="60" rx="4" class="s2"/><rect x="942" y="30" width="30" height="230" rx="4" class="s2"/><rect x="979" y="118" width="30" height="142" rx="4" class="s2"/><rect x="1016" y="132" width="30" height="128" rx="4" class="s2"/><rect x="1054" y="155" width="30" height="105" rx="4" class="s2"/><rect x="1092" y="248" width="30" height="12" rx="4" class="s2"/><rect x="1129" y="260" width="30" height="0" rx="4" class="s2"/><rect x="1166" y="260" width="30" height="0" rx="4" class="s2"/><text x="806" y="201" text-anchor="middle" class="val">23</text><text x="919" y="194" text-anchor="middle" class="val">26</text><text x="956" y="24" text-anchor="middle" class="val">99</text><text x="994" y="112" text-anchor="middle" class="val">61</text><text x="1031" y="126" text-anchor="middle" class="val">55</text><text x="1069" y="149" text-anchor="middle" class="val">45</text><text x="56" y="286" text-anchor="middle">20/10</text><text x="281" y="286" text-anchor="middle">26/10</text><text x="544" y="286" text-anchor="middle">02/11</text><text x="806" y="286" text-anchor="middle">09/11</text><text x="1069" y="286" text-anchor="middle">16/11</text><text x="131" y="40" class="sp">Sprint 1</text><text x="825" y="40" class="sp">Sprint 2</text></svg></div>
+    <div class="cols four compare">
+      <div class="stat f"><small>Commits</small><b><i>44</i> → 337</b></div>
+      <div class="stat f"><small>Tickets terminés</small><b><i>14</i> → 123</b></div>
+      <div class="stat f"><small>Daily Scrum</small><b><i>messagerie</i> → chaque jour</b></div>
+      <div class="stat f"><small>Review</small><b><i>MVP, client</i> → 18 nov.</b></div>
+    </div>
+  </section>
+
+  <!-- 07 Pile logicielle -->
+  <section class="slide" data-section="Technique" data-speaker="BAELDE" data-time="5:30">
+    <p class="kicker">Pile logicielle</p>
+    <h2>Une seule langue, TypeScript. Des briques du CCT.</h2>
+    <ul class="stackgrid">
+      <li class="f"><img src="assets/logos/typescript.svg" alt="">TypeScript<small>front et back</small></li>
+      <li class="f"><img src="assets/logos/react.svg" alt="">React<small>interface</small></li>
+      <li class="f"><img src="assets/logos/nodejs.svg" alt="">Node.js<small>exécution</small></li>
+      <li class="f"><img src="assets/logos/express.svg" alt="">Express<small>API et règles</small></li>
+      <li class="f"><img src="assets/logos/postgresql.svg" alt="">PostgreSQL<small>données</small></li>
+      <li class="f"><img class="wide" src="assets/logos/haproxy.png" alt="">HAProxy<small>entrée</small></li>
+      <li class="f"><img src="assets/logos/apache.svg" alt="">Apache<small>interface servie</small></li>
+      <li class="f"><img src="assets/logos/keycloak.svg" alt="">Keycloak<small>identité (démo)</small></li>
+      <li class="f"><img src="assets/logos/docker.svg" alt="">Docker Swarm<small>déploiement</small></li>
+      <li class="f"><img src="assets/logos/debian.svg" alt="">Debian 13<small>système</small></li>
+      <li class="f"><img src="assets/logos/logstash.svg" alt="">Logstash<small>journaux</small></li>
+      <li class="f"><img src="assets/logos/github.svg" alt="">GitHub Actions<small>CI/CD</small></li>
+    </ul>
+  </section>
+
+  <!-- 08 Architecture animée -->
+  <section class="slide archi-slide" data-section="Technique" data-speaker="BAELDE" data-time="6:45" data-steps="8">
+    <p class="kicker">Architecture · vue simplifiée</p>
+    <h2 id="archi-title">Tout commence dans le navigateur.</h2>
+    <div class="viewport" id="viewport">
+      <div class="world" id="world">
+        <svg class="wires" viewBox="0 0 2400 1100" aria-hidden="true">
+          <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="16" markerHeight="16" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 10 5 0 10Z"/></marker></defs>
+          <g class="wire" data-step="1"><path d="M420,525 L620,525"/><text x="520" y="508">HTTPS</text></g>
+          <g class="wire" data-step="2"><path d="M940,525 L1040,525 L1040,375 L1140,375"/><text x="1040" y="350">interface</text></g>
+          <g class="wire" data-step="3"><path d="M940,525 L1040,525 L1040,675 L1140,675"/><text x="1040" y="715">/api</text></g>
+          <g class="wire" data-step="4"><path d="M1460,675 L1660,675"/><text x="1560" y="658">SQL</text></g>
+          <g class="wire" data-step="5"><path d="M260,450 L260,175 L620,175"/><text x="440" y="158">OpenID Connect</text></g>
+          <g class="wire" data-step="6"><path d="M780,850 L780,600"/><text x="860" y="730">rapports · 5 s</text></g>
+          <g class="wire" data-step="7"><path d="M2220,600 L2220,450"/><text x="2290" y="530">chiffré</text></g>
+          <g class="wire" data-step="7"><path d="M2060,375 L1980,375"/><text x="2020" y="350">relève</text></g>
+          <g class="wire" data-step="7"><path d="M1660,375 L1560,375 L1560,640 L1460,640"/><text x="1470" y="500">/api/rigel</text></g>
+        </svg>
+        <div class="box user" id="b-nav" data-step="0" style="left:100px;top:450px"><img src="assets/logos/react.svg" alt=""><b>Navigateur</b><small>interface React</small></div>
+        <div class="box entry" id="b-haproxy" data-step="1" style="left:620px;top:450px"><img class="wide" src="assets/logos/haproxy.png" alt=""><b>HAProxy</b><small>entrée unique · TLS</small></div>
+        <div class="box app" id="b-apache" data-step="2" style="left:1140px;top:300px"><img src="assets/logos/apache.svg" alt=""><b>Apache</b><small>sert l’interface</small></div>
+        <div class="box app" id="b-express" data-step="3" style="left:1140px;top:600px"><img src="assets/logos/express.svg" alt=""><b>Express</b><small>API · règles métier</small></div>
+        <div class="box data" id="b-pg" data-step="4" style="left:1660px;top:600px"><img src="assets/logos/postgresql.svg" alt=""><b>PostgreSQL</b><small>données · sessions · journal</small></div>
+        <div class="box id" id="b-mindef" data-step="5" style="left:620px;top:100px"><img src="assets/logos/keycloak.svg" alt=""><b>MindefConnect</b><small>authentification</small></div>
+        <div class="box agent" id="b-postes" data-step="6" style="left:620px;top:850px"><img src="assets/logos/windows.svg" alt=""><b>Postes Windows</b><small>agent M42</small></div>
+        <div class="box phone" id="b-connecteur" data-step="7" style="left:1660px;top:300px"><b>Connecteur</b><small>sortant uniquement</small></div>
+        <div class="box phone" id="b-relais" data-step="7" style="left:2060px;top:300px"><b>Relais</b><small>sur Internet</small></div>
+        <div class="box phone" id="b-tel" data-step="7" style="left:2060px;top:600px"><b>Téléphone</b><small>RIGEL</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 Fonctionnement -->
+  <section class="slide" data-section="Technique" data-speaker="BAELDE" data-time="8:00">
+    <p class="kicker">Fonctionnement</p>
+    <h2>Les postes parlent, ORION décide, le serveur fait foi.</h2>
+    <div class="cols three">
+      <div class="card f"><span class="num">1</span><h3>Les postes remontent</h3><p>Toutes les 5 secondes : session, adresse, système, processus, applications.</p></div>
+      <div class="card f"><span class="num">2</span><h3>ORION classe</h3><p>Whitelist, blacklist, non référencé. Un interdit est arrêté et notifié.</p></div>
+      <div class="card f"><span class="num">3</span><h3>L’utilisateur demande</h3><p>Installer, réinitialiser, remplacer : le poste exécute et renvoie son résultat.</p></div>
+    </div>
+    <p class="note f">Identifiants, numéros, auteurs, dates et droits sont fixés par le serveur. Deux écritures simultanées sont fusionnées élément par élément.</p>
+  </section>
+
+  <!-- 10 Fil rouge -->
+  <section class="slide" data-section="Démonstration" data-speaker="PHOMMAVONGSA" data-time="9:00">
+    <p class="kicker">Démonstration</p>
+    <h2>Une rentrée en salle A112.</h2>
+    <div class="cols three persons">
+      <div class="card f"><span class="avatar">T</span><h3>Thomas, formateur</h3><p>Prépare sa salle, repère un écran en panne et un logiciel interdit.</p></div>
+      <div class="card f"><span class="avatar">S</span><h3>Sophie, gestionnaire</h3><p>Prend la remontée, remplace l’écran et confirme sur place avec RIGEL.</p></div>
+      <div class="card f"><span class="avatar">J</span><h3>Julien, administrateur</h3><p>Déploie le logiciel de la formation et règle les processus de la salle.</p></div>
+    </div>
+    <p class="note f">Trois profils, une seule histoire : du signalement à la résolution.</p>
+  </section>
+
+  <!-- 11 Démo formateur -->
+  <section class="slide demo" data-section="Démonstration" data-speaker="PHOMMAVONGSA" data-time="9:45">
+    <p class="kicker">Scénario 1 · Formateur</p>
+    <h2>Thomas prépare la salle A112.</h2>
+    <ol class="steps">
+      <li class="f">Connexion par MindefConnect : un espace limité à ses salles.</li>
+      <li class="f">Salle A112 : postes allumés, sessions ouvertes, matériel en place.</li>
+      <li class="f">Supervision : les processus en temps réel, une alerte sur un logiciel interdit.</li>
+      <li class="f"><strong>Signaler un problème</strong> sur l’écran du poste 7 : numérotée et horodatée par le serveur.</li>
+    </ol>
+  </section>
+
+  <!-- 12 Démo gestionnaire -->
+  <section class="slide demo" data-section="Démonstration" data-speaker="BONEY" data-time="12:30">
+    <p class="kicker">Scénario 2 · Gestionnaire et RIGEL</p>
+    <h2>Sophie remplace l’écran, téléphone en main.</h2>
+    <ol class="steps">
+      <li class="f">Notification « nouvelle remontée » → prise en charge → état des lieux PDF.</li>
+      <li class="f">Stock : un écran affecté à la salle A112, le déplacement est « en cours ».</li>
+      <li class="f"><strong>Installer avec un téléphone</strong> : QR d’appairage, QR de la salle, scan de l’écran.</li>
+      <li class="f">Sur le téléphone, « Confirmer l’installation » : le point passe au vert dans ORION.</li>
+      <li class="f">Remontée marquée « Remplacé » : Thomas est notifié.</li>
+    </ol>
+  </section>
+
+  <!-- 13 Démo administrateur -->
+  <section class="slide demo" data-section="Démonstration" data-speaker="VILBERT-TAHON" data-time="17:00">
+    <p class="kicker">Scénario 3 · Administrateur</p>
+    <h2>Julien équipe la salle pour la formation.</h2>
+    <ol class="steps">
+      <li class="f">Notifications : les processus interdits de la semaine, les interventions terminées.</li>
+      <li class="f">Règles : le logiciel repéré par Thomas passe en blacklist pour la salle A112.</li>
+      <li class="f"><strong>Intervention</strong> : installer l’application de la formation sur toute la salle ; les postes exécutent et renvoient leur résultat.</li>
+      <li class="f">Comptes : un nouveau formateur, rattaché à l’école ; l’identité reste à MindefConnect.</li>
+    </ol>
+  </section>
+
+  <!-- 14 Récap -->
+  <section class="slide" data-section="Démonstration" data-speaker="VILBERT-TAHON" data-time="20:00">
+    <p class="kicker">Ce que vous venez de voir</p>
+    <h2>Un signalement, une réparation confirmée sur place, une salle prête.</h2>
+    <div class="cols three">
+      <div class="card f"><h3>Le formateur</h3><p>voit sa salle et signale, sans rien connaître du parc.</p></div>
+      <div class="card f"><h3>Le gestionnaire</h3><p>agit dans ORION et sur le terrain, avec la même information.</p></div>
+      <div class="card f"><h3>L’administrateur</h3><p>décide pour les postes et les règles, résultats à l’appui.</p></div>
+    </div>
+  </section>
+
+  <!-- 15 Difficultés -->
+  <section class="slide" data-section="Bilan" data-speaker="BAELDE" data-time="20:30">
+    <p class="kicker">Difficultés</p>
+    <h2>Ce qui nous a résisté.</h2>
+    <div class="cols two">
+      <div class="card"><h3>Ce que nous n’avions pas</h3><ul><li class="f">MindefConnect : simulé par Keycloak et un annuaire, même protocole.</li><li class="f">L’agent M42 des postes : simulé, mais sur l’API réelle.</li><li class="f">Un réseau exposé : RIGEL extériorisé derrière un relais chiffré.</li></ul></div>
+      <div class="card"><h3>Ce que nous avons dû apprendre</h3><ul><li class="f">Faire fonctionner le scanner : QR, codes-barres, Data Matrix, OCR, hors ligne, sur iOS et Android.</li><li class="f">Améliorer l’organisation de l’équipe entre deux sprints.</li></ul></div>
+    </div>
+  </section>
+
+  <!-- 16 Évolutions -->
+  <section class="slide" data-section="Bilan" data-speaker="VILBERT-TAHON" data-time="22:00">
+    <p class="kicker">Axes d’évolution</p>
+    <h2>La suite, déjà cadrée.</h2>
+    <div class="cols two">
+      <div class="card"><h3>Vers la production</h3><ul><li class="f">MindefConnect réel et hébergement C1NP, sans relais RIGEL.</li><li class="f">Agent M42 réel sur les postes, paquets distribués par Medusa.</li><li class="f">Statistiques d’utilisation définies avec le client.</li></ul></div>
+      <div class="card"><h3>Fonctionnel</h3><ul><li class="f">Formations induites et rôle d’un matériel.</li><li class="f">Retrait des matériels au lieu de leur suppression.</li><li class="f">Postes Linux, observatoire anonymisé des parcours.</li></ul></div>
+    </div>
+  </section>
+
+  <!-- 17 Fin -->
+  <section class="slide cover end" data-section="Conclusion" data-speaker="VILBERT-TAHON" data-time="23:30">
+    <img class="logo" src="assets/logos/orion-horizontal-inverse.svg" alt="ORION">
+    <h1>Merci.<br>Vos questions.</h1>
+    <p class="sub">Équipe ASTER · BAELDE · VILBERT-TAHON · BONEY · LE MAITRE · PHOMMAVONGSA</p>
+  </section>
+
+</main>
+
+<footer class="bar">
+  <span class="section" id="section"></span>
+  <span class="progress"><span id="fill"></span></span>
+  <span class="count" id="count"></span>
+</footer>
+<aside class="notes" id="notes" hidden><span id="notes-speaker"></span><span id="notes-time"></span></aside>
+</body>
+</html>

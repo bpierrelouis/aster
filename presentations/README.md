@@ -8,6 +8,7 @@ Pour les prochaines présentations client, suivre les [retours du 4 novembre](..
 
 ## Présentations disponibles
 
+- [`2026-11-19_presentation-finale`](2026-11-19_presentation-finale/index.html) : support de la présentation finale (25 minutes) avec son [conducteur](2026-11-19_presentation-finale/CONDUCTEUR.md) : équipe, organisation, architecture, démonstration par profil, bilan et perspectives.
 - [`2026-11-16_architecture`](2026-11-16_architecture/index.html) : présentation HTML autonome des architectures réelle et cible, avec exploration des VM, zooms de caméra et flux animés ; [commandes, sources et écart documentaire](2026-11-16_architecture/README.md).
 - [`2026-11-04-point-etape-client`](2026-11-04-point-etape-client/) : proposition du nom et de la direction artistique, compréhension du projet, gestion des matériels comme MVP, premières IHM, MCD et architecture cible initiale à valider.
 
