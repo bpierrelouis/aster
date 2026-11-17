@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.1 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [7 versions](../../../archive/README.md#02-diagramme-classes-analyse) |
+| 4.2 | 17/11/2026 | Production destinée à la remise | Nommer Exécution la classe des processus en cours et aligner les multiplicités sur le code | [8 versions](../../../archive/README.md#02-diagramme-classes-analyse) |
 <!-- version:fin -->
 
 ## Remontées utilisateur
@@ -107,7 +107,7 @@ classDiagram
     Remontee "1" *-- "1..*" EtapeRemontee : historique
     Remontee "*" --> "1..*" Materiel : concerne
     Remontee "*" --> "1" Ecole : rattachée à
-    Remontee "*" --> "0..1" CompteOrion : auteur
+    Remontee "*" --> "1" CompteOrion : auteur
     Materiel "*" --> "0..1" Salle : affecté à
     Salle "*" --> "1" Ecole
 ```
@@ -221,8 +221,8 @@ classDiagram
     GererLieux --> Etage
     Materiel "*" --> "1" Ecole : appartient à
     Materiel "*" --> "0..1" Salle : affecté à
-    Materiel "1" *-- "0..1" Deplacement : déplacement en cours
-    Materiel "1" *-- "0..1" Deplacement : dernière installation
+    Materiel "1" *-- "0..1" Deplacement : déplacement en cours {xor}
+    Materiel "1" *-- "0..1" Deplacement : dernière installation {xor}
     Deplacement "*" --> "0..1" Salle : origine
     Salle "*" --> "1" Ecole
     Etage "*" --> "1" Ecole
@@ -291,9 +291,9 @@ classDiagram
         adresseIp
         systeme
     }
-    class Processus {
+    class Execution["Exécution"] {
         <<entity>>
-        nom
+        nomProcessus
         compteWindows
         debut
         fin
@@ -353,7 +353,7 @@ classDiagram
     InterfacePostes --> EnregistrerResultat
     RecevoirRapport --> DetecterDeconnexion
     RecevoirRapport --> Poste
-    RecevoirRapport --> Processus
+    RecevoirRapport --> Execution
     RecevoirRapport --> Detection
     RecevoirRapport --> RegleProcessus
     RecevoirRapport --> Installation
@@ -367,12 +367,12 @@ classDiagram
     GererRegles --> RegleProcessus
     Poste "*" --> "1" Salle : dans
     Poste "0..1" --> "0..1" Materiel : unité centrale
-    Processus "*" --> "1" Poste : exécuté sur
-    Detection "0..1" --> "1" Processus : signale
+    Execution "*" --> "1" Poste : exécuté sur
+    Detection "0..1" --> "1" Execution : signale
     Intervention "1" *-- "1..500" ResultatPoste
     ResultatPoste "*" --> "1" Poste : cible
     Intervention "*" --> "0..1" Application
-    Intervention "*" --> "0..1" Processus : arrêt de
+    Intervention "*" --> "0..1" Execution : arrêt de
     Intervention "0..1" --> "0..1" Detection : déclenchée par
     Intervention "*" --> "0..1" CompteOrion : demandeur
     Installation "*" --> "1" Poste
@@ -566,6 +566,6 @@ classDiagram
     Constat "*" --> "1" Operation : rattaché à
     Constat "*" --> "0..1" Materiel : concerne
     Constat "*" --> "0..1" Salle : lieu constaté
-    Materiel "1" *-- "0..2" Deplacement
+    Materiel "1" *-- "0..1" Deplacement
     Materiel "*" --> "0..1" Salle
 ```

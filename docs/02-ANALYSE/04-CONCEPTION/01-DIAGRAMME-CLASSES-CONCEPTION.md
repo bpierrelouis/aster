@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [6 versions](../../../archive/README.md#01-diagramme-classes-conception) |
+| 5.0 | 17/11/2026 | Production destinée à la remise | Ajouter Étage, Déplacement, Détection et Installation ; renommer Operation et Execution | [7 versions](../../../archive/README.md#01-diagramme-classes-conception) |
 <!-- version:fin -->
 
 ## Classes de conception d’ORION
@@ -37,7 +37,12 @@ classDiagram
         -batiment : String
         -etage : Integer
         +equiper(materiel : Materiel) void
-        +lancerInstallation(lanceur : Compte) OperationRigel
+        +lancerInstallation(lanceur : Compte) Operation
+    }
+    class Etage {
+        -id : String
+        -batiment : String
+        -niveau : Integer
     }
     class Materiel {
         -id : String
@@ -52,8 +57,13 @@ classDiagram
         -horsService : Boolean
         -dateHorsService : Date
         +affecter(salle : Salle) void
+        +confirmerInstallation() void
         +mettreEnStock() void
         +mettreHorsService() void
+    }
+    class Deplacement {
+        -date : Date
+        -auteur : String
     }
     class Remontee {
         -id : String
@@ -78,17 +88,25 @@ classDiagram
         -allume : Boolean
         -session : String
         -dernierRapport : Date
-        +recevoirRapport(processus : Processus[], applications : Application[]) void
+        +recevoirRapport(executions : Execution[], applications : Application[]) void
         +commandesEnAttente() Intervention[]
         +marquerDeconnecte() void
     }
-    class Processus {
+    class Execution {
         -id : String
-        -nom : String
+        -nomProcessus : String
         -compteWindows : String
         -debut : Date
         -fin : Date
         +classer(regles : RegleProcessus[]) Classement
+    }
+    class Detection {
+        -id : String
+        -date : Date
+        -nomProcessus : String
+        -compteWindows : String
+        -classement : Classement
+        -resultatArret : String
     }
     class RegleProcessus {
         -id : String
@@ -103,11 +121,15 @@ classDiagram
         -version : String
         -editeur : String
     }
+    class Installation {
+        -id : String
+    }
     class Intervention {
         -id : String
         -type : TypeIntervention
         -statut : StatutIntervention
         -image : String
+        -auto : Boolean
         -date : Date
         -dateFin : Date
         -resultats : Map~Poste, ResultatPoste~
@@ -115,10 +137,10 @@ classDiagram
         +enregistrerResultat(poste : Poste, resultat : ResultatPoste) void
         +clore() void
     }
-    class OperationRigel {
+    class Operation {
         -id : String
         -nom : String
-        -mode : ModeOperation
+        -mode : TypeOperation
         -date : Date
         -dateExpiration : Date
         +appairer() String
@@ -179,7 +201,7 @@ classDiagram
         batiment
         salle
     }
-    class ModeOperation {
+    class TypeOperation {
         <<enumeration>>
         installation
         recensement
@@ -227,25 +249,34 @@ classDiagram
 
     Ecole "0..1" -- "*" Compte : rattache
     Ecole "1" *-- "*" Salle : comprend
+    Ecole "1" *-- "*" Etage : comprend
+    Salle "*" --> "1" Etage : située à
     Ecole "1" -- "*" Materiel : possède
     Ecole "1" -- "*" Remontee : reçoit
     Salle "0..1" o-- "*" Materiel : contient
+    Materiel "1" *-- "0..1" Deplacement : déplacement en cours
+    Materiel "1" *-- "0..1" Deplacement : dernière installation
+    Deplacement "*" --> "0..1" Salle : origine
+    Deplacement "*" --> "1" Compte : auteur
     Salle "1" o-- "*" Poste : accueille
     Poste "0..1" -- "0..1" Materiel : unité centrale
-    Poste "1" *-- "*" Processus : exécute
-    Poste "*" -- "*" Application : installée
-    Processus ..> RegleProcessus : «use»
-    Compte "0..1" <-- "*" Remontee : auteur
+    Poste "1" *-- "*" Execution : exécute
+    Poste "1" *-- "*" Installation : installe
+    Installation "*" --> "1" Application
+    Execution ..> RegleProcessus : «use»
+    Detection "*" --> "1" Poste : sur
+    Remontee "*" --> "1" Compte : auteur
     Remontee "*" --> "1..*" Materiel : concerne
     Remontee "1" *-- "1..*" EtapeRemontee : historique
-    Compte "0..1" <-- "*" Intervention : demandeur
+    Intervention "*" --> "0..1" Compte : demandeur
     Intervention "*" --> "1..*" Poste : cibles
     Intervention "*" --> "0..1" Application
-    Intervention "*" --> "0..1" Processus : arrêt de
-    Compte "1" <-- "*" OperationRigel : lanceur
-    Ecole "1" -- "*" OperationRigel
-    OperationRigel "*" --> "0..*" Salle : couvre
-    OperationRigel "1" *-- "*" Constat : remonte
+    Intervention "*" --> "0..1" Execution : arrêt de
+    Intervention "0..1" --> "0..1" Detection : déclenchée par
+    Operation "*" --> "1" Compte : lanceur
+    Ecole "1" -- "*" Operation
+    Operation "*" --> "0..*" Salle : couvre
+    Operation "1" *-- "*" Constat : remonte
     Constat "*" --> "0..1" Materiel : identifie
     Constat "*" --> "0..1" Salle : lieu constaté
 ```

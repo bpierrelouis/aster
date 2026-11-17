@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 7.3 | 17/11/2026 | Production destinée à la remise | Définir alerte, catalogue, garantie, notification et tableau de bord ; préciser le super administrateur | [27 versions](../../archive/README.md#01-glossaire) |
+| 7.4 | 17/11/2026 | Production destinée à la remise | Définir la solution d’administration des postes Windows | [28 versions](../../archive/README.md#01-glossaire) |
 <!-- version:fin -->
 
 Ce glossaire centralise les abréviations et les termes employés dans la documentation du projet. Les définitions décrivent leur sens dans ORION. Lorsqu’un sigle n’est pas développé dans les sources, cette absence est signalée afin de ne pas inventer sa signification.
@@ -84,6 +84,7 @@ Ce glossaire centralise les abréviations et les termes employés dans la docume
 | Réinitialisation | Réinstallation du système d’exploitation d’un poste Windows par la réapplication d’une image système de référence, appelée « masterisation » ou « replaquage » par le client. L’administrateur ou le super administrateur la demande depuis ORION ; son exécution s’appuie sur les mécanismes de déploiement Windows qui restent à identifier. |
 | Salle                                       | Salle nommée, située à un étage d’un bâtiment d’une école. Elle peut accueillir des matériels et des postes supervisés. |
 | Stock                                       | Situation d’un matériel sans affectation à une salle et sans localisation. Ce terme n’est pas une valeur de l’état « hors service ».                                                                                                                                                                                         |
+| Solution d’administration des postes Windows | Système, à choisir entre Microsoft Configuration Manager et M42, l’agent Windows envisagé par l’équipe, qui remonte à ORION l’état des postes, leurs processus et leurs applications, exécute les interventions demandées et renvoie leur résultat. |
 | Super administrateur                        | Profil non rattaché à une école. Il dispose des droits de l’administrateur sur toutes les écoles, sauf l’utilisation de RIGEL, propre à une école : il suit les recensements en lecture seule. Il gère seul les écoles, les règles globales de processus et les comptes de super administrateur. |
 | Supervision | Consultation depuis l’application web ORION des processus, des utilisateurs et des postes associés dans une salle. Les utilisateurs habilités peuvent aussi arrêter des processus utilisateur à distance. |
 | Système d’exploitation | Logiciel de base installé sur un poste et remonté par lui ; Windows 11 pour les postes du parc. Une réinitialisation restaure un système d’exploitation. Le catalogue des systèmes et les postes Linux relèvent de la V2 (feuille de route). |

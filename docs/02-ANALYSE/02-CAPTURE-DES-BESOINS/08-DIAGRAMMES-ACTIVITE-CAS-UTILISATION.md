@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [4 versions](../../../archive/README.md#08-diagrammes-activite-cas-utilisation) |
+| 3.1 | 17/11/2026 | Production destinée à la remise | Nommer la solution d’administration des postes Windows comme le glossaire | [5 versions](../../../archive/README.md#08-diagrammes-activite-cas-utilisation) |
 <!-- version:fin -->
 
 ## 1. Se connecter par MindefConnect
@@ -384,7 +384,7 @@ flowchart TD
         afficher["Afficher le résultat : réussi ou en échec"]
     end
 
-    subgraph POSTES["Solution d’administration à distance des postes"]
+    subgraph POSTES["Solution d’administration des postes Windows"]
         arreter["Arrêter le processus sur le poste et renvoyer le résultat"]
     end
 
@@ -402,7 +402,7 @@ flowchart TD
     debut(["Début — remontée de l’état<br/>d’un poste, toutes<br/>les cinq secondes"])
     fin(["Fin — poste à jour"])
 
-    subgraph POSTES["Solution d’administration à distance des postes"]
+    subgraph POSTES["Solution d’administration des postes Windows"]
         remonter["Remonter l’état du poste :<br/>session, adresse IP,<br/>système d’exploitation,<br/>processus utilisateur,<br/>applications installées"]
         arreter["Arrêter le processus et renvoyer le résultat"]
     end

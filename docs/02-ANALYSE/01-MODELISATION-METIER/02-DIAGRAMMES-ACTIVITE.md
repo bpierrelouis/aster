@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.1 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [13 versions](../../../archive/README.md#02-diagrammes-activite) |
+| 4.2 | 17/11/2026 | Production destinée à la remise | Fusionner les flots avant les décisions et rendre leurs gardes exclusives | [14 versions](../../../archive/README.md#02-diagrammes-activite) |
 <!-- version:fin -->
 
 ## Parcours général
@@ -21,27 +21,28 @@ flowchart TD
     fusion --> choix["Choisir une activité accessible<br/>selon son profil"]
     choix --> activite{" "}
 
-    activite -->|"[tous les profils]"| personnel["Personnaliser son tableau de bord ;<br/>consulter ses notifications,<br/>les salles et leurs matériels"]
-    activite -->|"[gestionnaire, administrateur,<br/>super administrateur]"| bords["Consulter les tableaux de bord<br/>du parc et des remontées"]
-    activite -->|"[gestionnaire, administrateur,<br/>super administrateur]"| parc["Créer, modifier ou importer des matériels ;<br/>gérer stocks et affectations ;<br/>prévoir l’installation d’une salle"]
-    activite -->|"[gestionnaire, administrateur,<br/>super administrateur]"| suivi["Consulter les remontées de son périmètre,<br/>leur PDF d’état des lieux,<br/>les installations et les recensements"]
-    activite -->|"[gestionnaire, administrateur,<br/>super administrateur]"| traitement["Traiter les remontées ;<br/>confirmer les installations dans ORION"]
-    activite -->|"[gestionnaire, administrateur]"| rigel["Lancer et réaliser les recensements ;<br/>installer une salle avec RIGEL"]
-    activite -->|"[formateur, administrateur,<br/>super administrateur]"| supervision["Superviser une salle"]
-    activite -->|"[formateur, administrateur,<br/>super administrateur]"| remontee["Créer une remontée ;<br/>suivre ses remontées et leur PDF"]
-    activite -->|"[administrateur,<br/>super administrateur]"| administration["Gérer salles, étages, postes, applications,<br/>règles de processus et comptes ;<br/>supprimer un matériel du stock ;<br/>demander une intervention sur les postes"]
-    activite -->|"[super administrateur]"| global["Gérer les écoles, les règles globales<br/>et les comptes de super administrateur"]
+    activite -->|"[espace personnel :<br/>tous les profils]"| personnel["Personnaliser son tableau de bord ;<br/>consulter ses notifications,<br/>les salles et leurs matériels"]
+    activite -->|"[tableaux de bord :<br/>gestionnaire, administrateur,<br/>super administrateur]"| bords["Consulter les tableaux de bord<br/>du parc et des remontées"]
+    activite -->|"[gestion du parc :<br/>gestionnaire, administrateur,<br/>super administrateur]"| parc["Créer, modifier ou importer des matériels ;<br/>gérer stocks et affectations ;<br/>prévoir l’installation d’une salle"]
+    activite -->|"[suivi :<br/>gestionnaire, administrateur,<br/>super administrateur]"| suivi["Consulter les remontées de son périmètre,<br/>leur PDF d’état des lieux,<br/>les installations et les recensements"]
+    activite -->|"[traitement :<br/>gestionnaire, administrateur,<br/>super administrateur]"| traitement["Traiter les remontées ;<br/>confirmer les installations dans ORION"]
+    activite -->|"[RIGEL :<br/>gestionnaire, administrateur]"| rigel["Lancer et réaliser les recensements ;<br/>installer une salle avec RIGEL"]
+    activite -->|"[supervision :<br/>formateur, administrateur,<br/>super administrateur]"| supervision["Superviser une salle"]
+    activite -->|"[remontée :<br/>formateur, administrateur,<br/>super administrateur]"| remontee["Créer une remontée ;<br/>suivre ses remontées et leur PDF"]
+    activite -->|"[administration :<br/>administrateur,<br/>super administrateur]"| administration["Gérer salles, étages, postes, applications,<br/>règles de processus et comptes ;<br/>supprimer un matériel du stock ;<br/>demander une intervention sur les postes"]
+    activite -->|"[administration globale :<br/>super administrateur]"| global["Gérer les écoles, les règles globales<br/>et les comptes de super administrateur"]
 
-    personnel --> autre{"Autre activité ?"}
-    bords --> autre
-    parc --> autre
-    suivi --> autre
-    traitement --> autre
-    rigel --> autre
-    supervision --> autre
-    remontee --> autre
-    administration --> autre
-    global --> autre
+    personnel --> fusionAutre{" "}
+    bords --> fusionAutre
+    parc --> fusionAutre
+    suivi --> fusionAutre
+    traitement --> fusionAutre
+    rigel --> fusionAutre
+    supervision --> fusionAutre
+    remontee --> fusionAutre
+    administration --> fusionAutre
+    global --> fusionAutre
+    fusionAutre --> autre{"Autre activité ?"}
     autre -->|"[oui]"| fusion
     autre -->|"[non]"| deconnexion["Se déconnecter"]
     deconnexion --> fin(["Fin"])
@@ -177,14 +178,16 @@ flowchart TD
     debut(["Gestionnaire, administrateur ou<br/>super administrateur : prévoir l’installation"]) --> affecter["Affecter des matériels à la salle<br/>ou en retirer vers le stock"]
     affecter --> deplacements["ORION lance les déplacements :<br/>salle en cours d’installation"]
     deplacements --> notifier["ORION notifie le gestionnaire, l’administrateur<br/>et le super administrateur des matériels à déplacer"]
-    notifier --> mode{"Confirmer avec RIGEL ?"}
+    notifier --> fusionMode{" "}
+    fusionMode --> mode{"Confirmer avec RIGEL ?"}
     mode -->|"[non]"| confirmer["Gestionnaire, administrateur ou<br/>super administrateur : confirmer dans ORION<br/>le déplacement de chaque matériel installé"]
     mode -->|"[oui : gestionnaire<br/>ou administrateur]"| lier["Lancer l’installation RIGEL de la salle<br/>et lier son téléphone par le QR code"]
     lier --> scanner["Ouvrir la salle sur le téléphone<br/>et scanner les matériels"]
     scanner --> integrer["ORION intègre les constats<br/>transmis par le téléphone"]
-    confirmer --> reste{"Reste-t-il des déplacements<br/>vers la salle ou depuis elle ?"}
-    integrer --> reste
-    reste -->|"[oui]"| mode
+    confirmer --> fusionReste{" "}
+    integrer --> fusionReste
+    fusionReste --> reste{"Reste-t-il des déplacements<br/>vers la salle ou depuis elle ?"}
+    reste -->|"[oui]"| fusionMode
     reste -->|"[non]"| terminee(["ORION termine l’installation de la salle"])
 ```
 
@@ -215,8 +218,9 @@ flowchart TD
     transmettre --> recent{"Scan plus récent que la dernière<br/>information connue du matériel ?"}
     recent -->|"[non]"| refuse["ORION refuse le constat"]
     recent -->|"[oui]"| integrer["ORION intègre le constat : présence confirmée,<br/>matériel réaffecté, déplacement lancé<br/>ou matériel créé dans le lieu du scan"]
-    refuse --> cloture{"Recensement clos à la demande<br/>ou au bout de quatorze jours ?"}
-    integrer --> cloture
+    refuse --> fusionCloture{" "}
+    integrer --> fusionCloture
+    fusionCloture --> cloture{"Recensement clos à la demande<br/>ou au bout de quatorze jours ?"}
     cloture -->|"[non]"| fusionLieu
     cloture -->|"[oui]"| fin(["Recensement clos, constats conservés"])
 ```

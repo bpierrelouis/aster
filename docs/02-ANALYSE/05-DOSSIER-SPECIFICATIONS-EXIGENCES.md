@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.1 | 17/11/2026 | Production destinée à la remise | Nommer M42 dans le point ouvert sur l’administration des postes | [4 versions](../../archive/README.md#05-dossier-specifications-exigences) |
+| 3.2 | 17/11/2026 | Production destinée à la remise | Nommer la solution d’administration des postes Windows comme le glossaire | [5 versions](../../archive/README.md#05-dossier-specifications-exigences) |
 <!-- version:fin -->
 
 Ce document est la source du livrable PDF du DSE. Les schémas sont repris des diagrammes cités, les tableaux de cas d’utilisation et de règles sont établis à partir des fiches descriptives et des règles de gestion, et les annexes reprennent les documents listés au dernier chapitre.
@@ -336,7 +336,7 @@ ORION échange avec les systèmes suivants. Chaque interface est sécurisée par
 | --- | --- | --- | --- | --- | --- |
 | IE-01 | MindefConnect, sur Internet | ORION redirige le navigateur vers MindefConnect pour l’authentification (OpenID Connect), reçoit l’identité de l’utilisateur, puis met fin à sa session à la déconnexion. | ORION accède à MindefConnect sur Internet ; il n’ouvre une session qu’à une identité qui correspond à un compte ORION actif. | Essentielle | Sujet, RG-62, RG-85, RG-99 |
 | IE-02 | Puits de logs | ORION transmet ses journaux techniques (ENF-20) au puits de logs, en syslog (RFC 5424) sur TLS. | Les journaux de chaque composant d’ORION sont centralisés dans le puits de logs et consultables par les personnes habilitées. | Essentielle | Sujet |
-| IE-03 | Agent d’administration des postes Windows | Le poste transmet son état, ses processus utilisateur et ses applications installées, reçoit en réponse les interventions à exécuter, puis renvoie leur résultat. | ORION reçoit ces échanges sur son API des postes (`/api/agent`), authentifiée ; il fixe seul le suivi des interventions. Le contrat définitif dépend de la solution retenue (PO-01). | Essentielle | Sujet, RG-57, RG-58, RG-81 |
+| IE-03 | Solution d’administration des postes Windows | Le poste transmet son état, ses processus utilisateur et ses applications installées, reçoit en réponse les interventions à exécuter, puis renvoie leur résultat. | ORION reçoit ces échanges sur son API des postes (`/api/agent`), authentifiée ; il fixe seul le suivi des interventions. Le contrat définitif dépend de la solution retenue (PO-01). | Essentielle | Sujet, RG-57, RG-58, RG-81 |
 | IE-04 | `/api/health` | État de fonctionnement d’ORION et de ses dépendances. | Le point d’accès est public et ne renvoie qu’un état global ; le détail des services est réservé au super administrateur connecté. | Essentielle | Sujet |
 | IE-05 | `/api/infos` | Description de l’application : version publiée et démarrage. | Le point d’accès est public et ne renvoie que la description de l’application ; le détail technique est réservé au super administrateur connecté. | Essentielle | Sujet |
 

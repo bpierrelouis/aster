@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [4 versions](../../../archive/README.md#09-diagramme-classes-metier) |
+| 3.1 | 17/11/2026 | Production destinée à la remise | Limiter à 0..1 le déplacement d’un matériel | [5 versions](../../../archive/README.md#09-diagramme-classes-metier) |
 <!-- version:fin -->
 
 ## 1. Organisation des écoles et comptes ORION
@@ -97,7 +97,7 @@ classDiagram
 
     Ecole "1" -- "0..*" Materiel : détient
     Materiel "0..*" -- "0..1" Salle : est affecté à
-    Materiel "1" -- "0..*" Deplacement : est déplacé par
+    Materiel "1" -- "0..1" Deplacement : est déplacé par
     Deplacement "0..*" -- "0..1" Salle : provient de
     Deplacement "0..*" -- "0..1" Salle : est destiné à
     CompteORION "1" -- "0..*" Deplacement : ordonne

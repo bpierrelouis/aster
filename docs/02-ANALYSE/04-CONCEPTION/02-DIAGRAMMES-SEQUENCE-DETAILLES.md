@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.1 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [7 versions](../../../archive/README.md#02-diagrammes-sequence-detailles) |
+| 5.0 | 17/11/2026 | Production destinée à la remise | Reprendre la séquence RIGEL du code, avec le relais et le connecteur | [8 versions](../../../archive/README.md#02-diagrammes-sequence-detailles) |
 <!-- version:fin -->
 
 ## Écriture concurrente fusionnée
@@ -16,7 +16,7 @@ sequenceDiagram
     participant S as store (core/store.ts)
     participant R as WorkspaceRouter
     participant E as Engine
-    participant P as PostgresStore
+    participant P as store (postgres.ts)
     participant F as fusion.rebase
     participant M as espace.mergeState
     participant DB as PostgreSQL
@@ -193,41 +193,76 @@ sequenceDiagram
     participant RC as domaine/recensement.ts
     participant DB as PostgreSQL
     participant RG as RigelRouter
+    participant C as Connecteur RIGEL (connecteur.ts)
+    participant RL as Relais RIGEL (relais.ts)
     participant T as Téléphone RIGEL
 
     G->>V: installer la salle avec RIGEL
     V->>S: call('/salles/:id/installation')
     S->>R: POST /api/workspace/salles/:id/installation
     R->>E: rigel.installation(actor, salleId, config)
-    E->>RC: lancerInstallation(état, actor, salleId)
+    opt aucune installation en cours
+        E->>RC: lancerInstallation(état, actor, salleId)
+    end
     E->>RC: appairage(état, actor, id, config)
-    RC-->>E: adresse avec opération et jeton dérivé du secret
-    E->>DB: INSERT donnee (collection operations), COMMIT
-    R-->>S: {url, expireLe, state}
+    RC-->>E: adresse d’appairage : opération, jeton et clé dérivés de RIGEL_SECRET
+    opt installation lancée
+        E->>DB: INSERT donnee (collection operations), COMMIT
+    end
+    R-->>S: {id, url, expireLe, state}
     S-->>V: code QR d’appairage
     G->>T: lire le code QR
     T->>T: appairer() : appairage enregistré dans IndexedDB
 
-    T->>RG: GET /api/rigel/operations/:id/instantane (jeton)
-    RG->>E: rigel.instantane(jeton, operation)
-    E->>RC: jeton comparé, opération ouverte
-    RC-->>E: instantané de l’opération, version
-    RG-->>T: instantané
-    T->>T: enregistrer dans IndexedDB
+    C->>RG: cycle() : GET /api/rigel/operations (RIGEL_SECRET)
+    RG->>E: rigel.operations(secret)
+    E->>RC: operationsPubliees(état, secret)
+    RC-->>E: opérations ouvertes : empreinte du jeton, version, instantané chiffré
+    RG-->>C: {operations}
+    C->>RL: GET /api/connecteur/operations (RELAIS_TOKEN)
+    RL-->>C: opérations déposées et leur version
+    opt close ou expirée dans ORION
+        C->>RL: DELETE /api/connecteur/operations/:id
+    end
+    opt version changée
+        C->>RL: PUT /api/connecteur/operations/:id {empreinte, expireLe, version, instantane}
+        RL->>RL: store.deposer(opération)
+    end
+
+    T->>RL: telecharger() : GET /api/operations/:id/instantane (jeton)
+    RL->>RL: empreinte du jeton comparée, opération non expirée
+    RL-->>T: {version, instantane} chiffré
+    T->>T: instantané déchiffré, enregistré dans IndexedDB
 
     G->>T: scanner un matériel dans la salle
     T->>T: constater() : événement en file locale
-    T->>RG: POST /api/rigel/operations/:id/evenements (jeton), dès que le réseau le permet
-    RG->>E: rigel.evenements(jeton, operation, événements)
-    E->>RC: jeton comparé, opération ouverte
+    opt dès que le réseau le permet
+        T->>RL: deposer() : POST /api/operations/:id/evenements (jeton) {evenements chiffrés}
+        RL->>RL: store.ajouter(operation, événements)
+        RL-->>T: {recus}
+    end
+
+    C->>RL: GET /api/connecteur/operations/:id/evenements?limite=200
+    RL-->>C: {evenements} : rang, id, bloc chiffré
+    C->>RG: POST /api/rigel/operations/:id/evenements {evenements}
+    RG->>E: rigel.evenements(secret, operation, evenements)
+    E->>RC: dechiffrerEvenements(secret, operation, blocs)
     E->>RC: appliquerEvenements(état, operation, événements)
-    RC->>RC: doublon, opération ouverte, salle de l’opération, constat dépassé
+    RC->>RC: doublon, opération ouverte, lanceur actif, salle de l’opération, constat dépassé
     RC->>RC: matériel dans sa salle : installation confirmée, constat « confirme »
     E->>RC: cloreInstallations(next)
     E->>DB: écriture système, COMMIT
-    RG-->>T: résultats par événement
-    T->>RG: GET /api/rigel/operations/:id/instantane (jeton)
-    RG-->>T: instantané avec le constat intégré
+    RG-->>C: {resultats} par événement
+    C->>RL: POST /api/connecteur/operations/:id/acquittement {jusqua}
+    RL->>RL: store.acquitter(operation, jusqua)
+
+    C->>RG: cycle() relancé : GET /api/rigel/operations
+    RG-->>C: instantané chiffré avec le constat, nouvelle version
+    opt version changée
+        C->>RL: PUT /api/connecteur/operations/:id
+    end
+    T->>RL: telecharger() : GET /api/operations/:id/instantane (jeton)
+    RL-->>T: instantané avec le constat intégré
     T->>T: integrer() : constat déplacé vers l’historique
 ```
 
@@ -241,7 +276,7 @@ sequenceDiagram
     participant N as Navigateur
     participant R as WorkspaceRouter
     participant E as Engine
-    participant P as PostgresStore
+    participant P as store (postgres.ts)
     participant DB as PostgreSQL
     participant PDF as documents/pdf.ts
 

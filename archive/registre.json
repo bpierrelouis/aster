@@ -495,6 +495,13 @@
         "version": "7.3",
         "date": "2026-11-17",
         "modification": "Définir alerte, catalogue, garantie, notification et tableau de bord ; préciser le super administrateur",
+        "archive": null,
+        "commit": "f8340fe"
+      },
+      {
+        "version": "7.4",
+        "date": "2026-11-17",
+        "modification": "Définir la solution d’administration des postes Windows",
         "archive": null
       }
     ]
@@ -992,6 +999,13 @@
         "version": "2.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Employer l’apostrophe typographique ; Employer l’apostrophe typographique",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-17",
+        "modification": "Fusionner les flots avant les décisions et rendre leurs gardes exclusives",
         "archive": null
       }
     ]
@@ -1094,6 +1108,13 @@
         "version": "4.1",
         "date": "2026-11-17",
         "modification": "Employer l’apostrophe typographique",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "4.2",
+        "date": "2026-11-17",
+        "modification": "Fusionner les flots avant les décisions et rendre leurs gardes exclusives",
         "archive": null
       }
     ]
@@ -1308,7 +1329,18 @@
       {
         "version": "2.0",
         "date": "2026-11-16",
-        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Limiter à 0,1 le déplacement d’un matériel",
+        "archive": null
+      }
+    ]
+  },
+  "docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/02-MCD-MERISE.svg": {
+    "destination": "Production destinée à la remise",
+    "versions": [
+      {
+        "version": "1.0",
+        "date": "2026-11-17",
+        "modification": "Limiter à 0,1 le déplacement d’un matériel",
         "archive": null
       }
     ]
@@ -1957,7 +1989,7 @@
       {
         "version": "2.0",
         "date": "2026-11-16",
-        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Nommer la solution d’administration des postes Windows comme le glossaire",
         "archive": null
       }
     ]
@@ -1992,6 +2024,13 @@
         "version": "3.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-17",
+        "modification": "Nommer la solution d’administration des postes Windows comme le glossaire",
         "archive": null
       }
     ]
@@ -2016,7 +2055,7 @@
       {
         "version": "2.0",
         "date": "2026-11-16",
-        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Limiter à 0..1 le déplacement d’un matériel",
         "archive": null
       }
     ]
@@ -2051,6 +2090,13 @@
         "version": "3.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-17",
+        "modification": "Limiter à 0..1 le déplacement d’un matériel",
         "archive": null
       }
     ]
@@ -2083,6 +2129,13 @@
         "version": "2.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Employer l’apostrophe typographique",
+        "archive": null,
+        "commit": "f8340fe"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-17",
+        "modification": "Notifier les matériels à déplacer aux gestionnaires et administrateurs",
         "archive": null
       }
     ]
@@ -2981,6 +3034,13 @@
         "version": "2.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Employer l’apostrophe typographique",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-17",
+        "modification": "Appliquer la notation UML : état initial unique, choix gardés, événements sur chaque transition",
         "archive": null
       }
     ]
@@ -3069,6 +3129,13 @@
         "version": "6.1",
         "date": "2026-11-17",
         "modification": "Employer l’apostrophe typographique",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "7.0",
+        "date": "2026-11-17",
+        "modification": "Appliquer la notation UML : état initial unique, choix gardés, événements sur chaque transition",
         "archive": null
       }
     ]
@@ -3101,6 +3168,13 @@
         "version": "2.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Employer l’apostrophe typographique",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-17",
+        "modification": "Nommer Exécution la classe des processus en cours et aligner les multiplicités sur le code",
         "archive": null
       }
     ]
@@ -3158,6 +3232,13 @@
         "version": "4.1",
         "date": "2026-11-17",
         "modification": "Employer l’apostrophe typographique",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "4.2",
+        "date": "2026-11-17",
+        "modification": "Nommer Exécution la classe des processus en cours et aligner les multiplicités sur le code",
         "archive": null
       }
     ]
@@ -3183,6 +3264,13 @@
         "version": "2.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Employer l’apostrophe typographique ; Employer l’apostrophe typographique",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-17",
+        "modification": "Ajouter Étage, Déplacement, Détection et Installation ; renommer Operation et Execution",
         "archive": null
       }
     ]
@@ -3232,6 +3320,13 @@
         "version": "4.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-17",
+        "modification": "Ajouter Étage, Déplacement, Détection et Installation ; renommer Operation et Execution",
         "archive": null
       }
     ]
@@ -3264,6 +3359,13 @@
         "version": "2.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Employer l’apostrophe typographique ; Employer l’apostrophe typographique",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-17",
+        "modification": "Reprendre la séquence RIGEL du code, avec le relais et le connecteur",
         "archive": null
       }
     ]
@@ -3321,6 +3423,13 @@
         "version": "4.1",
         "date": "2026-11-17",
         "modification": "Employer l’apostrophe typographique",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "5.0",
+        "date": "2026-11-17",
+        "modification": "Reprendre la séquence RIGEL du code, avec le relais et le connecteur",
         "archive": null
       }
     ]
@@ -3487,6 +3596,13 @@
         "version": "3.1",
         "date": "2026-11-17",
         "modification": "Nommer M42 dans le point ouvert sur l’administration des postes",
+        "archive": null,
+        "commit": "f8340fe"
+      },
+      {
+        "version": "3.2",
+        "date": "2026-11-17",
+        "modification": "Nommer la solution d’administration des postes Windows comme le glossaire",
         "archive": null
       }
     ]
