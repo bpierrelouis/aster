@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.1 | 17/11/2026 | Production destinée à la remise | Renuméroter après l’ajout du modèle logique | [6 versions](../../../archive/README.md#04-modele-physique-donnees) |
+| 4.2 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [7 versions](../../../archive/README.md#04-modele-physique-donnees) |
 <!-- version:fin -->
 
 ## Base ORION : tables relationnelles
@@ -263,7 +263,7 @@ classDiagram
     }
     class Constat {
         <<JSON>>
-        id : cst-identifiant de l'événement
+        id : cst-identifiant de l’événement
         operationId : Id
         ecoleId : Id
         type : vu releve retour stock inconnu

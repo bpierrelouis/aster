@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [4 versions](../../../archive/README.md#07-dcu-administrer-orion) |
+| 3.1 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [5 versions](../../../archive/README.md#07-dcu-administrer-orion) |
 <!-- version:fin -->
 
 ```mermaid
@@ -14,7 +14,7 @@ flowchart LR
     administrateur(["Administrateur"])
     superAdministrateur(["Super administrateur"])
     exploitant(["Exploitant"])
-    acteurAdministrationComptes(["Acteur d'administration<br/>des comptes"])
+    acteurAdministrationComptes(["Acteur d’administration<br/>des comptes"])
 
     formateur -->|« hérite de »| utilisateur
     gestionnaire -->|« hérite de »| utilisateur
@@ -22,12 +22,12 @@ flowchart LR
     administrateur -->|« hérite de »| acteurAdministrationComptes
     superAdministrateur -->|« hérite de »| acteurAdministrationComptes
 
-    subgraph orion["Application web ORION — Administration d'ORION et espace personnel"]
+    subgraph orion["Application web ORION — Administration d’ORION et espace personnel"]
         direction TB
         seConnecter(["Se connecter par MindefConnect"])
         consulterNotifications(["Consulter ses notifications"])
         personnaliserTableaux(["Personnaliser ses tableaux de bord"])
-        choisirAmbiance(["Choisir son ambiance d'affichage"])
+        choisirAmbiance(["Choisir son ambiance d’affichage"])
         rechercherOrion(["Rechercher dans ORION"])
         seDeconnecter(["Se déconnecter"])
         consulterComptes(["Consulter les comptes ORION"])
@@ -36,11 +36,11 @@ flowchart LR
         desactiverCompte(["Désactiver un compte ORION"])
         reactiverCompte(["Réactiver un compte ORION"])
         creerSuperAdministrateur(["Créer un compte<br/>de super administrateur"])
-        changerEcole(["Changer l'école<br/>d'un administrateur"])
+        changerEcole(["Changer l’école<br/>d’un administrateur"])
         creerEcole(["Créer une école"])
         renommerEcole(["Renommer une école"])
-        choisirEcole(["Choisir l'école affichée<br/>ou toutes les écoles"])
-        designerPremierSuperAdministrateur(["Désigner le premier<br/>super administrateur<br/>d'un espace neuf"])
+        choisirEcole(["Choisir l’école affichée<br/>ou toutes les écoles"])
+        designerPremierSuperAdministrateur(["Désigner le premier<br/>super administrateur<br/>d’un espace neuf"])
     end
 
     mindefConnect(["« système »<br/>MindefConnect"])

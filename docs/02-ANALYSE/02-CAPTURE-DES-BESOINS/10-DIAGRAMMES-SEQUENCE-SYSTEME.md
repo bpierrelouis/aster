@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [4 versions](../../../archive/README.md#10-diagrammes-sequence-systeme) |
+| 3.1 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [5 versions](../../../archive/README.md#10-diagrammes-sequence-systeme) |
 <!-- version:fin -->
 
 ## 1. Se connecter par MindefConnect
@@ -16,10 +16,10 @@ sequenceDiagram
     participant M as MindefConnect
     U->>O: accéderÀOrion()
     O-->>U: redirection vers MindefConnect
-    U->>M: s'authentifier()
-    M-->>U: redirection vers ORION, code d'autorisation
-    U->>O: transmettreCode(code d'autorisation)
-    O->>M: échangerCode(code d'autorisation)
+    U->>M: s’authentifier()
+    M-->>U: redirection vers ORION, code d’autorisation
+    U->>O: transmettreCode(code d’autorisation)
+    O->>M: échangerCode(code d’autorisation)
     M-->>O: identité authentifiée
     alt compte ORION actif pour cette identité
         O-->>U: tableau de bord personnel, résumé des notifications
@@ -37,7 +37,7 @@ sequenceDiagram
     participant O as :ORION
     actor G as Gestionnaire
     A->>O: rechercherMatériels(critères)
-    O-->>A: matériels de l'école et leur localisation
+    O-->>A: matériels de l’école et leur localisation
     A->>O: créerRemontée(matériels, typeProblème, description)
     alt données conformes et matériels autorisés
         O-->>A: numéro de remontée, statut « en attente »
@@ -71,7 +71,7 @@ sequenceDiagram
     else transition interdite ou compte non autorisé (formateur)
         O-->>G: traitement refusé
     end
-    opt consultation de l'état des lieux
+    opt consultation de l’état des lieux
         A->>O: demanderÉtatDesLieux(numéro)
         O-->>A: PDF produit avec les informations actuelles
     end
@@ -86,7 +86,7 @@ sequenceDiagram
     participant O as :ORION
     actor G as Gestionnaire
     A->>O: rechercherMatériels(critères)
-    O-->>A: matériels de l'école
+    O-->>A: matériels de l’école
     A->>O: affecter(matériels, salle ou stock)
     alt même école et aucun matériel hors service vers une salle
         O-->>A: affectation enregistrée, matériels « en cours de déplacement »
@@ -94,7 +94,7 @@ sequenceDiagram
         alt confirmation par le gestionnaire
             G->>O: confirmerInstallation(matériel)
             O-->>G: matériel installé, date et auteur conservés
-        else confirmation par l'administrateur ou le super administrateur
+        else confirmation par l’administrateur ou le super administrateur
             A->>O: confirmerInstallation(matériel)
             O-->>A: matériel installé, date et auteur conservés
         end
@@ -127,10 +127,10 @@ sequenceDiagram
     autonumber
     actor A as Administrateur<br/>ou super administrateur
     participant O as :ORION
-    participant S as Solution d'administration<br/>et de déploiement des postes
+    participant S as Solution d’administration<br/>et de déploiement des postes
     A->>O: demanderIntervention(type, application, postes ou salle)
     O-->>A: intervention enregistrée, postes « en attente »
-    O->>S: commande d'intervention pour chaque poste
+    O->>S: commande d’intervention pour chaque poste
     loop pour chaque poste
         S->>O: résultatIntervention(poste, réussie ou échec)
         O-)A: suivi mis à jour poste par poste
@@ -145,13 +145,13 @@ sequenceDiagram
     autonumber
     actor F as Formateur, administrateur<br/>ou super administrateur
     participant O as :ORION
-    participant S as Solution d'administration<br/>à distance des postes
+    participant S as Solution d’administration<br/>à distance des postes
     actor A as Administrateur<br/>et super administrateur
     loop toutes les cinq secondes, pour chaque poste
         S->>O: remonterÉtat(poste, session, adresse IP, système, processus, applications)
         opt processus blacklisté
             O->>S: arrêt automatique du processus
-            O-)A: notification de lancement d'une application interdite
+            O-)A: notification de lancement d’une application interdite
             S->>O: résultatArrêt(processus, réussi ou échec)
         end
     end
@@ -160,9 +160,9 @@ sequenceDiagram
     F->>O: arrêterProcessus(processus)
     alt processus en cours, sans arrêt en attente
         O-->>F: arrêt demandé
-        O->>S: commande d'arrêt
+        O->>S: commande d’arrêt
         S->>O: résultatArrêt(processus, réussi ou échec)
-        O-)F: résultat de l'arrêt
+        O-)F: résultat de l’arrêt
     else arrêt impossible
         O-->>F: arrêt refusé
     end
@@ -177,9 +177,9 @@ sequenceDiagram
     participant O as :ORION
     participant R as RIGEL
     G->>O: installerAvecTéléphone(salle)
-    O-->>G: QR code d'appairage, QR codes de la salle et du stock
-    G->>R: lierTéléphone(QR code d'appairage)
-    R->>O: demande de données de l'installation
+    O-->>G: QR code d’appairage, QR codes de la salle et du stock
+    G->>R: lierTéléphone(QR code d’appairage)
+    R->>O: demande de données de l’installation
     O-->>R: matériels à déplacer vers la salle ou depuis elle
     G->>R: ouvrirLieu(QR code de la salle)
     loop pour chaque matériel scanné
@@ -189,7 +189,7 @@ sequenceDiagram
     end
     R->>O: transmettreConstats(constats datés)
     O-->>R: résultat de chaque constat
-    O-)G: déplacements confirmés, installation terminée s'il n'en reste aucun
+    O-)G: déplacements confirmés, installation terminée s’il n’en reste aucun
 ```
 
 ## 9. Recenser le parc avec RIGEL
@@ -201,8 +201,8 @@ sequenceDiagram
     participant O as :ORION
     participant R as RIGEL
     G->>O: lancerRecensement(nom, école ou salles)
-    O-->>G: recensement ouvert pour quatorze jours au plus, QR code d'appairage
-    G->>R: lierTéléphone(QR code d'appairage)
+    O-->>G: recensement ouvert pour quatorze jours au plus, QR code d’appairage
+    G->>R: lierTéléphone(QR code d’appairage)
     R->>O: demande de données du recensement
     O-->>R: lieux et matériels attendus
     loop pour chaque lieu ouvert

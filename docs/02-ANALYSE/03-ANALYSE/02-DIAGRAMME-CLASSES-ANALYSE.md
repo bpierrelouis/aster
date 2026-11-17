@@ -1,9 +1,9 @@
-# Diagramme de classes d'analyse
+# Diagramme de classes d’analyse
 
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [6 versions](../../../archive/README.md#02-diagramme-classes-analyse) |
+| 4.1 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [7 versions](../../../archive/README.md#02-diagramme-classes-analyse) |
 <!-- version:fin -->
 
 ## Remontées utilisateur
@@ -44,7 +44,7 @@ classDiagram
         <<control>>
         +changerStatut()
     }
-    class ProduireEtatDesLieux["Produire l'état des lieux"] {
+    class ProduireEtatDesLieux["Produire l’état des lieux"] {
         <<control>>
         +produirePDF()
     }
@@ -120,7 +120,7 @@ classDiagram
     class ActeurGestionParc["Acteur de gestion du parc"] {
         <<actor>>
     }
-    class ActeurAdministrationParc["Acteur d'administration du parc"] {
+    class ActeurAdministrationParc["Acteur d’administration du parc"] {
         <<actor>>
     }
     class EcranSalles["Vue éclatée des salles"] {
@@ -149,7 +149,7 @@ classDiagram
         +affecter()
         +lancerDeplacement()
     }
-    class ConfirmerInstallation["Confirmer l'installation"] {
+    class ConfirmerInstallation["Confirmer l’installation"] {
         <<control>>
         +confirmer()
     }
@@ -240,7 +240,7 @@ classDiagram
     class Administrateur["Administrateur ou super administrateur"] {
         <<actor>>
     }
-    class SolutionPostes["Solution d'administration des postes Windows"] {
+    class SolutionPostes["Solution d’administration des postes Windows"] {
         <<actor>>
     }
     class EcranSupervision["Supervision des postes"] {
@@ -265,7 +265,7 @@ classDiagram
         <<control>>
         +fixerCibles()
     }
-    class DemanderArret["Demander l'arrêt d'un processus"] {
+    class DemanderArret["Demander l’arrêt d’un processus"] {
         <<control>>
     }
     class TransmettreCommandes["Transmettre les commandes"] {
@@ -397,7 +397,7 @@ classDiagram
     class PageConnexion["Page de connexion"] {
         <<boundary>>
     }
-    class InterfaceIdentite["Interface du fournisseur d'identité"] {
+    class InterfaceIdentite["Interface du fournisseur d’identité"] {
         <<boundary>>
     }
     class EcranComptes["Comptes"] {
@@ -482,7 +482,7 @@ classDiagram
     class EcranDeplacements["Déplacements de la salle"] {
         <<boundary>>
     }
-    class Appairage["Code d'appairage"] {
+    class Appairage["Code d’appairage"] {
         <<boundary>>
     }
     class InterfaceRigel["API de RIGEL"] {
@@ -491,10 +491,10 @@ classDiagram
     class LancerRecensement["Lancer ou clore un recensement"] {
         <<control>>
     }
-    class LancerInstallation["Lancer l'installation d'une salle"] {
+    class LancerInstallation["Lancer l’installation d’une salle"] {
         <<control>>
     }
-    class PublierOperations["Fournir l'opération au téléphone"] {
+    class PublierOperations["Fournir l’opération au téléphone"] {
         <<control>>
         +authentifier()
         +produireInstantane()
@@ -507,7 +507,7 @@ classDiagram
     class TraiterConstat["Traiter un constat"] {
         <<control>>
     }
-    class CloreInstallation["Clore l'installation"] {
+    class CloreInstallation["Clore l’installation"] {
         <<control>>
     }
     class Operation["Opération"] {

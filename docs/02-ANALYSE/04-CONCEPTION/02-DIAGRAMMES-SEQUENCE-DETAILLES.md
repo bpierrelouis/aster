@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [6 versions](../../../archive/README.md#02-diagrammes-sequence-detailles) |
+| 4.1 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [7 versions](../../../archive/README.md#02-diagrammes-sequence-detailles) |
 <!-- version:fin -->
 
 ## Écriture concurrente fusionnée
@@ -23,9 +23,9 @@ sequenceDiagram
 
     U->>V: affecter un matériel à une salle
     V->>S: update('data', mutator)
-    S->>S: appliquer mutator à l'état local, emit('data'), pending++
+    S->>S: appliquer mutator à l’état local, emit('data'), pending++
     S->>R: PUT /api/workspace {baseRevision: n, state}
-    R->>R: contrôle de l'origine, sessionActor(req)
+    R->>R: contrôle de l’origine, sessionActor(req)
     R->>E: update(state, n, actor)
     E->>P: write(change)
     P->>DB: BEGIN
@@ -50,9 +50,9 @@ sequenceDiagram
         S->>S: adopt(committed, 'all'), generation++
         S-->>V: événement orion:save-error
     else éléments distincts
-        F-->>E: saisie rejouée sur l'état courant
+        F-->>E: saisie rejouée sur l’état courant
         E->>M: mergeState(état, saisie rejouée, actor)
-        M->>M: droits, périmètre, règles du domaine, valeurs d'autorité
+        M->>M: droits, périmètre, règles du domaine, valeurs d’autorité
         M-->>E: next (révision n + k + 1)
         E->>E: cloreInstallations(next), diffKeys(état, next)
         E-->>P: next, résultat, entrée du journal
@@ -69,7 +69,7 @@ sequenceDiagram
     S->>S: pending--
 ```
 
-## Création et traitement d'une remontée
+## Création et traitement d’une remontée
 
 ```mermaid
 sequenceDiagram
@@ -90,11 +90,11 @@ sequenceDiagram
     S->>R: PUT /api/workspace
     R->>E: update(saisie, révision, actor)
     E->>M: mergeState(état, saisie, actor)
-    M->>M: numeroRemontee(++rang) remplace l'identifiant provisoire
+    M->>M: numeroRemontee(++rang) remplace l’identifiant provisoire
     M->>RR: regleRemontee(x, undefined, contexte)
     RR->>RR: refus si gestionnaire, champs hors saisie retirés
     RR->>RR: auteur, date, statut « attente », historique fixés
-    RR->>RR: contrôle du type de problème, de la description et des matériels de l'école
+    RR->>RR: contrôle du type de problème, de la description et des matériels de l’école
     RR-->>M: remontée complétée
     M-->>E: next
     E->>DB: INSERT remontee, remontee_materiel, journal, COMMIT
@@ -116,7 +116,7 @@ sequenceDiagram
     E->>M: mergeState
     M->>RR: regleRemontee(x, ancienne, contexte)
     RR->>RR: refus si formateur, transition attente → encours, seuls statut et historique modifiés
-    RR->>RR: étape ajoutée à l'historique (statut, date, auteur)
+    RR->>RR: étape ajoutée à l’historique (statut, date, auteur)
     E->>DB: UPDATE remontee, COMMIT
     R-->>S: 200
     G->>L: traiter « Remplacé » ou « Corrigé »
@@ -135,7 +135,7 @@ sequenceDiagram
 sequenceDiagram
     autonumber
     actor A as Administrateur<br/>ou super administrateur
-    participant V as Formulaire d'intervention
+    participant V as Formulaire d’intervention
     participant S as store
     participant R as WorkspaceRouter
     participant E as Engine
@@ -204,14 +204,14 @@ sequenceDiagram
     RC-->>E: adresse avec opération et jeton dérivé du secret
     E->>DB: INSERT donnee (collection operations), COMMIT
     R-->>S: {url, expireLe, state}
-    S-->>V: code QR d'appairage
+    S-->>V: code QR d’appairage
     G->>T: lire le code QR
     T->>T: appairer() : appairage enregistré dans IndexedDB
 
     T->>RG: GET /api/rigel/operations/:id/instantane (jeton)
     RG->>E: rigel.instantane(jeton, operation)
     E->>RC: jeton comparé, opération ouverte
-    RC-->>E: instantané de l'opération, version
+    RC-->>E: instantané de l’opération, version
     RG-->>T: instantané
     T->>T: enregistrer dans IndexedDB
 
@@ -221,14 +221,14 @@ sequenceDiagram
     RG->>E: rigel.evenements(jeton, operation, événements)
     E->>RC: jeton comparé, opération ouverte
     E->>RC: appliquerEvenements(état, operation, événements)
-    RC->>RC: doublon, opération ouverte, salle de l'opération, constat dépassé
+    RC->>RC: doublon, opération ouverte, salle de l’opération, constat dépassé
     RC->>RC: matériel dans sa salle : installation confirmée, constat « confirme »
     E->>RC: cloreInstallations(next)
     E->>DB: écriture système, COMMIT
     RG-->>T: résultats par événement
     T->>RG: GET /api/rigel/operations/:id/instantane (jeton)
     RG-->>T: instantané avec le constat intégré
-    T->>T: integrer() : constat déplacé vers l'historique
+    T->>T: integrer() : constat déplacé vers l’historique
 ```
 
 ## État des lieux PDF à la demande
@@ -295,8 +295,8 @@ sequenceDiagram
     X->>X: vérificateur PKCE, state, nonce
     X->>SS: session.logins[state] enregistrée
     SS->>DB: INSERT ou UPDATE session
-    X-->>N: 302 vers l'adresse d'autorisation
-    N->>IDP: demande d'autorisation (code_challenge S256)
+    X-->>N: 302 vers l’adresse d’autorisation
+    N->>IDP: demande d’autorisation (code_challenge S256)
     U->>IDP: authentification
     IDP-->>N: 302 /auth/callback?code&state
     N->>X: GET /auth/callback
@@ -305,7 +305,7 @@ sequenceDiagram
         X-->>N: 302 /?error=session
     else tentative valide
         X->>IDP: authorizationCodeGrant (code, vérificateur PKCE)
-        IDP-->>X: jeton d'identité et jeton d'accès, ou refus
+        IDP-->>X: jeton d’identité et jeton d’accès, ou refus
         X->>X: contrôle du state et du nonce, revendications
         alt échange refusé ou jeton invalide
             X->>SS: destroy()

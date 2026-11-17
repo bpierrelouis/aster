@@ -3,14 +3,14 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 5.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [10 versions](../../../archive/README.md#06-dcu-remontees-utilisateur) |
+| 5.1 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [11 versions](../../../archive/README.md#06-dcu-remontees-utilisateur) |
 <!-- version:fin -->
 
 ```mermaid
 flowchart LR
     auteurRemontee(["Auteur de remontée"])
     responsableRemontees(["Responsable des remontées"])
-    lecteurRemontee(["Lecteur d'une remontée<br/>autorisée"])
+    lecteurRemontee(["Lecteur d’une remontée<br/>autorisée"])
     formateur(["Formateur"])
     gestionnaire(["Gestionnaire"])
     administrateur(["Administrateur"])
@@ -28,15 +28,15 @@ flowchart LR
     subgraph orion["Application web ORION — Remontées utilisateur"]
         direction TB
         creerRemontee(["Créer une remontée"])
-        suivreRemontee(["Suivre l'avancement de ses remontées"])
+        suivreRemontee(["Suivre l’avancement de ses remontées"])
         consulterRemontee(["Consulter une remontée et son suivi"])
-        consulterPdf(["Consulter un PDF d'état des lieux"])
-        telechargerPdf(["Télécharger ou imprimer<br/>un PDF d'état des lieux"])
+        consulterPdf(["Consulter un PDF d’état des lieux"])
+        telechargerPdf(["Télécharger ou imprimer<br/>un PDF d’état des lieux"])
         consulterTableau(["Consulter le tableau de bord des remontées"])
         prendreEnCharge(["Prendre en charge une remontée"])
         marquerRemplace(["Marquer une remontée « remplacé »"])
         marquerCorrige(["Marquer une remontée « corrigé »"])
-        recevoirNotification(["Recevoir une notification<br/>lors d'un changement de statut"])
+        recevoirNotification(["Recevoir une notification<br/>lors d’un changement de statut"])
         recevoirNouvelleRemontee(["Recevoir une notification<br/>de nouvelle remontée"])
     end
 

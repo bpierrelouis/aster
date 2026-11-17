@@ -152,7 +152,7 @@ function figureSchema(drawio: string, page: number): Figure {
   if (existante) return existante;
   const s = schemas.get(drawio)![page];
   const nom = /<diagram [^>]*name="([^"]*)"/g;
-  const noms = [...readFileSync(drawio, 'utf8').matchAll(nom)].map((m) => m[1].replace(/&apos;|'/g, '’').replace(/&amp;/g, '&'));
+  const noms = [...readFileSync(drawio, 'utf8').matchAll(nom)].map((m) => m[1].replace(/&amp;#x27;|&amp;#39;|&#x27;|&#39;|&apos;|'/g, '’').replace(/&amp;/g, '&'));
   const base = drawio.split('/').at(-1)!.replace(/\.drawio$/, '');
   const legende = tiret((PREFIXES[base] ?? '') + noms[page]);
   // Orientation et taille qui remplissent au mieux la page, sans agrandir le dessin de plus de moitié.

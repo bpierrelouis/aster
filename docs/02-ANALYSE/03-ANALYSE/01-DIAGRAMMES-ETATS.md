@@ -1,9 +1,9 @@
-# Diagrammes d'états
+# Diagrammes d’états
 
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [10 versions](../../../archive/README.md#01-diagrammes-etats) |
+| 6.1 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [11 versions](../../../archive/README.md#01-diagrammes-etats) |
 <!-- version:fin -->
 
 ## Remontée
@@ -11,10 +11,10 @@
 ```mermaid
 stateDiagram-v2
     direction LR
-    [*] --> attente : créer la remontée<br/>[formateur · administrateur · super administrateur]<br/>[description et type de problème saisis ∧ ≥ 1 matériel de l'école, d'une salle pour le formateur]<br/>/ numéro attribué, historique initialisé, notification des gestionnaires
-    attente --> encours : prendre en charge<br/>[gestionnaire · administrateur · super administrateur]<br/>/ ajout à l'historique, notification de l'auteur
-    encours --> remplace : traiter « Remplacé »<br/>[gestionnaire · administrateur · super administrateur]<br/>/ ajout à l'historique, notification de l'auteur
-    encours --> corrige : traiter « Corrigé »<br/>[gestionnaire · administrateur · super administrateur]<br/>/ ajout à l'historique, notification de l'auteur
+    [*] --> attente : créer la remontée<br/>[formateur · administrateur · super administrateur]<br/>[description et type de problème saisis ∧ ≥ 1 matériel de l’école, d’une salle pour le formateur]<br/>/ numéro attribué, historique initialisé, notification des gestionnaires
+    attente --> encours : prendre en charge<br/>[gestionnaire · administrateur · super administrateur]<br/>/ ajout à l’historique, notification de l’auteur
+    encours --> remplace : traiter « Remplacé »<br/>[gestionnaire · administrateur · super administrateur]<br/>/ ajout à l’historique, notification de l’auteur
+    encours --> corrige : traiter « Corrigé »<br/>[gestionnaire · administrateur · super administrateur]<br/>/ ajout à l’historique, notification de l’auteur
     remplace --> [*]
     corrige --> [*]
 
@@ -29,7 +29,7 @@ stateDiagram-v2
 ```mermaid
 stateDiagram-v2
     direction LR
-    [*] --> enregistree : demander l'intervention<br/>[administrateur · super administrateur, ou formateur pour un arrêt]<br/>[1 à 500 postes d'une seule salle]<br/>[arrêt #58; un seul poste, processus en cours, aucun arrêt déjà demandé]<br/>[installation ou désinstallation #58; application du catalogue]<br/>/ auteur et date fixés par le serveur, image de référence imposée pour une réinitialisation
+    [*] --> enregistree : demander l’intervention<br/>[administrateur · super administrateur, ou formateur pour un arrêt]<br/>[1 à 500 postes d’une seule salle]<br/>[arrêt #58; un seul poste, processus en cours, aucun arrêt déjà demandé]<br/>[installation ou désinstallation #58; application du catalogue]<br/>/ auteur et date fixés par le serveur, image de référence imposée pour une réinitialisation
     [*] --> enregistree : arrêt automatique<br/>[processus classé blacklist]<br/>/ détection enregistrée
 
     state enregistree {
@@ -75,7 +75,7 @@ stateDiagram-v2
     state parc {
         direction LR
         [*] --> en_service
-        en_service --> hors_service : déclarer hors service<br/>[gestionnaire · administrateur · super administrateur]<br/>/ date de mise hors service fixée, poste de l'unité centrale éteint
+        en_service --> hors_service : déclarer hors service<br/>[gestionnaire · administrateur · super administrateur]<br/>/ date de mise hors service fixée, poste de l’unité centrale éteint
         hors_service --> en_service : remettre en service<br/>[gestionnaire · administrateur · super administrateur]<br/>/ date de mise hors service retirée
         en_service : En service
         hors_service : Hors service
@@ -93,9 +93,9 @@ stateDiagram-v2
         [*] --> installe
         installe --> deplacement : affectation modifiée [nouveau lieu ≠ emplacement physique]<br/>∨ constat RIGEL « retour » ou « stock »<br/>∨ écart traité dans ORION « remettre au stock » ou « ramener » [gestionnaire · administrateur]<br/>/ déplacement lancé #58; origine, auteur et date
         deplacement --> deplacement : affectation modifiée [nouveau lieu ≠ emplacement physique]<br/>/ origine conservée, auteur et date mis à jour
-        deplacement --> installe : confirmer l’installation<br/>[gestionnaire · administrateur · super administrateur dans ORION,<br/>ou scan RIGEL d'une installation dans le lieu affecté]<br/>/ installation confirmée #58; origine, auteur et date
+        deplacement --> installe : confirmer l’installation<br/>[gestionnaire · administrateur · super administrateur dans ORION,<br/>ou scan RIGEL d’une installation dans le lieu affecté]<br/>/ installation confirmée #58; origine, auteur et date
         deplacement --> installe : présence acceptée par RIGEL<br/>∨ écart traité dans ORION « réaffecter ici » ou « ranger au stock » [gestionnaire · administrateur]<br/>/ installation confirmée #58; origine, auteur et date
-        deplacement --> installe : affectation ramenée à l'emplacement physique<br/>/ déplacement annulé
+        deplacement --> installe : affectation ramenée à l’emplacement physique<br/>/ déplacement annulé
         installe : Installé
         deplacement : Déplacement en cours
     }
@@ -115,14 +115,14 @@ stateDiagram-v2
     classement --> en_cours : [non référencé]<br/>/ détection enregistrée
     classement --> arret_demande : [blacklist]<br/>/ détection enregistrée,<br/>arrêt automatique demandé
 
-    en_cours --> arret_demande : demander l'arrêt<br/>[formateur · administrateur<br/>· super administrateur]<br/>[aucun arrêt en attente]
+    en_cours --> arret_demande : demander l’arrêt<br/>[formateur · administrateur<br/>· super administrateur]<br/>[aucun arrêt en attente]
     arret_demande --> echec : résultat du poste « échec »<br/>/ détection « arrêt en échec » (arrêt automatique)
-    echec --> arret_demande : demander l'arrêt<br/>[formateur · administrateur<br/>· super administrateur]
+    echec --> arret_demande : demander l’arrêt<br/>[formateur · administrateur<br/>· super administrateur]
     en_cours --> arrete : fin constatée<br/>[absent du rapport du poste<br/>∨ poste déconnecté<br/>∨ réinitialisation réussie<br/>∨ unité centrale hors service]<br/>/ fin fixée par le serveur
     arret_demande --> arrete : résultat du poste « réussie » ∨ fin constatée<br/>/ détection « arrêt réussi » (arrêt automatique)
     echec --> arrete : fin constatée
-    arrete --> [*] : after(1 h)<br/>/ retiré de l'historique
-    arrete --> [*] : [au-delà des 50 processus arrêtés<br/>les plus récents du poste]<br/>/ retiré de l'historique
+    arrete --> [*] : after(1 h)<br/>/ retiré de l’historique
+    arrete --> [*] : [au-delà des 50 processus arrêtés<br/>les plus récents du poste]<br/>/ retiré de l’historique
 
     en_cours : En cours
     arret_demande : Arrêt demandé

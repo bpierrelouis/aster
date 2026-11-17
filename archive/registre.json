@@ -850,7 +850,7 @@
       {
         "version": "2.0",
         "date": "2026-11-16",
-        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Employer l’apostrophe typographique ; Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -932,6 +932,13 @@
         "version": "6.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc"
+      },
+      {
+        "version": "6.1",
+        "date": "2026-11-17",
+        "modification": "Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -970,7 +977,7 @@
       {
         "version": "2.0",
         "date": "2026-11-16",
-        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Employer l’apostrophe typographique ; Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -1066,6 +1073,13 @@
         "version": "4.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-17",
+        "modification": "Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -1371,6 +1385,13 @@
         "version": "3.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-17",
+        "modification": "Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -1483,6 +1504,13 @@
         "version": "4.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-17",
+        "modification": "Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -1580,6 +1608,13 @@
         "version": "3.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-17",
+        "modification": "Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -1797,6 +1832,13 @@
         "version": "5.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc"
+      },
+      {
+        "version": "5.1",
+        "date": "2026-11-17",
+        "modification": "Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -1856,6 +1898,13 @@
         "version": "3.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-17",
+        "modification": "Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -2012,7 +2061,7 @@
       {
         "version": "2.0",
         "date": "2026-11-16",
-        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -2047,6 +2096,13 @@
         "version": "3.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc"
+      },
+      {
+        "version": "3.1",
+        "date": "2026-11-17",
+        "modification": "Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -2861,7 +2917,7 @@
       {
         "version": "2.0",
         "date": "2026-11-16",
-        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -2943,6 +2999,13 @@
         "version": "6.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc"
+      },
+      {
+        "version": "6.1",
+        "date": "2026-11-17",
+        "modification": "Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -2974,7 +3037,7 @@
       {
         "version": "2.0",
         "date": "2026-11-16",
-        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -3025,6 +3088,13 @@
         "version": "4.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-17",
+        "modification": "Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -3049,7 +3119,7 @@
       {
         "version": "2.0",
         "date": "2026-11-16",
-        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Employer l’apostrophe typographique ; Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -3130,7 +3200,7 @@
       {
         "version": "2.0",
         "date": "2026-11-16",
-        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Employer l’apostrophe typographique ; Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -3181,6 +3251,13 @@
         "version": "4.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits",
+        "archive": null,
+        "commit": "4e2bdcc"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-17",
+        "modification": "Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -3230,6 +3307,13 @@
         "version": "2.0",
         "date": "2026-11-16",
         "modification": "Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits ; Renuméroter après l’ajout du modèle logique",
+        "archive": null,
+        "commit": "f9abde1"
+      },
+      {
+        "version": "2.1",
+        "date": "2026-11-17",
+        "modification": "Employer l’apostrophe typographique",
         "archive": null
       }
     ]
@@ -3281,6 +3365,13 @@
         "version": "4.1",
         "date": "2026-11-17",
         "modification": "Renuméroter après l’ajout du modèle logique",
+        "archive": null,
+        "commit": "f9abde1"
+      },
+      {
+        "version": "4.2",
+        "date": "2026-11-17",
+        "modification": "Employer l’apostrophe typographique",
         "archive": null
       }
     ]

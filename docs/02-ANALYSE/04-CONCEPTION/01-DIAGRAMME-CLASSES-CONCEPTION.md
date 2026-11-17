@@ -6,7 +6,7 @@
 | 4.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [6 versions](../../../archive/README.md#01-diagramme-classes-conception) |
 <!-- version:fin -->
 
-## Classes de conception d'ORION
+## Classes de conception d’ORION
 
 ```mermaid
 classDiagram

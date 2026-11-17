@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [9 versions](../../../archive/README.md#03-dcu-gestion-parc) |
+| 3.1 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [10 versions](../../../archive/README.md#03-dcu-gestion-parc) |
 <!-- version:fin -->
 
 ```mermaid
@@ -14,7 +14,7 @@ flowchart LR
     superAdministrateur(["Super administrateur"])
     consultantParc(["Consultant du parc"])
     acteurGestion(["Acteur de gestion du parc"])
-    acteurAdministrationParc(["Acteur d'administration du parc"])
+    acteurAdministrationParc(["Acteur d’administration du parc"])
     utilisateurRigel(["Utilisateur de RIGEL"])
 
     formateur -->|« hérite de »| consultantParc
@@ -30,13 +30,13 @@ flowchart LR
     subgraph orion["Application web ORION — Gestion du parc"]
         direction TB
         consulterSalles(["Consulter les salles par bâtiment<br/>et le matériel de chaque salle"])
-        consulter(["Consulter la fiche d'un matériel"])
+        consulter(["Consulter la fiche d’un matériel"])
         recevoirGarantie(["Recevoir une notification<br/>de fin de garantie"])
         rechercher(["Rechercher un matériel"])
         enregistrer(["Enregistrer un matériel"])
         importer(["Importer de nouveaux matériels en JSON"])
         rapprocher(["Rapprocher les numéros de série<br/>de tout le parc"])
-        transferer(["Changer l'école d'un matériel<br/>par un transfert validé"])
+        transferer(["Changer l’école d’un matériel<br/>par un transfert validé"])
         modifier(["Modifier un matériel"])
         renseignerGarantie(["Renseigner la fin de garantie"])
         affecter(["Affecter un ou plusieurs matériels<br/>à une salle ou au stock"])

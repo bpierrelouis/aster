@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 3.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [9 versions](../../../archive/README.md#05-dcu-supervision-postes) |
+| 3.1 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [10 versions](../../../archive/README.md#05-dcu-supervision-postes) |
 <!-- version:fin -->
 
 ```mermaid
@@ -12,7 +12,7 @@ flowchart LR
     formateur(["Formateur"])
     administrateur(["Administrateur"])
     superAdministrateur(["Super administrateur"])
-    acteurAdministrationSupervision(["Acteur d'administration<br/>de la supervision"])
+    acteurAdministrationSupervision(["Acteur d’administration<br/>de la supervision"])
 
     formateur -->|« hérite de »| acteurSupervision
     acteurAdministrationSupervision -->|« hérite de »| acteurSupervision
@@ -22,16 +22,16 @@ flowchart LR
     subgraph orion["Application web ORION — Supervision des postes"]
         direction TB
         accederSalle(["Accéder à une salle"])
-        consulterEtat(["Consulter l'état des postes,<br/>leur adresse IP et leur système d'exploitation"])
+        consulterEtat(["Consulter l’état des postes,<br/>leur adresse IP et leur système d’exploitation"])
         consulterProcessus(["Consulter les processus utilisateur"])
         arreterProcessus(["Arrêter manuellement un processus"])
         gererListes(["Gérer la whitelist et la blacklist"])
         gererReglesGlobales(["Gérer les règles globales"])
         appliquerRegles(["Classer les processus et<br/>appliquer les règles"])
         arreterInterdit(["Arrêter automatiquement<br/>un processus blacklisté"])
-        consulterAlertes(["Consulter les détections<br/>de processus d'une salle"])
-        recevoirAlerte(["Recevoir une notification du lancement<br/>d'une application interdite (blacklist)"])
-        consulterStatistiques(["Consulter les statistiques d'utilisation"])
+        consulterAlertes(["Consulter les détections<br/>de processus d’une salle"])
+        recevoirAlerte(["Recevoir une notification du lancement<br/>d’une application interdite (blacklist)"])
+        consulterStatistiques(["Consulter les statistiques d’utilisation"])
     end
 
     administrationDistante(["« système »<br/>Solution d’administration<br/>à distance des postes"])

@@ -3,14 +3,14 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.0 | 16/11/2026 | Production destinée à la remise | Appliquer les droits de l’administrateur, corriger les écarts avec le code et remettre en page à angles droits | [11 versions](../../../archive/README.md#04-dcu-administration-postes) |
+| 4.1 | 17/11/2026 | Production destinée à la remise | Employer l’apostrophe typographique | [12 versions](../../../archive/README.md#04-dcu-administration-postes) |
 <!-- version:fin -->
 
 ```mermaid
 flowchart LR
     administrateur(["Administrateur"])
     superAdministrateur(["Super administrateur"])
-    acteurAdministrationPostes(["Acteur d'administration<br/>des postes"])
+    acteurAdministrationPostes(["Acteur d’administration<br/>des postes"])
 
     administrateur -->|« hérite de »| acteurAdministrationPostes
     superAdministrateur -->|« hérite de »| acteurAdministrationPostes
@@ -20,10 +20,10 @@ flowchart LR
         consulterApplications(["Consulter les applications installées"])
         installerApplication(["Installer une application<br/>sur un poste ou une salle"])
         desinstallerApplication(["Désinstaller une application<br/>sur un poste ou une salle"])
-        demanderPoste(["Demander la réinitialisation<br/>d'un ou plusieurs postes"])
-        demanderSalle(["Demander la réinitialisation d'une salle"])
-        suivreInterventions(["Suivre les demandes d'intervention"])
-        recevoirFin(["Recevoir une notification de fin<br/>d'une intervention qu'il a demandée"])
+        demanderPoste(["Demander la réinitialisation<br/>d’un ou plusieurs postes"])
+        demanderSalle(["Demander la réinitialisation d’une salle"])
+        suivreInterventions(["Suivre les demandes d’intervention"])
+        recevoirFin(["Recevoir une notification de fin<br/>d’une intervention qu’il a demandée"])
         gererPostes(["Consulter la vue des postes"])
     end
 

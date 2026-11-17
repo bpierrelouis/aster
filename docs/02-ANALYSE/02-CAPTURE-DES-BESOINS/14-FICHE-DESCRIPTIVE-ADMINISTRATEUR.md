@@ -128,7 +128,7 @@ RG-03 à RG-10, RG-15, RG-25 à RG-29, RG-69, RG-72, RG-73, RG-86, RG-87 et RG-9
 
 - Contrôle des doublons de numéro de série lors d’une saisie manuelle.
 
-## UC-ADMIN-02 — Administrer les applications d'un poste ou d'une salle
+## UC-ADMIN-02 — Administrer les applications d’un poste ou d’une salle
 
 **En tant qu’**administrateur, **je souhaite** consulter les applications installées et faire installer ou désinstaller une application sur un poste ou une salle **afin d’**administrer les applications des postes de mon école.
 
@@ -465,7 +465,7 @@ RG-11 à RG-15, RG-21, RG-23 à RG-25, RG-34 à RG-39, RG-63, RG-64, RG-66, RG-6
 - Qualification, affectation et délais.
 - Signature de l’état des lieux.
 
-## UC-ADMIN-06 — Gérer les comptes ORION de l'école
+## UC-ADMIN-06 — Gérer les comptes ORION de l’école
 
 **En tant qu’**administrateur, **je souhaite** créer, modifier, désactiver et réactiver les comptes ORION de mon école **afin de** créer et tenir à jour les comptes rattachés à l’école.
 
