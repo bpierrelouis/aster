@@ -771,6 +771,13 @@
         "version": "8.1",
         "date": "2026-11-16",
         "modification": "Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation",
+        "archive": null,
+        "commit": "a0e2002"
+      },
+      {
+        "version": "9.0",
+        "date": "2026-11-17",
+        "modification": "Consigner l’annulation des formations induites et l’écart du recensement",
         "archive": null
       }
     ]
@@ -1270,6 +1277,13 @@
         "version": "14.0",
         "date": "2026-11-16",
         "modification": "Notifier aussi les administrateurs des matériels à déplacer (RG-39)",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "14.1",
+        "date": "2026-11-17",
+        "modification": "Citer l’équipe et le client comme sources ; réserver RIGEL au gestionnaire et à l’administrateur dans RG-92",
         "archive": null
       }
     ]
@@ -2388,6 +2402,13 @@
         "version": "6.0",
         "date": "2026-11-16",
         "modification": "Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés)",
+        "archive": null,
+        "commit": "21bb429"
+      },
+      {
+        "version": "6.1",
+        "date": "2026-11-17",
+        "modification": "Citer l’équipe et le client comme sources, sans renvoi interne",
         "archive": null
       }
     ]
@@ -2491,6 +2512,13 @@
         "version": "4.0",
         "date": "2026-11-16",
         "modification": "Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés)",
+        "archive": null,
+        "commit": "21bb429"
+      },
+      {
+        "version": "4.1",
+        "date": "2026-11-17",
+        "modification": "Citer l’équipe et le client comme sources, sans renvoi interne",
         "archive": null
       }
     ]
@@ -2660,6 +2688,13 @@
         "version": "6.1",
         "date": "2026-11-16",
         "modification": "Notifier aussi les matériels à déplacer",
+        "archive": null,
+        "commit": "c12ea81"
+      },
+      {
+        "version": "6.2",
+        "date": "2026-11-17",
+        "modification": "Citer l’équipe et le client comme sources, sans renvoi interne",
         "archive": null
       }
     ]
@@ -2831,6 +2866,13 @@
         "version": "6.1",
         "date": "2026-11-16",
         "modification": "Notifier aussi les matériels à déplacer",
+        "archive": null,
+        "commit": "11a97b7"
+      },
+      {
+        "version": "6.2",
+        "date": "2026-11-17",
+        "modification": "Citer l’équipe et le client comme sources, sans renvoi interne",
         "archive": null
       }
     ]
@@ -3410,6 +3452,13 @@
         "version": "2.0",
         "date": "2026-11-17",
         "modification": "Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3",
+        "archive": null,
+        "commit": "f9abde1"
+      },
+      {
+        "version": "3.0",
+        "date": "2026-11-17",
+        "modification": "Déclarer les écarts avec le client, les interfaces externes et les priorités",
         "archive": null
       }
     ]

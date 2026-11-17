@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.0 | 16/11/2026 | Production destinée à la remise | Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) | [15 versions](../../../archive/README.md#12-fiche-descriptive-gestionnaire) |
+| 6.1 | 17/11/2026 | Production destinée à la remise | Citer l’équipe et le client comme sources, sans renvoi interne | [16 versions](../../../archive/README.md#12-fiche-descriptive-gestionnaire) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -686,9 +686,9 @@ Les écrans du gestionnaire sont présentés dans la section « Interface » du 
 
 ## Contraintes transversales
 
-- Application web utilisée avec les versions de Firefox installées sur les postes de l’équipe.
+- Application web utilisée avec les versions de Firefox installées sur les postes des écoles.
 - Réseau interne NP disposant d’un accès à Internet.
-- Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
+- Authentification via MindefConnect ; modalités d’intégration à préciser (DSE, point ouvert PO-02).
 - Un seul profil par utilisateur.
 - RIGEL s’utilise sur le téléphone professionnel du gestionnaire, appairé à ORION ; ses échanges avec ORION sont chiffrés.
 

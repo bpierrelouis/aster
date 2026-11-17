@@ -13,13 +13,13 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [design/maquettes/index.html](../design/maquettes/index.html) | Ressource de préparation | [3.1](#design-maquettes-index) | 16/11/2026 |
 | [docs/01-CONTEXTE/01-GLOSSAIRE.md](../docs/01-CONTEXTE/01-GLOSSAIRE.md) | Production destinée à la remise | [7.2](#01-glossaire) | 16/11/2026 |
 | [docs/01-CONTEXTE/02-CONSIGNES.md](../docs/01-CONTEXTE/02-CONSIGNES.md) | Source fournie par l’encadrement | [1.5](#02-consignes) | 16/11/2026 |
-| [docs/01-CONTEXTE/03-CADRAGE.md](../docs/01-CONTEXTE/03-CADRAGE.md) | Source de travail interne | [8.1](#03-cadrage) | 16/11/2026 |
+| [docs/01-CONTEXTE/03-CADRAGE.md](../docs/01-CONTEXTE/03-CADRAGE.md) | Source de travail interne | [9.0](#03-cadrage) | 17/11/2026 |
 | [docs/01-CONTEXTE/04-COMPTE-RENDU-ENTRETIENS.md](../docs/01-CONTEXTE/04-COMPTE-RENDU-ENTRETIENS.md) | Source de travail interne | [2.2](#04-compte-rendu-entretiens) | 16/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.drawio](../docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.drawio) | Production destinée à la remise | [2.0](#01-diagramme-contexte) | 16/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/01-DIAGRAMME-CONTEXTE.md) | Production destinée à la remise | [6.1](#01-diagramme-contexte) | 17/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio](../docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.drawio) | Production destinée à la remise | [2.0](#02-diagrammes-activite) | 16/11/2026 |
 | [docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.md](../docs/02-ANALYSE/01-MODELISATION-METIER/02-DIAGRAMMES-ACTIVITE.md) | Production destinée à la remise | [4.1](#02-diagrammes-activite) | 17/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION.md) | Production destinée à la remise | [14.0](#01-regles-de-gestion) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION.md) | Production destinée à la remise | [14.1](#01-regles-de-gestion) | 17/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/02-MCD-MERISE.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/02-MCD-MERISE.drawio) | Production destinée à la remise | [2.0](#02-mcd-merise) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.drawio) | Production destinée à la remise | [2.0](#03-dcu-gestion-parc) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/03-DCU-GESTION-PARC.md) | Production destinée à la remise | [3.1](#03-dcu-gestion-parc) | 17/11/2026 |
@@ -40,10 +40,10 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.drawio](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.drawio) | Production destinée à la remise | [2.0](#10-diagrammes-sequence-systeme) | 16/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/10-DIAGRAMMES-SEQUENCE-SYSTEME.md) | Production destinée à la remise | [3.1](#10-diagrammes-sequence-systeme) | 17/11/2026 |
 | [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-MATRICE-DROITS.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/11-MATRICE-DROITS.md) | Production destinée à la remise | [9.1](#11-matrice-droits) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [6.0](#12-fiche-descriptive-gestionnaire) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [4.0](#13-fiche-descriptive-formateur) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [6.1](#14-fiche-descriptive-administrateur) | 16/11/2026 |
-| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [6.1](#15-fiche-descriptive-super-administrateur) | 16/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNAIRE.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNAIRE.md) | Production destinée à la remise | [6.1](#12-fiche-descriptive-gestionnaire) | 17/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR.md) | Production destinée à la remise | [4.1](#13-fiche-descriptive-formateur) | 17/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md) | Production destinée à la remise | [6.2](#14-fiche-descriptive-administrateur) | 17/11/2026 |
+| [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md](../docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md) | Production destinée à la remise | [6.2](#15-fiche-descriptive-super-administrateur) | 17/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio](../docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.drawio) | Production destinée à la remise | [2.0](#01-diagrammes-etats) | 16/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md](../docs/02-ANALYSE/03-ANALYSE/01-DIAGRAMMES-ETATS.md) | Production destinée à la remise | [6.1](#01-diagrammes-etats) | 17/11/2026 |
 | [docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio](../docs/02-ANALYSE/03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.drawio) | Production destinée à la remise | [2.0](#02-diagramme-classes-analyse) | 16/11/2026 |
@@ -56,7 +56,7 @@ Numérotation : version majeure pour un changement de sens (décision, règle, p
 | [docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.md) | Production destinée à la remise | [1.0](#03-modele-logique-donnees) | 17/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.drawio](../docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.drawio) | Production destinée à la remise | [2.1](#04-modele-physique-donnees) | 17/11/2026 |
 | [docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md](../docs/02-ANALYSE/04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md) | Production destinée à la remise | [4.2](#04-modele-physique-donnees) | 17/11/2026 |
-| [docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md](../docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md) | Production destinée à la remise | [2.0](#05-dossier-specifications-exigences) | 17/11/2026 |
+| [docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md](../docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md) | Production destinée à la remise | [3.0](#05-dossier-specifications-exigences) | 17/11/2026 |
 | [docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md](../docs/03-ARCHITECTURE/01-DOSSIER-ARCHITECTURE-TECHNIQUE.md) | Production destinée à la remise | [6.1](#01-dossier-architecture-technique) | 17/11/2026 |
 | [docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md](../docs/03-ARCHITECTURE/02-DIAGRAMMES-ARCHITECTURE.md) | Production destinée à la remise | [3.0](#02-diagrammes-architecture) | 16/11/2026 |
 | [docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md](../docs/04-ORGANISATION/01-BACKLOG-ET-SUIVI-PROJET.md) | Production destinée à la remise | [5.3](#01-backlog-et-suivi-projet) | 17/11/2026 |
@@ -160,7 +160,8 @@ Fichier : [docs/01-CONTEXTE/03-CADRAGE.md](../docs/01-CONTEXTE/03-CADRAGE.md) ·
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 8.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | en vigueur | — |
+| 9.0 | 17/11/2026 | Consigner l’annulation des formations induites et l’écart du recensement | en vigueur | — |
+| 8.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 8.0 | 16/11/2026 | Décision du 16 novembre sur les droits des administrateurs reportée | `ddcfea7` (`docs/01-CONTEXTE/02-CADRAGE.md`) | — |
 | 7.1 | 16/11/2026 | Réponses actuelles reportées : unité centrale du poste, filtres | `85d83bc` (`docs/01-CONTEXTE/02-CADRAGE.md`) | — |
 | 7.0 | 16/11/2026 | Les productions suivent l’état actuel ; écarts présentés au client | `9bb9802` (`docs/01-CONTEXTE/02-CADRAGE.md`) | — |
@@ -271,7 +272,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/01-REGLES-DE-GESTION.md](../do
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 14.0 | 16/11/2026 | Notifier aussi les administrateurs des matériels à déplacer (RG-39) | en vigueur | — |
+| 14.1 | 17/11/2026 | Citer l’équipe et le client comme sources ; réserver RIGEL au gestionnaire et à l’administrateur dans RG-92 | en vigueur | — |
+| 14.0 | 16/11/2026 | Notifier aussi les administrateurs des matériels à déplacer (RG-39) | `c12ea81` | — |
 | 13.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 13.0 | 16/11/2026 | L'administrateur hérite des droits du gestionnaire | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md`) | — |
 | 12.0 | 16/11/2026 | RG-15 réserve au gestionnaire la confirmation des installations et RIGEL | `9bb9802` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/04-REGLES-DE-GESTION.md`) | — |
@@ -566,7 +568,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/12-FICHE-DESCRIPTIVE-GESTIONNA
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.0 | 16/11/2026 | Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) | en vigueur | — |
+| 6.1 | 17/11/2026 | Citer l’équipe et le client comme sources, sans renvoi interne | en vigueur | — |
+| 6.0 | 16/11/2026 | Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) | `21bb429` | — |
 | 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.0 | 16/11/2026 | Droits partagés avec les administrateurs | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
 | 4.3 | 14/11/2026 | RIGEL : installation et recensement consolidés, notion de campagne retirée ; Notifications et tableau de bord du parc selon RG-36 et RG-37 ; Toutes les actions du gestionnaire : import JSON, RIGEL détaillé, activité ; écrans RIGEL | `2ce55f7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-GESTIONNAIRE.md`) | — |
@@ -588,7 +591,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/13-FICHE-DESCRIPTIVE-FORMATEUR
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 4.0 | 16/11/2026 | Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) | en vigueur | — |
+| 4.1 | 17/11/2026 | Citer l’équipe et le client comme sources, sans renvoi interne | en vigueur | — |
+| 4.0 | 16/11/2026 | Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) | `21bb429` | — |
 | 3.4 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 3.3 | 16/11/2026 | Traitement par le gestionnaire ou un administrateur | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
 | 3.2 | 15/11/2026 | Termes whitelist et blacklist | `70bd202` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-FORMATEUR.md`) | — |
@@ -608,7 +612,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/14-FICHE-DESCRIPTIVE-ADMINISTR
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.1 | 16/11/2026 | Notifier aussi les matériels à déplacer | en vigueur | — |
+| 6.2 | 17/11/2026 | Citer l’équipe et le client comme sources, sans renvoi interne | en vigueur | — |
+| 6.1 | 16/11/2026 | Notifier aussi les matériels à déplacer | `c12ea81` | — |
 | 6.0 | 16/11/2026 | Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) | `d6746e9` | — |
 | 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.0 | 16/11/2026 | L’administrateur hérite des droits du gestionnaire | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-ADMINISTRATEUR.md`) | — |
@@ -634,7 +639,8 @@ Fichier : [docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/15-FICHE-DESCRIPTIVE-SUPER-ADM
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 6.1 | 16/11/2026 | Notifier aussi les matériels à déplacer | en vigueur | — |
+| 6.2 | 17/11/2026 | Citer l’équipe et le client comme sources, sans renvoi interne | en vigueur | — |
+| 6.1 | 16/11/2026 | Notifier aussi les matériels à déplacer | `11a97b7` | — |
 | 6.0 | 16/11/2026 | Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) | `d6746e9` | — |
 | 5.1 | 16/11/2026 | Adopter la numérotation locale du dossier ; Actualiser les liens après la renumérotation | `a0e2002` | — |
 | 5.0 | 16/11/2026 | Droits du gestionnaire sur toutes les écoles, sauf RIGEL | `ddcfea7` (`docs/02-ANALYSE/02-CAPTURE-DES-BESOINS/16-FICHE-DESCRIPTIVE-SUPER-ADMINISTRATEUR.md`) | — |
@@ -800,7 +806,8 @@ Fichier : [docs/02-ANALYSE/05-DOSSIER-SPECIFICATIONS-EXIGENCES.md](../docs/02-AN
 
 | Version | Date | Modification | Commit | Copie |
 | --- | --- | --- | --- | --- |
-| 2.0 | 17/11/2026 | Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 | en vigueur | — |
+| 3.0 | 17/11/2026 | Déclarer les écarts avec le client, les interfaces externes et les priorités | en vigueur | — |
+| 2.0 | 17/11/2026 | Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 | `f9abde1` | — |
 | 1.0 | 16/11/2026 | Créer la source du DSE remis en PDF ; Créer la source du DSE remis en PDF | `21bb429` | — |
 
 ### 01-DOSSIER-ARCHITECTURE-TECHNIQUE

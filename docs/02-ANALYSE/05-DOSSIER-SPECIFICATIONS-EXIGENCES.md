@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 2.0 | 17/11/2026 | Production destinée à la remise | Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 ; Ajouter le modèle logique de données au § 10.3 | [2 versions](../../archive/README.md#05-dossier-specifications-exigences) |
+| 3.0 | 17/11/2026 | Production destinée à la remise | Déclarer les écarts avec le client, les interfaces externes et les priorités | [3 versions](../../archive/README.md#05-dossier-specifications-exigences) |
 <!-- version:fin -->
 
 Ce document est la source du livrable PDF du DSE. Les schémas sont repris des diagrammes cités, les tableaux de cas d’utilisation et de règles sont établis à partir des fiches descriptives et des règles de gestion, et les annexes reprennent les documents listés au dernier chapitre.
@@ -32,6 +32,7 @@ Les termes et abréviations sont définis dans le glossaire (annexe A). Les plus
 | UC | Cas d’utilisation (use case), identifié UC-PROFIL-nn. |
 | RG | Règle de gestion, identifiée RG-nn (annexe B). |
 | ENF | Exigence non fonctionnelle, identifiée ENF-nn (chapitre 8). |
+| IE | Interface externe, identifiée IE-nn (chapitre 9). |
 | DCU | Diagramme de cas d’utilisation. |
 | MCD / MPD | Modèle conceptuel / physique de données. |
 | Remontée | Problème signalé par un utilisateur sur un ou plusieurs matériels. |
@@ -57,7 +58,8 @@ Les termes et abréviations sont définis dans le glossaire (annexe A). Les plus
 ### 1.5 Conventions
 
 - Les exigences sont formulées au présent de l’indicatif : « ORION refuse… », « le gestionnaire peut… ». Une exigence est obligatoire sauf mention contraire.
-- Chaque exigence porte un identifiant unique et stable : UC-PROFIL-nn pour les cas d’utilisation (GEST, FORM, ADMIN, SADMIN), RG-nn pour les règles de gestion, ENF-nn pour les exigences non fonctionnelles.
+- Chaque exigence porte un identifiant unique et stable : UC-PROFIL-nn pour les cas d’utilisation (GEST, FORM, ADMIN, SADMIN), RG-nn pour les règles de gestion, ENF-nn pour les exigences non fonctionnelles, IE-nn pour les interfaces externes.
+- Les cas d’utilisation, les exigences non fonctionnelles et les interfaces externes portent une priorité : **essentielle** pour une capacité attendue par le sujet ou une contrainte imposée, **importante** pour une demande du client qui la complète, **complémentaire** pour une capacité du produit final au-delà de la première version demandée (§ 2.9).
 - Les diagrammes suivent UML 2.5 ; le modèle conceptuel de données suit Merise. Les acteurs abstraits des DCU regroupent des participations communes et ne constituent pas des profils supplémentaires (annexe A, conventions de lecture).
 - Les termes de l’interface sont écrits en gras dans les fiches descriptives (par exemple **Signaler un problème**).
 
@@ -67,15 +69,16 @@ Les termes et abréviations sont définis dans le glossaire (annexe A). Les plus
 
 | Partie | Contenu |
 | --- | --- |
-| 2 | Description générale : contexte, objectifs, périmètre, acteurs, contraintes et hypothèses. |
+| 2 | Description générale : contexte, objectifs, périmètre, acteurs, contraintes, hypothèses et écarts avec la demande du client. |
 | 3 | Modélisation métier : processus de l’organisation. |
 | 4 | Exigences fonctionnelles : domaines, cas d’utilisation, diagrammes d’activité et de séquence système. |
 | 5 | Exigences sur les données : MCD et diagramme de classes métier. |
 | 6 et 7 | Règles de gestion et droits d’accès (détail en annexes B et C). |
 | 8 | Exigences non fonctionnelles. |
-| 9 et 10 | Modèles d’analyse et de conception, dont le modèle logique et le modèle physique de données. |
-| 11 | Traçabilité du besoin vers les cas d’utilisation et les règles de gestion. |
-| 12 | Points ouverts. |
+| 9 | Interfaces externes. |
+| 10 et 11 | Modèles d’analyse et de conception, dont le modèle logique et le modèle physique de données. |
+| 12 | Traçabilité du besoin vers les cas d’utilisation et les règles de gestion. |
+| 13 | Points ouverts. |
 | A à G | Annexes : glossaire, règles de gestion, matrice des droits et fiches descriptives des quatre profils. |
 
 ## 2. Description générale
@@ -103,7 +106,7 @@ Le sujet attend trois livrables fonctionnels : une application web de gestion du
 
 | Inclus dans ORION | Exclu du périmètre |
 | --- | --- |
-| Gestion du parc : matériels, stock, affectations, déplacements, garanties, import JSON. | Gestion des formations et suivi des personnes formées. |
+| Gestion du parc : matériels, stock, affectations, déplacements, garanties, import JSON. | Gestion des formations, paramétrage des formations induites et suivi des personnes formées. |
 | Organisation des écoles : bâtiments, étages, salles. | Gestion des aptitudes au-delà de la date de fin de garantie du matériel. |
 | Installation des salles et recensement avec RIGEL. | Reprise des fichiers Excel existants (aucun fichier fourni). |
 | Administration des postes Windows : applications, réinitialisation. | Connexion au système d’information du CND. |
@@ -146,7 +149,7 @@ Un utilisateur possède un seul profil (RG-01, RG-71). Il est rattaché à une �
 ### 2.7 Contraintes générales
 
 - ORION est une application web utilisée avec Firefox depuis les postes existants ; l’interface exige une connexion au réseau.
-- L’authentification est confiée à MindefConnect ; ORION ne gère aucun mot de passe (RG-62, RG-85).
+- L’authentification est confiée à MindefConnect, joint sur Internet ; ORION ne gère aucun mot de passe (RG-62, RG-85).
 - ORION est hébergé sur le C1NP ; ses produits figurent dans la pile logicielle autorisée du CCT (R3).
 - Aucun stockage de fichiers : les états des lieux PDF sont produits par le serveur à chaque demande et ne sont pas conservés (RG-35).
 - Les notifications sont présentées dans ORION ; aucun courriel n’est envoyé (RG-38).
@@ -154,9 +157,31 @@ Un utilisateur possède un seul profil (RG-01, RG-71). Il est rattaché à une �
 
 ### 2.8 Hypothèses et dépendances
 
-- La solution d’administration des postes Windows reste à choisir (chapitre 12). ORION en est indépendant : il émet des demandes d’intervention et reçoit l’état des postes et le résultat des interventions.
+- La solution d’administration des postes Windows reste à choisir (chapitre 13). ORION en est indépendant : il émet des demandes d’intervention et reçoit l’état des postes et le résultat des interventions.
 - Les modalités d’intégration de MindefConnect (accès, attributs d’identité) sont fournies par le ministère.
 - Le premier palier de production vise 1 000 postes actifs ; la charge sera confirmée par des essais.
+
+### 2.9 Écarts avec la demande du client
+
+Ce dossier décrit le produit final, au-delà de la première version demandée par le client lors des entretiens (R2). Les écarts ci-dessous sont présentés au client (PO-05).
+
+*Tableau – Écarts avec la demande du client*
+
+| Sujet | Demande du client | Choix retenu | Justification |
+| --- | --- | --- | --- |
+| Profils et écoles | Administrateur, gestionnaire et formateur ; une seule école, extensible ; gestionnaires à l’échelle globale. | Un profil super administrateur en plus ; plusieurs écoles, chaque utilisateur étant rattaché à la sienne (RG-15, RG-60, RG-69). | Le produit final sert plusieurs écoles : un profil transverse gère les écoles et les règles globales, chaque école reste cloisonnée. |
+| Changement d’école d’un matériel | Une seule école. | Transfert d’un matériel connu par un import JSON validé par l’importeur (RG-72). | Les écoles échangent du matériel. |
+| Identifiant du matériel | Le numéro de série. | Identifiant ORION attribué automatiquement ; numéro de série facultatif (RG-03, RG-04). | Certains matériels, comme les câbles, n’ont pas de numéro de série. |
+| Statuts du matériel | Utilisé, en stock ou hors service. | Indication « hors service » distincte ; stock défini par l’absence de salle ; suivi de l’installation physique (RG-08, RG-09, RG-92). | Un matériel hors service peut rester dans une salle ; savoir si un matériel affecté est réellement installé. |
+| Création d’une remontée | Seul le formateur crée des remontées. | Le formateur, l’administrateur et le super administrateur ; type de problème obligatoire (RG-21). | L’administrateur peut réaliser toutes les actions de son école, signalement compris. |
+| Statuts d’une remontée | « En attente » et « remplacé ». | « En attente », « en cours », puis « remplacé » ou « corrigé » ; toute la vie de la remontée est conservée (RG-13, RG-64). | Suivre la prise en charge et terminer une remontée résolue sans remplacement. |
+| Alertes de l’administrateur | L’administrateur ne reçoit pas d’alerte sur les remontées. | Il n’est pas notifié des remontées des autres ; il l’est de ses propres remontées, des interventions qu’il a lancées, des applications interdites, des matériels à déplacer et des garanties (RG-39, RG-86). | Être informé des suites de ses propres actions et des alertes de son école. |
+| Affichage des notifications | Fenêtre contextuelle à la connexion. | Compteur dans la barre supérieure, résumé et page Notifications (RG-37). | Les notifications restent consultables à tout moment sans interrompre l’arrivée dans l’application. |
+| Tableau de bord du parc | Filtré par salle. | Part hors service par bâtiment et salles à surveiller ; détail par salle dans la vue des salles (RG-36). | Une vue d’ensemble de l’école, le détail restant accessible salle par salle. |
+| Import JSON | Mise à jour immédiate, sans vérification. | Fichier invalide refusé en entier ; aperçu des incohérences ; matériels déjà présents ignorés (RG-29). | Éviter les doublons et les données incomplètes dans l’inventaire. |
+| Inventaire | Aucune campagne d’inventaire. | Recensement à la demande avec RIGEL, sur tout ou partie d’une école, pendant 14 jours au plus (RG-93 à RG-96). | Vérifier sur place la présence des matériels sans saisie manuelle. |
+| Historique des mouvements | Aucun historique des mouvements de matériels. | Pas d’historique des mouvements ; ORION conserve le déplacement en cours et les constats datés des recensements (RG-92, RG-95). | Les constats établissent la présence vérifiée d’un matériel. |
+| Rôle d’un matériel | Sa destination, par exemple pour une formation. | Non géré : seul le type de matériel est renseigné. | Aucune règle d’usage de cette information n’a été exprimée ; à préciser avec le client. |
 
 ## 3. Modélisation métier
 
@@ -172,7 +197,7 @@ Inventaire, recherche, localisation et affectation des matériels, stock, import
 
 *Tableau – Cas d’utilisation – Gestion du parc*
 
-<!-- dse:cas UC-GEST-01 UC-GEST-02 UC-GEST-04 UC-GEST-05 UC-GEST-06 UC-ADMIN-01 UC-ADMIN-07 UC-ADMIN-08 UC-FORM-04 -->
+<!-- dse:cas UC-GEST-01=1 UC-GEST-02=1 UC-GEST-04=3 UC-GEST-05=3 UC-GEST-06=3 UC-ADMIN-01=1 UC-ADMIN-07=2 UC-ADMIN-08=3 UC-FORM-04=1 -->
 
 ### 4.2 Administration des postes
 
@@ -180,7 +205,7 @@ Consultation des applications d’un poste, installation et désinstallation d�
 
 *Tableau – Cas d’utilisation – Administration des postes*
 
-<!-- dse:cas UC-ADMIN-02 UC-ADMIN-03 -->
+<!-- dse:cas UC-ADMIN-02=1 UC-ADMIN-03=1 -->
 
 ### 4.3 Supervision des postes
 
@@ -188,7 +213,7 @@ Consultation des applications d’un poste, installation et désinstallation d�
 
 *Tableau – Cas d’utilisation – Supervision des postes*
 
-<!-- dse:cas UC-FORM-01 UC-FORM-02 UC-ADMIN-04 UC-SADMIN-03 -->
+<!-- dse:cas UC-FORM-01=1 UC-FORM-02=1 UC-ADMIN-04=1 UC-SADMIN-03=3 -->
 
 ### 4.4 Remontées utilisateur
 
@@ -196,7 +221,7 @@ Signalement d’un problème sur des matériels, traitement par le gestionnaire 
 
 *Tableau – Cas d’utilisation – Remontées utilisateur*
 
-<!-- dse:cas UC-FORM-03 UC-GEST-03 UC-ADMIN-05 -->
+<!-- dse:cas UC-FORM-03=1 UC-GEST-03=1 UC-ADMIN-05=1 -->
 
 ### 4.5 Administration d’ORION et espace personnel
 
@@ -204,7 +229,7 @@ Signalement d’un problème sur des matériels, traitement par le gestionnaire 
 
 *Tableau – Cas d’utilisation – Administration d’ORION et espace personnel*
 
-<!-- dse:cas UC-ADMIN-06 UC-ADMIN-09 UC-GEST-07 UC-SADMIN-01 UC-SADMIN-02 UC-SADMIN-04 UC-SADMIN-05 -->
+<!-- dse:cas UC-ADMIN-06=2 UC-ADMIN-09=1 UC-GEST-07=1 UC-SADMIN-01=3 UC-SADMIN-02=3 UC-SADMIN-04=3 UC-SADMIN-05=3 -->
 
 ### 4.6 Catalogue des cas d’utilisation par profil
 
@@ -277,49 +302,65 @@ Les droits dépendent du profil et de l’école de rattachement ; ils sont vér
 
 *Tableau – Exigences non fonctionnelles*
 
-| N° | Catégorie | Exigence | Source |
-| --- | --- | --- | --- |
-| ENF-01 | Accès | ORION est une application web utilisable avec Firefox depuis les postes de l’équipe, sans installation sur le poste. | Sujet, fiches |
-| ENF-02 | Authentification | Chaque utilisateur s’authentifie par MindefConnect ; l’accès exige ensuite un compte ORION actif. Une désactivation prend effet immédiatement. | RG-62, RG-85 |
-| ENF-03 | Authentification | La déconnexion met fin à la session ORION puis à celle de MindefConnect. | RG-99 |
-| ENF-04 | Sécurité | Les droits, le périmètre par école et les valeurs d’autorité sont contrôlés par le serveur ; un navigateur ne reçoit que les données de son périmètre. | RG-69, RG-79 |
-| ENF-05 | Sécurité | Les processus du système d’exploitation ne sont ni présentés ni proposés à l’arrêt. | RG-20, RG-32 |
-| ENF-06 | Intégrité | Un compte ORION, une remontée et un constat RIGEL ne sont jamais supprimés ; un matériel cité par une remontée est conservé. | RG-73, RG-79, RG-82, RG-95 |
-| ENF-07 | Traçabilité | La déconnexion est journalisée ; le suivi d’une remontée conserve chaque changement de statut, daté. | RG-64, RG-99 |
-| ENF-08 | Fraîcheur | Les données de supervision d’un poste sont actualisées toutes les cinq secondes. | RG-57 |
-| ENF-09 | Disponibilité des postes | Un poste sans remontée depuis trente secondes est présenté comme déconnecté. | RG-58 |
-| ENF-10 | Conservation | Les détections de processus blacklistés ou non référencés sont conservées trente jours. | RG-56 |
-| ENF-11 | Documents | Le PDF d’état des lieux est produit par le serveur à chaque demande, avec les informations du moment, et n’est pas conservé. | RG-35, RG-89 |
-| ENF-12 | Notifications | Les notifications sont présentées dans ORION ; aucun courriel n’est envoyé. | RG-37, RG-38 |
-| ENF-13 | Mobilité | RIGEL fonctionne hors connexion et transmet ses constats au retour du réseau ; un scan plus ancien que la dernière information connue est refusé. | RG-94 |
-| ENF-14 | Concurrence | Plusieurs utilisateurs travaillent simultanément sans se bloquer ; les écritures concurrentes sont fusionnées élément par élément. | Conception (chapitre 10) |
-| ENF-15 | Ergonomie | Chaque utilisateur retrouve à chaque connexion son ambiance d’affichage et ses tableaux de bord personnalisés. | RG-84, RG-97 |
-| ENF-16 | Ergonomie | La recherche globale porte sur les salles, matériels et remontées accessibles, sans tenir compte de la casse. | RG-98 |
-| ENF-17 | Import | Un import JSON accepte au plus 2 000 matériels et 2 Mo ; un fichier illisible, vide, trop volumineux ou invalide est refusé. | RG-29 |
-| ENF-18 | Capacité | Le premier palier de production vise 1 000 postes actifs, avec une extension envisagée à 5 000. | Hypothèse (§ 2.8) |
-| ENF-19 | Hébergement | ORION est hébergé sur le C1NP avec des produits de la pile logicielle autorisée du CCT. | R3 |
+| N° | Catégorie | Exigence | Priorité | Source |
+| --- | --- | --- | --- | --- |
+| ENF-01 | Accès | ORION est une application web utilisable avec Firefox depuis les postes des écoles, sans installation sur le poste. | Essentielle | Sujet, fiches |
+| ENF-02 | Authentification | Chaque utilisateur s’authentifie par MindefConnect ; l’accès exige ensuite un compte ORION actif. Une désactivation prend effet immédiatement. | Essentielle | RG-62, RG-85 |
+| ENF-03 | Authentification | La déconnexion met fin à la session ORION puis à celle de MindefConnect. | Importante | RG-99 |
+| ENF-04 | Sécurité | Les droits, le périmètre par école et les valeurs d’autorité sont contrôlés par le serveur ; un navigateur ne reçoit que les données de son périmètre. | Essentielle | RG-69, RG-79 |
+| ENF-05 | Sécurité | Les processus du système d’exploitation ne sont ni présentés ni proposés à l’arrêt. | Essentielle | RG-20, RG-32 |
+| ENF-06 | Intégrité | Un compte ORION, une remontée et un constat RIGEL ne sont jamais supprimés ; un matériel cité par une remontée est conservé. | Importante | RG-73, RG-79, RG-82, RG-95 |
+| ENF-07 | Traçabilité | Le suivi d’une remontée conserve chaque changement de statut, daté. | Importante | RG-64 |
+| ENF-08 | Fraîcheur | Les données de supervision d’un poste sont actualisées toutes les cinq secondes. | Importante | RG-57 |
+| ENF-09 | Disponibilité des postes | Un poste sans remontée depuis trente secondes est présenté comme déconnecté. | Importante | RG-58 |
+| ENF-10 | Conservation | Les détections de processus blacklistés ou non référencés sont conservées trente jours. | Importante | RG-56 |
+| ENF-11 | Documents | Le PDF d’état des lieux est produit par le serveur à chaque demande, avec les informations du moment, et n’est pas conservé. | Essentielle | RG-35, RG-89 |
+| ENF-12 | Notifications | Les notifications sont présentées dans ORION ; aucun courriel n’est envoyé. | Importante | RG-37, RG-38 |
+| ENF-13 | Mobilité | RIGEL fonctionne hors connexion et transmet ses constats au retour du réseau ; un scan plus ancien que la dernière information connue est refusé. | Complémentaire | RG-94 |
+| ENF-14 | Concurrence | Plusieurs utilisateurs travaillent simultanément sans se bloquer ; les écritures concurrentes sont fusionnées élément par élément. | Importante | Conception (chapitre 11) |
+| ENF-15 | Ergonomie | Chaque utilisateur retrouve à chaque connexion son ambiance d’affichage et ses tableaux de bord personnalisés. | Complémentaire | RG-84, RG-97 |
+| ENF-16 | Ergonomie | La recherche globale porte sur les salles, matériels et remontées accessibles, sans tenir compte de la casse. | Complémentaire | RG-98 |
+| ENF-17 | Import | Un import JSON accepte au plus 2 000 matériels et 2 Mo ; un fichier illisible, vide, trop volumineux ou invalide est refusé. | Importante | RG-29 |
+| ENF-18 | Capacité | Le premier palier de production vise 1 000 postes actifs, avec une extension envisagée à 5 000. | Essentielle | Hypothèse (§ 2.8) |
+| ENF-19 | Hébergement | ORION est hébergé sur le C1NP avec des produits de la pile logicielle autorisée du CCT ; il accède à MindefConnect sur Internet (IE-01). | Essentielle | Sujet, R3 |
+| ENF-20 | Journalisation | Chaque requête à l’API, chaque connexion, refus de connexion et déconnexion, chaque écriture d’un utilisateur, chaque refus d’un droit ou d’une règle et chaque résultat d’intervention est journalisé avec le compte concerné et, pour une requête, l’adresse IP du client, le statut et la durée. Les journaux ne contiennent ni secret, ni jeton, ni contenu de requête et sont transmis au puits de logs (IE-02). | Essentielle | Sujet, RG-99 |
+| ENF-21 | Données personnelles | ORION ne conserve sur un utilisateur que son nom, son adresse électronique, son profil, son école et l’état de son compte, et sur les postes que le compte Windows associé à une détection, pendant trente jours. Ces données ne sont accessibles que dans le périmètre de l’école (RG-69) ; aucun mot de passe n’est conservé. | Essentielle | RG-56, RG-62, RG-69 |
 
-## 9. Modèles d’analyse
+## 9. Interfaces externes
 
-### 9.1 Diagrammes d’états
+ORION échange avec les systèmes suivants. Chaque interface est sécurisée par HTTPS ou TLS ; les protocoles, ports et flux sont décrits dans le dossier d’architecture technique (R6).
+
+*Tableau – Interfaces externes*
+
+| N° | Interface | Échanges | Exigence | Priorité | Source |
+| --- | --- | --- | --- | --- | --- |
+| IE-01 | MindefConnect, sur Internet | ORION redirige le navigateur vers MindefConnect pour l’authentification (OpenID Connect), reçoit l’identité de l’utilisateur, puis met fin à sa session à la déconnexion. | ORION accède à MindefConnect sur Internet ; il n’ouvre une session qu’à une identité qui correspond à un compte ORION actif. | Essentielle | Sujet, RG-62, RG-85, RG-99 |
+| IE-02 | Puits de logs | ORION transmet ses journaux techniques (ENF-20) au puits de logs, en syslog (RFC 5424) sur TLS. | Les journaux de chaque composant d’ORION sont centralisés dans le puits de logs et consultables par les personnes habilitées. | Essentielle | Sujet |
+| IE-03 | Agent d’administration des postes Windows | Le poste transmet son état, ses processus utilisateur et ses applications installées, reçoit en réponse les interventions à exécuter, puis renvoie leur résultat. | ORION reçoit ces échanges sur son API des postes (`/api/agent`), authentifiée ; il fixe seul le suivi des interventions. Le contrat définitif dépend de la solution retenue (PO-01). | Essentielle | Sujet, RG-57, RG-58, RG-81 |
+| IE-04 | `/api/health` | État de fonctionnement d’ORION et de ses dépendances. | Le point d’accès est public et ne renvoie qu’un état global ; le détail des services est réservé au super administrateur connecté. | Essentielle | Sujet |
+| IE-05 | `/api/infos` | Description de l’application : version publiée et démarrage. | Le point d’accès est public et ne renvoie que la description de l’application ; le détail technique est réservé au super administrateur connecté. | Essentielle | Sujet |
+
+## 10. Modèles d’analyse
+
+### 10.1 Diagrammes d’états
 
 Les [diagrammes d’états](03-ANALYSE/01-DIAGRAMMES-ETATS.md) décrivent le cycle de vie des objets dont le statut conditionne les actions possibles.
 
-### 9.2 Diagramme de classes d’analyse
+### 10.2 Diagramme de classes d’analyse
 
 Le [diagramme de classes d’analyse](03-ANALYSE/02-DIAGRAMME-CLASSES-ANALYSE.md) distingue les classes d’interface (dialogue), de contrôle et d’entité pour chaque domaine.
 
-## 10. Modèles de conception
+## 11. Modèles de conception
 
-### 10.1 Diagramme de classes de conception
+### 11.1 Diagramme de classes de conception
 
 Le [diagramme de classes de conception](04-CONCEPTION/01-DIAGRAMME-CLASSES-CONCEPTION.md) présente les classes majeures d’ORION avec leurs attributs, leurs méthodes et leurs associations, ainsi que les énumérations des statuts et des profils.
 
-### 10.2 Diagrammes de séquence détaillés
+### 11.2 Diagrammes de séquence détaillés
 
 Les [diagrammes de séquence détaillés](04-CONCEPTION/02-DIAGRAMMES-SEQUENCE-DETAILLES.md) décrivent les échanges entre les composants d’ORION pour les parcours les plus structurants.
 
-### 10.3 Modèle logique de données
+### 11.3 Modèle logique de données
 
 Le [modèle logique de données](04-CONCEPTION/03-MODELE-LOGIQUE-DONNEES.md) traduit le MCD en relations selon les règles de passage Merise : une entité devient une relation portant sa clé ; une association 1,1 – 0,N ou 1,1 – 1,N devient une clé étrangère du côté 1,1 ; une association 0,1 – 0,N devient une clé étrangère facultative ; une association N – N, ou porteuse d’attributs, devient une relation à clé composée. Chaque clé étrangère porte le nom de l’association d’origine ; les contraintes d’exclusion X (portée d’une règle) et XT (paquet) sont rappelées sur les relations concernées.
 
@@ -356,15 +397,15 @@ Le modèle physique conserve en tables relationnelles les données de référenc
 
 Les tables techniques du modèle physique (`espace`, `journal`, `migration`, `session`, `preference`) n’ont pas d’entité conceptuelle : elles portent la révision de l’espace de travail, le journal de fusion, les migrations appliquées, les sessions et les préférences d’affichage.
 
-### 10.4 Modèle physique de données
+### 11.4 Modèle physique de données
 
 Le [modèle physique des données](04-CONCEPTION/04-MODELE-PHYSIQUE-DONNEES.md) décrit les tables PostgreSQL d’ORION, leurs clés, contraintes et index, ainsi que les documents JSONB.
 
-## 11. Traçabilité
+## 12. Traçabilité
 
-### 11.1 Du besoin aux cas d’utilisation
+### 12.1 Du besoin aux cas d’utilisation
 
-Chaque capacité attendue par le sujet est couverte par au moins un cas d’utilisation.
+Chaque capacité attendue par le sujet est couverte par au moins un cas d’utilisation, à l’exception du paramétrage des formations induites, annulé par le client.
 
 *Tableau – Couverture du besoin*
 
@@ -376,6 +417,7 @@ Chaque capacité attendue par le sujet est couverte par au moins un cas d’util
 | Affectation du matériel aux salles | UC-GEST-01, UC-ADMIN-01, UC-ADMIN-08 |
 | Déplacement des équipements | UC-GEST-01, UC-GEST-04, UC-ADMIN-08 |
 | Paramétrage des aptitudes (garantie du matériel) | UC-GEST-01, UC-ADMIN-01 |
+| Paramétrage des formations induites | Aucun : annulé par le client, hors du périmètre (§ 2.3). |
 | Consultation des applications installées | UC-ADMIN-02 |
 | Réinstallation d’un poste | UC-ADMIN-03 |
 | Réinstallation d’une salle | UC-ADMIN-03 |
@@ -387,11 +429,11 @@ Chaque capacité attendue par le sujet est couverte par au moins un cas d’util
 | Tableau de bord | UC-GEST-07, UC-ADMIN-09, UC-FORM-04 |
 | Production de documents d’état des lieux | UC-FORM-03, UC-GEST-03, UC-ADMIN-05 |
 
-### 11.2 Des cas d’utilisation aux règles de gestion
+### 12.2 Des cas d’utilisation aux règles de gestion
 
 <!-- dse:matrice -->
 
-## 12. Points ouverts
+## 13. Points ouverts
 
 Les points suivants restent à arbitrer. Ils ne remettent pas en cause les exigences du présent dossier, qui décrivent le fonctionnement retenu.
 
@@ -401,9 +443,9 @@ Les points suivants restent à arbitrer. Ils ne remettent pas en cause les exige
 | --- | --- | --- |
 | PO-01 | Solution d’administration des postes Windows | Deux options étudiées : Microsoft Configuration Manager, déjà présent au ministère, ou un agent dédié développé par l’équipe. Dans les deux cas, le poste reste la source de vérité et ORION pilote les demandes. |
 | PO-02 | Intégration de MindefConnect | Le service est retenu ; les accès, le contrat d’intégration et les attributs transmis restent à obtenir. |
-| PO-03 | Indicateurs des statistiques d’utilisation | L’administrateur consulte les statistiques ; les indicateurs et leurs règles de calcul restent à préciser (RG-68). |
+| PO-03 | Indicateurs des statistiques d’utilisation | L’administrateur consulte des statistiques d’utilisation des postes et des processus ; les indicateurs proposés (postes allumés, processus utilisateur actifs, détections conservées et détections par processus) restent à valider (RG-68). |
 | PO-04 | Volumétrie et performances | Nombre d’utilisateurs simultanés, temps de réponse et disponibilité attendus à confirmer par des essais de charge. |
-| PO-05 | Écarts avec la première version demandée | Le dossier vise le produit final : super administrateur et plusieurs écoles, statuts « en cours » et « corrigé », identifiant ORION distinct du numéro de série, affichage des notifications. Ces choix sont présentés au client. |
+| PO-05 | Écarts avec la première version demandée | Le dossier vise le produit final ; les écarts avec la demande du client (§ 2.9) lui sont présentés. |
 
 ## Annexes
 

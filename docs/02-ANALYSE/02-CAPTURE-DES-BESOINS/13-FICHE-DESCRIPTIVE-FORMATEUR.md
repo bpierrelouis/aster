@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 4.0 | 16/11/2026 | Production destinée à la remise | Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) ; Adopter le format formel des cas d’utilisation (récit, critères, scénarios numérotés) | [13 versions](../../../archive/README.md#13-fiche-descriptive-formateur) |
+| 4.1 | 17/11/2026 | Production destinée à la remise | Citer l’équipe et le client comme sources, sans renvoi interne | [14 versions](../../../archive/README.md#13-fiche-descriptive-formateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -352,9 +352,9 @@ RG-37, RG-59, RG-66, RG-69, RG-78 et RG-84.
 
 ## Contraintes transversales
 
-- Application web utilisée avec les versions de Firefox installées sur les postes de l’équipe.
+- Application web utilisée avec les versions de Firefox installées sur les postes des écoles.
 - Réseau interne NP disposant d’un accès à Internet.
-- Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
+- Authentification via MindefConnect ; modalités d’intégration à préciser (DSE, point ouvert PO-02).
 - Un seul profil par utilisateur.
 
 ## Sources

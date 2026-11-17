@@ -3,7 +3,7 @@
 <!-- version:debut : généré par versions.py, ne pas modifier à la main -->
 | Version | Mise à jour | Destination | Dernière évolution | Historique |
 | --- | --- | --- | --- | --- |
-| 6.1 | 16/11/2026 | Production destinée à la remise | Notifier aussi les matériels à déplacer | [16 versions](../../../archive/README.md#15-fiche-descriptive-super-administrateur) |
+| 6.2 | 17/11/2026 | Production destinée à la remise | Citer l’équipe et le client comme sources, sans renvoi interne | [17 versions](../../../archive/README.md#15-fiche-descriptive-super-administrateur) |
 <!-- version:fin -->
 
 - **Statut :** établie à partir des décisions en vigueur et de l’application ORION.
@@ -57,9 +57,9 @@ RG-60, RG-62, RG-69 et RG-84.
 
 ### Besoins non fonctionnels
 
-- Application web utilisée avec les versions de Firefox installées sur les postes de l’équipe.
+- Application web utilisée avec les versions de Firefox installées sur les postes des écoles.
 - Réseau interne NP disposant d’un accès à Internet.
-- Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
+- Authentification via MindefConnect ; modalités d’intégration à préciser (DSE, point ouvert PO-02).
 
 ### Interface
 
@@ -114,9 +114,9 @@ RG-15, RG-60 et RG-76.
 
 ### Besoins non fonctionnels
 
-- Application web utilisée avec les versions de Firefox installées sur les postes de l’équipe.
+- Application web utilisée avec les versions de Firefox installées sur les postes des écoles.
 - Réseau interne NP disposant d’un accès à Internet.
-- Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
+- Authentification via MindefConnect ; modalités d’intégration à préciser (DSE, point ouvert PO-02).
 
 ### Interface
 
@@ -171,9 +171,9 @@ RG-15, RG-47, RG-50 et RG-69.
 
 ### Besoins non fonctionnels
 
-- Application web utilisée avec les versions de Firefox installées sur les postes de l’équipe.
+- Application web utilisée avec les versions de Firefox installées sur les postes des écoles.
 - Réseau interne NP disposant d’un accès à Internet.
-- Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
+- Authentification via MindefConnect ; modalités d’intégration à préciser (DSE, point ouvert PO-02).
 
 ### Interface
 
@@ -236,9 +236,9 @@ RG-01, RG-15, RG-60, RG-62, RG-70, RG-71 et RG-82.
 
 ### Besoins non fonctionnels
 
-- Application web utilisée avec les versions de Firefox installées sur les postes de l’équipe.
+- Application web utilisée avec les versions de Firefox installées sur les postes des écoles.
 - Réseau interne NP disposant d’un accès à Internet.
-- Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
+- Authentification via MindefConnect ; modalités d’intégration à préciser (DSE, point ouvert PO-02).
 - Un seul profil par utilisateur.
 
 ### Interface
@@ -315,9 +315,9 @@ RG-15, RG-64, RG-69 et RG-72, complétées par toutes les règles applicables au
 
 ### Besoins non fonctionnels
 
-- Application web utilisée avec les versions de Firefox installées sur les postes de l’équipe.
+- Application web utilisée avec les versions de Firefox installées sur les postes des écoles.
 - Réseau interne NP disposant d’un accès à Internet.
-- Authentification via MindefConnect ; modalités d’intégration à préciser (cadrage § 18).
+- Authentification via MindefConnect ; modalités d’intégration à préciser (DSE, point ouvert PO-02).
 
 ### Interface
 
