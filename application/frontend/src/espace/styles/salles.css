@@ -49,15 +49,15 @@
 .bat-grid { --bat-row: clamp(420px, 60vh, 640px); display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); grid-auto-rows: minmax(var(--bat-row), auto); gap: var(--sp-4); } /* une carte grandit si ses étages l'exigent (noms lisibles) */
 .bat-card { display: flex; flex-direction: column; --radius: var(--r-xl); overflow: hidden; }
 .bat-card-head {
-  display: grid; grid-template-columns: 30px minmax(0, 1fr) 18px; align-items: center; gap: 8px 12px; padding: 14px 16px 10px; color: var(--ink-1);
+  display: grid; grid-template-columns: minmax(0, 1fr) 18px; align-items: center; gap: 8px 12px; padding: 14px 16px 10px; color: var(--ink-1);
   border-bottom: 1px solid rgb(var(--ink) / .06);
 }
 .bat-card-head:hover .bat-card-title b { color: var(--accent); }
 .bat-card-title { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.2; }
 .bat-card-title b { font-size: 1.125rem; font-weight: 780; letter-spacing: -.01em; }
 .bat-card-title small { font-size: 0.875rem; color: var(--ink-2); font-weight: 600; }
-.bat-card-stats { grid-column: 2; grid-row: 2; display: flex; flex-wrap: wrap; gap: 6px; }
-.bat-card-head > .ico { grid-column: 3; grid-row: 1 / 3; }
+.bat-card-stats { grid-column: 1; grid-row: 2; display: flex; flex-wrap: wrap; gap: 6px; }
+.bat-card-head > .ico { grid-column: 2; grid-row: 1 / 3; }
 .bat-card-stats > span {
   display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px;
   font-size: 0.875rem; font-weight: 720; font-variant-numeric: tabular-nums; background: var(--fill-1); color: var(--ink-2);
@@ -65,7 +65,6 @@
 .bat-card-stats > .is-hs { background: color-mix(in srgb, var(--crit) 14%, transparent); color: var(--crit); }
 .bat-card-stats > .is-wait { background: color-mix(in srgb, var(--wait) 24%, transparent); color: #8a6100; }
 :root[data-tone="dark"] .bat-card-stats > .is-wait { color: var(--wait); }
-.code-badge--l { min-width: 30px; height: 30px; font-size: 1rem; border-radius: 9px; }
 .bat-card-stage { position: relative; flex: 1; min-height: 280px; display: grid; place-items: center; cursor: pointer; overflow: hidden; }
 
 /* Dalle d'étage */

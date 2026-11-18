@@ -185,7 +185,6 @@ export function BatCard({ b, scene }: { b: string; scene: Scene }) {
   const model = modelOf(b, .8);
   return <article className="bat-card glass">
     <Link className="bat-card-head" to={`/salles/batiment/${encodeURIComponent(b)}`}>
-      <span className="code-badge code-badge--l">{b}</span>
       <span className="bat-card-title"><b>{batimentLabel(b)}</b><small>{plural(levels.length, 'niveau', 'niveaux')} · {plural(n, 'salle')}</small></span>
       <span className="bat-card-stats">
         <span data-tip="Matériels affectés"><Icon name="materiel" size={15} />{num(c.total)}</span>
