@@ -4,6 +4,7 @@ Support HTML autonome de la présentation finale (25 minutes), en ambiance nuit 
 
 - [`index.html`](index.html) : 17 diapositives, la première vide (écran d’attente), dont les blocs apparaissent à la demande ; `→` ou `Espace` révèle le bloc suivant puis change de diapositive, `←` revient, `N` affiche l’orateur et le minutage, `F` plein écran ; `#n/k` dans l’adresse ouvre la diapositive n avec k blocs révélés, `?static` coupe les transitions (captures).
 - [`CONDUCTEUR.md`](CONDUCTEUR.md) : répartition des passages, minutage, texte de chaque orateur, transitions, déroulé pas à pas des trois scénarios de démonstration (formateur, gestionnaire avec RIGEL, administrateur), préparation et aide-mémoire pour les questions.
+- [`minutage.py`](minutage.py) : minutage du conducteur (`py -3 minutage.py CONDUCTEUR.md`, Windows) : texte dit lu par la synthèse vocale française, révélations et passages de parole ; pendant la démonstration, parole et manipulation sont comptées en parallèle.
 - [`IMPORT-CND.json`](IMPORT-CND.json) : livraison du CND importée par la gestionnaire pendant la démonstration (Matériels › Import JSON).
 
 Les logos de la pile logicielle sont ceux de la [présentation d’architecture](../2026-11-16_architecture/assets/logos/SOURCES.md) ; l’étoile de la marque vient de `design/assets/logos/`.

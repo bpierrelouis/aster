@@ -51,7 +51,7 @@
   const viewport = $("viewport");
   const world = $("world");
   const TITRES = [
-    "Tout commence dans le navigateur.", "Une seule porte : HAProxy, en HTTPS.", "Apache sert l’interface.", "Express porte l’API et toutes les règles.",
+    "Tout commence dans le navigateur.", "Une seule porte : HAProxy, en HTTPS.", "Apache sert les interfaces d’ORION et de RIGEL.", "Express porte l’API et toutes les règles.",
     "PostgreSQL garde les données, les sessions et le journal.", "L’identité reste à MindefConnect.", "Les postes Windows remontent leur état en continu.",
     "RIGEL : le téléphone passe par la même porte.", "Un front, un back, une base. Une seule entrée.",
   ];
