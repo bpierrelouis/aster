@@ -130,7 +130,7 @@
 .bl-author { display: inline-flex; align-items: center; gap: 4px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 @media (max-width: 1120px) {
-  .rm-layout { grid-template-columns: 1fr; }
+  .rm-layout { grid-template-columns: minmax(0, 1fr); }
   .rm-layout.has-selection .rm-panel, .rm-layout.has-selection .bl-panel { display: none; }
   .bl-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .rm-layout:not(.has-selection) .rm-detail { display: none; }
@@ -140,6 +140,7 @@
   .rm-desc { display: none; }
   .rm-side { display: none; }
   .rm-toolbar .field--search { min-width: 100%; }
+  .rm-toolbar .seg { min-width: 0; max-width: 100%; overflow-x: auto; } /* filtre des bâtiments : défile s'il ne tient pas sur la ligne */
   .rm-panel { padding: 10px; }
   .rm-row { padding: 10px 8px; gap: 10px; }
   .edl { padding: 22px; aspect-ratio: auto; }
