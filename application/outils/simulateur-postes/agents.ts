@@ -4,7 +4,8 @@
    d'un stagiaire au nom fictif, qui lance des programmes), remonte son état
    par l'API d'agent, reçoit les interventions demandées (arrêt de
    processus, installation, désinstallation, réinstallation), les exécute
-   et renvoie le résultat. Chaque poste reçoit une adresse IPv4 stable,
+   et renvoie le résultat ; les installations se font poste par poste, une
+   par cycle de remontée. Chaque poste reçoit une adresse IPv4 stable,
    attribuée par salle (adressesIp), qu'il remonte dans ses rapports.
    Seuls les postes sont émulés : ORION traite leurs rapports comme ceux
    de postes réels.
@@ -141,7 +142,9 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
       }
       const online = [...postes.values()].filter((p) => p.online);
       const { commandes = [] } = await transport.rapports(online.map((p) => ({ poste: p.nomReseau, adresseIp: p.adresseIp, os: SYSTEME, session: p.session, processus: [...p.processes].map((nom) => ({ nom, compte: p.session })), applications: [...p.apps] })));
-      const resultats = commandes.map(execute).filter(Boolean) as Resultat[];
+      // Installations poste par poste : une seule par cycle, les autres attendent les cycles suivants
+      const installation = commandes.find((c) => c.type === 'installation' && postes.get(c.poste)?.online);
+      const resultats = commandes.filter((c) => c.type !== 'installation' || c === installation).map(execute).filter(Boolean) as Resultat[];
       if (resultats.length) await transport.resultats(resultats);
     } catch (error) {
       log.error('postes_emules', { erreur: raison(error) });
