@@ -1,0 +1,65 @@
+[
+  {
+    "modele": "Unité centrale ThinkCentre M70",
+    "type": "uc",
+    "marque": "Lenovo",
+    "serie": "SMJ0R0001",
+    "dateReception": "2026-11-19",
+    "garantieFin": "2029-11-19",
+    "hs": false
+  },
+  {
+    "modele": "Unité centrale ThinkCentre M70",
+    "type": "uc",
+    "marque": "Lenovo",
+    "serie": "SMJ0R0002",
+    "dateReception": "2026-11-19",
+    "garantieFin": "2029-11-19",
+    "hs": false
+  },
+  {
+    "modele": "Unité centrale ThinkCentre M70",
+    "type": "uc",
+    "marque": "Lenovo",
+    "serie": "SMJ0R0003",
+    "dateReception": "2026-11-19",
+    "garantieFin": "2029-11-19",
+    "hs": false
+  },
+  {
+    "modele": "Unité centrale ThinkCentre M70",
+    "type": "uc",
+    "marque": "Lenovo",
+    "serie": "SMJ0R0004",
+    "dateReception": "2026-11-19",
+    "garantieFin": "2029-11-19",
+    "hs": false
+  },
+  {
+    "modele": "Écran 242V8A 24 pouces",
+    "type": "ecran",
+    "marque": "Philips",
+    "serie": "UHB2111000101",
+    "dateReception": "2026-11-19",
+    "garantieFin": "2027-11-19",
+    "hs": false
+  },
+  {
+    "modele": "Écran 242V8A 24 pouces",
+    "type": "ecran",
+    "marque": "Philips",
+    "serie": "UHB2111000102",
+    "dateReception": "2026-11-19",
+    "garantieFin": "2027-11-19",
+    "hs": false
+  },
+  {
+    "modele": "Écran 242V8A 24 pouces",
+    "type": "ecran",
+    "marque": "Philips",
+    "serie": "UHB2049004779",
+    "dateReception": "2026-11-19",
+    "garantieFin": "2027-11-19",
+    "hs": false
+  }
+]

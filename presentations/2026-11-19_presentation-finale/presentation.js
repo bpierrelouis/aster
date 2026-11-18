@@ -52,7 +52,7 @@
   const world = $("world");
   const TITRES = [
     "Tout commence dans le navigateur.", "Une seule porte : HAProxy, en HTTPS.", "Apache sert l’interface.", "Express porte l’API et toutes les règles.",
-    "PostgreSQL garde les données, les sessions et le journal.", "L’identité reste à MindefConnect.", "Les postes Windows se présentent toutes les cinq secondes.",
+    "PostgreSQL garde les données, les sessions et le journal.", "L’identité reste à MindefConnect.", "Les postes Windows remontent leur état en continu.",
     "RIGEL : le téléphone passe par la même porte.", "Un front, un back, une base. Une seule entrée.",
   ];
   // Points des flux : même vitesse et même espacement sur chaque flux ; apparition et disparition en fondu aux extrémités.
