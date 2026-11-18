@@ -86,6 +86,9 @@ export function openRuleForm(rule: Regle | null = null) {
 function RuleForm({ rule }: { rule: Regle | null }) {
   const state = useStore();
   const ecole = currentEcole() === 'all' ? state.ecoles[0]?.id : currentEcole();
+  const portees = (me().role === 'superadmin' ? ['global', 'ecole', 'batiment', 'salle'] : ['ecole', 'batiment', 'salle']) as Portee[];
+  // Champs utiles à la portée choisie ; la salle porte son école
+  const [portee, setPortee] = useState<Portee>(rule?.portee ?? portees[0]);
 
   async function save(form: FormData) {
     const values = Object.fromEntries(form) as RegleSaisie;
@@ -108,17 +111,17 @@ function RuleForm({ rule }: { rule: Regle | null }) {
         <FilterSelect aria-label="Classement" name="classement" defaultValue={rule?.classement} options={[{ value: 'whitelist', label: 'Autorisé (whitelist)' }, { value: 'blacklist', label: 'Interdit (blacklist)' }]} />
       </div>
       <div className="field"><span className="field-label">Portée</span>
-        <FilterSelect aria-label="Portée" name="portee" defaultValue={rule?.portee}
-          options={((me().role === 'superadmin' ? ['global', 'ecole', 'batiment', 'salle'] : ['ecole', 'batiment', 'salle']) as Portee[]).map((p) => ({ value: p, label: PORTEES[p] }))} />
+        <FilterSelect aria-label="Portée" name="portee" defaultValue={portee} onChange={(ev) => setPortee(ev.target.value as Portee)}
+          options={portees.map((p) => ({ value: p, label: PORTEES[p] }))} />
       </div>
       <div className="field"><span className="field-label">École</span>
-        <FilterSelect aria-label="École" name="ecoleId" defaultValue={(rule?.ecoleId || ecole) ?? undefined} options={state.ecoles.map((e) => ({ value: e.id, label: e.nom }))} />
+        <FilterSelect aria-label="École" name="ecoleId" disabled={portee !== 'ecole' && portee !== 'batiment'} defaultValue={(rule?.ecoleId || ecole) ?? undefined} options={state.ecoles.map((e) => ({ value: e.id, label: e.nom }))} />
       </div>
       <div className="field"><span className="field-label">Bâtiment</span>
-        <FilterSelect aria-label="Bâtiment" name="batiment" defaultValue={rule?.batiment} options={batiments().map((b) => ({ value: b, label: b }))} />
+        <FilterSelect aria-label="Bâtiment" name="batiment" disabled={portee !== 'batiment'} defaultValue={rule?.batiment} options={batiments().map((b) => ({ value: b, label: b }))} />
       </div>
       <div className="field"><span className="field-label">Salle</span>
-        <FilterSelect aria-label="Salle" name="salleId" defaultValue={rule?.salleId} options={optionsSalles()} />
+        <FilterSelect aria-label="Salle" name="salleId" disabled={portee !== 'salle'} defaultValue={rule?.salleId} options={optionsSalles()} />
       </div>
     </div>
   </SheetForm>;
