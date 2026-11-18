@@ -272,7 +272,7 @@ test('une synchronisation lue pendant un enregistrement ne rétablit pas l’app
 test('les tableaux de bord présentent des diagrammes ; indicateurs et diagrammes sans icône', async ({ page, request }, testInfo) => {
   await open(page, '/accueil/parc');
   const widget = (type: string) => page.locator(`.widget[data-type="${type}"]`);
-  await expect(widget('chart.parcBatiments').locator('.col')).toHaveCount(4);
+  await expect(widget('chart.parcBatiments').locator('.col')).toHaveCount(5);
   await expect(widget('chart.parcBatiments').locator('.col-value').first()).toContainText('%');
   // Grandeurs sans palette décorative : une seule couleur, l'accent
   expect(await widget('chart.parcBatiments').locator('.col-bar').evaluateAll((n) => [...new Set(n.map((e) => e.style.getPropertyValue('--c')))])).toEqual(['var(--accent)']);

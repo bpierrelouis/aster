@@ -2,7 +2,8 @@
    Données de démonstration ORION, générées de façon déterministe ; chargées
    par charger.ts, jamais par le serveur.
    Jeu de travail : une école de quatre bâtiments aux étages et salles
-   hétérogènes (de 1 à 8 salles par étage, du sous-sol au 4e étage).
+   hétérogènes (de 1 à 8 salles par étage, du sous-sol au 4e étage), et le
+   bâtiment 201, où se joue la démonstration (DEMONSTRATION).
    Une seconde école illustre la vue super administrateur.
    La forme des objets suit le glossaire et les règles de gestion.
    ========================================================================== */
@@ -24,7 +25,7 @@ export function prng(seed: number) {
 }
 
 /** Version du jeu de démonstration : à incrémenter quand sa forme change ; une base chargée d'une autre version est rechargée (charger.ts, --reinitialiser). */
-export const SEED_VERSION = 22;
+export const SEED_VERSION = 24;
 
 /**
  * Comptes ORION de départ : profil et école de rattachement de chaque personne.
@@ -73,13 +74,26 @@ type MaterielGenere = Omit<Materiel, 'idOrion'> & { idOrion?: string };
 /** Fin de garantie d'une étiquette d'inventaire : dernier jour du mois, à midi (comme `lireEtiquette`) */
 const finDeMois = (annee: number, mois: number) => new Date(annee, mois, 0, 12).getTime();
 
-/* Étiquettes réelles relevées dans une salle, attribuées aux matériels de la salle indiquée :
+/* Démonstration de la présentation finale (presentations/2026-11-19_presentation-finale/CONDUCTEUR.md) : salle du
+   bâtiment 201 dont les postes restent allumés, session ouverte, avec les processus indiqués (simulateur des postes),
+   et écran de remplacement reçu au stock la veille, que le gestionnaire affecte à la salle pendant la démonstration. */
+export const DEMONSTRATION = {
+  batiment: '201', salle: '119', postes: 14,
+  processus: { '119-PC03': ['Discord.exe'], '119-PC05': ['steam.exe'] } as Readonly<Record<string, readonly string[]>>,
+  remplacement: 'UHB2032009637',
+} as const;
+
+/* Étiquettes réelles relevées dans la salle de la démonstration, attribuées à ses matériels :
    - unités centrales ThinkStation P340 : numéro de poste manuscrit → [numéro de série, adresse MAC], fin de garantie 10/2024 ;
-   - écrans Philips 242V8A : numéros de série ; le premier porte l'étiquette d'inventaire (fin de garantie 12/2021). */
+   - écrans Philips 242V8A : numéros de série ; le premier porte l'étiquette d'inventaire (fin de garantie 12/2021) ;
+   - recensement RIGEL du 18 novembre 2026 : unités centrales du même lot (poste noté à la saisie → numéro lu) et écrans Acer ;
+   - écrans Philips 242V8A recensés au stock le 16 novembre 2026. */
 const ETIQUETTES = {
-  salle: 'A112',
+  salle: DEMONSTRATION.salle,
   uc: { garantie: [2024, 10], ans: 3, postes: { 7: ['SS4SG0457', '2CF05DC8FAA8'], 8: ['SS4SG0495', '2CF05DC8FA16'], 12: ['SS4SG0589', '2CF05DC8F86A'] } },
   ecrans: { garantie: [2021, 12], ans: 1, series: ['UHB2039018980', 'UHB2036004970', 'UHB2051003417', 'ZV02049004626'] },
+  recensement: { uc: { 1: 'S4SG0609', 2: 'S4SG0263', 3: 'S4SG0512', 4: 'SS4SG0564' }, ecrans: ['MMTH3EE02E529020A74256', 'MMTH3EE02E529024834256'] },
+  stock: ['UHB2049004779', 'UHB2051004049', 'UHB2049004262'],
 } as const;
 
 export function seed(now = Date.now()) {
@@ -89,7 +103,8 @@ export function seed(now = Date.now()) {
   const serie = (prefix: string) => `${prefix}-${String(between(10000, 99999))}`;
   // Valeur unique d'une étiquette : chaque « # » de la forme devient un chiffre, hexadécimal pour une adresse MAC
   // (les valeurs réelles sont réservées)
-  const prises = new Set<string>([...Object.values(ETIQUETTES.uc.postes).flat(), ...ETIQUETTES.ecrans.series]);
+  const prises = new Set<string>([...Object.values(ETIQUETTES.uc.postes).flat(), ...ETIQUETTES.ecrans.series, ...Object.values(ETIQUETTES.recensement.uc),
+    ...ETIQUETTES.recensement.ecrans, ...ETIQUETTES.stock, DEMONSTRATION.remplacement]);
   const unique = (forme: string, base = 10) => {
     for (;;) {
       const v = forme.replace(/#/g, () => between(0, base - 1).toString(base).toUpperCase());
@@ -115,6 +130,14 @@ export function seed(now = Date.now()) {
   // D : ateliers de plain-pied et réserve en sous-sol
   ([['Atelier 1', 4, 0], ['Atelier 2', 6, 0], ['Réserve', 0, -1]] as const).forEach(([n, p, e]) => addSalle('e-num', 'D', n, p, e));
   ([['R101', 10], ['R102', 10], ['R201', 8], ['Labo réseau', 6], ['R204', 4]] as const).forEach(([n, p]) => addSalle('e-res', 'R', n, p, n === 'Labo réseau' ? 2 : undefined));
+  // 201 : bâtiment de la démonstration, amphithéâtre et 10 salles au rez-de-chaussée, 20 salles aux 1er et 2e étages
+  addSalle('e-num', DEMONSTRATION.batiment, 'Amphi', 0, 0);
+  for (const [level, n] of [[0, 10], [1, 20], [2, 20]]) {
+    for (let i = 1; i <= n; i++) {
+      const nom = `${level}${String(i).padStart(2, '0')}`;
+      addSalle('e-num', DEMONSTRATION.batiment, nom, nom === DEMONSTRATION.salle ? DEMONSTRATION.postes : [0, 4, 0, 6, 0, 8, 0, 4][(i + level) % 8], level);
+    }
+  }
 
   const materiels: MaterielGenere[] = [];
   // recentDays : réception récente, entre 2 et recentDays jours (sinon entre 20 jours et 3 ans)
@@ -161,6 +184,9 @@ export function seed(now = Date.now()) {
   // reçus ces dernières semaines (garanties en cours)
   const LOT: Partial<Record<ModeleKey, number>> = { uc: 20, ecran: 40, clavier: 20, souris: 20, vp: 3, switch: 2, borne: 3, cable: 24, audio: 4, imprimante: 2, autre: 3 };
   for (const [key, n] of Object.entries(LOT) as [ModeleKey, number][]) for (let i = 0; i < n; i++) mkMat('e-num', null, key, 21);
+  // Écran de remplacement de la démonstration : reçu la veille, dernier reçu
+  mkMat('e-num', null, 'ecran');
+  const remplacement = Object.assign(materiels.at(-1)!, { serie: DEMONSTRATION.remplacement, hs: false, dateReception: now - DAY, garantieFin: now - DAY + 365 * DAY });
   // Matériels des étiquettes réelles : reçus à la date que donne la fin de garantie imprimée
   const reels = materiels.filter((m) => m.salleId === salles.find((x) => x.ecoleId === 'e-num' && x.nom === ETIQUETTES.salle)!.id);
   const etiqueter = (m: MaterielGenere, [, modele, marque]: Modele, serie: string, mac: string | null, { garantie: [annee, mois], ans }: { garantie: readonly [number, number]; ans: number }) =>
@@ -169,6 +195,10 @@ export function seed(now = Date.now()) {
   for (const [poste, [serie, mac]] of Object.entries(ETIQUETTES.uc.postes)) etiqueter(ucsReelles[Number(poste) - 1], MODELES.uc[0], serie, mac, ETIQUETTES.uc);
   const ecransReels = reels.filter((m) => m.type === 'ecran');
   ETIQUETTES.ecrans.series.forEach((serie, i) => etiqueter(ecransReels[i], MODELES.ecran[0], serie, null, ETIQUETTES.ecrans));
+  for (const [poste, serie] of Object.entries(ETIQUETTES.recensement.uc)) etiqueter(ucsReelles[Number(poste) - 1], MODELES.uc[0], serie, null, ETIQUETTES.uc);
+  ETIQUETTES.recensement.ecrans.forEach((serie, i) => Object.assign(ecransReels[ETIQUETTES.ecrans.series.length + i], { modele: 'Écran', marque: 'Acer', serie, mac: null }));
+  const ecransStock = materiels.filter((m) => m.ecoleId === 'e-num' && !m.salleId && m.type === 'ecran' && now - m.dateReception > 30 * DAY);
+  ETIQUETTES.stock.forEach((serie, i) => Object.assign(ecransStock[i], { serie, hs: false }));
   // Identifiant ORION attribué dans l'ordre de réception (RG-03)
   [...materiels].sort((a, b) => a.dateReception - b.dateReception).forEach((m, i) => { m.idOrion = numeroMateriel(i + 1); });
 
@@ -182,12 +212,14 @@ export function seed(now = Date.now()) {
   const plan = (m: MaterielGenere, salleId: Id | null, at = now - between(2, 30) * HOUR) => { m.deplacement = { de: m.salleId ?? null, at, par: gestNum.nom, parId: gestNum.id }; m.salleId = salleId; };
   const installe = (m: MaterielGenere, de: Id | null, at: number) => { m.installation = { de, at, par: gestNum.nom, parId: gestNum.id }; };
   const salleNommee = (nom: string) => salles.find((s) => s.ecoleId === 'e-num' && s.nom === nom)!.id;
-  const atelier = materiels.filter((m) => m.ecoleId === 'e-num' && !m.salleId && !m.hs && now - m.dateReception < 22 * DAY && ['uc', 'ecran'].includes(m.type)).slice(0, 8);
+  const atelier = materiels.filter((m) => m !== remplacement && m.ecoleId === 'e-num' && !m.salleId && !m.hs && now - m.dateReception < 22 * DAY && ['uc', 'ecran'].includes(m.type)).slice(0, 8);
   atelier.forEach((m) => plan(m, salleNommee('Atelier 2'), now - 26 * HOUR));
   atelier.slice(0, 3).forEach((m) => { installe(m, null, now - between(1, 3) * HOUR); delete m.deplacement; });
   materiels.filter((m) => m.salleId === salleNommee('C201') && m.type === 'ecran').slice(0, 2).forEach((m) => plan(m, salleNommee('C202')));
   materiels.filter((m) => m.salleId === salleNommee('Atelier 1') && ['uc', 'ecran'].includes(m.type)).slice(0, 3).forEach((m) => plan(m, null));
   materiels.filter((m) => m.salleId === salleNommee('B203') && ['uc', 'ecran'].includes(m.type)).slice(0, 4).forEach((m) => installe(m, null, now - 3 * DAY + between(0, 4) * HOUR));
+  const salleDemo = salleNommee(DEMONSTRATION.salle);
+  const materielsDemo = materiels.filter((m) => m.salleId === salleDemo);
 
   // Postes de supervision, chacun rattaché à une unité centrale de sa salle (orientation de l'utilisateur du
   // 12 novembre ; RG-40 séparait les deux domaines)
@@ -216,7 +248,7 @@ export function seed(now = Date.now()) {
   // Auteurs : formateurs (le premier plus souvent) et administrateur de l'école du matériel
   const auteursDe = (ecoleId: Id) => { const list = comptes.filter((c) => c.ecoleId === ecoleId && ['formateur', 'admin'].includes(c.role)); const lead = list.find((c) => c.role === 'formateur')!; return [lead, ...list]; };
   const remontees: Remontee[] = [];
-  const placed = materiels.filter((m) => m.salleId);
+  const placed = materiels.filter((m) => m.salleId && m.salleId !== salleDemo); // salle de la démonstration : remontées choisies ci-dessous
   for (let i = 0; i < 74; i++) {
     const ageDays = Math.pow(rnd(), 1.05) * 84;
     const createdAt = now - ageDays * DAY - between(0, 8) * HOUR;
@@ -247,10 +279,23 @@ export function seed(now = Date.now()) {
       description: pick(DESCRIPTIONS[prob]), statut: st, historique,
     });
   }
+  // Salle de la démonstration : quelques remontées sur des matériels secondaires (l'écran en panne et les unités centrales restent aux scénarios)
+  const signaler = (modele: string, probleme: ProblemId, description: string, auteurId: Id, ilYa: number, suite: [RemonteeStatut, number][] = []) => {
+    const m = materielsDemo.find((x) => x.modele.startsWith(modele))!;
+    const auteur = comptes.find((c) => c.id === auteurId)!;
+    const createdAt = now - ilYa;
+    const historique: EtapeRemontee[] = [{ statut: 'attente', at: createdAt, par: auteur.nom, parId: auteur.id }, ...suite.map(([statut, apres]) => ({ statut, at: createdAt + apres, par: gestNum.nom, parId: gestNum.id }))];
+    remontees.push({ id: '', ecoleId: m.ecoleId, auteur: auteur.nom, auteurId: auteur.id, createdAt, materielIds: [m.id], probleme, description, statut: historique.at(-1)!.statut, historique });
+  };
+  signaler('Vidéoprojecteur', 'display', 'Image qui scintille puis disparaît.', 'cpt-num-formateur', 20 * DAY, [['encours', 3 * HOUR], ['corrige', 26 * HOUR]]);
+  signaler('Clavier', 'broken', 'Plusieurs touches arrachées.', 'cpt-num-formateur-2', 9 * DAY, [['encours', 5 * HOUR], ['remplace', 2 * DAY]]);
+  signaler('Câble', 'network', 'Le câble ne tient plus dans la prise murale.', 'cpt-num-formateur', 2 * DAY, [['encours', 20 * HOUR]]);
+  signaler('Souris', 'malfunction', 'Le clic droit ne fonctionne plus.', 'cpt-num-formateur-3', 26 * HOUR);
   remontees.sort((a, b) => a.createdAt - b.createdAt).forEach((r, i) => { r.id = numeroRemontee(101 + i); });
   remontees.reverse();
   // Matériels concernés par une remontée non traitée : souvent hors service
   for (const r of remontees) if (['attente', 'encours'].includes(r.statut) && rnd() < 0.5) { const m = materiels.find((x) => x.id === r.materielIds[0]); if (m) m.hs = true; }
+  for (const m of materiels) if (m.salleId === salleDemo) m.hs = false; // salle de la démonstration : tout en service
   // Date de mise hors service : peu après la plus ancienne remontée ouverte qui le cite, sinon depuis sa réception (60 jours au plus)
   for (const m of materiels) {
     if (!m.hs) continue;

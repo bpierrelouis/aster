@@ -12,7 +12,8 @@
    ========================================================================== */
 
 import { fileURLToPath } from 'node:url';
-import { UTILISATEURS, SALLES_FERMEES, prng } from '../donnees-demonstration/jeu.ts';
+import { UTILISATEURS, SALLES_FERMEES, DEMONSTRATION, prng } from '../donnees-demonstration/jeu.ts';
+import { logiciel } from '#shared/referentiels.ts';
 import type { Commande, Rapport, Resultat } from '../../backend/domaine/postes.ts';
 import { journal, raison } from '../../backend/journal.ts';
 import { environnement } from '../../backend/secrets.ts';
@@ -26,7 +27,7 @@ export type AgentTransport = {
 };
 
 /** Poste émulé */
-type PosteEmule = PosteAgent & { index: number; adresseIp: string; fermee: boolean; online: boolean; session: string | null; processes: Set<string>; apps: Set<string> };
+type PosteEmule = PosteAgent & { index: number; adresseIp: string; fermee: boolean; demo: boolean; online: boolean; session: string | null; processes: Set<string>; apps: Set<string> };
 
 // Programmes utilisateur et poids de tirage (les processus système ne sont pas remontés) : surtout des
 // outils de développement et de bureautique autorisés, rarement des programmes non référencés ou interdits
@@ -39,6 +40,8 @@ const PROGRAMMES: [string, number][] = [
   ['steam.exe', 0.2], ['EpicGamesLauncher.exe', 0.1], ['RobloxPlayerBeta.exe', 0.1], ['MinecraftLauncher.exe', 0.1],
   ['qbittorrent.exe', 0.08], ['uTorrent.exe', 0.05], ['tor.exe', 0.05], ['AnyDesk.exe', 0.05],
 ];
+// Salle de la démonstration : programmes autorisés seulement, en plus des processus fixés par DEMONSTRATION
+const AUTORISES: [string, number][] = PROGRAMMES.filter(([nom]) => logiciel(nom)?.classement === 'whitelist');
 const SYSTEME = 'Windows 11'; // système installé sur tous les postes émulés (version actuelle des machines)
 const IMAGE = ['app-firefox', 'app-vscode', 'app-git', 'app-python']; // applications de l'image de référence
 // Applications installées en plus de l'image, avec leur probabilité
@@ -72,24 +75,27 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
   transport: AgentTransport; interval?: number; seed?: number; log?: Pick<typeof journal, 'error'>;
 }) {
   const rnd = prng(seed);
-  const pick = () => { const total = PROGRAMMES.reduce((n, [, w]) => n + w, 0); let x = rnd() * total; for (const [nom, w] of PROGRAMMES) { x -= w; if (x <= 0) return nom; } return PROGRAMMES[0][0]; };
+  const pick = (list = PROGRAMMES) => { const total = list.reduce((n, [, w]) => n + w, 0); let x = rnd() * total; for (const [nom, w] of list) { x -= w; if (x <= 0) return nom; } return list[0][0]; };
   const postes = new Map<string, PosteEmule>();
   let timer: NodeJS.Timeout | null = null;
   let running = false;
   let lastRefresh = 0;
 
   // Session d'un stagiaire (compte Windows fictif) ou poste seulement allumé ; les programmes viennent de la session
-  const ouvrir = (p: PosteEmule) => { p.session = rnd() < 0.8 ? UTILISATEURS[p.index % UTILISATEURS.length] : null; p.processes = new Set(p.session ? ['firefox.exe', ...(rnd() < 0.6 ? ['Code.exe'] : [])] : []); };
+  const ouvrir = (p: PosteEmule) => { p.session = p.demo || rnd() < 0.8 ? UTILISATEURS[p.index % UTILISATEURS.length] : null; p.processes = new Set(p.session ? ['firefox.exe', ...(rnd() < 0.6 ? ['Code.exe'] : []), ...fixes(p)] : []); };
   const eteindre = (p: PosteEmule) => { p.online = false; p.session = null; p.processes.clear(); };
 
   // Poste d'une salle fermée (simulation, outils/donnees-demonstration/jeu.ts) : reste éteint
   const fermee = (nomReseau: string) => SALLES_FERMEES.some((salle) => nomReseau.startsWith(`${salle}-`));
+  // Poste de la salle de la démonstration : toujours allumé, session ouverte, image de référence seule ; ses processus
+  // fixés (DEMONSTRATION.processus) ne s'arrêtent que sur demande d'ORION et ses interventions réussissent toujours
+  const fixes = (p: PosteEmule) => DEMONSTRATION.processus[p.nomReseau] ?? [];
 
   function emulate(agent: PosteAgent, index: number, adresseIp: string) {
-    const p = { ...agent, index, adresseIp, fermee: fermee(agent.nomReseau), session: null, processes: new Set() } as PosteEmule; // online et apps ajoutés ci-dessous
-    p.online = !agent.horsService && !p.fermee && rnd() > 0.1;
+    const p = { ...agent, index, adresseIp, fermee: fermee(agent.nomReseau), demo: agent.nomReseau.startsWith(`${DEMONSTRATION.salle}-`), session: null, processes: new Set() } as PosteEmule; // online et apps ajoutés ci-dessous
+    p.online = !agent.horsService && !p.fermee && (p.demo || rnd() > 0.1);
     if (p.online) ouvrir(p);
-    p.apps = new Set([...IMAGE, ...OPTIONS.filter(([, x]) => rnd() < x).map(([app]) => app)]);
+    p.apps = new Set([...IMAGE, ...(p.demo ? [] : OPTIONS.filter(([, x]) => rnd() < x).map(([app]) => app))]);
     return p;
   }
 
@@ -110,8 +116,8 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
     const p = postes.get(cmd.poste);
     if (!p || !p.online) return null; // le poste exécutera la commande à son retour
     let ok = true;
-    if (cmd.type === 'arret') { ok = rnd() > 0.03; if (ok && cmd.processus) p.processes.delete(cmd.processus.nom); }
-    else if (cmd.type === 'installation') { ok = rnd() > 0.05; if (ok) p.apps.add(cmd.applicationId!); }
+    if (cmd.type === 'arret') { ok = p.demo || rnd() > 0.03; if (ok && cmd.processus) p.processes.delete(cmd.processus.nom); }
+    else if (cmd.type === 'installation') { ok = p.demo || rnd() > 0.05; if (ok) p.apps.add(cmd.applicationId!); }
     else if (cmd.type === 'desinstallation') p.apps.delete(cmd.applicationId!);
     else if (cmd.type === 'reinstallation') { p.apps = new Set(IMAGE); p.session = null; p.processes.clear(); } // redémarrage : session fermée
     return { intervention: cmd.intervention, poste: cmd.poste, statut: ok ? 'reussie' : 'echec' };
@@ -123,12 +129,14 @@ export function createAgentEmulator({ transport, interval = 3000, seed = 2026110
     try {
       if (!postes.size || Date.now() - lastRefresh > 15_000) await refresh();
       for (const p of postes.values()) {
-        if (!p.online) { if (!p.horsService && !p.fermee && rnd() < 0.004) { p.online = true; ouvrir(p); } continue; }
-        if (rnd() < 0.0008) { eteindre(p); continue; }
-        if (rnd() < 0.002) { if (p.session) { p.session = null; p.processes.clear(); } else ouvrir(p); continue; } // fermeture ou ouverture de session
+        if (!p.online) { if (!p.horsService && !p.fermee && (p.demo || rnd() < 0.004)) { p.online = true; ouvrir(p); } continue; }
+        if (p.demo && !p.session) ouvrir(p); // session refermée par une réinstallation : rouverte aussitôt
+        if (!p.demo && rnd() < 0.0008) { eteindre(p); continue; }
+        if (!p.demo && rnd() < 0.002) { if (p.session) { p.session = null; p.processes.clear(); } else ouvrir(p); continue; } // fermeture ou ouverture de session
         if (p.session && rnd() < 0.015) {
-          if (p.processes.size && rnd() < 0.45) p.processes.delete([...p.processes][Math.floor(rnd() * p.processes.size)]);
-          else p.processes.add(pick());
+          const libres = [...p.processes].filter((nom) => !fixes(p).includes(nom));
+          if (libres.length > (p.demo ? 1 : 0) && rnd() < 0.45) p.processes.delete(libres[Math.floor(rnd() * libres.length)]); // salle de la démonstration : un programme au moins
+          else p.processes.add(pick(p.demo ? AUTORISES : PROGRAMMES));
         }
       }
       const online = [...postes.values()].filter((p) => p.online);

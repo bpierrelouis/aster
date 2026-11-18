@@ -238,7 +238,9 @@ test('parc : adresse MAC normalisée par le serveur, refusée si invalide ; donn
   assert.throws(() => write('2CF05DC8FA1'), { status: 400 });
   const macs = state.materiels.filter((m) => m.mac).map((m) => m.mac);
   assert.equal(new Set(macs).size, macs.length);
-  assert.ok(state.materiels.every((m) => (m.type === 'uc') === !!m.mac), 'seules les unités centrales ont une adresse MAC');
+  assert.ok(state.materiels.every((m) => !m.mac || m.type === 'uc'), 'seules les unités centrales ont une adresse MAC');
+  // toutes l'ont, sauf les quatre recensées dans la salle de la démonstration, dont l'adresse n'a pas été relevée
+  assert.deepEqual(state.materiels.filter((m) => m.type === 'uc' && !m.mac).map((m) => m.serie).sort(), ['S4SG0263', 'S4SG0512', 'S4SG0609', 'SS4SG0564']);
   assert.equal(state.materiels.find((m) => m.serie === 'SS4SG0457')!.mac, '2CF05DC8FAA8'); // étiquette relevée
 });
 
