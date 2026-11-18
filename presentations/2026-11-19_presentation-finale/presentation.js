@@ -3,6 +3,7 @@
 // F plein écran ; adresse #n ou #n/k (diapositive n, k blocs révélés).
 (() => {
   const slides = [...document.querySelectorAll(".slide")];
+  const principales = slides.filter((s) => !s.classList.contains("annexe")).length;
   const $ = (id) => document.getElementById(id);
   let index = 0;
 
@@ -120,8 +121,10 @@
     requestAnimationFrame(() => { slide.style.transform = ""; slide.classList.add("is-active"); });
     document.body.classList.toggle("vide", slide.classList.contains("blank"));
     $("section").textContent = slide.dataset.section;
-    $("count").textContent = `${index + 1} / ${slides.length}`;
-    $("fill").style.width = `${(index + 1) / slides.length * 100}%`;
+    // Annexes : hors numérotation, barre de progression pleine
+    const annexe = slide.classList.contains("annexe");
+    $("count").textContent = annexe ? "" : `${index + 1} / ${principales}`;
+    $("fill").style.width = `${annexe ? 100 : (index + 1) / principales * 100}%`;
     $("notes-speaker").textContent = slide.dataset.speaker;
     $("notes-time").textContent = slide.dataset.time;
     reveal(slide, Math.min(revealed, steps(slide)));

@@ -13,10 +13,10 @@ Touches : `→` ou `Espace` révèle le bloc suivant, puis passe à la diapositi
 | SGT LE MAITRE | Ouverture, histoire, équipe, besoin, organisation | 1 à 6 | 0:00 → 3:20 | 3 min 20 |
 | SCH BAELDE | Pile logicielle, architecture cible, fonctionnement | 7 à 9 | 3:20 → 5:30 | 2 min 10 |
 | SGT PHOMMAVONGSA | Fil rouge et démonstration formateur | 10, 11 + application | 5:30 → 7:40 | 2 min 10 |
-| SGT BONEY | Démonstration gestionnaire : import, RIGEL | 12 + application + téléphone | 7:40 → 10:05 | 2 min 25 |
-| SCH VILBERT-TAHON | Démonstration administrateur ; récapitulatif | 13, 14 + application | 10:05 → 12:10 | 2 min 05 |
-| SCH BAELDE | Difficultés | 15 | 12:10 → 13:15 | 1 min 05 |
-| SCH VILBERT-TAHON | Évolutions, conclusion | 16, 17 | 13:15 → 14:45 | 1 min 30 |
+| SGT BONEY | Démonstration gestionnaire : import, RIGEL | 11 + application + téléphone | 7:40 → 10:05 | 2 min 25 |
+| SCH VILBERT-TAHON | Démonstration administrateur ; récapitulatif | 11, 12 + application | 10:05 → 12:10 | 2 min 05 |
+| SCH BAELDE | Difficultés | 13 | 12:10 → 13:15 | 1 min 05 |
+| SCH VILBERT-TAHON | Évolutions, conclusion | 14, 15 | 13:15 → 14:45 | 1 min 30 |
 | — | Marge pour les aléas de la démonstration | | 14:45 → 25:00 | 10 min 15 |
 
 Passage de parole : chaque orateur termine par une phrase qui appelle le suivant **par son grade et son nom**, jamais par son prénom (en italique ci-dessous). Les prénoms Thomas, Sophie et Julien désignent les personnages de la démonstration. Les crochets sont des gestes, pas des paroles. Les diapositives ne portent que des mots-clés ; le public écoute l’orateur. Les étapes de démonstration sont dites, pas affichées.
@@ -98,9 +98,9 @@ Au quotidien, ORION fonctionne en boucle. [Révéler.] Le poste remonte son éta
 
 Une histoire : une rentrée, dans cette salle 119. [Révéler.] Thomas, formateur, prépare sa salle. [Révéler.] Sophie, gestionnaire, s’occupe des matériels de l’école. [Révéler.] Julien, administrateur, gère les postes et les règles. Chacun ne voit que ce qui le concerne, et la même information passe de l’un à l’autre, sans un seul fichier Excel.
 
-### 11 — Scénario formateur · 5:55 → 7:40
+### 11 — Démonstration, scénario formateur · 5:55 → 7:40
 
-[Révéler les étapes, puis basculer sur l’onglet de Thomas.]
+[Diapositive « Démonstration » ; basculer sur l’onglet de Thomas.]
 
 1. **Connexion** — manipulation ≈ 8 s. « Thomas se connecte par le portail d’identité, MindefConnect en production : ORION ne gère aucun mot de passe. » [Afficher l’accueil.] « Son tableau de bord affiche ses salles, ses remontées et les postes allumés. »
 2. **Son espace** — manipulation ≈ 12 s. [Menu du compte, en haut à droite ; une couleur dans la roue, puis le soleil ou la lune ; ambiance Minarm.] « Chacun règle ORION à sa main : couleur d’accent, mode clair ou sombre. Thomas choisit l’ambiance Minarm, aux couleurs des sites du ministère. Le réglage suit son compte, sur n’importe quel poste. » [Garder Minarm pour la suite.]
@@ -112,9 +112,9 @@ Une histoire : une rentrée, dans cette salle 119. [Révéler.] Thomas, formateu
 
 ## SGT BONEY — 7:40 → 10:05
 
-### 12 — Scénario gestionnaire et RIGEL · 7:40 → 10:05
+### 11 — Démonstration, scénario gestionnaire et RIGEL · 7:40 → 10:05
 
-[Révéler les étapes, puis basculer sur l’onglet de Sophie, téléphone à portée.]
+[Basculer sur l’onglet de Sophie, téléphone à portée.]
 
 1. **Prise en charge** — manipulation ≈ 10 s. [Cloche.] « Sophie est notifiée : la remontée de Thomas, sur l’écran MAT-0001. » [Remontées › **Prendre en charge** ; ouvrir l’état des lieux PDF.] « Elle la prend en charge. Si elle a besoin d’un document, l’état des lieux PDF est produit à la demande. »
 2. **Une livraison du CND** — manipulation ≈ 15 s. [Matériels › Import JSON, choisir `IMPORT-CND.json`.] « Avant tout, Sophie enregistre la livraison du CND arrivée ce matin : elle importe le fichier, sans aucune saisie. » [Laisser l’analyse s’afficher.] « ORION l’analyse d’abord et rapproche chaque numéro de série de tout le parc. Six matériels sont nouveaux ; le septième, un écran, est déjà dans le stock : il ne sera pas créé deux fois. » [**Importer 6 matériels**.] « Chacun reçoit son identifiant ORION. »
@@ -129,9 +129,9 @@ Seulement si l’étape 6 se termine avant 9:20 au chronomètre, sinon le citer 
 
 ## SCH VILBERT-TAHON — 10:05 → 12:10
 
-### 13 — Scénario administrateur · 10:05 → 11:40
+### 11 — Démonstration, scénario administrateur · 10:05 → 11:40
 
-[Révéler les étapes, puis basculer sur l’onglet de Julien.]
+[Basculer sur l’onglet de Julien.]
 
 1. **Les alertes** — manipulation ≈ 5 s. [Cloche.] « Julien ouvre ORION. Ses notifications résument la matinée : Steam arrêté sur le poste 5, l’écran de Thomas remplacé. »
 2. **Son tableau de bord** — manipulation ≈ 20 s. [Accueil › **Personnaliser** › **Ajouter un widget**, « Matériels récemment enregistrés » ; le placer en tête, en grand ; **Terminé**.] « Il ajoute à son accueil les matériels récemment enregistrés : la livraison importée par Sophie y figure déjà. Chaque compte compose ses propres tableaux de bord. »
@@ -139,15 +139,15 @@ Seulement si l’étape 6 se termine avant 9:20 au chronomètre, sinon le citer 
 4. **L’installation sur toute la salle** — manipulation ≈ 15 s. [Administration › Interventions, installer IntelliJ IDEA sur la salle 119 ; suivre l’avancement.] « Reste le logiciel de la formation, IntelliJ IDEA. Julien demande l’installation pour toute la salle, en une fois. Les quatorze postes l’exécutent et renvoient leur résultat ; un poste éteint l’exécuterait à son retour. Julien est notifié à la fin. Ce qui demandait de passer sur chaque poste tient en une demande, avec un résultat vérifiable. »
 5. **Un nouveau formateur** — manipulation ≈ 25 s. [Administration › Comptes, créer un formateur.] « Un nouveau formateur arrive : Julien crée son compte, avec son profil et son école. Aucun mot de passe : l’identité reste à MindefConnect. »
 
-### 14 — Récapitulatif · 11:40 → 12:10
+### 12 — Récapitulatif · 11:40 → 12:10
 
-Trois métiers, une seule information. [Révéler.] Signaler : le formateur voit sa salle et signale un problème sans connaître le parc. [Révéler.] Réparer : la gestionnaire affecte et confirme, au bureau comme sur le terrain. [Révéler.] Équiper : l’administrateur fixe les règles et intervient sur les postes, résultats à l’appui.
+Trois métiers, une seule information. [Révéler.] Signaler : le formateur voit sa salle et signale un problème sans connaître le parc. [Révéler.] Prendre en compte : la gestionnaire prend la remontée en charge, affecte et confirme, au bureau comme sur le terrain. [Révéler.] Agir : l’administrateur fixe les règles et intervient sur les postes, résultats à l’appui.
 
 *Sergent-chef Baelde, ce qui nous a résisté.*
 
 ## SCH BAELDE — 12:10 → 13:15
 
-### 15 — Difficultés · 12:10 → 13:15
+### 13 — Difficultés · 12:10 → 13:15
 
 Trois contraintes, chacune levée. [Révéler.] MindefConnect n’était pas accessible pendant le projet. Nous avons utilisé un fournisseur d’identité de même protocole, OpenID Connect : le raccordement à MindefConnect relève de la configuration, pas du code. [Révéler.] L’agent des postes n’existe pas encore. Nous avons simulé les postes sur l’API prévue pour l’agent : toute la démonstration est passée par cette API. [Révéler.] Nos serveurs de démonstration n’étaient pas joignables depuis Internet : le téléphone passe par un relais aux échanges chiffrés. Sur le C1NP, il joindra ORION directement.
 
@@ -157,15 +157,18 @@ Et deux apprentissages. [Révéler.] Le scanner mobile : QR codes, codes-barres,
 
 ## SCH VILBERT-TAHON — 13:15 → 14:45
 
-### 16 — Axes d’évolution · 13:15 → 14:00
+### 14 — Axes d’évolution · 13:15 → 14:00
 
 La suite est cadrée, sur deux axes. Vers la production d’abord. [Révéler.] Le raccordement à MindefConnect et l’hébergement sur le C1NP. [Révéler.] L’agent des postes : M42, que nous proposons de développer, ou Configuration Manager si le ministère l’emploie déjà ; notre dossier d’architecture évalue les deux options. [Révéler.] Les statistiques d’utilisation des postes et des processus. Côté fonctionnel ensuite. [Révéler.] Les stages et formations : un matériel pourra être destiné à un type de stage ou de formation. [Révéler.] Le retrait d’un matériel plutôt que sa suppression, pour en garder l’historique. [Révéler.] Et les postes Linux, à côté des postes Windows.
 
-### 17 — Conclusion · 14:00 → 14:45
+### 15 — Conclusion · 14:00 → 14:45
 
 Revenons à Thomas, Sophie et Julien. Avec ORION, le formateur voit sa salle et signale un problème en quelques clics. La gestionnaire suit chaque matériel, du stock à la salle, au bureau comme sur le terrain. L’administrateur équipe une salle entière en une seule demande. Le tout sur des briques admises sur le C1NP, avec un serveur qui fait foi et une architecture simple à exploiter. Ce que vous avez vu n’était pas une maquette : c’était l’application, déployée sur nos serveurs, avec un vrai téléphone. L’étape suivante que nous proposons : un pilote dans une école, sur le C1NP, avec MindefConnect. Merci de votre attention ; nous sommes à votre disposition pour vos questions.
 
 ## Aide-mémoire pour les questions
+
+Annexes (diapositives 16 à 22, après la conclusion, à ouvrir au besoin ; un clic sur un diagramme l’ouvre en taille réelle) : architecture réelle simplifiée et détaillée, architecture cible simplifiée et détaillée, burndown, CI/CD, MCD.
+
 
 - **Pourquoi React et Node plutôt que Java ?** Contrats TypeScript partagés entre navigateur et serveur, chaîne unique, produits admis par le CCT sur le C1NP ; aucun besoin n’impose Java.
 - **Hébergement ?** Cible : C1NP, avec HAProxy en entrée, Apache pour les interfaces, Express pour l’API, PostgreSQL pour les données et MindefConnect pour l’identité. Démonstrateur : dix VM Debian sous Docker Swarm, déploiement continu depuis la CI.
