@@ -47,7 +47,7 @@ function AccountForm({ account }: { account: Compte | null }) {
   }
 
   return <SheetForm id="account-form" onSave={save}>
-    <label className="field"><span className="field-label">Nom *</span><input name="nom" required maxLength={100} defaultValue={account?.nom || ''} /></label>
+    <label className="field"><span className="field-label">Prénom Nom *</span><input name="nom" required maxLength={100} defaultValue={account?.nom || ''} /></label>
     <label className="field"><span className="field-label">Adresse électronique *</span><input name="email" type="email" required maxLength={180} defaultValue={account?.email || ''} /></label>
     <div className="form-2">
       <div className="field"><span className="field-label">Profil</span>

@@ -207,7 +207,7 @@ test('administrateur : un compte créé permet de se connecter ; désactivé, il
   } else {
     await page.getByRole('button', { name: 'Créer un compte', exact: true }).click();
     const dialog = page.getByRole('dialog', { name: 'Créer un compte', exact: true });
-    await dialog.getByLabel('Nom *').fill('P. Nouveau');
+    await dialog.getByLabel('Prénom Nom *').fill('P. Nouveau');
     await dialog.getByLabel('Adresse électronique *').fill(email);
     await dialog.getByRole('button', { name: 'Enregistrer', exact: true }).click();
     await expect(dialog).toHaveCount(0);
