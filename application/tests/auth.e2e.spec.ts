@@ -152,6 +152,7 @@ test('formateur : une remontée transmise produit son PDF ; le gestionnaire la t
   await page.goto('/remontees/attente');
   await page.getByRole('button', { name: 'Signaler un problème', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Signaler un problème', exact: true });
+  await dialog.getByRole('searchbox', { name: 'Rechercher une salle' }).fill('a012'); // la fenêtre s'ouvre sur le premier bâtiment
   await dialog.locator('[data-salle]').filter({ hasText: 'A012' }).click();
   await dialog.locator('[data-mat]').first().click();
   await dialog.getByRole('button', { name: 'Continuer', exact: true }).click();
