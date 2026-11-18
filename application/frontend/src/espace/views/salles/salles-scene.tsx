@@ -20,8 +20,8 @@ import type { Id, Salle, WorkspaceView } from '#shared/types.ts';
 interface Floor { level: number; rooms: Salle[] }
 /** Salle placée sur la grille de son étage, en cellules */
 interface Cell { salle: Salle; x: number; y: number }
-/** Étage disposé : grille (cells, w, h), décalage sur l'emprise commune (ox, oy) et hauteur (z) */
-type FloorModel = Floor & ReturnType<typeof floorLayout> & { ox: number; oy: number; z: number };
+/** Étage disposé : grille (cells, w, h), décalage sur l'emprise commune (ox, oy) et rang à partir du plus bas (i) */
+type FloorModel = Floor & ReturnType<typeof floorLayout> & { ox: number; oy: number; i: number };
 export type BuildingModel = ReturnType<typeof buildingModel>;
 /** Activation d'une salle ; key : au clavier */
 type OnRoom = (id: Id, key: boolean) => void;
@@ -38,6 +38,7 @@ export interface Scene {
 
 const ISO = { rx: 56, rz: -24 };
 const TW = 5, TH = 4, GAP = 1.5, PAD = 1.2; // en cellules
+const FLOOR_SEP = 24; // écart minimal à l'écran entre deux étages, en pixels : les étiquettes de salle n'y passent jamais sous l'étage du dessus
 const RAD = Math.PI / 180;
 const SX = Math.sin(ISO.rx * RAD), CX = Math.cos(ISO.rx * RAD);
 const SZ = Math.abs(Math.sin(ISO.rz * RAD)), CZ = Math.cos(ISO.rz * RAD);
@@ -68,17 +69,20 @@ const projH = (w: number, h: number) => (w * SZ + h * CZ) * CX;
 
 /**
  * Modèle d'un bâtiment : floors = [{ level, rooms }] du plus bas au plus haut.
- * Les étages sont centrés sur l'emprise commune ; l'écart vertical évite
- * qu'un étage recouvre celui du dessous à l'écran.
+ * Les étages sont centrés sur l'emprise commune. rise : écart vertical souhaité
+ * entre deux étages à l'écran, en cellules ; slab : hauteur d'un étage à l'écran.
  */
 function buildingModel(batiment: string, floors: Floor[], spread = 1) {
-  const laid = floors.map((f) => ({ ...f, ...floorLayout(f.rooms) }) as FloorModel); // ox, oy, z : fixés ci-dessous
+  const laid = floors.map((f) => ({ ...f, ...floorLayout(f.rooms) }) as FloorModel); // ox, oy, i : fixés ci-dessous
   const W = Math.max(TW + PAD * 2, ...laid.map((f) => f.w));
   const H = Math.max(TH + PAD * 2, ...laid.map((f) => f.h));
-  const gap = (projH(W, H) / SX + 1.6) * spread;
-  laid.forEach((f, i) => { f.ox = (W - f.w) / 2; f.oy = (H - f.h) / 2; f.z = i * gap; });
-  return { batiment, floors: laid, W, H, lift: (laid.length - 1) * gap * SX };
+  const slab = projH(W, H);
+  laid.forEach((f, i) => { f.ox = (W - f.w) / 2; f.oy = (H - f.h) / 2; f.i = i; });
+  return { batiment, floors: laid, W, H, slab, rise: (slab + 1.6 * SX) * spread };
 }
+
+/** Écart vertical à l'écran entre deux étages (pixels) : jamais de recouvrement, au moins FLOOR_SEP entre deux dalles. */
+const floorStep = (model: BuildingModel, cell: number) => Math.max(model.rise * cell, model.slab * cell + FLOOR_SEP);
 
 function Room({ c, f, bySalle, selectedId, hoverId, dropId, onRoom }: SceneProps & { c: Cell; f: FloorModel }) {
   const s = c.salle;
@@ -109,7 +113,7 @@ export function Building({ model, bySalle, selectedId = null, hoverId = null, dr
   return model.floors.map((f) => {
     const hs = f.rooms.reduce((n, s) => n + (bySalle.get(s.id)?.hs ? 1 : 0), 0);
     return <div key={f.level} className={`plat floor-slab${activeLevel === f.level ? ' is-active' : ''}`}
-      style={{ '--px': f.ox, '--py': f.oy, '--pw': f.w, '--ph': f.h, '--floor-z': f.z } as CSSProperties}>
+      style={{ '--px': f.ox, '--py': f.oy, '--pw': f.w, '--ph': f.h, '--floor-i': f.i } as CSSProperties}>
       <span className="plat-face plat-face--s" /><span className="plat-face plat-face--w" />
       {f.cells.map((c) => <Room key={c.salle.id} c={c} f={f} bySalle={bySalle} selectedId={selectedId} hoverId={hoverId} dropId={dropId} onRoom={onRoom} />)}
       <Link className="plat-tag floor-tag-link" to={floorHref(f.level)} aria-label={`${floorLabel(f.level)}, ${f.rooms.length} salles`}>
@@ -119,11 +123,12 @@ export function Building({ model, bySalle, selectedId = null, hoverId = null, dr
   });
 }
 
-/** Hauteur projetée de la scène, en cellules (étiquettes de salle comprises). */
-const sceneHeight = (model: BuildingModel) => projH(model.W, model.H) + model.lift + 2;
+/** Hauteur projetée de la scène en pixels (étiquettes de salle comprises) ; lift : hauteur ajoutée par les étages supérieurs. */
+const lift = (model: BuildingModel, cell: number) => (model.floors.length - 1) * floorStep(model, cell);
+const sceneHeight = (model: BuildingModel, cell: number) => (model.slab + 2) * cell + lift(model, cell);
 
 /** Hauteur de conteneur (pixels) qui donne au moins `cell` pixels par cellule. */
-const heightForCell = (model: BuildingModel, cell: number) => (sceneHeight(model) * cell) / 0.9;
+const heightForCell = (model: BuildingModel, cell: number) => sceneHeight(model, cell) / 0.9;
 
 /**
  * Met la scène à l'échelle de son conteneur. tagW : place réservée à gauche
@@ -134,15 +139,18 @@ export function fitIso(iso: HTMLElement, container: HTMLElement, model: Building
   const W = container.clientWidth, Hc = container.clientHeight;
   if (!W || !Hc) return;
   const pw = projW(model.W, model.H);
-  const ph = sceneHeight(model);
-  const cell = Math.max(4, Math.min(max, (W * 0.94 - tagW) / pw, (Hc * 0.9) / ph));
+  // Plus grande cellule dont la scène tient en hauteur : sceneHeight croît avec la cellule, l'écart d'étage étant le plus grand de deux termes
+  const n = model.floors.length - 1, Hs = Hc * 0.9;
+  const fitH = Math.min(Hs / (model.slab + 2 + n * model.rise), (Hs - n * FLOOR_SEP) / (model.slab * (n + 1) + 2));
+  const cell = Math.max(4, Math.min(max, (W * 0.94 - tagW) / pw, fitH));
   iso.style.setProperty('--cell', `${cell}px`);
   iso.style.setProperty('--tw', String(model.W));
   iso.style.setProperty('--th', String(model.H));
   iso.style.setProperty('--rx', `${ISO.rx}deg`);
   iso.style.setProperty('--rz', `${ISO.rz}deg`);
   iso.style.setProperty('--shift-x', `${tagW / 2}px`);
-  iso.style.setProperty('--shift-y', `${(model.lift / 2 + .6) * cell}px`);
+  iso.style.setProperty('--floor-step', `${floorStep(model, cell) / SX}px`); // le long de l'axe vertical du bâtiment, vu incliné de rx
+  iso.style.setProperty('--shift-y', `${lift(model, cell) / 2 + .6 * cell}px`);
   iso.classList.toggle('is-compact', cell < 11);
   iso.classList.toggle('is-tiny', cell < 8);
 }
